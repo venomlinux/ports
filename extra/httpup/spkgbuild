@@ -3,12 +3,12 @@
 
 name=httpup
 version=0.4.0m
-release=1
+release=2
 source=(https://crux.nu/files/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-	sed -i 's/Updating collection/Updating ports/' httpup.cpp
+	sed -i 's/Updating collection/Updating repository/' httpup.cpp
 	make
 	make DESTDIR=$PKG prefix=/usr mandir=/usr/share/man install
 }

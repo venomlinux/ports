@@ -1,0 +1,16 @@
+# description	: BSD-style init-script
+# backup	: etc/rc.conf
+
+name=rc-init
+version=1.0
+release=1
+source=(https://raw.githubusercontent.com/emmett1/rc-init/master/{inittab,rc,rc.conf,rc.local,rc.multi,rc.shutdown,rc.single})
+
+build() {
+	mkdir -p $PKG/etc/rc.d
+	install -m644 inittab $PKG/etc
+	install -m644 rc.conf $PKG/etc
+	for i in rc{,.{multi,local,shutdown,single}}; do
+		install -m754 $i $PKG/etc
+	done
+}
