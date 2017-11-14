@@ -6,9 +6,8 @@
 name=ntp
 version=4.2.8p10
 release=1
-BOOTSCRIPTS_VERSION=20170731
 source=(https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-${version::3}/$name-$version.tar.gz
-	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xzhttp://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xz)
+	ntpd.rc)
 
 build() {
 	cd $name-$version
@@ -17,7 +16,7 @@ build() {
 	    -e 's/"(\\S+)"/"?([^\\s"]+)"?/' \
 	    -i scripts/update-leap/update-leap.in
 
-	./configure CFLAGS="-O2 -g -fPIC" \
+	./configure CFLAGS="$CFLAGS -g -fPIC" \
 	            --prefix=/usr         \
 	            --bindir=/usr/sbin    \
 	            --sysconfdir=/etc     \
@@ -57,10 +56,5 @@ restrict 127.0.0.1
 restrict ::1
 EOF
 
-	cd $SRC/blfs-bootscripts-$BOOTSCRIPTS_VERSION
-	make DESTDIR=$PKG install-ntpd
-
-	mkdir -p $PKG/etc/rc.d/rc0.d
-	ln -v -sf ../init.d/setclock $PKG/etc/rc.d/rc0.d/K46setclock
-	ln -v -sf ../init.d/setclock $PKG/etc/rc.d/rc6.d/K46setclock
+	install -Dm755 $SRC/ntpd.rc $PKG/etc/rc.d/ntpd
 }

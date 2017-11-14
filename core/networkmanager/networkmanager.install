@@ -1,14 +1,4 @@
 post_install() {
-	if [ ! $(getent group netdev) ]; then
-		echo "creating netdev group..."
-		echo "* please add your user into netdev group"
-		groupadd -fg 86 netdev
-	fi
-}
-
-post_remove() {
-	if [ $(getent group netdev) ]; then
-		echo "removing netdev group..."
-		groupdel netdev
-	fi
+	getent group netdev >/dev/null || groupadd -fg 86 netdev
+	msginfo "Add your user into netdev group"
 }
