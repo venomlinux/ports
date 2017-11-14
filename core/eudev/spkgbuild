@@ -1,27 +1,21 @@
 # description	: Programs for dynamic creation of device nodes
-# homepage	: http://www.gentoo.org/proj/en/eudev/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: kmod
 
 name=eudev
 version=3.2.4
-release=2
-source=(http://dev.gentoo.org/~blueness/$name/$name-$version.tar.gz
-	http://anduin.linuxfromscratch.org/LFS/udev-lfs-20171027.tar.bz2)
+release=1
+source=(http://dev.gentoo.org/~blueness/$name/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
 
-	sed -r -i 's|/usr(/bin/test)|\1|' test/udev-test.pl
-	sed -i '/keyboard_lookup_key/d' src/udev/udev-builtin-keyboard.c
-
 if [ -d /tools ];then
-	cat > config.cache << "EOF"
-	HAVE_BLKID=1
-	BLKID_LIBS="-lblkid"
-	BLKID_CFLAGS="-I/tools/include"
+cat > config.cache << "EOF"
+HAVE_BLKID=1
+BLKID_LIBS="-lblkid"
+BLKID_CFLAGS="-I/tools/include"
 EOF
 fi
+	#./autogen.sh
 	./configure --prefix=/usr           \
 	            --bindir=/sbin          \
 	            --sbindir=/sbin         \
@@ -31,8 +25,8 @@ fi
 	            --with-rootprefix=      \
 	            --with-rootlibdir=/lib  \
 	            --enable-manpages       \
-	            --disable-static        \
-	            --config-cache
+	            --disable-static	    \
+		    $([ -d /tools ] && echo "--config-cache")
 	if [ -d /tools ];then
 		LIBRARY_PATH=/tools/lib make
 	else
@@ -48,11 +42,7 @@ fi
 		make DESTDIR=$PKG install
 	fi
 
-	cd $SRC
-	# fix wrong date
-	sed -i 's/20140408/20171027/' udev-lfs-20171027/Makefile.lfs 
-	make -f udev-lfs-20171027/Makefile.lfs DESTDIR=$PKG install
-
+	# create binary hwdb
 	if [ -d /tools ];then
 		LD_LIBRARY_PATH=/tools/lib $PKG/sbin/udevadm hwdb --update --root=$PKG
 	else
