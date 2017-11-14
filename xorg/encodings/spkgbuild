@@ -1,0 +1,22 @@
+# description	: X.org font encoding files
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: font-util mkfontscale util-macros
+
+name=encodings
+version=1.0.4
+release=1
+source=(http://ftp.x.org/pub/individual/font/encodings-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

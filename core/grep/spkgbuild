@@ -1,0 +1,18 @@
+# description	: Programs for searching through files
+# homepage	: https://www.gnu.org/software/grep/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc
+# makedepends	: texinfo
+
+name=grep
+version=3.1
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --bindir=/bin
+	make
+	make DESTDIR=$PKG install
+}

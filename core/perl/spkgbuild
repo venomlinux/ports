@@ -1,0 +1,27 @@
+# description	: The Practical Extraction and Report Language
+# homepage	: http://www.perl.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: gdbm glibc
+
+name=perl
+version=5.26.1
+release=1
+source=(http://www.cpan.org/src/5.0/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	export BUILD_ZLIB=False
+	export BUILD_BZIP2=0
+
+	sh Configure -des -Dprefix=/usr                 \
+	                  -Dvendorprefix=/usr           \
+	                  -Dman1dir=/usr/share/man/man1 \
+	                  -Dman3dir=/usr/share/man/man3 \
+	                  -Dpager="/usr/bin/less -isR"  \
+	                  -Duseshrplib                  \
+                  	  -Dusethreads
+	make
+	make DESTDIR=$PKG install
+	unset BUILD_ZLIB BUILD_BZIP2
+}

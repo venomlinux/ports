@@ -1,0 +1,23 @@
+# description	: XKB event daemon
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxkbfile
+# makedepends	: util-macros
+
+name=xkbevd
+version=1.1.4
+release=1
+source=(http://ftp.x.org/pub/individual/app/xkbevd-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

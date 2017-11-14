@@ -1,0 +1,32 @@
+# description	: X11 client-side library
+# homepage	: http://xcb.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxau libxdmcp xcb-proto
+# makedepends	: python3 util-macros
+
+name=libxcb
+version=1.12
+release=1
+source=(http://xcb.freedesktop.org/dist/libxcb-$version.tar.bz2
+	http://www.linuxfromscratch.org/patches/blfs/8.0/$name-$version-python3-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-python3-1.patch
+	
+	sed -i "s/pthread-stubs//" configure
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static     \
+		--enable-xinput   \
+		--without-doxygen \
+		--docdir='${datadir}'/doc/libxcb-$version
+	make
+	make DESTDIR=$PKG install
+
+}
+

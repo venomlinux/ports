@@ -1,0 +1,22 @@
+# description	: Monospaced font based on Artwiz Snap
+# homepage	: http://sourceforge.net/projects/osnapfont
+# maintainer	: Emmett1, emmett1.2miligrams at mail.com
+# depends	: fontconfig encodings
+
+name=ohsnap
+version=1.8.0
+release=1
+source=(http://sourceforge.net/projects/osnapfont/files/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	install -d "$PKG/usr/share/fonts/local"
+	install -d "$PKG/usr/share/kbd/consolefonts"
+	install -d "$PKG/usr/share/doc/$name"
+
+	install -m644 *.pcf "$PKG/usr/share/fonts/local"
+	install -m644 *.psfu "$PKG/usr/share/kbd/consolefonts"
+	install -m644 README.ohsnap "$PKG/usr/share/doc/$name"
+}
+

@@ -1,0 +1,13 @@
+# description	: Speech processing library that goes along with the Speex codec
+
+name=speexdsp
+version=1.2rc3
+release=1
+source=(https://downloads.xiph.org/releases/speex/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

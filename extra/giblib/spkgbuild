@@ -1,0 +1,17 @@
+# description	: A library that feh uses as a wrapper to imlib2
+# homepage	: http://freshmeat.net/projects/giblib/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: freetype2 imlib2 libxext
+
+name=giblib
+version=1.2.4
+release=1
+source=(http://crux.ster.zone/downloads/$name/$name-$version.tar.gz)
+
+build() {
+	cd giblib-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG docsdir=/usr/share/doc/giblib install
+}
+

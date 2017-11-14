@@ -1,0 +1,22 @@
+# description	: Simple text editor which aims to replace Pico, the default editor in the Pine package
+# homepage	: https://www.nano-editor.org
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# backup	: etc/nanorc
+# depends	: file ncurses
+
+name=nano
+version=2.8.7
+release=1
+source=(https://www.nano-editor.org/dist/v${version::3}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr     \
+  	            --sysconfdir=/etc \
+  	            --enable-utf8
+	make
+	make DESTDIR=$PKG install
+
+	install -v -Dm644 doc/sample.nanorc $PKG/etc/nanorc
+}

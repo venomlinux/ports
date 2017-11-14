@@ -1,0 +1,21 @@
+# description	: C/C++ Configuration File Library
+# homepage	: http://hyperrealm.com/libconfig/libconfig.html
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gcc texinfo
+
+name=libconfig
+version=1.6
+release=1
+source=($name-$version.tar.gz::https://github.com/hyperrealm/libconfig/archive/v$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	rm -rf lib/scanner.c
+
+	./configure --prefix=/usr
+	sed -i "s/doc//g" Makefile
+
+	make
+	make DESTDIR=$PKG install
+}

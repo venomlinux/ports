@@ -1,0 +1,18 @@
+# description	: Open-source implementation of the JPEG-2000 standard
+# homepage	: http://www.openjpeg.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=openjpeg
+version=1.5.2
+release=1
+source=(http://downloads.sourceforge.net/openjpeg.mirror/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+  	autoreconf -f -i
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

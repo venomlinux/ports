@@ -1,0 +1,20 @@
+# description	: X.org framebuffer video driver
+# homepage	: https://xorg.freedesktop.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: xorg-server
+
+name=xf86-video-fbdev
+version=0.4.4
+release=1
+source=(http://ftp.x.org/pub/individual/driver/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

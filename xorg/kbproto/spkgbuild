@@ -1,0 +1,21 @@
+# description	: X11 XKB extension wire protocol
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=kbproto
+version=1.0.7
+release=1
+source=(http://ftp.x.org/pub/individual/proto/kbproto-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+
+	make DESTDIR=$PKG install	
+}
+

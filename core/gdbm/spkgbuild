@@ -1,0 +1,19 @@
+# description	: The GNU Database Manager
+# homepage	: http://www.gnu.org/software/gdbm/gdbm.html
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc bash
+
+name=gdbm
+version=1.13
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --disable-static \
+	            --enable-libgdbm-compat
+	make
+	make DESTDIR=$PKG install
+}

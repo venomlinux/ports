@@ -1,0 +1,20 @@
+# description	: Fast and lightweight IDE
+# homepage	: https://www.geany.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2 hicolor-icon-theme desktop-file-utils
+# makedepends	: intltool perl-xml-parser
+
+name=geany
+version=1.31
+release=1
+source=(http://download.geany.org/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--enable-plugins
+	make
+	make DESTDIR=$PKG install
+}

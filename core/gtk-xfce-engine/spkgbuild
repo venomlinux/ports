@@ -1,0 +1,20 @@
+# description	: GTK+ 2 and GTK+ 3 themes and libraries needed to display them
+# homepage	: http://www.xfce.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2 gtk3
+
+name=gtk-xfce-engine
+version=3.2.0
+release=1
+source=(http://archive.xfce.org/src/xfce/gtk-xfce-engine/${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	# converts that character to UTF-8
+	sed -i 's/\xd6/\xc3\x96/' gtk-3.0/xfce_style_types.h
+
+	./configure --prefix=/usr --enable-gtk3 
+	make
+	make DESTDIR=$PKG install
+}

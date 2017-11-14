@@ -1,0 +1,19 @@
+# description	: Tools allowing to manipulate the Wireless Extensions
+# homepage	: http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=wireless_tools
+version=29
+release=1
+source=(http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/${name}.${version}.tar.gz
+	http://www.linuxfromscratch.org/patches/blfs/8.1/wireless_tools-${version}-fix_iwlist_scanning-1.patch)
+
+build() {
+	cd ${name}.${version}
+
+	patch -Np1 -i ../wireless_tools-${version}-fix_iwlist_scanning-1.patch
+	make
+	make PREFIX=$PKG/usr \
+	     INSTALL_DIR=$PKG/usr/bin \
+	     INSTALL_MAN=$PKG/usr/share/man install
+}

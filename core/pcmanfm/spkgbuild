@@ -1,0 +1,17 @@
+# description	: Extremely fast, lightweight, yet feature-rich file manager with tabbed browsing
+# homepage	: http://pcmanfm.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libfm adwaita-icon-theme
+
+name=pcmanfm
+version=1.2.5
+release=1
+source=(http://downloads.sourceforge.net/pcmanfm/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}

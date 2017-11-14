@@ -1,0 +1,22 @@
+# description	: GTK2 engine to make your desktop look like a 'murrina', an italian word meaning the art glass works done by Venicians glass blowers
+# homepage	: http://cimitan.com/murrine/project/murrine
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2
+# makedepends	: intltool
+
+name=gtk-engine-murrine
+version=0.98.2
+release=1
+source=(http://ftp.gnome.org/pub/GNOME/sources/murrine/${version::4}/murrine-$version.tar.xz)
+
+build() {
+	cd murrine-$version
+
+	./configure \
+		--prefix=/usr \
+		--enable-animation \
+		--enable-animationrtl
+
+	make
+	make DESTDIR=$PKG install
+}

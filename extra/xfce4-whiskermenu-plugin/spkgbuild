@@ -1,0 +1,25 @@
+# description	: Alternate menu for Xfce4
+# homepage	: https://gottcode.org/xfce4-whiskermenu-plugin/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: garcon xfce4-panel
+# makedepends	: cmake ninja
+
+name=xfce4-whiskermenu-plugin
+version=1.7.2
+release=1
+source=(http://archive.be.xfce.org/src/panel-plugins/xfce4-whiskermenu-plugin/${version%.*}/xfce4-whiskermenu-plugin-$version.tar.bz2)
+
+build() {
+	mkdir -p build
+	pushd build
+
+	  cmake $SRC/$name-$version \
+	    -DCMAKE_BUILD_TYPE=Release \
+	    -DCMAKE_INSTALL_PREFIX=/usr \
+	    -DCMAKE_INSTALL_LIBDIR=lib \
+	    -GNinja
+	  ninja
+	popd
+	
+	DESTDIR=$PKG ninja -C build install
+}

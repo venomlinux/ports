@@ -1,0 +1,16 @@
+# description	: library for CD-ROM and CD image access
+# homepage	: https://www.gnu.org/software/libcdio/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=libcdio
+version=0.94
+release=1
+source=(ftp://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

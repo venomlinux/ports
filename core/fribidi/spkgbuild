@@ -1,0 +1,17 @@
+# description	: Implementation of the Unicode Bidirectional Algorithm (BIDI)
+# homepage	: http://fribidi.org
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib
+
+name=fribidi
+version=0.19.7
+release=1
+source=(http://fribidi.org/download/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

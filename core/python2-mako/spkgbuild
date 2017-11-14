@@ -1,0 +1,15 @@
+# description	: Python module that implements hyperfast and lightweight templating for the Python platform
+# homepage	: http://www.makotemplates.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: python2 python2-markupsafe python2-beaker
+
+name=python2-mako
+version=1.0.4
+release=1
+source=(https://files.pythonhosted.org/packages/source/M/Mako/Mako-$version.tar.gz)
+
+build() {
+	cd Mako-$version
+
+	python setup.py install --root=$PKG --optimize=1
+}

@@ -1,0 +1,17 @@
+# description	: GTK+3 terminal emulator for xfce desktop
+# homepage	: http://www.xfce.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxfce4ui vte3
+
+name=xfce4-terminal
+version=0.8.6
+release=1
+source=(http://archive.xfce.org/src/apps/xfce4-terminal/${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

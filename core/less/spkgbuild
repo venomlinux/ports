@@ -1,0 +1,17 @@
+# description	: A text file viewer
+# homepage	: http://www.greenwoodsoftware.com/less
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc ncurses
+
+name=less
+version=487
+release=1
+source=(http://www.greenwoodsoftware.com/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}

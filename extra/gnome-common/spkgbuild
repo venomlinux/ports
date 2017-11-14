@@ -1,0 +1,18 @@
+# description	: Common development macros for GNOME
+# homepage	: https://www.gnome.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=gnome-common
+version=3.10.0
+release=1
+source=(http://download.gnome.org/sources/$name/${version%.*}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/man
+	make
+	make DESTDIR=$PKG install
+}

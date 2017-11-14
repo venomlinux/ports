@@ -1,0 +1,17 @@
+# description	: A complete rewrite of the NASM-2.13.01 assembler, supports the x86 and AMD64 instruction sets
+# homepage	: http://www.tortall.net
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=yasm
+version=1.3.0
+release=1
+source=(http://www.tortall.net/projects/$name/releases/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	sed -i 's#) ytasm.*#)#' Makefile.in
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

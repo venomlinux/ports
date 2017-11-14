@@ -1,0 +1,24 @@
+post_install() {
+	if [ ! $(getent group netdev) ]; then
+		echo "creating netdev group..."
+		echo "* please add your user into netdev group"
+		groupadd -fg 86 netdev
+	fi
+
+	if [ $(grep ONBOOT /etc/sysconfig/ifconfig.wifi0) = 'ONBOOT="yes"' ]; then
+		echo "Disable ONBOOT for wpa_supplicant..."
+		sed -i 's/ONBOOT="yes"/ONBOOT="no"/' /etc/sysconfig/ifconfig.wifi0
+	fi
+}
+
+post_remove() {
+	if [ $(getent group netdev) ]; then
+		echo "removing netdev group..."
+		groupdel netdev
+	fi
+
+	if [ $(grep ONBOOT /etc/sysconfig/ifconfig.wifi0) = 'ONBOOT="no"' ]; then
+		echo "Enable ONBOOT for wpa_supplicant..."
+		sed -i 's/ONBOOT="no"/ONBOOT="yes"/' /etc/sysconfig/ifconfig.wifi0
+	fi
+}

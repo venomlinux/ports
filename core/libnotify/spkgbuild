@@ -1,0 +1,17 @@
+# description	: Used to send desktop notifications to a notification daemon
+# homepage	: https://developer.gnome.org/notification-spec/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: gtk3 gobject-introspection
+
+name=libnotify
+version=0.7.7
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::3}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

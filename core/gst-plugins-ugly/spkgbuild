@@ -1,0 +1,20 @@
+# description	: A set of plug-ins considered by the GStreamer developers to have good quality and correct functionality, but distributing them might pose problems
+# homepage	: https://gstreamer.freedesktop.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gst-plugins-base lame liba52 libdvdread
+# makedepends	: x264
+
+name=gst-plugins-ugly
+version=1.12.3
+release=1
+source=(https://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --with-package-name="GStreamer Ugly Plugins $version BLFS" \
+	            --with-package-origin="http://www.linuxfromscratch.org/blfs/view/svn/"
+	make
+	make DESTDIR=$PKG install
+}

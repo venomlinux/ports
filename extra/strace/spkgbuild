@@ -1,0 +1,16 @@
+# description	: A diagnostic, debugging and instructional userspace tracer
+# homepage	: http://sourceforge.net/projects/strace/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: perl
+
+name=strace
+version=4.18
+release=1
+source=(http://download.sourceforge.net/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

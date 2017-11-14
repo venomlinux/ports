@@ -1,0 +1,38 @@
+# description	: Lightweight system monitor for X
+# homepage	: https://github.com/brndnmtthws/conky
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: lua imlib2 wireless_tools
+# makedepends	: cmake man-db git docbook2x
+
+name=conky
+version=1.10.6
+release=1
+options=(!strip)
+source=($name-$version.tar.gz::https://github.com/brndnmtthws/conky/archive/v${version}.tar.gz
+	lua53.patch
+	gcc7.patch)
+
+build() {
+	cd $name-$version
+
+	patch -p1 -i ../lua53.patch
+	patch -p1 -i ../gcc7.patch
+
+	cmake \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D MAINTAINER_MODE=ON \
+		-D BUILD_WLAN=ON \
+		-D BUILD_XDBE=ON \
+		-D BUILD_IMLIB2=ON \
+		-D BUILD_CURL=ON \
+		-D BUILD_RSS=ON \
+		-D BUILD_WEATHER_METAR=ON \
+		-D BUILD_WEATHER_XOAP=ON \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		.
+	make
+	make DESTDIR=$PKG install
+
+	install -Dm644 extras/vim/syntax/conkyrc.vim $PKG/usr/share/vim/vimfiles/syntax/conkyrc.vim
+	install -Dm644 extras/vim/ftdetect/conkyrc.vim $PKG/usr/share/vim/vimfiles/ftdetect/conkyrc.vim
+}

@@ -1,0 +1,16 @@
+# description	: Library to create an ISO-9660 filesystem with extensions like RockRidge or Joliet
+# homepage	: http://libburnia-project.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=libisofs
+version=1.4.8
+release=1
+source=(http://files.libburnia-project.org/releases/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

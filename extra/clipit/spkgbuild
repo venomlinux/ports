@@ -1,0 +1,21 @@
+# description	: Lightweight GTK+ clipboard manager (fork of Parcellite)
+# homepage	: https://github.com/CristianHenzel/ClipIt/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2
+# makedepends	: intltool
+
+name=clipit
+version=1.4.2
+release=1
+source=(https://github.com/downloads/shantzu/ClipIt/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	   
+	./configure \
+		--prefix=/usr \
+        	--sysconfdir=/etc \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+}

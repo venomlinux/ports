@@ -1,0 +1,46 @@
+URL: http://dwm.suckless.org/patches/historical/save_floats
+This patch saves size and position of every floating window before it is forced
+into tiled mode. If the window is made floating again, the old dimensions will
+be restored.
+
+diff -r ec4baab78314 dwm.c
+--- a/dwm.c	Mon Dec 19 15:38:30 2011 +0100
++++ b/dwm.c	Fri Apr 06 08:23:18 2012 +0200
+@@ -86,6 +86,7 @@
+ 	char name[256];
+ 	float mina, maxa;
+ 	int x, y, w, h;
++	int sfx, sfy, sfw, sfh; /* stored float geometry, used on mode revert */
+ 	int oldx, oldy, oldw, oldh;
+ 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
+ 	int bw, oldbw;
+@@ -1149,6 +1150,10 @@
+ 	updatewindowtype(c);
+ 	updatesizehints(c);
+ 	updatewmhints(c);
++	c->sfx = c->x;
++	c->sfy = c->y;
++	c->sfw = c->w;
++	c->sfh = c->h;
+ 	XSelectInput(dpy, w, EnterWindowMask|FocusChangeMask|PropertyChangeMask|StructureNotifyMask);
+ 	grabbuttons(c, False);
+ 	if(!c->isfloating)
+@@ -1741,8 +1746,16 @@
+ 		return;
+ 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
+ 	if(selmon->sel->isfloating)
+-		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
+-		       selmon->sel->w, selmon->sel->h, False);
++		/*restore last known float dimensions*/
++		resize(selmon->sel, selmon->sel->sfx, selmon->sel->sfy,
++		       selmon->sel->sfw, selmon->sel->sfh, False);
++	else {
++		/*save last known float dimensions*/
++		selmon->sel->sfx = selmon->sel->x;
++		selmon->sel->sfy = selmon->sel->y;
++		selmon->sel->sfw = selmon->sel->w;
++		selmon->sel->sfh = selmon->sel->h;
++	}
+ 	arrange(selmon);
+ }
+ 

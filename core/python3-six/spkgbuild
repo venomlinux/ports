@@ -1,0 +1,13 @@
+# description	: Python3 compatibility library
+# depends	: python3
+
+name=python3-six
+version=1.11.0
+release=1
+source=(https://pypi.io/packages/source/s/six/six-$version.tar.gz)
+
+build() {
+	cd six-$version
+	python3 setup.py build
+	python3 setup.py install --root=$PKG --optimize=1
+}

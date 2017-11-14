@@ -1,0 +1,18 @@
+# description	: Library for creating and utilizing caches to speed up the manipulation for freedesktop.org defined application menus
+# homepage	: http://lxde.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libfm-extra
+
+name=menu-cache
+version=1.0.2
+release=1
+source=(http://downloads.sourceforge.net/lxde/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

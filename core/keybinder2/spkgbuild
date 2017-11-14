@@ -1,0 +1,18 @@
+# description	: Utility library registering global X keyboard shortcuts
+# homepage	: https://github.com/engla/keybinder
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2
+# makedepends	: gobject-introspection python2-gtk
+
+name=keybinder2
+version=0.3.0
+release=1
+source=(http://pkgs.fedoraproject.org/repo/pkgs/keybinder/keybinder-$version.tar.gz/2a0aed62ba14d1bf5c79707e20cb4059/keybinder-$version.tar.gz)
+
+build() {
+	cd keybinder-$version
+
+	./configure --prefix=/usr --disable-lua
+	make
+	make DESTDIR=$PKG install
+}

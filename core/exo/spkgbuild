@@ -1,0 +1,17 @@
+# description	: Support library used in the Xfce desktop
+# homepage	: http://www.xfce.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxfce4ui libxfce4util perl-uri
+
+name=exo
+version=0.10.7
+release=1
+source=(http://archive.xfce.org/src/xfce/$name/${version::4}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}

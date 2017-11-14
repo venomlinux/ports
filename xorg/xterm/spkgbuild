@@ -1,0 +1,45 @@
+# description	: Terminal emulator for the X Window System
+# homepage	: http://invisible-island.net/xterm/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxaw libxft libxkbfile xbitmaps luit
+
+name=xterm
+version=330
+release=2
+source=(ftp://ftp.invisible-island.net/$name/$name-$version.tgz
+	${name}_remove_list)
+
+build() {
+	cd $name-$version
+
+	sed -i '/v0/{n;s/new:/new:kb=^?:/}' termcap
+	printf '\tkbs=\\177,\n' >> terminfo
+
+	TERMINFO=/usr/share/terminfo \
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static \
+		--with-app-defaults=/etc/X11/app-defaults
+	make
+	make DESTDIR=$PKG install
+	make DESTDIR=$PKG install-ti
+
+mkdir -p $PKG/etc/X11/app-defaults/
+
+cat >> $PKG/etc/X11/app-defaults/XTerm << "EOF"
+*VT100*locale: true
+*VT100*faceName: Monospace
+*VT100*faceSize: 10
+*backarrowKeyIsErase: true
+*ptyInitialErase: true
+EOF
+
+for i in $(cat $SRC/${name}_remove_list); do
+	rm $PKG/$i
+done
+
+install -m755 -d $PKG/usr/share/applications
+install -m644 {xterm,uxterm}.desktop $PKG/usr/share/applications
+}

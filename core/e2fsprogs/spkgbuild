@@ -1,0 +1,43 @@
+# description	: utilities for handling the ext2, ext3 and ext4 file system
+# depends	: bash
+# makedepends	: bc
+
+name=e2fsprogs
+version=1.43.7
+release=1
+source=(http://downloads.sourceforge.net/project/$name/$name/v$version/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	mkdir -v build
+	cd build
+
+if [ -d /tools ]; then
+	LIBS=-L/tools/lib                    \
+	CFLAGS=-I/tools/include              \
+	PKG_CONFIG_PATH=/tools/lib/pkgconfig \
+	../configure --prefix=/usr           \
+	             --bindir=/bin           \
+	             --with-root-prefix=""   \
+	             --enable-elf-shlibs     \
+	             --disable-libblkid      \
+	             --disable-libuuid       \
+	             --disable-uuidd         \
+	             --disable-fsck
+else
+	../configure --prefix=/usr           \
+	             --bindir=/bin           \
+	             --with-root-prefix=""   \
+	             --enable-elf-shlibs     \
+	             --disable-libblkid      \
+	             --disable-libuuid       \
+	             --disable-uuidd         \
+	             --disable-fsck
+fi
+	make
+	make DESTDIR=$PKG install
+	make DESTDIR=$PKG install-libs
+
+	chmod -v u+w $PKG/usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
+}

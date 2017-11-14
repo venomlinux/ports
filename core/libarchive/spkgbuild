@@ -1,0 +1,16 @@
+# description	: Reading/writing various compression formats
+# homepage	: http://libarchive.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=libarchive
+version=3.3.2
+release=1
+source=(http://www.libarchive.org/downloads/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+  	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

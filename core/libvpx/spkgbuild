@@ -1,0 +1,26 @@
+# description	: Implementations of the VP8 Codec, used in most current html5 video, and of the next-generation VP9 Codec
+# homepage	: http://www.webmproject.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: yasm
+# makedepends	: which
+
+name=libvpx
+version=1.6.1
+release=1
+source=(http://storage.googleapis.com/downloads.webmproject.org/releases/webm/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	sed -i 's/cp -p/cp/' build/make/Makefile
+
+	mkdir libvpx-build
+	cd    libvpx-build
+
+	../configure --prefix=/usr    \
+ 	            --enable-shared  \
+ 	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

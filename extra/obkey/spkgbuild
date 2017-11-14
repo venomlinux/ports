@@ -1,0 +1,15 @@
+# description	: Openbox Key Editor
+# homepage	: http://code.google.com/p/obkey
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: python2 python2-gtk
+
+name=obkey
+version=1.0
+release=1
+source=($name-$version.tar.gz::https://github.com/nsf/obkey/archive/v$version.tar.gz)
+
+build() {
+	cd $name-$version
+	    
+	python2 setup.py install --root=$PKG
+}

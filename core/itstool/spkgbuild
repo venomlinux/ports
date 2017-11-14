@@ -1,0 +1,17 @@
+# description	: Extracts messages from XML files and outputs PO template files and vice versa
+# depends	: docbook-xml python3 libxml2
+
+name=itstool
+version=2.0.4
+release=2
+source=(http://files.itstool.org/$name/$name-$version.tar.bz2
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-segfault-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-segfault-1.patch
+	PYTHON=/usr/bin/python3 ./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

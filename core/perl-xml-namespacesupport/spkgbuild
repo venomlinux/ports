@@ -1,0 +1,20 @@
+# description	: A simple generic namespace processor
+# homepage	: http://search.cpan.org/dist/XML-NamespaceSupport
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: perl
+
+name=perl-xml-namespacesupport
+version=1.12
+release=1
+source=(http://search.cpan.org/CPAN/authors/id/P/PE/PERIGRIN/XML-NamespaceSupport-$version.tar.gz)
+
+build() {
+	cd XML-NamespaceSupport-$version
+
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make
+	make install DESTDIR=$PKG
+
+	find $PKG -name '.packlist' -delete
+	find $PKG -name '*.pod' -delete
+}

@@ -1,0 +1,17 @@
+# description	: Window manager for Xfce
+# homepage	: http://www.xfce.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libwnck2 libxfce4ui libxfce4util startup-notification
+
+name=xfwm4
+version=4.12.4
+release=1
+source=(http://archive.xfce.org/src/xfce/xfwm4/${version::4}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

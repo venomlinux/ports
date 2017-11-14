@@ -1,0 +1,18 @@
+# description	: programs for controlling the startup, running, and shutdown of the system
+# homepage	: https://savannah.nongnu.org/projects/sysvinit
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=sysvinit
+version=2.88dsf
+release=1
+source=(http://download.savannah.gnu.org/releases/$name/$name-$version.tar.bz2
+	http://www.linuxfromscratch.org/patches/lfs/8.1/$name-$version-consolidated-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-consolidated-1.patch
+
+	make -C src
+	make -C src ROOT=$PKG install
+}

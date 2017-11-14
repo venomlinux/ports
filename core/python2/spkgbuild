@@ -1,0 +1,25 @@
+# description	: Next generation of the python high-level scripting language
+# homepage	: http://www.python.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libffi openssl
+
+name=python2
+version=2.7.14
+release=1
+source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz)
+
+build() {
+	cd Python-$version
+
+  	./configure --prefix=/usr       \
+	            --enable-shared     \
+	            --with-system-expat \
+	            --with-system-ffi   \
+	            --with-ensurepip=yes \
+	            --enable-unicode=ucs4 
+	make
+	make DESTDIR=$PKG install
+
+	chmod -v 755 $PKG/usr/lib/libpython2.7.so.1.0
+}
+

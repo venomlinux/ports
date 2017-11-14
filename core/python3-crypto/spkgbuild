@@ -1,0 +1,14 @@
+# description	: Collection of cryptographic algorithms and protocols, implemented for use from Python 3
+# depends	: python2
+
+name=python3-crypto
+version=2.6.1
+release=1
+source=(https://files.pythonhosted.org/packages/source/p/pycrypto/pycrypto-$version.tar.gz)
+
+build() {
+	cd pycrypto-$version
+	
+	python3 setup.py build
+	python3 setup.py install --root=$PKG --optimize=1
+}

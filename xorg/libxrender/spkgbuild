@@ -1,0 +1,23 @@
+# description	: X Rendering Extension client library
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libx11 renderproto
+# makedepends	: pkg-config
+
+name=libxrender
+version=0.9.10
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libXrender-$version.tar.bz2)
+
+build() {
+	cd libXrender-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

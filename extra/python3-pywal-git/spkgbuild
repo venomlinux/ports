@@ -1,0 +1,24 @@
+# description	: Generate and change colorschemes on the fly
+# homepage	: https://github.com/dylanaraps/pywal/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: python3 imagemagick7
+
+name=python3-pywal-git
+_name=pywal
+version=git
+release=1
+source=()
+
+build() {
+	cd $SOURCE_DIR
+	
+	if cd $_name; then
+		git fetch -q; git reset --hard origin/master
+	else
+		git clone https://github.com/dylanaraps/$_name $name
+		cd $name
+	fi
+
+	python3 setup.py install --prefix=/usr --root=$PKG --optimize=1
+}
+

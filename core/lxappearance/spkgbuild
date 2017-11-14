@@ -1,0 +1,21 @@
+# description	: Desktop-independent theme switcher for GTK+
+# homepage	: http://lxde.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2
+# makedepends	: dbus-glib
+
+name=lxappearance
+version=0.6.3
+release=1
+source=(http://downloads.sourceforge.net/lxde/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr     \
+	            --sysconfdir=/etc \
+	            --disable-static  \
+	            --enable-dbus
+	make
+	make DESTDIR=$PKG install
+}

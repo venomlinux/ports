@@ -1,0 +1,19 @@
+# description	: frontend for libraries libburn and libisofs
+# homepage	: http://libburnia-project.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libburn libisofs
+
+name=libisoburn
+version=1.4.8
+release=1
+source=(http://files.libburnia-project.org/releases/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr              \
+	            --disable-static           \
+	            --enable-pkg-check-modules
+	make
+	make DESTDIR=$PKG install
+}

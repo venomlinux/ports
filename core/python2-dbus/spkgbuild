@@ -1,0 +1,26 @@
+# description	: Python2 bindings to the D-Bus
+# homepage	: http://www.freedesktop.org/wiki/Software/DBusBindings
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: dbus python2 python-dbus-common
+# makedepends	: dbus-glib
+
+name=python2-dbus
+version=1.2.4
+release=1
+source=(http://dbus.freedesktop.org/releases/dbus-python/dbus-python-$version.tar.gz)
+
+build() {
+	cd dbus-python-$version
+
+	mkdir python2
+	pushd python2
+	PYTHON=/usr/bin/python2    \
+	../configure --prefix=/usr
+	make
+	popd
+	make -C python2 DESTDIR=$PKG install
+
+	rm -rf $PKG/usr/share
+	rm -rf $PKG/usr/include
+	rm -rf $PKG/usr/lib/pkgconfig
+}

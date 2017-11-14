@@ -1,0 +1,16 @@
+# description	: Notification daemon for the Xfce desktop
+# depends	: libnotify libxfce4ui
+# makedepends	: xfce4-panel
+
+name=xfce4-notifyd
+version=0.4.0
+release=1
+source=(http://archive.xfce.org/src/apps/xfce4-notifyd/${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

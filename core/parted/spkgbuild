@@ -1,0 +1,17 @@
+# description	: Disk partitioning and partition resizing tool
+# homepage	: http://www.gnu.org/software/parted/parted.html
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: lvm2
+
+name=parted
+version=3.2
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,17 @@
+# description	: Collection of programs that are useful for adjusting your Xfce preferences
+# homepage	: http://www.xfce.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: exo garcon libxfce4ui libcanberra libnotify libxklavier gnome-icon-theme libinput
+
+name=xfce4-settings
+version=4.12.1
+release=1
+source=(http://archive.xfce.org/src/xfce/xfce4-settings/${version::4}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --sysconfdir=/etc --enable-sound-settings --enable-pluggable-dialogs
+	make
+	make DESTDIR=$PKG install
+}

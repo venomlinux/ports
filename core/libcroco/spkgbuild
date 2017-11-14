@@ -1,0 +1,17 @@
+# description	: Standalone CSS2 parsing and manipulation library
+# homepage	: https://git.gnome.org/browse/libcroco
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib libxml2
+
+name=libcroco
+version=0.6.12
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:3}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

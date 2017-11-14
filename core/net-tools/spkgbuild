@@ -1,0 +1,22 @@
+# description	: Programs for controlling the network subsystem of the Linux kernel
+# homepage	: http://net-tools.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc
+
+name=net-tools
+version=20101030
+release=1
+source=(http://anduin.linuxfromscratch.org/BLFS/$name/$name-CVS_${version}.tar.gz
+	http://www.linuxfromscratch.org/patches/blfs/8.1/$name-CVS_${version}-remove_dups-1.patch)
+
+build() {
+	cd $name-CVS_${version}
+
+	patch -Np1 -i ../$name-CVS_${version}-remove_dups-1.patch
+
+	sed -i '/#include <netinet\/ip.h>/d'  iptunnel.c
+
+	yes "" | make config
+	make
+	make DESTDIR=$PKG update
+}

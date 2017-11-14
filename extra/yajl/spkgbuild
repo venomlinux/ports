@@ -1,0 +1,17 @@
+# description	: Yet Another JSON Library
+# homepage	: http://lloyd.github.com/yajl/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: cmake
+
+name=yajl
+version=2.1.0
+release=1
+source=(https://github.com/lloyd/$name/archive/$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr .
+	make
+	make DESTDIR=$PKG install
+}

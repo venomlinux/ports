@@ -1,0 +1,16 @@
+# description	: Popt libraries which are used by some programs to parse command-line options
+# homepage	: http://rpm5.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=popt
+version=1.16
+release=1
+source=(http://rpm5.org/files/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

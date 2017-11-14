@@ -1,0 +1,20 @@
+# description	: A full-featured and high-performance event loop
+# homepage	: http://software.schmorp.de/pkg/libev.html
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc
+
+name=libev
+version=4.24
+release=1
+source=(http://dist.schmorp.de/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	# fix conflict with libevent
+	rm $PKG/usr/include/event.h
+}

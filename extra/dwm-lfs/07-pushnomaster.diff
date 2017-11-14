@@ -1,0 +1,84 @@
+diff -up dwm-6.0/config.def.h dwm-6.0edit/config.def.h
+--- dwm-6.0/config.h	2016-05-17 22:03:42.116373084 +0800
++++ dwm-6.0edit/config.h	2016-05-17 22:04:20.769706418 +0800
+@@ -67,6 +67,8 @@ static Key keys[] = {
+ 	{ MODKEY,                       XK_w,      spawn,          {.v = www } },
+ 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+ 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
++	{ MODKEY|ControlMask,           XK_j,      pushdown,       {0} },
++    { MODKEY|ControlMask,           XK_k,      pushup,         {0} },
+ 	{ MODKEY,                       XK_b,      togglebar,      {0} },
+ 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+ 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+Binary files dwm-6.0/dwm and dwm-6.0edit/dwm differ
+diff -up dwm-6.0/dwm.c dwm-6.0edit/dwm.c
+--- dwm-6.0/dwm.c	2016-05-17 22:03:42.116373084 +0800
++++ dwm-6.0edit/dwm.c	2016-05-17 22:04:20.773039751 +0800
+@@ -234,7 +234,10 @@ static void motionnotify(XEvent *e);
+ static void movemouse(const Arg *arg);
+ static Client *nexttiled(Client *c);
+ static void pop(Client *);
++static Client *prevtiled(Client *c);
+ static void propertynotify(XEvent *e);
++static void pushdown(const Arg *arg);
++static void pushup(const Arg *arg);
+ static void quit(const Arg *arg);
+ static Monitor *recttomon(int x, int y, int w, int h);
+ static void removesystrayicon(Client *i);
+@@ -1457,6 +1460,16 @@ pop(Client *c) {
+ 	arrange(c->mon);
+ }
+ 
++Client *
++prevtiled(Client *c) {
++	Client *p, *r;
++
++	for(p = selmon->clients, r = NULL; p && p != c; p = p->next)
++		if(!p->isfloating && ISVISIBLE(p))
++			r = p;
++	return r;
++}
++
+ void
+ propertynotify(XEvent *e) {
+ 	Client *c;
+@@ -1504,6 +1517,37 @@ propertynotify(XEvent *e) {
+ }
+ 
+ void
++pushdown(const Arg *arg) {
++	Client *sel = selmon->sel, *c;
++
++	if(!sel || sel->isfloating || sel == nexttiled(selmon->clients))
++		return;
++	if((c = nexttiled(sel->next))) {
++		detach(sel);
++		sel->next = c->next;
++		c->next = sel;
++	}
++	focus(sel);
++	arrange(selmon);
++}
++
++void
++pushup(const Arg *arg) {
++	Client *sel = selmon->sel, *c;
++
++	if(!sel || sel->isfloating)
++		return;
++	if((c = prevtiled(sel)) && c != nexttiled(selmon->clients)) {
++		detach(sel);
++		sel->next = c;
++		for(c = selmon->clients; c->next != sel->next; c = c->next);
++			c->next = sel;
++	}
++	focus(sel);
++	arrange(selmon);
++}
++
++void
+ quit(const Arg *arg) {
+ 	running = False;
+ }
+Binary files dwm-6.0/dwm.o and dwm-6.0edit/dwm.o differ
+Common subdirectories: dwm-6.0/patchbaru and dwm-6.0edit/patchbaru

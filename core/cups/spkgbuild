@@ -1,0 +1,52 @@
+# description	: Print spooler and associated utilities
+# homepage	: https://www.cups.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gnutls libusb linux-pam
+# makedepends	: dbus colord xdg-utils
+
+name=cups
+version=2.2.4
+release=2
+source=(https://github.com/apple/cups/releases/download/v$version/$name-$version-source.tar.gz)
+
+build() {
+	cd $name-$version
+
+	sed -i '2062,2069d' cups/dest.c
+	sed -i 's:444:644:' Makedefs.in
+	sed -i '/MAN.EXT/s:.gz::' configure config-scripts/cups-manpages.m4
+	sed -i '/LIBGCRYPTCONFIG/d' config-scripts/cups-ssl.m4
+	
+	aclocal  -I config-scripts
+	autoconf -I config-scripts
+	
+	CC=gcc \
+	./configure --libdir=/usr/lib            \
+	            --disable-systemd            \
+	            --with-rcdir=/tmp/cupsinit   \
+	            --with-system-groups=lpadmin \
+	            --with-docdir=/usr/share/$name/doc-$version
+	make
+	make BUILDROOT=$PKG install
+
+	# remove cups init script
+	rm -fr $PKG/tmp
+
+	mkdir -pv $PKG/usr/share/doc
+	ln -svnf ../$name/doc-$version $PKG/usr/share/doc/$name
+
+	# Create a basic Cups client configuration file
+	echo "ServerName /var/run/cups/cups.sock" > $PKG/etc/cups/client.conf
+
+	# Linux PAM Configuration
+	mkdir -p $PKG/etc/pam.d
+	cat > $PKG/etc/pam.d/cups << "EOF"
+# Begin /etc/pam.d/cups
+
+auth    include system-auth
+account include system-account
+session include system-session
+
+# End /etc/pam.d/cups
+EOF
+}

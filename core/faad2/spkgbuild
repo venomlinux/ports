@@ -1,0 +1,14 @@
+# description	: Decoder for a lossy sound compression scheme specified in MPEG-2 Part 7 and MPEG-4 Part 3 standards
+
+name=faad2
+version=2.8.6
+release=1
+source=(http://downloads.sourceforge.net/faac/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

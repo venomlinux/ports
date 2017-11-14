@@ -1,0 +1,16 @@
+# description	: Plugins for audacious media player
+# homepage	: http://audacious-media-player.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: mpg123 audacious flac neon
+
+name=audacious-plugins
+version=3.9
+release=1
+source=(http://distfiles.audacious-media-player.org/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	TPUT=/bin/true ./configure --prefix=/usr --disable-wavpack
+	make
+	make DESTDIR=$PKG install
+}

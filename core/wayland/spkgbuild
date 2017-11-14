@@ -1,0 +1,19 @@
+# description	: A project to define a protocol for a compositor to talk to its clients as well as a library implementation of the protocol
+# homepage	: https://wayland.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libffi libxml2
+
+name=wayland
+version=1.14.0
+release=1
+source=(http://wayland.freedesktop.org/releases/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	   
+	./configure --prefix=/usr    \
+	            --disable-static \
+	            --disable-documentation
+	make
+	make DESTDIR=$PKG install
+}

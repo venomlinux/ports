@@ -1,0 +1,23 @@
+# description	: Utilities for internationalization and localization
+# homepage	: http://www.gnu.org/software/gettext/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: acl gcc bash
+
+name=gettext
+version=0.19.8.1
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	sed -i '/^TESTS =/d' gettext-runtime/tests/Makefile.in
+	sed -i 's/test-lock..EXEEXT.//' gettext-tools/gnulib-tests/Makefile.in
+
+	./configure --prefix=/usr    \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	chmod -v 0755 $PKG/usr/lib/preloadable_libintl.so
+}

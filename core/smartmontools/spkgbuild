@@ -1,0 +1,19 @@
+# description	: Utility to control/monitor storage systems using the Self-Monitoring, Analysis and Reporting Technology System
+# homepage	: http://smartmontools.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=smartmontools
+version=6.5
+release=1
+source=(http://sourceforge.net/projects/$name/files/$name/$version/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+  	./configure --prefix=/usr           \
+	            --sysconfdir=/etc       \
+	            --with-initscriptdir=no
+	make
+	make DESTDIR=$PKG install
+}
+

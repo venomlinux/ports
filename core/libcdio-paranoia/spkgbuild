@@ -1,0 +1,17 @@
+# description	: Audio CD reading utility which includes extra data verification features
+# homepage	: http://www.gnu.org/software/libcdio/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libcdio
+
+name=libcdio-paranoia
+version=10.2+0.93+1
+release=1
+source=(http://ftp.gnu.org/gnu/libcdio/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,17 @@
+# description	: Library for parsing, editing, and saving EXIF data
+# homepage	: http://sourceforge.net/projects/libexif
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=libexif
+version=0.6.21
+release=1
+source=(http://downloads.sourceforge.net/$name/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

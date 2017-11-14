@@ -1,0 +1,18 @@
+# description	: Utility library for X keyboard
+# homepage	: http://gswitchit.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib iso-codes libxml2 libxi libxkbfile
+# makedepends	: gobject-introspection libxfixes
+
+name=libxklavier
+version=5.4
+release=1
+source=(http://pkgs.fedoraproject.org/repo/pkgs/libxklavier/$name-$version.tar.bz2/13af74dcb6011ecedf1e3ed122bd31fa/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

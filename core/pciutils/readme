@@ -1,0 +1,10 @@
+Configuring PCI Utils:
+
+The pci.ids data file is constantly being updated. To get a current version of this
+file, run update-pciids as the root user. This program requires the Which-2.21 script
+or program to find cURL-7.52.1, Lynx-2.8.8rel.2 or Wget-1.19.1 which are used to
+download the most current file, and then replace the existing file in
+/usr/share/hwdata.
+
+You may wish to add an entry to root's (or any other user who has write privilege
+to /usr/share/hwdata) crontab to automatically update the pci.ids file periodically.

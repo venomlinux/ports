@@ -1,0 +1,16 @@
+# description	: Console-based MP3 player
+# homepage	: http://sourceforge.net/projects/mpg123
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: alsa-lib
+
+name=mpg123
+version=1.25.6
+release=1
+source=(http://downloads.sourceforge.net/$name/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

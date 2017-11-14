@@ -1,0 +1,17 @@
+# description	: Parses so-called cue sheets and handles the parsed data
+# homepage	: https://github.com/lipnitsk/libcue/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: cmake
+
+name=libcue
+version=2.1.0
+release=1
+source=($name-$version.tar.gz::https://github.com/lipnitsk/libcue/archive/v$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr .
+	make
+	make DESTDIR=$PKG install
+}

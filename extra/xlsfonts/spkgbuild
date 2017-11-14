@@ -1,0 +1,19 @@
+# description	: List available X fonts
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libx11
+# makedepends	: util-macros
+
+name=xlsfonts
+version=1.0.5
+release=1
+source=(http://xorg.freedesktop.org/releases/individual/app/xlsfonts-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+
+	make
+	make DESTDIR=$PKG install
+}

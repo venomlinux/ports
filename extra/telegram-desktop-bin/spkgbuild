@@ -1,0 +1,39 @@
+# description	: Official desktop version of Telegram messaging app - Static binaries
+# homepage	: https://desktop.telegram.org
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib hicolor-icon-theme dbus libx11
+# makedepends	: chrpath
+
+name=telegram-desktop-bin
+version=1.1.23
+release=1
+source=(https://updates.tdesktop.com/tlinux/tsetup.$version.tar.xz
+	$name.desktop
+	https://github.com/telegramdesktop/tdesktop/raw/master/Telegram/Resources/art/icon{16,32,48,64,128,256,512}.png)
+
+build() {
+	cd $SRC
+
+	# Creating needed directories
+	install -dm755 "$PKG/usr/bin"
+	install -dm755 "$PKG/usr/share/pixmaps/"
+	install -dm755 "$PKG/usr/share/applications/"
+
+	# Program
+	install -Dm755 "$SRC/Telegram/Telegram" "$PKG/usr/bin/telegram-desktop"
+
+	# Remove RPATH informations
+	chrpath --delete "$PKG/usr/bin/telegram-desktop"
+
+	# Desktop launcher
+	install -Dm644 "$SRC/icon256.png" "$PKG/usr/share/pixmaps/telegram.png"
+	install -Dm644 "$SRC/$name.desktop" "$PKG/usr/share/applications/telegramdesktop.desktop"
+
+	# Icons
+	local icon_size icon_dir
+	for icon_size in 16 32 48 64 128 256 512; do
+		icon_dir="$PKG/usr/share/icons/hicolor/${icon_size}x${icon_size}/apps"
+		install -d "$icon_dir"
+		install -m644 "$SRC/icon${icon_size}.png" "$icon_dir/telegram.png"
+	done
+}

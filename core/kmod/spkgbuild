@@ -1,0 +1,29 @@
+# description	: Libraries and utilities for loading kernel modules
+# homepage	: http://git.kernel.org/?p=utils/kernel/kmod/kmod.git;a=summary
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc xz zlib
+
+name=kmod
+version=24
+release=1
+source=(https://www.kernel.org/pub/linux/utils/kernel/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr          \
+	            --bindir=/bin          \
+	            --sysconfdir=/etc      \
+	            --with-rootlibdir=/lib \
+	            --with-xz              \
+	            --with-zlib
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/sbin
+	for target in depmod insmod lsmod modinfo modprobe rmmod; do
+	  ln -sfv ../bin/kmod $PKG/sbin/$target
+	done
+
+	ln -sfv kmod $PKG/bin/lsmod
+}

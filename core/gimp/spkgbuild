@@ -1,0 +1,24 @@
+# description	: GNU Image Manipulation Program
+# homepage	: http://www.gimp.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gegl json-glib python2-gtk gtk2
+
+name=gimp
+version=2.8.22
+release=1
+source=(http://download.gimp.org/pub/$name/v${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	# Fix some issues with gegl-0.3.20
+	sed -i '/gegl/s/2/3/' configure
+	sed -i '70,75 d' app/core/gimpparamspecs-duplicate.c
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--without-gvfs
+	make
+	make DESTDIR=$PKG install
+}

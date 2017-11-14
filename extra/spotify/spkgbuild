@@ -1,0 +1,33 @@
+# description	: A proprietary music streaming service
+# depends	: alsa-lib gtk2 glib nss libxtst libx11 openssl libcurl-compat gconf
+# makedepends	: libarchive
+
+name=spotify
+version=1.0.66.478
+_anotherversion=.g1296534d
+_amd64_release=39
+release=1
+options=(!strip)
+source=(http://repository.spotify.com/pool/non-free/s/spotify-client/spotify-client_${version}${_anotherversion}-${_amd64_release}_amd64.deb
+	spotify)
+
+build() {
+
+	bsdtar -xf spotify-client_${version}${_anotherversion}-${_amd64_release}_amd64.deb
+	tar -xzf data.tar.gz -C $PKG
+
+	install -D $PKG/usr/share/spotify/spotify.desktop $PKG/usr/share/applications/spotify.desktop
+	install -D $PKG/usr/share/spotify/icons/spotify-linux-512.png $PKG/usr/share/pixmaps/spotify-client.png
+
+	for size in 22 24 32 48 64 128 256 512; do
+		install -D $PKG/usr/share/spotify/icons/spotify-linux-$size.png \
+			$PKG/usr/share/icons/hicolor/${size}x${size}/apps/spotify.png
+	done
+
+	chmod -R go-w $PKG/usr
+
+	# Bin Script
+	rm $PKG/usr/bin/spotify
+	install -Dm755 $SRC/spotify $PKG/usr/bin/spotify
+}
+

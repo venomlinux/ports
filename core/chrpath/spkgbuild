@@ -1,0 +1,17 @@
+# description	: Chrpath modify the dynamic library load path (rpath and runpath) of compiled programs and libraries
+# homepage	: http://directory.fsf.org/project/chrpath/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc
+
+name=chrpath
+version=0.16
+release=1
+source=(https://alioth.debian.org/frs/download.php/latestfile/813/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
+

@@ -1,0 +1,19 @@
+# description	: Lightweight image viewer
+# homepage	: http://lxde.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2
+
+name=gpicview
+version=0.2.5
+release=1
+source=(http://downloads.sourceforge.net/lxde/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	sed -i 's/Utility;//' $PKG/usr/share/applications/gpicview.desktop
+}

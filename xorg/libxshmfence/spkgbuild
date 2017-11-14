@@ -1,0 +1,23 @@
+# description	: A library that exposes a event API on top of Linux futexes
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc
+# makedepends	: util-macros xproto
+
+name=libxshmfence
+version=1.2
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libxshmfence-$version.tar.bz2)
+
+build() {
+	cd libxshmfence-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

@@ -1,0 +1,18 @@
+# description	: Default session manager for LXDE
+# homepage	: http://lxde.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: dbus-glib libunique lsb-release polkit gtk2
+# makedepends	: vala
+
+name=lxsession
+version=0.5.3
+release=1
+source=(http://downloads.sourceforge.net/lxde/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-man
+	make
+	make DESTDIR=$PKG install
+}

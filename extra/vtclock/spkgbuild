@@ -1,0 +1,18 @@
+# description	: Text-mode full-screen digital clock
+# homepage	: http://webonastick.com/vtclock
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: ncurses
+
+name=vtclock
+version=0.0.20161228
+release=1
+source=(http://webonastick.com/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	make
+  	install -d $PKG/usr/bin
+	make prefix=$PKG/usr/ install
+}
+

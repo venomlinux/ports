@@ -1,0 +1,17 @@
+# description	: Power manager for the Xfce desktop
+# homepage	: http://www.xfce.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libnotify upower xfce4-panel
+
+name=xfce4-power-manager
+version=1.6.0
+release=1
+source=(http://archive.xfce.org/src/xfce/xfce4-power-manager/${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}

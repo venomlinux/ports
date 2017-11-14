@@ -1,0 +1,19 @@
+# description	: Library implementation of the Media Transfer Protocol
+# homepage	: http://libmtp.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libusb
+
+name=libmtp
+version=1.1.12
+release=1
+source=(http://downloads.sourceforge.net/libmtp/libmtp-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--with-udev=/lib/udev
+	make
+	make DESTDIR=$PKG install
+}

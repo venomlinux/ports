@@ -1,0 +1,17 @@
+# description	: Command line tools that assist applications with a variety of desktop integration tasks
+# homepage	: https://www.freedesktop.org/wiki/Software/xdg-utils/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: xset
+# makedepends	: xmlto lynx docbook-xml docbook-xsl
+
+name=xdg-utils
+version=1.1.2
+release=1
+source=(http://portland.freedesktop.org/download/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --mandir=/usr/share/man
+	make
+	make DESTDIR=$PKG install
+}

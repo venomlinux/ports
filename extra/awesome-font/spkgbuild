@@ -1,0 +1,21 @@
+# description	: Iconic font designed for Bootstrap
+# homepage	: http://fontawesome.io
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: fontconfig
+
+name=awesome-font
+version=4.7.0
+release=1
+source=(https://github.com/FortAwesome/Font-Awesome/archive/v${version}.tar.gz)
+
+build() {
+	cd Font-Awesome-$version/fonts
+
+	# ttf
+	install -d $PKG/usr/share/fonts/TTF
+	install -m644 *.ttf $PKG/usr/share/fonts/TTF
+
+	# otf
+	install -Dm644 $SRC/Font-Awesome-${version}/fonts/FontAwesome.otf \
+		$PKG/usr/share/fonts/X11/OTF/FontAwesome.otf
+}

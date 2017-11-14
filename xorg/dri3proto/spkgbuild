@@ -1,0 +1,21 @@
+# description	: X11 DRI3 protocol
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=dri3proto
+version=1.0
+release=1
+source=(http://ftp.x.org/pub/individual/proto/dri3proto-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+
+	make DESTDIR=$PKG install	
+}
+

@@ -1,0 +1,17 @@
+# description	: Collection of simple PIN or pass-phrase entry dialogs which utilize the Assuan protocol
+# homepage	: http://gnupg.org/related_software/pinentry/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libassuan libgpg-error
+
+name=pinentry
+version=1.0.0
+release=1
+source=(ftp://ftp.gnupg.org/gcrypt/$name/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

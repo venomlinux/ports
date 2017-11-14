@@ -1,0 +1,14 @@
+# description	: One way sync over http
+# depends	: curl
+
+name=httpup
+version=0.4.0m
+release=1
+source=(https://crux.nu/files/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	sed -i 's/Updating collection/Updating ports/' httpup.cpp
+	make
+	make DESTDIR=$PKG prefix=/usr mandir=/usr/share/man install
+}

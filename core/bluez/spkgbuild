@@ -1,0 +1,60 @@
+# description	: Bluetooth protocol stack for Linux
+# homepage	: http://www.bluez.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: dbus glib libical
+
+name=bluez
+version=5.47
+release=1
+BOOTSCRIPTS_VERSION=20170731
+source=(http://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
+	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xz
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-obexd_without_systemd-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-obexd_without_systemd-1.patch
+
+	./configure --prefix=/usr         \
+	            --sysconfdir=/etc     \
+	            --localstatedir=/var  \
+	            --enable-library      \
+	            --disable-systemd
+	make
+	make DESTDIR=$PKG install
+
+	install -d $PKG/usr/sbin
+	ln -svf ../libexec/bluetooth/bluetoothd $PKG/usr/sbin/bluetoothd
+
+	# main configuration
+	install -v -dm755 $PKG/etc/bluetooth
+	install -v -m644 src/main.conf $PKG/etc/bluetooth/main.conf
+
+	# doc
+	install -v -dm755 $PKG/usr/share/doc/$name
+	install -v -m644 doc/*.txt $PKG/usr/share/doc/$name
+
+cat > $PKG/etc/bluetooth/rfcomm.conf << "EOF"
+# Start rfcomm.conf
+# Set up the RFCOMM configuration of the Bluetooth subsystem in the Linux kernel.
+# Use one line per command
+# See the rfcomm man page for options
+
+
+# End of rfcomm.conf
+EOF
+
+cat > $PKG/etc/bluetooth/uart.conf << "EOF"
+# Start uart.conf
+# Attach serial devices via UART HCI to BlueZ stack
+# Use one line per device
+# See the hciattach man page for options
+#
+# End of uart.conf
+EOF
+
+	cd ../blfs-bootscripts-$BOOTSCRIPTS_VERSION
+
+	make DESTDIR=$PKG install-bluetooth
+}

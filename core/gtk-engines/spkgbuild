@@ -1,0 +1,16 @@
+# description	: Contains eight themes/engines and two additional engines for GTK2
+# homepage	: http://live.gnome.org/GnomeArt
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2
+
+name=gtk-engines
+version=2.20.2
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/gtk-engines/${version::4}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

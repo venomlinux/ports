@@ -1,0 +1,26 @@
+# description	: A linker, an assembler, and other tools for handling object files
+# homepage	: http://www.gnu.org/software/binutils/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc zlib
+
+name=binutils
+version=2.29.1
+release=1
+source=(http://ftp.gnu.org/gnu/binutils/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	mkdir -v build
+	cd       build
+
+	../configure --prefix=/usr       \
+	             --enable-gold       \
+	             --enable-ld=default \
+	             --enable-plugins    \
+	             --enable-shared     \
+	             --disable-werror    \
+	             --with-system-zlib
+	make tooldir=/usr
+	make tooldir=/usr DESTDIR=$PKG install
+}

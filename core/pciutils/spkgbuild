@@ -1,0 +1,26 @@
+# description	: Set of programs for listing PCI devices, inspecting their status and setting their configuration registers
+# homepage	: http://mj.ucw.cz/sw/pciutils/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=pciutils
+version=3.5.5
+release=1
+source=(https://www.kernel.org/pub/software/utils/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	make PREFIX=/usr                \
+	     SHAREDIR=/usr/share/hwdata \
+	     MANDIR=/usr/share/man	\
+	     SHARED=yes
+
+	make PREFIX=/usr                \
+	     SHAREDIR=/usr/share/hwdata \
+	     MANDIR=/usr/share/man	\
+	     SHARED=yes                 \
+	     DESTDIR=$PKG		\
+	     install install-lib
+
+	chmod -v 755 $PKG/usr/lib/libpci.so
+}

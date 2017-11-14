@@ -1,0 +1,19 @@
+# description	: A generic menu for X
+# homepage	: http://tools.suckless.org/dmenu/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: freetype2 libxft libxinerama
+
+name=dmenu
+version=4.5
+release=1
+source=(http://dl.suckless.org/tools/dmenu-$version.tar.gz "${patches[@]}")
+
+build() {
+	cd $name-$version
+	for patch in "${patches[@]}"; do
+		echo "Patching $patch"
+		patch -p1 < "../${patch}"
+	done
+	make
+	make DESTDIR=$PKG PREFIX=/usr install
+}

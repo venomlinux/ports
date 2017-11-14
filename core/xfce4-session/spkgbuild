@@ -1,0 +1,19 @@
+# description	: Session manager for Xfce
+# homepage	: http://www.xfce.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libwnck2 libxfce4ui which desktop-file-utils shared-mime-info polkit-gnome xfdesktop libsm iceauth xinit xrdb
+
+name=xfce4-session
+version=4.12.1
+release=1
+source=(http://archive.xfce.org/src/xfce/xfce4-session/${version::4}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+	            --disable-legacy-sm
+	make
+	make DESTDIR=$PKG install
+}

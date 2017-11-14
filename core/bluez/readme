@@ -1,0 +1,27 @@
+Kernel Configuration:
+
+If you are building this package to use bluetooth devices (rather than as a build
+dependency), enable the following options in the kernel configuration, also the
+options below the next paragraph if you intend to run the tests, and recompile the
+kernel if necessary:
+
+[*] Networking support --->                [CONFIG_NET]
+  </M> Bluetooth subsystem support --->    [CONFIG_BT]
+    <*/M> RFCOMM protocol support          [CONFIG_BT_RFCOMM]
+    [*]   RFCOMM TTY support               [CONFIG_BT_RFCOMM_TTY]
+    <*/M> BNEP protocol support            [CONFIG_BT_BNEP]
+    [*]   Multicast filter support         [CONFIG_BT_BNEP_MC_FILTER]
+    [*]   Protocol filter support          [CONFIG_BT_BNEP_PROTO_FILTER]
+    <*/M> HIDP protocol support            [CONFIG_BT_HIDP]
+        Bluetooth device drivers --->
+          (Select the appropriate drivers for your Bluetooth hardware)
+
+  <*/M> RF switch subsystem support --->   [CONFIG_RFKILL]
+If you wish to run the testsuite (even if treating this package as a build
+dependency), you will need to enable the following options in the kernel
+configuration and recompile the kernel if necessary:
+
+[*] Networking support --->                                     [CONFIG_NET]
+-*- Cryptographic API --->                                      [CONFIG_CRYPTO]
+  </M> User-space interface for hash algorithms                 [CONFIG_CRYPTO_USER_API_HASH]
+  </M> User-space interface for symmetric key cipher algorithms [CONFIG_CRYPTO_USER_API_SKCIPHER]

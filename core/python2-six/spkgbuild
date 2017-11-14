@@ -1,0 +1,13 @@
+# description	: Python2 compatibility library
+# depends	: python2
+
+name=python2-six
+version=1.11.0
+release=1
+source=(https://pypi.io/packages/source/s/six/six-$version.tar.gz)
+
+build() {
+	cd six-$version
+	python2 setup.py build
+	python2 setup.py install --root=$PKG --optimize=1
+}

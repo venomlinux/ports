@@ -1,0 +1,19 @@
+# description	: Python 2 bindings to the GObject class from GLib
+# homepage	: http://www.pygtk.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib python2-cairo
+
+name=python2-gobject2
+version=2.28.6
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/pygobject/${version::4}/pygobject-$version.tar.xz
+	http://www.linuxfromscratch.org/patches/blfs/8.1/pygobject-$version-fixes-1.patch)
+
+build() {
+	cd pygobject-$version
+
+	patch -Np1 -i ../pygobject-$version-fixes-1.patch
+	./configure --prefix=/usr --disable-docs --disable-introspection
+	make
+	make DESTDIR=$PKG install
+}

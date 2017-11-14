@@ -1,0 +1,23 @@
+# description	: C++ library and a command line utility for managing image and video metadata
+# homepage	: http://exiv2.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: curl
+
+name=exiv2
+version=0.26
+release=1
+source=(http://www.exiv2.org/builds/$name-$version-trunk.tar.gz)
+
+build() {
+	cd $name-trunk
+
+	./configure --prefix=/usr     \
+	            --enable-video    \
+	            --enable-webready \
+	            --without-ssh     \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	chmod -v 755 $PKG/usr/lib/libexiv2.so
+}

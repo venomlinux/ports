@@ -1,0 +1,26 @@
+# description	: An implementation of the DHCP client specified in RFC2131
+# homepage	: http://roy.marples.name/projects/dhcpcd/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=dhcpcd
+version=6.11.5
+release=1
+
+BOOTSCRIPTS_VERSION=20170731
+
+source=(http://roy.marples.name/downloads/$name/$name-$version.tar.xz
+	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xz)
+
+build() {
+	cd $name-$version
+
+  	./configure --libexecdir=/lib/dhcpcd \
+	            --dbdir=/var/lib/dhcpcd
+	make
+	make DESTDIR=$PKG install
+
+	cd ../blfs-bootscripts-$BOOTSCRIPTS_VERSION
+
+	make DESTDIR=$PKG install-service-dhcpcd
+}
+

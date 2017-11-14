@@ -1,0 +1,23 @@
+# description	: X11 keyboard file manipulation library
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libx11
+# makedepends	: util-macros
+
+name=libxkbfile
+version=1.0.9
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libxkbfile-$version.tar.bz2)
+
+build() {
+	cd libxkbfile-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

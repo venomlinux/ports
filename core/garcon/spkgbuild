@@ -1,0 +1,17 @@
+# description	: Freedesktop.org compliant menu implementation based on GLib and GIO
+# homepage	: http://www.xfce.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxfce4ui
+
+name=garcon
+version=0.6.1
+release=1
+source=(http://archive.xfce.org/src/xfce/$name/${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	   
+	./configure --prefix=/usr --sysconfdir=/etc 
+	make
+	make DESTDIR=$PKG install
+}

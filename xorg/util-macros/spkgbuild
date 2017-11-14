@@ -1,0 +1,18 @@
+# description	: X.Org Autotools macros
+# homepage	: https://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=util-macros
+version=1.19.1
+release=1
+source=(http://ftp.x.org/pub/individual/util/util-macros-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --disable-static
+	make DESTDIR=$PKG install
+}
+

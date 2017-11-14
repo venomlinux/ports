@@ -1,0 +1,54 @@
+# description	: Gtk 2 GUI for other command line tools that can create, reorganise or delete disk partitions
+# homepage	: http://gparted.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtkmm2 parted
+
+name=gparted
+version=0.30.0
+release=2
+source=(http://downloads.sourceforge.net/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr    \
+	            --disable-doc    \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	sed -i 's:/usr/bin/gparted:/usr/bin/gparted_polkit:' \
+        	                             $PKG/usr/share/applications/gparted.desktop
+
+mkdir -p $PKG/usr/bin
+cat > $PKG/usr/bin/gparted_polkit << "EOF"
+#!/bin/bash
+
+pkexec /usr/bin/gparted $@
+EOF
+chmod -v 0755 $PKG/usr/bin/gparted_polkit
+
+install -d $PKG/usr/share/polkit-1/actions
+cat > $PKG/usr/share/polkit-1/actions/org.gnome.gparted.policy << "EOF"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+ "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<policyconfig>
+
+  <action id="org.freedesktop.policykit.pkexec.run-gparted">
+    <description>Run GParted</description>
+    <message>Authentication is required to run GParted</message>
+    <defaults>
+      <allow_any>no</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/sbin/gparted</annotate>
+    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
+  </action>
+
+</policyconfig>
+EOF
+chmod -v 0644 $PKG/usr/share/polkit-1/actions/org.gnome.gparted.policy
+}

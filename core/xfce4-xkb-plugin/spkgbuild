@@ -1,0 +1,22 @@
+# description	: Plugin to switch keyboard layouts for the Xfce4 panel
+# homepage	: http://goodies.xfce.org/projects/panel-plugins/xfce4-xkb-plugin
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: librsvg libxklavier xfce4-panel
+
+name=xfce4-xkb-plugin
+version=0.7.1
+release=1
+source=(http://archive.xfce.org/src/panel-plugins/xfce4-xkb-plugin/${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	sed -e 's|xfce4/panel-plugins|xfce4/panel/plugins|' \
+	    -i panel-plugin/{Makefile.in,xkb-plugin.desktop.in.in}
+
+	./configure --prefix=/usr         \
+	            --libexecdir=/usr/lib \
+	            --disable-debug
+	make
+	make DESTDIR=$PKG install
+}

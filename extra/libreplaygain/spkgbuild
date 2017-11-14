@@ -1,0 +1,25 @@
+# description	: A library to adjust audio gain
+# homepage	: http://www.musepack.net/index.php?pg=src
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: cmake
+
+name=libreplaygain
+version=475
+release=1
+source=(http://files.musepack.net/source/${name}_r${version}.tar.gz)
+
+build() {
+	mkdir build
+	
+	cd build
+	cmake ../${name}_r${version}/ \
+	  -DCMAKE_INSTALL_PREFIX=/usr \
+	  -DCMAKE_BUILD_TYPE=Release
+	make
+	make DESTDIR=$PKG install
+
+	install -d "${PKG}"/usr/include/replaygain/
+	install -Dm644 "${SRC}"/${name}_r${version}/include/replaygain/* \
+	     "${PKG}"/usr/include/replaygain/
+
+}

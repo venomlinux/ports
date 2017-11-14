@@ -1,0 +1,24 @@
+# description	: Free library for decoding ATSC A/52 (also known as AC-3) streams
+# homepage	: http://liba52.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=liba52
+version=0.7.4
+release=1
+source=(http://liba52.sourceforge.net/files/a52dec-$version.tar.gz)
+
+build() {
+	cd a52dec-$version
+
+	./configure --prefix=/usr \
+		    --mandir=/usr/share/man \
+		    --enable-shared \
+		    --disable-static \
+		    CFLAGS="-g -O2 $([ $(uname -m) = x86_64 ] && echo -fPIC)"
+	make
+	make DESTDIR=$PKG install
+
+	cp liba52/a52_internal.h $PKG/usr/include/a52dec
+	install -v -m644 -D doc/liba52.txt \
+	    $PKG/usr/share/doc/$name/liba52.txt
+}

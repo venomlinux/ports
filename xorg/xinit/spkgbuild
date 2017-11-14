@@ -1,0 +1,27 @@
+# description	: Script to start the xserver
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libx11 xauth xmodmap xrdb
+# makedepends	: util-macros
+
+name=xinit
+version=1.3.4
+release=1
+source=(http://ftp.x.org/pub/individual/app/xinit-$version.tar.bz2)
+
+build() {
+	cd xinit-$version
+
+  	sed -e '/$serverargs $vtarg/ s/serverargs/: #&/' \
+	    -i startx.cpp
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static \
+		--with-xinitdir=/etc/X11/app-defaults
+	make
+	make DESTDIR=$PKG install
+}
+

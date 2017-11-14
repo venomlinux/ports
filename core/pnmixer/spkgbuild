@@ -1,0 +1,17 @@
+# description	: Lightweight volume control with a tray icon
+# homepage	: https://github.com/nicklan/pnmixer
+# maintainer	: Emmett1, emmett1.2miligrams at mail.com
+# depends	: gtk2 alsa-utils
+
+name=pnmixer
+version=0.5.1
+release=1
+source=(https://github.com/downloads/nicklan/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	./autogen.sh --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
+

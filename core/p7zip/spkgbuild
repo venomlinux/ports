@@ -1,0 +1,17 @@
+# description	: Unix command-line port of 7-Zip, a file archiver that archives with high compression ratios
+# homepage	: http://p7zip.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=p7zip
+version=16.02
+release=1
+source=(http://downloads.sourceforge.net/$name/${name}_${version}_src_all.tar.bz2)
+
+build() {
+	cd ${name}_${version}
+
+	make all3
+	make DEST_HOME=/usr \
+	     DEST_MAN=/usr/share/man \
+	     DEST_DIR=$PKG install
+}

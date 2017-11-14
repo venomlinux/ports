@@ -1,0 +1,17 @@
+post_install() {
+	if [ "$(grep 'id:3:initdefault:' /etc/inittab)" ]; then
+		echo " * Change default runlevel from 3 to 5"
+		sed -i '/initdefault/ s/3/5/' /etc/inittab
+	else
+		echo "Default runlevel already 5"
+fi
+}
+
+post_remove() {
+	if [ "$(grep 'id:5:initdefault:' /etc/inittab)" ]; then
+		echo " * Change default runlevel from 5 to 3"
+		sed -i '/initdefault/ s/5/3/' /etc/inittab
+	else
+		echo "Default runlevel already 3"
+	fi
+}

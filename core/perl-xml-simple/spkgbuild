@@ -1,0 +1,19 @@
+# description	: Perl extension that provides an easy API to read and write XML (especially config files)
+# homepage	: http://search.cpan.org/dist/XML-Simple/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: perl
+
+name=perl-xml-simple
+version=2.24
+release=1
+source=(http://cpan.org/authors/id/G/GR/GRANTM/XML-Simple-$version.tar.gz)
+
+build() {
+	cd XML-Simple-$version
+
+	perl Makefile.PL
+	make
+	make DESTDIR=$PKG install
+
+	find $PKG -name perllocal.pod -delete
+}

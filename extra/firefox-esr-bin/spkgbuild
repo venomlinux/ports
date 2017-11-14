@@ -1,0 +1,24 @@
+# description	: Standalone web browser from mozilla.org - Extended Support Release
+# homepage	: http://www.mozilla.org/en-US/firefox/organizations/
+# maintainer	: Emmett, emmett1.2miligrams at gmail.com
+# depends	: gtk3 gtk2 libxt startup-notification dbus-glib alsa-lib ffmpeg libvpx libevent nss sqlite icu
+
+name=firefox-esr-bin
+_name=${name/-bin/}
+version=52.3.0
+release=1
+source=(http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${version}esr/linux-x86_64/en-US/firefox-${version}esr.tar.bz2
+        $_name.desktop 
+        $_name-safe.desktop)
+
+build() {
+	cd $SRC
+    
+    install -d $PKG/{usr/{bin,share/{applications,pixmaps}},opt}
+    cp -r firefox/ $PKG/opt/$_name
+
+    ln -s /opt/$_name/firefox $PKG/usr/bin/$_name
+    install -m644 $SRC/{$_name.desktop,$_name-safe.desktop} $PKG/usr/share/applications/
+    install -m644 $SRC/firefox/browser/icons/mozicon128.png $PKG/usr/share/pixmaps/$_name.png
+}
+

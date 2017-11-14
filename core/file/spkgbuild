@@ -1,0 +1,17 @@
+# description	: Utility for determining the type of a given file or files
+# homepage	: https://www.darwinsys.com/file/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc zlib
+
+name=file
+version=5.32
+release=1
+source=(ftp://ftp.astron.com/pub/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,16 @@
+# description	: JSON implementation in C
+
+name=json-c
+version=0.12.1
+release=1
+source=(https://s3.amazonaws.com/json-c_releases/releases/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	
+	sed -i s/-Werror// Makefile.in tests/Makefile.in
+	
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

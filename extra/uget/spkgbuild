@@ -1,0 +1,22 @@
+# description	: GTK+ download manager featuring download classification and HTML import
+# homepage	: http://ugetdm.com/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libnotify gtk3 gstreamer curl
+# makedepends	: intltool
+
+name=uget
+version=2.0.9
+release=1
+source=(http://downloads.sourceforge.net/urlget/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	sed -i -e 's,/bin/sh,/bin/bash,' configure
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+}

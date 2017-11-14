@@ -1,0 +1,23 @@
+# description	: Primitive command line interface to RandR extension
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libx11 libxrandr
+# makedepends	: util-macros
+
+name=xrandr
+version=1.5.0
+release=1
+source=(http://ftp.x.org/pub/individual/app/xrandr-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

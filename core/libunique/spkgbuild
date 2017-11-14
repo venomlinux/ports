@@ -1,0 +1,24 @@
+# description	: Library for writing single instance applications
+# homepage	: http://live.gnome.org/LibUnique
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2
+# makedepends	: gobject-introspection
+
+name=libunique
+version=1.1.6
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/libunique/${version::3}/$name-$version.tar.bz2
+	http://www.linuxfromscratch.org/patches/blfs/8.1/$name-$version-upstream_fixes-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../libunique-1.1.6-upstream_fixes-1.patch
+	autoreconf -fi
+	
+	./configure --prefix=/usr  \
+	            --disable-dbus \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

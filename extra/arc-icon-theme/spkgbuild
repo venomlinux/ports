@@ -1,0 +1,16 @@
+# description	: Arc icon theme, Official releases only
+# homepage	: https://github.com/horst3180/arc-icon-theme
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk3 hicolor-icon-theme
+
+name=arc-icon-theme
+version=20160605
+release=1
+source=($name-$version.zip::https://github.com/horst3180/$name/archive/$version.zip)
+
+build() {
+	cd $name-$version
+	./autogen.sh --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

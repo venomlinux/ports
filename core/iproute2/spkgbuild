@@ -1,0 +1,21 @@
+# description	: Programs for basic and advanced IPV4-based networking
+# homepage	: http://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc
+
+name=iproute2
+version=4.13.0
+release=1
+source=(https://www.kernel.org/pub/linux/utils/net/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	sed -i /ARPD/d Makefile
+	sed -i 's/arpd.8//' man/man8/Makefile
+	rm -v doc/arpd.sgml
+	sed -i 's/m_ipt.o//' tc/Makefile
+
+	make
+	make DESTDIR=$PKG install
+}

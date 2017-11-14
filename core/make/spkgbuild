@@ -1,0 +1,17 @@
+# description	: Program for compiling packages
+# homepage	: http://www.gnu.org/software/make
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc
+
+name=make
+version=4.2.1
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

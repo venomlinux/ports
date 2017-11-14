@@ -1,0 +1,19 @@
+# description	: An improved dynamic tiling window manager
+# homepage	: http://i3wm.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: xcb-util-cursor xcb-util-keysyms xcb-util-wm xcb-util-xrm libev yajl startup-notification pango libxkbcommon
+# makedepends	: bison flex
+
+name=i3
+version=4.13
+release=1
+source=(http://i3wm.org/downloads/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --sysconfdir=/etc
+	cd $(uname -m)-pc-linux-gnu
+	make
+	make DESTDIR=$PKG install
+}

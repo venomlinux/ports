@@ -1,0 +1,25 @@
+# description	: A simple GTK+2 color selector
+# homepage	: http://gcolor2.sf.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2
+# makedepends	: perl-xml-parser
+
+name=gcolor2
+version=0.4
+release=1
+source=(http://downloads.sourceforge.net/sourceforge/$name/$name-$version.tar.gz
+	gcolor2-0.4-amd64.patch
+	gcolor2.desktop)
+
+build() {
+	cd $name-$version
+
+	patch -p1 -i $SRC/$name-$version-amd64.patch || exit 1
+	sed -i 's/\[:space:\]/[&]/g' configure
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	install -Dm644 $SRC/gcolor2.desktop \
+		$PKG/usr/share/applications/gcolor2.desktop
+}

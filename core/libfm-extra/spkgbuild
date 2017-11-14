@@ -1,0 +1,21 @@
+# description	:  library and other files required by menu-cache-gen libexec of menu-cache
+# homepage	: http://pcmanfm.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib
+
+name=libfm-extra
+version=1.2.5
+release=1
+source=(http://downloads.sourceforge.net/pcmanfm/libfm-$version.tar.xz)
+
+build() {
+	cd libfm-$version
+
+	./configure --prefix=/usr     \
+	            --sysconfdir=/etc \
+	            --with-extra-only \
+	            --with-gtk=no     \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

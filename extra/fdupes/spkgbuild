@@ -1,0 +1,16 @@
+# description	: A program for identifying or deleting duplicate files residing within specified directories
+# homepage	: https://github.com/adrianlopezroche/fdupes
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=fdupes
+version=1.6.1
+release=1
+source=($name-$version.tar.gz::https://github.com/adrianlopezroche/fdupes/archive/v$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	make PREFIX=/usr
+	install -Dm755 fdupes $PKG/usr/bin/fdupes
+	install -Dm644 fdupes.1 $PKG/usr/share/man/man1/fdupes.1
+}

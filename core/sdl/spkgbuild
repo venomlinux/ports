@@ -1,0 +1,23 @@
+# description	: Cross-platform library designed to make it easy to write multimedia software
+# homepage	: https://www.libsdl.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=sdl
+version=1.2.15
+release=1
+source=(http://www.libsdl.org/release/SDL-$version.tar.gz)
+
+build() {
+	cd SDL-$version
+
+	sed -e '/_XData32/s:register long:register _Xconst long:' \
+	    -i src/video/x11/SDL_x11sym.h
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	install -v -m755 -d $PKG/usr/share/doc/SDL/html
+	install -v -m644    docs/html/*.html \
+	                    $PKG/usr/share/doc/SDL/html
+}

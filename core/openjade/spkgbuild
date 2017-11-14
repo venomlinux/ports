@@ -1,0 +1,41 @@
+# description	: Contains a DSSSL engine
+# homepage	: http://openjade.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: opensp
+
+name=openjade
+version=1.3.2
+release=1
+source=(http://downloads.sourceforge.net/$name/$name-$version.tar.gz
+	http://www.linuxfromscratch.org/patches/blfs/8.1/$name-$version-upstream-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-upstream-1.patch
+
+	sed -i -e '/getopts/{N;s#&G#g#;s#do .getopts.pl.;##;}' \
+	       -e '/use POSIX/ause Getopt::Std;' msggen.pl
+
+	export CXXFLAGS="$CXXFLAGS -fno-lifetime-dse"
+	./configure --prefix=/usr                                \
+		    --mandir=/usr/share/man                      \
+		    --enable-http                                \
+		    --disable-static                             \
+		    --enable-default-catalog=/etc/sgml/catalog   \
+		    --enable-default-search-path=/usr/share/sgml \
+		    --datadir=/usr/share/sgml/$name-$version
+	make
+	make DESTDIR=$PKG install
+	make DESTDIR=$PKG install-man
+
+	ln -v -sf openjade $PKG/usr/bin/jade
+	ln -v -sf libogrove.so $PKG/usr/lib/libgrove.so
+	ln -v -sf libospgrove.so $PKG/usr/lib/libspgrove.so
+	ln -v -sf libostyle.so $PKG/usr/lib/libstyle.so
+
+	install -v -m644 dsssl/catalog $PKG/usr/share/sgml/$name-$version/
+
+	install -v -m644 dsssl/*.{dtd,dsl,sgm}              \
+	    $PKG/usr/share/sgml/$name-$version
+}

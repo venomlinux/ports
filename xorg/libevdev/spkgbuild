@@ -1,0 +1,22 @@
+# description	: Common functions for Xorg input drivers
+# homepage	: http://www.freedesktop.org/wiki/Software/libevdev/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: python3
+
+name=libevdev
+version=1.5.7
+release=1
+source=(http://www.freedesktop.org/software/libevdev/libevdev-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

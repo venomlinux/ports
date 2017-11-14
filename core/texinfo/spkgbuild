@@ -1,0 +1,17 @@
+# description	: Programs for reading, writing, and converting info pages
+# homepage	: http://www.gnu.org/software/texinfo/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: gzip ncurses perl bash
+
+name=texinfo
+version=6.5
+release=1
+source=(http://ftp.gnu.org/gnu/texinfo/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

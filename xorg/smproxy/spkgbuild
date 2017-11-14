@@ -1,0 +1,23 @@
+# description	: Allows X applications that do not support X11R6 session management to participate in an X11R6 session
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libsm libxmu libxt
+# makedepends	: util-macros
+
+name=smproxy
+version=1.0.6
+release=1
+source=(http://ftp.x.org/pub/individual/app/smproxy-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

@@ -1,0 +1,46 @@
+# description	: Vi Improved, a highly configurable, improved version of the vi text editor
+# homepage	: http://www.vim.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: acl
+# makedepends	: gawk
+
+name=vim
+version=8.0.586
+release=1
+source=(ftp://ftp.vim.org/pub/vim/unix/$name-$version.tar.bz2)
+
+build() {
+	cd vim80
+
+	echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
+
+	sed -i '/call/{s/split/xsplit/;s/303/492/}' src/testdir/test_recover.vim
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	ln -sv vim $PKG/usr/bin/vi
+	for L in  $PKG/usr/share/man/{,*/}man1/vim.1; do
+	    ln -sv vim.1 $(dirname $L)/vi.1
+	done
+
+	# no desktop files and icons
+	rm -r $PKG/usr/share/{applications,icons}
+
+	mkdir -pv $PKG/etc
+cat > $PKG/etc/vimrc << "EOF"
+" Begin /etc/vimrc
+
+set nocompatible
+set backspace=2
+set mouse=r
+syntax on
+if (&term == "xterm") || (&term == "putty")
+  set background=dark
+endif
+
+
+" End /etc/vimrc
+EOF
+}

@@ -1,0 +1,25 @@
+# description	: Low-level libraries useful for providing data structure handling for C, portability wrappers and interfaces
+# depends	: libffi pcre
+# makedepends	: python3 docbook-xsl
+
+name=glib
+version=2.54.2
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-skip_warnings-1.patch
+	https://raw.githubusercontent.com/GNOME/glib/master/gio/tests/gengiotypefuncs.py)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-skip_warnings-1.patch
+
+	cp ../gengiotypefuncs.py gio/tests
+
+	./configure --prefix=/usr --with-pcre=system --with-python=/usr/bin/python3
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/usr/share/doc/$name
+	cp -r docs/reference/{NEWS,README,gio,glib,gobject} $PKG/usr/share/doc/$name
+}

@@ -1,0 +1,18 @@
+# description	: nl80211 based CLI configuration utility for wireless devices
+# homepage	: http://wireless.kernel.org/en/users/Documentation/iw
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libnl
+# makedepends	: linux-headers
+
+name=iw
+version=4.9
+release=1
+source=(https://www.kernel.org/pub/software/network/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+  	make
+	make DESTDIR=$PKG SBINDIR=/usr/bin install
+}
+

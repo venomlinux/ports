@@ -1,0 +1,12 @@
+pre_install() {
+	if [ ! -f /etc/hosts ]; then
+		echo "#tmp perl hosts file
+127.0.0.1 localhost $(hostname)" > /etc/hosts
+	fi
+}
+
+post_install() {
+	if [ -f /etc/hosts ] && [ "$(grep ^'#tmp perl hosts file' /etc/hosts)" ]; then
+		rm /etc/hosts
+	fi
+}

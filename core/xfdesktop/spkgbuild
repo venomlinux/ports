@@ -1,0 +1,17 @@
+# description	: Desktop manager for the Xfce Desktop Environment
+# homepage	: http://www.xfce.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: exo libwnck2 libxfce4ui libnotify startup-notification thunar
+
+name=xfdesktop
+version=4.12.4
+release=1
+source=(http://archive.xfce.org/src/xfce/xfdesktop/${version::4}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

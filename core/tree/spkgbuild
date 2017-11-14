@@ -1,0 +1,16 @@
+# description	: display directory contents, including directories, files, links, in a terminal
+# homepage	: http://mama.indstate.edu/users/ice/tree/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=tree
+version=1.7.0
+release=1
+source=(http://mama.indstate.edu/users/ice/$name/src/$name-$version.tgz)
+
+build() {
+	cd $name-$version
+
+  	make
+	make prefix=$PKG/usr MANDIR=$PKG/usr/share/man/man1 install
+}
+

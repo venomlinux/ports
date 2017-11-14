@@ -1,0 +1,14 @@
+# description	: SVG optimizer/cleaner that reduces their size by optimizing structure and removing unnecessary data
+# makedepends	: python3
+
+name=python3-scour
+version=0.36
+release=1
+source=(https://github.com/scour-project/scour/archive/v$version/scour-$version.tar.gz)
+
+build() {
+	cd scour-$version
+	python3 setup.py build
+	python3 setup.py install --root=$PKG --optimize=1
+	mv $PKG/usr/bin/scour{,-py3}
+}

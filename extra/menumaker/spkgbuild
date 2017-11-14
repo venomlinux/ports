@@ -1,0 +1,16 @@
+# description	: Heuristics-driven menu generator for Deskmenu, FluxBox, IceWM, OpenBox, WindowMaker and XFCE
+# homepage	: http://menumaker.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: python3
+
+name=menumaker
+version=0.99.10
+release=1
+source=(http://downloads.sourceforge.net/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --infodir=/usr/share/info
+	make
+	make -j1 DESTDIR=$PKG install
+}

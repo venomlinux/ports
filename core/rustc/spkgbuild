@@ -1,0 +1,31 @@
+# description	: The Rust programming language is designed to be a safe, concurrent, practical language
+# homepage	: https://www.rust-lang.org
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: curl cmake python2
+
+name=rustc
+version=1.19.0
+release=1
+source=(https://static.rust-lang.org/dist/$name-$version-src.tar.gz)
+
+build() {
+	cd $name-$version-src
+
+cat <<EOF > config.toml
+# see src/bootstrap/config.toml.example for more possible options
+[llvm]
+targets = "X86"
+
+[build]
+# install cargo as well as rust
+extended = true
+
+[install]
+prefix = "/usr"
+docdir = "share/doc/rustc-1.19.0"
+channel = "stable"
+EOF
+
+	./x.py build
+	DESTDIR=$PKG ./x.py install
+}

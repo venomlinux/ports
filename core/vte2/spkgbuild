@@ -1,0 +1,19 @@
+# description	: Library (libvte) implementing a terminal emulator widget for GTK+ 2
+# homepage	: http://www.gnome.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2
+
+name=vte2
+version=0.28.2
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/vte/${version::4}/vte-$version.tar.xz)
+
+build() {
+	cd vte-$version
+
+	./configure --prefix=/usr \
+	            --libexecdir=/usr/lib/vte \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

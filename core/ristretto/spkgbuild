@@ -1,0 +1,17 @@
+# description	: Fast and lightweight image viewer for the Xfce desktop
+# homepage	: http://docs.xfce.org/apps/ristretto/start
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libexif libxfce4ui
+
+name=ristretto
+version=0.8.2
+release=1
+source=(http://archive.xfce.org/src/apps/ristretto/${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

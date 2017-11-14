@@ -1,0 +1,17 @@
+# description	: Feature-rich ncurses-based music player
+# homepage	: https://cmus.github.io
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libcue ncurses alsa-lib
+# makedepends	: ffmpeg faad2 libmad libmpcdec flac
+
+name=cmus
+version=2.7.1
+release=1
+source=(https://github.com/cmus/cmus/archive/v${version}.tar.gz)
+
+build() {
+	cd $name-$version
+	./configure prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,63 @@
+Author: Jan Christoph Ebersbach <jceb@e-jc.de>
+URL: http://dwm.suckless.org/patches/attachabove
+attachabove makes new clients attach above the selected client (instead of
+always becoming the new master) – basically how Xmonad does it.
+
+diff -r ec4baab78314 dwm.c
+--- a/dwm.c	Mon Dec 19 15:38:30 2011 +0100
++++ b/dwm.c	Fri Apr 06 08:23:34 2012 +0200
+@@ -160,6 +160,7 @@
+ static void arrange(Monitor *m);
+ static void arrangemon(Monitor *m);
+ static void attach(Client *c);
++static void attachabove(Client *c);
+ static void attachstack(Client *c);
+ static void buttonpress(XEvent *e);
+ static void checkotherwm(void);
+@@ -418,6 +419,19 @@
+ }
+ 
+ void
++attachabove(Client *c) {
++	if(c->mon->sel == NULL || c->mon->sel == c->mon->clients || c->mon->sel->isfloating) {
++		attach(c);
++		return;
++	}
++
++	Client *at;
++	for(at = c->mon->clients; at->next != c->mon->sel; at = at->next);
++	c->next = at->next;
++	at->next = c;
++}
++
++void
+ attachstack(Client *c) {
+ 	c->snext = c->mon->stack;
+ 	c->mon->stack = c;
+@@ -1155,7 +1169,7 @@
+ 		c->isfloating = c->oldstate = trans != None || c->isfixed;
+ 	if(c->isfloating)
+ 		XRaiseWindow(dpy, c->win);
+-	attach(c);
++	attachabove(c);
+ 	attachstack(c);
+ 	XMoveResizeWindow(dpy, c->win, c->x + 2 * sw, c->y, c->w, c->h); /* some windows require this */
+ 	setclientstate(c, NormalState);
+@@ -1480,7 +1494,7 @@
+ 	detachstack(c);
+ 	c->mon = m;
+ 	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
+-	attach(c);
++	attachabove(c);
+ 	attachstack(c);
+ 	focus(NULL);
+ 	arrange(NULL);
+@@ -1900,7 +1914,7 @@
+ 					m->clients = c->next;
+ 					detachstack(c);
+ 					c->mon = mons;
+-					attach(c);
++					attachabove(c);
+ 					attachstack(c);
+ 				}
+ 				if(m == selmon)

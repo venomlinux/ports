@@ -1,0 +1,20 @@
+# description	: C++ interface to Pango
+# homepage	: http://www.gtkmm.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: cairomm glibmm pango
+
+name=pangomm
+version=2.40.1
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	sed -e '/^libdocdir =/ s/$(book_name)/pangomm/' \
+	    -i docs/Makefile.in
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

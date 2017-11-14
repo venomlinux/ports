@@ -1,0 +1,17 @@
+# description	: Toolkit for image loading and pixel buffer manipulation
+# depends	: glib libjpeg-turbo libpng libtiff shared-mime-info libx11 libxcb libxau
+# makedepends	: gobject-introspection
+# optdepends	: jasper
+
+name=gdk-pixbuf
+version=2.36.11
+release=2
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --with-x11 --with-libjasper
+	make
+	make DESTDIR=$PKG install
+}

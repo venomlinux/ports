@@ -1,0 +1,17 @@
+# description	: Simple GTK+ 2 text editor for the Xfce desktop environment
+# homepage	: http://www.xfce.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtksourceview3
+
+name=mousepad
+version=0.4.0
+release=1
+source=(http://archive.xfce.org/src/apps/mousepad/${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --enable-keyfile-settings
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,24 @@
+# description	: CPU graph plugin for the Xfce4 panel
+# homepage	: http://goodies.xfce.org/projects/panel-plugins/xfce4-cpugraph-plugin
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: xfce4-panel
+# makedepends	: intltool
+
+name=xfce4-cpugraph-plugin
+version=1.0.5
+release=1
+source=(http://archive.xfce.org/src/panel-plugins/$name/${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib \
+		--localstatedir=/var \
+		--disable-static \
+		--disable-debug
+	make
+	make DESTDIR=$PKG install
+}

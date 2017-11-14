@@ -1,0 +1,23 @@
+# description	: XCB cursor library
+# homepage	: http://cgit.freedesktop.org/xcb/util-cursor
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxcb
+# makedepends	: xcb-util-image xcb-util-renderutil
+
+name=xcb-util-cursor
+version=0.1.3
+release=1
+source=(http://xcb.freedesktop.org/dist/xcb-util-cursor-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

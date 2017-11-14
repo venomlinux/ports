@@ -1,0 +1,17 @@
+# description	: Library used by some applications for USB device access
+# homepage	: http://libusb.info/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=libusb
+version=1.0.21
+release=1
+source=(http://downloads.sourceforge.net/$name/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	sed -i "s/^PROJECT_LOGO/#&/" doc/doxygen.cfg.in
+	./configure --prefix=/usr --disable-static
+	make -j1
+	make DESTDIR=$PKG install
+}

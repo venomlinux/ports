@@ -1,0 +1,23 @@
+# description	: Sources for time zone and daylight saving time data
+# depends	: glibc
+
+name=tzdata
+version=2017c
+release=1
+source=(http://www.iana.org/time-zones/repository/releases/${name}${version}.tar.gz)
+
+build() {
+	ZONEINFO=$PKG/usr/share/zoneinfo
+	mkdir -pv $ZONEINFO/{posix,right}
+
+	for tz in etcetera southamerica northamerica europe africa antarctica  \
+	          asia australasia backward pacificnew systemv; do
+	    /usr/sbin/zic -L /dev/null   -d $ZONEINFO       -y "sh yearistype.sh" ${tz}
+	    /usr/sbin/zic -L /dev/null   -d $ZONEINFO/posix -y "sh yearistype.sh" ${tz}
+	    /usr/sbin/zic -L leapseconds -d $ZONEINFO/right -y "sh yearistype.sh" ${tz}
+	done
+
+	cp -v zone.tab zone1970.tab iso3166.tab $ZONEINFO
+	/usr/sbin/zic -d $ZONEINFO -p America/New_York
+	unset ZONEINFO
+}

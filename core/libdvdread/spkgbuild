@@ -1,0 +1,17 @@
+# description	: Library which provides a simple foundation for reading DVDs
+# homepage	: http://dvdnav.mplayerhq.hu/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=libdvdread
+version=5.0.3
+release=1
+source=(http://download.videolan.org/videolan/$name/$version/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr    \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

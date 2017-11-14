@@ -1,0 +1,26 @@
+# description	: A software package that converts DocBook documents into the traditional Unix man page format and the GNU Texinfo format
+# homepage	: http://docbook2x.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: openjade libxslt perl-xml-sax
+
+name=docbook2x
+version=0.8.8
+release=2
+source=(http://downloads.sourceforge.net/$name/docbook2X-$version.tar.gz
+	docbook2x.datadir.patch)
+
+build(){
+    cd docbook2X-$version
+    patch < ../$name.datadir.patch || exit 1
+    sed -e 's/AM_CONFIG_HEADER(/AC_CONFIG_HEADERS(/' -i configure.ac || exit 1
+    
+    autoreconf -i -f
+    ./configure --prefix=/usr \
+                --mandir=/usr/share/man \
+                --program-transform-name 's,2x-,2,'
+    make
+    make DESTDIR=$PKG install
+
+    sed -i 's|http://docbook2x.sf.net/latest|/usr/share/docbook2X|g' \
+        $PKG/usr/bin/db2x_xsltproc
+}

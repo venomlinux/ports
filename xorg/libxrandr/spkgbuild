@@ -1,0 +1,23 @@
+# description	: X11 RandR extension library
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxext libxrender randrproto
+# makedepends	: util-macros
+
+name=libxrandr
+version=1.5.1
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libXrandr-$version.tar.bz2)
+
+build() {
+	cd libXrandr-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

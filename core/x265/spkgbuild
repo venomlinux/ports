@@ -1,0 +1,24 @@
+# description	: Library for encoding video streams into the H.265/HEVC format
+# homepage	: https://bitbucket.org/multicoreware/x265
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: cmake yasm
+
+name=x265
+version=2.5
+release=1
+source=(https://bitbucket.org/multicoreware/$name/downloads/${name}_${version}.tar.gz)
+
+build() {
+	cd ${name}_${version}
+
+	mkdir bld
+	cd    bld
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DENABLE_STATIC=OFF         \
+	      ../source
+	make
+	make DESTDIR=$PKG install
+
+	rm $PKG/usr/lib/libx265.a
+}

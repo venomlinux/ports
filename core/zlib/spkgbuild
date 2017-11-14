@@ -1,0 +1,21 @@
+# description	: Compression and decompression routines used by some programs
+# homepage	: http://www.zlib.net/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc
+
+name=zlib
+version=1.2.11
+release=1
+source=(http://zlib.net/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/lib
+	mv -v $PKG/usr/lib/libz.so.* $PKG/lib
+	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libz.so) $PKG/usr/lib/libz.so
+}

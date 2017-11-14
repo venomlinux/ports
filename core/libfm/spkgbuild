@@ -1,0 +1,25 @@
+# description	: Library used to develop file managers providing some file management utilities
+# homepage	: http://pcmanfm.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2 menu-cache lxmenu-data libexif
+# makedepends	: vala 
+
+name=libfm
+version=1.2.5
+release=1
+source=(http://downloads.sourceforge.net/pcmanfm/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm $PKG/usr/include/libfm-1.0/fm-{version.h,extra.h,xml-file.h}
+	rm $PKG/usr/include/libfm
+	rm $PKG/usr/lib/libfm-extra.*
+	rm $PKG/usr/lib/pkgconfig/libfm-extra.pc
+}

@@ -1,0 +1,13 @@
+# description	: Python2 bindings for libxslt and libxml2
+# makedepends	: python2 libxslt
+
+name=python2-lxml
+version=4.1.0
+release=1
+source=(https://files.pythonhosted.org/packages/source/l/lxml/lxml-$version.tar.gz)
+
+build() {
+	cd lxml-$version
+	python2 setup.py build
+	python2 setup.py install --root=$PKG --optimize=1
+}

@@ -1,0 +1,24 @@
+# description	: Firmware files for Linux
+# homepage	: http://git.kernel.org/?p=linux/kernel/git/firmware/linux-firmware.git;a=summary
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: git
+
+name=linux-firmware
+version=20170912
+release=1
+options=(!strip)
+source=()
+
+build() {
+	cd $SOURCE_DIR
+	
+	if cd $name; then
+		git fetch -q; git reset --hard origin/master
+	else
+		git clone git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git $name
+		cd $name
+	fi
+
+	make DESTDIR=$PKG install
+	rm $PKG/lib/firmware/{Makefile,README,configure,GPL-3,*.txt,check_whence.py}
+}

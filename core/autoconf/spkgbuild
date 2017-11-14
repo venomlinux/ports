@@ -1,0 +1,17 @@
+# description	: Programs for producing shell scripts that can automatically configure source code
+# homepage	: http://www.gnu.org/software/autoconf
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: gawk diffutils m4 bash
+
+name=autoconf
+version=2.69
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

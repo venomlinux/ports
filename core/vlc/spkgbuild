@@ -1,0 +1,24 @@
+# description	: A media player, streamer, and encoder
+# depends	: alsa-lib ffmpeg liba52 libgcrypt libmad lua
+
+name=vlc
+version=2.2.6
+release=1
+source=(https://download.videolan.org/$name/$version/$name-$version.tar.xz
+        http://www.linuxfromscratch.org/patches/blfs/8.1/$name-$version-ffmpeg3-1.patch
+        $name-$version-fix-memleak.patch)
+
+build() {
+	cd $name-$version
+	
+	patch -Np1 -i ../$name-$version-ffmpeg3-1.patch
+        sed -i 's/error-implicit-function-declaration//' configure
+        
+        # taken from arch
+        patch -Np1 -i ../$name-$version-fix-memleak.patch
+
+        CFLAGS="-DLUA_COMPAT_5_1" \
+        ./configure --prefix=/usr --disable-atmo
+	make
+	make DESTDIR=$PKG install
+}

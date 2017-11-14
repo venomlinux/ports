@@ -1,0 +1,21 @@
+# description	: Ncurses CD writer program which uses cdrecord and mkisofs
+# homepage	: http://cdw.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: cdrtools ncurses libburn libcdio
+
+name=cdw
+version=0.8.1
+release=1
+source=(http://sourceforge.net/projects/$name/files/$name/${name}%20${version}/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make prefix=$PKG/usr install
+
+	install -dm755 $PKG/usr/share/doc/cdw
+	install -m644 cdw.conf $PKG/usr/share/doc/cdw
+	install -m644 cdw.colors $PKG/usr/share/doc/cdw
+}

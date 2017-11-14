@@ -1,0 +1,18 @@
+# description	: The GNU generic library support script
+# homepage	: http://www.gnu.org/software/libtool
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc bash tar
+# makedepends	: gcc
+
+name=libtool
+version=2.4.6
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,34 @@
+# description	: An URL retrieval library (without versioned symbols)
+# depends	: curl glibc openssl zlib
+
+name=libcurl-compat
+version=7.56.0
+release=1
+source=(https://curl.haxx.se/download/curl-$version.tar.gz)
+
+build() {
+	cd curl-$version
+	./configure \
+	    --prefix='/usr' \
+	    --disable-ldap \
+	    --disable-ldaps \
+	    --disable-manual \
+	    --disable-versioned-symbols \
+	    --enable-ipv6 \
+	    --enable-threaded-resolver \
+	    --with-gssapi \
+	    --with-random='/dev/urandom' \
+	    --with-ca-bundle='/etc/ssl/ca-bundle.crt'
+	make -C lib
+	make -C lib DESTDIR=$PKG install
+
+	mv $PKG/usr/lib/libcurl{,-compat}.so.4.5.0
+	rm $PKG/usr/lib/libcurl.{a,so}*
+	for vers in 3 4.0.0 4.1.0 4.2.0 4.3.0 4.4.0; do
+	    ln -s libcurl-compat.so.4.5.0 $PKG/usr/lib/libcurl.so.${vers}
+	done
+
+	# conflict with package curl
+	rm $PKG/usr/lib/libcurl.la
+}
+

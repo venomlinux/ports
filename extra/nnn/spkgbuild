@@ -1,0 +1,14 @@
+# description	: Free, fast, friendly file browser
+# homepage	: https://github.com/jarun/nnn
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: ncurses readline
+
+name=nnn
+version=1.4
+release=1
+source=($name-$version.tar.gz::https://github.com/jarun/$name/archive/v${version//_/-}.tar.gz)
+
+build() {
+	cd $name-$version
+	make DESTDIR=$PKG PREFIX=/usr install
+}

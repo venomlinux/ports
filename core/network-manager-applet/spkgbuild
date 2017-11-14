@@ -1,0 +1,20 @@
+# description	: Panel applet used to configure wired and wireless network connections
+# depends	: gtk3 iso-codes libsecret libnotify networkmanager modemmanager
+# makedepends	: gobject-introspection
+
+name=network-manager-applet
+version=1.8.4
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::3}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr       \
+	            --sysconfdir=/etc   \
+	            --disable-static    \
+            	    --without-selinux   \
+	            --without-team
+	make
+	make DESTDIR=$PKG install
+}

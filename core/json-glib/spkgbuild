@@ -1,0 +1,19 @@
+# description	: library providing serialization and deserialization support for the JavaScript Object Notation (JSON) format
+# depends	: glib
+# makedepends	: gobject-introspection meson ninja
+
+name=json-glib
+version=1.4.2
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::3}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+
+	meson --prefix /usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

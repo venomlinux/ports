@@ -1,0 +1,17 @@
+# description	: Creating (encoding) and playing (decoding) sound in an open (patent free) format
+# homepage	: http://www.xiph.org/vorbis/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libogg
+
+name=libvorbis
+version=1.3.5
+release=1
+source=(http://downloads.xiph.org/releases/vorbis/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

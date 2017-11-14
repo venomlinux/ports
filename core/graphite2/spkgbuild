@@ -1,0 +1,25 @@
+# description	: Rendering engine for graphite fonts
+# homepage	: https://github.com/silnrsi/graphite
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: cmake freetype2
+
+name=graphite2
+version=1.3.10
+release=1
+source=(https://github.com/silnrsi/graphite/releases/download/$version/$name-$version.tgz)
+
+build() {
+	cd $name-$version
+
+  	sed -i '/cmptest/d' tests/CMakeLists.txt
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	      ..
+
+	make
+	make DESTDIR=$PKG install
+}
+

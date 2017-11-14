@@ -1,0 +1,21 @@
+# description	: GTK+ archive manager with support for tar, xz, bzip2, gzip, zip, 7z, rar, lzo and many other archive formats
+# homepage	: https://github.com/ib/xarchiver
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk3
+
+name=xarchiver
+version=0.5.4
+release=1
+source=(http://downloads.sourceforge.net/project/$name/$name-$version.tar.bz2
+	http://www.linuxfromscratch.org/patches/blfs/8.1/$name-$version-fixes-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-fixes-1.patch
+
+	./autogen.sh --prefix=/usr               \
+	             --libexecdir=/usr/lib/xfce4
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,24 @@
+# description	: X.Org Video Driver for Intel integrated video cards including 8xx, 9xx, Gxx, Qxx and HD graphics processors
+# homepage	: https://01.org/linuxgraphics
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: xcb-util xorg-server
+
+name=xf86-video-intel
+version=20170826
+release=1
+source=(http://anduin.linuxfromscratch.org/BLFS/xf86-video-intel/xf86-video-intel-$version.tar.xz)
+
+build() {
+	cd xf86-video-intel-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static \
+		--enable-kms-only \
+		--enable-uxa
+	make
+	make DESTDIR=$PKG install
+}
+

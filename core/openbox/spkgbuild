@@ -1,0 +1,19 @@
+# description	: Highly configurable desktop window manager with extensive standards support
+# homepage	: http://openbox.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: pango imlib2 librsvg python2-xdg
+
+name=openbox
+version=3.6.1
+release=1
+source=(http://openbox.org/dist/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr     \
+	            --sysconfdir=/etc \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

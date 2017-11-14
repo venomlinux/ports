@@ -1,0 +1,22 @@
+# description	: X11 Big Requests extension wire protocol
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: util-macros
+
+name=bigreqsproto
+version=1.1.2
+release=1
+source=(http://ftp.x.org/pub/individual/proto/bigreqsproto-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+
+	make DESTDIR=$PKG install	
+}
+

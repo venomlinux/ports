@@ -1,0 +1,21 @@
+# description	: X11 font rasterisation library
+# depends	: fontsproto freetype2 libfontenc xproto
+# makedepends	: util-macros xtrans
+
+name=libxfont
+version=1.5.3
+release=1
+source=(https://www.x.org/pub/individual/lib/libXfont-$version.tar.bz2)
+
+build() {
+	cd libXfont-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --disable-static \
+		--disable-devel-docs
+	make
+	make DESTDIR=$PKG install
+}

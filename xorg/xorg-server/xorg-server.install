@@ -1,0 +1,21 @@
+post_install() {
+
+	if [ ! "$(grep '/tmp/.ICE-unix dir 1777 root root' /etc/sysconfig/createfiles)" ]; then
+		echo "/tmp/.ICE-unix dir 1777 root root" >> /etc/sysconfig/createfiles
+	fi
+
+	if [ ! "$(grep '/tmp/.X11-unix dir 1777 root root' /etc/sysconfig/createfiles)" ]; then
+		echo "/tmp/.X11-unix dir 1777 root root" >> /etc/sysconfig/createfiles
+	fi
+}
+
+post_remove() {
+		
+	if [ "$(grep '/tmp/.ICE-unix dir 1777 root root' /etc/sysconfig/createfiles)" ]; then
+		sed -i '/tmp\/.ICE-unix dir 1777 root root/d' /etc/sysconfig/createfiles
+	fi
+
+	if [ "$(grep '/tmp/.X11-unix dir 1777 root root' /etc/sysconfig/createfiles)" ]; then
+		sed -i '/tmp\/.X11-unix dir 1777 root root/d' /etc/sysconfig/createfiles
+	fi
+}

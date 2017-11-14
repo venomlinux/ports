@@ -1,0 +1,18 @@
+# description	: Contains an assortment of non-scalable icons of different sizes and themes
+# homepage	: http://www.gnome.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk3 hicolor-icon-theme
+# makedepends	: icon-naming-utils
+
+name=gnome-icon-theme
+version=3.12.0
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

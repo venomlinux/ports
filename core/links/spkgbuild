@@ -1,0 +1,20 @@
+# description	: Text and graphics mode WWW browser
+# homepage	: http://links.twibright.com/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: openssl
+
+name=links
+version=2.14
+release=1
+source=(http://links.twibright.com/download/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --mandir=/usr/share/man
+	make
+	make DESTDIR=$PKG install
+
+	install -v -d -m755 $PKG/usr/share/doc/$name
+	install -v -m644 doc/links_cal/* KEYS BRAILLE_HOWTO \
+	    $PKG/usr/share/doc/$name
+}

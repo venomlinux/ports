@@ -1,0 +1,47 @@
+# description	: Mouse server for the console and xterm
+# homepage	: http://www.nico.schottelius.org/software/gpm/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=gpm
+version=1.20.7
+release=1
+BOOTSCRIPTS_VERSION=20170731
+source=(http://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
+	http://www.linuxfromscratch.org/patches/blfs/8.1/$name-$version-glibc_2.26-1.patch
+	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xz)
+build() {
+	cd $name-$version
+
+	sed -i -e 's:<gpm.h>:"headers/gpm.h":' src/prog/{display-buttons,display-coords,get-versions}.c
+	patch -Np1 -i ../$name-$version-glibc_2.26-1.patch
+
+	./autogen.sh
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+
+	ln -sfv libgpm.so.2.1.0 $PKG/usr/lib/libgpm.so
+	install -v -m644 conf/gpm-root.conf $PKG/etc
+
+	install -v -m755 -d $PKG/usr/share/doc/$name/support
+	install -v -m644    doc/support/*                     \
+	                    $PKG/usr/share/doc/$name/support
+	install -v -m644    doc/{FAQ,HACK_GPM,README*}        \
+	                    $PKG/usr/share/doc/$name
+
+
+	cd ../blfs-bootscripts-$BOOTSCRIPTS_VERSION
+
+	make DESTDIR=$PKG install-gpm
+
+	mkdir -p $PKG/etc/sysconfig
+	cat > $PKG/etc/sysconfig/mouse << "EOF"
+# Begin /etc/sysconfig/mouse
+
+MDEVICE="/dev/input/mice"
+PROTOCOL="imps2"
+GPMOPTS=""
+
+# End /etc/sysconfig/mouse
+EOF
+}

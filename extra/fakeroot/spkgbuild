@@ -1,0 +1,28 @@
+# description	: Tool for simulating superuser privileges
+# homepage	: http://packages.debian.org/fakeroot
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=fakeroot
+version=1.21
+release=1
+source=(http://ftp.debian.org/debian/pool/main/f/$name/${name}_${version}.orig.tar.gz
+        silence-dlerror.patch)
+
+build() {
+	cd $name-$version
+
+	patch -p1 -i $SRC/silence-dlerror.patch || exit 1
+
+	sed -i '/^SUBDIRS/d' doc/Makefile.am
+	./bootstrap
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib/libfakeroot \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+
+	install -dm755 $PKG/etc/ld.so.conf.d
+	  echo '/usr/lib/libfakeroot' > $PKG/etc/ld.so.conf.d/fakeroot.conf
+
+}

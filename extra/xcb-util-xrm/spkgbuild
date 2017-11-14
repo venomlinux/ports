@@ -1,0 +1,18 @@
+# description	: XCB utility functions for the X resource manager
+# homepage	: https://github.com/Airblader/xcb-util-xrm
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: xcb-util
+# makedepends	: util-macros libx11
+
+name=xcb-util-xrm
+version=1.2
+release=1
+source=(https://github.com/Airblader/$name/releases/download/v$version/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

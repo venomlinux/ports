@@ -1,0 +1,18 @@
+# description	: Front-end to an XSL toolchain
+# homepage	: https://pagure.io/xmlto/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxslt
+# makedepends	: docbook-xsl
+
+name=xmlto
+version=0.0.28
+release=1
+source=(https://releases.pagure.org/xmlto/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	LINKS="/usr/bin/links"
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

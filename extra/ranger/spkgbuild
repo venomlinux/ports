@@ -1,0 +1,15 @@
+# description	: A simple, vim-like file manager
+# homepage	: http://ranger.nongnu.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: python3
+
+name=ranger
+version=1.8.1
+release=1
+source=(http://ranger.nongnu.org/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	python3 setup.py -q install --root=$PKG --optimize=1
+}

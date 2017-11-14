@@ -1,0 +1,26 @@
+# description	: HTTP and WebDAV client library, with a C interface
+# homepage	: http://www.webdav.org/neon/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: openssl
+
+name=neon
+version=0.30.2
+release=1
+source=(http://www.webdav.org/neon/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	# fix some code when building with gnutls-3.4 and later
+	sed -e 's/client_set/set/'  \
+	    -e 's/gnutls_retr/&2/'  \
+	    -e 's/type = t/cert_&/' \
+	    -i src/ne_gnutls.c
+
+	./configure --prefix=/usr    \
+	            --with-ssl       \
+	            --enable-shared  \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

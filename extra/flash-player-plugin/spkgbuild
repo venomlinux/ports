@@ -1,0 +1,19 @@
+# description	: Adobe Flash Player NPAPI
+# homepage	: https://get.adobe.com/flashplayer/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: curl gtk2 nss
+
+name=flash-player-plugin
+version=26.0.0.137
+release=1
+source=(https://fpdownload.adobe.com/get/flashplayer/pdc/$version/flash_player_npapi_linux.x86_64.tar.gz)
+
+build() {
+	install -D libflashplayer.so $PKG/usr/lib/mozilla/plugins/libflashplayer.so
+	install -D usr/bin/flash-player-properties $PKG/usr/bin/flash-player-properties
+	for size in 16x16 22x22 24x24 32x32 48x48; do
+	    install -Dm644 usr/share/icons/hicolor/$size/apps/flash-player-properties.png \
+	      $PKG/usr/share/icons/hicolor/$size/apps/flash-player-properties.png
+	  done
+	install -Dm644 usr/share/applications/flash-player-properties.desktop $PKG/usr/share/applications/flash-player-properties.desktop
+}

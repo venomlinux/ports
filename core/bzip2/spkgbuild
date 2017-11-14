@@ -1,0 +1,39 @@
+# description	: Programs for compressing and decompressing files
+# homepage	: http://sources.redhat.com/bzip2
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc bash
+
+name=bzip2
+version=1.0.6
+release=1
+source=(http://www.bzip.org/$version/$name-$version.tar.gz
+	http://www.linuxfromscratch.org/patches/lfs/8.1/$name-$version-install_docs-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-install_docs-1.patch
+
+	sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile
+	sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
+
+	# use our optimization
+	[ -n ${CFLAGS} ] && sed -i "s|-O2|${CFLAGS}|g" Makefile
+	[ -n ${CFLAGS} ] && sed -i "s|-O2|${CFLAGS}|g" Makefile-libbz2_so
+
+	make -f Makefile-libbz2_so
+	make clean
+	make
+	make PREFIX=$PKG/usr install
+
+	mkdir -pv $PKG/{bin,lib,usr/lib}
+
+	cp -v bzip2-shared $PKG/bin/bzip2
+	cp -av libbz2.so* $PKG/lib
+	ln -sv ../../lib/libbz2.so.1.0 $PKG/usr/lib/libbz2.so
+	rm -v $PKG/usr/bin/{bunzip2,bzcat,bzip2}
+	ln -sv bzip2 $PKG/bin/bunzip2
+	ln -sv bzip2 $PKG/bin/bzcat
+
+	mv $PKG/usr/share/doc/{$name-$version,$name}
+}

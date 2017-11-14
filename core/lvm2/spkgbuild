@@ -1,0 +1,23 @@
+# description	: Set of tools that manage logical partitions
+
+name=lvm2
+version=2.02.176
+release=1
+source=(ftp://sources.redhat.com/pub/lvm2/releases/LVM2.${version}.tgz)
+
+build() {
+	cd LVM2.$version
+	SAVEPATH=$PATH
+	PATH=$PATH:/sbin:/usr/sbin
+	./configure --prefix=/usr       \
+	            --exec-prefix=      \
+	            --enable-applib     \
+	            --enable-cmdlib     \
+	            --enable-pkgconfig  \
+	            --enable-udev_sync
+	make
+	PATH=$SAVEPATH
+	unset SAVEPATH
+	make DESTDIR=$PKG install
+}
+

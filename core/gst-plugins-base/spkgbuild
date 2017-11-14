@@ -1,0 +1,20 @@
+# description	: Well-groomed and well-maintained collection of GStreamer plug-ins and elements
+# homepage	: https://gstreamer.freedesktop.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: alsa-lib gstreamer libtheora libvorbis libogg
+# makedepends	: gobject-introspection iso-codes
+
+name=gst-plugins-base
+version=1.12.3
+release=1
+source=(http://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --with-package-name="GStreamer Base Plugins ${version} BLFS" \
+	            --with-package-origin="http://www.linuxfromscratch.org/blfs/view/svn/"
+	make
+	make DESTDIR=$PKG install
+}

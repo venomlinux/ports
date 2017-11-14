@@ -1,0 +1,26 @@
+# description	: Synaptics driver for notebook touchpads
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libevdev libxtst
+# makedepends	: xorg-server libx11 libxi resourceproto scrnsaverproto
+
+name=xf86-input-synaptics
+version=1.9.0
+release=1
+source=(http://ftp.x.org/pub/individual/driver/xf86-input-synaptics-$version.tar.bz2
+	50-synaptics.conf)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+
+	install -Dm 644 $SRC/50-synaptics.conf $PKG/etc/X11/xorg.conf.d/50-synaptics.conf
+}
+

@@ -1,0 +1,25 @@
+# description	: Next generation of the python high-level scripting language
+# depends	: libffi
+
+name=python3
+version=3.6.3
+release=1
+source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz)
+
+build() {
+	cd Python-$version
+
+  	CXX="/usr/bin/g++"              \
+	./configure --prefix=/usr       \
+	            --enable-shared     \
+	            --with-system-expat \
+	            --with-system-ffi   \
+	            --with-ensurepip=yes
+	make
+	make DESTDIR=$PKG install
+
+	chmod -v 755 $PKG/usr/lib/libpython${version::3}m.so
+	chmod -v 755 $PKG/usr/lib/libpython3.so
+
+	rm $PKG/usr/bin/2to3
+}

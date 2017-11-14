@@ -1,0 +1,19 @@
+# description	: C library for encoding, decoding and manipulating JSON data
+# homepage	: http://www.digip.org/jansson/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc
+
+name=jansson
+version=2.7
+release=1
+source=(http://www.digip.org/$name/releases/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/man
+	make
+	make DESTDIR=$PKG install
+}

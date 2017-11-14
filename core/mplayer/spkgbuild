@@ -1,0 +1,28 @@
+# description	: Audio/video player controlled via the command line or a graphical interface
+# homepage	: http://www.mplayerhq.hu/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: yasm libvdpau-va-gl sdl
+
+name=mplayer
+version=1.3.0
+release=1
+source=(http://www.mplayerhq.hu/MPlayer/releases/MPlayer-$version.tar.xz)
+
+build() {
+	cd MPlayer-$version
+
+	./configure --prefix=/usr            \
+	            --confdir=/etc/mplayer   \
+	            --enable-dynamic-plugins \
+	            --enable-menu
+	make
+	make DESTDIR=$PKG install
+
+	install -v -m755 -d $PKG/usr/share/doc/$name
+	install -v -m644    DOCS/HTML/en/* \
+	                    $PKG/usr/share/doc/$name
+
+	install -d $PKG/etc/mplayer
+	install -v -m644 etc/codecs.conf $PKG/etc/$name
+	install -v -m644 etc/*.conf $PKG/etc/$name
+}

@@ -1,0 +1,35 @@
+# description	: Utilities for synchronizing large file archives over a network
+# homepage	: https://rsync.samba.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: popt
+
+name=rsync
+version=3.1.2
+release=2
+source=(https://www.samba.org/ftp/rsync/src/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --without-included-zlib
+	make
+	make DESTDIR=$PKG install
+
+mkdir -p $PKG/etc
+cat > $PKG/etc/rsyncd.conf << "EOF"
+# This is a basic rsync configuration file
+# It exports a single module without user authentication.
+
+motd file = /home/rsync/welcome.msg
+use chroot = yes
+
+[localhost]
+    path = /home/rsync
+    comment = Default rsync module
+    read only = yes
+    list = yes
+    uid = rsyncd
+    gid = rsyncd
+
+EOF
+}
+

@@ -1,0 +1,17 @@
+# description	: ZIP extraction utilities
+# homepage	: http://www.info-zip.org/UnZip.html
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=unzip
+version=6.0
+release=1
+source=(http://downloads.sourceforge.net/infozip/${name}${version//./}.tar.gz)
+
+build() {
+	cd ${name}${version//./}
+
+  	make -f unix/Makefile generic
+	make prefix=$PKG/usr MANDIR=$PKG/usr/share/man/man1 \
+	 -f unix/Makefile install
+}
+

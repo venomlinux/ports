@@ -1,0 +1,20 @@
+# description	: Official C++ interface for the ATK accessibility toolkit library
+# homepage	: http://www.gtkmm.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: atk glibmm
+
+name=atkmm
+version=2.24.2
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	sed -e "/^libdocdir =/ s/\$(book_name)/$name/" \
+	    -i doc/Makefile.in
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

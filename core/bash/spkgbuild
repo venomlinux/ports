@@ -1,0 +1,23 @@
+# description	: The Bourne-Again SHell
+# homepage	: http://www.gnu.org/software/bash/bash.html
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc ncurses readline
+
+name=bash
+version=4.4.12
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr                       \
+	            --without-bash-malloc               \
+	            --with-installed-readline
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/bin
+	mv $PKG/usr/bin/bash $PKG/bin
+	ln -s bash $PKG/bin/sh 
+}

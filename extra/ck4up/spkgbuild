@@ -1,0 +1,15 @@
+# description	: Command-line utility to monitor web pages for updates
+# homepage	: http://jue.li/crux/ck4up/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: ruby
+
+name=ck4up
+version=1.4
+release=1
+source=(http://jue.li/crux/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	make DESTDIR=$PKG MANDIR=/usr/share/man/man1 install
+	install -Dm644 $name.conf $PKG/usr/share/$name/$name.conf.example
+}

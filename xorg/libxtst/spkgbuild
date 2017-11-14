@@ -1,0 +1,23 @@
+# description	: X11 Testing -- Resource extension library
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: inputproto libxext libxfixes libxi recordproto
+# makedepends	: util-macros
+
+name=libxtst
+version=1.2.3
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libXtst-$version.tar.bz2)
+
+build() {
+	cd libXtst-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

@@ -1,0 +1,20 @@
+# description	: Base class SAX Drivers and Filters
+# homepage	: http://search.cpan.org/dist/XML-SAX-Base
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: perl
+
+name=perl-xml-sax-base
+version=1.09
+release=1
+source=(http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/XML-SAX-Base-$version.tar.gz)
+
+build() {
+	cd XML-SAX-Base-$version
+
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make
+	make install DESTDIR=$PKG
+
+	find $PKG -name '.packlist' -delete
+	find $PKG -name '*.pod' -delete
+}

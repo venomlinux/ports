@@ -1,0 +1,18 @@
+# description	: Asynchronous event notification software library
+# homepage	: http://libevent.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: openssl
+
+name=libevent
+version=2.1.8
+release=1
+source=(https://github.com/$name/$name/releases/download/release-$version-stable/$name-$version-stable.tar.gz)
+
+build() {
+	cd $name-$version-stable
+
+  	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

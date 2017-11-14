@@ -1,0 +1,23 @@
+# description	: Modular text mode IRC client with Perl scripting
+# homepage	: https://irssi.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# backup	: etc/irssi.conf
+# depends	: glib openssl
+
+name=irssi
+version=1.0.4
+release=1
+source=(https://github.com/irssi/irssi/releases/download/$version/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--with-proxy \
+		--with-perl-lib=vendor
+	make
+	make DESTDIR=$PKG install
+	find $PKG -name perllocal.pod -delete
+}

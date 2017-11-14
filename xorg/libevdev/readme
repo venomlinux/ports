@@ -1,0 +1,11 @@
+Kernel Configuration
+
+Enable the following options in the kernel configuration and recompile the kernel if
+necessary:
+
+Device Drivers  --->
+  Input device support --->
+    <*> Generic input layer (needed for...) [CONFIG_INPUT]
+    <*>   Event interface                   [CONFIG_INPUT_EVDEV]
+    [*]   Miscellaneous devices  --->       [CONFIG_INPUT_MISC]
+      <*>    User level driver support      [CONFIG_INPUT_UINPUT]

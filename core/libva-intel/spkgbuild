@@ -1,0 +1,19 @@
+# description	: Library which provides access to hardware accelerated video processing for video cards based on an Intel GPU
+# depends	: mesa libva libdrm
+
+name=libva-intel
+version=2.0.0
+release=1
+source=(https://github.com/01org/intel-vaapi-driver/releases/download/$version/intel-vaapi-driver-$version.tar.bz2)
+
+build() {
+	cd intel-vaapi-driver-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

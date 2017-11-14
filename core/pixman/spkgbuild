@@ -1,0 +1,17 @@
+# description	: Library that provides low-level pixel manipulation features such as image compositing and trapezoid rasterization
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=pixman
+version=0.34.0
+release=1
+source=(http://cairographics.org/releases/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+  	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

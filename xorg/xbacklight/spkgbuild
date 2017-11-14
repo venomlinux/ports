@@ -1,0 +1,23 @@
+# description	: RandR-based backlight control application
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: xcb-util
+# makedepends	: util-macros
+
+name=xbacklight
+version=1.2.1
+release=1
+source=(http://ftp.x.org/pub/individual/app/xbacklight-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

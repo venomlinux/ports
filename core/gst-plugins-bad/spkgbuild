@@ -1,0 +1,21 @@
+# description	: Set of plug-ins that aren't up to par compared to the rest
+# homepage	: https://gstreamer.freedesktop.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gst-plugins-base libdvdread libdvdnav llvm soundtouch
+
+name=gst-plugins-bad
+version=1.12.3
+release=1
+source=(https://gstreamer.freedesktop.org/src/gst-plugins-bad/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	
+	./configure --prefix=/usr     \
+	            --disable-wayland \
+	            --disable-opencv  \
+	            --with-package-name="GStreamer Bad Plugins $version BLFS" \
+	            --with-package-origin="http://www.linuxfromscratch.org/blfs/view/svn/" 
+	make
+	make DESTDIR=$PKG install
+}

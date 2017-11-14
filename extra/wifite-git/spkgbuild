@@ -1,0 +1,15 @@
+# description	: A tool to attack multiple WEP and WPA encrypted networks at the same time
+# homepage	: https://github.com/derv82/wifite
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: python2 aircrack-ng iw which usbutils pciutils
+
+name=wifite-git
+version=git
+release=1
+source=(https://raw.github.com/derv82/wifite/master/wifite.py)
+
+build() {
+	chmod +x wifite.py
+	mkdir -p $PKG/usr/bin
+	install -D -m755 wifite.py $PKG/usr/bin/wifite
+}

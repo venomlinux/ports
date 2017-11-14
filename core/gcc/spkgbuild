@@ -1,0 +1,43 @@
+# description	: The GNU compiler collection, which includes the C and C++ compilers
+# homepage	: http://gcc.gnu.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: binutils glibc
+
+name=gcc
+version=7.2.0
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	case $(uname -m) in
+	  x86_64)
+	    sed -e '/m64=/s/lib64/lib/' \
+	        -i.orig gcc/config/i386/t-linux64
+	  ;;
+	esac
+
+	mkdir -v build
+	cd       build
+
+	SED=sed                               \
+	../configure --prefix=/usr            \
+	             --enable-languages=c,c++ \
+	             --disable-multilib       \
+	             --disable-bootstrap      \
+	             --with-system-zlib
+	make
+	make DESTDIR=$PKG install
+
+	mkdir $PKG/lib
+	ln -sv ../usr/bin/cpp $PKG/lib/cpp
+	ln -sv gcc $PKG/usr/bin/cc
+
+	install -v -dm755 $PKG/usr/lib/bfd-plugins
+	ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/$version/liblto_plugin.so \
+	        $PKG/usr/lib/bfd-plugins/
+
+	mkdir -pv $PKG/usr/share/gdb/auto-load/usr/lib
+	mv -v $PKG/usr/lib/*gdb.py $PKG/usr/share/gdb/auto-load/usr/lib
+}

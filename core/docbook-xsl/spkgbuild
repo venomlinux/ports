@@ -1,0 +1,25 @@
+# description	: XML stylesheets for Docbook-xml transformations
+# homepage	: http://docbook.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxml2
+
+name=docbook-xsl
+version=1.79.1
+release=3
+source=(http://downloads.sourceforge.net/docbook/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	install -v -m755 -d $PKG/usr/share/xml/docbook/xsl-stylesheets-$version
+
+	cp -v -R VERSION assembly common eclipse epub epub3 extensions fo        \
+	         highlighting html htmlhelp images javahelp lib manpages params  \
+	         profiling roundtrip slides template tests tools webhelp website \
+	         xhtml xhtml-1_1 xhtml5                                          \
+	    $PKG/usr/share/xml/docbook/xsl-stylesheets-$version
+
+	ln -s VERSION $PKG/usr/share/xml/docbook/xsl-stylesheets-$version/VERSION.xsl
+
+	install -v -m755 -d $PKG/etc/xml
+}

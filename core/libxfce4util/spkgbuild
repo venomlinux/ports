@@ -1,0 +1,17 @@
+# description	: Basic utility library for the Xfce desktop environment
+# homepage	: http://www.xfce.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib
+
+name=libxfce4util
+version=4.12.1
+release=1
+source=(http://archive.xfce.org/src/xfce/$name/${version:0:4}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

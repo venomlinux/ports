@@ -1,0 +1,21 @@
+# description	: A Text-mode full-screen file manager and visual shell
+# homepage	: http://www.ibiblio.org/mc/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib pcre slang
+
+name=mc
+version=4.8.19
+release=1
+source=(http://ftp.midnight-commander.org/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+	            --enable-charset
+	make
+	make DESTDIR=$PKG install
+
+	cp -v doc/keybind-migration.txt $PKG/usr/share/mc
+}
+

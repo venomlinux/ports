@@ -1,0 +1,27 @@
+# description	: X Compositor (a fork of xcompmgr-dana) (git-version)
+# homepage	: https://github.com/chjj/compton
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libconfig dbus
+# makedepends	: git
+
+name=compton-git
+version=0.1_beta2.83.g2343e4b
+release=1
+source=(compton.conf)
+
+build() {
+	cd $SOURCE_DIR
+	
+	if cd $name; then
+		git fetch -q; git reset --hard origin/master
+	else
+		git clone git://github.com/chjj/compton $name
+		cd $name
+	fi
+
+	make MANPAGES= PREFIX="$PKG/usr" install
+	install -Dm755 compton $PKG/usr/bin/compton
+
+	install -Dm644 $SRC/compton.conf $PKG/etc/xdg/compton.conf
+
+}

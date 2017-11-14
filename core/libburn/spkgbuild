@@ -1,0 +1,16 @@
+# description	: Library for writing preformatted data onto optical media: CD, DVD and BD (Blu-Ray)
+# homepage	: http://libburnia-project.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=libburn
+version=1.4.8
+release=1
+source=(http://files.libburnia-project.org/releases/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

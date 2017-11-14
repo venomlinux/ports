@@ -1,0 +1,17 @@
+# description	: Fraunhofer FDK AAC library, which is purported to be a high quality Advanced Audio Coding implementation
+# homepage	: https://github.com/nu774/fdkaac
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=fdk-aac
+version=0.1.5
+release=1
+source=(http://downloads.sourceforge.net/opencore-amr/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr    \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

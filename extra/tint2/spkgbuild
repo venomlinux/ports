@@ -1,0 +1,23 @@
+# description	: Basic, good-looking task manager for WMs
+# homepage	: https://gitlab.com/o9000/tint2
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2 imlib2 startup-notification
+# makedepends	: cmake ninja
+
+name=tint2
+version=0.14.6
+release=1
+source=($name-$version.tar.bz2::https://gitlab.com/o9000/tint2/repository/archive.tar.bz2)
+
+build() {
+	mv $name-master-* $name
+
+	mkdir -p build
+	cd build
+	cmake "../$name" \
+	   -DCMAKE_INSTALL_PREFIX=/usr \
+	   -DENABLE_TINT2CONF=1 \
+	   -GNinja
+	ninja
+	DESTDIR="$PKG" ninja install
+}

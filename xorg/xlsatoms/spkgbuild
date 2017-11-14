@@ -1,0 +1,23 @@
+# description	: List interned atoms defined on server
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxcb
+# makedepends	: util-macros
+
+name=xlsatoms
+version=1.1.2
+release=1
+source=(http://ftp.x.org/pub/individual/app/xlsatoms-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

@@ -1,0 +1,16 @@
+# description	: GEneric Graphics Library, a graph based image processing format
+# homepage	: http://www.gegl.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: babl json-glib
+
+name=gegl
+version=0.3.20
+release=1
+source=(http://download.gimp.org/pub/gegl/${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	LC_ALL=en_US make
+	make DESTDIR=$PKG install
+}

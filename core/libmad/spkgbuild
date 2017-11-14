@@ -1,0 +1,39 @@
+# description	: High-quality MPEG audio decoder capable of 24-bit output
+# homepage	: http://www.underbit.com/products/mad/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=libmad
+version=0.15.1b
+release=1
+source=(http://downloads.sourceforge.net/mad/libmad-0.15.1b.tar.gz
+	http://www.linuxfromscratch.org/patches/blfs/8.1/$name-$version-fixes-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-fixes-1.patch
+
+	sed "s@AM_CONFIG_HEADER@AC_CONFIG_HEADERS@g" -i configure.ac
+	touch NEWS AUTHORS ChangeLog
+	autoreconf -fi
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	install -d $PKG/usr/lib/pkgconfig
+
+cat > $PKG/usr/lib/pkgconfig/mad.pc << "EOF"
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: mad
+Description: MPEG audio decoder
+Requires:
+Version: 0.15.1b
+Libs: -L${libdir} -lmad
+Cflags: -I${includedir}
+EOF
+}

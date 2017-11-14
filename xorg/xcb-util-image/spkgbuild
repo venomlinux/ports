@@ -1,0 +1,23 @@
+# description	: Utility libraries for XC Binding - Port of Xlib's XImage and XShmImage functions
+# homepage	: http://xcb.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxcb
+# makedepends	: xcb-util util-macros
+
+name=xcb-util-image
+version=0.4.0
+release=1
+source=(http://xcb.freedesktop.org/dist/xcb-util-image-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

@@ -1,0 +1,18 @@
+# description	: VTE-based terminal emulator for LXDE with support for multiple tabs
+# homepage	: http://lxde.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: vte2
+
+name=lxterminal
+version=0.3.1
+release=1
+source=(http://downloads.sourceforge.net/lxde/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	sed -ri '/^ +init/s/init/return init/' src/unixsocket.c
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

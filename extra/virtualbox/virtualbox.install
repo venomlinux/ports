@@ -1,0 +1,46 @@
+post_install() {
+
+	getent group vboxusers >/dev/null || groupadd vboxusers
+
+	/sbin/depmod
+
+	if [ ! "$(grep -x vboxdrv /etc/sysconfig/modules)" ]; then
+		echo "vboxdrv" >> /etc/sysconfig/modules
+	fi
+	if [ ! "$(grep -x vboxnetadp /etc/sysconfig/modules)" ]; then
+		echo "vboxnetadp" >> /etc/sysconfig/modules
+	fi
+	if [ ! "$(grep -x vboxnetflt /etc/sysconfig/modules)" ]; then
+		echo "vboxnetflt" >> /etc/sysconfig/modules
+	fi
+	if [ ! "$(grep -x vboxpci /etc/sysconfig/modules)" ]; then
+		echo "vboxpci" >> /etc/sysconfig/modules
+	fi
+
+	# build vbox modules
+	if [ -d /usr/src/linux-$(uname -r) ]; then
+		make -C /opt/VirtualBox/src/vboxhost \
+		    MODULE_DIR=/lib/modules/$(uname -r)/extra install
+	else
+		msg "Read virtualbox readme to build virtualbox modules"
+	fi
+}
+
+pre_remove() {
+	rm -fr /opt/VirtualBox/src/vboxhost
+}
+
+post_remove() {
+	if [ "$(grep -x vboxdrv /etc/sysconfig/modules)" ]; then
+		sed -i '/vboxdrv/d' /etc/sysconfig/modules
+	fi
+	if [ "$(grep -x vboxnetadp /etc/sysconfig/modules)" ]; then
+		sed -i '/vboxnetadp/d' /etc/sysconfig/modules
+	fi
+	if [ "$(grep -x vboxnetflt /etc/sysconfig/modules)" ]; then
+		sed -i '/vboxnetflt/d' /etc/sysconfig/modules
+	fi
+	if [ "$(grep -x vboxpci /etc/sysconfig/modules)" ]; then
+		sed -i '/vboxpci/d' /etc/sysconfig/modules
+	fi
+}

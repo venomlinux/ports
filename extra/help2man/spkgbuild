@@ -1,0 +1,23 @@
+# description	: Conversion tool to create man files
+# homepage	: http://www.gnu.org/software/help2man/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=help2man
+version=1.41.1
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--disable-nls
+
+	make
+	make DESTDIR=$PKG install
+
+	rmdir \
+		$PKG/usr/lib/help2man \
+		$PKG/usr/lib
+}

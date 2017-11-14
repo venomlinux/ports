@@ -1,0 +1,20 @@
+# description	: Unified high level API for communicating with mobile broadband modems
+# depends	: libgudev libmbim libqmi polkit
+# makedepends	: gobject-introspection vala
+
+name=modemmanager
+version=1.6.10
+release=1
+source=(http://www.freedesktop.org/software/ModemManager/ModemManager-$version.tar.xz)
+
+build() {
+	cd ModemManager-$version
+
+	./configure --prefix=/usr        \
+	            --sysconfdir=/etc    \
+	            --localstatedir=/var \
+	            --enable-more-warnings=no \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

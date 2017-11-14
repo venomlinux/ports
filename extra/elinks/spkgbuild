@@ -1,0 +1,21 @@
+# description	: An advanced and well-established feature-rich text mode web browser
+# homepage	: http://elinks.or.cz/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: bzip2 expat openssl zlib
+
+name=elinks
+version=0.11.7
+release=1
+source=(http://elinks.cz/download/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --mandir=/usr/share/man \
+              --sysconfdir=/etc \
+              --disable-smb --without-x --enable-cgi \
+              --enable-leds --enable-256-colors --enable-html-highlight \
+              --with-zlib
+	make
+	make DESTDIR=$PKG install
+}

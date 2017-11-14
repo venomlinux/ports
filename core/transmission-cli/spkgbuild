@@ -1,0 +1,24 @@
+# description	: Fast, easy, and free BitTorrent client (CLI tools, daemon and web client)
+# homepage	: http://www.transmissionbt.com/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: curl libevent openssl
+# makedepends	: intltool
+
+name=transmission-cli
+version=2.92
+release=1
+source=(https://github.com/transmission/transmission-releases/raw/master/transmission-$version.tar.xz
+	http://www.linuxfromscratch.org/patches/blfs/8.1/transmission-$version-openssl-1.1.0-1.patch)
+
+build() {
+	cd transmission-$version
+
+	# fix a build issue when using OpenSSL-1.1.0f
+	patch -Np1 -i ../transmission-$version-openssl-1.1.0-1.patch
+
+	./configure --prefix=/usr
+	make
+	for dir in daemon cli web utils; do
+	    make -C "$dir" DESTDIR=$PKG install
+	done
+}

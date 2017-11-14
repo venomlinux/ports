@@ -1,0 +1,21 @@
+Kernel Configuration:
+
+If you want to use the kernel usblp driver (for example, if you wish to use escputil
+from Gutenprint-5.2.12) enable the following options in your kernel configuration
+and recompile the kernel:
+
+Device Drivers  --->
+  [*] USB support  --->                          [CONFIG_USB_SUPPORT]
+    <*/M>  OHCI HCD (USB 1.1) support            [CONFIG_USB_OHCI_HCD]
+    <*/M>  UHCI HCD (most Intel and VIA) support [CONFIG_USB_UHCI_HCD]
+    <*/M>  USB Printer support                   [CONFIG_USB_PRINTER]
+
+If you have a parallel printer, enable the following options in your kernel
+configuration and recompile the kernel:
+
+Device Drivers  --->
+  <*/M> Parallel port support  --->    [CONFIG_PARPORT]
+    <*/M> PC-style hardware            [CONFIG_PARPORT_PC]
+  Character devices  --->
+    <*/M> Parallel printer support     [CONFIG_PRINTER]
+

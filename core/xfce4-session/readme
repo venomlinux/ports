@@ -1,0 +1,48 @@
+Configuring Xfce4 Session:
+
+There are several optional run time dependencies for Xfce4: ConsoleKit2-1.0.2,
+dbus-1.10.14, GnuPG-2.1.18, hicolor-icon-theme-0.15 and OpenSSH-7.4p1
+
+When building an Xfce4 package, some configuration files are installed in
+/usr/share/applications, /usr/share/icons, and /usr/share/mime. In order to use
+those files in your Xfce4 session, you need to update various databases. Do that
+by running, as the root user (you need to have the recommended dependencies
+installed):
+
+	update-desktop-database &&
+	update-mime-database /usr/share/mime
+
+Starting Xfce4:
+
+You can start Xfce4 from runlevel 3, using xinit-1.3.4, or from runlevel 5, using a
+Display Manager, such as sddm-0.14.0.
+
+To start Xfce4 using xinit-1.3.4, run the following commands:
+
+	cat > ~/.xinitrc << "EOF"
+	ck-launch-session dbus-launch --exit-with-session startxfce4
+	EOF
+
+	startx
+
+The X session starts on the first unused virtual terminal, normally vt7. You can
+switch to another vtn simultaneously pressing the keys Ctrl-Alt-Fn (n=1, 2, ...).
+To switch back to the X session, normally started at vt7, use Ctrl-Alt-F7. The vt
+where the command startx was executed will display many messages, including X
+starting messages, applications automatically started with the session, and
+eventually, some warning and error messages. You may prefer to redirect those
+messages to a log file, which not only will keep the initial vt uncluttered,
+but can also be used for debugging purposes. This can be done starting X with:
+
+	startx &> ~/.x-session-errors
+
+Note:
+
+You may wish to drop consolekit and/or dbus-launch, e.g., just using startxfce4 in
+~/.xinitrc. However some capabilities such as mounting or umounting file systems
+from a file manager will not be possible, or the reboot option will be absent or
+inoperative, among other problems.
+
+When shutting down or rebooting, the shutdown messages appear on the vt where X was
+running. If you wish to see those messages, simultaneously press keys Alt-F7
+(assuming that X was running on vt7).

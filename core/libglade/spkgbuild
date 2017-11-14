@@ -1,0 +1,18 @@
+# description	: Loading Glade interface files in a program at runtime
+# homepage	: http://www.gnome.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxml2 gtk2
+
+name=libglade
+version=2.6.4
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/libglade/${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	sed -i '/DG_DISABLE_DEPRECATED/d' glade/Makefile.in
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}
