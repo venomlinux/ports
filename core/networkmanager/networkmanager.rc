@@ -1,0 +1,47 @@
+#!/bin/sh
+#
+# /etc/rc.d/networkmanager: start/stop lxdm daemon
+#
+
+PROG=/usr/sbin/NetworkManager
+PROGNAME=$(basename `echo $PROG`)
+PIDFILE=/var/run/$PROGNAME/$PROGNAME.pid
+
+case $1 in
+	start)
+		if [ -f $PIDFILE ]; then
+			echo "$PROGNAME is already running"
+			exit 1
+		fi
+		if [ ! -d /var/run/NetworkManager ]; then
+			install -d -o root -g root -m 755 /var/run/NetworkManager
+		fi
+		echo "Starting $PROGNAME daemon..."
+		$PROG
+		;;
+	stop)
+		if [ ! -f $PIDFILE ]; then
+			echo "$PROGNAME is not running"
+			exit 1
+		fi
+		echo "Stopping $PROGNAME daemon..."
+		RUNPID=$(cat $PIDFILE)
+		kill $RUNPID
+		rm $PIDFILE
+		;;
+	restart)
+		$0 stop && (sleep 1; $0 start)
+		;;
+	status)
+		if [ -f $PIDFILE ]; then
+			PROCPID="$(pidof $PROGNAME)"
+			echo "$PROGNAME is running with pid: $PROCPID"
+		else
+			echo "$PROGNAME is not running"
+		fi
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+

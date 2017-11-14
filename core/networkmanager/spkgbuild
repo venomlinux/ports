@@ -6,9 +6,8 @@
 name=networkmanager
 version=1.8.4
 release=1
-BOOTSCRIPTS_VERSION=20170731
 source=(http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version::3}/NetworkManager-$version.tar.xz
-	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xz)
+	networkmanager.rc)
 
 build() {
 	cd NetworkManager-$version
@@ -39,6 +38,5 @@ polkit.addRule(function(action, subject) {
 });
 EOF
 
-	cd $SRC/blfs-bootscripts-$BOOTSCRIPTS_VERSION
-	make DESTDIR=$PKG install-networkmanager
+	install -Dm755 $SRC/networkmanager.rc $PKG/etc/rc.d/networkmanager
 }

@@ -1,20 +1,17 @@
 # description	: Implements WPA key negotiation with a WPA Authenticator and Extensible Authentication Protocol (EAP) authentication with an Authentication Server
 # homepage	: http://hostap.epitest.fi/wpa_supplicant
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# backup	: etc/sysconfig/wpa_supplicant-wifi0.conf etc/sysconfig/ifconfig.wifi0
+# backup	: etc/wpa_supplicant.conf
 # depends	: libnl openssl dbus dhcpcd
 
 name=wpa_supplicant
 version=2.6
 release=2
 
-BOOTSCRIPTS_VERSION=20170731
-
 source=(https://w1.fi/releases/$name-$version.tar.gz
-	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xz
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-upstream_fixes-1.patch
-	wpa_supplicant.conf
-	ifconfig.wifi0)
+	$name-$version-upstream_fixes-1.patch
+	wpa.rc
+	wpa_supplicant.conf)
 
 build() {
 	cd $name-$version
@@ -68,13 +65,9 @@ EOF
 	install -m644 dbus/dbus-wpa_supplicant.conf \
 	                 $PKG/etc/dbus-1/system.d/wpa_supplicant.conf
 
-	#wpa_supplicant.conf
-	install -Dm 600 $SRC/wpa_supplicant.conf $PKG/etc/sysconfig/wpa_supplicant-wifi0.conf
+	# wpa_supplicant.conf
+	install -Dm 600 $SRC/wpa_supplicant.conf $PKG/etc/wpa_supplicant.conf
 
-	install -m 644 $SRC/ifconfig.wifi0 $PKG/etc/sysconfig/ifconfig.wifi0
-
-	cd $SRC/blfs-bootscripts-$BOOTSCRIPTS_VERSION
-
-	make DESTDIR=$PKG install-service-wpa
+	install -Dm755 $SRC/wpa.rc $PKG/etc/rc.d/wpa
 }
 

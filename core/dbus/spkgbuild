@@ -8,7 +8,7 @@ release=1
 BOOTSCRIPTS_VERSION=20170731
 
 source=(http://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz
-	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xz)
+	dbus.rc)
 
 build() {
 	cd $name-$version
@@ -41,8 +41,6 @@ build() {
 </busconfig>
 EOF
 
-	cd ../blfs-bootscripts-$BOOTSCRIPTS_VERSION
-
-	make DESTDIR=$PKG install-dbus
+	install -Dm755 $SRC/dbus.rc $PKG/etc/rc.d/dbus
 }
 

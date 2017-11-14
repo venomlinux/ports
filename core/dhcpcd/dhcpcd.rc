@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# /etc/rc.d/dhcpcd: start/stop the ISC DHCP Server
+#
+
+DEV=wlo1
+
+PROG_DHCP=/sbin/dhcpcd
+PROGNAME_DHCP=$(basename `echo $PROG_DHCP`)
+PIDFILE_DHCP=/var/run/dhcpcd.pid
+OPTS_DHCP="--waitip -h $(/bin/hostname) -z $DEV"
+
+case $1 in
+	start)
+		if [ -f $PIDFILE_DHCP ]; then
+			echo "$PROGNAME_DHCP is already running"
+			exit 1
+		fi
+		$PROG_DHCP $OPTS_DHCP
+		;;
+	stop)
+		if [ ! -f $PIDFILE_DHCP ]; then
+			echo "$PROGNAME_DHCP is not running"
+			exit 1
+		fi
+		RUNPID=$(pidof $PROGNAME_DHCP)
+		for pid in $RUNPID; do
+			kill $pid
+		done
+		;;
+	restart)
+		$0 stop && $0 start
+		;;
+	status)
+		PROCPID=$(pidof $PROGNAME_DHCP)
+		if [ "$PROCPID" ]; then
+			echo "$PROGNAME_DHCP is running with pid: $PROCPID"
+		else
+			echo "$PROGNAME_DHCP is not running"
+		fi
+		;;
+	*)
+		echo "Usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+# End of file
+

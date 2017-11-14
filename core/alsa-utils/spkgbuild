@@ -10,7 +10,7 @@ release=1
 BOOTSCRIPTS_VERSION=20170731
 
 source=(ftp://ftp.alsa-project.org/pub/utils/$name-$version.tar.bz2
-	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xz)
+	alsa.rc)
 
 build() {
 	cd $name-$version
@@ -22,7 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	cd ../blfs-bootscripts-$BOOTSCRIPTS_VERSION
-
-	make DESTDIR=$PKG install-alsa
+	install -Dm755 $SRC/alsa.rc $PKG/etc/rc.d/alsa
 }

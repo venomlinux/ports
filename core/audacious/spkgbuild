@@ -12,7 +12,7 @@ source=(http://distfiles.audacious-media-player.org/$name-$version.tar.bz2)
 build() {
 	cd $name-$version
 	TPUT=/bin/true ./configure --prefix=/usr \
-        	                   --with-buildstamp="BLFS"
+        	                   --with-buildstamp="GNU/Linux"
 	make
 	make DESTDIR=$PKG install
 }

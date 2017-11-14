@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+# /etc/rc.d/bluetooth: start/stop bluetooth daemon
+#
+
+PROG=/usr/sbin/bluetoothd
+PROGNAME=$(basename `echo $PROG`)
+
+case $1 in
+	start)
+		if [ "$(pidof $PROGNAME)" ]; then
+			echo "$PROGNAME is already running"
+			exit 1
+		fi
+		echo "Starting $PROGNAME daemon..."
+		$PROG &
+		;;
+	stop)
+		if [ ! "$(pidof $PROGNAME)" ]; then
+			echo "$PROGNAME is not running"
+			exit 1
+		fi
+		echo "Stopping $PROGNAME daemon..."
+		PROCPID=$(pidof $PROGNAME)
+		for proc in "$PROCPID"; do
+			kill $PROCPID
+		done
+		;;
+	restart)
+		$0 stop && $0 start
+		;;
+	status)
+		PROCPID="$(pidof $PROGNAME)"
+		if [ "$PROCPID" ]; then
+			echo "$PROGNAME is running with pid: $PROCPID"
+		else
+			echo "$PROGNAME is not running"
+		fi
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac

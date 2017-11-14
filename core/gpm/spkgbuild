@@ -5,10 +5,9 @@
 name=gpm
 version=1.20.7
 release=1
-BOOTSCRIPTS_VERSION=20170731
 source=(http://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
-	http://www.linuxfromscratch.org/patches/blfs/8.1/$name-$version-glibc_2.26-1.patch
-	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xz)
+	$name-$version-glibc_2.26-1.patch
+	gpm.rc)
 build() {
 	cd $name-$version
 
@@ -29,19 +28,5 @@ build() {
 	install -v -m644    doc/{FAQ,HACK_GPM,README*}        \
 	                    $PKG/usr/share/doc/$name
 
-
-	cd ../blfs-bootscripts-$BOOTSCRIPTS_VERSION
-
-	make DESTDIR=$PKG install-gpm
-
-	mkdir -p $PKG/etc/sysconfig
-	cat > $PKG/etc/sysconfig/mouse << "EOF"
-# Begin /etc/sysconfig/mouse
-
-MDEVICE="/dev/input/mice"
-PROTOCOL="imps2"
-GPMOPTS=""
-
-# End /etc/sysconfig/mouse
-EOF
+	install -Dm755 $SRC/gpm.rc $PKG/etc/rc.d/gpm
 }

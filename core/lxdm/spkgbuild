@@ -8,9 +8,8 @@
 name=lxdm
 version=0.5.3
 release=2
-BOOTSCRIPTS_VERSION=20170731
 source=(http://downloads.sourceforge.net/$name/$name-$version.tar.xz
-	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xz)
+	lxdm.rc)
 
 build() {
 	cd $name-$version
@@ -32,8 +31,8 @@ session  include        system-session
 # End /etc/pam.d/lxdm
 EOF
 
-sed -i 's:sysconfig/i18n:profile.d/i18n.sh:g' data/lxdm.in &&
-sed -i 's:/etc/xprofile:/etc/profile:g' data/Xsession &&
+sed -i 's:sysconfig/i18n:profile.d/i18n.sh:g' data/lxdm.in
+sed -i 's:/etc/xprofile:/etc/profile:g' data/Xsession
 sed -e 's/^bg/#&/'        \
     -e '/reset=1/ s/# //' \
     -e 's/logou$/logout/' \
@@ -50,7 +49,5 @@ sed -e 's/^bg/#&/'        \
 	make
 	make DESTDIR=$PKG install
 
-	cd ../blfs-bootscripts-$BOOTSCRIPTS_VERSION
-
-	make DESTDIR=$PKG install-lxdm
+	install -Dm755 $SRC/lxdm.rc $PKG/etc/rc.d/lxdm
 }
