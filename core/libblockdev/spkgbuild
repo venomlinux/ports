@@ -5,7 +5,7 @@
 # makedepends	: gobject-introspection python3
 
 name=libblockdev
-version=2.13
+version=2.14
 release=1
 source=(https://github.com/storaged-project/libblockdev/releases/download/$version-1/$name-$version.tar.gz)
 
@@ -13,9 +13,11 @@ build() {
 	cd $name-$version
 	
 	./configure \
-		--prefix=/usr \
-		--without-dm  \
-		--sysconfdir=/etc
+		--prefix=/usr     \
+            	--sysconfdir=/etc \
+            	--with-python3    \
+            	--without-gtk-doc \
+            	--without-dm
 	make
 	make DESTDIR=$PKG install
 }

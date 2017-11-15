@@ -14,8 +14,6 @@ build() {
 	mv ../cfe-$version.src tools/clang
 	mv ../compiler-rt-$version.src projects/compiler-rt
 
-	patch -Np1 -d projects/compiler-rt < ../compiler-rt-$version-glibc-2.26-1.patch
-
 	mkdir -v build
 	cd       build
 	

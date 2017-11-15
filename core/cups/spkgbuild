@@ -5,17 +5,15 @@
 # makedepends	: dbus colord xdg-utils
 
 name=cups
-version=2.2.4
-release=2
+version=2.2.6
+release=1
 source=(https://github.com/apple/cups/releases/download/v$version/$name-$version-source.tar.gz)
 
 build() {
 	cd $name-$version
 
-	sed -i '2062,2069d' cups/dest.c
 	sed -i 's:444:644:' Makedefs.in
 	sed -i '/MAN.EXT/s:.gz::' configure config-scripts/cups-manpages.m4
-	sed -i '/LIBGCRYPTCONFIG/d' config-scripts/cups-ssl.m4
 	
 	aclocal  -I config-scripts
 	autoconf -I config-scripts

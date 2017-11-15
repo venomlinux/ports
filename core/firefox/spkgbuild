@@ -1,20 +1,21 @@
 # description	: Stand-alone browser based on the Mozilla codebase
 # depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent libvpx sqlite dbus-glib graphite2 harfbuzz
-# makedepends	: unzip zip autoconf2.13 yasm rustc gconf
+# makedepends	: unzip zip autoconf2.13 yasm rustc gconf llvm
 
 name=firefox
-version=56.0.1
+version=57.0
 release=1
 source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/$name-$version.source.tar.xz
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-system_graphite2_harfbuzz-1.patch)
+	$name-$version-system_graphite2_harfbuzz-1.patch)
 
 build() {
 	cd $name-$version
 
   	cat > mozconfig << "EOF"
 # If you have a multicore machine, all cores will be used by default.
-# If desired, you can reduce the number of cores used, e.g. to 1, by
-# uncommenting the next line and setting a valid number of CPU cores.
+# You can change the number of non-rust jobs by setting a valid number
+# of cores in this option, but when rust crates are being compiled
+# jobs will be scheduled for all the online CPU cores.
 #mk_add_options MOZ_MAKE_FLAGS="-j1"
 
 # If you have installed dbus-glib, comment out this line:
@@ -46,11 +47,9 @@ ac_add_options --enable-alsa
 #ac_add_options --disable-gconf
 
 # Stylo is the new CSS code, including the rust 'style'
-# package. It is enabled by default, but cannot find the
-# headers for system nspr, pixman. If you enable stylo you
-# must comment out system-nspr system-pixman and
-# system-cairo, and you must also have installed clang.
-ac_add_options --disable-stylo
+# package. It is enabled by default but requires clang.
+# Uncomment this if you do not wish to use stylo.
+#ac_add_options --disable-stylo
 
 # Comment out following options if you have not installed
 # recommended dependencies:
@@ -77,17 +76,17 @@ ac_add_options --enable-application=browser
 
 ac_add_options --disable-crashreporter
 ac_add_options --disable-updater
+# enabling the tests will use a lot more space and significantly
+# increase the build time, for no obvious benefit.
 ac_add_options --disable-tests
 
 # Optimization for size is broken with gcc7
 ac_add_options --enable-optimize="-O2"
 
 ac_add_options --enable-official-branding
-ac_add_options --enable-safe-browsing
-ac_add_options --enable-url-classifier
 
-# From firefox-40, using system cairo causes firefox to crash
-# frequently when it is doing background rendering in a tab.
+# From firefox-40, using system cairo caused firefox to crash
+# frequently when it was doing background rendering in a tab.
 # This appears to again work in firefox-56
 ac_add_options --enable-system-cairo
 ac_add_options --enable-system-ffi
@@ -108,7 +107,9 @@ EOF
 	echo "AIzaSyDxKL42zsPjbke5O8_rPVpVrLrJ8aeE9rQ" > google-key
 	echo "d2284a20-0505-4927-a809-7ffaf4d91e55" > mozilla-key
 
+	export BINDGEN_CFLAGS=$(pkg-config --cflags nspr pixman-1)
 	make -f client.mk
+	unset BINDGEN_CFLAGS
 
 	make -f client.mk DESTDIR=$PKG install INSTALL_SDK=
 	chown -R 0:0 $PKG/usr/lib/$name-$version
