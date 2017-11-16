@@ -6,7 +6,8 @@
 name=rsync
 version=3.1.2
 release=2
-source=(https://www.samba.org/ftp/rsync/src/$name-$version.tar.gz)
+source=(https://www.samba.org/ftp/rsync/src/$name-$version.tar.gz
+	rsyncd.rc)
 
 build() {
 	cd $name-$version
@@ -31,5 +32,7 @@ use chroot = yes
     gid = rsyncd
 
 EOF
+
+	install -Dm755 $SRC/rsyncd.rc $PKG/etc/rc.d/rsyncd
 }
 

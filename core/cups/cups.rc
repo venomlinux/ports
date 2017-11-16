@@ -1,16 +1,11 @@
 #!/bin/sh
 #
-# /etc/rc.d/gpm: start/stop the GPM console mouse service
+# /etc/rc.d/cups: start/stop CUPS Printserver
 #
 
-NAME="GPM console mouse service"
-PROG=/usr/sbin/gpm
-MDEVICE="/dev/input/mice"
-PROTOCOL="imps2"
-GPMOPTS=""
-OPTS="-m $MDEVICE -t $PROTOCOL $GPMOPTS"
-PROGNAME=$(basename `echo $PROG`)
-PIDFILE=/var/run/$PROGNAME.pid
+NAME="CUPS Printserver"
+PROG=/usr/sbin/cupsd
+PROCPID=$(pidof $PROG)
 
 case $1 in
 	start)
@@ -18,7 +13,7 @@ case $1 in
 		if [ "$PROCPID" ]; then
 			exit
 		fi
-		$PROG $OPTS
+		$PROG
         ;;
 	stop)
 		echo "Stopping $NAME..."
@@ -27,12 +22,11 @@ case $1 in
 				kill "$pid"
 			done
 		fi
-		rm -f $PIDFILE
-		;;
+        ;;
 	restart)
-		$0 stop
-		$0 start
-		;;
+        $0 stop
+        $0 start
+        ;;
 	status)
 		if [ "$PROCPID" ]; then
 			echo "$NAME is running with pid: $PROCPID"
@@ -41,8 +35,8 @@ case $1 in
 		fi
 		;;
 	*)
-		echo "usage: $0 [start|stop|restart|status]"
-		;;
+        echo "usage: $0 [start|stop|restart|status]"
+        ;;
 esac
 
 exit 0

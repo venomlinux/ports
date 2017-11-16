@@ -1,16 +1,13 @@
 #!/bin/sh
 #
-# /etc/rc.d/gpm: start/stop the GPM console mouse service
+# /etc/rc.d/rsync: start/stop RSYNC Server
 #
 
-NAME="GPM console mouse service"
-PROG=/usr/sbin/gpm
-MDEVICE="/dev/input/mice"
-PROTOCOL="imps2"
-GPMOPTS=""
-OPTS="-m $MDEVICE -t $PROTOCOL $GPMOPTS"
+NAME="RSYNC Server"
+PROG=/usr/bin/rsync
+OPTS="--daemon"
 PROGNAME=$(basename `echo $PROG`)
-PIDFILE=/var/run/$PROGNAME.pid
+PROCPID=$(pidof $PROGNAME)
 
 case $1 in
 	start)
@@ -27,12 +24,12 @@ case $1 in
 				kill "$pid"
 			done
 		fi
-		rm -f $PIDFILE
-		;;
+        ;;
 	restart)
-		$0 stop
-		$0 start
-		;;
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
 	status)
 		if [ "$PROCPID" ]; then
 			echo "$NAME is running with pid: $PROCPID"
@@ -40,9 +37,9 @@ case $1 in
 			echo "$NAME is not running."
 		fi
 		;;
-	*)
-		echo "usage: $0 [start|stop|restart|status]"
-		;;
+*)
+        echo "usage: $0 [start|stop|restart|status]"
+        ;;
 esac
 
 exit 0

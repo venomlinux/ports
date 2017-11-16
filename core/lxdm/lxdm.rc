@@ -3,38 +3,38 @@
 # /etc/rc.d/lxdm: start/stop lxdm daemon
 #
 
-PROG=/usr/sbin/lxdm
+NAME="LXDM"
+PROG=/usr/sbin/lxdm-binary
+PROCPID=$(pidof $PROG)
 PROGNAME=$(basename `echo $PROG`)
 PIDFILE=/var/run/$PROGNAME.pid
 
 case $1 in
 	start)
-		if [ -f $PIDFILE ]; then
-			echo "$PROGNAME is already running"
-			exit 1
+		echo "Starting $NAME..."
+		if [ "$PROCPID" ]; then
+			exit
 		fi
-		echo "Starting $PROGNAME..."
-		$PROG -d
+		$PROG
 		;;
 	stop)
-		if [ ! -f $PIDFILE ]; then
-			echo "$PROGNAME is not running"
-			exit 1
+		echo "Stopping $NAME..."
+		if [ "$PROCPID" ]; then
+			for pid in $PROCPID; do
+				kill "$pid"
+			done
 		fi
-		echo "Stopping $PROGNAME..."
-		RUNPID=$(cat $PIDFILE)
-		kill $RUNPID
-		rm $PIDFILE
+		rm -f $PIDFILE
 		;;
 	restart)
-		$0 stop && $0 start
+		$0 stop
+		$0 start
 		;;
 	status)
-		if [ -f $PIDFILE ]; then
-			PROCPID="$(cat $PIDFILE)"
-			echo "$PROGNAME is running with pid: $PROCPID"
+		if [ "$PROCPID" ]; then
+			echo "$NAME is running with pid: $PROCPID"
 		else
-			echo "$PROGNAME is not running"
+			echo "$NAME is not running."
 		fi
 		;;
 	*)
@@ -42,3 +42,4 @@ case $1 in
 		;;
 esac
 
+exit 0

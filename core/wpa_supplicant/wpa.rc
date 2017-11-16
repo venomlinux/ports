@@ -5,39 +5,41 @@
 
 DEV=wlo1
 
-PROG_WPA=/sbin/wpa_supplicant
-PROGNAME_WPA=$(basename `echo $PROG_WPA`)
-PIDFILE_WPA=/var/run/wpa_supplicant.pid
+NAME="WPA Service"
+PROG=/sbin/wpa_supplicant
+OPTS="-B -P $PIDFILE_WPA -D nl80211,wext -c /etc/wpa_supplicant.conf -i $DEV"
+PROCPID=$(pidof $PROG)
+PROGNAME=$(basename `echo $PROG`)
+PIDFILE=/var/run/$PROGNAME.pid
 
-OPTS_WPA="-B -P $PIDFILE_WPA -D nl80211,wext -c /etc/wpa_supplicant.conf -i $DEV"
 
 case $1 in
 	start)
-		if [ -f $PIDFILE_WPA ]; then
-			echo "$PROGNAME_WPA is already running"
-			exit 1
+		echo "Starting $NAME..."
+		if [ "$PROCPID" ]; then
+			exit
 		fi
-		$PROG_WPA $OPTS_WPA
+		$PROG $OPTS
 		;;
 	stop)
-		if [ ! -f $PIDFILE_WPA ]; then
-			echo "$PROGNAME_WPA is not running"
-			exit 1
+		echo "Stopping $NAME..."
+		if [ "$PROCPID" ]; then
+			for pid in $PROCPID; do
+				kill "$pid"
+			done
 		fi
-		RUNPID=$(pidof $PROGNAME_WPA)
-		for pid in $RUNPID; do
-			kill $pid
-		done
+		rm -f $PIDFILE
 		;;
 	restart)
-		$0 stop && (sleep 2; $0 start)
+		$0 stop
+		sleep 1
+		$0 start
 		;;
 	status)
-		PROCPID=$(pidof $PROGNAME_WPA)
 		if [ "$PROCPID" ]; then
-			echo "$PROGNAME_WPA is running with pid: $PROCPID"
+			echo "$NAME is running with pid: $PROCPID"
 		else
-			echo "$PROGNAME_WPA is not running"
+			echo "$NAME is not running."
 		fi
 		;;
 	*)
@@ -45,5 +47,5 @@ case $1 in
 		;;
 esac
 
-# End of file
+exit 0
 
