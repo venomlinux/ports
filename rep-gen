@@ -3,8 +3,10 @@
 #	script for update REPO file using httpup-repgen
 #
 
+REPO=(core xorg extra)
+
 [ $(type -pa httpup-repgen) ] || (echo "httpup not installed, aborting"; exit 1)
 
-for repo in *; do
-	[ -f $repo/REPO ] && httpup-repgen $repo
+for repo in ${REPO[@]}; do
+	[ -d $repo ] && httpup-repgen $repo
 done
