@@ -13,10 +13,7 @@
     KERN_DIR=/usr/src/linux-4.1.8 \
     MODULE_DIR=/lib/modules/4.1.8/extra install
 
-  To install virtualbox extension packs run this command:
-  # VBoxManage extpack install /opt/VirtualBox/ExtensionPacks/*.vbox-extpack
-
-  For modules load on boot put this into /etc/sysconfig/modules:
+  For modules load on boot add this into MODULES array in /etc/rc.conf
     vboxdrv
     vboxnetadp
     vboxnetflt
