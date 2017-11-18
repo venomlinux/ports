@@ -1,0 +1,41 @@
+# description	: Open-source HTTP server
+# depends	: apr-util pcre openssl
+
+name=apache
+version=2.4.29
+release=1
+source=(https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
+	httpd-$version-blfs_layout-1.patch
+	httpd.rc)
+
+build() {
+	cd httpd-$version
+
+	patch -Np1 -i ../httpd-$version-blfs_layout-1.patch
+
+	sed '/dir.*CFG_PREFIX/s@^@#@' -i support/apxs.in
+	
+	./configure --enable-authnz-fcgi                              \
+	            --enable-layout=BLFS                              \
+	            --enable-mods-shared="all cgi"                    \
+	            --enable-mpms-shared=all                          \
+	            --enable-suexec=shared                            \
+	            --with-apr=/usr/bin/apr-1-config                  \
+	            --with-apr-util=/usr/bin/apu-1-config             \
+	            --with-suexec-bin=/usr/lib/httpd/suexec           \
+	            --with-suexec-caller=apache                       \
+	            --with-suexec-docroot=/srv/www                    \
+	            --with-suexec-logfile=/var/log/httpd/suexec.log   \
+	            --with-suexec-uidmin=100                          \
+	            --with-suexec-userdir=public_html
+	make
+	make DESTDIR=$PKG install
+
+	mv -v $PKG/usr/sbin/suexec $PKG/usr/lib/httpd/suexec
+	chgrp apache           $PKG/usr/lib/httpd/suexec
+	chmod 4754             $PKG/usr/lib/httpd/suexec
+
+	chown -v -R apache:apache $PKG/srv/www
+
+	install -Dm755 $SRC/httpd.rc $PKG/etc/rc.d/httpd
+}

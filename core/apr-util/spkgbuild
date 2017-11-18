@@ -1,0 +1,18 @@
+# description	: Predictable and consistent interface to underlying client library interfaces
+# depends	: openssl
+
+name=apr-util
+version=1.6.1
+release=1
+source=(https://archive.apache.org/dist/apr/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr       \
+	            --with-apr=/usr     \
+	            --with-gdbm=/usr    \
+	            --with-openssl=/usr \
+	            --with-crypto
+	make
+	make DESTDIR=$PKG install
+}

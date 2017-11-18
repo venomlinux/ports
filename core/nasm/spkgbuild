@@ -1,0 +1,13 @@
+# description	: 80x86 assembler designed for portability and modularity
+
+name=nasm
+version=2.13.01
+release=1
+source=(http://www.nasm.us/pub/nasm/releasebuilds/$version/nasm-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make INSTALLROOT=$PKG install
+}

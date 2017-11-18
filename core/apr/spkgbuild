@@ -1,0 +1,15 @@
+# description	: Supporting library for the Apache web server
+
+name=apr
+version=1.6.3
+release=1
+source=(https://archive.apache.org/dist/apr/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr    \
+	            --disable-static \
+	            --with-installbuilddir=/usr/share/apr-1/build
+	make
+	make DESTDIR=$PKG install
+}
