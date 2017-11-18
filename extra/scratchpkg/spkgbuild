@@ -18,15 +18,5 @@ build() {
 		cd $name
 	fi
 
-	for i in buildpkg installpkg removepkg scratch; do
-		install -Dm755 $i $PKG/usr/bin/$i
-	done
-	for u in color functions options; do
-		install -Dm644 functions/$u $PKG/usr/share/$name/$u
-	done
-	install -Dm644 $name.conf $PKG/etc/$name.conf.orig
-
-	for p in $(ls ports); do
-		install -Dm644 ports/$p $PKG/etc/ports/$p
-	done
+	DESTDIR=$PKG ./INSTALL.sh
 }

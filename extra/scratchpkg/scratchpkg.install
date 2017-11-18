@@ -1,0 +1,11 @@
+post_install() {
+	[ -f /etc/scratchpkg.conf ] || cp /etc/scratchpkg.conf.orig /etc/scratchpkg.conf
+}
+
+post_upgrade() {
+	post_install
+}
+
+post_remove() {
+	rm /etc/scratchpkg.conf || true
+}
