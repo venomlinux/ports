@@ -4,14 +4,18 @@
 # depends	: glibc
 
 name=libpipeline
-version=1.4.2
+version=1.5.0
 release=1
 source=(http://download.savannah.gnu.org/releases/$name/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
 
-	PKG_CONFIG_PATH=/tools/lib/pkgconfig ./configure --prefix=/usr
+	if [ -d /tools ]; then
+		PKG_CONFIG_PATH=/tools/lib/pkgconfig ./configure --prefix=/usr
+	else
+		./configure --prefix=/usr
+	fi
 	make
 	make DESTDIR=$PKG install
 }
