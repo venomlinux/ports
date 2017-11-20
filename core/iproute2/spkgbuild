@@ -4,7 +4,7 @@
 # depends	: glibc
 
 name=iproute2
-version=4.13.0
+version=4.14.1
 release=1
 source=(https://www.kernel.org/pub/linux/utils/net/$name/$name-$version.tar.xz)
 
@@ -12,8 +12,7 @@ build() {
 	cd $name-$version
 
 	sed -i /ARPD/d Makefile
-	sed -i 's/arpd.8//' man/man8/Makefile
-	rm -v doc/arpd.sgml
+	rm -fv man/man8/arpd.8
 	sed -i 's/m_ipt.o//' tc/Makefile
 
 	make
