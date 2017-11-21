@@ -4,21 +4,22 @@
 # backup	: etc/NetworkManager/NetworkManager.conf
 
 name=networkmanager
-version=1.8.4
+version=1.10.0
 release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version::3}/NetworkManager-$version.tar.xz
+source=(http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
 	networkmanager.rc)
 
 build() {
 	cd NetworkManager-$version
 
-	CXXFLAGS="$CXXFLAGS -fPIC"                       \
+	CXXFLAGS="$CXXFLAGS -fPIC"                 \
 	./configure --prefix=/usr                  \
 	            --sysconfdir=/etc              \
 	            --localstatedir=/var           \
 	            --with-nmtui                   \
 	            --disable-ppp                  \
 	            --disable-json-validation      \
+	            --disable-ovs                  \
 	            --with-systemdsystemunitdir=no
 	make
 	make DESTDIR=$PKG install
