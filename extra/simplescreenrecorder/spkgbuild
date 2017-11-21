@@ -1,0 +1,21 @@
+# description	: A feature-rich screen recorder that supports X11 and OpenGL
+# depends	: ffmpeg glu mesa
+
+name=simplescreenrecorder
+version=0.3.8
+release=1
+source=(https://github.com/MaartenBaert/ssr/archive/$version/ssr-$version.tar.gz)
+
+build() {
+	cd ssr-$version
+
+	CXXFLAGS="$CXXFLAGS -fPIC" \
+	./configure \
+		--prefix=/usr \
+		--disable-assert \
+		--with-qt5 \
+		--without-pulseaudio \
+		--without-jack
+	make
+	make DESTDIR=$PKG install
+}

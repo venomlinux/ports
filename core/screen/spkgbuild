@@ -1,0 +1,23 @@
+# description	: Terminal multiplexor that runs several separate processes
+
+name=screen
+version=4.6.2
+release=1
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	
+	./configure --prefix=/usr                     \
+	            --infodir=/usr/share/info         \
+	            --mandir=/usr/share/man           \
+	            --with-socket-dir=/run/screen     \
+	            --with-pty-group=5                \
+	            --with-sys-screenrc=/etc/screenrc
+	sed -i -e "s%/usr/local/etc/screenrc%/etc/screenrc%" {etc,doc}/*
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/etc
+	install -m 644 etc/etcscreenrc $PKG/etc/screenrc
+}
