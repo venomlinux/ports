@@ -6,7 +6,7 @@
 
 name=cups
 version=2.2.6
-release=1
+release=2
 source=(https://github.com/apple/cups/releases/download/v$version/$name-$version-source.tar.gz
 	cups.rc)
 
@@ -48,6 +48,8 @@ session include system-session
 
 # End /etc/pam.d/cups
 EOF
+
+	rm -fr $PKG/var/run
 
 	install -Dm755 $SRC/cups.rc $PKG/etc/rc.d/cups
 }

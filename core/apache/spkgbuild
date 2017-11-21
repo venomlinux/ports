@@ -3,7 +3,7 @@
 
 name=apache
 version=2.4.29
-release=1
+release=2
 source=(https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 	httpd-$version-blfs_layout-1.patch
 	httpd.rc)
@@ -36,6 +36,8 @@ build() {
 	chmod 4754             $PKG/usr/lib/httpd/suexec
 
 	chown -v -R apache:apache $PKG/srv/www
+
+	rm -fr $PKG/var/run
 
 	install -Dm755 $SRC/httpd.rc $PKG/etc/rc.d/httpd
 }
