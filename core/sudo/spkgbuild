@@ -6,7 +6,7 @@
 
 name=sudo
 version=1.8.21p2
-release=2
+release=3
 source=(http://www.sudo.ws/dist/$name-$version.tar.gz
 	sudo)
 
@@ -19,7 +19,7 @@ build() {
             --with-secure-path         \
             --with-all-insults         \
             --with-env-editor          \
-            --with-passprompt="[sudo] password for %p "
+            --with-passprompt="[sudo] password for %p: "
 	make
 	make DESTDIR=$PKG install
 
