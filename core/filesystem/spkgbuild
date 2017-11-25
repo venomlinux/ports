@@ -1,14 +1,12 @@
-# description	: Base Linux From Scratch files
-# homepage	: http://www.linuxfromscratch.org/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# backup	: etc/passwd etc/lsb-release etc/resolv.conf etc/hostname etc/group etc/fstab etc/hosts etc/shells etc/profile
+# description	: Base Scratch GNU/Linux files
+# backup	: etc/passwd etc/resolv.conf etc/hostname etc/group etc/fstab etc/hosts etc/shells etc/profile
 # depends	: iana-etc
 
 name=filesystem
-version=SVN
+version=1.0
 release=1
 source=(passwd group resolv.conf hosts hostname inputrc usb.conf
-	shells fstab lfs-release lsb-release bashrc profile
+	shells fstab lsb-release bashrc profile
 	bash_completion.sh dircolors.sh extrapaths.sh readline.sh
 	umask.sh i18n.sh bash_profile.skel profile.skel bashrc.skel bash_logout.skel)
 
@@ -54,7 +52,6 @@ build() {
 	install -m644 inputrc $PKG/etc
 	install -m644 shells $PKG/etc
 	install -m644 fstab $PKG/etc
-	install -m644 lfs-release $PKG/etc
 	install -m644 lsb-release $PKG/etc
 	install -m644 bashrc $PKG/etc
 	install -m644 profile $PKG/etc
