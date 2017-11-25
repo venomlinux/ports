@@ -1,6 +1,7 @@
-Description = Probing GDK-Pixbuf loader modules...
-Operation = install
-Operation = upgrade
-Operation = remove
-Target = usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/
-Exec = /usr/bin/gdk-pixbuf-query-loaders --update-cache
+# Description	: Probing GDK-Pixbuf loader modules...
+# Operation	: install upgrade remove
+# Target	: usr/lib/gdk-pixbuf-2.0/2.10.0/loaders/
+
+exechook() {
+	/usr/bin/gdk-pixbuf-query-loaders --update-cache
+}

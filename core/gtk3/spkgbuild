@@ -5,8 +5,9 @@
 
 name=gtk3
 version=3.22.26
-release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/gtk+/${version::4}/gtk+-$version.tar.xz)
+release=2
+source=(http://ftp.gnome.org/pub/gnome/sources/gtk+/${version::4}/gtk+-$version.tar.xz
+	gtk-query-immodules-3.0.hook)
 
 build() {
 	cd gtk+-$version
@@ -35,4 +36,6 @@ gtk-xft-hintstyle = hintslight
 gtk-xft-rgba = rgb
 gtk-cursor-theme-name = Adwaita
 EOF
+
+	install -Dm644 $SRC/gtk-query-immodules-3.0.hook $PKG/etc/hooks/gtk-query-immodules-3.0.hook
 }

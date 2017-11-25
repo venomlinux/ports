@@ -5,8 +5,9 @@
 
 name=shared-mime-info
 version=1.9
-release=1
-source=(http://freedesktop.org/~hadess/$name-$version.tar.xz)
+release=2
+source=(http://freedesktop.org/~hadess/$name-$version.tar.xz
+	update-mime-database.hook)
 
 build() {
 	cd $name-$version
@@ -14,4 +15,6 @@ build() {
 	./configure --prefix=/usr
 	make || make -j1
 	make DESTDIR=$PKG install
+
+	install -Dm644 $SRC/update-mime-database.hook $PKG/etc/hooks/update-mime-database.hook
 }

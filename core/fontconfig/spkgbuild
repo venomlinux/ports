@@ -5,8 +5,9 @@
 
 name=fontconfig
 version=2.12.6
-release=1
-source=(http://www.freedesktop.org/software/fontconfig/release/$name-$version.tar.bz2)
+release=2
+source=(http://www.freedesktop.org/software/fontconfig/release/$name-$version.tar.bz2
+	fontconfig.hook)
 
 build() {
 	cd $name-$version
@@ -20,5 +21,7 @@ build() {
 	            --disable-docs
 	make
 	make DESTDIR=$PKG install
+
+	install -Dm644 $SRC/fontconfig.hook $PKG/etc/hooks/fontconfig.hook
 }
 
