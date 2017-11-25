@@ -15,7 +15,7 @@ case $1 in
 		if [ "$PROCPID" ]; then
 			exit
 		fi
-		$PROG
+		/usr/sbin/lxdm -d
 		;;
 	stop)
 		echo "Stopping $NAME..."

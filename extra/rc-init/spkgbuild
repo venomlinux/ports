@@ -2,15 +2,11 @@
 # backup	: etc/rc.conf
 
 name=rc-init
-version=1.0
+version=0.1
 release=1
-source=(https://raw.githubusercontent.com/emmett1/rc-init/master/{inittab,rc.sysinit,rc.conf,rc.local,rc.multi,rc.shutdown,rc.single})
+source=(https://github.com/emmett1/rc-init/archive/v$version/$name-$version.tar.gz)
 
 build() {
-	mkdir -p $PKG/etc/rc.d
-	install -m644 inittab $PKG/etc
-	install -m644 rc.conf $PKG/etc
-	for i in rc.{sysinit,multi,local,shutdown,single}; do
-		install -m754 $i $PKG/etc
-	done
+	cd $name-$version
+	DESTDIR=$PKG ./INSTALL.sh
 }
