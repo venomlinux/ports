@@ -1,0 +1,26 @@
+# description	: GTK+ Bluetooth Manager
+# depends	: bluez gtk3 libnotify python3-cairo python3-dbus python3-gobject3
+# makedepends	: cython3 intltool
+
+name=blueman
+version=2.0.5
+release=1
+source=(https://github.com/blueman-project/$name/releases/download/$version/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	for i in $(grep -R /usr/bin/env . | cut -d '/' -f2- | cut -d ':' -f1); do
+		sed -e 's|/usr/bin/env python|/usr/bin/env python3|' \
+		    -e 's|/usr/bin/python|/usr/bin/python3|' -i $i
+	done
+
+	PYTHON=python3 \
+	./configure \
+	    --prefix=/usr \
+	    --sysconfdir=/etc \
+	    --libexecdir=/usr/lib/$pkgname \
+	    --disable-schemas-compile
+	make
+	make DESTDIR=$PKG install
+}

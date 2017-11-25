@@ -1,0 +1,17 @@
+# description	: Fetches system/theme information in terminal for Linux desktop screenshots
+# optdepends	: scrot
+
+name=screenfetch
+version=3.8.0
+release=1
+source=(https://github.com/KittyKatt/screenFetch/archive/v$version.tar.gz
+	0001-Fix-gpu-variable-check-esp-it-s-empty.patch)
+
+build() {
+	cd screenFetch-$version
+
+	patch -p1 < $SRC/0001-Fix-gpu-variable-check-esp-it-s-empty.patch
+
+	install -Dm755 $name-dev $PKG/usr/bin/$name
+	install -Dm644 $name.1   $PKG/usr/share/man/man1/$name.1 
+}

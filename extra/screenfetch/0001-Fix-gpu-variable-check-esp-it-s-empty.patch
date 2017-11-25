@@ -1,0 +1,29 @@
+From 0451fcee67066f5f6b8c99bac35c14db4fee7195 Mon Sep 17 00:00:00 2001
+From: Lee <rtlanceroad@gmail.com>
+Date: Tue, 14 Mar 2017 15:50:40 +0800
+Subject: [PATCH] Fix gpu variable check esp it's empty
+
+Fix for the following problem:
+```
+/usr/bin/screenfetch: line 1341: [: =: unary operator expected
+```
+---
+ screenfetch-dev | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/screenfetch-dev b/screenfetch-dev
+index 94c412b..4d92329 100755
+--- a/screenfetch-dev
++++ b/screenfetch-dev
+@@ -1338,7 +1338,7 @@ DetectIntelGPU() {
+ 		*intel*) gpu=intel ;;
+ 	esac
+ 
+-        if [ $gpu = intel ]; then
++        if [[ $gpu = intel ]]; then
+ 		#Detect CPU
+ 		local CPU=$(uname -p | awk '{print $3}')
+ 		CPU=${CPU#*'-'}; #Detect CPU number
+-- 
+2.12.0
+
