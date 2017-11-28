@@ -4,20 +4,20 @@
 
 name=pango
 version=1.40.14
-release=1
+release=2
 source=(http://ftp.gnome.org/pub/gnome/sources/pango/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	mkdir build
-	cd    build
+	#mkdir build
+	#cd    build
 
-	meson --prefix=/usr --sysconfdir=/etc ..
-	ninja
-	DESTDIR=$PKG ninja install
+	#meson --prefix=/usr --sysconfdir=/etc ..
+	#ninja
+	#DESTDIR=$PKG ninja install
 
-	#./configure --prefix=/usr --sysconfdir=/etc
-	#make
-	#make DESTDIR=$PKG install
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
 }

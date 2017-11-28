@@ -1,0 +1,17 @@
+# description	: Mesa demos and tools incl. glxinfo + glxgears
+# depends	: glew freeglut mesa
+# makedepends	: freetype2
+
+name=mesa-demos
+version=8.3.0
+release=1
+source=(ftp://ftp.freedesktop.org/pub/mesa/demos/$version/mesa-demos-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		    --with-system-data-files=/usr/share/mesa-demos
+	make
+	make DESTDIR=$PKG install
+	install -m 0755 src/egl/opengl/{eglgears_x11,eglinfo,eglkms,egltri_x11,peglgears,xeglgears,xeglthreads} $PKG/usr/bin
+}

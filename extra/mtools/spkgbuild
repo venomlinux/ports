@@ -1,0 +1,17 @@
+# description	: Utilities to access MS-DOS disks without mounting them
+
+name=mtools
+version=4.0.18
+release=1
+source=(ftp://ftp.gnu.org/gnu/mtools/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	          --sysconfdir=/etc \
+	          --disable-floppyd
+	make
+	sed -i Makefile -e 's|install-scripts install-info|install-scripts|'
+	make -j1 prefix=$PKG/usr install
+}

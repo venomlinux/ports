@@ -1,0 +1,15 @@
+# description	: Provides functionality for small OpenGL programs
+# depends	: libxi libxrandr mesa
+
+name=freeglut
+version=3.0.0
+release=1
+source=(https://downloads.sourceforge.net/freeglut/$name-$version.tar.gz)
+
+build() {
+	mkdir build
+	cd build
+	cmake ../$name-$version -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_BUILD_TYPE=Release
+	make
+	make DESTDIR=$PKG install
+}

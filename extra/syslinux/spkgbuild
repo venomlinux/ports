@@ -1,0 +1,18 @@
+# description	: Collection of boot loaders for the Linux operating system
+# depends	: mtools
+
+name=syslinux
+version=6.03
+release=1
+option=(!makeflags)
+source=(http://www.kernel.org/pub/linux/utils/boot/$name/$name-$version.tar.xz
+        $name-Makefile.patch)
+
+build() {
+	cd $name-$version
+
+	patch -p0 -i $SRC/$name-Makefile.patch
+
+	make OPTFLAGS="$CFLAGS" installer
+	make OPTFLAGS="$CFLAGS" INSTALLROOT=$PKG MANDIR=/usr/share/man install
+}

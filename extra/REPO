@@ -16,6 +16,8 @@ d:gnome-common
 d:i3
 d:neofetch
 d:volumeicon
+d:glew
+d:syslinux
 d:yajl
 d:nnn
 d:libpcap
@@ -28,6 +30,7 @@ d:deadbeef
 d:python3-urwid
 d:terminus-font
 d:fakeroot
+d:mesa-demos
 d:awesome-font
 d:aircrack-ng
 d:ruby-ffi
@@ -41,6 +44,7 @@ d:libcue
 d:libmtp
 d:cdw
 d:linux-firmware
+d:mtools
 d:ethtool
 d:scrot
 d:simplescreenrecorder
@@ -51,6 +55,7 @@ d:liberation-fonts
 d:elinks
 d:paper-icon-theme-git
 d:conky
+d:dcfldd
 d:icecat-bin
 d:obkey
 d:thunar-archive-plugin
@@ -78,7 +83,6 @@ d:compton-git
 d:faenza-icon-theme
 d:dropbox
 d:iw
-d:cdrtools
 d:ruby-sass-listen
 d:xfce4-netload-plugin
 d:xfce4-whiskermenu-plugin
@@ -88,6 +92,7 @@ d:nitrogen
 d:obmenu
 d:scratchpkg
 d:htop
+d:galculator
 d:xf86-video-vesa
 d:libconfig
 d:flash-player-plugin
@@ -95,6 +100,7 @@ d:xfontsel
 d:numix-themes-blue-git
 d:tty-clock
 d:plank
+d:freeglut
 d:ohsnap
 d:gnome-bluetooth
 d:giblib
@@ -163,6 +169,11 @@ f:f04da1caddd43e2fb79d7b95e3f5ae32:neofetch/.md5sum
 f:5dd7f3f2aa20c84ff065db88b2f0c142:neofetch/spkgbuild
 f:a9a6ce5e7743e05d84c0ea5be1e1f74f:volumeicon/.md5sum
 f:d1e7722ac358b8c8320d2c17b15547a3:volumeicon/spkgbuild
+f:a7ca50b3b5b607a4d0c55b58497aed4b:glew/.md5sum
+f:1924dbe88423bfba4fab2bb0830e831d:glew/spkgbuild
+f:9f618b99cee9b99c537075672887bc03:syslinux/.md5sum
+f:8ab5c54f69b1e506ebcedc4280578f7d:syslinux/spkgbuild
+f:3f848b0256e495425f4c5d4fcc391327:syslinux/syslinux-Makefile.patch
 f:cdba45e5c94002cd41a10958f039a500:yajl/.md5sum
 f:e84386a49a8c36568ebace3c3ca3038d:yajl/spkgbuild
 f:12062f14e9c1df0267b7e7c4cb164a3d:nnn/.md5sum
@@ -189,6 +200,8 @@ f:846df00d434fb9b2574734731bcf20dd:terminus-font/spkgbuild
 f:5516279386897417039aca2269af0165:fakeroot/.md5sum
 f:5fba0b541b5af39d804265223fda525c:fakeroot/silence-dlerror.patch
 f:8cfa655c42b92753726fb81b0dde37cf:fakeroot/spkgbuild
+f:4abed01f3d332f34753b752887be39ac:mesa-demos/.md5sum
+f:9e31659aed98ae966c819ef98558c3cb:mesa-demos/spkgbuild
 f:832bdbba9fca1cf95234d940fc44c7d1:awesome-font/.md5sum
 f:0abe78ea111fe05c79570c6c07c6b50b:awesome-font/spkgbuild
 f:32e8831c9cea6bb7d03b630986a7c262:awesome-font/awesome-font.install
@@ -218,6 +231,8 @@ f:90f36a8b858bc1eb6b7f0624d967590c:cdw/.md5sum
 f:e210dd16a9c26143abe498baf5a2f0aa:cdw/spkgbuild
 f:d41d8cd98f00b204e9800998ecf8427e:linux-firmware/.md5sum
 f:326876a3b827d30f7e192709c832c895:linux-firmware/spkgbuild
+f:2123d237e2b0698fa4b8745c2d5c3abf:mtools/.md5sum
+f:74704553bc985aac90b6164fb3f19e34:mtools/spkgbuild
 f:9a96035c746fe4bac5d3074b78d2dcd8:ethtool/.md5sum
 f:88dba6318f0cba3ae62aaf73a22a3ced:ethtool/spkgbuild
 f:5f375272a3daf690b5f4180fbaa017ab:scrot/.md5sum
@@ -245,6 +260,8 @@ f:97d283c2a5580614c1ff2b6730de43d9:conky/.md5sum
 f:44cdadfe92266e99698e5424b7c6e265:conky/lua53.patch
 f:7027562c8ed6e36910b58ca196279151:conky/spkgbuild
 f:aa029d38db40f5708dcfd76b13eae32a:conky/gcc7.patch
+f:ecbd47c792e4397390b405aaebfa0c7b:dcfldd/.md5sum
+f:2ed99be919a0c867db2a8e30b8f6a99d:dcfldd/spkgbuild
 f:77645006cf1cc0b2247c7a2cbf925dc4:icecat-bin/.md5sum
 f:2965d6561c4c4473e1e392a20f5e61cb:icecat-bin/icecat.desktop
 f:a1c020386c7a705c164049ca56139b8f:icecat-bin/icecat-launcher.sh
@@ -327,8 +344,6 @@ f:f3350cc0fb7b5f4fb6f2c0adda7e1260:dropbox/dropbox.desktop
 f:edd5982bac256d898516b3e18f28eb4b:dropbox/spkgbuild
 f:9027d7ec1aae415ce76dac2f7bf7bb0a:iw/.md5sum
 f:8317c6cf75f294841fd00588a5bbd591:iw/spkgbuild
-f:adb998016fca832709c0e9d5244b2751:cdrtools/.md5sum
-f:e0ec8baae1fa65010218c6f827c20ace:cdrtools/spkgbuild
 f:dd673b8f228ba508457e92d7618b1637:ruby-sass-listen/.md5sum
 f:2bc0e0a6947036aa0a02c1e62f44882a:ruby-sass-listen/spkgbuild
 f:638b6e6a3784f7d45be324b327ff0412:xfce4-netload-plugin/.md5sum
@@ -349,6 +364,8 @@ f:6312731ef794f4904cc163d6c96f1bd2:scratchpkg/spkgbuild
 f:69e3b5fb4a10493c3416e9177c81c02f:scratchpkg/scratchpkg.install
 f:206f18250cbccdcfcd308f1d79a4ab20:htop/.md5sum
 f:77fd6f7b0b05c18829a0af126902eff7:htop/spkgbuild
+f:f912bf0e68056c5719325940caecb5e9:galculator/.md5sum
+f:ce4f403844f0943029f0b60c8946ede0:galculator/spkgbuild
 f:1c0a70a469f8300554077c70eff261f8:xf86-video-vesa/.md5sum
 f:43783653156a72ca99fce6fbfb879c1e:xf86-video-vesa/spkgbuild
 f:228ab017dda8fb1ccc2cc36022eac304:libconfig/.md5sum
@@ -363,6 +380,8 @@ f:0294c8281aae70eb1c56c04cee291c3c:tty-clock/.md5sum
 f:116f1879bb572037ca12ff0e8cc26ca0:tty-clock/spkgbuild
 f:c389041bfc2eadc1a2a3146911012bd7:plank/.md5sum
 f:c8dd0a8153d7900b8b3082adf4234f6d:plank/spkgbuild
+f:e7d2f93f9c8c36a4609aab60b09f1ed2:freeglut/.md5sum
+f:6235343b082942becbe7f35db4ea9c28:freeglut/spkgbuild
 f:3b22f8d080f317c829cc0d1c4ab74bd5:ohsnap/.md5sum
 f:47b8011bcb6287f947c31e0713c5f150:ohsnap/spkgbuild
 f:91d652bb2e0b73d34ac103dd677f19fc:ohsnap/ohsnap.install
