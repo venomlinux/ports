@@ -1,15 +1,14 @@
 # description	: Modern toolset used for generating Makefiles
-# depends	: curl libarchive
+# depends	: curl libarchive libuv
 
 name=cmake
-version=3.9.6
+version=3.10.0
 release=1
-source=(http://www.cmake.org/files/v${version:0:3}/$name-$version.tar.gz)
+source=(http://www.cmake.org/files/v${version%.*}/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
 
-	sed -i '/CMAKE_USE_LIBUV 1/s/1/0/' CMakeLists.txt
 	sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 
   	./bootstrap --prefix=/usr       \

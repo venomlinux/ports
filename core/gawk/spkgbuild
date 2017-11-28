@@ -3,11 +3,14 @@
 
 name=gawk
 version=4.2.0
-release=2
+release=3
 source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
+
+	# ensure some unneeded files are not installed
+	sed -i 's/extras//' Makefile.in
 
 	./configure --prefix=/usr
 	make
