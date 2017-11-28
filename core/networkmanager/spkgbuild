@@ -5,7 +5,7 @@
 
 name=networkmanager
 version=1.10.0
-release=1
+release=2
 source=(http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
 	networkmanager.rc)
 
@@ -33,7 +33,7 @@ EOF
 mkdir -p $PKG/usr/share/polkit-1/rules.d
 cat > $PKG/usr/share/polkit-1/rules.d/org.freedesktop.NetworkManager.rules << "EOF"
 polkit.addRule(function(action, subject) {
-    if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0 && subject.isInGroup("netdev")) {
+    if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0 && subject.isInGroup("users")) {
         return polkit.Result.YES;
     }
 });
