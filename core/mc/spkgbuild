@@ -4,7 +4,7 @@
 # depends	: glib pcre slang
 
 name=mc
-version=4.8.19
+version=4.8.20
 release=1
 source=(http://ftp.midnight-commander.org/$name-$version.tar.xz)
 
@@ -15,7 +15,5 @@ build() {
 	            --enable-charset
 	make
 	make DESTDIR=$PKG install
-
-	cp -v doc/keybind-migration.txt $PKG/usr/share/mc
 }
 
