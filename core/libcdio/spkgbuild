@@ -5,10 +5,13 @@
 name=libcdio
 version=1.0.0
 release=1
-source=(ftp://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+source=(ftp://ftp.gnu.org/gnu/$name/$name-$version.tar.gz
+	$name-$version-upstream_fix-1.patch)
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-upstream_fix-1.patch
 
 	./configure --prefix=/usr --disable-static
 	make

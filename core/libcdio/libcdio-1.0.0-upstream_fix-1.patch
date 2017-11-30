@@ -1,0 +1,35 @@
+Submitted By:            Bruce Dubbs <bdubbs@linuxfromscratch.org>
+Date:                    2017-11-28
+Initial Package Version: 1.0.0
+Upstream Status:         Fixed.
+Origin:                  Upstream.
+Description:             Fixes build error when libcddb is detected.
+
+diff --git a/src/cdda-player.c b/src/cdda-player.c
+index efeee195..333e1f59 100644
+--- a/src/cdda-player.c
++++ b/src/cdda-player.c
+@@ -531,8 +531,8 @@ static void
+ get_cddb_disc_info(CdIo_t *p_cdio)
+ {
+ #ifdef HAVE_CDDB
+-  b_db = init_cddb(p_cdio, &p_conn, &p_cddb_disc, xperror, i_first_track,
+-                   i_tracks, &i_cddb_matches);
++  b_db = init_cddb(p_cdio, &p_conn, &p_cddb_disc, xperror, i_first_track_global,
++                   i_tracks_global, &i_cddb_matches);
+   if (b_db) {
+     int i_year;
+     i_year = atoi(year);
+@@ -831,7 +831,7 @@ get_cddb_track_info(track_t i_track)
+ {
+ #ifdef HAVE_CDDB
+   cddb_track_t *t = cddb_disc_get_track(p_cddb_disc,
+-                                        i_track - i_first_track);
++                                        i_track - i_first_track_global);
+   if (t) {
+     cddb_track_set_title(t, title);
+     cddb_track_set_artist(t, artist);
+-- 
+2.13.3
+
+
