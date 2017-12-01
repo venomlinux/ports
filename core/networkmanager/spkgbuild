@@ -5,7 +5,7 @@
 
 name=networkmanager
 version=1.10.0
-release=2
+release=3
 source=(http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
 	networkmanager.rc)
 
@@ -20,6 +20,7 @@ build() {
 	            --disable-ppp                  \
 	            --disable-json-validation      \
 	            --disable-ovs                  \
+            	    --with-udev-dir=/lib/udev      \
 	            --with-systemdsystemunitdir=no
 	make
 	make DESTDIR=$PKG install
