@@ -4,18 +4,17 @@
 # makedepends	: cmake yasm
 
 name=x265
-version=2.5
+version=2.6
 release=1
 source=(https://bitbucket.org/multicoreware/$name/downloads/${name}_${version}.tar.gz)
 
 build() {
-	cd ${name}_${version}
+	cd ${name}_v${version}
 
 	mkdir bld
 	cd    bld
 
 	cmake -DCMAKE_INSTALL_PREFIX=/usr \
-	      -DENABLE_STATIC=OFF         \
 	      ../source
 	make
 	make DESTDIR=$PKG install
