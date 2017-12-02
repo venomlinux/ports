@@ -1,20 +1,35 @@
 # description	: Panel applet used to configure wired and wireless network connections
 # depends	: gtk3 iso-codes libsecret libnotify networkmanager modemmanager
-# makedepends	: gobject-introspection
+# makedepends	: gobject-introspection meson
 
 name=network-manager-applet
-version=1.8.4
-release=2
+version=1.8.6
+release=1
 source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::3}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr       \
-	            --sysconfdir=/etc   \
-	            --disable-static    \
-            	    --without-selinux   \
-	            --without-team
-	make
-	make DESTDIR=$PKG install
+	#./configure --prefix=/usr       \
+	#            --sysconfdir=/etc   \
+	#            --disable-static    \
+        #    	    --without-selinux   \
+	#            --without-team
+	#make
+	#make DESTDIR=$PKG install
+
+	mkdir build
+	cd build
+	
+	meson --prefix=/usr           \
+	      --sysconfdir=/etc       \
+	      -Denable-libnm-gtk=true \
+	      -Denable-selinux=false  \
+	      -Denable-team=false     \
+	      -Denable-gtk-doc=false
+	ninja
+	DESTDIR=$PKG ninja install
+
+	# Fix an error in the install pkg-config file
+	sed 's@linm-glib@libnm-glib@' -i $PKG/usr/lib/pkgconfig/libnm-gtk.pc
 }
