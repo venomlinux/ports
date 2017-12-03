@@ -4,12 +4,15 @@
 
 name=firefox
 version=57.0
-release=1
+release=2
 source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/$name-$version.source.tar.xz
-	$name-$version-system_graphite2_harfbuzz-1.patch)
+	$name-$version-system_graphite2_harfbuzz-1.patch
+	firefox-dir.patch)
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i ../firefox-dir.patch
 
   	cat > mozconfig << "EOF"
 # If you have a multicore machine, all cores will be used by default.
@@ -112,10 +115,10 @@ EOF
 	unset BINDGEN_CFLAGS
 
 	make -f client.mk DESTDIR=$PKG install INSTALL_SDK=
-	chown -R 0:0 $PKG/usr/lib/$name-$version
+	chown -R 0:0 $PKG/usr/lib/$name
 
 	mkdir -pv    $PKG/usr/lib/mozilla/plugins
-	ln    -sfv   ../../mozilla/plugins $PKG/usr/lib/$name-$version/browser
+	ln    -sfv   ../../mozilla/plugins $PKG/usr/lib/$name/browser
 
 	install -d $PKG/usr/share/applications
 	install -d $PKG/usr/share/pixmaps
@@ -135,7 +138,7 @@ MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/vnd.mo
 StartupNotify=true
 EOF
 
-	ln -sfv /usr/lib/$name-$version/browser/icons/mozicon128.png \
+	ln -sfv /usr/lib/$name/browser/icons/mozicon128.png \
 	        $PKG/usr/share/pixmaps/firefox.png
 
 }
