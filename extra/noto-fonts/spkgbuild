@@ -1,0 +1,16 @@
+# description	: Google Noto TTF fonts
+# depends	: fontconfig
+
+name=noto-fonts
+version=2017-09-19
+release=1
+source=($name-$version.tar.gz::https://github.com/googlei18n/noto-fonts/archive/v$version-phase3-second.tar.gz
+	66-noto-sans.conf 66-noto-serif.conf 66-noto-mono.conf)
+
+build() {
+	cd noto-fonts-*
+	install -Dm644 unhinted/Noto*.ttf -t $PKG/usr/share/fonts/noto
+	install -Dm644 hinted/Noto*.ttf -t $PKG/usr/share/fonts/noto
+
+	install -Dm644 $SRC/*.conf -t $PKG/etc/fonts/conf.avail/
+}

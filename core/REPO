@@ -36,6 +36,7 @@ d:libexif
 d:gst-plugins-bad
 d:sqlite
 d:flex
+d:openjpeg2
 d:ffmpeg
 d:sgml-common
 d:xfce4-settings
@@ -420,8 +421,7 @@ f:25abb6ed83c3a629d0b8d90045a911cd:neon/.md5sum
 f:ec1f92d73c97b9cbad5d869666adea11:neon/spkgbuild
 f:5b3e888215475cdb2dfbccefe45f7628:libndp/.md5sum
 f:72865e099a14a752a6c69f521076f8fd:libndp/spkgbuild
-f:e960e8fcaf2f4c9d0f0c9c4cd1b735e4:udisks2/.md5sum
-f:a24e88e8bca9518b3dde567510760aea:udisks2/spkgbuild
+f:d476470374ef885b35eceab94677764b:udisks2/spkgbuild
 f:b6af834952db838479e9baece75e8a03:at-spi2-atk/.md5sum
 f:73bcc7645cb7ae92fc06b4f21c60b299:at-spi2-atk/spkgbuild
 f:316d43ca5b26c6164be87e3c3b3fb3b5:json-glib/.md5sum
@@ -460,8 +460,8 @@ f:610c2c6b7c1ef20eccb89d2719828f36:mpg123/.md5sum
 f:c4978aa201148eb5783d8c23eef02a63:mpg123/spkgbuild
 f:419ed9176af27e8cc150377909dc342d:python2-crypto/.md5sum
 f:497d6787fd765853399eb59d9c48fc6c:python2-crypto/spkgbuild
-f:b6b76a86af2f093f804ea57c4aad9ac3:poppler/.md5sum
-f:6f6f0ac2a321530bb34e5009d8cc2ba3:poppler/spkgbuild
+f:9946e3ed3a35df63ff3b1684c87d1e73:poppler/.md5sum
+f:beaa35ec7e70ca5e0baa575e3f061977:poppler/spkgbuild
 f:98ef8eac5f533141e20a0640f39ac002:xfce4-power-manager/.md5sum
 f:44bbe5c389da1f9297bbc2f3bffed844:xfce4-power-manager/spkgbuild
 f:26ae611129880209e8912b519fa29896:gcc/.md5sum
@@ -477,6 +477,8 @@ f:baf2ac9eea1f1914c4650d64ccee223d:sqlite/.md5sum
 f:6ae7141300585aa60ba5f58ef9d033bd:sqlite/spkgbuild
 f:8a693abfb52f54f4998f8f99b2bfb1d1:flex/.md5sum
 f:c73d604366ef26645228b65c3a1cdc54:flex/spkgbuild
+f:67a91445e48d92e1e339fbb18ced6c54:openjpeg2/.md5sum
+f:a6091bd440678a91f6634914664fc78a:openjpeg2/spkgbuild
 f:e0c3dea99801faff9a3ab6b88693f477:ffmpeg/.md5sum
 f:094034c18da4aba8617735e205a50082:ffmpeg/spkgbuild
 f:f1e5cdf7835bec244181bf842025a6f2:sgml-common/.md5sum
@@ -986,8 +988,8 @@ f:e6d262f60b03c2a837d4a1e07c0e80c8:gst-plugins-base/.md5sum
 f:d88b1f0b61aa82e205f2fa1feef15916:gst-plugins-base/spkgbuild
 f:abd7dcd0f7883d09f7c40f39402caf76:libisoburn/.md5sum
 f:2fd68d58694f66184ee7799e5f77b650:libisoburn/spkgbuild
-f:08541655ba3314a9ab4c8f321fe5ce5a:pinentry/.md5sum
-f:64ea3ee74f5ea729a5261b0473fab855:pinentry/spkgbuild
+f:98277f78b68d9b3b2e5da50c8cfa8ca7:pinentry/.md5sum
+f:3b3545f9773876372226da92986960a0:pinentry/spkgbuild
 f:e48509e0d4da240c13f35b135385a700:ca-certificates-utils/.md5sum
 f:f9b2a490af6250ea8641f465fdd98dfd:ca-certificates-utils/spkgbuild
 f:f9ddc0dd80d851f89c5097daead6c0ae:npth/.md5sum
@@ -1175,8 +1177,8 @@ f:12a45b9b92e674202722dbe2f31fad0e:dbus/spkgbuild
 f:0b3af2dd3cdcba17eadee20cfe2e5640:dbus/dbus.rc
 f:171b7c22a569ff3611cf288b0abe4fb9:chrpath/.md5sum
 f:682ce7d5e0b7c4baa91df6c2b3fad9ed:chrpath/spkgbuild
-f:a5fe6b3d6c88be6cb51f3f641745b0fa:harfbuzz/.md5sum
-f:217e0d7c931b3d2756376d3ef9ccbf5e:harfbuzz/spkgbuild
+f:2f544b87092b177fd2c343cb55016abe:harfbuzz/.md5sum
+f:1836621b970502b2aa8ac25082e5d853:harfbuzz/spkgbuild
 f:e2ed8c24350efad9fcd26cb6e1c70df9:xfconf/.md5sum
 f:4d5db49fbcc7420cfe0da53d65f7fa64:xfconf/spkgbuild
 f:0697825d35e4eb30fbddce8bd3877136:sysklogd/.md5sum
@@ -1209,7 +1211,7 @@ f:3131bf6b809b4e6c63da9e14120bbff6:libdvdread/.md5sum
 f:1b88fcffc21a7869364e053154e6faef:libdvdread/spkgbuild
 f:0ddd27747969ba905bd28fd558940a19:libcdio/.md5sum
 f:7dde8564b621a831bae192a199c29f1d:libcdio/libcdio-1.0.0-upstream_fix-1.patch
-f:396f916ad55b788da7ebc07967a2215c:libcdio/spkgbuild
+f:cdf86daf50f53ef3abd4b817e0332067:libcdio/spkgbuild
 f:e0bc8dfa57735aa0c459ddcbc8da8294:graphite2/.md5sum
 f:9a23f2a81d1243919eae3a03c7fe3f0e:graphite2/spkgbuild
 f:eb87f41b080da1744930e12110960ac1:libblockdev/.md5sum
