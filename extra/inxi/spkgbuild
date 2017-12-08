@@ -1,0 +1,12 @@
+# description	: Script to get system information
+# depends	: coreutils gawk grep pciutils procps-ng sed
+
+name=inxi
+version=2.3.53
+release=1
+source=($name-$version.tar.gz::https://github.com/smxi/inxi/raw/master/inxi.tar.gz)
+
+build() {
+	install -D -m755 inxi $PKG/usr/bin/inxi
+	install -D -m755 inxi.1.gz $PKG/usr/share/man/man1/inxi.1.gz
+}
