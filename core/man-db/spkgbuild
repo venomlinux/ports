@@ -5,9 +5,8 @@
 
 name=man-db
 version=2.7.6.1
-release=2
-source=(http://download.savannah.gnu.org/releases/$name/$name-$version.tar.xz
-	man-db-cache-update.hook)
+release=3
+source=(http://download.savannah.gnu.org/releases/$name/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -22,6 +21,4 @@ build() {
 	            --with-systemdtmpfilesdir=
 	make
 	make DESTDIR=$PKG install
-
-	install -Dm644 $SRC/man-db-cache-update.hook $PKG/etc/hooks/man-db-cache-update.hook
 }
