@@ -1,0 +1,21 @@
+# description	: Minimalistic plugin API for video effects
+# depends	: gavl
+
+name=frei0r-plugins
+version=1.6.1
+release=1
+source=(https://files.dyne.org/frei0r/releases/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	
+	mkdir -vp build
+	cd        build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr    \
+	      -DCMAKE_BUILD_TYPE=Release     \
+	      -DOpenCV_DIR=/usr/share/OpenCV \
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,47 @@
+# description	: Graphics libraries mainly aimed at real-time computer vision
+# depends	: ffmpeg gst-plugins-base gtk3 jasper libjpeg-turbo libpng libtiff libwebp python2 v4l-utils xine-lib
+# makedepends	: libarchive cmake
+# noextract	: ippicv_2017u2_lnx_intel64_20170418.tgz opencv_contrib-3.3.0.tar.gz
+
+name=opencv
+version=3.3.0
+release=1
+source=(https://downloads.sourceforge.net/opencvlibrary/$name-$version.zip
+	https://raw.githubusercontent.com/opencv/opencv_3rdparty/a62e20676a60ee0ad6581e217fe7e4bada3b95db/ippicv/ippicv_2017u2_lnx_intel64_20170418.tgz
+	https://github.com/opencv/opencv_contrib/archive/$version/opencv_contrib-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	ipp_file=ippicv_2017u2_lnx_intel64_20170418.tgz
+	ipp_hash=$(md5sum ../$ipp_file | cut -d" " -f1)
+	ipp_dir=.cache/ippicv
+	
+	mkdir -p $ipp_dir
+	cp ../$ipp_file $ipp_dir/$ipp_hash-$ipp_file
+
+	tar xf ../opencv_contrib-$version.tar.gz
+
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr      \
+	      -DCMAKE_BUILD_TYPE=Release       \
+	      -DENABLE_CXX11=ON                \
+	      -DBUILD_PERF_TESTS=OFF           \
+	      -DWITH_XINE=ON                   \
+	      -DBUILD_TESTS=OFF                \
+	      -DENABLE_PRECOMPILED_HEADERS=OFF \
+	      -DCMAKE_SKIP_RPATH=ON            \
+	      -DBUILD_WITH_DEBUG_INFO=OFF      \
+	      -Wno-dev  .. 
+	make
+	make DESTDIR=$PKG install
+
+	case $(uname -m) in
+	  x86_64) ARCH=intel64 ;;
+	       *) ARCH=ia32    ;;
+	esac
+
+	cp -v 3rdparty/ippicv/ippicv_lnx/lib/$ARCH/libippicv.a $PKG/usr/lib
+}

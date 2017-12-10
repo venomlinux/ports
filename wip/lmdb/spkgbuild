@@ -1,0 +1,13 @@
+# description	: Fast, compact, key-value embedded data store
+
+name=lmdb
+version=0.9.21
+release=1
+source=(https://github.com/LMDB/lmdb/archive/LMDB_${version}.tar.gz)
+
+build() {
+	cd lmdb-LMDB_${version}/libraries/liblmdb
+	make
+	sed -i 's| liblmdb.a||' Makefile
+	make prefix=$PKG/usr install
+}

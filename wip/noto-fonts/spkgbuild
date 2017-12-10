@@ -1,0 +1,18 @@
+# description	: Google Noto TTF fonts
+# depends	: fontconfig
+
+name=noto-fonts
+version=2016-06-13
+_commit=19ce9d5
+release=1
+source=($name-$version.zip::https://github.com/googlei18n/noto-fonts/archive/$_commit.zip)
+
+build() {
+	mkdir -p $PKG/usr/share/fonts/noto
+	install -m644 $name-*/hinted/Noto*.ttf $PKG/usr/share/fonts/noto
+
+	mkdir -p $PKG/usr/share/fonts/TTF
+	for font in Arimo Cousine Tinos; do
+		install -m644 $name-*/hinted/$font*.ttf $PKG/usr/share/fonts/TTF
+	done
+}

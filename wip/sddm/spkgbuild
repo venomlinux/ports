@@ -1,0 +1,90 @@
+# description	: Lightweight display manager based upon Qt and QML
+# depends	: linux-pam upower consolekit2 qt5 xorg-server
+# makedepends	: extra-cmake-modules
+
+name=sddm
+version=0.15.0
+release=1
+BOOTSCRIPTS_VERSION=20170731
+source=(https://github.com/sddm/sddm/releases/download/v$version/sddm-$version.tar.gz
+	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xz)
+
+build() {
+	cd $name-$version
+
+	# fix the application to start upowerd, if necessary, and after login, start the session with ck-launch-session
+	sed -e '/UPOWER_SERVICE)/ s:^://:' \
+	    -i src/daemon/PowerManager.cpp &&
+
+	sed -e '/\$@$/s/exec/& ck-launch-session/' \
+	    -i data/scripts/Xsession
+
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DCMAKE_BUILD_TYPE=Release  \
+	      -DENABLE_JOURNALD=OFF       \
+	      -DDBUS_CONFIG_FILENAME=sddm_org.freedesktop.DisplayManager.conf \
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+
+	install -v -dm755 -o sddm -g sddm $PKG/var/lib/sddm
+
+	cd $SRC/blfs-bootscripts-$BOOTSCRIPTS_VERSION
+
+        make DESTDIR=$PKG install-sddm
+
+	mkdir -p $PKG/etc/pam.d
+cat > $PKG/etc/pam.d/sddm << "EOF"
+# Begin /etc/pam.d/sddm
+
+auth     requisite      pam_nologin.so
+auth     required       pam_env.so
+
+auth     required       pam_succeed_if.so uid >= 1000 quiet
+auth     include        system-auth
+
+account  include        system-account
+password include        system-password
+
+session  required       pam_limits.so
+session  include        system-session
+
+# End /etc/pam.d/sddm
+EOF
+
+cat > $PKG/etc/pam.d/sddm-autologin << "EOF"
+# Begin /etc/pam.d/sddm-autologin
+
+auth     requisite      pam_nologin.so
+auth     required       pam_env.so
+
+auth     required       pam_succeed_if.so uid >= 1000 quiet
+auth     required       pam_permit.so
+
+account  include        system-account
+
+password required       pam_deny.so
+
+session  required       pam_limits.so
+session  include        system-session
+
+# End /etc/pam.d/sddm-autologin
+EOF
+
+cat > $PKG/etc/pam.d/sddm-greeter << "EOF"
+# Begin /etc/pam.d/sddm-greeter
+
+auth     required       pam_env.so
+auth     required       pam_permit.so
+
+account  required       pam_permit.so
+password required       pam_deny.so
+session  required       pam_unix.so
+-session optional       pam_systemd.so
+
+# End /etc/pam.d/sddm-greeter
+EOF
+}

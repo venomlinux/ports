@@ -1,0 +1,18 @@
+# description	: Provides a series of utilities for media devices
+# depends	: alsa-lib glu libjpeg-turbo
+# makedepends	: qt5
+
+name=v4l-utils
+version=1.12.5
+release=1
+source=(https://www.linuxtv.org/downloads/v4l-utils/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	
+	./configure --prefix=/usr     \
+	            --sysconfdir=/etc \
+	            --disable-static
+	make
+	make -j1 DESTDIR=$PKG install
+}

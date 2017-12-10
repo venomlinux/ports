@@ -1,0 +1,22 @@
+# description	: Library used to enforce strong passwords by comparing user selected passwords to words in chosen word lists
+
+name=cracklib
+version=2.9.6
+release=1
+source=(https://github.com/cracklib/cracklib/releases/download/$name-$version/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	sed -i '/skipping/d' util/packer.c
+
+	./configure --prefix=/usr    \
+	            --disable-static \
+	            --with-default-dict=/lib/cracklib/pw_dict
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/lib
+	mv -v $PKG/usr/lib/libcrack.so.* $PKG/lib
+	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libcrack.so) $PKG/usr/lib/libcrack.so
+}

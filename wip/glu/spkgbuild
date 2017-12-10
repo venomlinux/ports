@@ -1,0 +1,14 @@
+# description	: Mesa OpenGL Utility library
+# depends	: mesa
+
+name=glu
+version=9.0.0
+release=1
+source=(ftp://ftp.freedesktop.org/pub/mesa/glu/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

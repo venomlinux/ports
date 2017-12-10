@@ -1,0 +1,25 @@
+# description	: Plasma library and runtime components based upon KF5 and Qt5
+# depends	: qt5 kactivities kdeclarative kwayland
+# makedepends	: extra-cmake-modules kdoctools python3
+
+name=plasma-framework
+version=5.37.0
+release=1
+source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+	      -DCMAKE_PREFIX_PATH=/usr		\
+	      -DCMAKE_BUILD_TYPE=Release	\
+	      -DBUILD_TESTING=OFF		\
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}

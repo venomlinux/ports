@@ -1,0 +1,13 @@
+# description	: Open source search engine library
+
+name=xapian-core
+version=1.4.5
+release=1
+source=(http://oligarchy.co.uk/xapian/$version/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

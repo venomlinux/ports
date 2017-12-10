@@ -1,0 +1,22 @@
+# description	: KDE File Manager
+# depends	: baloo knewstuff kio-extras kcmutils kparts kinit
+# makedepends	: extra-cmake-modules kdoctools python3
+
+name=dolphin
+version=17.08.0
+release=1
+source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+		 -DCMAKE_BUILD_TYPE=Release	\
+		 -DBUILD_TESTING=OFF		\
+		 -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}

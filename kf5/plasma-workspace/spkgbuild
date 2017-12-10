@@ -1,0 +1,28 @@
+# description	: KDE Plasma Workspace
+# depends	: kjsembed knotifyconfig libxdamage libksysguard ktexteditor qt5 kde-cli-tools xrdb xsetroot kactivitymanagerd xmessage xprop milou kwin plasma-integration kdelibs4support kxmlrpcclient kidletime kxmlgui phonon-backend-gstreamer
+# makedepends	: extra-cmake-modules kdoctools baloo krunner kxmlrpcclient networkmanager-qt kdesignerplugin
+
+name=plasma-workspace
+version=5.10.5
+release=2
+source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+		 -DCMAKE_BUILD_TYPE=Release	\
+		 -DBUILD_TESTING=OFF		\
+		 -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+
+	(cd $PKG/usr/share/plasma/plasmoids
+		for j in $(find -name \*.js); do
+			ln -sfv ../code/$(basename $j) $(dirname $j)/../ui/
+		done
+	)
+}
