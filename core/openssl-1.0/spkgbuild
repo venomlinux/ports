@@ -1,10 +1,10 @@
 # description	: Libraries relating to cryptography
 
 name=openssl-1.0
-version=1.0.2m
+version=1.0.2n
 release=1
 source=(https://openssl.org/source/openssl-$version.tar.gz
-	http://www.linuxfromscratch.org/patches/blfs/svn/openssl-$version-compat_versioned_symbols-1.patch)
+	openssl-$version-compat_versioned_symbols-1.patch)
 
 build() {
 	cd openssl-$version
@@ -20,6 +20,7 @@ build() {
 	make -j1
 	make DESTDIR=$PKG INSTALL_PREFIX=$PWD/Dest install_sw
 
+	rm -rf $PKG/usr/lib/openssl-1.0
 	install -vdm755                   $PKG/usr/lib/openssl-1.0
 	cp -Rv Dest/usr/lib/openssl-1.0/* $PKG/usr/lib/openssl-1.0
 	

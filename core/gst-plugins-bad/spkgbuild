@@ -4,7 +4,7 @@
 # depends	: gst-plugins-base libdvdread libdvdnav llvm soundtouch
 
 name=gst-plugins-bad
-version=1.12.3
+version=1.12.4
 release=1
 source=(https://gstreamer.freedesktop.org/src/gst-plugins-bad/$name-$version.tar.xz)
 
@@ -13,9 +13,7 @@ build() {
 	
 	./configure --prefix=/usr     \
 	            --disable-wayland \
-	            --disable-opencv  \
-	            --with-package-name="GStreamer Bad Plugins $version BLFS" \
-	            --with-package-origin="http://www.linuxfromscratch.org/blfs/view/svn/" 
+	            --disable-opencv 
 	make
 	make DESTDIR=$PKG install
 }

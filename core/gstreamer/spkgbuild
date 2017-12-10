@@ -5,16 +5,14 @@
 # makedepends	: gobject-introspection
 
 name=gstreamer
-version=1.12.3
+version=1.12.4
 release=1
 source=(http://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr \
-	            --with-package-name="GStreamer $version BLFS" \
-	            --with-package-origin="http://www.linuxfromscratch.org/blfs/view/svn/"
+	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
 }
