@@ -4,11 +4,11 @@
 
 name=filesystem
 version=1.0
-release=1
+release=2
 source=(passwd group resolv.conf hosts hostname inputrc usb.conf
 	shells fstab lsb-release bashrc profile
-	bash_completion.sh dircolors.sh extrapaths.sh readline.sh
-	umask.sh i18n.sh bash_profile.skel profile.skel bashrc.skel bash_logout.skel)
+	bash_completion.sh dircolors.sh readline.sh
+	umask.sh i18n.sh bash_profile.skel xprofile.skel bashrc.skel bash_logout.skel)
 
 build() {
 
@@ -57,13 +57,13 @@ build() {
 	install -m644 profile $PKG/etc
 	install -m644 bash_completion.sh $PKG/etc/profile.d
 	install -m644 dircolors.sh $PKG/etc/profile.d
-	install -m644 extrapaths.sh $PKG/etc/profile.d
+	#install -m644 extrapaths.sh $PKG/etc/profile.d
 	install -m644 readline.sh $PKG/etc/profile.d
 	install -m644 umask.sh $PKG/etc/profile.d
 	install -m644 i18n.sh $PKG/etc/profile.d
 	mkdir -pv $PKG/etc/skel
 	install -m644 bash_profile.skel $PKG/etc/skel/.bash_profile
-	install -m644 profile.skel $PKG/etc/skel/.profile
+	install -m644 xprofile.skel $PKG/etc/skel/.xprofile
 	install -m644 bashrc.skel $PKG/etc/skel/.bashrc
 	install -m644 bash_logout.skel $PKG/etc/skel/.bash_logout
 	
