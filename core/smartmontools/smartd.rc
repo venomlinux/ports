@@ -17,7 +17,7 @@ case $1 in
 		fi
 		$PROG
 		touch $PIDFILE
-        ;;
+		;;
 	stop)
 		echo "Stopping $NAME..."
 		if [ "$PROCPID" ]; then
@@ -26,12 +26,12 @@ case $1 in
 			done
 		fi
 		rm -f $PIDFILE
-        ;;
+		;;
 	restart)
-        $0 stop
-        sleep 1
-        $0 start
-        ;;
+		$0 stop
+		sleep 1
+		$0 start
+		;;
 	status)
 		if [ "$PROCPID" ]; then
 			echo "$NAME is running with pid: $PROCPID"
@@ -40,8 +40,10 @@ case $1 in
 		fi
 		;;
 	*)
-        echo "usage: $0 [start|stop|restart|status]"
-        ;;
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
 esac
 
 exit 0
+
+# End of file

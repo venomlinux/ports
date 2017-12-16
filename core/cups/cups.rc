@@ -14,7 +14,7 @@ case $1 in
 			exit
 		fi
 		$PROG
-        ;;
+		;;
 	stop)
 		echo "Stopping $NAME..."
 		if [ "$PROCPID" ]; then
@@ -22,11 +22,11 @@ case $1 in
 				kill "$pid"
 			done
 		fi
-        ;;
+		;;
 	restart)
-        $0 stop
-        $0 start
-        ;;
+		$0 stop
+		$0 start
+		;;
 	status)
 		if [ "$PROCPID" ]; then
 			echo "$NAME is running with pid: $PROCPID"
@@ -35,8 +35,10 @@ case $1 in
 		fi
 		;;
 	*)
-        echo "usage: $0 [start|stop|restart|status]"
-        ;;
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
 esac
 
 exit 0
+
+# End of file

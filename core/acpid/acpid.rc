@@ -1,13 +1,12 @@
 #!/bin/sh
 #
-# /etc/rc.d/rsync: start/stop RSYNC Server
+# /etc/rc.d/acpid: start/stop acpid daemon
 #
 
-NAME="RSYNC Server"
-PROG=/usr/bin/rsync
-OPTS="--daemon"
-PROGNAME=$(basename `echo $PROG`)
-PROCPID=$(pidof $PROGNAME)
+NAME="ACPI event daemon"
+PROG=/usr/sbin/acpid
+PROCPID=$(pidof $PROG)
+PIDFILE=/run/acpid.pid
 
 case $1 in
 	start)
@@ -15,7 +14,8 @@ case $1 in
 		if [ "$PROCPID" ]; then
 			exit
 		fi
-		$PROG $OPTS
+		$PROG
+		sleep 1
 		;;
 	stop)
 		echo "Stopping $NAME..."
@@ -24,6 +24,7 @@ case $1 in
 				kill "$pid"
 			done
 		fi
+		rm -f $PIDFILE
 		;;
 	restart)
 		$0 stop

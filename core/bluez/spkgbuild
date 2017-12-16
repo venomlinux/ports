@@ -5,10 +5,11 @@
 
 name=bluez
 version=5.47
-release=1
+release=2
 source=(http://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
 	$name-$version-obexd_without_systemd-1.patch
-	bluetooth.rc)
+	bluetooth.rc
+	bluetooth.conf)
 
 build() {
 	cd $name-$version
@@ -54,4 +55,5 @@ cat > $PKG/etc/bluetooth/uart.conf << "EOF"
 EOF
 
 	install -Dm755 $SRC/bluetooth.rc $PKG/etc/rc.d/bluetooth
+	install -Dm644 $SRC/bluetooth.conf $PKG/etc/conf.d/bluetooth
 }

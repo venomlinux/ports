@@ -15,14 +15,14 @@ case $1 in
 		fi
 		mkdir -p /var/run/httpd
 		/usr/sbin/apachectl -k start
-        ;;
+		;;
 	stop)
 		echo "Stopping $NAME..."
 		/usr/sbin/apachectl -k stop
-        ;;
+		;;
 	restart)
 		/usr/sbin/apachectl -k restart
-        ;;
+		;;
 	status)
 		if [ "$PROCPID" ]; then
 			echo "$NAME is running with pid: $PROCPID"
@@ -31,8 +31,10 @@ case $1 in
 		fi
 		;;
 	*)
-        echo "usage: $0 [start|stop|restart|status]"
-        ;;
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
 esac
 
 exit 0
+
+# End of file

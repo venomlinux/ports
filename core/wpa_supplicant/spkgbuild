@@ -6,11 +6,12 @@
 
 name=wpa_supplicant
 version=2.6
-release=2
+release=3
 
 source=(https://w1.fi/releases/$name-$version.tar.gz
 	$name-$version-upstream_fixes-1.patch
 	wpa.rc
+	wpa.conf
 	wpa_supplicant.conf)
 
 build() {
@@ -69,5 +70,6 @@ EOF
 	install -Dm 600 $SRC/wpa_supplicant.conf $PKG/etc/wpa_supplicant.conf
 
 	install -Dm755 $SRC/wpa.rc $PKG/etc/rc.d/wpa
+	install -Dm644 $SRC/wpa.conf $PKG/etc/conf.d/wpa
 }
 

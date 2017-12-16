@@ -3,9 +3,68 @@
 # /etc/rc.d/bluetooth: start/stop bluetooth daemon
 #
 
+. /etc/conf.d/bluetooth
+
 NAME="Bluetooth daemon"
 PROG=/usr/sbin/bluetoothd
 PROCPID=$(pidof $PROG)
+
+SDPTOOL=/usr/bin/sdptool
+HCIATTACH=/usr/bin/hciattach
+RFCOMM=/usr/bin/rfcomm
+
+UART_CONF=/etc/bluetooth/uart.conf
+RFCOMM_CONF=/etc/bluetooth/rfcomm.conf
+
+start_hci_dev()
+{
+   for dev in ${ACTIVE_HCI_DEVICES_ON_BOOT} ; do
+      hciconfig $dev up > /dev/null 2>&1 
+   done
+}
+
+run_sdptool()
+{
+   # Declaring IFS local in this function, removes the need to
+   # save/restore it
+   local IFS option
+
+   test -x $SDPTOOL || return 1
+
+   IFS=";"
+   for option in ${SDPTOOL_OPTIONS}; do
+      IFS=" "
+      $SDPTOOL $option > /dev/null 2>&1
+   done
+}
+
+start_uarts()
+{
+   [ -x $HCIATTACH ] && [ -f $UART_CONF ] || return
+
+   grep -v '^[[:space:]]*(#|$)' $UART_CONF | while read i; do
+      $HCIATTACH $i > /dev/null 2>&1
+   done
+}
+
+stop_uarts()
+{
+   [ -x $HCIATTACH ] || return
+   killall $HCIATTACH > /dev/null 2>&1 
+}
+
+start_rfcomm()
+{
+   [ -x $RFCOMM ] && [ -f $RFCOMM_CONF ]  || return 
+
+   $RFCOMM -f $RFCOMM_CONF bind all > /dev/null 2>&1 || :
+}
+
+stop_rfcomm()
+{
+   [ -x $RFCOMM ] || return
+   $RFCOMM unbind all > /dev/null 2>&1 
+}
 
 case $1 in
 	start)
@@ -14,8 +73,14 @@ case $1 in
 			exit
 		fi
 		$PROG &
+		start_hci_dev
+		run_sdptool
+		start_uarts
+		start_rfcomm
 		;;
 	stop)
+		stop_rfcomm
+		stop_uarts
 		echo "Stopping $NAME..."
 		if [ "$PROCPID" ]; then
 			for pid in $PROCPID; do
@@ -25,6 +90,7 @@ case $1 in
 		;;
 	restart)
 		$0 stop
+		sleep 1
 		$0 start
 		;;
 	status)
@@ -40,3 +106,5 @@ case $1 in
 esac
 
 exit 0
+
+# End of file

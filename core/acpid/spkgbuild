@@ -1,0 +1,33 @@
+# description	: Extensible daemon for delivering ACPI events
+# depends	: bash
+
+name=acpid
+version=2.0.28
+release=1
+source=(https://downloads.sourceforge.net/acpid2/$name-$version.tar.xz
+	acpid.rc)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	cp -r samples $PKG/usr/share/doc/acpid
+
+	install -v -m755 -d $PKG/etc/acpi/events
+
+cat > $PKG/etc/acpi/events/lid << "EOF"
+event=button/lid
+action=/etc/acpi/lid.sh
+EOF
+
+cat > $PKG/etc/acpi/lid.sh << "EOF"
+#!/bin/sh
+/bin/grep -q open /proc/acpi/button/lid/LID/state && exit 0
+/usr/sbin/pm-suspend
+EOF
+chmod +x $PKG/etc/acpi/lid.sh
+
+	install -Dm755 $SRC/acpid.rc $PKG/etc/rc.d/acpid
+}

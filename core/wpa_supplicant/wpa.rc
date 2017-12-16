@@ -3,15 +3,15 @@
 # /etc/rc.d/wpa: start/stop wireless interface
 #
 
-DEV=wlo1
+. /etc/conf.d/wpa
 
-NAME="WPA Service"
+NAME=wpa_supplicant
 PROG=/sbin/wpa_supplicant
-OPTS="-B -P $PIDFILE_WPA -D nl80211,wext -c /etc/wpa_supplicant.conf -i $DEV"
 PROCPID=$(pidof $PROG)
 PROGNAME=$(basename `echo $PROG`)
-PIDFILE=/var/run/$PROGNAME.pid
+PIDFILE_WPA=/var/run/$NAME.pid
 
+OPTS="-B -P $PIDFILE_WPA -D nl80211,wext -c /etc/wpa_supplicant.conf -i $DEV"
 
 case $1 in
 	start)
@@ -28,7 +28,6 @@ case $1 in
 				kill "$pid"
 			done
 		fi
-		rm -f $PIDFILE
 		;;
 	restart)
 		$0 stop
@@ -49,3 +48,4 @@ esac
 
 exit 0
 
+# End of file

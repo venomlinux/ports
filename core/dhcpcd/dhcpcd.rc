@@ -3,25 +3,24 @@
 # /etc/rc.d/dhcpcd: start/stop the ISC DHCP Server
 #
 
-DEV=wlo1
+. /etc/conf.d/dhcpcd
 
-NAME="ISC DHCP Server dhcpd"
 PROG=/sbin/dhcpcd
-OPTS="--waitip -h $(/bin/hostname) -z $DEV"
-PROCPID=$(pidof $PROG)
 PROGNAME=$(basename `echo $PROG`)
-PIDFILE=/var/run/dhcpcd.pid
+PIDFILE=/var/run/$PROGNAME.pid
+OPTS="--waitip -h $(/bin/hostname) -z $DEV"
+PROCPID=$(pidof $PROGNAME)
 
 case $1 in
 	start)
-		echo "Starting $NAME..."
+		echo "Starting $PROGNAME..."
 		if [ "$PROCPID" ]; then
 			exit
 		fi
 		$PROG $OPTS
 		;;
 	stop)
-		echo "Stopping $NAME..."
+		echo "Stopping $PROGNAME..."
 		if [ "$PROCPID" ]; then
 			for pid in $PROCPID; do
 				kill "$pid"
@@ -30,13 +29,14 @@ case $1 in
 		;;
 	restart)
 		$0 stop
+		sleep 1
 		$0 start
 		;;
 	status)
 		if [ "$PROCPID" ]; then
-			echo "$NAME is running with pid: $PROCPID"
+			echo "$PROGNAME is running with pid: $PROCPID"
 		else
-			echo "$NAME is not running."
+			echo "$PROGNAME is not running"
 		fi
 		;;
 	*)
@@ -45,3 +45,5 @@ case $1 in
 esac
 
 exit 0
+
+# End of file

@@ -3,39 +3,36 @@
 # /etc/rc.d/dbus: start/stop dbus messagebus daemon
 #
 
-NAME="D-Bus Messagebus Daemon"
-PROG=/usr/bin/dbus-uuidgen
-OPTS="--ensure"
-PROG2=/usr/bin/dbus-daemon
-OPTS2="--system"
-PROCPID=$(pidof $PROG2)
+PROG=/usr/bin/dbus-daemon
+PROCPID=$(pidof $PROG)
 PIDFILE=/run/dbus/pid
+OPTS="--system"
 SOCKET=/run/dbus/system_bus_socket
 
 case $1 in
 	start)
-		echo "Starting $NAME..."
+		echo "Starting D-BUS Messagebus daemon..."
 		if [ "$PROCPID" ]; then
 			exit
 		fi
-        mkdir -p /run/dbus
+		mkdir -p /run/dbus
+		/usr/bin/dbus-uuidgen --ensure
 		$PROG $OPTS
-		$PROG2 $OPTS2
-        ;;
+		;;
 	stop)
-		echo "Stopping $NAME..."
+		echo "Stopping D-BUS Messagebus daemon..."
 		if [ "$PROCPID" ]; then
 			for pid in $PROCPID; do
 				kill "$pid"
 			done
 		fi
 		rm -f $SOCKET $PIDFILE
-        ;;
+		;;
 	restart)
-        $0 stop
-        sleep 1
-        $0 start
-        ;;
+		$0 stop
+		sleep 1
+		$0 start
+		;;
 	status)
 		if [ "$PROCPID" ]; then
 			echo "$NAME is running with pid: $PROCPID"
@@ -43,9 +40,11 @@ case $1 in
 			echo "$NAME is not running."
 		fi
 		;;
-*)
-        echo "usage: $0 [start|stop|restart|status]"
-        ;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
 esac
 
 exit 0
+
+# End of file
