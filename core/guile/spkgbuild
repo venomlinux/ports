@@ -1,0 +1,16 @@
+# description	: GNU Project's extension language library
+# depends	: gc libunistring
+
+name=guile
+version=2.2.3
+release=1
+source=(https://ftp.gnu.org/gnu/guile/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr    \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+	mv $PKG/usr/lib/libguile-*-gdb.scm $PKG/usr/share/gdb/auto-load/usr/lib
+}

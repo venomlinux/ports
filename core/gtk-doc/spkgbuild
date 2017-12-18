@@ -1,0 +1,15 @@
+# description	: Documentation tool for public library API
+# depends	: docbook-xml docbook-xsl itstool
+# makedepends	: python2
+
+name=gtk-doc
+version=1.27
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/gtk-doc/$version/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

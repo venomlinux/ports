@@ -1,0 +1,15 @@
+# description	: Implementations for atomic memory update operations on a number of architectures
+
+name=libatomic_ops
+version=7.4.8
+release=1
+source=(https://github.com/ivmai/libatomic_ops/releases/download/v$version/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr    \
+	            --enable-shared  \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

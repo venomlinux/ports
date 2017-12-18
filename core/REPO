@@ -158,6 +158,7 @@ d:groff
 d:gnutls
 d:gpm
 d:fdk-aac
+d:gtk-doc
 d:x264
 d:apr
 d:wget
@@ -189,6 +190,7 @@ d:links
 d:python3-six
 d:nettle
 d:git
+d:gc
 d:python-dbus-common
 d:nspr
 d:time
@@ -197,6 +199,7 @@ d:diffutils
 d:gperf
 d:llvm
 d:startup-notification
+d:guile
 d:firefox
 d:nano
 d:python2-funcsigs
@@ -265,6 +268,8 @@ d:tree
 d:zlib
 d:gstreamer
 d:mpfr
+d:libatomic_ops
+d:fontforge
 d:glibmm
 d:volume_key
 d:gtkmm2
@@ -293,6 +298,7 @@ d:libsigc++
 d:libvpx
 d:libksba
 d:libass
+d:libunistring
 d:pangomm
 d:libfm-extra
 d:python3
@@ -327,6 +333,7 @@ d:inetutils
 d:consolekit2
 d:libtasn1
 d:bc
+d:qemu
 d:acpid
 d:bash
 d:expat
@@ -729,6 +736,8 @@ f:d6b21d6e2a3fc78bd428f30b39bc011d:gpm/spkgbuild
 f:802caefec3613f56adf1d8bf4cb15145:gpm/gpm-1.20.7-glibc_2.26-1.patch
 f:1fceb9c8218410b6fdc01106c3660011:fdk-aac/.md5sum
 f:fd0c34812b4ad3f02d1019dc17d29900:fdk-aac/spkgbuild
+f:db1978c7fb416b7f54e03f8bfd5a896e:gtk-doc/.md5sum
+f:34f830294ceb9a31941feadfb2e2e2cc:gtk-doc/spkgbuild
 f:b567c3333308d68d409616996305e60a:x264/.md5sum
 f:1aea957a7b7d1d69f24798eadf5e0e81:x264/spkgbuild
 f:d800d6e886a1a7c5a424058e3f59738a:apr/.md5sum
@@ -820,6 +829,8 @@ f:4631d5bac58ce3425ce411acc1796c9b:nettle/.md5sum
 f:540eb80aa30b0d510b953a6c03c4fff2:nettle/spkgbuild
 f:692978b4ed7c04d481af42f06d43cff5:git/.md5sum
 f:e034be3fd6e35ee052eea70c4230ceb9:git/spkgbuild
+f:b2c0ed1cad7617bb5fe557c225f0410c:gc/.md5sum
+f:ba8b2fc4791ec2417fce9ef8bba8cb62:gc/spkgbuild
 f:23e4d11ed4e115bbee38e15fe5b23165:python-dbus-common/.md5sum
 f:a6e5565f207be6cb535148118d009a41:python-dbus-common/spkgbuild
 f:e1d169ee4edd4ea715e4535389df7e76:nspr/.md5sum
@@ -836,6 +847,8 @@ f:3c7495ec2aedd11827f315ec452ac88d:llvm/.md5sum
 f:59029fe90a92f01b1e0708321fc483ea:llvm/spkgbuild
 f:2cd9e1384d5340672acc1a0f08830849:startup-notification/.md5sum
 f:f05545ec3ec33f1b677470937a58617e:startup-notification/spkgbuild
+f:1cb152048be79b1e7f3d904bdc1b4543:guile/.md5sum
+f:1f82cbe1e69f5e0c13d1e00c8d3f845d:guile/spkgbuild
 f:c0b25ace3d006c296b7e62fa9a1f3b5c:firefox/.md5sum
 f:a23aa5cac3712c4d633757b3ead6ac82:firefox/spkgbuild
 f:79a6ba77ea0ef6b9fb145775e6f7efec:firefox/firefox-dir.patch
@@ -998,6 +1011,10 @@ f:9012952744fd4431d84b83706fc5dd14:gstreamer/.md5sum
 f:b330eef2a8d79960c8b8a711a75ec2f2:gstreamer/spkgbuild
 f:c56a02d1fd37637b8ae7c4db9cefd0df:mpfr/.md5sum
 f:c07d6b3633ef43d83e8f8f8a9de3f667:mpfr/spkgbuild
+f:ed97c81a7aa12ad108dce0defce4a42e:libatomic_ops/.md5sum
+f:ccda713b2c32982521fe36041822050e:libatomic_ops/spkgbuild
+f:6eb540b6deb395b7e903430c52b83908:fontforge/.md5sum
+f:0e8efdb54004e8c053dc2df5b176f893:fontforge/spkgbuild
 f:86e7a5cb7211a694efded2a3899e364d:glibmm/.md5sum
 f:2a586a1050a5b4c0011b354b334e5ed9:glibmm/spkgbuild
 f:7ce3c3e39a53cb3a594935407dae226d:volume_key/.md5sum
@@ -1057,6 +1074,8 @@ f:7e050f9853448991f98af01d92d65875:libksba/.md5sum
 f:22ae117f240badd5a8a29de89242db1f:libksba/spkgbuild
 f:02b2cc87fa8697238691696479b4ff69:libass/.md5sum
 f:6efdf530cdb7752d2084f0562f3688dd:libass/spkgbuild
+f:028d82b033584f117753509902cf8968:libunistring/.md5sum
+f:fcb21bfc225a642ac70cd7608660c700:libunistring/spkgbuild
 f:f5df1a9159695797458f00e5063cec3a:pangomm/.md5sum
 f:35c221b31f53908a29f0deb564ef5f29:pangomm/spkgbuild
 f:b13962e6d4d8cb0d28e339f56843e2a9:libfm-extra/.md5sum
@@ -1136,6 +1155,9 @@ f:10f0f97cbe8e82bf88435d30b302ecd1:libtasn1/spkgbuild
 f:d70660141b462f8c0d4ded5c0331b3e7:bc/.md5sum
 f:2746fece2a94a620536fe90ddc3700e7:bc/spkgbuild
 f:15cea2ad619addf9ed99455cf55955f9:bc/bc.install
+f:7c0a85fa3cec762b2465ad3f9fd10942:qemu/.md5sum
+f:ae77df9817d9c8b35cfedec28844abda:qemu/qemu.install
+f:67aa656fd3a010edefea92a593536244:qemu/spkgbuild
 f:c69d5dbb249d67e6291dc420da656655:acpid/acpid.rc
 f:fe811698eca5af09dc2a62ba6ea40df4:acpid/.md5sum
 f:cfd8b07c0915175db2066e6e55499e64:acpid/spkgbuild
@@ -1152,9 +1174,9 @@ f:78cda86b3a8e0793dc6cff23cb51fccd:python2-beaker/.md5sum
 f:8f74933cc3dc25555ade41a600fc6e1d:python2-beaker/spkgbuild
 f:3131bf6b809b4e6c63da9e14120bbff6:libdvdread/.md5sum
 f:1b88fcffc21a7869364e053154e6faef:libdvdread/spkgbuild
-f:0ddd27747969ba905bd28fd558940a19:libcdio/.md5sum
-f:7dde8564b621a831bae192a199c29f1d:libcdio/libcdio-1.0.0-upstream_fix-1.patch
-f:cdf86daf50f53ef3abd4b817e0332067:libcdio/spkgbuild
+f:77e504b86df7d1ca2ac83591da6ceab4:libcdio/.md5sum
+f:d7342ed7c876ac98f12b9f4bfba7f46f:libcdio/spkgbuild
+f:7dde8564b621a831bae192a199c29f1d:libcdio/libcdio-1.1.0-upstream_fix-1.patch
 f:e0bc8dfa57735aa0c459ddcbc8da8294:graphite2/.md5sum
 f:9a23f2a81d1243919eae3a03c7fe3f0e:graphite2/spkgbuild
 f:eb87f41b080da1744930e12110960ac1:libblockdev/.md5sum

@@ -1,0 +1,17 @@
+# description	: mpris media player controller and lib for spotify, vlc, audacious, bmp, xmms2, and others
+# depends	: glib
+# makedepends	: gobject-introspection gtk-doc
+
+name=playerctl
+version=0.5.0
+release=1
+options=(!makeflags)
+source=($name-$version.tar.gz::https://github.com/acrisci/playerctl/archive/v$version.tar.gz)
+
+build() {
+	cd $name-$version
+	NOCONFIGURE=true ./autogen.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

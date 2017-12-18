@@ -1,0 +1,14 @@
+# description	: Launch shell commands with your keyboard or your mouse under X
+# depends	: libx11 guile
+
+name=xbindkeys
+version=1.8.6
+release=1
+source=(http://www.nongnu.org/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,25 @@
+# description	: Boehm-Demers-Weiser conservative garbage collector
+# depends	: libatomic_ops
+
+name=gc
+version=7.6.0
+release=1
+source=(http://www.hboehm.info/gc/gc_source/gc-7.6.0.tar.gz)
+
+build() {
+	cd $name-$version
+
+	sed -i 's#pkgdata#doc#' doc/doc.am
+
+	autoreconf -fi
+	./configure --prefix=/usr      \
+	            --enable-cplusplus \
+	            --disable-static   \
+		    --docdir=/usr/share/doc/gc
+	make
+	make DESTDIR=$PKG install
+
+	install -d $PKG/usr/share/man/man3
+	install -m644 doc/gc.man $PKG/usr/share/man/man3/gc_malloc.3
+	ln -sfv gc_malloc.3 $PKG/usr/share/man/man3/gc.3
+}

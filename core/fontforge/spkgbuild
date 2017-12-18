@@ -1,0 +1,16 @@
+# description	: Outline and bitmap font editor
+# depends	: freetype2 glib libxml2 cairo gtk2 harfbuzz pango desktop-file-utils shared-mime-info
+
+name=fontforge
+version=20170731
+release=1
+source=(https://github.com/fontforge/fontforge/releases/download/$version/fontforge-dist-$version.tar.xz)
+
+build() {
+	cd $name-2.0.$version
+	./configure --prefix=/usr     \
+	            --enable-gtk2-use \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

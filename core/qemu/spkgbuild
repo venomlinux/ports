@@ -1,0 +1,32 @@
+# description	: Virtualization for Linux on x86 hardware containing virtualization extensions (Intel VT or AMD-V)
+# depends	: alsa-lib sdl2 glib
+# makedepends	: python2 coreutils
+
+name=qemu
+version=2.10.1
+release=1
+source=(http://download.qemu-project.org/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	mkdir -vp build
+	cd        build
+	
+	../configure --prefix=/usr			\
+	             --sysconfdir=/etc			\
+	             --target-list=x86_64-softmmu	\
+	             --audio-drv-list=alsa		\
+	             --with-sdlabi=2.0			\
+		     --disable-gtk
+	make
+	make DESTDIR=$PKG install
+
+install -d $PKG/lib/udev/rules.d/
+cat > $PKG/lib/udev/rules.d/65-kvm.rules << "EOF"
+KERNEL=="kvm", GROUP="kvm", MODE="0660"
+EOF
+
+chgrp kvm  $PKG/usr/libexec/qemu-bridge-helper
+chmod 4750 $PKG/usr/libexec/qemu-bridge-helper
+}
