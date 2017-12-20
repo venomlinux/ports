@@ -1,0 +1,13 @@
+# description	: Python2 bindings for libxml2
+# depends	: python2 libxml2
+
+name=python2-libxml2
+version=2.9.7
+release=1
+source=(http://xmlsoft.org/sources/libxml2-$version.tar.gz)
+
+build() {
+	cd libxml2-$version/python
+	python setup.py build
+	python setup.py install --optimize=1 --root=$PKG
+}

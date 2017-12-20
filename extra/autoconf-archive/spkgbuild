@@ -1,0 +1,14 @@
+# description	: A collection of freely re-usable Autoconf macros
+# depends	: autoconf
+
+name=autoconf-archive
+version=2017.09.28
+release=1
+source=(https://ftpmirror.gnu.org/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,15 @@
+# description	: A library that reads information about processes and the running system
+# depends	: glib libxau
+# makedepends	: gobject-introspection
+
+name=libgtop
+version=2.38.0
+release=1
+source=(https://download.gnome.org/sources/libgtop/${version::4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

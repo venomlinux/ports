@@ -1,0 +1,21 @@
+# description	: Application matching framework
+# depends	: libgtop libwnck3 python2-libxml2
+# makedepends	: gobject-introspection python2-lxml vala
+
+name=bamf
+version=0.5.3
+release=1
+source=(https://launchpad.net/bamf/${version::3}/$version/+download/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	export PYTHON='/usr/bin/python2'
+	export CFLAGS="$CFLAGS -Wno-deprecated-declarations"
+
+	./configure --prefix=/usr \
+		    --disable-static \
+		    --disable-webapps
+	make
+	make DESTDIR=$PKG install
+}

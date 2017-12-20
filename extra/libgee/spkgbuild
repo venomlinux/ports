@@ -1,0 +1,16 @@
+# description	: A collection library providing GObject-based interfaces and classes for commonly used data structures
+# depends	: glib
+# makedepends	: gobject-introspection vala autoconf-archive
+
+name=libgee
+version=0.20.0
+release=1
+source=(https://download.gnome.org/sources/libgee/${version::4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}
