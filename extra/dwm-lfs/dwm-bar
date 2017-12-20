@@ -1,0 +1,76 @@
+#!/bin/bash
+
+print_datetime() {
+	datetime="$(date "+%a %d %b %I:%M:%S")"
+	echo -e " ${datetime}"
+}
+
+print_volume(){
+	if [ $(type -pa amixer) ]; then
+		mix=`amixer get Master | tail -1`
+		vol="$(amixer get Master | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/')"
+		if [[ $mix == *\[off\]* ]]; then                       
+			echo -e " vol: OFF |"
+		elif [[ $mix == *\[on\]* ]]; then
+			echo -e " vol: ${vol}% |"
+		else
+			echo -e " vol: --- |"
+		fi
+	fi
+}
+
+print_hdd() {
+	for i in $(df -Ph | grep /dev/ | awk '{print $1}'); do
+		name=$(df -Ph $(df -Ph | grep $i | awk '{print $6}') | tail -1 | awk '{print $1}' | sed 's/\/dev\///')
+		space=$(df -Ph $(df -Ph | grep $i | awk '{print $6}') | tail -1 | awk '{print $4}')
+		echo -n " $name: $space "
+	done
+	echo "|"
+}
+
+print_hddfree() {
+	hddfree="$(df -Ph / | awk '$3 ~ /[0-9]+/ {print $4}')"
+	hddfree_data="$(df -Ph /dev/sda6 | awk '$3 ~ /[0-9]+/ {print $4}')"
+	echo -e " hdd: ${hddfree} | ${hddfree_data} |"
+}
+
+print_ram() {
+	freeram="$(free -m | awk '/Mem:/ { print $3"M" }')"
+	echo -e " ram: ${freeram} |"
+}
+
+print_temp() {
+	if [ $(type -pa sensors) ]; then
+		temp="$(sensors | grep temp | awk '{print $2}' | sed 's/+//')"
+		echo -e " temp: ${temp} |"
+	elif [ $(type -pa acpi) ]; then
+		temp="$(acpi -t | awk '{print $4}')"
+		echo -e " temp: ${temp}C |"
+	fi
+}
+
+print_wifi() {
+	if [ $(type -pa nmcli) ]; then
+		wifiname="$(nmcli -t | head -1 | cut -d ' ' -f 4-)"
+		if [ "$wifiname" ]; then
+			echo -e " wifi: ${wifiname} |"
+		else
+			echo -e " wifi: none |"
+		fi
+	fi
+}
+
+print_music() {
+	if [ $(type -pa playerctl) ]; then
+		if [ "$(playerctl status 2>/dev/null)" == "Playing" ]; then
+			artist=$(playerctl metadata artist)
+			title=$(playerctl metadata title)
+			echo -e " now playing: $artist - $title |"
+		fi
+	fi
+}
+
+while true; do
+	xsetroot -name "$(print_music)$(print_wifi)$(print_temp)$(print_ram)$(print_hdd)$(print_volume)$(print_datetime)"
+	sleep 1 
+done

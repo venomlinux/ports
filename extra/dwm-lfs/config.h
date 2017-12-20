@@ -1,12 +1,15 @@
 /* See LICENSE file for copyright and license details. */
 
+#include <X11/XF86keysym.h>
+
 #define barbg    "#171717" /* topbarbgcolor */
 #define normfont "#676C76" /* normfontcolor */
 #define selected "#494949" /* selbordercolor */
 #define border   "#040405" /* unselectbordercolor */
 
 /* appearance */
-static const char font[]            = "-*-terminus2-medium-r-*-*-12-*-*-*-*-*-*-*";
+static const char font[]            = "-*-xbmicons-medium-r-*-*-12-*-*-*-*-*-*-*" ","
+                           "-*-terminus2-medium-r-*-*-12-*-*-*-*-*-*-*";
 static const char normbordercolor[] = border;
 static const char normbgcolor[]     = barbg;
 static const char normfgcolor[]     = normfont;
@@ -22,16 +25,18 @@ static const Bool topbar            = True;     /* False means bottom bar */
 static const char *tags[] = { "term", "www", "fm", "edit", "media", "irc", "work", "dev", "misc" };
 
 static const Rule rules[] = {
-	/* class      instance    title       tags mask     isfloating   monitor */
+	/* class					   instance    title           tags mask     isfloating   monitor */
 	{ "Gimp",						NULL,       NULL,       	0,				True,		-1 },
 	{ "Google-chrome",				NULL,       NULL,      		1 << 1,			False,		-1 },
 	{ "Firefox",					NULL,       NULL,      		1 << 1,			False,		-1 },
 	{ "Firefox",					"Dialog",   NULL,      		1 << 1,			True,		-1 },
 	{ "Thunar",						NULL,       NULL,      		1 << 2,			False,		-1 },
 	{ "Geany",						NULL,       NULL,       	1 << 3,			False,		-1 },
+	{ "Spotify",					"spotify",  "Spotify",     	1 << 4,			False,		-1 },
 	{ "Gcolor2",					NULL,       NULL,       	0,				True,		-1 },
 	{ "Hexchat", 					NULL,       NULL,       	1 << 5,			False,		-1 },
 	{ "VirtualBox", 				NULL,       NULL,       	1 << 7,			False,		-1 },
+	{ "VirtualBox", 				NULL,      "Virtual Media Manager",       	0,			True,		-1 },
 	{ "Uget-gtk",					NULL,       NULL,       	0,				True,		-1 },
 	{ "Transmission-gtk",			NULL,       NULL,       	0,				True,		-1 },
 	{ "Gcolor2",					NULL,       NULL,       	0,				True,		-1 },
@@ -39,6 +44,7 @@ static const Rule rules[] = {
 	{ "Xarchiver",					NULL,       NULL,       	0,				True,		-1 },
 	{ "Qpdfview",					NULL,       NULL,       	0,				True,		-1 },
 	{ "Epdfview",					NULL,       NULL,       	0,				True,		-1 },
+	{ "Galculator",					NULL,       NULL,       	0,				True,		-1 },
 	{ "URxvt",						NULL,       "alsamixer",	0,				True,		-1 },
 	{ NULL,							NULL,       "File Operation Progress",   0,		   True,        -1 },
 };
@@ -70,7 +76,8 @@ static const Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "urxvt", NULL };
-static const char *firefox[]  = { "google-chrome-stable", NULL };
+static const char *www[]      = { "google-chrome-stable", NULL };
+//static const char *www[]      = { "firefox", NULL };
 static const char *fm[]       = { "thunar", NULL };
 static const char *rootfm[]   = { "sudo", "thunar", "/", NULL };
 static const char *gcolor2[]  = { "gcolor2", NULL };
@@ -85,13 +92,22 @@ static const char *lightup[]  = { "light", "-A", "5", NULL };
 static const char *lightdw[]  = { "light", "-U", "5", NULL };
 static const char *alsa[]     = { "urxvt", "-e", "alsamixer", NULL };
 static const char *offscr[]   = { "xset", "dpms", "force", "off", NULL };
+static const char *mplay[]    = { "playerctl", "play-pause", NULL };
+static const char *mnext[]    = { "playerctl", "next", NULL };
+static const char *mprev[]    = { "playerctl", "previous", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ SUPER,                        XK_comma,  spawn,          {.v = mprev } },
+	{ SUPER,                        XK_period, spawn,          {.v = mnext } },
+	{ SUPER,                        XK_p,	   spawn,          {.v = mplay } },
 	{ SUPER,                        XK_o,	   spawn,          {.v = offscr } },
 	{ SUPER,                        XK_v,	   spawn,          {.v = alsa } },
 	{ SUPER,                        XK_Left,   spawn,          {.v = lightdw } },
 	{ SUPER,                        XK_Right,  spawn,          {.v = lightup } },
+	{ 0,                XF86XK_AudioMute,      spawn,          {.v = volmute } },
+	{ 0,            XF86XK_AudioLowerVolume,   spawn,          {.v = voldw } },
+	{ 0,          XF86XK_AudioRaiseVolume,     spawn,          {.v = volup } },
 	{ SUPER,                        XK_m,      spawn,          {.v = volmute } },
 	{ SUPER,                        XK_Down,   spawn,          {.v = voldw } },
 	{ SUPER,                        XK_Up,     spawn,          {.v = volup } },
@@ -102,7 +118,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_g,      spawn,          {.v = gcolor2 } },
 	{ MODKEY,                       XK_a,      spawn,          {.v = fm } },
 	{ MODKEY|ShiftMask,             XK_a,      spawn,          {.v = rootfm } },
-	{ MODKEY,                       XK_w,      spawn,          {.v = firefox } },
+	{ MODKEY,                       XK_w,      spawn,          {.v = www } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
