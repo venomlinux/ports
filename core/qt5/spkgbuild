@@ -3,19 +3,15 @@
 # makedepends	: alsa-lib python2 gst-plugins-base 
 
 name=qt5
-version=5.9.3
+version=5.10.0
 release=1
-source=(http://download.qt.io/archive/qt/${version::3}/$version/single/qt-everywhere-opensource-src-$version.tar.xz)
+source=(https://download.qt.io/archive/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz)
 
 build() {
-	cd qt-everywhere-opensource-src-$version
+	cd qt-everywhere-src-$version
 	   
 	QT5PREFIX=/usr
 	QT5BINDIR=$QT5PREFIX/lib/qt5/bin
-
-	echo "INCLUDEPATH += /usr/include/openssl-1.0" >>           \
-	                     qtbase/src/network/network.pro
-	export OPENSSL_LIBS='-L/usr/lib/openssl-1.0 -lssl -lcrypto'
 
 	./configure -prefix         $QT5PREFIX \
 	            -sysconfdir     /etc/xdg   \
