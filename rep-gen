@@ -7,9 +7,18 @@ REPO=(core xorg extra kf5 wip)
 
 [ $(type -pa httpup-repgen) ] || (echo "httpup not installed, aborting"; exit 1)
 
-for repo in ${REPO[@]}; do
-	if [ -d $repo ]; then
-		rm $repo/REPO
-		httpup-repgen $repo
+if [ "$1" ]; then
+	if [ ! -d "$1" ]; then
+		echo "Repository '$1' not exist. Aborted!"
+		exit 1
 	fi
-done
+	rm $1/REPO || true
+	httpup-repgen $1
+else
+	for repo in ${REPO[@]}; do
+		if [ -d $repo ]; then
+			rm $repo/REPO || true
+			httpup-repgen $repo
+		fi
+	done
+fi
