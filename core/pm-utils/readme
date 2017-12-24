@@ -1,0 +1,25 @@
+Kernel Configuration:
+
+If needed, enable the following options in the kernel configuration and recompile the
+kernel:
+
+Power management and ACPI options --->
+    <*> Suspend to RAM and standby            [CONFIG_SUSPEND]
+    <*> Hibernation (aka 'suspend to disk')   [CONFIG_HIBERNATION]
+
+
+Suspend to RAM allows the system to enter sleep states in which main memory is
+powered and thus its contents are preserved. The method cuts power to most parts of
+the machine aside from the RAM. Because of the large power savings, it is advisable
+for laptops to automatically enter this mode when the computer is running on
+batteries and the lid is closed (or the user is inactive for some time).
+
+Suspend to disk (Hibernation) saves the machine's state into swap space and
+completely powers off the machine. When the machine is powered on, the state is
+restored. Until then, there is zero power consumption. Suspend to RAM and hibernation
+are normally appropriate for portable devices such as laptops, but can be used on
+workstations. The capability is not really appropriate for servers.
+
+To use hibernation, the kernel parameter resume=/dev/<swap_partition> has to be
+used on the kernel command line (in grub.cfg). The swap partition should be at least
+the size of the physical RAM on the system.
