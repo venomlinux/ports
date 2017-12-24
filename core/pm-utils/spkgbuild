@@ -15,7 +15,7 @@ build() {
 	install -d $PKG/usr/share/man/man{1,8}
 	install -v -m644 man/*.1 $PKG/usr/share/man/man1
 	install -v -m644 man/*.8 $PKG/usr/share/man/man8
-	ln -sv pm-action.8 $PKG/usr/share/man/man8/pm-suspend.8
-	ln -sv pm-action.8 $PKG/usr/share/man/man8/pm-hibernate.8
-	ln -sv pm-action.8 $PKG/usr/share/man/man8/pm-suspend-hybrid.8
+	ln -svf pm-action.8 $PKG/usr/share/man/man8/pm-suspend.8
+	ln -svf pm-action.8 $PKG/usr/share/man/man8/pm-hibernate.8
+	ln -svf pm-action.8 $PKG/usr/share/man/man8/pm-suspend-hybrid.8
 }
