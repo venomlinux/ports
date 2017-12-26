@@ -1,0 +1,19 @@
+# description	: JavaScript runtime built on Chrome's V8 JavaScript engine
+# depends	: c-ares icu openssl
+# makedepends	: python2
+
+name=nodejs
+version=9.3.0
+release=1
+source=(https://nodejs.org/dist/v$version/node-v$version.tar.xz)
+
+build() {
+	cd node-v$version
+	./configure --prefix=/usr                  \
+	            --shared-cares                 \
+	            --shared-openssl               \
+	            --shared-zlib                  \
+	            --with-intl=system-icu
+	make
+	make DESTDIR=$PKG install
+}
