@@ -1,0 +1,15 @@
+# description	: GTK+ 2 GUI frontend for Libisoburn
+# depends	: exo libxfce4util libisoburn
+
+name=xfburn
+version=0.5.5
+release=1
+source=(http://archive.xfce.org/src/apps/$name/${version::3}/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}
