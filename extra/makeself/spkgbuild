@@ -1,0 +1,17 @@
+# description	: Utility to create self-extracting packages
+# depends	: bash
+
+name=makeself
+version=2.3.1
+release=1
+source=($name-$version.tar.gz::https://github.com/megastep/$name/archive/release-$version.tar.gz)
+
+build() {
+	cd $name-release-$version
+	sed -ie 's|^HEADER=.*|HEADER=/usr/share/makeself/makeself-header.sh|' makeself.sh
+	install -d $PKG/usr/{bin,share/{$name,man/man1}}
+	install -m644 makeself.lsm README.md $PKG/usr/share/$name
+	install -m644 makeself.1 $PKG/usr/share/man/man1/
+	install -m755 makeself.sh $PKG/usr/bin/makeself
+	install -m755 makeself-header.sh $PKG/usr/share/$name
+}
