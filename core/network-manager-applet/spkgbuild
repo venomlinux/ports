@@ -3,7 +3,7 @@
 # makedepends	: gobject-introspection meson
 
 name=network-manager-applet
-version=1.8.6
+version=1.8.10
 release=1
 source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::3}/$name-$version.tar.xz)
 
@@ -23,10 +23,9 @@ build() {
 	
 	meson --prefix=/usr           \
 	      --sysconfdir=/etc       \
-	      -Denable-libnm-gtk=true \
-	      -Denable-selinux=false  \
-	      -Denable-team=false     \
-	      -Denable-gtk-doc=false
+	      -Dlibnm-gtk=true \
+	      -Dselinux=false  \
+	      -Dteam=false
 	ninja
 	DESTDIR=$PKG ninja install
 

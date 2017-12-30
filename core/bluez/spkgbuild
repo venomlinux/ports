@@ -4,17 +4,17 @@
 # depends	: dbus glib libical
 
 name=bluez
-version=5.47
-release=2
+version=5.48
+release=1
 source=(http://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
-	$name-$version-obexd_without_systemd-1.patch
+	$name-obexd_without_systemd-1.patch
 	bluetooth.rc
 	bluetooth.conf)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../$name-$version-obexd_without_systemd-1.patch
+	patch -Np1 -i ../$name-obexd_without_systemd-1.patch
 
 	./configure --prefix=/usr         \
 	            --sysconfdir=/etc     \
