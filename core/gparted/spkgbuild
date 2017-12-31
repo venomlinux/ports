@@ -5,7 +5,7 @@
 
 name=gparted
 version=0.30.0
-release=2
+release=3
 source=(http://downloads.sourceforge.net/$name/$name-$version.tar.gz)
 
 build() {
@@ -44,7 +44,7 @@ cat > $PKG/usr/share/polkit-1/actions/org.gnome.gparted.policy << "EOF"
       <allow_inactive>no</allow_inactive>
       <allow_active>auth_admin_keep</allow_active>
     </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/sbin/gparted</annotate>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/gparted</annotate>
     <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
   </action>
 
