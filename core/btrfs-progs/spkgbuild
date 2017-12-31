@@ -1,0 +1,26 @@
+# description	: Administration and debugging tools for the B-tree file system (btrfs)
+# depends	: lzo
+
+name=btrfs-progs
+version=4.14
+release=1
+source=(https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v$version.tar.xz)
+
+build() {
+	cd $name-v$version
+	./configure --prefix=/usr  \
+	            --bindir=/bin  \
+	            --libdir=/lib  \
+	            --disable-zstd \
+		    --disable-documentation
+	make
+	make DESTDIR=$PKG install
+
+	install -d $PKG/{sbin,usr/lib}
+	ln -sfv ../../lib/$(readlink $PKG/lib/libbtrfs.so) $PKG/usr/lib/libbtrfs.so
+	rm -v $PKG/lib/libbtrfs.{a,so}
+	mv -v $PKG/bin/{mkfs,fsck}.btrfs $PKG/sbin
+
+	 # install bash completion (FS#44618)
+	install -Dm644 btrfs-completion $PKG/usr/share/bash-completion/completions/btrfs
+}
