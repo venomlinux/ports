@@ -3,21 +3,23 @@
 # makedepends	: extra-cmake-modules
 
 name=sddm
-version=0.15.0
+version=0.16.0
 release=1
-BOOTSCRIPTS_VERSION=20170731
-source=(https://github.com/sddm/sddm/releases/download/v$version/sddm-$version.tar.gz
-	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$BOOTSCRIPTS_VERSION.tar.xz)
+source=(https://github.com/sddm/sddm/releases/download/v$version/sddm-$version.tar.gz)
 
 build() {
 	cd $name-$version
 
 	# fix the application to start upowerd, if necessary, and after login, start the session with ck-launch-session
 	sed -e '/UPOWER_SERVICE)/ s:^://:' \
-	    -i src/daemon/PowerManager.cpp &&
+	    -i src/daemon/PowerManager.cpp
 
 	sed -e '/\$@$/s/exec/& ck-launch-session/' \
 	    -i data/scripts/Xsession
+        
+        # For sddm-0.16.0, ConsoleKit support has been added, but is broken. Remove it
+        sed -e '/available.*true/s/true/false/' \
+            -i src/daemon/LogindDBusTypes.cpp
 
 	mkdir build
 	cd    build
@@ -31,10 +33,6 @@ build() {
 	make DESTDIR=$PKG install
 
 	install -v -dm755 -o sddm -g sddm $PKG/var/lib/sddm
-
-	cd $SRC/blfs-bootscripts-$BOOTSCRIPTS_VERSION
-
-        make DESTDIR=$PKG install-sddm
 
 	mkdir -p $PKG/etc/pam.d
 cat > $PKG/etc/pam.d/sddm << "EOF"

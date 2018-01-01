@@ -1,0 +1,106 @@
+# description	: Meta package for KDE Plasma
+
+depends=(kde-cli-tools
+	kdecoration
+	libkscreen
+	libksysguard
+	breeze
+	breeze-gtk
+	kscreenlocker
+	oxygen
+	kinfocenter
+	ksysguard
+	kwin
+	systemsettings
+	plasma-workspace
+	bluedevil
+	kde-gtk-config
+	khotkeys
+	kmenuedit
+	kscreen
+	kwallet-pam
+	kwayland-integration
+	kwrited
+	milou
+	plasma-nm
+	plasma-pa
+	plasma-workspace-wallpapers
+	polkit-kde-agent-1
+	powerdevil
+	plasma-desktop
+	kdeplasma-addons
+	kgamma5
+	ksshaskpass
+	sddm-kcm
+	user-manager
+	discover
+	kactivitymanagerd
+	plasma-integration
+	xdg-desktop-portal-kde)
+
+name=plasma-meta
+version=5.10.5
+release=1
+source=()
+
+build() {
+
+mkdir -p $PKG/etc/profile.d
+cat > $PKG/etc/profile.d/kf5.sh << "EOF"
+# Begin /etc/profile.d/kf5.sh
+
+pathappend /usr/lib/qt5/plugins        QT_PLUGIN_PATH
+pathappend $QT5DIR/lib/qt5/plugins     QT_PLUGIN_PATH
+
+pathappend /usr/lib/qt5/qml            QML2_IMPORT_PATH
+pathappend $QT5DIR/lib/qt5/qml         QML2_IMPORT_PATH
+
+# End /etc/profile.d/kf5.sh
+EOF
+
+cat > $PKG/etc/profile.d/plasma-meta.sh << "EOF"
+install -dm0700 $XDG_RUNTIME_DIR
+EOF
+
+mkdir -pv $PKG/etc/pam.d
+cat >> $PKG/etc/pam.d/kde << "EOF" 
+# Begin /etc/pam.d/kde
+
+auth     requisite      pam_nologin.so
+auth     required       pam_env.so
+
+auth     required       pam_succeed_if.so uid >= 1000 quiet
+auth     include        system-auth
+
+account  include        system-account
+password include        system-password
+session  include        system-session
+
+# End /etc/pam.d/kde
+EOF
+
+cat > $PKG/etc/pam.d/kde-np << "EOF" 
+# Begin /etc/pam.d/kde-np
+
+auth     requisite      pam_nologin.so
+auth     required       pam_env.so
+
+auth     required       pam_succeed_if.so uid >= 1000 quiet
+auth     required       pam_permit.so
+
+account  include        system-account
+password include        system-password
+session  include        system-session
+
+# End $PKG/etc/pam.d/kde-np
+EOF
+
+cat > $PKG/etc/pam.d/kscreensaver << "EOF"
+# Begin /etc/pam.d/kscreensaver
+
+auth    include system-auth
+account include system-account
+
+# End /etc/pam.d/kscreensaver
+EOF
+} 
