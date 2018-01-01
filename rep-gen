@@ -3,22 +3,27 @@
 #	script for update REPO file using httpup-repgen
 #
 
-REPO=(core xorg extra kf5 wip)
+PORT_DIR=$(dirname $0)
 
 [ $(type -pa httpup-repgen) ] || (echo "httpup not installed, aborting"; exit 1)
 
+genrepo() {
+	while [ "$1" ]; do
+		if [ ! -d "$PORT_DIR/$1" ]; then
+			echo "Repository '$1' not exist!"
+		else
+			httpup-repgen "$PORT_DIR/$1"
+		fi
+		shift
+	done
+}
+
 if [ "$1" ]; then
-	if [ ! -d "$1" ]; then
-		echo "Repository '$1' not exist. Aborted!"
-		exit 1
-	fi
-	rm $1/REPO || true
-	httpup-repgen $1
+	genrepo "$@"
 else
-	for repo in ${REPO[@]}; do
-		if [ -d $repo ]; then
-			rm $repo/REPO || true
-			httpup-repgen $repo
+	for repo in $(ls $PORT_DIR/); do
+		if [ -f "$PORT_DIR/$repo/REPO" ]; then
+			httpup-repgen "$PORT_DIR/$repo"
 		fi
 	done
 fi
