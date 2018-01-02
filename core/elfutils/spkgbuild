@@ -1,0 +1,13 @@
+# description	: utilities and libraries for handling ELF files
+
+name=elfutils
+version=0.170
+release=1
+source=(https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --program-prefix="eu-"
+	make
+	make DESTDIR=$PKG install
+}
