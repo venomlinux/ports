@@ -3,17 +3,13 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=libcdio
-version=1.1.0
+version=2.0.0
 release=1
-source=(ftp://ftp.gnu.org/gnu/$name/$name-$version.tar.gz
-	$name-$version-upstream_fix-1.patch)
+source=(ftp://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
 
-	#patch -Np1 -i ../$name-$version-upstream_fix-1.patch
-
-	sed -i '/^LIBCDIO_VERSION_NUM=/s/=.*$/=10000/' configure
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
