@@ -4,15 +4,17 @@
 # depends	: acl attr glib gmp
 
 name=coreutils
-version=8.28
+version=8.29
 release=1
 source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
-	http://www.linuxfromscratch.org/patches/lfs/development/$name-$version-i18n-1.patch)
+	$name-i18n-1.patch)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../$name-$version-i18n-1.patch
+	# fixes POSIX requires that programs from Coreutils recognize
+	# character boundaries correctly even in multibyte locales
+	patch -Np1 -i ../$name-i18n-1.patch
 	sed -i '/test.lock/s/^/#/' gnulib-tests/gnulib.mk
 
 	FORCE_UNSAFE_CONFIGURE=1 ./configure \
@@ -30,5 +32,5 @@ build() {
 	mv -v $PKG/usr/share/man/man1/chroot.1 $PKG/usr/share/man/man8/chroot.8
 	sed -i s/\"1\"/\"8\"/1 $PKG/usr/share/man/man8/chroot.8
 
-	mv -v $PKG/usr/bin/{head,sleep,nice,test,[} $PKG/bin
+	mv -v $PKG/usr/bin/{head,sleep,nice} $PKG/bin
 }
