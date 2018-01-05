@@ -3,10 +3,10 @@
 # makedepends	: unzip zip autoconf2.13 yasm rustc gconf llvm
 
 name=firefox
-version=57.0.2
+version=57.0.3
 release=1
 source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/$name-$version.source.tar.xz
-	$name-$version-system_graphite2_harfbuzz-1.patch
+	$name-system_graphite2_harfbuzz-1.patch
 	firefox-dir.patch)
 
 build() {
@@ -105,7 +105,7 @@ ac_add_options --with-system-zlib
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
 EOF
 
-	patch -Np1 -i $SRC/$name-$version-system_graphite2_harfbuzz-1.patch
+	patch -Np1 -i $SRC/$name-system_graphite2_harfbuzz-1.patch
 
 	echo "AIzaSyDxKL42zsPjbke5O8_rPVpVrLrJ8aeE9rQ" > google-key
 	echo "d2284a20-0505-4927-a809-7ffaf4d91e55" > mozilla-key
