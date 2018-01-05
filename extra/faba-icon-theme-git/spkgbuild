@@ -1,0 +1,28 @@
+# description	: This is the base icon set for Faba. It is designed with simplicity and compliance to standards in mind
+# homepage	: http://snwh.org/moka/
+# maintainer	: Emmett1, emmett1.2miligrams at mail.com
+# depends	: gtk3
+# makedepends	: git
+
+name=faba-icon-theme-git
+version=303.6f1cea3
+release=1
+options=(!strip)
+
+build() {
+	cd $SOURCE_DIR
+	
+	if cd $name; then
+		git fetch -q; git reset --hard origin/master
+	else
+		git clone https://github.com/moka-project/faba-icon-theme.git $name
+		cd $name
+	fi
+
+	install -dm 755 $PKG/usr/share/icons/Faba
+	cp -dr --no-preserve=ownership Faba "${PKG}"/usr/share/icons/
+	    find "${PKG}"/usr/share/icons/ -type d -exec chmod 755 {} \;
+	    find "${PKG}"/usr/share/icons/ -type f -exec chmod 644 {} \;
+
+}
+
