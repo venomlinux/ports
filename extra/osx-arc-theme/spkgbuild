@@ -1,0 +1,15 @@
+# description	: OSX-Arc-Shadow Theme for GTK 3.x
+# homepage	: https://www.gnome-look.org/p/1167049/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk3
+# noextract	: $name-$version.deb
+
+name=osx-arc-theme
+version=1.4.7
+release=1
+source=($name-$version.deb::https://github.com/LinxGem33/OSX-Arc-Shadow/releases/download/v$version/osx-arc-collection_${version}_amd64.deb)
+
+build() {
+	bsdtar xf $name-$version.deb
+	tar xf data.tar.xz -C $PKG
+}
