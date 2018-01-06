@@ -5,7 +5,7 @@
 
 name=pnmixer
 version=0.5.1
-release=1
+release=2
 source=(https://github.com/downloads/nicklan/$name/$name-$version.tar.gz)
 
 build() {
@@ -13,5 +13,7 @@ build() {
 	./autogen.sh --prefix=/usr
 	make
 	make DESTDIR=$PKG install
+
+	sed -i 's#Icon=pnmixer#Icon=/usr/share/pnmixer/pixmaps/pnmixer-about.png#' $PKG/usr/share/applications/pnmixer.desktop
 }
 
