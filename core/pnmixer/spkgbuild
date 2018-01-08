@@ -14,6 +14,9 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	sed -i 's#Icon=pnmixer#Icon=/usr/share/pnmixer/pixmaps/pnmixer-about.png#' $PKG/usr/share/applications/pnmixer.desktop
+	mkdir -p $PKG/usr/share/pixmaps
+	cp -v $PKG/usr/share/pnmixer/pixmaps/pnmixer-about.png \
+	      $PKG/usr/share/pixmaps/pnmixer.png
+	#sed -i 's#Icon=pnmixer#Icon=/usr/share/pnmixer/pixmaps/pnmixer-about.png#' $PKG/usr/share/applications/pnmixer.desktop
 }
 
