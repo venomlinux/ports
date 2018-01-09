@@ -3,7 +3,7 @@ post_install() {
 	getent group vboxusers >/dev/null || groupadd vboxusers
 
 	# build vbox modules
-	if [ -d /usr/src/linux-$(uname -r) ]; then
+	if [ -d /usr/src/linux-$(uname -r | cut -d '-' -f1) ]; then
 		make -C /opt/VirtualBox/src/vboxhost \
 		    MODULE_DIR=/lib/modules/$(uname -r)/extra install
 	else

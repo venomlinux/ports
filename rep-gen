@@ -5,7 +5,10 @@
 
 PORT_DIR=$(dirname $0)
 
-[ $(type -pa httpup-repgen) ] || (echo "httpup not installed, aborting"; exit 1)
+if [ ! $(type -pa httpup-repgen) ]; then
+	echo "httpup not installed, aborting"
+	exit 1
+fi
 
 genrepo() {
 	while [ "$1" ]; do
