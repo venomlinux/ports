@@ -1,8 +1,8 @@
-# description	: Meta package that list needed package as depends
+# description	: Meta port for base system
 
 name=base-meta
-version=svn
-release=2
+version=0.1
+release=1
 depends=(linux-api-headers man-pages glibc tzdata zlib file
 	readline m4 bc binutils gmp mpfr libmpc gcc bzip2
 	pkg-config ncurses attr acl libcap sed shadow psmisc
@@ -12,9 +12,7 @@ depends=(linux-api-headers man-pages glibc tzdata zlib file
 	gawk findutils groff grub less gzip iproute2 kbd libpipeline
 	make patch sysklogd sysvinit eudev util-linux man-db tar
 	texinfo vim filesystem rc-init)
-source=()
 
 build() {
-	mkdir -pv $PKG/etc
-	touch $PKG/etc/$name-$version
+	mkdir -pv $PKG/usr
 }
