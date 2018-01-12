@@ -1,9 +1,9 @@
 # description	: Stand-alone browser based on the Mozilla codebase
 # depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent libvpx sqlite dbus-glib graphite2 harfbuzz
-# makedepends	: unzip zip autoconf2.13 yasm rustc gconf llvm
+# makedepends	: unzip zip autoconf2.13 yasm rust gconf llvm
 
 name=firefox
-version=57.0.3
+version=57.0.4
 release=1
 source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/$name-$version.source.tar.xz
 	$name-system_graphite2_harfbuzz-1.patch
@@ -126,7 +126,7 @@ EOF
 cat > $PKG/usr/share/applications/firefox.desktop << "EOF"
 [Desktop Entry]
 Encoding=UTF-8
-Name=Firefox Web Browser
+Name=Firefox
 Comment=Browse the World Wide Web
 GenericName=Web Browser
 Exec=firefox %u
