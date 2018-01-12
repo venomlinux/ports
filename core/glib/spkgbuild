@@ -4,23 +4,21 @@
 
 name=glib
 version=2.54.2
-release=3
+release=1
 source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-skip_warnings-1.patch
-	https://raw.githubusercontent.com/GNOME/glib/master/gio/tests/gengiotypefuncs.py
 	gio-querymodules.hook
 	glib-compile-schemas.hook)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../$name-$version-skip_warnings-1.patch
-
-	cp ../gengiotypefuncs.py gio/tests
-
-	./configure --prefix=/usr --with-pcre=system --with-python=/usr/bin/python3
+	./configure --prefix=/usr \
+		    --with-pcre=system \
+		    --with-docs=no
 	make
 	make DESTDIR=$PKG install
+
+	chmod -v 755 $PKG/usr/bin/{gdbus-codegen,glib-gettextize}
 
 	mkdir -p $PKG/usr/share/doc/$name
 	cp -r docs/reference/{NEWS,README,gio,glib,gobject} $PKG/usr/share/doc/$name
