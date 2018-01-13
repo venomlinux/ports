@@ -4,7 +4,7 @@
 # depends	: libpng which
 
 name=freetype2
-version=2.8.1
+version=2.9
 release=1
 source=(http://downloads.sourceforge.net/freetype/freetype-$version.tar.bz2)
 
@@ -12,7 +12,8 @@ build() {
 	cd freetype-$version
 
 	sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg
-	sed -r "s:.*(#.*SUBPIXEL_(RENDERING|HINTING 2)) .*:\1:g" \
+
+	sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" \
 	    -i include/freetype/config/ftoption.h
 
 	./configure --prefix=/usr --disable-static
