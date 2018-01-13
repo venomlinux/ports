@@ -1,0 +1,17 @@
+# description	: Easily download, build, install, upgrade, and uninstall Python packages
+# depends	: python3-packaging python3-appdirs
+
+name=python3-setuptools
+version=38.4.0
+release=1
+options=()
+source=(python-setuptools-$version.tar.gz::https://github.com/pypa/setuptools/archive/v$version.tar.gz)
+
+build() {
+	cd setuptools-$version
+
+	export SETUPTOOLS_INSTALL_WINDOWS_SPECIFIC_FILES=0
+	python3 bootstrap.py
+	python3 setup.py build
+	python3 setup.py install --prefix=/usr --root="$PKG" --optimize=1 --skip-build
+}

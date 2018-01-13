@@ -1,0 +1,13 @@
+# description	: Core utilities for Python packages
+# depends	: python2-pyparsing python2-six
+
+name=python2-packaging
+version=16.8
+release=1
+source=(https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-$version.tar.gz)
+
+build() {
+	cd ${name#*-}-$version
+	python2 setup.py build
+	python2 setup.py install --root "$PKG"
+}

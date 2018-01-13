@@ -1,0 +1,13 @@
+# description	: General parsing module for Python
+# depends	: python3
+
+name=python3-pyparsing
+version=2.2.0
+release=1
+source=(https://files.pythonhosted.org/packages/source/p/${name#*-}/${name#*-}-$version.tar.gz)
+
+build() {
+	cd ${name#*-}-$version
+	python3 setup.py build
+	python3 setup.py install --prefix=/usr --root="$PKG" --optimize=1
+}

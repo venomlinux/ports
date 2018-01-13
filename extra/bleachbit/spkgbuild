@@ -1,0 +1,12 @@
+# description	: Deletes unneeded files to free disk space and maintain privacy
+# depends	: python2-gtk desktop-file-utils gtk2 hicolor-icon-theme
+
+name=bleachbit
+version=1.12
+release=1
+source=(https://downloads.sourceforge.net/$name/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	make prefix=/usr DESTDIR="$PKG" install
+}

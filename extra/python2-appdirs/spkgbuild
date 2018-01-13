@@ -1,0 +1,13 @@
+# description	: A small Python module for determining appropriate platform-specific dirs, e.g. a "user data dir"
+# depends	: python2
+
+name=python2-appdirs
+version=1.4.3
+release=1
+source=(https://pypi.io/packages/source/a/appdirs/appdirs-$version.tar.gz)
+
+build() {
+	cd appdirs-$version
+	python2 setup.py build
+	python2 setup.py install --root="$PKG" --optimize=1
+}

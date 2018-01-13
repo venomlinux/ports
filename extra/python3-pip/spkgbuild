@@ -1,0 +1,14 @@
+# description	: The PyPA recommended tool for installing Python packages
+# depends	: python3 python3-setuptools
+
+name=python3-pip
+version=9.0.1
+release=1
+source=(https://pypi.io/packages/source/p/pip/pip-${version}.tar.gz)
+
+build() {
+	cd pip-$version
+	python3 setup.py build
+	python3 setup.py install --prefix=/usr --root="$PKG"
+	rm $PKG/usr/bin/pip
+}

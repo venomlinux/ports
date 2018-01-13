@@ -1,0 +1,15 @@
+# description	: 64-Bit optimized Firefox, no data collection, allows unsigned extensions
+# depends	: libxt libnotify nss gtk2 gtk3 sqlite dbus-glib
+
+name=waterfox-bin
+version=56.0.1
+release=1
+source=(https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$version.en-US.linux-x86_64.tar.bz2
+	waterfox.desktop)
+build() {
+	install -d "$PKG"/{usr/{bin,share/{applications,pixmaps}},opt}
+	install -m644 "$SRC"/waterfox.desktop "$PKG"/usr/share/applications/
+	install -m644 "$SRC"/waterfox/browser/icons/mozicon128.png "$PKG"/usr/share/pixmaps/waterfox-icon.png
+	cp -r waterfox "$PKG"/opt/
+	ln -s /opt/waterfox/waterfox "$PKG"/usr/bin/
+}

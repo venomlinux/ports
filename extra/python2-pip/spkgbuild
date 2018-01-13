@@ -1,0 +1,13 @@
+# description	: The PyPA recommended tool for installing Python packages
+# depends	: python2 python2-setuptools
+
+name=python2-pip
+version=9.0.1
+release=1
+source=(https://pypi.io/packages/source/p/pip/pip-${version}.tar.gz)
+
+build() {
+	cd pip-$version
+	python2 setup.py build
+	python2 setup.py install --prefix=/usr --root="$PKG"
+}
