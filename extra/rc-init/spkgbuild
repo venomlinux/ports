@@ -2,11 +2,13 @@
 # backup	: etc/rc.conf
 
 name=rc-init
-version=0.2
+version=20180114
+_commit=e6dd9a15e791781f1c140a33e04c672cd034ee77
 release=1
-source=(https://github.com/emmett1/rc-init/archive/v$version/$name-$version.tar.gz)
+source=($name-$version.tar.gz::https://github.com/emmett1/rc-init/archive/${_commit}.tar.gz)
 
 build() {
-	cd $name-$version
+	cd $name-${_commit}
+
 	DESTDIR=$PKG ./INSTALL.sh
 }
