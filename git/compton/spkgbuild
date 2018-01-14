@@ -4,20 +4,26 @@
 # depends	: libconfig dbus
 # makedepends	: git
 
-name=compton-git
-version=0.1_beta2.83.g2343e4b
+name=compton
+version=git
 release=1
 source=(compton.conf)
+gitsource=(git://github.com/chjj/compton)
+
+get_git() {	
+	if [[ -d "$SOURCE_DIR/$name" ]]; then
+		git -C "$SOURCE_DIR/$name" fetch -q
+		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
+	else
+		git -C "$SOURCE_DIR" clone $1 "$name"
+	fi
+
+	cp -r "$SOURCE_DIR/$name" "$SRC"
+}
 
 build() {
-	cd $SOURCE_DIR
-	
-	if cd $name; then
-		git fetch -q; git reset --hard origin/master
-	else
-		git clone git://github.com/chjj/compton $name
-		cd $name
-	fi
+	get_git $gitsource master
+	cd $name
 
 	make MANPAGES= PREFIX="$PKG/usr" install
 	install -Dm755 compton $PKG/usr/bin/compton

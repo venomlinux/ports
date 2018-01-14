@@ -4,20 +4,24 @@
 # depends	: gtk3
 # makedepends	: git
 
-name=arc-osx-icon-theme-git
-version=1.0.0.r10.g3757199
+name=arc-osx-icon-theme
+version=git
 release=1
-source=()
+
+get_git() {	
+	if [[ -d "$SOURCE_DIR/$name" ]]; then
+		git -C "$SOURCE_DIR/$name" fetch -q
+		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
+	else
+		git -C "$SOURCE_DIR" clone $1 "$name"
+	fi
+
+	cp -r "$SOURCE_DIR/$name" "$SRC"
+}
 
 build() {
-	cd $SOURCE_DIR
-	
-	if cd $name; then
-		git fetch -q; git reset --hard origin/master
-	else
-		git clone git://github.com/LinxGem33/Arc-OSX-Icons $name
-		cd $name
-	fi
+	get_git git://github.com/LinxGem33/Arc-OSX-Icons master
+	cd $name
 
 	install -d $PKG/usr/share/icons
 	cp -a src/* $PKG/usr/share/icons/

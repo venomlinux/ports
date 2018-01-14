@@ -4,20 +4,26 @@
 # depends	: gtk3
 # makedepends	: git
 
-name=faba-icon-theme-git
-version=303.6f1cea3
+name=faba-icon-theme
+version=git
 release=1
 options=(!strip)
+gitsource=(https://github.com/moka-project/faba-icon-theme)
+
+get_git() {	
+	if [[ -d "$SOURCE_DIR/$name" ]]; then
+		git -C "$SOURCE_DIR/$name" fetch -q
+		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
+	else
+		git -C "$SOURCE_DIR" clone $1 "$name"
+	fi
+
+	cp -r "$SOURCE_DIR/$name" "$SRC"
+}
 
 build() {
-	cd $SOURCE_DIR
-	
-	if cd $name; then
-		git fetch -q; git reset --hard origin/master
-	else
-		git clone https://github.com/moka-project/faba-icon-theme.git $name
-		cd $name
-	fi
+	get_git $gitsource master
+	cd $name
 
 	install -dm 755 $PKG/usr/share/icons/Faba
 	cp -dr --no-preserve=ownership Faba "${PKG}"/usr/share/icons/
