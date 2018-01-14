@@ -20,7 +20,7 @@ get_git() {
 }
 
 build() {
-	get_git https://github.com/xmms2/xmms2-devel master
+	get_git $gitsource master
 	cd $name
 
 	DESTDIR=$PKG ./INSTALL.sh
