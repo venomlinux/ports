@@ -4,25 +4,14 @@
 # makedepends	: git
 
 name=linux-firmware
-version=git
+version=20180114
 release=1
+_commit=65b1c68c63f974d72610db38dfae49861117cae2
 options=(!strip)
-gitsource=(git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware)
-
-get_git() {	
-	if [[ -d "$SOURCE_DIR/$name" ]]; then
-		git -C "$SOURCE_DIR/$name" fetch -q
-		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
-	else
-		git -C "$SOURCE_DIR" clone $1 "$name"
-	fi
-
-	cp -r "$SOURCE_DIR/$name" "$SRC"
-}
+source=($name-$version.tar.gz::https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-${_commit}.tar.gz)
 
 build() {
-	get_git $gitsource master
-	cd $name
+	cd $name-${_commit}
 
 	make DESTDIR=$PKG install
 	rm $PKG/lib/firmware/{Makefile,README,configure,GPL-3,*.txt,check_whence.py}
