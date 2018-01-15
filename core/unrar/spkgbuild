@@ -4,13 +4,12 @@
 
 name=unrar
 version=5.5.8
-release=1
+release=2
 source=(http://www.rarlab.com/rar/unrarsrc-$version.tar.gz)
 
 build() {
 	cd unrar
 
-	make -f makefile
-	install -d $PKG/usr/bin
-	install -v -m755 unrar $PKG/usr/bin
+	make CXXFLAGS="$CXXFLAGS" STRIP=:
+	make install DESTDIR=$PKG/usr
 }
