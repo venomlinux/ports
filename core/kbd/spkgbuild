@@ -2,11 +2,10 @@
 # homepage	: http://www.kbd-project.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: glibc
-# makedepends	: check
 
 name=kbd
 version=2.0.4
-release=1
+release=2
 source=(https://www.kernel.org/pub/linux/utils/$name/$name-$version.tar.xz
 	http://www.linuxfromscratch.org/patches/lfs/8.1/$name-$version-backspace-1.patch)
 
@@ -21,6 +20,9 @@ build() {
 	PKG_CONFIG_PATH=/tools/lib/pkgconfig ./configure --prefix=/usr --disable-vlock
 	make
 	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/bin
+	mv -v $PKG/usr/bin/{dumpkeys,kbd_mode,loadkeys,setfont} $PKG/bin
 
 	mkdir -p       $PKG/usr/share/doc/$name
 	cp -R -v docs/doc/* $PKG/usr/share/doc/$name
