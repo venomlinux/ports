@@ -1,0 +1,17 @@
+# description	: Event expression library (32 bit)
+
+name=libee-32
+version=0.4.1
+release=1
+source=(http://www.libee.org/download/files/download/libee-$version.tar.gz)
+
+build() {
+	cd libee-$version
+
+	CC="gcc -m32" PKG_CONFIG_PATH="/usr/lib/pkgconfig" \
+	./configure --prefix=/usr
+	make || make -j1
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{sbin,include}
+}

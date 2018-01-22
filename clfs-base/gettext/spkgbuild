@@ -1,0 +1,18 @@
+# description	: Utilities for internationalization and localization
+# depends	: acl gcc bash
+
+name=gettext
+version=0.19.8.1
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" CXX="g++ -m64" \
+	./configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

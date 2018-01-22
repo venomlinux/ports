@@ -1,0 +1,17 @@
+# description	: Multi-platform support library with a focus on asynchronous I/O
+
+name=libuv
+version=1.19.1
+release=1
+source=(https://github.com/libuv/libuv/archive/v$version/libuv-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	sh autogen.sh
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64 \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

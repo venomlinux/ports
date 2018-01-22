@@ -1,0 +1,52 @@
+# description	: Programs for dynamic creation of device nodes
+
+name=eudev
+version=3.2.5
+release=1
+source=(http://dev.gentoo.org/~blueness/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+if [ -d /tools ];then
+cat > config.cache << "EOF"
+HAVE_BLKID=1
+BLKID_LIBS="-lblkid"
+BLKID_CFLAGS="-I/tools/include"
+EOF
+fi
+	#./autogen.sh
+	PKG_CONFIG_PATH="/usr/lib64/pkgconfig" \
+	./configure --prefix=/usr           \
+	            --bindir=/sbin          \
+	            --sbindir=/sbin         \
+	            --libdir=/usr/lib64       \
+	            --sysconfdir=/etc       \
+	            --libexecdir=/lib64       \
+	            --with-rootprefix=      \
+	            --with-rootlibdir=/lib64  \
+	            --enable-manpages       \
+	            --disable-static	    \
+		    $([ -d /tools ] && echo "--config-cache")
+	if [ -d /tools ];then
+		LIBRARY_PATH=/tools/lib64 make
+	else
+		make
+	fi
+
+	mkdir -pv $PKG/lib/udev/rules.d
+	mkdir -pv $PKG/etc/udev/rules.d
+
+	if [ -d /tools ];then
+		make LD_LIBRARY_PATH=/tools/lib64 DESTDIR=$PKG install
+	else
+		make DESTDIR=$PKG install
+	fi
+
+	# create binary hwdb
+	if [ -d /tools ];then
+		LD_LIBRARY_PATH=/tools/lib64 $PKG/sbin/udevadm hwdb --update --root=$PKG
+	else
+		$PKG/sbin/udevadm hwdb --update --root=$PKG
+	fi
+}

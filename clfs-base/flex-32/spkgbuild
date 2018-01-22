@@ -1,0 +1,18 @@
+# description	: Utility for generating programs that recognize patterns in text (32 bit)
+# depends	: glibc m4 bash
+
+name=flex-32
+version=2.6.4
+release=1
+source=(https://github.com/westes/flex/releases/download/v$version/flex-$version.tar.gz)
+
+build() {
+	cd flex-$version
+
+	CC="gcc -m32" ./configure \
+	    --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{bin,include,share}
+}

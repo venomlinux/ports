@@ -1,0 +1,11 @@
+# description	: Certificate Authority certificates, the Public Key Infrastructure
+# depends	: openssl ca-certificates-utils
+
+name=ca-certificates
+version=20170903
+release=2
+source=(certdata-$version.txt::http://anduin.linuxfromscratch.org/BLFS/other/certdata.txt)
+
+build() {
+  	/usr/sbin/make-ca -D $PKG -C certdata-$version.txt
+}

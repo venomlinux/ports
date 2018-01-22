@@ -1,0 +1,22 @@
+# description	: Programs for controlling the startup, running, and shutdown of the system
+
+name=sysvinit
+version=2.88dsf
+release=1
+source=(http://download.savannah.gnu.org/releases/$name/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	# disable several programs from being built and installed as better 
+	# versions are provided by other packages
+	sed -i -e 's/\ sulogin[^ ]*//' -e 's/pidof\.8//' -e '/ln .*pidof/d' \
+	    -e '/utmpdump/d' -e '/mountpoint/d' -e '/mesg/d' src/Makefile
+	
+	make -C src clobber
+	make -C src CC="gcc -m64"
+
+	make -C src ROOT=$PKG install
+
+	rm $PKG/usr/bin/lastb
+}

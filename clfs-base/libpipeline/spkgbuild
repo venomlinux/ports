@@ -1,0 +1,21 @@
+# description	: A library for manipulating pipelines of subprocesses in a flexible and convenient way
+# depends	: glibc
+
+name=libpipeline
+version=1.4.1
+release=1
+source=(http://download.savannah.gnu.org/releases/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	[ -d /tools ] && PKG_CONFIG_PATH="/tools/lib64/pkgconfig" || PKG_CONFIG_PATH="/usr/lib64/pkgconfig"
+
+	PKG_CONFIG_PATH="$PKG_CONFIG_PATH" \
+	    CC="gcc -m64" \
+	./configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

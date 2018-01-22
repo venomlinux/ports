@@ -1,0 +1,21 @@
+# description	: Library for manipulating sets and relations of integer points bounded by linear constraints
+
+name=isl
+version=0.17.1
+release=1
+source=(http://isl.gforge.inria.fr/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	
+	CC="gcc -isystem /usr/include -m64" \
+	LDFLAGS="-Wl,-rpath-link,/usr/lib64:/lib64 -m64" \
+	./configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -pv $PKG/usr/share/gdb/auto-load/usr/lib64
+	mv -v $PKG/usr/lib64/*gdb.py $PKG/usr/share/gdb/auto-load/usr/lib64
+}

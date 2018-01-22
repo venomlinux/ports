@@ -1,0 +1,19 @@
+# description	: Expose the kernel's API for use by Glibc
+# depends	: bc inetutils kmod
+
+name=linux-api-headers
+version=4.9.21
+release=1
+source=(https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.9.tar.xz
+	http://www.kernel.org/pub/linux/kernel/v4.x/patch-$version.xz)
+
+build() {
+	cd linux-4.9
+
+	xzcat ../patch-$version.xz | patch -Np1 -i -
+
+	make mrproper
+	make headers_check
+	make INSTALL_HDR_PATH=$PKG/usr headers_install
+	find $PKG/usr/include -name .install -or -name ..install.cmd | xargs rm -fv
+}

@@ -1,0 +1,33 @@
+# description	: The Practical Extraction and Report Language (32 bit)
+# depends	: gdbm glibc
+
+name=perl-32
+version=5.26.0
+release=1
+source=(http://www.cpan.org/src/5.0/perl-$version.tar.xz)
+
+build() {
+	cd perl-$version
+
+	export BUILD_ZLIB=False
+	export BUILD_BZIP2=0
+
+	./configure.gnu \
+	    --prefix=/usr \
+	    -Dvendorprefix=/usr \
+	    -Dman1dir=/usr/share/man/man1 \
+	    -Dman3dir=/usr/share/man/man3 \
+	    -Dpager="/bin/less -isR" \
+	    -Dcc="gcc -m32" \
+	    -Dusethreads \
+	    -Duseshrplib
+	make
+	make DESTDIR=$PKG install
+	unset BUILD_ZLIB BUILD_BZIP2
+
+	mv -v $PKG/usr/bin/perl{,-32}
+	mv -v $PKG/usr/bin/perl$version{,-32}
+
+	find $PKG/usr/bin -type f -not -name '*-32' -delete
+	rm -fr $PKG/usr/share
+}

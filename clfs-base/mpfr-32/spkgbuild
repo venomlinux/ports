@@ -1,0 +1,26 @@
+# description	: Functions for multiple precision math (32 bit)
+# depends	: gmp
+
+name=mpfr-32
+version=3.1.5
+release=1
+source=(http://www.mpfr.org/mpfr-$version/mpfr-$version.tar.xz
+	http://patches.clfs.org/sysvinit/mpfr-$version-fixes-1.patch)
+
+build() {
+	cd mpfr-$version
+
+	patch -Np1 -i ../mpfr-$version-fixes-1.patch
+
+	CC="gcc -isystem /usr/include -m32" \
+	    LDFLAGS="-Wl,-rpath-link,/usr/lib:/lib -m32" \
+	./configure \
+	    --prefix=/usr \
+	    --host=i686-pc-linux-gnu
+	make
+	make html
+	make DESTDIR=$PKG install
+	make DESTDIR=$PKG install-html
+
+	rm -fr $PKG/usr/share/{doc,info} $PKG/usr/include
+}

@@ -1,0 +1,23 @@
+# description	: Programs for monitoring processes
+# depends	: ncurses
+
+name=procps-ng
+version=3.3.12
+release=1
+source=(http://sourceforge.net/projects/procps-ng/files/Production/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" ./configure \
+	    --prefix=/usr \
+	    --exec-prefix= \
+	    --libdir=/usr/lib64 \
+	    --disable-kill
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -pv $PKG/lib64
+	mv -v $PKG/usr/lib64/libprocps.so.* $PKG/lib64
+	ln -sfv ../../lib64/$(readlink $PKG/usr/lib64/libprocps.so) $PKG/usr/lib64/libprocps.so
+}

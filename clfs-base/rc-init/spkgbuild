@@ -1,0 +1,14 @@
+# description	: BSD-style init-script
+# backup	: etc/rc.conf
+
+name=rc-init
+version=20180121
+_commit=50bdc9a318e6bd512b165b67790885ee1d05da9a
+release=1
+source=($name-$version.tar.gz::https://github.com/emmett1/rc-init/archive/${_commit}.tar.gz)
+
+build() {
+	cd $name-${_commit}
+
+	DESTDIR=$PKG ./INSTALL.sh
+}

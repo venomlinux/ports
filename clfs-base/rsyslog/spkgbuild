@@ -1,0 +1,81 @@
+# description	: Programs for logging system messages
+
+name=rsyslog
+version=6.4.2
+release=1
+source=(http://www.rsyslog.com/files/download/rsyslog/rsyslog-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" PKG_CONFIG_PATH="/usr/lib64/pkgconfig" \
+	./configure --prefix=/usr --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+
+	install -dv $PKG/etc/rsyslog.d
+
+cat > $PKG/etc/rsyslog.conf << "EOF"
+# Begin /etc/rsyslog.conf
+
+# CLFS configuration of rsyslog. For more info use man rsyslog.conf
+
+#######################################################################
+# Rsyslog Modules
+
+# Support for Local System Logging
+$ModLoad imuxsock.so
+
+# Support for Kernel Logging
+$ModLoad imklog.so
+
+#######################################################################
+# Global Options
+
+# Use traditional timestamp format.
+$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
+
+# Set the default permissions for all log files.
+$FileOwner root
+$FileGroup root
+$FileCreateMode 0640
+$DirCreateMode 0755
+
+# Provides UDP reception
+$ModLoad imudp
+$UDPServerRun 514
+
+# Disable Repeating of Entries
+$RepeatedMsgReduction on
+
+#######################################################################
+# Include Rsyslog Config Snippets
+
+$IncludeConfig /etc/rsyslog.d/*.conf
+
+#######################################################################
+# Standard Log Files
+
+auth,authpriv.*                 /var/log/auth.log
+*.*;auth,authpriv.none          -/var/log/syslog
+daemon.*                        -/var/log/daemon.log
+kern.*                          -/var/log/kern.log
+lpr.*                           -/var/log/lpr.log
+mail.*                          -/var/log/mail.log
+user.*                          -/var/log/user.log
+
+# Catch All Logs
+*.=debug;\
+        auth,authpriv.none;\
+        news.none;mail.none     -/var/log/debug
+*.=info;*.=notice;*.=warn;\
+        auth,authpriv.none;\
+        cron,daemon.none;\
+        mail,news.none          -/var/log/messages
+
+# Emergencies are shown to everyone
+*.emerg                         *
+
+# End /etc/rsyslog.conf
+EOF
+}

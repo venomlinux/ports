@@ -1,0 +1,25 @@
+# description	: Programs for monitoring processes (32 bit)
+# depends	: ncurses
+
+name=procps-ng-32
+version=3.3.12
+release=1
+source=(http://sourceforge.net/projects/procps-ng/files/Production/procps-ng-$version.tar.xz)
+
+build() {
+	cd procps-ng-$version
+
+	CC="gcc -m32" ./configure \
+	    --prefix=/usr \
+	    --exec-prefix= \
+	    --libdir=/usr/lib \
+	    --disable-kill
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -pv $PKG/lib
+	mv -v $PKG/usr/lib/libprocps.so.* $PKG/lib
+	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libprocps.so) $PKG/usr/lib/libprocps.so
+
+	rm -fr $PKG/{bin,sbin,usr/{share,include}}
+}

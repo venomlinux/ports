@@ -1,0 +1,19 @@
+# description	: Utilities for internationalization and localization (32 bit)
+# depends	: acl gcc bash
+
+name=gettext-32
+version=0.19.8.1
+release=1
+source=(http://ftp.gnu.org/gnu/gettext/gettext-$version.tar.xz)
+
+build() {
+	cd gettext-$version
+
+	CC="gcc -m32" CXX="g++ -m32" \
+	./configure \
+	    --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{bin,include,share}
+}

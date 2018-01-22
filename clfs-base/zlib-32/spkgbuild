@@ -1,0 +1,25 @@
+# description	: Compression and decompression routines used by some programs (32 bit)
+# depends	: glibc
+
+name=zlib-32
+version=1.2.11
+release=1
+source=(http://zlib.net/zlib-$version.tar.xz)
+
+build() {
+	cd zlib-$version
+
+	CC="gcc -isystem /usr/include -m32" \
+	CXX="g++ -isystem /usr/include -m32" \
+	LDFLAGS="-Wl,-rpath-link,/usr/lib:/lib -m32" \
+	./configure \
+	    --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/lib
+	mv -v $PKG/usr/lib/libz.so.* $PKG/lib
+	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libz.so) $PKG/usr/lib/libz.so
+
+	rm -fr $PKG/usr/{include,share}
+}

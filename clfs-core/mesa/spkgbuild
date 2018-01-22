@@ -1,0 +1,31 @@
+# description	: OpenGL compatible 3D graphics library
+# depends	: libdrm python2 wayland libxshmfence libxdamage libxext libxfixes elfutils
+# makedepends	: libvdpau python2-mako libx11 glproto dri2proto dri3proto presentproto wayland-protocols
+
+name=mesa
+version=17.3.3
+release=1
+source=(https://mesa.freedesktop.org/archive/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+        
+	GLL_DRV="r300,r600,svga,swrast,radeonsi,nouveau"
+
+	./configure LDFLAGS=-lLLVM                  \
+                    --prefix=/usr	            \
+	            --sysconfdir=/etc               \
+		    --libdir=/usr/lib64             \
+	            --enable-texture-float          \
+        	    --enable-osmesa                 \
+        	    --enable-xa                     \
+        	    --enable-glx-tls                \
+	            --with-platforms="drm,x11,wayland" \
+	            --with-gallium-drivers=$GLL_DRV
+	make
+	make DESTDIR=$PKG install
+
+	install -v -dm755 $PKG/usr/share/doc/$name
+	cp -rfv docs/* $PKG/usr/share/doc/$name
+}
+

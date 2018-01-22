@@ -1,0 +1,25 @@
+# description	: Key-table files, console fonts, and keyboard utilities
+# depends	: glibc
+# makedepends	: check
+
+name=kbd
+version=2.0.4
+release=1
+source=(https://www.kernel.org/pub/linux/utils/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	[ -d /tools ] && PKG_CONFIG_PATH="/tools/lib64/pkgconfig" || PKG_CONFIG_PATH="/usr/lib64/pkgconfig"
+
+	CC="gcc -m64" PKG_CONFIG_PATH="$PKG_CONFIG_PATH" \
+	./configure \
+	    --prefix=/usr \
+	    --disable-vlock \
+	    --enable-optional-progs
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/bin
+	mv -v $PKG/usr/bin/{dumpkeys,kbd_mode,loadkeys,setfont} $PKG/bin
+}

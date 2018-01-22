@@ -1,0 +1,18 @@
+# description	: Utility for determining the type of a given file or files
+# depends	: glibc zlib
+
+name=file
+version=5.31
+release=1
+source=(ftp://ftp.astron.com/pub/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" \
+	./configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

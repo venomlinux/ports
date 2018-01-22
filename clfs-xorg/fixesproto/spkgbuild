@@ -1,0 +1,23 @@
+# description	: X11 Fixes extension wire protocol
+# homepage	: https://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: util-macros
+
+name=fixesproto
+version=5.0
+release=1
+source=(http://ftp.x.org/pub/individual/proto/fixesproto-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libdir=/usr/lib64 \
+		--localstatedir=/var \
+		--disable-static
+
+	make DESTDIR=$PKG install	
+}
+

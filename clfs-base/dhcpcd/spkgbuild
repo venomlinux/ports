@@ -1,0 +1,28 @@
+# description	: An implementation of the DHCP client specified in RFC2131
+# homepage	: http://roy.marples.name/projects/dhcpcd/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=dhcpcd
+version=6.11.5
+release=1
+source=(http://roy.marples.name/downloads/$name/$name-$version.tar.xz
+	dhcpcd.rc
+	dhcpcd.conf)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+	    --prefix=/usr \
+	    --sbindir=/sbin \
+	    --sysconfdir=/etc \
+	    --dbdir=/var/lib/dhcpcd \
+	    --libexecdir=/usr/lib64/dhcpcd \
+	    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+
+	install -Dm755 $SRC/dhcpcd.rc $PKG/etc/rc.d/dhcpcd
+	install -Dm644 $SRC/dhcpcd.conf $PKG/etc/conf.d/dhcpcd
+}
+

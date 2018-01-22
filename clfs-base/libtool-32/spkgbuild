@@ -1,0 +1,24 @@
+# description	: The GNU generic library support script (32 bit)
+# depends	: glibc bash tar
+# makedepends	: gcc
+
+name=libtool-32
+version=2.4.6
+release=1
+source=(http://ftp.gnu.org/gnu/libtool/libtool-$version.tar.xz)
+
+build() {
+	cd libtool-$version
+
+	echo "lt_cv_sys_dlsearch_path='/lib /usr/lib /usr/local/lib /opt/lib'" > config.cache
+
+	CC="gcc -m32" ./configure \
+	    --prefix=/usr \
+	    --cache-file=config.cache
+	make
+	make DESTDIR=$PKG install
+
+	mv -v $PKG/usr/bin/libtool{,-32}
+
+	rm -fr $PKG/usr/{bin/libtoolize,share,include}
+}

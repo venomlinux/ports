@@ -1,0 +1,24 @@
+# description	: Compression and decompression routines used by some programs
+# depends	: glibc
+
+name=zlib
+version=1.2.11
+release=1
+source=(http://zlib.net/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -isystem /usr/include -m64" \
+	CXX="g++ -isystem /usr/include -m64" \
+	LDFLAGS="-Wl,-rpath-link,/usr/lib64:/lib64 -m64" \
+	./configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/lib64
+	mv -v $PKG/usr/lib64/libz.so.* $PKG/lib64
+	ln -sfv ../../lib64/$(readlink $PKG/usr/lib64/libz.so) $PKG/usr/lib64/libz.so
+}

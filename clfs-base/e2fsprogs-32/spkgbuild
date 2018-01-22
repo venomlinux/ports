@@ -1,0 +1,31 @@
+# description	: utilities for handling the ext2, ext3 and ext4 file system (32 bit)
+# depends	: bash
+# makedepends	: bc
+
+name=e2fsprogs-32
+version=1.43.4
+release=1
+source=(http://downloads.sourceforge.net/project/e2fsprogs/e2fsprogs/v$version/e2fsprogs-$version.tar.xz)
+
+build() {
+	cd e2fsprogs-$version
+
+	mkdir -v build
+	cd build
+
+	PKG_CONFIG_PATH=/usr/lib/pkgconfig \
+	CC="gcc -m32" \
+	../configure \
+	    --prefix=/usr \
+	    --bindir=/bin \
+	    --with-root-prefix="" \
+	    --enable-elf-shlibs \
+	    --disable-libblkid \
+	    --disable-libuuid \
+	    --disable-fsck \
+	    --disable-uuidd
+	make libs
+	make DESTDIR=$PKG install-libs
+
+	rm -rf $PKG/{bin,usr/{bin,include,share}}
+}

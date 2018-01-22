@@ -1,0 +1,29 @@
+# description	: Programs for compressing and decompressing files (32 bit)
+# depends	: glibc bash
+
+name=bzip2-32
+version=1.0.6
+release=1
+source=(http://www.bzip.org/$version/bzip2-$version.tar.gz)
+
+build() {
+	cd bzip2-$version
+
+	sed -i -e 's:ln -s -f $(PREFIX)/bin/:ln -s :' Makefile
+	sed -i 's@X)/man@X)/share/man@g' ./Makefile
+	sed -i 's@/lib\(/\| \|$\)@/lib64\1@g' Makefile
+
+	# use our optimization
+	[[ -n ${CFLAGS} ]] && sed -i "s|-O2|${CFLAGS}|g" Makefile
+	[[ -n ${CFLAGS} ]] && sed -i "s|-O2|${CFLAGS}|g" Makefile-libbz2_so
+
+	make -f Makefile-libbz2_so CC="gcc -m32" CXX="g++ -m32"
+	make clean
+	make CC="gcc -m32" CXX="g++ -m32" libbz2.a
+
+	mkdir -pv $PKG/{lib,usr/lib}
+
+	cp -v libbz2.a $PKG/usr/lib
+	cp -av libbz2.so* $PKG/lib
+	ln -sv ../../lib/libbz2.so.1.0 $PKG/usr/lib/libbz2.so
+}

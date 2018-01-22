@@ -1,0 +1,47 @@
+#!/bin/sh
+#
+# /etc/rc.d/ntpd: start/stop NTP Network Time Protocol
+#
+
+PROG=/usr/sbin/ntpd
+PROGNAME=$(basename `echo $PROG`)
+PIDFILE=/var/run/PROGNAME.pid
+OPTS="-g -u ntp:ntp"
+PROCPID=$(pidof $PROGNAME)
+
+case $1 in
+	start)
+		echo "Starting $PROGNAME daemon..."
+		if [ "$PROCPID" ]; then
+			exit
+		fi
+		$PROG $OPTS
+		;;
+	stop)
+		echo "Stopping $PROGNAME daemon..."
+		if [ "$PROCPID" ]; then
+			for pid in $PROCPID; do
+				kill "$pid"
+			done
+		fi
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		if [ "$PROCPID" ]; then
+			echo "$PROGNAME is running with pid: $PROCPID"
+		else
+			echo "$PROGNAME is not running"
+		fi
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+exit 0
+
+# End of file

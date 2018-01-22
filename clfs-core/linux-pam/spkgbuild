@@ -1,0 +1,43 @@
+# description	: Pluggable Authentication Modules used to enable the local system administrator to choose how applications authenticate users
+# homepage	: http://linux-pam.org
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=linux-pam
+version=1.3.0
+release=1
+source=(http://linux-pam.org/library/Linux-PAM-$version.tar.bz2
+	other
+	system-account
+	system-auth
+	system-session
+	system-password)
+
+build() {
+	cd Linux-PAM-$version
+
+ 	./configure \
+	    --prefix=/usr                    \
+            --sysconfdir=/etc                \
+            --libdir=/usr/lib64              \
+            --disable-regenerate-docu        \
+            --enable-securedir=/lib/security
+	make
+	make DESTDIR=$PKG install
+
+	chmod -v 4755 $PKG/sbin/unix_chkpwd
+
+	mkdir -p $PKG/lib64
+	for file in pam pam_misc pamc
+	do
+	  mv -v $PKG/usr/lib64/lib${file}.so.* $PKG/lib64
+	  ln -sfv ../../lib64/$(readlink $PKG/usr/lib64/lib${file}.so) $PKG/usr/lib64/lib${file}.so
+	done
+
+	mkdir -m 755 $PKG/etc/pam.d
+	install -D -m 644 -o root -g root $SRC/other $PKG/etc/pam.d/other
+	install -D -m 644 -o root -g root $SRC/system-account $PKG/etc/pam.d/system-account
+	install -D -m 644 -o root -g root $SRC/system-auth $PKG/etc/pam.d/system-auth
+	install -D -m 644 -o root -g root $SRC/system-session $PKG/etc/pam.d/system-session
+	install -D -m 644 -o root -g root $SRC/system-password $PKG/etc/pam.d/system-password
+}
+

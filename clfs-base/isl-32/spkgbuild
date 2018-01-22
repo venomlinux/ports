@@ -1,0 +1,23 @@
+# description	: Library for manipulating sets and relations of integer points bounded by linear constraints (32 bit)
+
+name=isl-32
+version=0.17.1
+release=1
+source=(http://isl.gforge.inria.fr/isl-$version.tar.xz)
+
+build() {
+	cd isl-$version
+	
+	CC="gcc -isystem /usr/include -m32" \
+	LDFLAGS="-Wl,-rpath-link,/usr/lib:/lib -m32" \
+	./configure \
+	    --prefix=/usr \
+	    --host=i686-pc-linux-gnu
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -pv $PKG/usr/share/gdb/auto-load/usr/lib
+	mv -v $PKG/usr/lib/libisl*gdb.py $PKG/usr/share/gdb/auto-load/usr/lib
+
+	rm -fr $PKG/usr/include
+}

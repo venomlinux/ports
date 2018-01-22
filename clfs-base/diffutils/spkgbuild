@@ -1,0 +1,18 @@
+# description	: Programs that show the differences between files or directories
+# depends	: glibc bash
+
+name=diffutils
+version=3.6
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	sed -i 's:= @mkdir_p@:= /bin/mkdir -p:' po/Makefile.in.in
+
+	CC="gcc -m64" ./configure --prefix=/usr
+	sed -i 's@\(^#define DEFAULT_EDITOR_PROGRAM \).*@\1"vi"@' lib/config.h
+	make
+	make DESTDIR=$PKG install
+}

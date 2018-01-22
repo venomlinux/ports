@@ -1,0 +1,25 @@
+# description	: A stream oriented C library for parsing XML
+# homepage	: http://expat.sourceforge.net/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glibc
+
+name=expat
+version=2.2.4
+release=1
+source=(http://prdownloads.sourceforge.net/$name/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	sed -i 's|usr/bin/env |bin/|' run.sh.in
+
+	./configure \
+		--prefix=/usr \
+		--disable-static \
+		--libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+
+	install -v -dm755 $PKG/usr/share/doc/$name
+	install -v -m644 doc/*.{html,png,css} $PKG/usr/share/doc/$name
+}

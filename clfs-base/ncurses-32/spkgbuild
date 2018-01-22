@@ -1,0 +1,40 @@
+# description	: Libraries for terminal-independent handling of character screens (32 bit)
+# depends	: glibc gcc
+
+name=ncurses-32
+version=6.0
+release=1
+source=(http://ftp.gnu.org/gnu/ncurses/ncurses-$version.tar.gz)
+
+build() {
+	cd ncurses-$version
+
+	CC="gcc -m32" CXX="g++ -m32" \
+	./configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib \
+	    --with-shared \
+	    --without-debug \
+	    --enable-widec \
+	    --enable-pc-files
+	make
+	make DESTDIR=$PKG install
+
+	mv -v $PKG/usr/bin/ncursesw6-config{,-32}
+
+	mkdir -p $PKG/lib
+	mv -v $PKG/usr/lib/libncursesw.so.* $PKG/lib
+	ln -svf ../../lib/$(readlink $PKG/usr/lib/libncursesw.so) $PKG/usr/lib/libncursesw.so
+
+	for lib in ncurses form panel menu ; do
+	        echo "INPUT(-l${lib}w)" > $PKG/usr/lib/lib${lib}.so
+	        ln -sfv lib${lib}w.a $PKG/usr/lib/lib${lib}.a
+	done
+	ln -sfv libncurses++w.a $PKG/usr/lib/libncurses++.a
+	ln -sfv ncursesw6-config-32 $PKG/usr/bin/ncurses6-config-32
+
+	rm -fr $PKG/usr/{include,share}
+	for i in captoinfo tic clear reset toe tset tabs tput infotocap infocmp; do
+		rm $PKG/usr/bin/$i
+	done
+}

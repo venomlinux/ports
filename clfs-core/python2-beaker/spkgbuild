@@ -1,0 +1,16 @@
+# description	: Python module that implements caching and sessions WSGI middleware for use with web applications and stand-alone Python scripts and applications
+# homepage	: http://beaker.groovie.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: python2
+
+name=python2-beaker
+version=1.9.0
+release=1
+source=(https://files.pythonhosted.org/packages/source/B/Beaker/Beaker-$version.tar.gz)
+
+build() {
+	cd Beaker-$version
+
+	python setup.py install --root=$PKG --optimize=1
+	
+}

@@ -1,0 +1,24 @@
+# description	: X11 Video extension library
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxext videoproto
+# makedepends	: pkg-config
+
+name=libxv
+version=1.0.10
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libXv-$version.tar.bz2)
+
+build() {
+	cd libXv-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+		--libdir=/usr/lib64 \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

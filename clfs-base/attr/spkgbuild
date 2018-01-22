@@ -1,0 +1,28 @@
+# description	: Utilities to administer the extended attributes on filesystem objects
+# depends	: glibc
+# makedepends	: gettext
+
+name=attr
+version=2.4.47
+release=1
+source=(http://download.savannah.gnu.org/releases/$name/$name-$version.src.tar.gz)
+
+build() {
+	cd $name-$version
+
+	sed -i -e "/SUBDIRS/s|man[25]||g" man/Makefile
+
+	CC="gcc -m64" \
+	./configure \
+	    --prefix=/usr \
+	    --libdir=/lib64 \
+	    --libexecdir=/usr/lib64
+	make
+	make DIST_ROOT=$PKG install install-lib install-dev
+
+	mkdir -p $PKG/usr/lib64
+	ln -sfv ../../lib64/$(readlink $PKG/lib64/libattr.so) $PKG/usr/lib64/libattr.so
+	rm -v $PKG/lib64/libattr.so
+
+	chmod -v 755 $PKG/lib64/libattr.so.1.1.0
+}

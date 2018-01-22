@@ -1,0 +1,38 @@
+# description	: The GNU compiler collection, which includes the C and C++ compilers
+# depends	: binutils glibc
+
+name=gcc
+version=7.1.0
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+
+	mkdir -v build
+	cd       build
+
+	SED=sed CC="gcc -isystem /usr/include -m64" \
+	CXX="g++ -isystem /usr/include -m64" \
+	LDFLAGS="-Wl,-rpath-link,/usr/lib64:/lib64:/usr/lib:/lib" \
+	../configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib64 \
+	    --libexecdir=/usr/lib64 \
+	    --enable-languages=c,c++ \
+	    --with-system-zlib \
+	    --enable-install-libiberty \
+	    --disable-bootstrap
+	make
+	make DESTDIR=$PKG install
+
+	mkdir $PKG/lib
+	ln -sv ../usr/bin/cpp $PKG/lib/cpp
+	ln -sv gcc $PKG/usr/bin/cc
+
+	mkdir -pv $PKG/usr/share/gdb/auto-load/usr/lib{,64}
+	mv -v $PKG/usr/lib/libstdc++*gdb.py $PKG/usr/share/gdb/auto-load/usr/lib
+	mv -v $PKG/usr/lib64/libstdc++*gdb.py $PKG/usr/share/gdb/auto-load/usr/lib64
+}

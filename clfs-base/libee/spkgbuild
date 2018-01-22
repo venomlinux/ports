@@ -1,0 +1,15 @@
+# description	: Event expression library
+
+name=libee
+version=0.4.1
+release=1
+source=(http://www.libee.org/download/files/download/libee-$version.tar.gz)
+
+build() {
+	cd libee-$version
+
+	CC="gcc -m64" PKG_CONFIG_PATH="/usr/lib64/pkgconfig" \
+	./configure --prefix=/usr --libdir=/usr/lib64
+	make || make -j1
+	make DESTDIR=$PKG install
+}

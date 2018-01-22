@@ -1,0 +1,14 @@
+# description	: Additional Wayland protocols that add functionality outside of protocols already in the Wayland core
+# depends	: wayland
+
+name=wayland-protocols
+version=1.12
+release=1
+source=(https://wayland.freedesktop.org/releases/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

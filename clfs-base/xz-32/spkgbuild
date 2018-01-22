@@ -1,0 +1,22 @@
+# description	: Programs for compressing and decompressing files (32 bit)
+# depends	: bash
+
+name=xz-32
+version=5.2.3
+release=1
+source=(http://tukaani.org/xz/xz-$version.tar.xz)
+
+build() {
+	cd xz-$version
+
+	CC="gcc -m32" ./configure \
+	    --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -pv $PKG/lib
+	mv -v $PKG/usr/lib/liblzma.so.* $PKG/lib
+	ln -sfv ../../lib/$(readlink $PKG/usr/lib/liblzma.so) $PKG/usr/lib/liblzma.so
+
+	rm -fr $PKG/usr/{bin,include,share}
+}

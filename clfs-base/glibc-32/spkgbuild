@@ -1,0 +1,53 @@
+# description	: The main C library (32-bit)
+# depends	: linux-headers
+
+name=glibc-32
+version=2.25
+release=1
+options=(!emptydirs)
+source=(http://ftp.gnu.org/gnu/$name/glibc-$version.tar.xz)
+
+build() {
+	cd glibc-$version
+
+	LINKER=$(readelf -l /tools/bin/bash | sed -n 's@.*interpret.*/tools\(.*\)]$@\1@p')
+	sed -i "s|libs -o|libs -L/usr/lib -Wl,-dynamic-linker=${LINKER} -o|" \
+	  scripts/test-installation.pl
+	unset LINKER
+
+	mkdir -v build
+	cd       build
+
+	CC="gcc -m32" CXX="g++ -m32" \
+	../configure \
+	    --prefix=/usr \
+	    --enable-kernel=3.12.0 \
+	    --libexecdir=/usr/lib/glibc \
+	    --host=i686-pc-linux-gnu \
+	    --enable-stack-protector=strong \
+	    --enable-obsolete-rpc
+	make
+	mkdir -p $PKG/etc
+	touch $PKG/etc/ld.so.conf
+	make install_root=$PKG install
+
+	rm -v $PKG/usr/include/rpcsvc/*.x
+
+	### remove conflicting with glibc 64
+	rm -rf $PKG/{etc,sbin,usr/{bin,sbin,share},var}
+
+	# keep 32 bit header files
+	find $PKG/usr/include -type f -not -name '*-32.h' -delete
+
+mkdir -p $PKG/etc/ld.so.conf.d
+cat > $PKG/etc/ld.so.conf.d/lib32.conf << "EOF"
+# Begin /etc/ld.so.conf.d/lib32.conf
+
+/usr/local/lib
+/opt/lib
+/usr/lib
+/lib
+
+EOF
+
+}

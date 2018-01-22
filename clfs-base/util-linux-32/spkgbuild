@@ -1,0 +1,26 @@
+# description	: Utilities for handling file systems, consoles, partitions, and messages (32 bit)
+# depends	: coreutils shadow
+
+name=util-linux-32
+version=2.29.2
+release=1
+source=(https://www.kernel.org/pub/linux/utils/util-linux/v${version::4}/util-linux-$version.tar.xz)
+
+build() {
+	cd util-linux-$version
+
+	CC="gcc -m32" ./configure \
+	    ADJTIME_PATH=/var/lib/hwclock/adjtime \
+	    --libdir=/lib \
+	    --enable-write \
+	    --disable-chfn-chsh \
+	    --disable-login \
+	    --disable-nologin \
+	    --disable-su \
+	    --disable-setpriv \
+	    --disable-runuser
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/{bin,sbin} $PKG/usr/{share,include,bin,sbin}
+}

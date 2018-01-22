@@ -1,0 +1,12 @@
+# description	: wrap certain binaries that have hardcoded paths to libraries or are architecture specific
+# makedepends	: gcc
+
+name=multiarch_wrapper
+version=0.1
+release=1
+source=($name.c)
+
+build() {
+	mkdir -p $PKG/usr/bin
+	gcc -m64 $name.c -o $PKG/usr/bin/$name
+}

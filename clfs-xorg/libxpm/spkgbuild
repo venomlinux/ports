@@ -1,0 +1,24 @@
+# description	: X11 pixmap library
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxext libxt
+# makedepends	: util-macros
+
+name=libxpm
+version=3.5.12
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libXpm-$version.tar.bz2)
+
+build() {
+	cd libXpm-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+		--libdir=/usr/lib64 \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

@@ -1,0 +1,15 @@
+# description	: CA certificates (utilities)
+# depends	: openssl
+
+name=ca-certificates-utils
+version=0.6
+release=2
+source=(https://github.com/djlucas/make-ca/archive/v$version/make-ca-$version.tar.gz)
+
+build() {
+	cd make-ca-$version
+	make DESTDIR=$PKG install
+
+	# remove systemd files
+	rm -fr $PKG/etc
+}

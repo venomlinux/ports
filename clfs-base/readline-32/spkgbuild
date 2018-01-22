@@ -1,0 +1,32 @@
+# description	: Set of libraries that offers command-line editing and history capabilities (32 bit)
+# depends	: glibc ncurses
+
+name=readline-32
+version=7.0
+release=1
+source=(http://ftp.gnu.org/gnu/readline/readline-$version.tar.gz
+	http://patches.clfs.org/sysvinit/readline-$version-branch_update-1.patch)
+
+build() {
+	cd readline-$version
+
+	patch -Np1 -i ../readline-$version-branch_update-1.patch
+
+	sed -i '/MV.*old/d' Makefile.in
+	sed -i '/{OLDSUFF}/c:' support/shlib-install
+
+	CC="gcc -m32" CXX="g++ -m32" \
+	./configure \
+	    --prefix=/usr \
+	    --libdir=/lib
+	make SHLIB_LIBS=-lncurses
+	make SHLIB_LIBS=-lncurses DESTDIR=$PKG install
+	
+	mkdir -p $PKG/usr/lib
+	mv -v $PKG/lib/lib{readline,history}.a $PKG/usr/lib
+	ln -svf ../../lib/$(readlink $PKG/lib/libreadline.so) $PKG/usr/lib/libreadline.so
+	ln -svf ../../lib/$(readlink $PKG/lib/libhistory.so) $PKG/usr/lib/libhistory.so
+	rm -v $PKG/lib/lib{readline,history}.so
+
+	rm -fr $PKG/usr/{bin,include,share}
+}

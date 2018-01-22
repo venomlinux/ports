@@ -1,0 +1,12 @@
+# description	: Linux man pages
+
+name=man-pages
+version=4.09
+release=1
+source=(https://www.kernel.org/pub/linux/docs/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	make DESTDIR=$PKG install
+}

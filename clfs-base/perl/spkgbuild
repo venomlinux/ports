@@ -1,0 +1,44 @@
+# description	: The Practical Extraction and Report Language
+# depends	: gdbm glibc
+
+name=perl
+version=5.26.0
+release=1
+source=(http://www.cpan.org/src/5.0/$name-$version.tar.xz
+	http://patches.clfs.org/sysvinit/$name-$version-Configure_multilib-1.patch)
+
+build() {
+	cd $name-$version
+
+	export BUILD_ZLIB=False
+	export BUILD_BZIP2=0
+
+	sed -i -e '/^BUILD_ZLIB/s/True/False/' \
+	       -e '/^INCLUDE/s,\./zlib-src,/usr/include,' \
+	       -e '/^LIB/s,\./zlib-src,/usr/lib64,' \
+	       cpan/Compress-Raw-Zlib/config.in
+
+	patch -Np1 -i ../$name-$version-Configure_multilib-1.patch
+
+	echo 'installstyle="lib64/perl5"' >> hints/linux.sh
+
+	./configure.gnu \
+	    --prefix=/usr \
+	    -Dvendorprefix=/usr \
+	    -Dman1dir=/usr/share/man/man1 \
+	    -Dman3dir=/usr/share/man/man3 \
+	    -Dpager="/bin/less -isR" \
+	    -Dlibpth="/usr/local/lib64 /lib64 /usr/lib64" \
+	    -Dcc="gcc -m64" \
+	    -Dusethreads \
+	    -Duseshrplib
+	make
+	make DESTDIR=$PKG install
+	unset BUILD_ZLIB BUILD_BZIP2
+
+	mv -v $PKG/usr/bin/perl{,-64}
+	mv -v $PKG/usr/bin/perl$version{,-64}
+
+	ln -sv multiarch_wrapper $PKG/usr/bin/perl
+	ln -sv multiarch_wrapper $PKG/usr/bin/perl$version
+}

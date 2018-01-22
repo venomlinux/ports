@@ -1,0 +1,18 @@
+# description	: GNU stream editor
+# depends	: acl attr glibc
+# makedepends	: gettext
+
+name=sed
+version=4.4
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" ./configure \
+	    --prefix=/usr \
+	    --bindir=/bin
+	make
+	make DESTDIR=$PKG install
+}

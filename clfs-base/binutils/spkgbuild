@@ -1,0 +1,28 @@
+# description	: A linker, an assembler, and other tools for handling object files
+# depends	: glibc zlib
+
+name=binutils
+version=2.28
+release=1
+source=(http://ftp.gnu.org/gnu/binutils/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	mkdir -v build
+	cd       build
+
+	CC="gcc -isystem /usr/include -m64" \
+	LDFLAGS="-Wl,-rpath-link,/usr/lib64:/lib64:/usr/lib:/lib -m64" \
+	../configure \
+	    --prefix=/usr \
+	    --enable-shared \
+	    --enable-64-bit-bfd \
+	    --libdir=/usr/lib64 \
+	    --enable-gold=yes \
+	    --enable-plugins \
+	    --with-system-zlib \
+	    --enable-threads
+	make tooldir=/usr
+	make tooldir=/usr DESTDIR=$PKG install
+}

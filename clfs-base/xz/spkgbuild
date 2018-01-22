@@ -1,0 +1,22 @@
+# description	: Programs for compressing and decompressing files
+# depends	: bash
+
+name=xz
+version=5.2.3
+release=1
+source=(http://tukaani.org/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" ./configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -pv $PKG/{bin,lib64}
+	mv -v $PKG/usr/bin/{xz,lzma,lzcat,unlzma,unxz,xzcat} $PKG/bin
+	mv -v $PKG/usr/lib64/liblzma.so.* $PKG/lib64
+	ln -sfv ../../lib64/$(readlink $PKG/usr/lib64/liblzma.so) $PKG/usr/lib64/liblzma.so
+}

@@ -1,0 +1,20 @@
+# description	: The GNU Database Manager (32 bit)
+# depends	: glibc bash
+
+name=gdbm-32
+version=1.13
+release=1
+source=(http://ftp.gnu.org/gnu/gdbm/gdbm-$version.tar.gz)
+
+build() {
+	cd gdbm-$version
+
+	CC="gcc -m32" \
+	./configure \
+	    --prefix=/usr \
+	    --enable-libgdbm-compat
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{bin,share,include}
+}

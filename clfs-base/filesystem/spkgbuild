@@ -1,0 +1,71 @@
+# description	: Base Nyx GNU/Linux files
+# backup	: etc/passwd etc/resolv.conf etc/hostname etc/group etc/fstab etc/hosts etc/shells etc/profile
+# depends	: iana-etc
+
+name=filesystem
+version=0.1
+release=3
+source=(passwd group resolv.conf hosts hostname inputrc usb.conf
+	shells fstab lsb-release bashrc profile
+	bash_completion.sh dircolors.sh readline.sh
+	umask.sh i18n.sh bash_profile.skel xprofile.skel bashrc.skel bash_logout.skel)
+
+build() {
+
+	mkdir -pv $PKG/{dev,proc,sys,run}
+	mkdir -pv $PKG/{bin,boot,etc/opt,home,lib/firmware,mnt,opt}
+	mkdir -pv $PKG/{media/{floppy,cdrom},sbin,srv,var}
+	install -dv -m 0750 $PKG/root
+	install -dv -m 1777 $PKG/tmp $PKG/var/tmp
+	mkdir -pv $PKG/usr/{,local/}{bin,include,lib,sbin,src}
+	mkdir -pv $PKG/usr/{,local/}share/{color,dict,doc,info,locale,man}
+	mkdir -v  $PKG/usr/{,local/}share/{misc,terminfo,zoneinfo}
+	mkdir -v  $PKG/usr/libexec
+	mkdir -pv $PKG/usr/{,local/}share/man/man{1..8}
+	mkdir -v $PKG/lib64
+	mkdir -v $PKG/var/{log,mail,spool}
+	ln -sv ../run $PKG/var/run
+	ln -sv ../run/lock $PKG/var/lock
+	mkdir -pv $PKG/var/{opt,cache,lib/{color,misc,locate},local}
+	
+	ln -sv /proc/self/mounts $PKG/etc/mtab
+	
+	touch $PKG/var/log/{btmp,lastlog,faillog,wtmp}
+	chgrp -v utmp $PKG/var/log/lastlog
+	chmod -v 664  $PKG/var/log/lastlog
+	chmod -v 600  $PKG/var/log/btmp
+
+	mknod -m 600 $PKG/dev/console c 5 1
+	mknod -m 666 $PKG/dev/null c 1 3
+	
+	install --directory --mode=0755 --owner=root --group=root $PKG/etc/profile.d
+	install --directory --mode=0755 --owner=root --group=root $PKG/etc/bash_completion.d
+	
+	install -v -m755 -d $PKG/etc/modprobe.d
+	install -m644 usb.conf $PKG/etc/modprobe.d
+	
+	install -m644 passwd $PKG/etc
+	install -m644 group $PKG/etc
+	install -m644 resolv.conf $PKG/etc
+	install -m644 hosts $PKG/etc
+	install -m644 hostname $PKG/etc
+	install -m644 inputrc $PKG/etc
+	install -m644 shells $PKG/etc
+	install -m644 fstab $PKG/etc
+	install -m644 lsb-release $PKG/etc
+	install -m644 bashrc $PKG/etc
+	install -m644 profile $PKG/etc
+	install -m644 bash_completion.sh $PKG/etc/profile.d
+	install -m644 dircolors.sh $PKG/etc/profile.d
+	#install -m644 extrapaths.sh $PKG/etc/profile.d
+	install -m644 readline.sh $PKG/etc/profile.d
+	install -m644 umask.sh $PKG/etc/profile.d
+	install -m644 i18n.sh $PKG/etc/profile.d
+	mkdir -pv $PKG/etc/skel
+	install -m644 bash_profile.skel $PKG/etc/skel/.bash_profile
+	install -m644 xprofile.skel $PKG/etc/skel/.xprofile
+	install -m644 bashrc.skel $PKG/etc/skel/.bashrc
+	install -m644 bash_logout.skel $PKG/etc/skel/.bash_logout
+	
+	dircolors -p > $PKG/etc/dircolors
+}

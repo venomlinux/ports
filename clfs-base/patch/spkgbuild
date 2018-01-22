@@ -1,0 +1,13 @@
+# description	: Program for modifying or creating files by applying a “patch” file
+
+name=patch
+version=2.7.5
+release=1
+source=(http://ftp.gnu.org/gnu/patch/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	CC="gcc -m64" ./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

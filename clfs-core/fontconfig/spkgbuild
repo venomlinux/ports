@@ -1,0 +1,28 @@
+# description	: A library and support programs used for configuring and customizing font access
+# homepage	: https://www.freedesktop.org/wiki/Software/fontconfig/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: freetype2
+
+name=fontconfig
+version=2.12.6
+release=3
+source=(http://www.freedesktop.org/software/fontconfig/release/$name-$version.tar.bz2
+	fontconfig.hook)
+
+build() {
+	cd $name-$version
+
+	# make sure the system regenerates src/fcobjshash.h
+	rm -f src/fcobjshash.h
+
+	./configure --prefix=/usr        \
+	            --sysconfdir=/etc    \
+		    --libdir=/usr/lib64  \
+	            --localstatedir=/var \
+	            --disable-docs
+	make
+	make DESTDIR=$PKG install
+
+	install -Dm644 $SRC/fontconfig.hook $PKG/etc/hooks/fontconfig.hook
+}
+

@@ -1,0 +1,26 @@
+# description	: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories (32 bit)
+# depends	: attr
+
+name=acl-32
+version=2.2.52
+release=1
+source=(http://download.savannah.gnu.org/releases/acl/acl-$version.src.tar.gz)
+
+build() {
+	cd acl-$version
+
+	CC="gcc -m32" \
+	./configure \
+	    --prefix=/usr \
+	    --libdir=/lib \
+	    --libexecdir=/usr/lib
+	make
+	make DIST_ROOT=$PKG install install-dev install-lib
+
+	ln -sfv ../../lib/$(readlink $PKG/lib/libacl.so) $PKG/usr/lib/libacl.so
+	rm -v $PKG/lib/libacl.so
+
+	chmod 755 -v $PKG/lib/libacl.so.1.1.0
+
+	rm -fr $PKG/usr/{bin,include,share}
+}

@@ -1,0 +1,23 @@
+# description	: Programs to find files
+# depends	: glibc bash
+
+name=findutils
+version=4.6.0
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" \
+	./configure \
+	    --prefix=/usr \
+	    --libexecdir=/usr/lib64/locate \
+	    --localstatedir=/var/lib64/locate
+	make
+	make DESTDIR=$PKG install
+
+	mkdir $PKG/bin
+	mv -v $PKG/usr/bin/find $PKG/bin
+	sed -i 's|find:=${BINDIR}|find:=/bin|' $PKG/usr/bin/updatedb
+}

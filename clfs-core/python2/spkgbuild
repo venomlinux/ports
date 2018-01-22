@@ -1,0 +1,60 @@
+# description	: Next generation of the python high-level scripting language
+# homepage	: http://www.python.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: openssl expat
+
+name=python2
+version=2.7.14
+release=1
+source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz
+	Python2-multilib.patch)
+
+build() {
+	cd Python-$version
+
+	patch -Np0 -i ../Python2-multilib.patch
+
+	export LDFLAGS="-L/usr/lib64"
+
+  	./configure --prefix=/usr       \
+	            --enable-shared     \
+	            --with-system-expat \
+	            --with-system-ffi   \
+	            --with-ensurepip=yes \
+	            --enable-unicode=ucs4 \
+		    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+
+	chmod -v 755 $PKG/usr/lib64/libpython2.7.so.1.0
+
+	mv -v $PKG/usr/bin/python{,-64}
+	mv -v $PKG/usr/bin/python2{,-64}
+	mv -v $PKG/usr/bin/python2.7{,-64}
+	ln -sfv python2.7-64 $PKG/usr/bin/python2-64
+	ln -sfv python2-64 $PKG/usr/bin/python-64
+	ln -sfv multiarch_wrapper $PKG/usr/bin/python
+	ln -sfv multiarch_wrapper $PKG/usr/bin/python2
+	ln -sfv multiarch_wrapper $PKG/usr/bin/python2.7
+	mv -v $PKG/usr/include/python2.7/pyconfig{,-64}.h
+
+	cat > $PKG/usr/include/python2.7/pyconfig.h << "EOF"
+/* pyconfig.h - Stub Header  */
+#ifndef __STUB__PYCONFIG_H__
+#define __STUB__PYCONFIG_H__
+
+#if defined(__x86_64__) || \
+    defined(__sparc64__) || \
+    defined(__arch64__) || \
+    defined(__powerpc64__) || \
+    defined (__s390x__)
+# include "pyconfig-64.h"
+#else
+# include "pyconfig-32.h"
+#endif
+
+#endif /* __STUB__PYCONFIG_H__ */
+EOF
+
+}
+

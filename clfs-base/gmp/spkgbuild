@@ -1,0 +1,43 @@
+# description	: Contains math libraries that useful functions for arbitrary precision arithmetic
+# depends	: gcc bash
+
+name=gmp
+version=6.1.2
+release=1
+source=(http://ftp.gnu.org/gnu/gmp/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -isystem /usr/include -m64" \
+	CXX="g++ -isystem /usr/include -m64" \
+	LDFLAGS="-Wl,-rpath-link,/usr/lib64:/lib64 -m64" \
+	./configure \
+		--prefix=/usr \
+	    	--libdir=/usr/lib64 \
+	    	--enable-cxx
+	make
+	make html
+	make DESTDIR=$PKG install
+	make DESTDIR=$PKG install-html
+
+	mv -v $PKG/usr/include/gmp{,-64}.h
+
+	cat > $PKG/usr/include/gmp.h << "EOF"
+/* gmp.h - Stub Header  */
+#ifndef __STUB__GMP_H__
+#define __STUB__GMP_H__
+
+#if defined(__x86_64__) || \
+    defined(__sparc64__) || \
+    defined(__arch64__) || \
+    defined(__powerpc64__) || \
+    defined (__s390x__)
+# include "gmp-64.h"
+#else
+# include "gmp-32.h"
+#endif
+
+#endif /* __STUB__GMP_H__ */
+EOF
+}

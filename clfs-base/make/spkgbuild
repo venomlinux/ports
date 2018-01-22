@@ -1,0 +1,15 @@
+# description	: Program for compiling packages
+# depends	: glibc
+
+name=make
+version=4.2.1
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" ./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

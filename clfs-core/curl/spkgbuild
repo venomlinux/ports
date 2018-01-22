@@ -1,0 +1,21 @@
+# description	: Utility and a library used for transferring files
+# depends	: ca-certificates openssl
+# optdepends	: c-ares gnutls libdn2 nghttp2 openldap samba
+
+name=curl
+version=7.57.0
+release=1
+source=(https://curl.haxx.se/download/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+  	./configure --prefix=/usr              \
+		    --libdir=/usr/lib64	       \
+	            --disable-static           \
+	            --enable-threaded-resolver \
+		    --with-ca-path=/etc/ssl/certs
+	make
+	make DESTDIR=$PKG install
+}
+

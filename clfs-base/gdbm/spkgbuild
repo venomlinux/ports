@@ -1,0 +1,19 @@
+# description	: The GNU Database Manager
+# depends	: glibc bash
+
+name=gdbm
+version=1.13
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" \
+	./configure \
+	    --prefix=/usr \
+	    --enable-libgdbm-compat \
+	    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,16 @@
+# description	: Provides data for network services and protocols
+
+name=iana-etc
+version=2.30
+release=1
+source=(http://anduin.linuxfromscratch.org/LFS/$name-$version.tar.bz2
+	http://patches.clfs.org/sysvinit/$name-$version-numbers_update-20140202-2.patch.xz)
+
+build() {
+	cd $name-$version
+
+	xzcat ../$name-$version-numbers_update-20140202-2.patch.xz | patch -Np1 -i -
+
+	make
+	make DESTDIR=$PKG install
+}

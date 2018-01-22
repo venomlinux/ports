@@ -1,0 +1,35 @@
+# description	: allows a system administrator to give certain users (or groups of users) the ability to run some (or all) commands as root or another user while logging the commands and arguments
+# homepage	: http://www.sudo.ws
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# backup	: etc/sudoers
+# depends	: linux-pam
+
+name=sudo
+version=1.8.21p2
+release=3
+source=(http://www.sudo.ws/dist/$name-$version.tar.gz
+	sudo)
+
+build() {
+	cd $name-$version
+
+	./configure \
+	    --prefix=/usr              \
+            --libexecdir=/usr/lib64    \
+            --with-secure-path         \
+            --with-all-insults         \
+            --with-env-editor          \
+            --with-passprompt="[sudo] password for %p: "
+	make
+	make DESTDIR=$PKG install
+
+	ln -sfv libsudo_util.so.0.0.0 $PKG/usr/lib64/sudo/libsudo_util.so.0
+
+	mkdir -m 755 $PKG/etc/pam.d
+	install -D -m 644 -o root -g root $SRC/sudo $PKG/etc/pam.d/sudo
+
+	sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' $PKG/etc/sudoers
+
+	rm -fr $PKG/var/run
+}
+

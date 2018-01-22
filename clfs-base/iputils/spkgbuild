@@ -1,0 +1,27 @@
+# description	: Programs for basic networking
+
+name=iputils
+version=20150815
+release=1
+options=()
+source=(http://clfs.org/files/packages/sysvinit/$name-s$version.tar.xz
+	http://patches.clfs.org/sysvinit/$name-s$version-build-1.patch)
+
+build() {
+	cd $name-s$version
+
+	patch -Np1 -i ../$name-s$version-build-1.patch
+
+	make CC="gcc -m64" USE_CAP=no \
+	    TARGETS="clockdiff ping rdisc tracepath tracepath6 traceroute6"
+
+	mkdir -p $PKG/{bin,usr/{bin,share/man/man8}}
+	install -v -m755 ping $PKG/bin
+	install -v -m755 clockdiff $PKG/usr/bin
+	install -v -m755 rdisc $PKG/usr/bin
+	install -v -m755 tracepath $PKG/usr/bin
+	install -v -m755 trace{path,route}6 $PKG/usr/bin
+	install -v -m644 doc/*.8 $PKG/usr/share/man/man8
+	ln -sv ping $PKG/bin/ping4
+	ln -sv ping $PKG/bin/ping6
+}

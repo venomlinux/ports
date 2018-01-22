@@ -1,0 +1,18 @@
+# description	: An archiving program
+# depends	: acl attr glibc
+
+name=tar
+version=1.29
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	FORCE_UNSAFE_CONFIGURE=1  \
+	./configure --prefix=/usr \
+	            --bindir=/bin \
+		    --libexecdir=/usr/sbin
+	make
+	make DESTDIR=$PKG install
+}

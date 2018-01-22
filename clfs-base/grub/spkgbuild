@@ -1,0 +1,21 @@
+# description	: The GRand Unified Bootloader
+# homepage	: https://www.gnu.org/software/grub/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: gettext bash xz
+
+name=grub
+version=2.02
+release=1
+source=(http://alpha.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr          \
+	            --sbindir=/sbin        \
+	            --sysconfdir=/etc      \
+	            --disable-efiemu       \
+	            --disable-werror
+	make
+	make DESTDIR=$PKG install
+}

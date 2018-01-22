@@ -1,0 +1,19 @@
+# description	: Programs for generating Makefiles for use with Autoconf
+# depends	: bash perl
+# makedepends	: autoconf
+
+name=automake
+version=1.15
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
+	http://patches.clfs.org/sysvinit/$name-$version-perl_5_26-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-perl_5_26-1.patch
+
+	CC="gcc -m64" ./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,19 @@
+# description	: Utility useful for non-interactive downloading of files from the Web
+# depends	: ca-certificates openssl pcre
+
+name=wget
+version=1.19.2
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	export PKG_CONFIG_PATH="/usr/lib64/pkgconfig"
+
+  	./configure --prefix=/usr      \
+	            --sysconfdir=/etc  \
+	            --with-ssl=openssl
+	make
+	make DESTDIR=$PKG install
+}

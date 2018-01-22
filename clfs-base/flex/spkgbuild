@@ -1,0 +1,19 @@
+# description	: Utility for generating programs that recognize patterns in text
+# depends	: glibc m4 bash
+
+name=flex
+version=2.6.4
+release=1
+source=(https://github.com/westes/flex/releases/download/v$version/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" ./configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+
+	ln -sv flex $PKG/usr/bin/lex
+}

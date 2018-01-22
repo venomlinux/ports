@@ -1,0 +1,30 @@
+# description	: Utilities to administer the extended attributes on filesystem objects (32 bit)
+# depends	: glibc
+# makedepends	: gettext
+
+name=attr-32
+version=2.4.47
+release=1
+source=(http://download.savannah.gnu.org/releases/attr/attr-$version.src.tar.gz)
+
+build() {
+	cd attr-$version
+
+	sed -i -e "/SUBDIRS/s|man[25]||g" man/Makefile
+
+	CC="gcc -m32" \
+	./configure \
+	    --prefix=/usr \
+	    --libdir=/lib \
+	    --libexecdir=/usr/lib
+	make
+	make DIST_ROOT=$PKG install install-lib install-dev
+
+	mkdir -p $PKG/usr/lib
+	ln -sfv ../../lib/$(readlink $PKG/lib/libattr.so) $PKG/usr/lib/libattr.so
+	rm -v $PKG/lib/libattr.so
+
+	chmod -v 755 $PKG/lib/libattr.so.1.1.0
+
+	rm -fr $PKG/usr/{bin,include,share}
+}

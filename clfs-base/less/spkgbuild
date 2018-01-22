@@ -1,0 +1,20 @@
+# description	: A text file viewer
+# depends	: glibc ncurses
+
+name=less
+version=491
+release=1
+source=(http://www.greenwoodsoftware.com/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" ./configure \
+	    --prefix=/usr \
+	    --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/bin
+	mv -v $PKG/usr/bin/less $PKG/bin
+}

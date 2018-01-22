@@ -1,0 +1,47 @@
+# description	: Programs for dynamic creation of device nodes (32 bit)
+
+name=eudev-32
+version=3.2.5
+release=1
+source=(http://dev.gentoo.org/~blueness/eudev/eudev-$version.tar.gz)
+
+build() {
+	cd eudev-$version
+
+if [ -d /tools ];then
+cat > config.cache << "EOF"
+HAVE_BLKID=1
+BLKID_LIBS="-lblkid"
+BLKID_CFLAGS="-I/tools/include"
+EOF
+fi
+	#./autogen.sh
+	PKG_CONFIG_PATH="/usr/lib/pkgconfig" \
+	./configure --prefix=/usr           \
+	            --bindir=/sbin          \
+	            --sbindir=/sbin         \
+	            --libdir=/usr/lib       \
+	            --sysconfdir=/etc       \
+	            --libexecdir=/lib       \
+	            --with-rootprefix=      \
+	            --with-rootlibdir=/lib  \
+	            --enable-manpages       \
+	            --disable-static	    \
+		    $([ -d /tools ] && echo "--config-cache")
+	if [ -d /tools ];then
+		LIBRARY_PATH=/tools/lib make
+	else
+		make
+	fi
+
+	mkdir -pv $PKG/lib/udev/rules.d
+	mkdir -pv $PKG/etc/udev/rules.d
+
+	if [ -d /tools ];then
+		make LD_LIBRARY_PATH=/tools/lib DESTDIR=$PKG install
+	else
+		make DESTDIR=$PKG install
+	fi
+
+	rm -fr $PKG/{{etc,sbin},usr/{include,share}}
+}

@@ -1,0 +1,10 @@
+# description	: Updating the info directory file...
+# operation	: install upgrade remove
+# target	: usr/share/info/
+
+exechook() {
+	rm /usr/share/info/dir 2>/dev/null || true
+	for f in /usr/share/info/*; do
+		install-info $f /usr/share/info/dir 2>/dev/null
+	done
+}

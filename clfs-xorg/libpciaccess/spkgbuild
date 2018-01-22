@@ -1,0 +1,22 @@
+# description	: X11 PCI access library
+# depends	: glibc
+# makedepends	: util-macros
+
+name=libpciaccess
+version=0.14
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libpciaccess-$version.tar.bz2)
+
+build() {
+	cd libpciaccess-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+		--libdir=/usr/lib64 \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

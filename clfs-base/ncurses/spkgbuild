@@ -1,0 +1,38 @@
+# description	: Libraries for terminal-independent handling of character screens
+# depends	: glibc gcc
+
+name=ncurses
+version=6.0
+release=1
+source=(http://ftp.gnu.org/gnu//$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	PKG_CONFIG_PATH=/usr/lib64/pkgconfig \
+	CC="gcc -m64" CXX="g++ -m64" ./configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib64 \
+	    --with-shared \
+	    --without-debug \
+	    --enable-widec \
+	    --enable-pc-files \
+	    --with-pkg-config-libdir=/usr/lib64/pkgconfig
+	make
+	make DESTDIR=$PKG install
+
+	mv -v $PKG/usr/bin/ncursesw6-config{,-64}
+	ln -sv multiarch_wrapper $PKG/usr/bin/ncursesw6-config
+
+	mkdir -p $PKG/lib64
+	mv -v $PKG/usr/lib64/libncursesw.so.* $PKG/lib64
+	ln -svf ../../lib64/$(readlink $PKG/usr/lib64/libncursesw.so) $PKG/usr/lib64/libncursesw.so
+
+	for lib in ncurses form panel menu ; do
+	        echo "INPUT(-l${lib}w)" > $PKG/usr/lib64/lib${lib}.so
+	        ln -sfv lib${lib}w.a $PKG/usr/lib64/lib${lib}.a
+	done
+	ln -sfv libncurses++w.a $PKG/usr/lib64/libncurses++.a
+	ln -sfv ncursesw6-config-64 $PKG/usr/bin/ncurses6-config-64
+	ln -sfv ncursesw6-config $PKG/usr/bin/ncurses6-config
+}

@@ -1,0 +1,30 @@
+# description	: Collection of modular and reusable compiler and toolchain technologies
+# makedepends	: cmake libffi python2
+
+name=llvm
+version=5.0.1
+release=1
+source=(http://llvm.org/releases/$version/$name-$version.src.tar.xz
+	http://llvm.org/releases/$version/cfe-$version.src.tar.xz
+	http://llvm.org/releases/$version/compiler-rt-$version.src.tar.xz)
+
+build() {
+	cd $name-$version.src
+
+	mv ../cfe-$version.src tools/clang
+	mv ../compiler-rt-$version.src projects/compiler-rt
+
+	mkdir -v build
+	cd       build
+	
+	CC=gcc CXX=g++                              \
+	cmake -DCMAKE_INSTALL_PREFIX=/usr           \
+	      -DLLVM_LIBDIR_SUFFIX=64	            \
+	      -DLLVM_ENABLE_FFI=ON                  \
+	      -DCMAKE_BUILD_TYPE=Release            \
+	      -DLLVM_BUILD_LLVM_DYLIB=ON            \
+	      -DLLVM_TARGETS_TO_BUILD="host;AMDGPU" \
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}

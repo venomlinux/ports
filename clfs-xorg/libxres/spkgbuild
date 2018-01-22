@@ -1,0 +1,24 @@
+# description	: X11 Resource extension library
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxext
+# makedepends	: compositeproto damageproto resourceproto scrnsaverproto util-macros
+
+name=libxres
+version=1.2.0
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libXres-$version.tar.bz2)
+
+build() {
+	cd libXres-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+		--libdir=/usr/lib64 \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

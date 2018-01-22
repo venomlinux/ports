@@ -1,0 +1,22 @@
+# description	: A library for the arithmetic of complex numbers with arbitrarily high precision and correct rounding of the result (32 bit)
+# depdends	: mpfr
+
+name=libmpc-32
+version=1.0.3
+release=1
+source=(http://www.multiprecision.org/mpc/download/mpc-$version.tar.gz)
+
+build() {
+	cd mpc-$version
+
+	CC="gcc -isystem /usr/include -m32" \
+	LDFLAGS="-Wl,-rpath-link,/usr/lib:/lib -m32" \
+	./configure \
+	    --prefix=/usr \
+	    --host=i686-pc-linux-gnu
+	make
+	make DESTDIR=$PKG install
+
+	mv $PKG/usr/include/{mpc,mpc-32}.h
+	rm -fr $PKG/usr/share/info
+}

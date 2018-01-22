@@ -1,0 +1,24 @@
+# description	: Contains math libraries that useful functions for arbitrary precision arithmetic
+# depends	: gcc bash
+
+name=gmp-32
+version=6.1.2
+release=1
+source=(http://ftp.gnu.org/gnu/gmp/gmp-$version.tar.xz)
+
+build() {
+	cd gmp-$version
+
+	CC="gcc -isystem /usr/include -m32" \
+	CXX="g++ -isystem /usr/include -m32" \
+	LDFLAGS="-Wl,-rpath-link,/usr/lib:/lib -m32" \
+	  ABI=32 ./configure \
+		    --prefix=/usr    \
+	            --enable-cxx
+	make
+	make DESTDIR=$PKG install
+	mv -v $PKG/usr/include/gmp{,-32}.h
+
+	rm -fr $PKG/usr/share/
+	rm $PKG/usr/include/gmpxx.h
+}

@@ -1,0 +1,14 @@
+# description	: Library for some string essentials
+
+name=libestr
+version=0.1.10
+release=1
+source=(http://libestr.adiscon.com/files/download/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" ./configure --prefix=/usr --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

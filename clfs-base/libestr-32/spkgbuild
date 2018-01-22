@@ -1,0 +1,16 @@
+# description	: Library for some string essentials (32 bit)
+
+name=libestr-32
+version=0.1.10
+release=1
+source=(http://libestr.adiscon.com/files/download/libestr-$version.tar.gz)
+
+build() {
+	cd libestr-$version
+
+	CC="gcc -m32" ./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/include
+}

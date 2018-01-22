@@ -1,0 +1,29 @@
+# description	: Libraries and utilities for loading kernel modules
+# depends	: glibc xz zlib
+
+name=kmod
+version=24
+release=1
+source=(https://www.kernel.org/pub/linux/utils/kernel/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	PKG_CONFIG_PATH="/usr/lib64/pkgconfig" CC="gcc -m64" \
+	./configure \
+	    --prefix=/usr \
+	    --bindir=/bin \
+	    --sysconfdir=/etc \
+	    --with-rootlibdir=/lib64 \
+	    --libdir=/usr/lib64 \
+	    --with-zlib \
+	    --with-xz
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/sbin
+	ln -sfv kmod $PKG/bin/lsmod
+	for tool in depmod insmod modinfo modprobe rmmod; do
+	    ln -sfv ../bin/kmod $PKG/sbin/${tool}
+	done
+}

@@ -1,0 +1,24 @@
+# description	: The GNU generic library support script
+# depends	: glibc bash tar
+# makedepends	: gcc
+
+name=libtool
+version=2.4.6
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	echo "lt_cv_sys_dlsearch_path='/lib64 /usr/lib64 /usr/local/lib64 /opt/lib64'" > config.cache
+
+	CC="gcc -m64" ./configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib64 \
+	    --cache-file=config.cache
+	make
+	make DESTDIR=$PKG install
+
+	mv -v $PKG/usr/bin/libtool{,-64}
+	ln -sv multiarch_wrapper $PKG/usr/bin/libtool
+}

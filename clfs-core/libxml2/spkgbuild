@@ -1,0 +1,25 @@
+# description	: Contains libraries and utilities used for parsing XML files
+# makedepends	: python3
+# optdepends	: icu
+
+name=libxml2
+version=2.9.7
+release=2
+source=(http://xmlsoft.org/sources/$name-$version.tar.gz
+	$name-$version-python3_hack-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-python3_hack-1.patch
+
+	sed -i '/_PyVerify_fd/,+1d' python/types.c
+	./configure --prefix=/usr \
+		    --disable-static \
+		    --libdir=/usr/lib64 \
+		    --with-history \
+		    --with-icu \
+		    --with-python=/usr/bin/python3
+	make
+	make DESTDIR=$PKG install
+}

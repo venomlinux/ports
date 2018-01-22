@@ -1,0 +1,19 @@
+# description	: Programs for basic and advanced IPV4-based networking
+# depends	: glibc
+
+name=iproute2
+version=4.9.0
+release=1
+source=(https://www.kernel.org/pub/linux/utils/net/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	sed -i '/ARPD/d' Makefile
+	sed -i 's/arpd.8//' man/man8/Makefile
+	sed -i '/tc-simple/s@tc-skbmod.8 @@' man/man8/Makefile
+	rm -v doc/arpd.sgml
+
+	make CC="gcc -m64" LIBDIR=/usr/lib64
+	make LIBDIR=/usr/lib64 DESTDIR=$PKG install
+}

@@ -1,0 +1,24 @@
+# description	: X11 Font Services Library
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: fontsproto glibc xproto
+# makedepends	: util-macros xtrans
+
+name=libfs
+version=1.0.7
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libFS-$version.tar.bz2)
+
+build() {
+	cd libFS-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+		--libdir=/usr/lib64 \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

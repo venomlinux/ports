@@ -1,0 +1,19 @@
+# description	: A library for manipulating pipelines of subprocesses in a flexible and convenient way (32 bit)
+# depends	: glibc
+
+name=libpipeline-32
+version=1.4.1
+release=1
+source=(http://download.savannah.gnu.org/releases/libpipeline/libpipeline-$version.tar.gz)
+
+build() {
+	cd libpipeline-$version
+
+	CC="gcc -m32" \
+	./configure \
+	    --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{include,share}
+}

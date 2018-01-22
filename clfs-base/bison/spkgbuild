@@ -1,0 +1,19 @@
+# description	: A parser generator
+# depends	: glibc m4 bash
+
+name=bison
+version=3.0.4
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" \
+	CXX="g++ -m64" \
+	./configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

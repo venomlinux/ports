@@ -1,0 +1,18 @@
+# description	: Programs for processing and formatting text
+# depends	: gcc perl
+
+name=groff
+version=1.22.3
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	PAGE=A4 CC="gcc -m64" \
+	CXX="g++ -m64" ./configure \
+	    --prefix=/usr \
+	    --libdir=/usr/lib64
+	make || make -j1
+	make DESTDIR=$PKG install
+}

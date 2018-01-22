@@ -1,0 +1,19 @@
+# description	: Utility for determining the type of a given file or files (32 bit)
+# depends	: glibc zlib
+
+name=file-32
+version=5.31
+release=1
+source=(ftp://ftp.astron.com/pub/file/file-$version.tar.gz)
+
+build() {
+	cd file-$version
+
+	CC="gcc -m32" \
+	./configure \
+	    --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{bin,include,share}
+}

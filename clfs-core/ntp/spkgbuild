@@ -1,0 +1,61 @@
+# description	: Client and server to keep the time synchronized between various computers over a network
+# homepage	: http://www.ntp.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: wget
+
+name=ntp
+version=4.2.8p10
+release=2
+source=(https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-${version::3}/$name-$version.tar.gz
+	ntpd.rc)
+
+build() {
+	cd $name-$version
+
+	sed -e "s/https/http/"              \
+	    -e 's/"(\\S+)"/"?([^\\s"]+)"?/' \
+	    -i scripts/update-leap/update-leap.in
+
+	./configure CFLAGS="$CFLAGS -g -fPIC" \
+	            --prefix=/usr         \
+		    --libdir=/usr/lib64   \
+	            --bindir=/usr/sbin    \
+	            --sysconfdir=/etc     \
+	            --enable-linuxcaps    \
+	            --with-lineeditlibs=readline
+	make
+	make DESTDIR=$PKG install
+	install -v -o ntp -g ntp -d $PKG/var/lib/ntp
+
+mkdir -p $PKG/etc
+cat > $PKG/etc/ntp.conf << "EOF"
+# Asia
+server 0.asia.pool.ntp.org
+
+# Australia
+server 0.oceania.pool.ntp.org
+
+# Europe
+server 0.europe.pool.ntp.org
+
+# North America
+server 0.north-america.pool.ntp.org
+
+# South America
+server 2.south-america.pool.ntp.org
+
+driftfile /var/lib/ntp/ntp.drift
+pidfile   /var/run/ntpd.pid
+
+leapfile  /etc/ntp.leapseconds
+
+# Security session
+restrict    default limited kod nomodify notrap nopeer noquery
+restrict -6 default limited kod nomodify notrap nopeer noquery
+
+restrict 127.0.0.1
+restrict ::1
+EOF
+
+	install -Dm755 $SRC/ntpd.rc $PKG/etc/rc.d/ntpd
+}

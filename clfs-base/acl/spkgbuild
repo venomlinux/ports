@@ -1,0 +1,24 @@
+# description	: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
+# depends	: attr
+
+name=acl
+version=2.2.52
+release=1
+source=(http://download.savannah.gnu.org/releases/$name/$name-$version.src.tar.gz)
+
+build() {
+	cd $name-$version
+
+	CC="gcc -m64" \
+	./configure \
+	    --prefix=/usr \
+	    --libdir=/lib64 \
+	    --libexecdir=/usr/lib64
+	make
+	make DIST_ROOT=$PKG install install-dev install-lib
+
+	ln -sfv ../../lib64/$(readlink $PKG/lib64/libacl.so) $PKG/usr/lib64/libacl.so
+	rm -v $PKG/lib64/libacl.so
+
+	chmod 755 -v $PKG/lib64/libacl.so.1.1.0
+}

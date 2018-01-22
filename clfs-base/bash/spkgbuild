@@ -1,0 +1,29 @@
+# description	: The Bourne-Again SHell
+# depends	: glibc ncurses readline
+
+name=bash
+version=4.4
+release=1
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz
+	http://patches.clfs.org/sysvinit/$name-$version-branch_update-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-branch_update-1.patch
+
+	sed -i "/ac_cv_rl_libdir/s@/lib@&64@" configure
+
+	CC="gcc -m64" CXX="g++ -m64" \
+	./configure \
+	    --prefix=/usr \
+	    --without-bash-malloc \
+	    --libdir=/lib64 \
+	    --with-installed-readline
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/bin
+	mv $PKG/usr/bin/bash $PKG/bin
+	ln -s bash $PKG/bin/sh 
+}

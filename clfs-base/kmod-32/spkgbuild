@@ -1,0 +1,25 @@
+# description	: Libraries and utilities for loading kernel modules (32 bit)
+# depends	: glibc xz zlib
+
+name=kmod-32
+version=24
+release=1
+source=(https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-$version.tar.xz)
+
+build() {
+	cd kmod-$version
+
+	PKG_CONFIG_PATH="/usr/lib/pkgconfig" CC="gcc -m32" \
+	./configure \
+	    --prefix=/usr \
+	    --bindir=/bin \
+	    --sysconfdir=/etc \
+	    --with-rootlibdir=/lib \
+	    --libdir=/usr/lib \
+	    --with-zlib \
+	    --with-xz
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/{{bin,sbin},usr/{include,share}}
+}
