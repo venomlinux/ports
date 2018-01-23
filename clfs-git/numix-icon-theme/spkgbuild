@@ -1,0 +1,31 @@
+# description	: Base icon theme from the Numix project
+# homepage	: http://numixproject.org/
+# maintainer	: Emmett1, emmett1.2miligrams at mail.com
+# depends	: gtk3
+# makedepends	: git
+
+name=numix-icon-theme
+version=git
+release=1
+options=(!strip)
+gitsource=(https://github.com/numixproject/numix-icon-theme)
+
+get_git() {	
+	if [[ -d "$SOURCE_DIR/$name" ]]; then
+		git -C "$SOURCE_DIR/$name" fetch -q
+		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
+	else
+		git -C "$SOURCE_DIR" clone $1 "$name"
+	fi
+
+	cp -r "$SOURCE_DIR/$name" "$SRC"
+}
+
+build() {
+	get_git $gitsource master
+	cd $name
+
+	install -dm 755 $PKG/usr/share/icons
+	cp -dr --no-preserve='ownership' Numix{,-Light} $PKG/usr/share/icons/
+}
+

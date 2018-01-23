@@ -1,0 +1,45 @@
+# description	: A dynamic window manager for X
+# homepage	: http://dwm.suckless.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# conflict	: dwm
+# depends	: dmenu rxvt-unicode freetype2 libx11 libxft libxinerama
+
+name=dwm-nyx
+version=6.0
+release=1
+source=(http://dl.suckless.org/dwm/dwm-$version.tar.gz
+        config.h
+	dwm.desktop
+	01-tilegap.diff
+	02-centredfloating.diff
+	03-systray.diff
+	04-pertag.diff
+	05-attachabove.diff
+	06-focusadjacenttag3.diff
+	07-pushnomaster.diff
+	08-save_floats.diff
+	terminus2.bdf
+	xbmicons.bdf
+	dwm-bar)
+
+build() {
+	cd dwm-$version
+
+	cp ../config.h config.h
+
+	patch -Np1 -i ../01-tilegap.diff
+	patch -Np1 -i ../02-centredfloating.diff
+	patch -Np1 -i ../03-systray.diff
+	patch -Np1 -i ../04-pertag.diff
+	patch -Np1 -i ../05-attachabove.diff
+	patch -Np1 -i ../06-focusadjacenttag3.diff
+	patch -Np1 -i ../07-pushnomaster.diff
+	patch -Np1 -i ../08-save_floats.diff
+
+	make PREFIX=/usr DESTDIR=$PKG install
+
+	install -m644 -D $SRC/dwm.desktop $PKG/usr/share/xsessions/dwm.desktop
+	install -m644 -D $SRC/terminus2.bdf $PKG/usr/share/fonts/X11/misc/terminus2.bdf
+	install -m644 -D $SRC/xbmicons.bdf $PKG/usr/share/fonts/X11/misc/xbmicons.bdf
+	install -m755 -D $SRC/dwm-bar $PKG/usr/bin/dwm-bar
+}

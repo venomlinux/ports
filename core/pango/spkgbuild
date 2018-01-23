@@ -1,23 +1,19 @@
 # description	: Library for laying out and rendering of text, with an emphasis on internationalization
 # depends	: cairo harfbuzz
-# makedepends	: fontconfig glib gobject-introspection
+# makedepends	: fontconfig glib gobject-introspection ninja meson
 
 name=pango
 version=1.40.14
-release=2
+release=3
 source=(http://ftp.gnome.org/pub/gnome/sources/pango/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	#mkdir build
-	#cd    build
+	mkdir build
+	cd    build
 
-	#meson --prefix=/usr --sysconfdir=/etc ..
-	#ninja
-	#DESTDIR=$PKG ninja install
-
-	./configure --prefix=/usr --sysconfdir=/etc
-	make
-	make DESTDIR=$PKG install
+	meson --prefix=/usr --sysconfdir=/etc ..
+	ninja
+	DESTDIR=$PKG ninja install
 }

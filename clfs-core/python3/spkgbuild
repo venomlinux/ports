@@ -4,12 +4,12 @@ name=python3
 version=3.6.4
 release=1
 source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz
-	Python3-multilib.patch)
+	python3-x86_64.patch)
 
 build() {
 	cd Python-$version
 
-	patch -Np1 -i ../Python3-multilib.patch
+	patch -Np1 -i ../python3-x86_64.patch
 
 	export LDFLAGS="-L/usr/lib64"
 

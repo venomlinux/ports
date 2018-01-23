@@ -1,0 +1,30 @@
+# description	: Modern free desktop icon theme whose design is based around the use of bold colours and simple geometric shapes
+# homepage	: https://github.com/LinxGem33/Arc-OSX-Icons
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk3
+# makedepends	: git
+
+name=arc-osx-icon-theme
+version=git
+release=1
+
+get_git() {	
+	if [[ -d "$SOURCE_DIR/$name" ]]; then
+		git -C "$SOURCE_DIR/$name" fetch -q
+		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
+	else
+		git -C "$SOURCE_DIR" clone $1 "$name"
+	fi
+
+	cp -r "$SOURCE_DIR/$name" "$SRC"
+}
+
+build() {
+	get_git git://github.com/LinxGem33/Arc-OSX-Icons master
+	cd $name
+
+	install -d $PKG/usr/share/icons
+	cp -a src/* $PKG/usr/share/icons/
+	sed -i 's|Name=Arc|Name=Arc-OSX-D|' $PKG/usr/share/icons/Arc-OSX-D/index.theme
+	sed -i 's|Name=Arc|Name=Arc-OSX-P|' $PKG/usr/share/icons/Arc-OSX-P/index.theme
+}

@@ -1,0 +1,19 @@
+# description	: Collection of libraries providing APIs to netlink protocol based Linux kernel interfaces
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=libnl
+version=3.4.0
+release=1
+source=(https://github.com/thom311/libnl/releases/download/${name}${version//./_}/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+  	./configure --prefix=/usr     \
+	            --sysconfdir=/etc \
+		    --libdir=/usr/lib64 \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

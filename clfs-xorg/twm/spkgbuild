@@ -1,0 +1,22 @@
+# description	: A very minimal window manager
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: xorg-server
+
+name=twm
+version=1.0.9
+release=1
+source=(https://www.x.org/pub/individual/app/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	sed -i -e '/^rcdir =/s,^\(rcdir = \).*,\1/etc/X11/app-defaults,' src/Makefile.in
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

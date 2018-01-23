@@ -1,0 +1,17 @@
+# description	: Expat-based XML parser module for perl
+# homepage	: http://search.cpan.org/dist/XML-Parser/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: expat perl
+
+name=perl-xml-parser
+version=2.44
+release=1
+source=(http://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-$version.tar.gz)
+
+build() {
+	cd XML-Parser-$version
+
+	perl Makefile.PL
+	make
+	make DESTDIR=$PKG install
+}

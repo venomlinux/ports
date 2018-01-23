@@ -1,0 +1,17 @@
+# description	: Library that bridges ATK to At-Spi2 D-Bus service
+# homepage	: https://wiki.gnome.org/Accessibility
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: at-spi2-core atk
+
+name=at-spi2-atk
+version=2.26.1
+release=2
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

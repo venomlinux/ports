@@ -1,0 +1,24 @@
+# description	: Small build system with a focus on speed
+# homepage	: https://ninja-build.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: python3
+
+name=ninja
+version=1.8.2
+release=1
+source=(https://github.com/ninja-build/ninja/archive/v$version/ninja-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	python3 ./configure.py --bootstrap
+	mkdir -p $PKG/usr/bin
+	mkdir -p $PKG/usr/share/{vim/vim74/syntax,bash-completion/completions/ninja,zsh/site-functions/_ninja}
+	install -vm755 ninja $PKG/usr/bin/
+	install -vDm644 misc/ninja.vim \
+	                $PKG/usr/share/vim/vim74/syntax/ninja.vim
+	install -vDm644 misc/bash-completion \
+	                $PKG/usr/share/bash-completion/completions/ninja
+	install -vDm644 misc/zsh-completion \
+	                $PKG/usr/share/zsh/site-functions/_ninja
+}

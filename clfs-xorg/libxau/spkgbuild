@@ -12,8 +12,6 @@ source=(http://ftp.x.org/pub/individual/lib/libXau-$version.tar.bz2)
 build() {
 	cd libXau-$version
 
-	export PKG_CONFIG_PATH="/usr/lib64/pkgconfig"
-
  	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \

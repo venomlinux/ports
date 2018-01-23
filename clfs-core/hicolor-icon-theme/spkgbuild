@@ -1,0 +1,16 @@
+# description	: Freedesktop.org Hicolor icon theme
+# homepage	: http://www.freedesktop.org/wiki/Software/icon-theme/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=hicolor-icon-theme
+version=0.17
+release=1
+source=(http://icon-theme.freedesktop.org/releases/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+  	./configure --prefix=/usr
+	make DESTDIR=$PKG install
+}
+

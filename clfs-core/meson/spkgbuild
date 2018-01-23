@@ -1,0 +1,13 @@
+# description	: Open source build system meant to be both extremely fast, and, even more importantly, as user friendly as possible
+# depends	: python3
+
+name=meson
+version=0.44.0
+release=1
+source=(https://github.com/mesonbuild/meson/releases/download/$version/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	python3 setup.py build
+	python3 setup.py install --root=$PKG
+}

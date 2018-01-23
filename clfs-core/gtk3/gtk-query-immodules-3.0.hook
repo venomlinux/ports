@@ -1,0 +1,7 @@
+# description	: Probing GTK3 input method modules...
+# operation	: install upgrade remove
+# target	: usr/lib64/gtk-3.0/3.0.0/immodules/
+
+exechook() {
+	/usr/bin/gtk-query-immodules-3.0 --update-cache
+}

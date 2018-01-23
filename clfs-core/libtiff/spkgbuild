@@ -1,0 +1,21 @@
+# description	: TIFF libraries and associated utilities
+# homepage	: http://www.libtiff.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: cmake ninja
+
+name=libtiff
+version=4.0.9
+release=1
+source=(http://download.osgeo.org/$name/tiff-$version.tar.gz)
+
+build() {
+	cd tiff-$version
+
+	mkdir -p build
+	cd build
+	
+	cmake -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/libtiff \
+	      -DCMAKE_INSTALL_PREFIX=/usr -G Ninja ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

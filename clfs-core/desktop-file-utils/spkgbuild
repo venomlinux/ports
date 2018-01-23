@@ -1,0 +1,20 @@
+# description	: Command line utilities for working with Desktop entries
+# homepage	: https://www.freedesktop.org/wiki/Software/desktop-file-utils
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib
+
+name=desktop-file-utils
+version=0.23
+release=3
+source=(http://freedesktop.org/software/$name/releases/$name-$version.tar.xz
+	update-desktop-database.hook)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	install -Dm644 $SRC/update-desktop-database.hook $PKG/etc/hooks/update-desktop-database.hook
+}

@@ -1,0 +1,21 @@
+# description	: Version control system designed to handle everything from small to very large projects with speed and efficiency
+# depends	: curl openssl
+# makedepends	: python2
+
+name=git
+version=2.15.1
+release=1
+source=(https://www.kernel.org/pub/software/scm/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --with-gitconfig=/etc/gitconfig
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/usr/share/git/
+	install -m644 ./contrib/completion/git-prompt.sh $PKG/usr/share/git/git-prompt.sh
+
+	find $PKG \( -name perllocal.pod -o -name .packlist \) -delete
+}

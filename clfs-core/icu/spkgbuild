@@ -1,0 +1,18 @@
+# description	: International Components for Unicode library
+# homepage	: http://www.icu-project.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: llvm
+
+name=icu
+version=60.2
+release=1
+source=(http://download.icu-project.org/files/icu4c/$version/icu4c-${version//./_}-src.tgz)
+
+build() {
+	cd icu/source
+
+	./configure --prefix=/usr \
+		    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

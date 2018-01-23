@@ -1,0 +1,23 @@
+# description	: Userspace virtual filesystem designed to work with the I/O abstractions of GLib's GIO library
+# depends	: glib gcr gtk3 libgudev libsecret libsoup udisks2
+# makedepends	: dbus
+
+name=gvfs
+version=1.34.1
+release=3
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz
+	gvfsd.hook)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+		    --libdir=/usr/lib64 \
+	            --disable-gphoto2 \
+		    --disable-documentation
+	make
+	make DESTDIR=$PKG install
+
+	install -Dm644 $SRC/gvfsd.hook $PKG/etc/hooks/gvfsd.hook
+}

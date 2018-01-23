@@ -1,0 +1,22 @@
+# description	: Keyboard configuration database for the X Window System
+# makedepends	: intltool xkbcomp
+
+name=xkeyboard-config
+version=2.22
+release=1
+source=(http://xorg.freedesktop.org/archive/individual/data/xkeyboard-config/xkeyboard-config-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libdir=/usr/lib64 \
+		--localstatedir=/var \
+		--disable-static \
+		--with-xkb-rules-symlink=xorg
+	make
+	make DESTDIR=$PKG install
+}
+

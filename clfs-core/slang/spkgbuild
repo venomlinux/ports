@@ -1,0 +1,27 @@
+# description	: Interpreted language that may be embedded into an application to make the application extensible
+# homepage	: http://www.jedsoft.org/slang/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libpng pcre
+
+name=slang
+version=2.3.1
+release=1
+source=(http://www.jedsoft.org/releases/$name/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	unset MAKEFLAGS
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+		    --libdir=/usr/lib64 \
+	            --with-readline=gnu
+	make -j1
+	make DESTDIR=$PKG \
+		install_doc_dir=/usr/share/doc/$name   \
+		SLSH_DOC_DIR=/usr/share/doc/$name/slsh \
+	install-all
+
+	chmod -v 755 $PKG/usr/lib64/libslang.so.2.3.1 \
+             $PKG/usr/lib64/slang/v2/modules/*.so
+}

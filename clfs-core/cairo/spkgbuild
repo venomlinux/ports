@@ -1,0 +1,20 @@
+# description	: 2D graphics library with support for multiple output devices
+# homepage	: https://cairographics.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libpng pixman fontconfig glib
+
+name=cairo
+version=1.14.12
+release=1
+source=(http://cairographics.org/releases/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+		    --libdir=/usr/lib64 \
+        	    --disable-static \
+	            --enable-tee
+	make
+	make DESTDIR=$PKG install
+}

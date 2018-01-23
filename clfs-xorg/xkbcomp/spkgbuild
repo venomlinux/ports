@@ -1,0 +1,24 @@
+# description	: X Keyboard description compiler
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxkbfile
+# makedepends	: util-macros
+
+name=xkbcomp
+version=1.4.0
+release=1
+source=(http://ftp.x.org/pub/individual/app/xkbcomp-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libdir=/usr/lib64 \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

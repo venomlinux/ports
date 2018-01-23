@@ -1,0 +1,26 @@
+# description	: A free and open source SVG icon theme for Linux, based on Paper Icon Set and Papirus
+# makedepends	: git
+
+name=pop-icon-theme
+version=git
+release=1
+gitsource=(https://github.com/system76/pop-icon-theme)
+
+get_git() {	
+	if [[ -d "$SOURCE_DIR/$name" ]]; then
+		git -C "$SOURCE_DIR/$name" fetch -q
+		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
+	else
+		git -C "$SOURCE_DIR" clone $1 "$name"
+	fi
+
+	cp -r "$SOURCE_DIR/$name" "$SRC"
+}
+
+build() {
+	get_git $gitsource master
+	cd $name
+
+	make DESTDIR=$PKG install
+	make DESTDIR=$PKG post-install
+}

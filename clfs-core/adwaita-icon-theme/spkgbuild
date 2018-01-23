@@ -1,0 +1,16 @@
+# description	: Icon theme for Gtk+ 3 applications
+# homepage	: https://git.gnome.org/browse/adwaita-icon-theme
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=adwaita-icon-theme
+version=3.26.1
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	   
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

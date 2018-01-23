@@ -1,0 +1,21 @@
+# description	: An internationalization tool used for extracting translatable strings from source files
+# homepage	: https://launchpad.net/intltool
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: perl-xml-parser
+
+name=intltool
+version=0.51.0
+release=1
+source=(http://launchpad.net/intltool/trunk/$version/+download/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	sed -i 's:\\\${:\\\$\\{:' intltool-update.in
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	install -v -Dm644 doc/I18N-HOWTO $PKG/usr/share/doc/$name/I18N-HOWTO
+}

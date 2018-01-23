@@ -1,0 +1,31 @@
+# description	: A flat theme with transparent elements for GTK 3, GTK 2 and Gnome-Shell. Latest commit from the master branch on Github
+# homepage	: https://github.com/horst3180/arc-theme
+# maintainer	: Emmett1, emmett1.2miligrams at mail.com
+# depends	: gtk3 gtk-engine-murrine
+# makedepends	: git
+
+name=gtk-theme-arc
+_name=arc-theme
+version=git
+release=1
+gitsource=(https://github.com/horst3180/${_name})
+
+get_git() {	
+	if [[ -d "$SOURCE_DIR/$name" ]]; then
+		git -C "$SOURCE_DIR/$name" fetch -q
+		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
+	else
+		git -C "$SOURCE_DIR" clone $1 "$name"
+	fi
+
+	cp -r "$SOURCE_DIR/$name" "$SRC"
+}
+
+build() {
+	get_git $gitsource master
+	cd $name
+
+	./autogen.sh --prefix=/usr
+	make DESTDIR=$PKG install
+}
+

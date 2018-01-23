@@ -1,0 +1,18 @@
+# description	: Ruby development environment
+# homepage	: http://www.ruby-lang.org/en/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=ruby
+version=2.5.0
+release=1
+source=(http://cache.ruby-lang.org/pub/$name/${version::3}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr   \
+		    --libdir=/usr/lib64 \
+        	    --enable-shared
+	make
+	make DESTDIR=$PKG install
+}

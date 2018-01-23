@@ -1,0 +1,29 @@
+# description	: Low-level libraries useful for providing data structure handling for C, portability wrappers and interfaces
+# depends	: libffi pcre
+# makedepends	: python3 docbook-xsl
+
+name=glib
+version=2.54.3
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz
+	gio-querymodules.hook
+	glib-compile-schemas.hook)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+		    --libdir=/usr/lib64 \
+		    --with-pcre=system \
+		    --with-docs=no
+	make
+	make DESTDIR=$PKG install
+
+	chmod -v 755 $PKG/usr/bin/{gdbus-codegen,glib-gettextize}
+
+	mkdir -p $PKG/usr/share/doc/$name
+	cp -r docs/reference/{NEWS,README,gio,glib,gobject} $PKG/usr/share/doc/$name
+
+	install -Dm644 $SRC/gio-querymodules.hook $PKG/etc/hooks/gio-querymodules.hook
+	install -Dm644 $SRC/glib-compile-schemas.hook $PKG/etc/hooks/glib-compile-schemas.hook
+}

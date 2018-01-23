@@ -1,0 +1,50 @@
+#!/bin/sh
+#
+# /etc/rc.d/dbus: start/stop dbus messagebus daemon
+#
+
+PROG=/usr/bin/dbus-daemon
+PROCPID=$(pidof $PROG)
+PIDFILE=/run/dbus/pid
+OPTS="--system"
+SOCKET=/run/dbus/system_bus_socket
+
+case $1 in
+	start)
+		echo "Starting D-BUS Messagebus daemon..."
+		if [ "$PROCPID" ]; then
+			exit
+		fi
+		mkdir -p /run/dbus
+		/usr/bin/dbus-uuidgen --ensure
+		$PROG $OPTS
+		;;
+	stop)
+		echo "Stopping D-BUS Messagebus daemon..."
+		if [ "$PROCPID" ]; then
+			for pid in $PROCPID; do
+				kill "$pid"
+			done
+		fi
+		rm -f $SOCKET $PIDFILE
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		if [ "$PROCPID" ]; then
+			echo "D-BUS Messagebus daemon is running with pid: $PROCPID"
+		else
+			echo "D-BUS Messagebus daemon is not running."
+		fi
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+exit 0
+
+# End of file

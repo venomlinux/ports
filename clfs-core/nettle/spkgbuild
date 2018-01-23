@@ -1,0 +1,23 @@
+# description	: Low-level cryptographic library that is designed to fit easily in many contexts
+# homepage	: http://www.lysator.liu.se/~nisse/nettle/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=nettle
+version=3.4
+release=1
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+		    --libdir=/usr/lib64 \
+		    --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	chmod   -v   755 $PKG/usr/lib64/lib{hogweed,nettle}.so
+	install -v -m755 -d $PKG/usr/share/doc/$name
+	install -v -m644 nettle.html $PKG/usr/share/doc/$name
+}
+

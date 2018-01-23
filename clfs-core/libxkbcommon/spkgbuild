@@ -1,0 +1,22 @@
+# description	: keymap compiler and support library
+# homepage	: https://xkbcommon.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: xkeyboard-config
+# makedepends	: libxcb
+
+name=libxkbcommon
+version=0.7.2
+release=1
+source=(http://xkbcommon.org/download/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+		    --sysconfdir=/etc \
+		    --libdir=/usr/lib64 \
+		    --localstatedir=/var \
+		    --disable-static
+	make
+	make DESTDIR=$PKG install
+}

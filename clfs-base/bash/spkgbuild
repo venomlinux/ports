@@ -18,7 +18,7 @@ build() {
 	./configure \
 	    --prefix=/usr \
 	    --without-bash-malloc \
-	    --libdir=/lib64 \
+	    --libdir=/usr/lib64 \
 	    --with-installed-readline
 	make
 	make DESTDIR=$PKG install

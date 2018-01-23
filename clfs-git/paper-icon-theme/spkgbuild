@@ -1,0 +1,34 @@
+# description	: Paper is an icon theme for GTK based desktops and fits perfectly the paper-gtk-theme
+# homepage	: https://github.com/snwh/paper-icon-theme
+# maintainer	: Emmett1, emmett1.2miligrams at mail.com
+# depends	: gtk3
+# makedepends	: automake git
+
+name=paper-icon-theme
+version=git
+release=1
+source=(configure.ac.patch)
+gitsource=(https://github.com/snwh/paper-icon-theme)
+
+get_git() {	
+	if [[ -d "$SOURCE_DIR/$name" ]]; then
+		git -C "$SOURCE_DIR/$name" fetch -q
+		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
+	else
+		git -C "$SOURCE_DIR" clone $1 "$name"
+	fi
+
+	cp -r "$SOURCE_DIR/$name" "$SRC"
+}
+
+build() {
+	get_git $gitsource master
+	cd $name
+
+	patch configure.ac $SRC/configure.ac.patch
+	./autogen.sh --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+	rm -f $PKG/usr/share/icons/gnome/icon-theme.cache
+}
+

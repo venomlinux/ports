@@ -1,0 +1,33 @@
+# description	: X-platform Music Multiplexing System 2
+# depends	: glib readline
+
+name=xmms2
+version=git
+release=1
+
+get_git() {	
+	if [[ -d "$SOURCE_DIR/$name" ]]; then
+		git -C "$SOURCE_DIR/$name" fetch -q
+		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
+	else
+		git -C "$SOURCE_DIR" clone $1 "$name"
+	fi
+
+	cp -r "$SOURCE_DIR/$name" "$SRC"
+}
+
+build() {
+	get_git https://github.com/xmms2/xmms2-devel master
+	cd $name
+
+	git submodule init
+	git config submodule.doc/tutorial.url "$SRC"/xmms2-tutorial
+	git config submodule.src/lib/s4.url "$SRC"/s4
+	git submodule update
+	./waf configure \
+		--prefix=/usr \
+		--without-optionals=python \
+		--without-ldconfig -p
+	./waf build
+	./waf install --destdir=$PKG
+}

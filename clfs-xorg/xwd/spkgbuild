@@ -1,0 +1,24 @@
+# description	: X Window System image dumping utility
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxkbfile libxt
+# makedepends	: util-macros
+
+name=xwd
+version=1.0.6
+release=1
+source=(http://ftp.x.org/pub/individual/app/xwd-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libdir=/usr/lib64 \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

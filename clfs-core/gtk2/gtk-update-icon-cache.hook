@@ -1,0 +1,9 @@
+# description	: Updating icon theme caches...
+# operation	: install upgrade remove
+# target	: usr/share/icons/
+
+exechook() {
+	for theme_dir in /usr/share/icons/* ; do
+		/usr/bin/gtk-update-icon-cache -t -f ${theme_dir} 1> /dev/null 2> /dev/null &
+	done
+}

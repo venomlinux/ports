@@ -1,0 +1,7 @@
+# description	: Compiling GSettings XML schema files...
+# operation	: install upgrade remove
+# target	: usr/share/glib-2.0/schemas/
+
+exechook() {
+	/usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas
+}

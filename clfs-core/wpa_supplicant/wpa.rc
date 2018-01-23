@@ -1,0 +1,51 @@
+#!/bin/sh
+#
+# /etc/rc.d/wpa: start/stop wireless interface
+#
+
+. /etc/conf.d/wpa
+
+NAME=wpa_supplicant
+PROG=/sbin/wpa_supplicant
+PROCPID=$(pidof $PROG)
+PROGNAME=$(basename `echo $PROG`)
+PIDFILE_WPA=/var/run/$NAME.pid
+
+OPTS="-B -P $PIDFILE_WPA -D nl80211,wext -c /etc/wpa_supplicant.conf -i $DEV"
+
+case $1 in
+	start)
+		echo "Starting $NAME..."
+		if [ "$PROCPID" ]; then
+			exit
+		fi
+		$PROG $OPTS
+		;;
+	stop)
+		echo "Stopping $NAME..."
+		if [ "$PROCPID" ]; then
+			for pid in $PROCPID; do
+				kill "$pid"
+			done
+		fi
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		if [ "$PROCPID" ]; then
+			echo "$NAME is running with pid: $PROCPID"
+		else
+			echo "$NAME is not running."
+		fi
+		;;
+	*)
+		echo "Usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+exit 0
+
+# End of file

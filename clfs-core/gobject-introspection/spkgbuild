@@ -1,0 +1,20 @@
+# description	: Used to describe the program APIs and collect them in a uniform, machine readable format
+# depends	: glib python3
+# makedepends	: which
+
+name=gobject-introspection
+version=1.54.1
+release=2
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--disable-static \
+		--libdir=/usr/lib64 \
+		--with-python=/usr/bin/python3
+	make
+	make DESTDIR=$PKG install
+}

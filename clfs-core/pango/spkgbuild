@@ -1,0 +1,22 @@
+# description	: Library for laying out and rendering of text, with an emphasis on internationalization
+# depends	: cairo harfbuzz
+# makedepends	: fontconfig glib gobject-introspection
+
+name=pango
+version=1.40.14
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/pango/${version::4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr \
+	      --sysconfdir=/etc \
+	      --libdir=/usr/lib64 \
+	..
+	ninja
+	DESTDIR=$PKG ninja install
+}

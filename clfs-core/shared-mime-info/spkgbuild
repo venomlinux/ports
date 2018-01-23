@@ -1,0 +1,20 @@
+# description	: A MIME database
+# homepage	: https://freedesktop.org/Software/shared-mime-info
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib libxml2
+
+name=shared-mime-info
+version=1.9
+release=3
+source=(http://freedesktop.org/~hadess/$name-$version.tar.xz
+	update-mime-database.hook)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make || make -j1
+	make DESTDIR=$PKG install
+
+	install -Dm644 $SRC/update-mime-database.hook $PKG/etc/hooks/update-mime-database.hook
+}

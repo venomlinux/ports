@@ -1,0 +1,24 @@
+# description	: Print an X window dump from xwd
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libx11 libxmu bash
+# makedepends	: util-macros
+
+name=xpr
+version=1.0.4
+release=1
+source=(http://ftp.x.org/pub/individual/app/xpr-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libdir=/usr/lib64 \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

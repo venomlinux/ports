@@ -1,0 +1,27 @@
+# description	: A simple package manager for Linux From Scratch
+# backup	: etc/scratchpkg.conf
+# depends	: coreutils bash
+# makedepends	: git
+
+name=scratchpkg
+version=1.0
+release=1
+gitsource=(https://github.com/emmett1/scratchpkg)
+
+get_git() {	
+	if [[ -d "$SOURCE_DIR/$name" ]]; then
+		git -C "$SOURCE_DIR/$name" fetch -q
+		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
+	else
+		git -C "$SOURCE_DIR" clone $1 "$name"
+	fi
+
+	cp -r "$SOURCE_DIR/$name" "$SRC"
+}
+
+build() {
+	get_git $gitsource master
+	cd $name
+
+	DESTDIR=$PKG ./INSTALL.sh
+}

@@ -1,0 +1,34 @@
+# description	: GObject-based multi-platform GUI toolkit (legacy)
+# homepage	: http://www.gtk.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: atk gdk-pixbuf pango hicolor-icon-theme adwaita-icon-theme
+
+name=gtk2
+version=2.24.32
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/gtk+/${version::4}/gtk+-$version.tar.xz
+	gtk-query-immodules-2.0.hook
+	gtk-update-icon-cache.hook)
+
+build() {
+	cd gtk+-$version
+
+	sed -e 's#l \(gtk-.*\).sgml#& -o \1#' \
+	    -i docs/{faq,tutorial}/Makefile.in
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+
+	cat > $PKG/etc/gtk-2.0/gtkrc << "EOF"
+gtk-icon-theme-name = "Adwaita"
+gtk-theme-name = "Adwaita"
+gtk-font-name = "Cantarell 10"
+EOF
+
+	install -Dm644 $SRC/gtk-query-immodules-2.0.hook $PKG/etc/hooks/gtk-query-immodules-2.0.hook
+	install -Dm644 $SRC/gtk-update-icon-cache.hook $PKG/etc/hooks/gtk-update-icon-cache.hook
+}

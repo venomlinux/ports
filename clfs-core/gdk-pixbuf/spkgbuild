@@ -1,0 +1,23 @@
+# description	: Toolkit for image loading and pixel buffer manipulation
+# depends	: glib libjpeg-turbo libpng libtiff shared-mime-info libx11 libxcb libxau jasper
+# makedepends	: gobject-introspection
+
+name=gdk-pixbuf
+version=2.36.11
+release=7
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz
+	gdk-pixbuf.hook)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--with-x11 \
+		--libdir=/usr/lib64 \
+		--with-libjasper
+	make
+	make DESTDIR=$PKG install
+
+	install -Dm644 $SRC/gdk-pixbuf.hook $PKG/etc/hooks/gdk-pixbuf.hook
+}

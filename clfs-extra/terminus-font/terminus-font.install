@@ -1,0 +1,7 @@
+post_install() {
+	fc-cache -s > /dev/null
+	mkfontscale /usr/share/kbd/consolefonts
+	mkfontdir /usr/share/kbd/consolefonts
+	mkfontscale /usr/share/fonts/X11/misc
+	mkfontdir /usr/share/fonts/X11/misc
+}

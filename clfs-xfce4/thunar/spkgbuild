@@ -1,0 +1,19 @@
+# description	: Xfce file manager, a GTK+ 2 GUI to organise the files on your computer
+# homepage	: http://thunar.xfce.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: exo libxfce4ui gnome-icon-theme libgudev libnotify
+
+name=thunar
+version=1.6.13
+release=1
+source=(http://archive.xfce.org/src/xfce/$name/${version::3}/Thunar-$version.tar.bz2)
+
+build() {
+	cd Thunar-$version
+
+	./configure --prefix=/usr \
+		    --libdir=/usr/lib64 \
+	            --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}

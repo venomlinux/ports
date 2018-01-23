@@ -1,0 +1,20 @@
+# description	: Provides a Service Provider Interface for the Assistive Technologies available on the GNOME platform and a library against which applications can be linked
+# homepage	: http://www.gnome.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: dbus glib libxtst
+# makedepends	: gobject-introspection
+
+name=at-spi2-core
+version=2.26.2
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+		    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

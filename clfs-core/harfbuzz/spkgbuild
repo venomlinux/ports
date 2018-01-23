@@ -1,0 +1,19 @@
+# description	: OpenType text shaping engine
+# depends	: glib freetype2
+# makedepends	: icu
+
+name=harfbuzz
+version=1.7.4
+release=1
+source=(http://www.freedesktop.org/software/$name/release/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64 \
+		--with-gobject
+	make
+	make DESTDIR=$PKG install
+}

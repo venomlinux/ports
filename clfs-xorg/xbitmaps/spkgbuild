@@ -1,0 +1,23 @@
+# description	: X.org Bitmap files
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: util-macros
+
+name=xbitmaps
+version=1.1.1
+release=1
+source=(http://ftp.x.org/pub/individual/data/xbitmaps-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libdir=/usr/lib64 \
+		--localstatedir=/var \
+		--disable-static
+
+	make DESTDIR=$PKG install
+}
+

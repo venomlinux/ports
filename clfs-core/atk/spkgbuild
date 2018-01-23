@@ -1,0 +1,19 @@
+# description	: Provides the set of accessibility interfaces that are implemented by other toolkits and applications
+# depends	: glib
+# makedepends	: gobject-introspection meson ninja
+
+name=atk
+version=2.26.1
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr --libdir=/usr/lib64
+	ninja
+	DESTDIR=$PKG ninja install
+}

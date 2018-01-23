@@ -1,0 +1,24 @@
+# description	: Create an index of scalable font files for X
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: freetype2 libfontenc mkfontdir
+# makedepends	: util-macros xproto
+
+name=mkfontscale
+version=1.1.2
+release=1
+source=(http://ftp.x.org/pub/individual/app/mkfontscale-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libdir=/usr/lib64 \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+
