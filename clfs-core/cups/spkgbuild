@@ -18,6 +18,9 @@ build() {
 	
 	aclocal  -I config-scripts
 	autoconf -I config-scripts
+
+	# fix lib to lib64
+	sed -i.orig -e 's#$exec_prefix/lib/cups#$libdir/cups#g' configure
 	
 	CC=gcc \
 	./configure --libdir=/usr/lib64            \

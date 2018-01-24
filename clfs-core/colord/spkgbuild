@@ -1,0 +1,28 @@
+# description	: System activated daemon that maps devices to color profiles
+# depends	: dbus glib lcms2 sqlite libgudev libgusb polkit
+# makedepends	: gobject-introspection vala
+
+name=colord
+version=1.3.5
+release=1
+source=(http://www.freedesktop.org/software/colord/releases/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr              \
+		    --sysconfdir=/etc          \
+		    --libdir=/usr/lib64        \
+		    --localstatedir=/var       \
+		    --with-daemon-user=colord  \
+		    --enable-vala              \
+		    --enable-daemon            \
+		    --enable-session-helper    \
+		    --enable-libcolordcompat   \
+		    --disable-rpath            \
+		    --disable-argyllcms-sensor \
+		    --disable-bash-completion  \
+		    --disable-systemd-login    \
+		    --disable-static
+	make
+	make DESTDIR=$PKG install
+}

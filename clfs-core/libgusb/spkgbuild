@@ -1,0 +1,20 @@
+# description	: GObject wrappers for libusb-1.0
+# homepage	: https://github.com/hughsie/libgusb
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libusb usbutils
+# makedepends	: gobject-introspection vala
+
+name=libgusb
+version=0.2.11
+release=1
+source=(http://people.freedesktop.org/~hughsient/releases/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64 \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

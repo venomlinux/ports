@@ -1,0 +1,24 @@
+# description	: Utilities used to display information about USB buses in the system and the devices connected to them
+# homepage	: http://linux-usb.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libusb python2
+
+name=usbutils
+version=009
+release=1
+source=(http://www.kernel.org/pub/linux/utils/usb/usbutils/$name-$version.tar.xz
+	http://www.linux-usb.org/usb.ids)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64 \
+		--datadir=/usr/share/hwdata
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/usr/share/hwdata
+	cp $SRC/usb.ids $PKG/usr/share/hwdata/
+}

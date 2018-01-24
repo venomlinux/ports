@@ -1,0 +1,19 @@
+# description	: Small-footprint color management engine, with special focus on accuracy and performance
+# homepage	: http://www.littlecms.com/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=lcms2
+version=2.9
+release=1
+source=(http://downloads.sourceforge.net/lcms/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64 \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

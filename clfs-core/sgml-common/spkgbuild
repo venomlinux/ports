@@ -1,0 +1,20 @@
+# description	: Creating and maintaining centralized SGML catalogs
+# homepage	: http://www.docbook.org/xml/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=sgml-common
+version=0.6.3
+release=1
+source=(ftp://sources.redhat.com/pub/docbook-tools/new-trials/SOURCES/$name-$version.tgz
+	http://www.linuxfromscratch.org/patches/blfs/8.1/$name-$version-manpage-1.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-manpage-1.patch
+	autoreconf -f -i
+
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make docdir=/usr/share/doc DESTDIR=$PKG install
+}

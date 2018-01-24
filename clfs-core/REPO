@@ -16,6 +16,7 @@ d:cryptsetup
 d:libblockdev
 d:ca-certificates-utils
 d:hicolor-icon-theme
+d:sgml-common
 d:gnutls
 d:iso-codes
 d:gnupg
@@ -51,10 +52,13 @@ d:ruby
 d:curl
 d:adwaita-icon-theme
 d:cups
+d:libgusb
 d:swig
 d:intltool
 d:sudo
+d:colord
 d:libgpg-error
+d:xmlto
 d:libgudev
 d:gtk3
 d:polkit-gnome
@@ -64,6 +68,8 @@ d:gdk-pixbuf
 d:linux-pam
 d:wget
 d:pixman
+d:usbutils
+d:docbook-xml
 d:lvm2
 d:git
 d:ca-certificates
@@ -77,6 +83,7 @@ d:gobject-introspection
 d:polkit
 d:perl-xml-parser
 d:gtk2
+d:xdg-utils
 d:libxkbcommon
 d:libtiff
 d:libgcrypt
@@ -125,6 +132,8 @@ d:ntp
 d:nss
 d:python3
 d:yasm
+d:lynx
+d:lcms2
 d:gvfs
 d:zip
 d:libsecret
@@ -170,6 +179,9 @@ f:e48509e0d4da240c13f35b135385a700:ca-certificates-utils/.md5sum
 f:f9b2a490af6250ea8641f465fdd98dfd:ca-certificates-utils/spkgbuild
 f:24bb5c08c1354ed748db713d9ec18809:hicolor-icon-theme/.md5sum
 f:b2a9bf9233f933115b1883a62ed6dc00:hicolor-icon-theme/spkgbuild
+f:f1e5cdf7835bec244181bf842025a6f2:sgml-common/.md5sum
+f:0e52d7e74d306764869047da9bbc4ac5:sgml-common/sgml-common.install
+f:c75c23a1c2c69d194b2345e314b6217e:sgml-common/spkgbuild
 f:2e4f1ce4a79d3ae8736a5c8079a381a9:gnutls/.md5sum
 f:fa85be38b8df12f87af95e3892cfe2da:gnutls/spkgbuild
 f:499e7aee9720fd64706bd0b58de88fbb:iso-codes/.md5sum
@@ -253,7 +265,9 @@ f:270dd53b01aeb8e3e8dd2c0f6fce925a:adwaita-icon-theme/spkgbuild
 f:96b1b67634b6fd98f5deb4f0a90b6cc3:cups/.md5sum
 f:199feaf89dc9327ed0f172d04910f08c:cups/cups.rc
 f:cf98f6174280340f5c2eb5e4dd6f82e9:cups/cups.install
-f:a7a222bcdb42d7647c831a954cff5800:cups/spkgbuild
+f:aaaeb1c1fc0a7e5a251e08147effea20:cups/spkgbuild
+f:3bb63a4eb344faa58cd40b2062947db8:libgusb/.md5sum
+f:c8deb92414e18d208de4dbb54cab21b0:libgusb/spkgbuild
 f:023f2819e0d3aec1398cbf4535af8692:swig/.md5sum
 f:32c8fd54c16f90ce82bd8bd6b1c3d743:swig/spkgbuild
 f:5a08e7da2dc50d829ed816f0f6e5b599:intltool/.md5sum
@@ -261,8 +275,13 @@ f:1b2912414fe0dcd4b0a1223b3fcd6b7c:intltool/spkgbuild
 f:3fc4263bd841e33891db7c18473c8da1:sudo/.md5sum
 f:39e65caf258a38aebfe847a89ac5822f:sudo/sudo
 f:bd8bc6fea6938805798484f38e52c0f4:sudo/spkgbuild
+f:2204c3b7580e782b82f59c58e6c6a8ac:colord/.md5sum
+f:769186fe234a537a28f46f63f9458fb1:colord/colord.install
+f:14f4efe1132a31909cbd960e4a2ec676:colord/spkgbuild
 f:9ff9b0dcdb63409dab1b7e92aaf05f95:libgpg-error/.md5sum
 f:acb3393e5fcb628afa3779333fdb106e:libgpg-error/spkgbuild
+f:3feaf0aca7392a554cbb441e2804badb:xmlto/.md5sum
+f:77f2aede3b66d018d288e2ef4d1ed47c:xmlto/spkgbuild
 f:4161cb2df1eb44373a8bd9f50f202b43:libgudev/.md5sum
 f:52933e2be55b8a251e08445bb86422d2:libgudev/spkgbuild
 f:998221d980f943a6c0b3cc17ce27e46a:gtk3/.md5sum
@@ -291,6 +310,11 @@ f:ddefa89535a8fb8ab8eb1107d87cc379:wget/.md5sum
 f:10bb3bc80b2540c14af32f4fec5fcc7e:wget/spkgbuild
 f:1375a22d0dda759e171cedd1384bb54e:pixman/.md5sum
 f:1c8002afff5ea0531818a0a7b16d56fb:pixman/spkgbuild
+f:454fd57c068bc67239ef579c813c9967:usbutils/.md5sum
+f:7a389c679bf4cad9e0d51c05abe1065a:usbutils/spkgbuild
+f:59875186e57df4c6d76fcda1d194706e:docbook-xml/.md5sum
+f:1b5df1353785f4b2db76303dd0cfc35d:docbook-xml/docbook-xml.install
+f:241a272356ea822cfefb80e8f3dab8c9:docbook-xml/spkgbuild
 f:f405e8f4309ece264305c9639c97a150:lvm2/.md5sum
 f:79f918e12bdf1d565d517193c3fe709f:lvm2/readme
 f:71f7b4753b1de935064a26c2bb17f88f:lvm2/spkgbuild
@@ -324,6 +348,8 @@ f:2859807859b05c44dab0b90f6e64a190:gtk2/gtk-query-immodules-2.0.hook
 f:ec0db41278b90d612a233b203c97658a:gtk2/gtk-update-icon-cache.hook
 f:fa95a3b73e48ce26b40bb12053f58240:gtk2/gtk2.install
 f:e631f57d9e233a675675447a3ab11caa:gtk2/spkgbuild
+f:c50ccfc20965a49138857c6022492359:xdg-utils/.md5sum
+f:7ff7f53ce83e42270ae8df28a0d3b782:xdg-utils/spkgbuild
 f:1bc33fd595097d1519293e15fac4d164:libxkbcommon/.md5sum
 f:de19cd114f4d55a6a3b52def954ce0ba:libxkbcommon/spkgbuild
 f:54d19a3d2f75cf08369dc6ed66c3654b:libtiff/.md5sum
@@ -435,6 +461,10 @@ f:9ce3b7dff5103509201cfa0ef250494a:python3/python3-x86_64.patch
 f:1b8060d7007b8ff165cc6b3e88f71db5:python3/spkgbuild
 f:5836537a91a321418d590b9ae7c76cd7:yasm/.md5sum
 f:68d2b665a4e4f351ca6573e74f48388b:yasm/spkgbuild
+f:3121833aa0cb988234377abf748636e5:lynx/.md5sum
+f:1c9dc3367b56d7c46c37807d72b98d40:lynx/spkgbuild
+f:2e980fbdca8010c53cc1ed879152df18:lcms2/.md5sum
+f:46945796c165cd37cfac4b2008329c7c:lcms2/spkgbuild
 f:d0b5a6f8ed2ceec95aa788a79b16ab64:gvfs/.md5sum
 f:27b998be86899b622d6a33dfba56085b:gvfs/gvfsd.hook
 f:6c5f7227003de491fdf8da90f89b886e:gvfs/spkgbuild

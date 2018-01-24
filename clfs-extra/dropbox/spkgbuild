@@ -1,0 +1,30 @@
+# description	: A free service that lets you bring your photos, docs, and videos anywhere and share them easily
+# homepage	: http://www.dropbox.com/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxslt libsm libxmu glib
+
+name=dropbox
+version=40.4.46
+release=1
+options=(!strip)
+source=(https://d1ilhw0800yew8.cloudfront.net/client/$name-lnx.x86_64-$version.tar.gz
+	dropbox.desktop
+	dropbox.png)
+
+build() {
+	install -d $PKG/opt
+	cp -R $SRC/.dropbox-dist/dropbox-lnx.x86_64-$version $PKG/opt/dropbox
+
+	find $PKG/opt/dropbox/ -type f -exec chmod 644 {} \;
+	chmod 755 $PKG/opt/dropbox/dropboxd
+	chmod 755 $PKG/opt/dropbox/dropbox
+
+	install -d $PKG/usr/bin
+	ln -s ../../opt/dropbox/dropbox $PKG/usr/bin/dropbox
+
+	install -Dm644 $SRC/dropbox.desktop $PKG/usr/share/applications/dropbox.desktop
+	install -Dm644 $SRC/dropbox.png $PKG/usr/share/pixmaps/dropbox.png
+
+	rm -f $PKG/opt/dropbox/library.zip
+	ln -s dropbox $PKG/opt/dropbox/library.zip
+}
