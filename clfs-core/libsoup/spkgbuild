@@ -1,0 +1,19 @@
+# description	: HTTP client/server library for GNOME
+# depends	: glib-networking libxml2 sqlite
+# makedepends	: gobject-introspection vala
+
+name=libsoup
+version=2.60.3
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64 \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

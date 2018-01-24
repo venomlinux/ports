@@ -1,0 +1,48 @@
+Submitted By:            Douglas R. Reno <renodr at linuxfromscratch dot org>
+Date:                    2017-02-05
+Initial Package Version: 2016.2.22
+Upstream Status:         Applied
+Origin:                  OSS Security (http://seclists.org/oss-sec/2017/q1/259)
+Description:             This patch applies a security fix to ntfs-3g to fix
+                         a problem where it's environment is not taken into
+                         account when run as setuid. See URL in "Origin" for
+                         more information.
+
+diff -Naurp ntfs-3g_ntfsprogs-2016.2.22.orig/src/lowntfs-3g.c ntfs-3g_ntfsprogs-2016.2.22/src/lowntfs-3g.c
+--- ntfs-3g_ntfsprogs-2016.2.22.orig/src/lowntfs-3g.c	2016-02-22 01:34:33.000000000 -0600
++++ ntfs-3g_ntfsprogs-2016.2.22/src/lowntfs-3g.c	2017-02-05 15:07:39.358528270 -0600
+@@ -3827,13 +3827,14 @@ static fuse_fstype load_fuse_module(void
+ 	struct stat st;
+ 	pid_t pid;
+ 	const char *cmd = "/sbin/modprobe";
++       char *env = (char*)NULL;
+ 	struct timespec req = { 0, 100000000 };   /* 100 msec */
+ 	fuse_fstype fstype;
+         
+ 	if (!stat(cmd, &st) && !geteuid()) {
+ 		pid = fork();
+ 		if (!pid) {
+-			execl(cmd, cmd, "fuse", NULL);
++			execle(cmd, cmd, "fuse", NULL, &env);
+ 			_exit(1);
+ 		} else if (pid != -1)
+ 			waitpid(pid, NULL, 0);
+diff -Naurp ntfs-3g_ntfsprogs-2016.2.22.orig/src/ntfs-3g.c ntfs-3g_ntfsprogs-2016.2.22/src/ntfs-3g.c
+--- ntfs-3g_ntfsprogs-2016.2.22.orig/src/ntfs-3g.c	2016-02-22 01:34:33.000000000 -0600
++++ ntfs-3g_ntfsprogs-2016.2.22/src/ntfs-3g.c	2017-02-05 15:07:12.138424093 -0600
+@@ -3612,13 +3612,14 @@ static fuse_fstype load_fuse_module(void
+ 	struct stat st;
+ 	pid_t pid;
+ 	const char *cmd = "/sbin/modprobe";
++       char *env = (char*)NULL;
+ 	struct timespec req = { 0, 100000000 };   /* 100 msec */
+ 	fuse_fstype fstype;
+ 	
+ 	if (!stat(cmd, &st) && !geteuid()) {
+ 		pid = fork();
+ 		if (!pid) {
+-			execl(cmd, cmd, "fuse", NULL);
++			execle(cmd, cmd, "fuse", NULL, &env);
+ 			_exit(1);
+ 		} else if (pid != -1)
+ 			waitpid(pid, NULL, 0);

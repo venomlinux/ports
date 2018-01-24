@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# /etc/rc.d/cups: start/stop CUPS Printserver
+#
+
+NAME="CUPS Printserver"
+PROG=/usr/sbin/cupsd
+PROCPID=$(pidof $PROG)
+
+case $1 in
+	start)
+		echo "Starting $NAME..."
+		if [ "$PROCPID" ]; then
+			exit
+		fi
+		$PROG
+		;;
+	stop)
+		echo "Stopping $NAME..."
+		if [ "$PROCPID" ]; then
+			for pid in $PROCPID; do
+				kill "$pid"
+			done
+		fi
+		;;
+	restart)
+		$0 stop
+		$0 start
+		;;
+	status)
+		if [ "$PROCPID" ]; then
+			echo "$NAME is running with pid: $PROCPID"
+		else
+			echo "$NAME is not running."
+		fi
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+exit 0
+
+# End of file

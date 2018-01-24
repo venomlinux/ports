@@ -1,0 +1,18 @@
+# description	: Network related gio modules for GLib
+# depends	: glib gnutls gsettings-desktop-schemas ca-certificates p11-kit
+
+name=glib-networking
+version=2.54.1
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr             \
+		    --libdir=/usr/lib64       \
+            	    --without-ca-certificates \
+            	    --disable-static
+	make
+	make DESTDIR=$PKG install
+}

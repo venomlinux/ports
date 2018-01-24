@@ -1,0 +1,24 @@
+# description	: Configuration database system used by many GNOME applications
+# homepage	: http://www.gnome.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: dbus-glib libxml2 gtk3 polkit
+# makedepends	: gobject-introspection
+
+name=gconf
+version=3.2.6
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/GConf/${version::3}/GConf-$version.tar.xz)
+
+build() {
+	cd GConf-$version
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+		    --libdir=/usr/lib64 \
+	            --disable-orbit \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	ln -s gconf.xml.defaults $PKG/etc/gconf/gconf.xml.system
+}
+

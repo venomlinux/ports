@@ -1,0 +1,19 @@
+# description	: Inter process communication library used by some of the other GnuPG related packages
+# homepage	: http://www.gnupg.org/related_software/libassuan/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libgpg-error
+
+name=libassuan
+version=2.5.1
+release=1
+source=(ftp://ftp.gnupg.org/gcrypt/$name/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

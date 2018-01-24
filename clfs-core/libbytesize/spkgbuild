@@ -1,0 +1,20 @@
+# description	: Library facilitates the common operations with sizes in bytes
+# homepage	: https://github.com/rhinstaller/libbytesize
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: pcre2
+
+name=libbytesize
+version=1.2
+release=1
+source=(http://github.com/storaged-project/$name/releases/download/$version/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}
+

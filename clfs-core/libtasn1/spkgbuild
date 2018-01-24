@@ -1,0 +1,21 @@
+# description	: Highly portable C library that encodes and decodes DER/BER data following an ASN.1 schema
+# homepage	: https://www.gnu.org/software/libtasn1/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=libtasn1
+version=4.12
+release=2
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64 \
+		--disable-static
+
+	make
+	make DESTDIR=$PKG install
+}
+

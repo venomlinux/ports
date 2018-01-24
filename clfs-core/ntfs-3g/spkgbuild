@@ -1,0 +1,28 @@
+# description	: Stable, read-write open source driver for NTFS partitions
+# homepage	: https://www.tuxera.com/community/open-source-ntfs-3g/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: fuse2
+
+name=ntfs-3g
+version=2017.3.23
+release=1
+source=(https://tuxera.com/opensource/${name}_ntfsprogs-$version.tgz)
+
+build() {
+	cd ${name}_ntfsprogs-$version
+
+	./configure \
+		--prefix=/usr \
+		--disable-static \
+		--libdir=/usr/lib64 \
+		--with-fuse=external \
+		--disable-ldconfig
+	make
+	install -d $PKG/lib64
+	make DESTDIR=$PKG install
+
+	ln -sv ../bin/ntfs-3g $PKG/sbin/mount.ntfs
+	ln -sv ntfs-3g.8 $PKG/usr/share/man/man8/mount.ntfs.8
+
+	chmod -v 4755 $PKG/sbin/mount.ntfs
+}

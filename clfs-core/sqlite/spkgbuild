@@ -1,0 +1,26 @@
+# description	: Software library that implements a self-contained, serverless, zero-configuration, transactional SQL database engine
+# homepage	: http://www.sqlite.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=sqlite
+version=3.21.0
+_version=3210000
+release=1
+source=(http://sqlite.org/2017/$name-autoconf-$_version.tar.gz)
+
+build() {
+	cd $name-autoconf-$_version
+
+  	./configure --prefix=/usr --disable-static        \
+		    --libdir=/usr/lib64			  \
+	            --enable-fts5 CFLAGS="$CFLAGS -g      \
+	            -DSQLITE_ENABLE_FTS4=1                \
+	            -DSQLITE_ENABLE_COLUMN_METADATA=1     \
+	            -DSQLITE_ENABLE_UNLOCK_NOTIFY=1       \
+	            -DSQLITE_SECURE_DELETE=1              \
+	            -DSQLITE_ENABLE_DBSTAT_VTAB=1	  \
+		    -DSQLITE_ENABLE_FTS3_TOKENIZER=1"
+	make
+	make DESTDIR=$PKG install
+}
+

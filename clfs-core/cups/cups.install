@@ -1,0 +1,10 @@
+post_install() {
+	getent group lpadmin >/dev/null || groupadd -g 19 lpadmin
+	getent passwd lp >/dev/null || useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp
+
+	chgrp -R lp /etc/cups /var/cache/cups /var/spool/cups
+}
+
+post_upgrade() {
+	post_install
+}

@@ -1,0 +1,22 @@
+# description	: GObject based library for accessing the Secret Service API
+# homepage	: https://wiki.gnome.org/Projects/Libsecret
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib libgcrypt
+# makedepends	: gobject-introspection vala
+
+name=libsecret
+version=0.18.5
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64 \
+		--disable-static \
+		--disable-manpages
+	make
+	make DESTDIR=$PKG install
+}

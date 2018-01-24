@@ -1,0 +1,43 @@
+# description	: Mozilla's JavaScript engine written in C
+# homepage	: https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Releases/24
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: nspr icu
+# makedepends	: libffi python2 zip autoconf2.13
+
+name=js
+version=38.2.1
+release=1
+source=(http://anduin.linuxfromscratch.org/BLFS/mozjs/mozjs-$version.rc0.tar.bz2
+	js38-$version-upstream_fixes-2.patch)
+
+build() {
+	cd mozjs-${version::3}0.0
+
+	patch -Np1 -i ../js38-$version-upstream_fixes-2.patch
+
+	cd js/src
+
+	autoconf2.13
+
+	SHELL=/bin/sh			\
+	./configure --prefix=/usr       \
+		    --libdir=/usr/lib64 \
+	            --with-intl-api     \
+	            --with-system-zlib  \
+	            --with-system-ffi   \
+	            --with-system-nspr  \
+	            --with-system-icu   \
+	            --enable-threadsafe \
+	            --enable-readline
+	make
+	make DESTDIR=$PKG install
+
+	pushd $PKG/usr/include/mozjs-38
+	for link in `find . -type l`; do
+	    header=`readlink $link`
+	    rm -f $link
+	    cp -pv $header $link
+	    chmod 644 $link
+	done
+	popd
+}

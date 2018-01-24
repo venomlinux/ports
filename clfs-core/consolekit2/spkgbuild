@@ -1,0 +1,30 @@
+# description	: Framework for keeping track of the various users, sessions, and seats present on a system
+# homepage	: https://github.com/ConsoleKit2/ConsoleKit2
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: dbus-glib linux-pam polkit libx11
+
+name=consolekit2
+version=1.0.2
+release=1
+source=(https://github.com/Consolekit2/ConsoleKit2/releases/download/$version/ConsoleKit2-$version.tar.bz2
+	pam-foreground-compat.ck)
+
+build() {
+	cd ConsoleKit2-$version
+
+	./configure --prefix=/usr        \
+	            --sysconfdir=/etc    \
+		    --libdir=/usr/lib64  \
+	            --localstatedir=/var \
+	            --enable-udev-acl    \
+	            --enable-pam-module  \
+	            --enable-polkit      \
+	            --with-xinitrc-dir=/etc/X11/app-defaults/xinitrc.d \
+	            --with-systemdsystemunitdir=no
+	make
+	make DESTDIR=$PKG install
+
+	mv -v $PKG/etc/X11/app-defaults/xinitrc.d/90-consolekit{,.sh}
+
+	install -Dm 755 $SRC/pam-foreground-compat.ck $PKG/usr/lib64/ConsoleKit/run-session.d/pam-foreground-compat.ck
+}

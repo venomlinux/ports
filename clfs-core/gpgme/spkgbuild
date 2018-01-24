@@ -1,0 +1,17 @@
+# description	: C library that allows cryptography support to be added to a program
+# homepage	: http://www.gnupg.org/related_software/gpgme/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libassuan
+
+name=gpgme
+version=1.10.0
+release=1
+source=(ftp://ftp.gnupg.org/gcrypt/gpgme/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}
+

@@ -1,0 +1,18 @@
+# description	: Libraries and userspace tools which provide a secure layer over a reliable transport layer
+# depends	: nettle ca-certificates libtasn1 p11-kit
+
+name=gnutls
+version=3.6.1
+release=1
+source=(ftp://ftp.gnutls.org/gcrypt/$name/v${version%.*}/$name-${version}.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+		    --libdir=/usr/lib64 \
+		    --with-default-trust-store-pkcs11="pkcs11:" \
+		    --with-included-unistring
+	make
+	make DESTDIR=$PKG install
+}

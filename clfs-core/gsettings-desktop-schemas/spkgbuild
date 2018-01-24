@@ -1,0 +1,20 @@
+# description	: Collection of GSettings schemas for settings shared by various components of a GNOME Desktop
+# homepage	: https://git.gnome.org/browse/gsettings-desktop-schemas
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib
+# makedepends	: gobject-introspection
+
+name=gsettings-desktop-schemas
+version=3.24.1
+release=2
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in
+	./configure --prefix=/usr \
+		    --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

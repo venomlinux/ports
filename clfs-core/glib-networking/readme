@@ -1,0 +1,10 @@
+For using the PKCS #11 modules, the GIO_USE_TLS variable should be set in the
+environment. This can be added to the Bash Startup Files (as the root user):
+
+cat > /etc/profile.d/gio.sh << "EOF"
+# Begin gio.sh
+
+export GIO_USE_TLS=gnutls-pkcs11
+
+# End gio.sh
+EOF

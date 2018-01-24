@@ -1,0 +1,17 @@
+# description	: List of country, language and currency names
+# homepage	: https://pkg-isocodes.alioth.debian.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: python3
+
+name=iso-codes
+version=3.77
+release=1
+source=(https://pkg-isocodes.alioth.debian.org/downloads/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

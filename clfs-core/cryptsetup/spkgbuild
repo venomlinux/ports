@@ -1,0 +1,19 @@
+# description	: Used to set up transparent encryption of block devices using the kernel crypto API
+# homepage	: https://gitlab.com/cryptsetup/cryptsetup/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libgcrypt nettle nss openssl popt
+
+name=cryptsetup
+version=1.7.5
+release=1
+source=(https://www.kernel.org/pub/linux/utils/cryptsetup/v${version::3}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}
+

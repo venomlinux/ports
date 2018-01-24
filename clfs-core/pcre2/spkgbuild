@@ -1,0 +1,24 @@
+# description	: New generation of the Perl Compatible Regular Expression libraries
+# homepage	: http://www.pcre.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=pcre2
+version=10.30
+release=1
+source=(ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr                       \
+		    --libdir=/usr/lib64                 \
+	            --enable-unicode                    \
+	            --enable-pcre2-16                   \
+	            --enable-pcre2-32                   \
+	            --enable-pcre2grep-libz             \
+	            --enable-pcre2grep-libbz2           \
+	            --enable-pcre2test-libreadline      \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+
