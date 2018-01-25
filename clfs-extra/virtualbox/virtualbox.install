@@ -1,0 +1,18 @@
+post_install() {
+
+	getent group vboxusers >/dev/null || groupadd vboxusers
+
+	# build vbox modules
+	if [ -d /usr/src/linux-$(uname -r | cut -d '-' -f1) ]; then
+		make -C /opt/VirtualBox/src/vboxhost \
+		    MODULE_DIR=/lib/modules/$(uname -r)/extra install
+	else
+		msginfo "Read virtualbox readme how to build virtualbox modules"
+	fi
+	msginfo "Add your user into vboxusers group"
+	msginfo "Add 'vboxdrv', 'vboxnetadp', 'vboxnetflt', 'vboxpci' to /etc/rc.conf"
+}
+
+pre_remove() {
+	rm -fr /opt/VirtualBox/src/vboxhost
+}

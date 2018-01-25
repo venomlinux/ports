@@ -1,13 +1,12 @@
 # description	: Tool to help you insert the correct compiler options on the command line when compiling applications and libraries
 
 name=pkg-config
-version=0.28.1
-_version=0.28-1
+version=0.28
 release=1
-source=(https://pkg-config.freedesktop.org/releases/$name-lite-$_version.tar.gz)
+source=(http://sourceforge.net/projects/pkgconfiglite/files/$version-1/pkg-config-lite-$version-1.tar.gz)
 
 build() {
-	cd $name-lite-$_version
+	cd $name-lite-$version-1
 
 	CC="gcc -m64" ./configure \
 	    --prefix=/usr \

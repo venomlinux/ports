@@ -1,0 +1,20 @@
+# description	: C++ interface to GTK+ 2
+# homepage	: http://www.gtkmm.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: atkmm gtk2 pangomm
+
+name=gtkmm2
+version=2.24.5
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/gtkmm/${version:0:4}/gtkmm-$version.tar.xz)
+
+build() {
+	cd gtkmm-$version
+
+	sed -e "/^libdocdir =/ s/\$(book_name)/$name/" \
+	    -i docs/Makefile.in
+
+	./configure --prefix=/usr --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,20 @@
+
+  Upgrading a kernel should not affect external modules. Modules which are
+  included in the kernel are installed in: /lib/modules/$(KERNELRELEASE)/kernel
+  And external modules are installed in: /lib/modules/$(KERNELRELEASE)/extra
+
+  Anyway if you want to compile and install virtualbox modules again you have
+  some alternatives:
+  # make -C /opt/VirtualBox/src/vboxhost \
+    MODULE_DIR=/lib/modules/$(uname -r)/extra install
+
+  Or if you want to an specific kernel version (for example: 4.1.8)
+  # make -C /opt/VirtualBox/src/vboxhost \
+    KERN_DIR=/usr/src/linux-4.1.8 \
+    MODULE_DIR=/lib/modules/4.1.8/extra install
+
+  For modules load on boot add this into MODULES array in /etc/rc.conf
+    vboxdrv
+    vboxnetadp
+    vboxnetflt
+    vboxpci

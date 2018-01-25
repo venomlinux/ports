@@ -1,0 +1,22 @@
+# description	: Script that gives information about the Linux Standards Base (LSB) status of the distribution
+# homepage	: http://www.linuxbase.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=lsb-release
+version=1.4
+release=1
+source=(https://downloads.sourceforge.net/lsb/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	sed -i "s|n/a|unavailable|" lsb_release
+
+	./help2man -N --include ./lsb_release.examples \
+	              --alt_version_key=program_version ./lsb_release > lsb_release.1
+
+	mkdir -p $PKG/usr/bin
+	mkdir -p $PKG/usr/share/man/man1
+	install -v -m 644 lsb_release.1 $PKG/usr/share/man/man1/lsb_release.1
+	install -v -m 755 lsb_release $PKG/usr/bin/lsb_release
+}

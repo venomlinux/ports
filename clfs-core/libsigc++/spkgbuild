@@ -1,0 +1,18 @@
+# description	: Implements a typesafe callback system for standard C++
+# homepage	: http://libsigc.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=libsigc++
+version=2.10.0
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	sed -e '/^libdocdir =/ s/$(book_name)/libsigc++/' -i docs/Makefile.in
+
+	./configure --prefix=/usr --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

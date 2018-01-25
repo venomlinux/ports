@@ -1,0 +1,15 @@
+# description	: Command line interface for testing internet bandwidth using speedtest.net
+# depends	: python3
+
+name=speedtest-cli
+version=1.0.7
+release=1
+source=($name-$version.tar.gz::https://github.com/sivel/speedtest-cli/archive/v$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	python3 setup.py install -O1 --root=$PKG --prefix=/usr
+	install -Dm 644 README.rst -t $PKG/usr/share/doc/$name
+	install -Dm 644 $name.1 -t $PKG/usr/share/man/man1
+}

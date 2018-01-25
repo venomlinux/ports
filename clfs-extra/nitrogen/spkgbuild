@@ -1,0 +1,19 @@
+# description	: Background browser and setter for X windows
+# homepage	: http://projects.l3ib.org/nitrogen/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtkmm2 hicolor-icon-theme librsvg
+
+name=nitrogen
+version=1.6.1
+release=1
+source=(#http://projects.l3ib.org/$name/files/$name-$version.tar.gz
+	https://github.com/l3ib/nitrogen/releases/download/$version/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	CXXFLAGS+=' -std=c++11'
+	./configure --prefix=/usr --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}

@@ -3,13 +3,16 @@
 
 name=ncurses-32
 version=6.0
-release=1
+release=2
 source=(http://ftp.gnu.org/gnu/ncurses/ncurses-$version.tar.gz)
 
 build() {
 	cd ncurses-$version
 
-	CC="gcc -m32" CXX="g++ -m32" \
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
+
 	./configure \
 	    --prefix=/usr \
 	    --libdir=/usr/lib \
