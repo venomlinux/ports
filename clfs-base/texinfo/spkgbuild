@@ -12,7 +12,7 @@ source=(http://ftp.gnu.org/gnu/texinfo/$name-$version.tar.xz
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr --libdir=/usr/lib64
 	make
 	make DESTDIR=$PKG install
 

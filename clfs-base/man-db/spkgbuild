@@ -23,4 +23,6 @@ build() {
 	    --with-grap=/usr/bin/grap
 	make
 	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/lib
 }

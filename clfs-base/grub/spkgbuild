@@ -6,12 +6,13 @@
 name=grub
 version=2.02
 release=1
-source=(http://alpha.gnu.org/gnu/$name/$name-$version.tar.xz)
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
 	./configure --prefix=/usr          \
+		    --libdir=/usr/lib64    \
 	            --sbindir=/sbin        \
 	            --sysconfdir=/etc      \
 	            --disable-efiemu       \

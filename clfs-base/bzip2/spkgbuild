@@ -22,7 +22,7 @@ build() {
 	make CC="gcc -m64" CXX="g++ -m64"
 	make CC="gcc -m64" CXX="g++ -m64" PREFIX=$PKG/usr install
 
-	mkdir -pv $PKG/{bin,lib64,usr/lib}
+	mkdir -pv $PKG/{bin,lib64}
 
 	cp -v bzip2-shared $PKG/bin/bzip2
 	cp -av libbz2.so* $PKG/lib64
@@ -30,6 +30,4 @@ build() {
 	rm -v $PKG/usr/bin/{bunzip2,bzcat,bzip2}
 	ln -sv bzip2 $PKG/bin/bunzip2
 	ln -sv bzip2 $PKG/bin/bzcat
-
-	rmdir $PKG/usr/lib/
 }

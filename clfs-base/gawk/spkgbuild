@@ -9,7 +9,7 @@ source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
 build() {
 	cd $name-$version
 
-	CC="gcc -m64" ./configure --prefix=/usr --libexecdir=/usr/lib64
+	CC="gcc -m64" ./configure --prefix=/usr --libdir=/usr/lib64
 	make
 	make DESTDIR=$PKG install
 }
