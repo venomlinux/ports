@@ -1,5 +1,5 @@
 # description	: Implements the user-space interfaces to the POSIX 1003.1e capabilities available in Linux kernels
-# depends	: attr glibc linux-headers
+# depends	: attr glibc linux-api-headers
 
 name=libcap
 version=2.25
@@ -9,12 +9,9 @@ source=(https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/$name
 build() {
 	cd $name-$version
 
-	make CC="gcc -m64"
+	make CC="gcc -m64" prefix=/usr lib=lib64
 
-	make lib=lib64 DESTDIR=$PKG RAISE_SETFCAP=no install
-	chmod -v 755 $PKG/lib64/libcap.so.2.25
+	make prefix=/usr lib=lib64 DESTDIR=$PKG RAISE_SETFCAP=no install
+	chmod -v 755 $PKG/usr/lib64/libcap.so.2.25
 
-	ln -sfv ../../lib64/$(readlink $PKG/lib64/libcap.so) $PKG/usr/lib64/libcap.so
-	rm -v $PKG/lib64/libcap.so
-	mv -v $PKG/lib64/libcap.a $PKG/usr/lib64
 }

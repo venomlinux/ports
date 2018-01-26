@@ -1,5 +1,5 @@
 # description	: Implements the user-space interfaces to the POSIX 1003.1e capabilities available in Linux kernels (32 bit)
-# depends	: attr glibc linux-headers
+# depends	: attr glibc linux-api-headers
 
 name=libcap-32
 version=2.25
@@ -9,14 +9,12 @@ source=(https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libca
 build() {
 	cd libcap-$version
 
-	make CC="gcc -m32"
+	export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
 
-	make lib=lib DESTDIR=$PKG RAISE_SETFCAP=no install
-	chmod -v 755 $PKG/lib/libcap.so.2.25
+	make CC="gcc -m32" prefix=/usr lib=lib
 
-	ln -sfv ../../lib/$(readlink $PKG/lib/libcap.so) $PKG/usr/lib/libcap.so
-	rm -v $PKG/lib/libcap.so
-	mv -v $PKG/lib/libcap.a $PKG/usr/lib
+	make prefix=/usr lib=lib DESTDIR=$PKG RAISE_SETFCAP=no install
+	chmod -v 755 $PKG/usr/lib/libcap.so.2.25
 
-	rm -fr $PKG/usr/{share,include} $PKG/sbin
+	rm -fr $PKG/usr/{share,include} $PKG/usr/sbin
 }
