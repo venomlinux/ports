@@ -1,0 +1,17 @@
+# description	: Disk usage analyzer with an ncurses interface
+# homepage	: https://dev.yorhel.nl/ncdu
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: ncurses
+
+name=ncdu
+version=1.12
+release=1
+source=(http://dev.yorhel.nl/download/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
