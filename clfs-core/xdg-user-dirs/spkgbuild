@@ -1,0 +1,16 @@
+# description	: Manage user directories
+# homepage	: http://www.freedesktop.org/wiki/Software/xdg-user-dirs
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# makedepends	: docbook-xsl
+
+name=xdg-user-dirs
+version=0.16
+release=1
+source=(http://user-dirs.freedesktop.org/releases/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,18 @@
+# description	: An implementation of the XDG Base Directory specifications
+# depends	: glibc
+
+name=libxdg-basedir
+version=1.2.0
+release=1
+source=(https://github.com/devnev/$name/archive/$name-$version.tar.gz
+        xdgGetRelativeHome-overflow.patch)
+
+build() {
+	cd $name-$name-$version
+
+	patch -Np0 -i ../xdgGetRelativeHome-overflow.patch
+
+	./autogen.sh --prefix=/usr --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+}
