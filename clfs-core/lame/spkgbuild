@@ -1,0 +1,24 @@
+# description	: An MP3 encoder and optionally, an MP3 frame analyzer
+# homepage	: http://lame.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=lame
+version=3.100
+release=1
+source=(http://downloads.sourceforge.net/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	case $(uname -m) in
+	   i?86) sed -i -e '/xmmintrin\.h/d' configure ;;
+	esac
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64 \
+		--enable-mp3rtp \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

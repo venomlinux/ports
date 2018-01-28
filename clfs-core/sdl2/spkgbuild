@@ -1,0 +1,16 @@
+# description	: Cross-platform library designed to make it easy to write multimedia software
+# homepage	: http://www.libsdl.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=sdl2
+version=2.0.7
+release=1
+source=(http://www.libsdl.org/release/SDL2-$version.tar.gz)
+
+build() {
+	cd SDL2-$version
+	./configure --prefix=/usr --libdir=/usr/lib64
+	make
+	make DESTDIR=$PKG install
+	rm -v $PKG/usr/lib64/libSDL2*.a
+}

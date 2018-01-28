@@ -1,0 +1,20 @@
+# description	: Library for encoding video streams into the H.264/MPEG-4 AVC format
+# homepage	: https://www.videolan.org/developers/x264.html
+# maintainer	: Emmett1, emmett1.2miligr
+# makedepends	: yasm
+
+name=x264
+version=20170822-2245
+release=1
+source=(http://download.videolan.org/pub/videolan/$name/snapshots/$name-snapshot-$version-stable.tar.bz2)
+
+build() {
+	cd $name-snapshot-$version-stable
+
+	./configure --prefix=/usr \
+		    --libdir=/usr/lib64 \
+	            --enable-shared \
+	            --disable-cli
+	make
+	make DESTDIR=$PKG install
+}

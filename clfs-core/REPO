@@ -6,6 +6,7 @@ d:libvorbis
 d:freetype2
 d:xarchiver
 d:hicolor-icon-theme
+d:sdl2
 d:gdk-pixbuf
 d:icon-naming-utils
 d:qt5
@@ -37,8 +38,10 @@ d:atkmm
 d:mc
 d:wayland-protocols
 d:atk
+d:x265
 d:harfbuzz
 d:jasper
+d:poppler-data
 d:openssl-1.0
 d:libxslt
 d:fontconfig
@@ -49,9 +52,11 @@ d:rxvt-unicode
 d:parted
 d:curl
 d:libusb
+d:mplayer
 d:gnome-icon-theme
 d:gtk2
 d:perl-xml-simple
+d:libva
 d:volume_key
 d:cmake
 d:libarchive
@@ -62,6 +67,7 @@ d:python2-markupsafe
 d:libmng
 d:ca-certificates
 d:mesa
+d:openjpeg2
 d:libsigc++
 d:cups
 d:colord
@@ -90,6 +96,7 @@ d:usbutils
 d:gnupg
 d:libepoxy
 d:yasm
+d:poppler
 d:gtkmm2
 d:gst-plugins-base
 d:libogg
@@ -106,6 +113,7 @@ d:nss
 d:hexchat
 d:cryptsetup
 d:libevent
+d:fdk-aac
 d:ca-certificates-utils
 d:expat
 d:mtdev
@@ -122,6 +130,7 @@ d:pinentry
 d:python2
 d:python3-six
 d:libjpeg-turbo
+d:lame
 d:glib-networking
 d:icu
 d:lcms2
@@ -137,6 +146,7 @@ d:sudo
 d:iso-codes
 d:python2-mako
 d:libnotify
+d:opus
 d:libxml2
 d:autoconf2.13
 d:nettle
@@ -144,6 +154,7 @@ d:libtiff
 d:libbytesize
 d:openssl
 d:python3
+d:libvdpau-va-gl
 d:lxappearance
 d:libvdpau
 d:linux-pam
@@ -161,7 +172,9 @@ d:gpgme
 d:libgcrypt
 d:libtheora
 d:python2-beaker
+d:libvpx
 d:gstreamer
+d:x264
 d:libblockdev
 d:libxkbcommon
 d:dbus-glib
@@ -182,6 +195,8 @@ f:44f618d070fef95d3d0869279d29378c:xarchiver/.md5sum
 f:ba2c7a1e6b944b660e0ba268431ba841:xarchiver/spkgbuild
 f:24bb5c08c1354ed748db713d9ec18809:hicolor-icon-theme/.md5sum
 f:b2a9bf9233f933115b1883a62ed6dc00:hicolor-icon-theme/spkgbuild
+f:0c4ede5833d4e35e7e6e768d8591c01b:sdl2/.md5sum
+f:9ca8cab8f0656408f0aefbf8739f5790:sdl2/spkgbuild
 f:470f824549c472d921ce163a3bfd35fa:gdk-pixbuf/gdk-pixbuf.hook
 f:291e10b286f196718f0a9036ce8eb20e:gdk-pixbuf/.md5sum
 f:07fc4303f89ad97391ed5e065ae808ff:gdk-pixbuf/spkgbuild
@@ -256,10 +271,14 @@ f:fb9c756e21b059a8e62551f3047ba7b7:wayland-protocols/.md5sum
 f:63d932792aad51ec11cc352867c802aa:wayland-protocols/spkgbuild
 f:b9c94c1e0bbff3e296c9ec53f1179aad:atk/.md5sum
 f:acd7db39975df11b479859b31f4bbccc:atk/spkgbuild
+f:caa084221ed76b499ec28e9e15b5cb20:x265/.md5sum
+f:826ef92eea3030f44ec84ac1a9234db8:x265/spkgbuild
 f:78c27bfb5d825e82900ea7cda3ee1e6c:harfbuzz/.md5sum
 f:d69ce23bf152ad8bcc75a99049d3b9db:harfbuzz/spkgbuild
 f:0d678eb9dcf2a5c20919101390ef34d5:jasper/.md5sum
 f:8e336d86b593366e1cfdfe313324dd55:jasper/spkgbuild
+f:272e2cb6c0fa3caae6646c84d8644bfa:poppler-data/.md5sum
+f:62b2cee42c19f894256f2a8fa084646e:poppler-data/spkgbuild
 f:3b9510b243ee92ae9a00accb5d363bd0:openssl-1.0/.md5sum
 f:0285b5169cf07515d8bd31fca13aa687:openssl-1.0/spkgbuild
 f:b94d4b17b2fdddf8bfe422041320e174:openssl-1.0/openssl-1.0.2n-compat_versioned_symbols-1.patch
@@ -284,6 +303,8 @@ f:be8f62405306b29625719073a4d62a1a:curl/spkgbuild
 f:7f55bdc58d71ab06483caf52286b67da:libusb/.md5sum
 f:b51fe4f528ab0d549cd08a33704a9447:libusb/spkgbuild
 f:f0fb51a74f33c100012792481ac54fc0:libusb/readme
+f:67a15018e7237717b398beff688e980c:mplayer/.md5sum
+f:bf8247520a40cff4c38a049e8ba70f12:mplayer/spkgbuild
 f:9d47f147d768d5ab2ec220b260e641d0:gnome-icon-theme/.md5sum
 f:351d2ceb153d615d60716ad80644588d:gnome-icon-theme/spkgbuild
 f:ec0db41278b90d612a233b203c97658a:gtk2/gtk-update-icon-cache.hook
@@ -293,6 +314,8 @@ f:2859807859b05c44dab0b90f6e64a190:gtk2/gtk-query-immodules-2.0.hook
 f:fa95a3b73e48ce26b40bb12053f58240:gtk2/gtk2.install
 f:eca0ec791032d40a380de02f0cce0780:perl-xml-simple/.md5sum
 f:89b56bad5bda739a4e4eec7753c99889:perl-xml-simple/spkgbuild
+f:3aedcdcdb636428b1f61d5a52c620c3a:libva/.md5sum
+f:ebd8841d69cb133ae367ad34707c84de:libva/spkgbuild
 f:7ce3c3e39a53cb3a594935407dae226d:volume_key/.md5sum
 f:d92555c0d10b158a10eb9a61f945040a:volume_key/spkgbuild
 f:92148f0df0f264535bb124432ef77d3a:cmake/.md5sum
@@ -318,6 +341,8 @@ f:c1a5d97f6be1b463a7c0faf320eee13e:ca-certificates/.md5sum
 f:37bbf3dd6faca0342d4bb63294c93818:ca-certificates/spkgbuild
 f:3cba9616b865442f12be7b8364124a0f:mesa/.md5sum
 f:f0349fe320826347ca25237aabf31d81:mesa/spkgbuild
+f:67a91445e48d92e1e339fbb18ced6c54:openjpeg2/.md5sum
+f:7d1636eee66ccc2d685044f4f6b3b677:openjpeg2/spkgbuild
 f:69ac47ea28b30e50aa6af2f22f842abb:libsigc++/.md5sum
 f:ad737ee31d1e36aa4e4c17d8c90974d4:libsigc++/spkgbuild
 f:199feaf89dc9327ed0f172d04910f08c:cups/cups.rc
@@ -388,6 +413,8 @@ f:7c59c44f88eaa844a22a0a5fbef17c29:libepoxy/.md5sum
 f:cd4cba576ee484a568a664b250bee630:libepoxy/spkgbuild
 f:5836537a91a321418d590b9ae7c76cd7:yasm/.md5sum
 f:68d2b665a4e4f351ca6573e74f48388b:yasm/spkgbuild
+f:9946e3ed3a35df63ff3b1684c87d1e73:poppler/.md5sum
+f:e619a2bd7a618f7d4c1ba4a7b9693f8c:poppler/spkgbuild
 f:de163faf7eac6d7e14ab8ce6ffe1942a:gtkmm2/.md5sum
 f:ab829bd2f5cf99f9a051fa6cff21b57e:gtkmm2/spkgbuild
 f:8bfeaf089390fc84f3167d5583987f06:gst-plugins-base/.md5sum
@@ -426,6 +453,8 @@ f:a2b9684075fd15a4b4327d0dab74616d:cryptsetup/spkgbuild
 f:5bc8a15b1f11f4e1b59f73e9c3120d67:cryptsetup/readme
 f:38961f20b2b6da663620c6de188844d4:libevent/.md5sum
 f:5e20cb5439e865a405a27dfe5eeaf58e:libevent/spkgbuild
+f:1fceb9c8218410b6fdc01106c3660011:fdk-aac/.md5sum
+f:9de74362cae34339c51ef1f0df12d0a8:fdk-aac/spkgbuild
 f:e48509e0d4da240c13f35b135385a700:ca-certificates-utils/.md5sum
 f:f9b2a490af6250ea8641f465fdd98dfd:ca-certificates-utils/spkgbuild
 f:143e07dfcbd6a03ae25575fdeebb486d:expat/.md5sum
@@ -459,6 +488,8 @@ f:3157f088dc66f6e96ba3420e49c6a496:python3-six/.md5sum
 f:e80d8d6e1735a827652f43c997d89bc1:python3-six/spkgbuild
 f:4019792766989d4567e9834c89ba029b:libjpeg-turbo/.md5sum
 f:72cc68df6c9d727d418d6bf0b73727df:libjpeg-turbo/spkgbuild
+f:847c5b7f761acf036098109761e317d3:lame/.md5sum
+f:25b5feca2b77299cfce33580e29b8b32:lame/spkgbuild
 f:413116fc29ab7a72411c1c2c48f91ff8:glib-networking/.md5sum
 f:c65813e4cea0e0279d9dde80c6b8b67d:glib-networking/spkgbuild
 f:8eb7e200473236f58c2f6de2555bc814:glib-networking/readme
@@ -494,6 +525,8 @@ f:3c4af336664a5e6dee649fd1a694e6d5:python2-mako/.md5sum
 f:648b496b54a175d0ddd03b31784f6347:python2-mako/spkgbuild
 f:ffdfe2bd9f1644c05e69712be101d6af:libnotify/.md5sum
 f:1e8c685b46440a98412bc7886529a232:libnotify/spkgbuild
+f:b99616481f4cb251c6326de75f47f095:opus/.md5sum
+f:4847502658d184de577f6c4a8e0fec31:opus/spkgbuild
 f:f0fe1a64d40c056baf2149b1efebf1b4:libxml2/libxml2-2.9.7-python3_hack-1.patch
 f:63866fd0afd4af3846dd6602b1ecd1a3:libxml2/.md5sum
 f:ee3dc7271e69d390a4b3d93834309c36:libxml2/spkgbuild
@@ -511,6 +544,8 @@ f:836283828a161b39b4913ab82ffe3917:openssl/spkgbuild
 f:3932138b09c88b309318180113ddf98d:python3/.md5sum
 f:1b8060d7007b8ff165cc6b3e88f71db5:python3/spkgbuild
 f:9ce3b7dff5103509201cfa0ef250494a:python3/python3-x86_64.patch
+f:8613ff431496dcc0d3eb709d61bfebb7:libvdpau-va-gl/.md5sum
+f:0c41fb3faaf440112831b3334c1dc231:libvdpau-va-gl/spkgbuild
 f:054dd6d36e2ea01562513d4c4673aa50:lxappearance/.md5sum
 f:46846925810765990fdd580a025249ce:lxappearance/spkgbuild
 f:17e48879d1931fae64294b260cafc982:libvdpau/.md5sum
@@ -536,7 +571,7 @@ f:f9bde83e3080ff8cabb53f64a2cd723d:llvm/spkgbuild
 f:617f80a4292c26f6dc0a390c2dd98cc7:popt/.md5sum
 f:e1fb937b2172712abfbe955d7d40b58c:popt/spkgbuild
 f:aae99705c50f9318078f413fee2798ab:fribidi/.md5sum
-f:b0a73984a9c4be69838b102d413c4a00:fribidi/spkgbuild
+f:cbf7d6084699be6fe6f6aabcfebd1b62:fribidi/spkgbuild
 f:4161cb2df1eb44373a8bd9f50f202b43:libgudev/.md5sum
 f:52933e2be55b8a251e08445bb86422d2:libgudev/spkgbuild
 f:7e050f9853448991f98af01d92d65875:libksba/.md5sum
@@ -554,8 +589,12 @@ f:072e72b0550c4db123e740e6c159bc66:libtheora/.md5sum
 f:ea9243ca46b2efce5ecec94f3d386848:libtheora/spkgbuild
 f:78cda86b3a8e0793dc6cff23cb51fccd:python2-beaker/.md5sum
 f:8f74933cc3dc25555ade41a600fc6e1d:python2-beaker/spkgbuild
+f:06c7dc0377312fed1eb092b85e3e2fa6:libvpx/.md5sum
+f:fe7aeb1bb59eb22c4340f4c6fa960251:libvpx/spkgbuild
 f:9012952744fd4431d84b83706fc5dd14:gstreamer/.md5sum
 f:bbc02117225c970ca3672a87b500d77c:gstreamer/spkgbuild
+f:b567c3333308d68d409616996305e60a:x264/.md5sum
+f:079a5c8cc81e6ca9ddf593cadab47109:x264/spkgbuild
 f:eb87f41b080da1744930e12110960ac1:libblockdev/.md5sum
 f:1c951d4076f149230ba803f9dff2dec1:libblockdev/spkgbuild
 f:1bc33fd595097d1519293e15fac4d164:libxkbcommon/.md5sum

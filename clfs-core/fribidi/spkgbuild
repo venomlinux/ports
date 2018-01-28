@@ -6,15 +6,15 @@
 name=fribidi
 version=0.19.7
 release=1
-options=(!buildflags)
 source=(https://github.com/fribidi/fribidi/archive/$version/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
 
 	./bootstrap
-	./configure --prefix=/usr \
-		    --libdir=/usr/lib64
-	make
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64
+	make || make -j1
 	make DESTDIR=$PKG install
 }

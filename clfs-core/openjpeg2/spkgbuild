@@ -1,0 +1,27 @@
+# description	: Open-source implementation of the JPEG-2000 standard, version 2.3.0
+# depends	: lcms2 libpng libtiff
+# makedepends	: cmake
+
+name=openjpeg2
+version=2.3.0
+release=1
+source=(https://github.com/uclouvain/openjpeg/archive/v$version/openjpeg-$version.tar.gz)
+
+build() {
+	cd openjpeg-$version
+	mkdir -v build
+	cd       build
+
+	cmake -DCMAKE_BUILD_TYPE=Release \
+	      -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DOPENJPEG_INSTALL_LIB_DIR=lib64 \
+	..
+	make
+	make DESTDIR=$PKG install
+
+	pushd ../doc
+	  for man in man/man?/* ; do
+	      install -v -D -m 644 $man $PKG/usr/share/$man
+	  done 
+	popd
+}
