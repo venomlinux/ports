@@ -1,0 +1,29 @@
+# description	: The principal firewall tool for Linux
+# homepage	: http://www.netfilter.org/projects/iptables/index.html
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=iptables
+version=1.6.1
+release=1
+source=(http://www.netfilter.org/projects/iptables/files/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr      \
+	            --sbindir=/sbin    \
+		    --libdir=/usr/lib64 \
+	            --disable-nftables \
+	            --enable-libipq    \
+	            --with-xtlibdir=/lib64/xtables
+	make
+	make DESTDIR=$PKG install
+
+	ln -sfv ../../sbin/xtables-multi $PKG/usr/bin/iptables-xml
+
+	for file in ip4tc ip6tc ipq iptc xtables
+	do
+	  mv -v $PKG/usr/lib64/lib${file}.so.* $PKG/lib64
+	  ln -sfv ../../lib64/$(readlink $PKG/usr/lib64/lib${file}.so) $PKG/usr/lib64/lib${file}.so
+	done
+}

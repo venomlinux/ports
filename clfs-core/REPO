@@ -28,9 +28,11 @@ d:vala
 d:libpng
 d:pango
 d:lvm2
+d:python3-cairo
 d:sgml-common
 d:polkit
 d:alsa-lib
+d:upower
 d:transmission-gtk
 d:p11-kit
 d:dbus
@@ -68,6 +70,7 @@ d:libmng
 d:ca-certificates
 d:mesa
 d:openjpeg2
+d:python3-gobject3
 d:libsigc++
 d:cups
 d:colord
@@ -105,8 +108,10 @@ d:lua
 d:gconf
 d:zip
 d:pixman
+d:python2-gobject3
 d:libcroco
 d:alsa-utils
+d:newt
 d:pcre
 d:consolekit2
 d:nss
@@ -147,6 +152,8 @@ d:iso-codes
 d:python2-mako
 d:libnotify
 d:opus
+d:networkmanager
+d:libndp
 d:libxml2
 d:autoconf2.13
 d:nettle
@@ -166,6 +173,7 @@ d:popt
 d:fribidi
 d:libgudev
 d:libksba
+d:python2-cairo
 d:js
 d:unrar
 d:gpgme
@@ -174,6 +182,7 @@ d:libtheora
 d:python2-beaker
 d:libvpx
 d:gstreamer
+d:iptables
 d:x264
 d:libblockdev
 d:libxkbcommon
@@ -244,6 +253,8 @@ f:5feefd098a92780bfe51c6aff0072f81:pango/spkgbuild
 f:f405e8f4309ece264305c9639c97a150:lvm2/.md5sum
 f:71f7b4753b1de935064a26c2bb17f88f:lvm2/spkgbuild
 f:79f918e12bdf1d565d517193c3fe709f:lvm2/readme
+f:daa127a1ec4bb6c7122900b1e7313a71:python3-cairo/.md5sum
+f:b30d2a5960bb7016c9bb9969de7f3cf2:python3-cairo/spkgbuild
 f:0e52d7e74d306764869047da9bbc4ac5:sgml-common/sgml-common.install
 f:f1e5cdf7835bec244181bf842025a6f2:sgml-common/.md5sum
 f:c75c23a1c2c69d194b2345e314b6217e:sgml-common/spkgbuild
@@ -254,6 +265,8 @@ f:a3e5d83628fb00f01e4c76bbf0e34ec9:polkit/polkit.install
 f:668d9e3eaf776dda56ac8ec552e27d10:alsa-lib/.md5sum
 f:476a3cf39529aade3d61b5d5f5545220:alsa-lib/spkgbuild
 f:76226b0dee30494f6932b0a92d1ee6f4:alsa-lib/readme
+f:b5485153191c1d86b3484bc6360d858d:upower/.md5sum
+f:cdc643acd539f45f55b0ab8e5a905993:upower/spkgbuild
 f:123f91c360133e5648cf0511a62df905:transmission-gtk/.md5sum
 f:4562febc9000a578920ff5989f7c6ec3:transmission-gtk/spkgbuild
 f:7627c44c7f60c4309de32275ede253a4:transmission-gtk/transmission-2.92-openssl-1.1.0-1.patch
@@ -343,6 +356,8 @@ f:3cba9616b865442f12be7b8364124a0f:mesa/.md5sum
 f:f0349fe320826347ca25237aabf31d81:mesa/spkgbuild
 f:67a91445e48d92e1e339fbb18ced6c54:openjpeg2/.md5sum
 f:7d1636eee66ccc2d685044f4f6b3b677:openjpeg2/spkgbuild
+f:809b4bfc1ef4880b918c000675c5cd20:python3-gobject3/.md5sum
+f:fd402c08c5c7ea23527a34ee1708d068:python3-gobject3/spkgbuild
 f:69ac47ea28b30e50aa6af2f22f842abb:libsigc++/.md5sum
 f:ad737ee31d1e36aa4e4c17d8c90974d4:libsigc++/spkgbuild
 f:199feaf89dc9327ed0f172d04910f08c:cups/cups.rc
@@ -432,11 +447,15 @@ f:64f53671e0c99500d0f183a66dcbc7b7:zip/.md5sum
 f:34b2fb364b8eea0f210992de621914ed:zip/spkgbuild
 f:1375a22d0dda759e171cedd1384bb54e:pixman/.md5sum
 f:1c8002afff5ea0531818a0a7b16d56fb:pixman/spkgbuild
+f:809b4bfc1ef4880b918c000675c5cd20:python2-gobject3/.md5sum
+f:4d01666dc85f3183bd34a9dafa857584:python2-gobject3/spkgbuild
 f:2e61416f0e5c1dfe05f21a88f021c0c0:libcroco/.md5sum
 f:9ded31092697883872c31536e161de91:libcroco/spkgbuild
 f:d6dcd1b6c916dce511c87e8036b5adc6:alsa-utils/.md5sum
 f:2eeb49ad4011032e4a75b684a357da3a:alsa-utils/spkgbuild
 f:d1d8b72d7a11ce94ea835fa0c2ab43ed:alsa-utils/alsa.rc
+f:375b26a0d4d082df39a442b50ebf893b:newt/.md5sum
+f:11478dc098a372f12582841d217ebb82:newt/spkgbuild
 f:01191af884f9facf059bddbfa8ea474d:pcre/.md5sum
 f:ea91bc35d2939ce449bff65df49d2555:pcre/spkgbuild
 f:5ca25273db1b1f5c788c98f5508363ca:consolekit2/.md5sum
@@ -527,6 +546,12 @@ f:ffdfe2bd9f1644c05e69712be101d6af:libnotify/.md5sum
 f:1e8c685b46440a98412bc7886529a232:libnotify/spkgbuild
 f:b99616481f4cb251c6326de75f47f095:opus/.md5sum
 f:4847502658d184de577f6c4a8e0fec31:opus/spkgbuild
+f:2157bf513be1286b31e001470b110261:networkmanager/.md5sum
+f:b6c86a3de3324cea497f5396f5fe295e:networkmanager/spkgbuild
+f:c1ea60e5e9c5f6389b66e96f15d8c416:networkmanager/networkmanager.rc
+f:623296b292c30c37e42ee9e0a2af1ed4:networkmanager/networkmanager.install.bak
+f:5b3e888215475cdb2dfbccefe45f7628:libndp/.md5sum
+f:c3a93e3e87d9c1bb1d1caf04fb216188:libndp/spkgbuild
 f:f0fe1a64d40c056baf2149b1efebf1b4:libxml2/libxml2-2.9.7-python3_hack-1.patch
 f:63866fd0afd4af3846dd6602b1ecd1a3:libxml2/.md5sum
 f:ee3dc7271e69d390a4b3d93834309c36:libxml2/spkgbuild
@@ -576,6 +601,8 @@ f:4161cb2df1eb44373a8bd9f50f202b43:libgudev/.md5sum
 f:52933e2be55b8a251e08445bb86422d2:libgudev/spkgbuild
 f:7e050f9853448991f98af01d92d65875:libksba/.md5sum
 f:6282929edcef9e5de9b7d1051847030a:libksba/spkgbuild
+f:daa127a1ec4bb6c7122900b1e7313a71:python2-cairo/.md5sum
+f:4af0817b556a76f9ee3eb508f4acfb1e:python2-cairo/spkgbuild
 f:cb4e90dc7fcd356ec4c58754a639d8a1:js/.md5sum
 f:e4eed95eb1897ef18bb91788bbe867bc:js/spkgbuild
 f:84a90e648137fb77afcf8e815a910c97:js/js38-38.2.1-upstream_fixes-2.patch
@@ -593,6 +620,9 @@ f:06c7dc0377312fed1eb092b85e3e2fa6:libvpx/.md5sum
 f:fe7aeb1bb59eb22c4340f4c6fa960251:libvpx/spkgbuild
 f:9012952744fd4431d84b83706fc5dd14:gstreamer/.md5sum
 f:bbc02117225c970ca3672a87b500d77c:gstreamer/spkgbuild
+f:245ac7bab8b18ca94702194981ff1593:iptables/.md5sum
+f:eedd3c8e25c566c36ccf49969042f956:iptables/spkgbuild
+f:58a0c4a1c18452a29e95ba5953c61ab1:iptables/readme
 f:b567c3333308d68d409616996305e60a:x264/.md5sum
 f:079a5c8cc81e6ca9ddf593cadab47109:x264/spkgbuild
 f:eb87f41b080da1744930e12110960ac1:libblockdev/.md5sum

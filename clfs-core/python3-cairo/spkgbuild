@@ -1,0 +1,16 @@
+# description	: Python3 bindings to Cairo
+# homepage	: https://pycairo.readthedocs.io/en/latest/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: python3 cairo
+
+name=python3-cairo
+version=1.15.4
+release=1
+source=(https://github.com/pygobject/pycairo/releases/download/v$version/pycairo-$version.tar.gz)
+
+build() {
+	cd pycairo-$version
+
+	python3 setup.py build
+	python3 setup.py install --root=$PKG --optimize=1
+}

@@ -1,0 +1,45 @@
+# description	: Network connection manager and user applications
+# depends	: nss dbus-glib libgudev libndp libnl consolekit2 dhcpcd libsoup newt polkit upower wpa_supplicant
+# makedepends	: gobject-introspection iptables vala docbook-xsl python2-gobject3
+# backup	: etc/NetworkManager/NetworkManager.conf
+
+name=networkmanager
+version=1.10.2
+release=3
+source=(http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
+	networkmanager.rc)
+
+build() {
+	cd NetworkManager-$version
+
+	CXXFLAGS="$CXXFLAGS -fPIC"                 \
+	./configure --prefix=/usr                  \
+		    --libdir=/usr/lib64            \
+	            --sysconfdir=/etc              \
+	            --localstatedir=/var           \
+	            --with-nmtui                   \
+	            --disable-ppp                  \
+	            --disable-json-validation      \
+	            --disable-ovs                  \
+            	    --with-udev-dir=/lib64/udev      \
+	            --with-systemdsystemunitdir=no
+	make
+	make DESTDIR=$PKG install
+
+mkdir -p $PKG/etc/NetworkManager
+cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"
+[main]
+plugins=keyfile
+EOF
+
+mkdir -p $PKG/usr/share/polkit-1/rules.d
+cat > $PKG/usr/share/polkit-1/rules.d/org.freedesktop.NetworkManager.rules << "EOF"
+polkit.addRule(function(action, subject) {
+    if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0 && subject.isInGroup("users")) {
+        return polkit.Result.YES;
+    }
+});
+EOF
+
+	install -Dm755 $SRC/networkmanager.rc $PKG/etc/rc.d/networkmanager
+}

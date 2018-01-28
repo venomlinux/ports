@@ -1,0 +1,51 @@
+#!/bin/sh
+#
+# /etc/rc.d/networkmanager: start/stop Network Manager
+#
+
+NAME="Network Manager"
+PROG=/usr/sbin/NetworkManager
+PROCPID=$(pidof $PROG)
+PROGNAME=$(basename `echo $PROG`)
+PIDFILE=/var/run/$PROGNAME/$PROGNAME.pid
+
+case $1 in
+	start)
+		echo "Starting $NAME..."
+		if [ "$PROCPID" ]; then
+			exit
+		fi
+		if [ ! -d /var/run/NetworkManager ]; then
+			install -d -o root -g root -m 755 /var/run/NetworkManager
+		fi
+		$PROG
+		;;
+	stop)
+		echo "Stopping $NAME..."
+		if [ "$PROCPID" ]; then
+			for pid in $PROCPID; do
+				kill "$pid"
+			done
+		fi
+		rm -f $PIDFILE
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		if [ "$PROCPID" ]; then
+			echo "$NAME is running with pid: $PROCPID"
+		else
+			echo "$NAME is not running."
+		fi
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+exit 0
+
+# End of file

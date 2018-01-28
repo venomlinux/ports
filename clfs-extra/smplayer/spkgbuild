@@ -1,0 +1,19 @@
+# description	: Media player with built-in codecs that can play virtually all video and audio formats
+# homepage	: http://smplayer.sourceforge.net/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: mplayer qt5 hicolor-icon-theme
+
+name=smplayer
+version=18.2.0
+release=1
+source=(https://downloads.sourceforge.net/$name/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	   
+	make PREFIX=/usr \
+	     DOC_PATH="\\\"/usr/share/doc/smplayer\\\"" \
+	     QMAKE_OPTS=DEFINES+=NO_DEBUG_ON_CONSOLE
+	make DOC_PATH=/usr/share/doc/smplayer \
+	     DESTDIR=$PKG PREFIX=/usr install
+}

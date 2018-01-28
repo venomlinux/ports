@@ -1,0 +1,21 @@
+# description	: Python2 bindings for PyGObject3
+# makedepends	: python2-cairo gobject-introspection
+
+name=python2-gobject3
+version=3.26.1
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/pygobject/${version::4}/pygobject-$version.tar.xz)
+
+build() {
+	cd pygobject-$version
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib64 \
+		--with-python=/usr/bin/python2
+	make
+	make DESTDIR=$PKG install
+
+	# conflict with python3-gobject3
+	rm -r $PKG/usr/{lib64/pkgconfig,include}
+}

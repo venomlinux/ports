@@ -1,0 +1,20 @@
+# description	: Wrapper for IPv6 Neighbor Discovery Protocol
+# homepage	: http://libndp.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=libndp
+version=1.6
+release=1
+source=(http://libndp.org/files/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr        \
+	            --sysconfdir=/etc    \
+		    --libdir=/usr/lib64  \
+	            --localstatedir=/var \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

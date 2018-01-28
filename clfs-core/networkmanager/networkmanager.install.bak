@@ -1,0 +1,4 @@
+post_install() {
+	getent group netdev >/dev/null || groupadd -fg 86 netdev
+	msginfo "Add your user into netdev group"
+}
