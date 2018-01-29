@@ -2,9 +2,9 @@
 # depends	: curl glibc openssl zlib
 
 name=libcurl-compat
-version=7.57.0
+version=7.58.0
 release=1
-source=(https://curl.haxx.se/download/curl-$version.tar.gz)
+source=(https://curl.haxx.se/download/curl-$version.tar.xz)
 
 build() {
 	cd curl-$version
@@ -27,8 +27,5 @@ build() {
 	for vers in 3 4.0.0 4.1.0 4.2.0 4.3.0 4.4.0; do
 	    ln -s libcurl-compat.so.4.5.0 $PKG/usr/lib/libcurl.so.${vers}
 	done
-
-	# conflict with package curl
-	rm $PKG/usr/lib/libcurl.la
 }
 

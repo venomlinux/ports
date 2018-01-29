@@ -2,14 +2,14 @@
 # depends	: glib
 
 name=vala
-version=0.38.4
+version=0.38.5
 release=1
 source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	sed -i '101d; 107,123d; 125,126d'  configure.ac
+	sed -i '102d; 108,124d; 126,127d'  configure.ac
 	sed -i '/valadoc/d' Makefile.am
 	ACLOCAL= autoreconf -fiv
 
