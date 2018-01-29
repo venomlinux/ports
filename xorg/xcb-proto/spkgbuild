@@ -5,18 +5,18 @@
 
 name=xcb-proto
 version=1.12
-release=1
+release=2
 source=(http://xcb.freedesktop.org/dist/xcb-proto-$version.tar.bz2
-	http://www.linuxfromscratch.org/patches/blfs/8.0/$name-$version-python3-1.patch
-	http://www.linuxfromscratch.org/patches/blfs/8.0/$name-$version-schema-1.patch)
+	$name-$version-python3-1.patch
+	$name-$version-schema-1.patch)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../xcb-proto-1.12-schema-1.patch || exit 1
-	patch -Np1 -i ../xcb-proto-1.12-python3-1.patch || exit 1
+	patch -Np1 -i ../$name-$version-schema-1.patch
+	patch -Np1 -i ../$name-$version-python3-1.patch
 
-  	./configure \
+  	PYTHON=python3 ./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
