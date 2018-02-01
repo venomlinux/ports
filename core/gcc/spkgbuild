@@ -4,19 +4,15 @@
 # depends	: binutils glibc
 
 name=gcc
-version=7.2.0
+version=7.3.0
 release=1
 source=(http://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	case $(uname -m) in
-	  x86_64)
-	    sed -e '/m64=/s/lib64/lib/' \
-	        -i.orig gcc/config/i386/t-linux64
-	  ;;
-	esac
+	sed -e '/m64=/s/lib64/lib/' \
+	    -i.orig gcc/config/i386/t-linux64
 
 	mkdir -v build
 	cd       build

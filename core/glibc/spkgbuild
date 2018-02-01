@@ -7,28 +7,23 @@ name=glibc
 version=2.26
 release=1
 source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
-	http://www.linuxfromscratch.org/patches/lfs/development/$name-$version-fhs-1.patch)
+	$name-$version-fhs-1.patch
+	$name-$version-local_glob_exploits-2.patch)
 
 build() {
 	cd $name-$version
 
 	patch -Np1 -i ../$name-$version-fhs-1.patch
+	patch -Np1 -i ../$name-$version-local_glob_exploits-2.patch
 
 	mkdir -p $PKG/usr/lib
 	ln -sfv /tools/lib/gcc $PKG/usr/lib
 
-	case $(uname -m) in
-	    i?86)    GCC_INCDIR=$PKG/usr/lib/gcc/$(uname -m)-pc-linux-gnu/7.2.0/include
-	            mkdir $PKG/lib
-		    ln -sfv ld-linux.so.2 $PKG/lib/ld-lsb.so.3
-	    ;;
-	    x86_64) GCC_INCDIR=$PKG/usr/lib/gcc/x86_64-pc-linux-gnu/7.2.0/include
-		    mkdir $PKG/lib64
-	            ln -sfv ../lib/ld-linux-x86-64.so.2 $PKG/lib64
-	            ln -sfv ../lib/ld-linux-x86-64.so.2 $PKG/lib64/ld-lsb-x86-64.so.3
-	    ;;
-	esac
-
+	GCC_INCDIR=$PKG/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include
+	mkdir $PKG/lib64
+	ln -sfv ../lib/ld-linux-x86-64.so.2 $PKG/lib64
+	ln -sfv ../lib/ld-linux-x86-64.so.2 $PKG/lib64/ld-lsb-x86-64.so.3
+	
 	rm -f $PKG/usr/include/limits.h
 
 	mkdir -v build
