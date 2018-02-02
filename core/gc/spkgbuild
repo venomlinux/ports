@@ -2,24 +2,18 @@
 # depends	: libatomic_ops
 
 name=gc
-version=7.6.0
+version=7.6.4
 release=1
-source=(http://www.hboehm.info/gc/gc_source/gc-7.6.0.tar.gz)
+source=(http://www.hboehm.info/gc/gc_source/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
-
-	sed -i 's#pkgdata#doc#' doc/doc.am
-
-	autoreconf -fi
+	
 	./configure --prefix=/usr      \
 	            --enable-cplusplus \
-	            --disable-static   \
-		    --docdir=/usr/share/doc/gc
+	            --disable-static
 	make
 	make DESTDIR=$PKG install
 
-	install -d $PKG/usr/share/man/man3
-	install -m644 doc/gc.man $PKG/usr/share/man/man3/gc_malloc.3
-	ln -sfv gc_malloc.3 $PKG/usr/share/man/man3/gc.3
+	install -v -Dm644 doc/gc.man $PKG/usr/share/man/man3/gc_malloc.3
 }
