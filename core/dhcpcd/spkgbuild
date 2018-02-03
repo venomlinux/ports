@@ -3,11 +3,11 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=dhcpcd
-version=7.0.0
+version=7.0.1
 release=1
 source=(http://roy.marples.name/downloads/$name/$name-$version.tar.xz
-	dhcpcd.rc
-	dhcpcd.conf)
+	net.rc
+	net.conf)
 
 build() {
 	cd $name-$version
@@ -17,7 +17,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	install -Dm755 $SRC/dhcpcd.rc $PKG/etc/rc.d/dhcpcd
-	install -Dm644 $SRC/dhcpcd.conf $PKG/etc/conf.d/dhcpcd
+	install -Dm755 $SRC/net.rc $PKG/etc/rc.d/net
+	install -Dm644 $SRC/net.conf $PKG/etc/conf.d/net
 }
 

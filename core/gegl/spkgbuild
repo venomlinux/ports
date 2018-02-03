@@ -4,13 +4,13 @@
 # depends	: babl json-glib
 
 name=gegl
-version=0.3.26
+version=0.3.28
 release=1
 source=(http://download.gimp.org/pub/gegl/${version::3}/$name-$version.tar.bz2)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr
-	LC_ALL=en_US make
+	make
 	make DESTDIR=$PKG install
 }

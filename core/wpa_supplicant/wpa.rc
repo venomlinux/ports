@@ -8,10 +8,14 @@
 NAME=wpa_supplicant
 PROG=/sbin/wpa_supplicant
 PROCPID=$(pidof $PROG)
-PROGNAME=$(basename `echo $PROG`)
 PIDFILE_WPA=/var/run/$NAME.pid
 
+PROG_DHCP=/sbin/dhcpcd
+PROCPID_DHCP=$(pidof $PROG_DHCP)
+PIDFILE__DHCP=/var/run/$NAME.pid
+
 OPTS="-B -P $PIDFILE_WPA -D nl80211,wext -c /etc/wpa_supplicant.conf -i $DEV"
+OPTS_DHCP="--waitip -h $(/bin/hostname) -z $DEV"
 
 case $1 in
 	start)
@@ -20,11 +24,17 @@ case $1 in
 			exit
 		fi
 		$PROG $OPTS
+		$PROG_DHCP $OPTS_DHCP
 		;;
 	stop)
 		echo "Stopping $NAME..."
 		if [ "$PROCPID" ]; then
 			for pid in $PROCPID; do
+				kill "$pid"
+			done
+		fi
+		if [ "$PROCPID_DHCP" ]; then
+			for pid in $PROCPID_DHCP; do
 				kill "$pid"
 			done
 		fi
@@ -39,6 +49,9 @@ case $1 in
 			echo "$NAME is running with pid: $PROCPID"
 		else
 			echo "$NAME is not running."
+		fi
+		if [ "$PROCPID_DHCP" ]; then
+			echo "dhcpcd is running with pid: $PROCPID_DHCP"
 		fi
 		;;
 	*)

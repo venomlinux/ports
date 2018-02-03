@@ -7,12 +7,17 @@ name=lynx
 version=2.8.8rel.2
 release=1
 source=(http://invisible-mirror.net/archives/lynx/tarballs/${name}${version}.tar.bz2
-	http://www.linuxfromscratch.org/patches/blfs/8.1/$name-$version-openssl_1.1.0-1.patch)
+	$name-$version-openssl_1.1.0-1.patch
+	$name-$version-ncurses_6.1-1.patch)
 
 build() {
 	cd ${name}2-8-8
 
+	# patch to build Lynx with openssl-1.1
 	patch -p1 -i ../$name-$version-openssl_1.1.0-1.patch
+
+	# patch to build Lynx with ncurses-6.1
+	patch -p1 -i ../$name-$version-ncurses_6.1-1.patch
 
 	./configure --prefix=/usr          \
 	            --sysconfdir=/etc/lynx \
