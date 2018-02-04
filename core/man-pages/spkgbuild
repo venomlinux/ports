@@ -3,12 +3,11 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=man-pages
-version=4.14
+version=4.15
 release=1
 source=(https://www.kernel.org/pub/linux/docs/$name/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
 	make DESTDIR=$PKG install
 }
