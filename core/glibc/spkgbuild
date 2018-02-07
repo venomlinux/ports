@@ -4,20 +4,19 @@
 # depends	: linux-api-headers
 
 name=glibc
-version=2.26
+version=2.27
 release=1
 source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
-	$name-$version-fhs-1.patch
-	$name-$version-local_glob_exploits-2.patch)
+	$name-$version-fhs-1.patch)
 
 build() {
 	cd $name-$version
 
 	patch -Np1 -i ../$name-$version-fhs-1.patch
-	patch -Np1 -i ../$name-$version-local_glob_exploits-2.patch
 
-	mkdir -p $PKG/usr/lib
+	mkdir -p $PKG/usr/{lib,bin}
 	ln -sfv /tools/lib/gcc $PKG/usr/lib
+	ln -sfv /tools/bin/m4 $PKG/usr/bin
 
 	GCC_INCDIR=$PKG/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include
 	mkdir $PKG/lib64
@@ -80,4 +79,5 @@ EOF
 mkdir -p $PKG/etc/ld.so.conf.d
 
 rm -v $PKG/usr/lib/gcc
+rm -v $PKG/usr/bin/m4
 }
