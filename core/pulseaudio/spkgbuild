@@ -5,10 +5,14 @@
 name=pulseaudio
 version=11.1
 release=1
-source=(https://www.freedesktop.org/software/pulseaudio/releases/$name-$version.tar.xz)
+source=(https://www.freedesktop.org/software/pulseaudio/releases/$name-$version.tar.xz
+	pulseaudio-fix-build-with-glibc-2.27.patch)
 
 build() {
 	cd $name-$version
+
+	patch -p1 -i ../pulseaudio-fix-build-with-glibc-2.27.patch
+
 	./configure --prefix=/usr        \
                     --sysconfdir=/etc    \
                     --localstatedir=/var \
