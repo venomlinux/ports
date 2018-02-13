@@ -5,13 +5,13 @@
 # makedepends	: intltool
 
 name=uget
-version=2.0.9
+version=2.2.0
 release=1
 source=(http://downloads.sourceforge.net/urlget/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
-	sed -i -e 's,/bin/sh,/bin/bash,' configure
+
 	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
