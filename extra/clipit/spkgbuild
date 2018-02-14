@@ -5,17 +5,21 @@
 # makedepends	: intltool
 
 name=clipit
-version=1.4.2
+_name=ClipIt
+version=1.4.3
 release=1
-source=(https://github.com/downloads/shantzu/ClipIt/$name-$version.tar.gz)
+_snapshot=722fcf73fa0ce8430208c986e50b1c82975de69c
+source=(${_name}-${_snapshot}.tar.gz::https://github.com/CristianHenzel/ClipIt/archive/${_snapshot}.tar.gz)
 
 build() {
-	cd $name-$version
-	   
+	cd ${_name}-${_snapshot}
+
+	./autogen.sh
 	./configure \
 		--prefix=/usr \
         	--sysconfdir=/etc \
-		--disable-nls
+		--disable-nls #\
+		#--enable-appindicator
 	make
 	make DESTDIR=$PKG install
 }

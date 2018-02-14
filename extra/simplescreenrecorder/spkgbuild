@@ -1,21 +1,21 @@
 # description	: A feature-rich screen recorder that supports X11 and OpenGL
-# depends	: ffmpeg glu mesa
+# depends	: ffmpeg glu mesa qt5 pulseaudio
+# makedepends	: cmake
 
 name=simplescreenrecorder
-version=0.3.8
+version=0.3.9
 release=1
 source=(https://github.com/MaartenBaert/ssr/archive/$version/ssr-$version.tar.gz)
 
 build() {
 	cd ssr-$version
 
-	CXXFLAGS="$CXXFLAGS -fPIC" \
-	./configure \
-		--prefix=/usr \
-		--disable-assert \
-		--with-qt5 \
-		--without-pulseaudio \
-		--without-jack
+	mkdir build
+	cd build
+
+	cmake -DCMAKE_INSTALL_PREFIX="/usr" -DCMAKE_BUILD_TYPE=Release \
+	    -DWITH_QT5=on \
+	    -DCMAKE_INSTALL_LIBDIR='lib' ../
 	make
 	make DESTDIR=$PKG install
 }

@@ -5,15 +5,23 @@
 # makedepends	: bison flex
 
 name=i3
-version=4.13
+version=4.14.1
 release=1
-source=(http://i3wm.org/downloads/$name-$version.tar.bz2)
+source=(http://i3wm.org/downloads/$name-$version.tar.bz2
+	0001-Use-OVER-operator-for-drawing-text.patch)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --sysconfdir=/etc
-	cd $(uname -m)-pc-linux-gnu
+	# https://github.com/i3/i3/pull/2908
+	patch -Np1 -i ../0001-Use-OVER-operator-for-drawing-text.patch
+
+	autoreconf -fvi
+
+	mkdir build
+	cd build
+
+	../configure --prefix=/usr --sysconfdir=/etc
 	make
 	make DESTDIR=$PKG install
 }

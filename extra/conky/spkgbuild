@@ -5,18 +5,18 @@
 # makedepends	: cmake man-db git docbook2x
 
 name=conky
-version=1.10.6
+version=1.10.7
 release=1
 options=(!strip)
 source=($name-$version.tar.gz::https://github.com/brndnmtthws/conky/archive/v${version}.tar.gz
 	lua53.patch
-	gcc7.patch)
+	out_to_x.patch)
 
 build() {
 	cd $name-$version
 
 	patch -p1 -i ../lua53.patch
-	patch -p1 -i ../gcc7.patch
+	patch -p1 -i ../out_to_x.patch
 
 	cmake \
 		-D CMAKE_BUILD_TYPE=Release \

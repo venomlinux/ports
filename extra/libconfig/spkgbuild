@@ -4,14 +4,14 @@
 # depends	: gcc texinfo
 
 name=libconfig
-version=1.6
+version=1.7.2
 release=1
 source=($name-$version.tar.gz::https://github.com/hyperrealm/libconfig/archive/v$version.tar.gz)
 
 build() {
 	cd $name-$version
 
-	rm -rf lib/scanner.c
+	autoreconf -vi
 
 	./configure --prefix=/usr
 	sed -i "s/doc//g" Makefile

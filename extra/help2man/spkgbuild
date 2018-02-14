@@ -3,21 +3,17 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=help2man
-version=1.41.1
+version=1.47.5
 release=1
-source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	./configure \
-		--prefix=/usr \
-		--disable-nls
-
+	./configure --prefix=/usr \
+                    --mandir=/usr/share/man \
+	            --infodir=/usr/share/info \
+	            --libdir=/usr/lib
 	make
 	make DESTDIR=$PKG install
-
-	rmdir \
-		$PKG/usr/lib/help2man \
-		$PKG/usr/lib
 }
