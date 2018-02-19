@@ -1,0 +1,25 @@
+# description	: The extensible, customizable, self-documenting real-time display editor
+# homepage	: https://www.gnu.org/software/emacs/
+# maintainer	: daemonbsd56
+# backup	: 
+# conflict	: 
+# depends	: giflib libxml2 gnutls
+# makedepends	: 
+# noextract	: 
+
+name=emacs
+version=25.3
+release=1
+options=()
+source=(ftp://ftp.gnu.org/gnu/emacs/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr	\
+	--localstatedir=/var		\
+	
+	make
+	make DESTDIR=$PKG install
+	chown -v -R root:root $PKG/usr/share/emacs/$version
+	
+}
