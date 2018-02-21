@@ -3,12 +3,14 @@
 # makedepends	: python2 coreutils
 
 name=qemu
-version=2.11.0
+version=2.11.1
 release=1
 source=(http://download.qemu-project.org/$name-$version.tar.bz2)
 
 build() {
 	cd $name-$version
+
+	sed -i 's/ memfd_create/ qemu_memfd_create/' util/memfd.c
 
 	mkdir -vp build
 	cd        build

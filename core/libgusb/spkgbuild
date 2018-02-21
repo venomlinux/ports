@@ -2,16 +2,20 @@
 # homepage	: https://github.com/hughsie/libgusb
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: libusb usbutils
-# makedepends	: gobject-introspection vala
+# makedepends	: gobject-introspection vala meson ninja
 
 name=libgusb
-version=0.2.11
+version=0.3.0
 release=1
 source=(http://people.freedesktop.org/~hughsient/releases/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --disable-static
-	make
-	make DESTDIR=$PKG install
+
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr
+	ninja
+	DESTDIR=$PKG ninja install
 }
