@@ -3,9 +3,8 @@
 
 name=acpid
 version=2.0.28
-release=1
-source=(https://downloads.sourceforge.net/acpid2/$name-$version.tar.xz
-	acpid.rc)
+release=2
+source=(https://downloads.sourceforge.net/acpid2/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -27,7 +26,5 @@ cat > $PKG/etc/acpi/lid.sh << "EOF"
 /bin/grep -q open /proc/acpi/button/lid/LID/state && exit 0
 /usr/sbin/pm-suspend
 EOF
-chmod +x $PKG/etc/acpi/lid.sh
-
-	install -Dm755 $SRC/acpid.rc $PKG/etc/rc.d/acpid
+	chmod +x $PKG/etc/acpi/lid.sh
 }

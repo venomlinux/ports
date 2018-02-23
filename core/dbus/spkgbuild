@@ -3,10 +3,9 @@
 
 name=dbus
 version=1.12.4
-release=1
+release=2
 
-source=(http://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz
-	dbus.rc)
+source=(http://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
@@ -38,7 +37,5 @@ build() {
 
 </busconfig>
 EOF
-
-	install -Dm755 $SRC/dbus.rc $PKG/etc/rc.d/dbus
 }
 

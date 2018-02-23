@@ -4,10 +4,8 @@
 
 name=dhcpcd
 version=7.0.1
-release=1
-source=(http://roy.marples.name/downloads/$name/$name-$version.tar.xz
-	net.rc
-	net.conf)
+release=2
+source=(http://roy.marples.name/downloads/$name/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -16,8 +14,5 @@ build() {
 	            --dbdir=/var/lib/dhcpcd
 	make
 	make DESTDIR=$PKG install
-
-	install -Dm755 $SRC/net.rc $PKG/etc/rc.d/net
-	install -Dm644 $SRC/net.conf $PKG/etc/conf.d/net
 }
 

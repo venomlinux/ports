@@ -5,9 +5,8 @@
 
 name=networkmanager
 version=1.10.4
-release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
-	networkmanager.rc)
+release=2
+source=(http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz)
 
 build() {
 	cd NetworkManager-$version
@@ -39,6 +38,4 @@ polkit.addRule(function(action, subject) {
     }
 });
 EOF
-
-	install -Dm755 $SRC/networkmanager.rc $PKG/etc/rc.d/networkmanager
 }

@@ -1,0 +1,13 @@
+# description	: WPA Supplicant daemon for rc-init
+# depends	: wpa_supplicant
+
+name=wpa_supplicant-rcinit
+version=1.0
+release=1
+source=(wpa.rc
+	wpa.conf)
+
+build() {
+	install -Dm755 $SRC/wpa.rc $PKG/etc/rc.d/wpa
+	install -Dm644 $SRC/wpa.conf $PKG/etc/conf.d/wpa
+}

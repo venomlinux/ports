@@ -1,0 +1,13 @@
+# description	: Bluetooth daemon for rc-init
+# depends	: bluez
+
+name=bluez-rcinit
+version=1.0
+release=1
+source=(bluetooth.rc
+	bluetooth.conf)
+
+build() {
+	install -Dm755 $SRC/bluetooth.rc $PKG/etc/rc.d/bluetooth
+	install -Dm644 $SRC/bluetooth.conf $PKG/etc/conf.d/bluetooth
+}

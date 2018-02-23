@@ -1,0 +1,11 @@
+# description	: Network Manager daemon for rc-init
+# depends	: networkmanager
+
+name=networkmanager-rcinit
+version=1.0
+release=1
+source=(networkmanager.rc)
+
+build() {
+	install -Dm755 $SRC/networkmanager.rc $PKG/etc/rc.d/networkmanager
+}
