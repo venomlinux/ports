@@ -4,14 +4,14 @@
 # depends	: xcb-util xorg-server
 
 name=xf86-video-intel
-version=20170826
+version=20180223
 release=1
 source=(http://anduin.linuxfromscratch.org/BLFS/xf86-video-intel/xf86-video-intel-$version.tar.xz)
 
 build() {
 	cd xf86-video-intel-$version
 
-  	./configure \
+  	./autogen.sh \
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
@@ -20,5 +20,11 @@ build() {
 		--enable-uxa
 	make
 	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/usr/share/man/man1
+	mv -v $PKG/usr/share/man/man4/intel-virtual-output.4 \
+	      $PKG/usr/share/man/man1/intel-virtual-output.1
+
+	sed -i '/\.TH/s/4/1/' $PKG/usr/share/man/man1/intel-virtual-output.1
 }
 
