@@ -1,7 +1,7 @@
 # ports
 Contain all ports used by [scratchpkg](https://github.com/emmett1/scratchpkg)
 
-All ports are separate into few repository. This repository will get sync by `scratchpkg` using a tool called `httpup`.
+All ports are separated into several repositories. This repositories will get sync by `scratchpkg` using a tool called `httpup`.
 These are repository exist (for now):
 
 * `core`:  Ports in this repository is follows BLFS SVN books.
