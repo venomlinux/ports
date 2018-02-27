@@ -10,10 +10,6 @@ source=(http://downloads.sourceforge.net/$name/$name-$version.tar.gz)
 build() {
 	cd $name-$version
 
-	case $(uname -m) in
-	   i?86) sed -i -e '/xmmintrin\.h/d' configure ;;
-	esac
-
 	./configure \
 		--prefix=/usr \
 		--enable-mp3rtp \

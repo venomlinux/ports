@@ -2,18 +2,12 @@
 # depends	: qt5 frei0r-plugins
 
 name=mlt
-version=6.4.1
-release=2
-source=(https://downloads.sourceforge.net/mlt/mlt-$version.tar.gz
-	kdenlive-crash-on-exit.patch::https://github.com/mltframework/mlt/commit/a3188e30.patch)
+version=6.6.0
+release=1
+source=(https://github.com/mltframework/mlt/releases/download/v$version/mlt-$version.tar.gz)
 
 build() {
 	cd $name-$version
-	
-	# Fix kdenlive crash on exit (taken from arch linux)
-	patch -p1 -i ../kdenlive-crash-on-exit.patch
-	
-	sed -i 's/xlocale.h/locale.h/' src/framework/mlt_property.h
 
 	# Disable PulseAudio (taken from tsaop, crux's kf5 port)
 	sed -i 's|-D__LINUX_PULSE__||' src/modules/rtaudio/Makefile 
