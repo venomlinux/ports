@@ -16,6 +16,9 @@ source=(ftp://ftp.gnu.org/gnu/emacs/$name-$version.tar.xz)
 build() {
 	cd $name-$version
 	./configure --prefix=/usr	\
+	--with-gif			\
+	--with-xml2			\
+	--with-gnutls			\
 	--localstatedir=/var		\
 	
 	make
