@@ -17,6 +17,7 @@ d:perl-xml-sax-base
 d:sysklogd
 d:libical
 d:glibmm
+d:smartmontools-lfsbootscripts
 d:gsettings-desktop-schemas
 d:js
 d:dbus
@@ -52,6 +53,8 @@ d:libtasn1
 d:libraw
 d:libcdio
 d:udisks2
+d:bluez-lfsbootscripts
+d:acpid-lfsbootscripts
 d:babl
 d:xdg-user-dirs
 d:openjpeg
@@ -66,6 +69,7 @@ d:yasm
 d:libatasmart
 d:usbutils
 d:fontforge
+d:gpm-lfsbootscripts
 d:lxdm
 d:gcc
 d:chrpath
@@ -144,10 +148,12 @@ d:ntp
 d:faad2
 d:filesystem
 d:vim
+d:cups-lfsbootscripts
 d:lame
 d:grantlee
 d:hexchat
 d:linux-api-headers
+d:dhcpcd-lfsbootscripts
 d:libisofs
 d:libgcrypt
 d:guile
@@ -201,6 +207,7 @@ d:diffutils
 d:perl-xml-parser
 d:make
 d:polkit
+d:apache-lfsbootscripts
 d:readline
 d:popt
 d:libndp
@@ -236,6 +243,7 @@ d:man-db
 d:cairomm
 d:libarchive
 d:acpid-rcinit
+d:alsa-utils-lfsbootscripts
 d:boost
 d:bluez-rcinit
 d:eudev
@@ -266,6 +274,7 @@ d:vlc
 d:libcanberra
 d:python2-markupsafe
 d:jfsutils
+d:ntp-lfsbootscripts
 d:poppler
 d:atk
 d:sgml-common
@@ -276,6 +285,7 @@ d:gegl
 d:python-dbus-common
 d:dbus-glib
 d:python2-mako
+d:rsync-lfsbootscripts
 d:networkmanager-rcinit
 d:screen
 d:meson
@@ -283,6 +293,7 @@ d:python2-gtk
 d:cairo
 d:nano
 d:tzdata
+d:lxdm-lfsbootscripts
 d:mesa
 d:ca-certificates-utils
 d:python2-gobject3
@@ -343,6 +354,7 @@ d:texinfo
 d:p11-kit
 d:nasm
 d:python2-crypto
+d:networkmanager-lfsbootscripts
 d:libxkbcommon
 d:python3-gobject3
 d:ncurses
@@ -386,6 +398,7 @@ d:flex
 d:python2-six
 d:apr-util
 d:jasper
+d:wpa_supplicant-lfsbootscripts
 d:x265
 d:pixman
 d:wayland-protocols
@@ -395,6 +408,7 @@ d:networkmanager
 d:unrar
 d:shadow
 d:findutils
+d:dbus-lfsbootscripts
 d:atkmm
 d:fontconfig
 d:poppler-data
@@ -452,6 +466,8 @@ f:0aad2cb763eeb76077a6cea451eb0b9a:libical/.md5sum
 f:c579210b14109292ef88486e148bf870:libical/spkgbuild
 f:86e7a5cb7211a694efded2a3899e364d:glibmm/.md5sum
 f:2a586a1050a5b4c0011b354b334e5ed9:glibmm/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:smartmontools-lfsbootscripts/.md5sum
+f:c1582bf495d1703a694edfb700cd897a:smartmontools-lfsbootscripts/spkgbuild
 f:e589c4586bd33f7ba076de146d9f8f74:gsettings-desktop-schemas/.md5sum
 f:c6396fe6067465e246a1b3593708a611:gsettings-desktop-schemas/spkgbuild
 f:cb4e90dc7fcd356ec4c58754a639d8a1:js/.md5sum
@@ -531,6 +547,10 @@ f:a31322b05d73148a46ae2647ca71a260:libcdio/.md5sum
 f:6ab7b7b2a205fe5212f845459e82bb6a:libcdio/spkgbuild
 f:9b54f41808c939c84c00e6f4c16304b7:udisks2/.md5sum
 f:c16371036c468ac4e266b2f3d708f2b0:udisks2/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:bluez-lfsbootscripts/.md5sum
+f:8895aa2eef73f5d32221b51aec5bd2c8:bluez-lfsbootscripts/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:acpid-lfsbootscripts/.md5sum
+f:94b6343f027f36db0d39acad0c374748:acpid-lfsbootscripts/spkgbuild
 f:6fefc913d85639fadb1c6966886dda94:babl/.md5sum
 f:d336da4e50c0889315756da22165385a:babl/spkgbuild
 f:2c7c28ad3571d5321f574e30d833cefe:xdg-user-dirs/.md5sum
@@ -562,6 +582,8 @@ f:3e93fe9af077d92964347d0c899796e9:usbutils/.md5sum
 f:9b471ab9379b09bc1275fc5b9f912c98:usbutils/spkgbuild
 f:6eb540b6deb395b7e903430c52b83908:fontforge/.md5sum
 f:0e8efdb54004e8c053dc2df5b176f893:fontforge/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:gpm-lfsbootscripts/.md5sum
+f:7f4598cb0cc501619d3fb94e7833464b:gpm-lfsbootscripts/spkgbuild
 f:4cbe6345d62e2ab1f632108a23466bdd:lxdm/.md5sum
 f:004c03d05d0b9bc8e4ef496a63b62be5:lxdm/spkgbuild
 f:bb6f89e0c78ba6740cc9e94a8524835c:gcc/.md5sum
@@ -756,6 +778,8 @@ f:f1dd87922e8fddfe73ef20ae76c2f777:filesystem/umask.sh
 f:52849add099765d88b5bb4c798862d9a:filesystem/lsb-release
 f:681d0057a3a737da34758631818d15d2:vim/.md5sum
 f:581eb1b642aa78cbf98f8b7fb1975e14:vim/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:cups-lfsbootscripts/.md5sum
+f:6d9d947bce09080fada6b540d2846373:cups-lfsbootscripts/spkgbuild
 f:847c5b7f761acf036098109761e317d3:lame/.md5sum
 f:6f94c09b0ba0c85c83c4628c8817f7e9:lame/spkgbuild
 f:b34a9d6e4445fc6c6bf5821605b1b6fb:grantlee/.md5sum
@@ -764,6 +788,8 @@ f:71bb3ef9394c0a9e0259519e0dac14ce:hexchat/.md5sum
 f:62ef04f783db2e53dbf52695935027f3:hexchat/spkgbuild
 f:9f27fb5a21896216fc616f67ccfb3cfa:linux-api-headers/.md5sum
 f:9ebd10749263d342fe94ec2dfb2892ce:linux-api-headers/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:dhcpcd-lfsbootscripts/.md5sum
+f:7afa1198e72483b5da0e66ffaaba79e6:dhcpcd-lfsbootscripts/spkgbuild
 f:280361b872088d26fa777362851be7e0:libisofs/.md5sum
 f:25eb7d08c0703b87c884cc305bc3101f:libisofs/spkgbuild
 f:fb311f2deef9b4c19c99b4623453b54a:libgcrypt/.md5sum
@@ -884,6 +910,8 @@ f:4ce755378335620cc004fd5802a46907:polkit/polkit-1
 f:c327ebf5e3a82ba859bb10e6005b181b:polkit/.md5sum
 f:b6a3bb4d20e843dc67240859cbc56d98:polkit/polkit.install
 f:90769f6906105633509d5c56768cf2e9:polkit/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:apache-lfsbootscripts/.md5sum
+f:e906f5646c8a244fff6ae32eb1a0915c:apache-lfsbootscripts/spkgbuild
 f:77ee53d60d1b5f575ff1558244c2a697:readline/.md5sum
 f:dcf9a4dc8ef9a346f9fe46dd8e853f21:readline/spkgbuild
 f:617f80a4292c26f6dc0a390c2dd98cc7:popt/.md5sum
@@ -962,6 +990,8 @@ f:76875f150d7ff2aff591fd803d2cfe32:libarchive/spkgbuild
 f:c69d5dbb249d67e6291dc420da656655:acpid-rcinit/acpid.rc
 f:3b3199b944cffc8c093d13255719759b:acpid-rcinit/.md5sum
 f:8b66eeb9de4f94295273a2687e03d162:acpid-rcinit/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:alsa-utils-lfsbootscripts/.md5sum
+f:9f964e810a782f042a7f4dfd3d602b4c:alsa-utils-lfsbootscripts/spkgbuild
 f:fc095fbbb73e1b451fad9139dcac0125:boost/.md5sum
 f:36156624d7037c0a7c6b7fb007883294:boost/spkgbuild
 f:08b9eb0e776b5131b8b4f9a27a2734a3:bluez-rcinit/bluetooth.rc
@@ -1035,6 +1065,8 @@ f:41a4af2d5bf47d7ca96dc75d81c87716:python2-markupsafe/spkgbuild
 f:cbdc6ec9f3ef18f2b0a5dff6e7bc8e86:jfsutils/.md5sum
 f:2aa925dd4ebadeac6b6b488ddaff3b9c:jfsutils/spkgbuild
 f:3aa8deb3aa55af6cb4f75839014fca50:jfsutils/readme
+f:cfaafb22571c66344b5147fc4991db6e:ntp-lfsbootscripts/.md5sum
+f:b86d14459fbd2937d56fa02f952c577a:ntp-lfsbootscripts/spkgbuild
 f:9946e3ed3a35df63ff3b1684c87d1e73:poppler/.md5sum
 f:beaa35ec7e70ca5e0baa575e3f061977:poppler/spkgbuild
 f:b9c94c1e0bbff3e296c9ec53f1179aad:atk/.md5sum
@@ -1058,6 +1090,8 @@ f:12c6d108387894af313a3e1bd3e7bc90:dbus-glib/.md5sum
 f:815b6a5dcc0377059b8a5f8bbacb74cd:dbus-glib/spkgbuild
 f:3c4af336664a5e6dee649fd1a694e6d5:python2-mako/.md5sum
 f:648b496b54a175d0ddd03b31784f6347:python2-mako/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:rsync-lfsbootscripts/.md5sum
+f:3a23efafde722535514d9783684bdae1:rsync-lfsbootscripts/spkgbuild
 f:d6f6e510e8a29c53ea69fc053798a801:networkmanager-rcinit/.md5sum
 f:63878854286081bdb823b5982fd4bfd0:networkmanager-rcinit/spkgbuild
 f:c1ea60e5e9c5f6389b66e96f15d8c416:networkmanager-rcinit/networkmanager.rc
@@ -1073,6 +1107,8 @@ f:bd390396c4fd309ee418bc11402c3095:nano/.md5sum
 f:8b3d5adc4631cb4164737526c118efeb:nano/spkgbuild
 f:e84504aaa826bb991a66550d176c8a89:tzdata/.md5sum
 f:0e5a17348fadd14ec596d18cbc62ed8c:tzdata/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:lxdm-lfsbootscripts/.md5sum
+f:efabf39571d5f7d2446a1a170710973a:lxdm-lfsbootscripts/spkgbuild
 f:2f8031fae58e40074743c76aede8a233:mesa/.md5sum
 f:5109bbef6a2b9bbf71badec10f8c5285:mesa/spkgbuild
 f:f3be73f43b53bc49be7545930e815e5e:ca-certificates-utils/.md5sum
@@ -1207,6 +1243,8 @@ f:79c387f0758be4594426ec1aac7f6e87:nasm/.md5sum
 f:6feb9d03f1c14fafd86e2572adc773c4:nasm/spkgbuild
 f:419ed9176af27e8cc150377909dc342d:python2-crypto/.md5sum
 f:497d6787fd765853399eb59d9c48fc6c:python2-crypto/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:networkmanager-lfsbootscripts/.md5sum
+f:b1a33f5ca6e20361393a295512a14a2f:networkmanager-lfsbootscripts/spkgbuild
 f:1bc33fd595097d1519293e15fac4d164:libxkbcommon/.md5sum
 f:be547c9582b10c7bb7f2ee1b729409b5:libxkbcommon/spkgbuild
 f:809b4bfc1ef4880b918c000675c5cd20:python3-gobject3/.md5sum
@@ -1297,6 +1335,8 @@ f:699a645013a829efca0c17c3ab7b7014:apr-util/.md5sum
 f:aee3830069f4504e8a1b396745dfbbb4:apr-util/spkgbuild
 f:0d678eb9dcf2a5c20919101390ef34d5:jasper/.md5sum
 f:8e336d86b593366e1cfdfe313324dd55:jasper/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:wpa_supplicant-lfsbootscripts/.md5sum
+f:f420a68231f9961119ecf5db60f4cb7a:wpa_supplicant-lfsbootscripts/spkgbuild
 f:caa084221ed76b499ec28e9e15b5cb20:x265/.md5sum
 f:36b1facc3075f9584bc6078a4c4f89ac:x265/spkgbuild
 f:1375a22d0dda759e171cedd1384bb54e:pixman/.md5sum
@@ -1317,6 +1357,8 @@ f:ed01f480e0ebfdeb13585a1e12110238:shadow/.md5sum
 f:b0687d0258583be216bd11108695d0b3:shadow/spkgbuild
 f:8455cdb9b6132e394a8fddbb4f205225:findutils/.md5sum
 f:abee44e7a433bfb724da1d84957b4dec:findutils/spkgbuild
+f:cfaafb22571c66344b5147fc4991db6e:dbus-lfsbootscripts/.md5sum
+f:735e1eb0119a4d7203db6c9b5a78076f:dbus-lfsbootscripts/spkgbuild
 f:19cfe18016f3883ae0aac07952ee34d2:atkmm/.md5sum
 f:c8fcb235ff422b03026cc7a2f409c8e0:atkmm/spkgbuild
 f:3247a992fb0137dbd4a731887d3275f8:fontconfig/.md5sum
