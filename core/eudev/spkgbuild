@@ -2,8 +2,9 @@
 
 name=eudev
 version=3.2.5
-release=1
-source=(http://dev.gentoo.org/~blueness/$name/$name-$version.tar.gz)
+release=2
+source=(http://dev.gentoo.org/~blueness/$name/$name-$version.tar.gz
+	hwdb-update.hook)
 
 build() {
 	cd $name-$version
@@ -42,10 +43,5 @@ fi
 		make DESTDIR=$PKG install
 	fi
 
-	# create binary hwdb
-	if [ -d /tools ];then
-		LD_LIBRARY_PATH=/tools/lib $PKG/sbin/udevadm hwdb --update --root=$PKG
-	else
-		$PKG/sbin/udevadm hwdb --update --root=$PKG
-	fi
+	install -Dm644 $SRC/hwdb-update.hook $PKG/etc/hooks/hwdb-update.hook
 }
