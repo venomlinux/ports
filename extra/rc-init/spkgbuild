@@ -1,11 +1,11 @@
 # description	: BSD-style init-script
-# backup	: etc/rc.conf
+# backup	: etc/rc.conf etc/rc.local
 
 name=rc-init
 version=20180228
 _commit=c62e130048a7c6934e5174f9e91537acf4e3e37b
-release=2
-source=($name-$version.tar.gz::https://github.com/emmett1/rc-init/archive/${_commit}.tar.gz)
+release=3
+source=($name-$_commit.tar.gz::https://github.com/emmett1/rc-init/archive/${_commit}.tar.gz)
 
 build() {
 	cd $name-${_commit}
