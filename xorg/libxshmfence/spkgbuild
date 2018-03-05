@@ -5,7 +5,7 @@
 # makedepends	: util-macros xproto
 
 name=libxshmfence
-version=1.2
+version=1.3
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libxshmfence-$version.tar.bz2)
 
@@ -16,8 +16,7 @@ build() {
 		--prefix=/usr \
                 --sysconfdir=/etc \
                 --localstatedir=/var \
-                --disable-static \
-		CFLAGS="$CFLAGS -D_GNU_SOURCE"
+                --disable-static
 	make
 	make DESTDIR=$PKG install
 }
