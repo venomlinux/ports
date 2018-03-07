@@ -3,7 +3,7 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=util-macros
-version=1.19.1
+version=1.19.2
 release=1
 source=(http://ftp.x.org/pub/individual/util/util-macros-$version.tar.bz2)
 
@@ -11,8 +11,10 @@ build() {
 	cd $name-$version
 
 	./configure \
-		--prefix=/usr --sysconfdir=/etc \
-		--localstatedir=/var --disable-static
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
 	make DESTDIR=$PKG install
 }
 

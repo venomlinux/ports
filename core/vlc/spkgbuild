@@ -2,17 +2,20 @@
 # depends	: alsa-lib ffmpeg liba52 libgcrypt libmad lua
 
 name=vlc
-version=3.0.0
+version=3.0.1
 release=1
 source=(https://download.videolan.org/$name/$version/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	sed -i '/luaL_checkint(/s/checkint/checkinteger/' modules/lua/{demux,libs/*}.c
+	# This command allows building with the current version of Lua-5.3.4
+	sed -i '/vlc_demux.h/a #define LUA_COMPAT_APIINTCASTS' modules/lua/vlc.h
+
+	# This command allows building with the current version of FreeType-2.9
 	sed -i '/DEPRECATED/s:^://:'  modules/text_renderer/freetype/text_layout.c
 
-        BUILDCC=gcc ./configure --prefix=/usr
+        BUILDCC=gcc ./configure --prefix=/usr --disable-opencv
 	make
 	make DESTDIR=$PKG install
 }
