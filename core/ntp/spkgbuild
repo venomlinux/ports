@@ -4,15 +4,14 @@
 # depends	: wget
 
 name=ntp
-version=4.2.8p10
-release=3
+version=4.2.8p11
+release=1
 source=(https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-${version::3}/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
 
-	sed -e "s/https/http/"              \
-	    -e 's/"(\\S+)"/"?([^\\s"]+)"?/' \
+	sed -e 's/"(\\S+)"/"?([^\\s"]+)"?/' \
 	    -i scripts/update-leap/update-leap.in
 
 	./configure CFLAGS="$CFLAGS -g -fPIC" \

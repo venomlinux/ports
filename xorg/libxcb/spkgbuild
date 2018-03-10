@@ -5,16 +5,14 @@
 # makedepends	: python3 util-macros
 
 name=libxcb
-version=1.12
+version=1.13
 release=1
-source=(http://xcb.freedesktop.org/dist/libxcb-$version.tar.bz2
-	http://www.linuxfromscratch.org/patches/blfs/8.0/$name-$version-python3-1.patch)
+source=(http://xcb.freedesktop.org/dist/libxcb-$version.tar.bz2)
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i ../$name-$version-python3-1.patch
 	
+	# removes dependency on libpthread-stubs package which is useless on Linux
 	sed -i "s/pthread-stubs//" configure
 
 	./configure \
@@ -22,9 +20,8 @@ build() {
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--disable-static     \
-		--enable-xinput   \
 		--without-doxygen \
-		--docdir='${datadir}'/doc/libxcb-$version
+		--docdir='${datadir}'/doc/libxcb
 	make
 	make DESTDIR=$PKG install
 
