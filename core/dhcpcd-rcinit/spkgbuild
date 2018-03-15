@@ -1,0 +1,13 @@
+# description	: dhcpcd daemon for rc-init
+# depends	: dhcpcd
+
+name=dhcpcd-rcinit
+version=1.0
+release=1
+source=(net.rc
+	net.conf)
+
+build() {
+	install -Dm755 $SRC/net.rc $PKG/etc/rc.d/net
+	install -Dm644 $SRC/net.conf $PKG/etc/conf.d/net
+}

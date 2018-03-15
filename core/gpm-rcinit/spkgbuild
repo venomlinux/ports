@@ -1,0 +1,13 @@
+# description	: gpm daemon for rc-init
+# depends	: gpm
+
+name=gpm-rcinit
+version=1.0
+release=1
+source=(gpm.rc
+	gpm.conf)
+
+build() {
+	install -Dm755 $SRC/gpm.rc $PKG/etc/rc.d/gpm
+	install -Dm644 $SRC/gpm.conf $PKG/etc/conf.d/gpm
+}

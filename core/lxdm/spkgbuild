@@ -7,9 +7,8 @@
 
 name=lxdm
 version=0.5.3
-release=3
-source=(http://downloads.sourceforge.net/$name/$name-$version.tar.xz
-	lxdm.rc)
+release=4
+source=(http://downloads.sourceforge.net/$name/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -48,6 +47,4 @@ sed -e 's/^bg/#&/'        \
 	            --with-systemdsystemunitdir=no
 	make
 	make DESTDIR=$PKG install
-
-	install -Dm755 $SRC/lxdm.rc $PKG/etc/rc.d/lxdm
 }

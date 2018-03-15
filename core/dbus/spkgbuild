@@ -2,11 +2,10 @@
 # depends	: expat libx11 libsm libice
 
 name=dbus
-version=1.12.0
-release=2
+version=1.12.6
+release=1
 
-source=(http://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz
-	dbus.rc)
+source=(http://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
@@ -38,7 +37,5 @@ build() {
 
 </busconfig>
 EOF
-
-	install -Dm755 $SRC/dbus.rc $PKG/etc/rc.d/dbus
 }
 

@@ -8,16 +8,15 @@ release=1
 source=(https://archive.mozilla.org/pub/$name/releases/v$version/src/$name-$version.tar.gz)
 
 build() {
-	cd $name-$version
+	cd $name-$version/$name
 
-  	cd nspr
 	sed -ri 's#^(RELEASE_BINS =).*#\1#' pr/src/misc/Makefile.in
 	sed -i 's#$(LIBRARY) ##' config/rules.mk
 
 	./configure --prefix=/usr \
 	            --with-mozilla \
 	            --with-pthreads \
-	            $([ $(uname -m) = x86_64 ] && echo --enable-64bit)
+	            --enable-64bit
 	make
 	make DESTDIR=$PKG install
 }

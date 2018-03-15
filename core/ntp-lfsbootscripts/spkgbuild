@@ -1,0 +1,12 @@
+# description	: NTP lfsbootscripts
+# depends	: ntp
+
+name=ntp-lfsbootscripts
+version=20180105
+release=1
+source=(http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$version.tar.xz)
+
+build() {
+	cd blfs-bootscripts-$version
+	make DESTDIR=$PKG install-ntpd
+}

@@ -1,0 +1,18 @@
+# description	: Combined X.Org X11 Protocol headers
+# makedepends	: meson util-macros
+
+name=xorgproto
+version=2018.4
+release=1
+source=(https://xorg.freedesktop.org/archive/individual/proto/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+	
+	meson --prefix=/usr
+	ninja
+	DESTDIR=$PKG ninja install
+}

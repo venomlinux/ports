@@ -6,9 +6,7 @@ name=gpm
 version=1.20.7
 release=2
 source=(http://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
-	$name-$version-glibc_2.26-1.patch
-	gpm.rc
-	gpm.conf)
+	$name-$version-glibc_2.26-1.patch)
 build() {
 	cd $name-$version
 
@@ -28,7 +26,4 @@ build() {
 	                    $PKG/usr/share/doc/$name/support
 	install -v -m644    doc/{FAQ,HACK_GPM,README*}        \
 	                    $PKG/usr/share/doc/$name
-
-	install -Dm755 $SRC/gpm.rc $PKG/etc/rc.d/gpm
-	install -Dm644 $SRC/gpm.conf $PKG/etc/conf.d/gpm
 }

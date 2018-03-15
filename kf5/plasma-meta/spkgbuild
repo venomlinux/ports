@@ -40,27 +40,23 @@ depends=(kde-cli-tools
 
 name=plasma-meta
 version=5.10.5
-release=1
+release=2
 source=()
 
 build() {
 
-mkdir -p $PKG/etc/profile.d
-cat > $PKG/etc/profile.d/kf5.sh << "EOF"
-# Begin /etc/profile.d/kf5.sh
-
-pathappend /usr/lib/qt5/plugins        QT_PLUGIN_PATH
-pathappend $QT5DIR/lib/qt5/plugins     QT_PLUGIN_PATH
-
-pathappend /usr/lib/qt5/qml            QML2_IMPORT_PATH
-pathappend $QT5DIR/lib/qt5/qml         QML2_IMPORT_PATH
-
-# End /etc/profile.d/kf5.sh
-EOF
-
-cat > $PKG/etc/profile.d/plasma-meta.sh << "EOF"
-install -dm0700 $XDG_RUNTIME_DIR
-EOF
+#mkdir -p $PKG/etc/profile.d
+#cat > $PKG/etc/profile.d/kf5.sh << "EOF"
+## Begin /etc/profile.d/kf5.sh
+#
+#pathappend /usr/lib/qt5/plugins        QT_PLUGIN_PATH
+#pathappend $QT5DIR/lib/qt5/plugins     QT_PLUGIN_PATH
+#
+#pathappend /usr/lib/qt5/qml            QML2_IMPORT_PATH
+#pathappend $QT5DIR/lib/qt5/qml         QML2_IMPORT_PATH
+#
+## End /etc/profile.d/kf5.sh
+#EOF
 
 mkdir -pv $PKG/etc/pam.d
 cat >> $PKG/etc/pam.d/kde << "EOF" 

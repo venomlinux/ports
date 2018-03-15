@@ -4,24 +4,18 @@
 # makedepends	: python3
 
 name=xcb-proto
-version=1.12
-release=2
-source=(http://xcb.freedesktop.org/dist/xcb-proto-$version.tar.bz2
-	$name-$version-python3-1.patch
-	$name-$version-schema-1.patch)
+version=1.13
+release=1
+source=(http://xcb.freedesktop.org/dist/xcb-proto-$version.tar.bz2)
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i ../$name-$version-schema-1.patch
-	patch -Np1 -i ../$name-$version-python3-1.patch
 
   	PYTHON=python3 ./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--disable-static
-
 	make DESTDIR=$PKG install
 }
 

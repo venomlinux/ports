@@ -11,6 +11,10 @@ source=(http://www.libraw.org/data/LibRaw-$version.tar.gz)
 build() {
 	cd LibRaw-$version
 
+	# Glibc from v2.27 onwards now provides powf64()
+	# Rename the internal version so that the package will build
+	sed -i "s#powf64#dc_&#g" internal/dcraw_common.cpp
+
 	./configure --prefix=/usr    \
 	            --enable-jpeg    \
 	            --enable-jasper  \

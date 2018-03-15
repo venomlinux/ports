@@ -1,0 +1,11 @@
+# description	: Apache daemon for rc-init
+# depends	: apache
+
+name=apache-rcinit
+version=1.0
+release=1
+source=(httpd.rc)
+
+build() {
+	install -Dm755 $SRC/httpd.rc $PKG/etc/rc.d/httpd
+}
