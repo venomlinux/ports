@@ -1,0 +1,26 @@
+# description	: Virtualbox host kernel modules
+# homepage	: http://virtualbox.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: virtualbox
+
+name=virtualbox-modules
+version=5.2.8
+release=1
+_name=Oracle_VM_VirtualBox_Extension_Pack
+_release=121009
+
+source=(http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_amd64.run)
+
+build() {
+	sh VirtualBox-${version}-${_release}-Linux_amd64.run --keep --noexec --target $PWD
+	tar xf VirtualBox.tar.bz2 src/vboxhost/
+	cd src/vboxhost/
+
+	make
+	
+	for i in *.ko
+	do
+		install -D -m0644 $i \
+		$PKG/lib/modules/$(uname -r)/extra/$i
+	done
+}
