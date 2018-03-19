@@ -1,18 +1,17 @@
 # description	: Stand-alone browser based on the Mozilla codebase
-# depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent libvpx sqlite dbus-glib graphite2 harfbuzz
+# depends	: alsa-lib gtk2 gtk3 libnotify nss nspr pulseaudio icu libevent libvpx sqlite dbus-glib graphite2 harfbuzz
 # makedepends	: unzip zip autoconf2.13 yasm rust gconf llvm
 
 name=firefox
-version=57.0.4
+version=59.0
 release=1
 source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/$name-$version.source.tar.xz
-	$name-system_graphite2_harfbuzz-1.patch
-	firefox-dir.patch)
+	$name-system_graphite2_harfbuzz-1.patch)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../firefox-dir.patch
+
 
   	cat > mozconfig << "EOF"
 # If you have a multicore machine, all cores will be used by default.
@@ -110,19 +109,13 @@ EOF
 	echo "AIzaSyDxKL42zsPjbke5O8_rPVpVrLrJ8aeE9rQ" > google-key
 	echo "d2284a20-0505-4927-a809-7ffaf4d91e55" > mozilla-key
 
-	export BINDGEN_CFLAGS=$(pkg-config --cflags nspr pixman-1)
-	make -f client.mk
-	unset BINDGEN_CFLAGS
-
-	make -f client.mk DESTDIR=$PKG install INSTALL_SDK=
-	chown -R 0:0 $PKG/usr/lib/$name
+	./mach build
+	DESTDIR="$PKG" ./mach install
 
 	mkdir -pv    $PKG/usr/lib/mozilla/plugins
 	ln    -sfv   ../../mozilla/plugins $PKG/usr/lib/$name/browser
 
-	install -d $PKG/usr/share/applications
-	install -d $PKG/usr/share/pixmaps
-
+	
 cat > $PKG/usr/share/applications/firefox.desktop << "EOF"
 [Desktop Entry]
 Encoding=UTF-8
