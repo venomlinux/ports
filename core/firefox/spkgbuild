@@ -41,7 +41,7 @@ ac_add_options --disable-necko-wifi
 # Uncomment the following option if you have not installed PulseAudio
 #ac_add_options --disable-pulseaudio
 # and uncomment this if you installed alsa-lib instead of PulseAudio
-#ac_add_options --enable-alsa
+ac_add_options --enable-alsa
 
 # If you have installed GConf, comment out this line
 ac_add_options --disable-gconf
@@ -117,4 +117,23 @@ EOF
 	ln    -sfv ../../mozilla/plugins $PKG/usr/lib/firefox/browser/
 	
 }
+mkdir -pv $PKG/usr/share/applications
+mkdir -pv $PKG/usr/share/pixmaps
 
+cat > /usr/share/applications/firefox.desktop << "EOF" 
+[Desktop Entry]
+Encoding=UTF-8
+Name=Firefox Web Browser
+Comment=Browse the World Wide Web
+GenericName=Web Browser
+Exec=firefox %u
+Terminal=false
+Type=Application
+Icon=firefox
+Categories=GNOME;GTK;Network;WebBrowser;
+MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
+EOF
+
+ln -sfv $PKG/usr/lib/firefox-59.0.1/browser/icons/mozicon128.png \
+        $PKG/usr/share/pixmaps/firefox.png
