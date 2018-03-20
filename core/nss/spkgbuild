@@ -4,10 +4,10 @@
 # depends	: nspr sqlite p11-kit
 
 name=nss
-version=3.35
+version=3.36
 release=1
 source=(https://archive.mozilla.org/pub/security/nss/releases/NSS_${version//./_}_RTM/src/$name-$version.tar.gz
-	$name-$version-standalone-1.patch)
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-standalone-1.patch)
 
 build() {
 	cd $name-$version
