@@ -6,17 +6,20 @@
 
 name=volume_key
 version=0.3.9
-release=1
-source=(https://releases.pagure.org/volume_key/$name-$version.tar.xz)
+release=2
+source=(https://releases.pagure.org/volume_key/$name-$version.tar.xz
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-cryptsetup2-1.patch)
 
 build() {
 	cd $name-$version
-	
-	sed -i '/config.h/d' lib/libvolume_key.h
 
-	autoreconf -fiv
+	patch -Np1 -i ../$name-$version-cryptsetup2-1.patch
+
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
+
+	# Removes a reference to config.h, which is not installed
+	sed -i '/config.h/d' $PKG/usr/include/volume_key/libvolume_key.h
 }
 
