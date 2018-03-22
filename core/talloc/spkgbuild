@@ -1,0 +1,15 @@
+# description	: Talloc provides a hierarchical, reference counted memory pool system with destructors.Essential for Samba.
+# depends	: docbook-xml docbook-xsl libxslt python2
+
+name=talloc
+version=2.1.11
+release=1
+source=(https://www.samba.org/ftp/talloc/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
