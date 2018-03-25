@@ -5,14 +5,15 @@
 # makedepends	: gobject-introspection iso-codes
 
 name=gst-plugins-base
-version=1.12.4
+version=1.14.0
 release=1
 source=(http://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr \
+		    --with-package-name="GStreamer Base Plugins $version (Nyx)"
 	make
 	make DESTDIR=$PKG install
 }

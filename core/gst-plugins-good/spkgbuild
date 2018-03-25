@@ -4,14 +4,15 @@
 # depends	: gst-plugins-base cairo flac gdk-pixbuf libjpeg-turbo libpng libsoup libvpx libxdamage
 
 name=gst-plugins-good
-version=1.12.4
+version=1.14.0
 release=1
 source=(https://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr \
+		    --with-package-name="GStreamer Good Plugins $version (Nyx)"
 	make
 	make DESTDIR=$PKG install
 }
