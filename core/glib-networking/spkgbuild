@@ -2,16 +2,19 @@
 # depends	: glib gnutls gsettings-desktop-schemas ca-certificates p11-kit
 
 name=glib-networking
-version=2.54.1
+version=2.56.0
 release=1
 source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr             \
-            	    --without-ca-certificates \
-            	    --disable-static
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+	cd build
+
+	meson --prefix=/usr            \
+	      -Dlibproxy_support=false \
+	      -Dca_certificates_path=/etc/ssl/ca-bundle.crt
+	ninja
+	DESTDIR=$PKG ninja install
 }
