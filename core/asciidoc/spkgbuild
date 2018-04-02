@@ -1,0 +1,23 @@
+# description	: The Asciidoc package is a text document format for writing notes, documentation, articles, books, ebooks, slideshows, web pages, man pages and blogs. 
+# homepage	: 
+# maintainer	: daemonbsd56 
+# depends	: python2
+# makedepends	: 
+# noextract	: 
+
+name=asciidoc
+version=8.6.9
+release=1
+options=()
+source=(https://downloads.sourceforge.net/$name/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		    --sysconfdir=/etc \
+		    --docdir=/usr/share/doc/$name
+		    
+	make
+	make DESTDIR=$PKG install
+	make DESTDIR=$PKG docs
+}
