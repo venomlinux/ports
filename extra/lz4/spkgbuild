@@ -1,0 +1,24 @@
+# description	: Extremely fast compression algorithm
+# backup	: 
+# conflict	: 
+#maintainer	: daemonbsd56
+# depends	: glibc
+# makedepends	: git
+# noextract	: 
+
+name=lz4
+version=1.8.1.2
+release=1
+options=()
+source=(https://github.com/$name/$name/archive/v$version.tar.gz)
+
+build() {
+
+	cd $name-$version
+	
+	make -C lib PREFIX=/usr
+	make -C programs PREFIX=/usr lz4 lz4c
+	make DESTDIR=$PKG install
+}
+
+
