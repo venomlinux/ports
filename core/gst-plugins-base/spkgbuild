@@ -13,7 +13,8 @@ build() {
 	cd $name-$version
 
 	./configure --prefix=/usr \
-		    --with-package-name="GStreamer Base Plugins $version (Nyx)"
+		    --with-package-name="GStreamer Base Plugins $version (Nyx)" \
+		    --disable-examples
 	make
 	make DESTDIR=$PKG install
 }
