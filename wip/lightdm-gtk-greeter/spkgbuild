@@ -11,7 +11,8 @@ source=(https://launchpad.net/$name/${version::3}/$version/+download/$name-$vers
 build() {
 	cd $name-$version
 
-	export CFLAGS="$CFLAGS -Wno-declaration-after-statement"
+	export CFLAGS="$CFLAGS -Wno-declaration-after-statement \
+            -Wno-error=deprecated-declarations"
 
 	./configure                      \
 	   --prefix=/usr                 \

@@ -8,10 +8,12 @@ version=1.24.0
 release=1
 source=(https://launchpad.net/lightdm/${version::4}/$version/+download/$name-$version.tar.xz
 	Xsession
-	lightdm.rc)
+	rc.lightdm)
 
 build() {
 	cd $name-$version
+
+	ITSTOOL=/bin/true                    \
 	./configure                          \
 	       --prefix=/usr                 \
 	       --libexecdir=/usr/lib/lightdm \
@@ -29,7 +31,11 @@ build() {
 	sed -i 's|#session-wrapper=lightdm-session|session-wrapper=/etc/lightdm/Xsession|' \
 		$PKG/etc/lightdm/lightdm.conf
 
-	install -Dm755 $SRC/lightdm.rc $PKG/etc/rc.d/lightdm
+	#sed '\@/bin/sh@a\
+	#\
+	#. /etc/profile' tests/src/lightdm-session > $PKG/usr/bin/lightdm-session
+
+	install -Dm755 $SRC/rc.lightdm $PKG/etc/rc.d/rc.lightdm
 
 	cp tests/src/lightdm-session $PKG/usr/bin
 	rm -rf $PKG/etc/init
