@@ -9,6 +9,8 @@ source=(https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-p
 build() {
 	cd $name-v$version
 
+	sed -i 's/e_value_block/e_value_inum/g' convert/source-ext2.c
+
 	./configure --prefix=/usr  \
 	            --bindir=/bin  \
 	            --libdir=/lib  \
