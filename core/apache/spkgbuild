@@ -3,9 +3,10 @@
 
 name=apache
 version=2.4.29
-release=2
+release=3
 source=(https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
-	httpd-$version-blfs_layout-1.patch)
+	httpd-$version-blfs_layout-1.patch
+	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.httpd)
 
 build() {
 	cd httpd-$version
@@ -37,4 +38,7 @@ build() {
 	chown -v -R apache:apache $PKG/srv/www
 
 	rm -fr $PKG/var/run
+
+	# daemon files
+	install -Dm644 $SRC/rc.httpd $PKG/etc/rc.d/rc.httpd
 }

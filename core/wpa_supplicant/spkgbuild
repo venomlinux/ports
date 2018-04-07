@@ -6,11 +6,13 @@
 
 name=wpa_supplicant
 version=2.6
-release=5
+release=6
 
 source=(https://w1.fi/releases/$name-$version.tar.gz
 	$name-$version-upstream_fixes-1.patch
-	wpa_supplicant.conf)
+	wpa_supplicant.conf
+	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.wpa_supplicant
+	https://raw.githubusercontent.com/emmett1/rc-init/master/conf.d/wpa_supplicant)
 
 build() {
 	cd $name-$version
@@ -66,5 +68,9 @@ EOF
 
 	# wpa_supplicant.conf
 	install -Dm 600 $SRC/wpa_supplicant.conf $PKG/etc/wpa_supplicant.conf
+
+	# daemon files
+	install -Dm644 $SRC/rc.wpa_supplicant $PKG/etc/rc.d/rc.wpa_supplicant
+	install -Dm644 $SRC/wpa_supplicant $PKG/etc/conf.d/wpa_supplicant
 }
 

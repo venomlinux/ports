@@ -5,8 +5,9 @@
 
 name=networkmanager
 version=1.10.6
-release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz)
+release=2
+source=(http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
+	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.networkmanager)
 
 build() {
 	cd NetworkManager-$version
@@ -38,4 +39,7 @@ polkit.addRule(function(action, subject) {
     }
 });
 EOF
+
+	# daemon files
+	install -Dm644 $SRC/rc.networkmanager $PKG/etc/rc.d/rc.networkmanager
 }

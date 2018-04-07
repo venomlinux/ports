@@ -6,8 +6,9 @@
 
 name=cups
 version=2.2.7
-release=1
-source=(https://github.com/apple/cups/releases/download/v$version/$name-$version-source.tar.gz)
+release=2
+source=(https://github.com/apple/cups/releases/download/v$version/$name-$version-source.tar.gz
+	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.cups)
 
 build() {
 	cd $name-$version
@@ -49,4 +50,7 @@ session include system-session
 EOF
 
 	rm -fr $PKG/var/run
+
+	# daemon files
+	install -Dm644 $SRC/rc.cups $PKG/etc/rc.d/rc.cups
 }

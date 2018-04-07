@@ -4,8 +4,9 @@
 
 name=smartmontools
 version=6.6
-release=3
-source=(http://sourceforge.net/projects/$name/files/$name/$version/$name-$version.tar.gz)
+release=4
+source=(http://sourceforge.net/projects/$name/files/$name/$version/$name-$version.tar.gz
+	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.smartd)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,8 @@ build() {
 	            --with-initscriptdir=no
 	make
 	make DESTDIR=$PKG install
+
+	# daemon files
+	install -Dm644 $SRC/rc.smartd $PKG/etc/rc.d/rc.smartd
 }
 

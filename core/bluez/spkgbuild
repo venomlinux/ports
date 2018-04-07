@@ -5,9 +5,11 @@
 
 name=bluez
 version=5.49
-release=1
+release=2
 source=(http://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
-	$name-obexd_without_systemd-1.patch)
+	$name-obexd_without_systemd-1.patch
+	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.bluetooth
+	https://raw.githubusercontent.com/emmett1/rc-init/master/conf.d/bluetooth)
 
 build() {
 	cd $name-$version
@@ -51,4 +53,8 @@ cat > $PKG/etc/bluetooth/uart.conf << "EOF"
 #
 # End of uart.conf
 EOF
+
+	# daemon files
+	install -Dm644 $SRC/rc.bluetooth $PKG/etc/rc.d/rc.bluetooth
+	install -Dm644 $SRC/bluetooth $PKG/etc/conf.d/bluetooth
 }
