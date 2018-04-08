@@ -3,25 +3,27 @@
 # makedepends	: gobject-introspection vala
 
 name=colord
-version=1.3.5
+version=1.4.2
 release=1
 source=(http://www.freedesktop.org/software/colord/releases/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr              \
-		    --sysconfdir=/etc          \
-		    --localstatedir=/var       \
-		    --with-daemon-user=colord  \
-		    --enable-vala              \
-		    --enable-daemon            \
-		    --enable-session-helper    \
-		    --enable-libcolordcompat   \
-		    --disable-rpath            \
-		    --disable-argyllcms-sensor \
-		    --disable-bash-completion  \
-		    --disable-systemd-login    \
-		    --disable-static
-	make
-	make DESTDIR=$PKG install
+	
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr                   \
+	      --sysconfdir=/etc               \
+	      --localstatedir=/var            \
+	      -Dwith-daemon-user=colord       \
+	      -Denable-vala=true              \
+	      -Denable-systemd=false          \
+	      -Denable-libcolordcompat=true   \
+	      -Denable-argyllcms-sensor=false \
+	      -Denable-bash-completion=false  \
+	      -Denable-docs=false             \
+	      -Denable-man=false ..
+	ninja
+	DESTDIR=$PKG ninja install
 }

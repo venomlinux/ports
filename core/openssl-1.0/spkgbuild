@@ -1,15 +1,15 @@
 # description	: Libraries relating to cryptography
 
 name=openssl-1.0
-version=1.0.2n
+version=1.0.2o
 release=1
 source=(https://openssl.org/source/openssl-$version.tar.gz
-	openssl-$version-compat_versioned_symbols-1.patch)
+	openssl-compat_versioned_symbols-1.patch)
 
 build() {
 	cd openssl-$version
 
-	patch -Np1 -i ../openssl-$version-compat_versioned_symbols-1.patch
+	patch -Np1 -i ../openssl-compat_versioned_symbols-1.patch
 
 	./config --prefix=/usr            \
 	         --openssldir=/etc/ssl    \

@@ -11,9 +11,7 @@ source=(http://www.digip.org/$name/releases/$name-$version.tar.bz2)
 build() {
 	cd $name-$version
 
-	./configure \
-		--prefix=/usr \
-		--mandir=/usr/man
+	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
 }

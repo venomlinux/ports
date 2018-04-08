@@ -1,0 +1,11 @@
+post_install() {
+	if grep "id:3:initdefault:" /etc/inittab >/dev/null; then
+		sed -i '/initdefault/ s/3/5/' /etc/inittab
+	fi
+}
+
+post_remove() {
+	if grep "id:5:initdefault:" /etc/inittab >/dev/null; then
+		sed -i '/initdefault/ s/5/3/' /etc/inittab
+	fi
+}

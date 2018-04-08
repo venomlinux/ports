@@ -5,14 +5,15 @@
 # makedepends	: x264
 
 name=gst-plugins-ugly
-version=1.12.4
+version=1.14.0
 release=1
 source=(https://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr \
+		    --with-package-name="GStreamer Ugly Plugins $version (Nyx)"
 	make
 	make DESTDIR=$PKG install
 }

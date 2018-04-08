@@ -2,18 +2,20 @@
 # homepage	: http://www.gnome.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: dbus glib libxtst
-# makedepends	: gobject-introspection
+# makedepends	: gobject-introspection meson
 
 name=at-spi2-core
-version=2.26.2
+version=2.28.0
 release=1
 source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr \
-	            --sysconfdir=/etc
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr --sysconfdir=/etc  ..
+	ninja
+	DESTDIR=$PKG ninja install
 }

@@ -1,11 +1,11 @@
 # description	: A set of scripts to start/stop the LFS system at bootup/shutdown
 # homepage	: http://www.linuxfromscratch.org
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# backup	: etc/sysconfig/modules etc/sysconfig/createfiles
+# backup	: etc/sysconfig/modules etc/sysconfig/createfiles etc/sysconfig/clock etc/sysconfig/rc.site
 
 name=lfs-bootscripts
 version=20170626
-release=1
+release=2
 source=(http://www.linuxfromscratch.org/lfs/downloads/development/$name-$version.tar.bz2)
 
 build() {
@@ -13,7 +13,7 @@ build() {
 
 	make DESTDIR=$PKG install
 
-mkdir -p $PKG/etc
+mkdir -p $PKG/etc/sysconfig
 
 cat > $PKG/etc/inittab << "EOF"
 # Begin /etc/inittab
@@ -43,4 +43,17 @@ su:S016:once:/sbin/sulogin
 
 # End /etc/inittab
 EOF
+
+cat > $PKG/etc/sysconfig/clock << "EOF"
+# Begin /etc/sysconfig/clock
+
+UTC=1
+
+# Set this to any options you might need to give to hwclock,
+# such as machine hardware clock type for Alphas.
+CLOCKPARAMS=
+
+# End /etc/sysconfig/clock
+EOF
+
 }

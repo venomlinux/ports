@@ -1,17 +1,20 @@
 # description	: IRC chat program
 # homepage	: https://hexchat.github.io/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: glib gtk2 lua python3
+# depends	: glib gtk2 lua python3 libcanberra
 
 name=hexchat
-version=2.12.4
-release=2
-source=(https://dl.hexchat.net/$name/$name-$version-repack.tar.xz)
+version=2.14.1
+release=1
+source=(https://dl.hexchat.net/$name/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --enable-python=python3
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr -Dwith-libproxy=false -Dwith-lua=lua ..
+	ninja
+	DESTDIR=$PKG ninja install
 }

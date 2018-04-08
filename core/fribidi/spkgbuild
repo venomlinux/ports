@@ -4,14 +4,14 @@
 # depends	: glib
 
 name=fribidi
-version=1.0.1
+version=1.0.2
 release=1
 source=(https://github.com/fribidi/fribidi/releases/download/v$version/$name-$version.tar.bz2)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr --disable-docs
 	make || make -j1
 	make DESTDIR=$PKG install
 }

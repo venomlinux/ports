@@ -3,7 +3,7 @@
 
 name=dhcpcd-lfsbootscripts
 version=20180105
-release=1
+release=2
 source=(http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$version.tar.xz)
 
 build() {
@@ -12,7 +12,7 @@ build() {
 
 	mkdir -p $PKG/etc/sysconfig
 	cat > $PKG/etc/sysconfig/ifconfig.eth0 << "EOF"
-ONBOOT="yes"
+ONBOOT="no"
 IFACE="eth0"
 SERVICE="dhcpcd"
 #DHCP_START="-b -q <insert appropriate start options here>"
