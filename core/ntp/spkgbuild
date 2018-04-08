@@ -5,8 +5,9 @@
 
 name=ntp
 version=4.2.8p11
-release=1
-source=(https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-${version::3}/$name-$version.tar.gz)
+release=2
+source=(https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-${version::3}/$name-$version.tar.gz
+	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.ntpd)
 
 build() {
 	cd $name-$version
@@ -53,4 +54,7 @@ restrict -6 default limited kod nomodify notrap nopeer noquery
 restrict 127.0.0.1
 restrict ::1
 EOF
+
+	# daemon files
+	install -Dm644 $SRC/rc.ntpd $PKG/etc/rc.d/rc.ntpd
 }

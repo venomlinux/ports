@@ -15,7 +15,8 @@ build() {
 
 	cmake -DCMAKE_INSTALL_PREFIX="/usr" -DCMAKE_BUILD_TYPE=Release \
 	    -DWITH_QT5=on \
-	    -DCMAKE_INSTALL_LIBDIR='lib' ../
+	    -DCMAKE_INSTALL_LIBDIR='lib' \
+	    -DWITH_JACK=FALSE ..
 	make
 	make DESTDIR=$PKG install
 }

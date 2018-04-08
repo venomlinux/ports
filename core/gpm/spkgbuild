@@ -4,9 +4,11 @@
 
 name=gpm
 version=1.20.7
-release=2
+release=3
 source=(http://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
-	$name-$version-glibc_2.26-1.patch)
+	$name-$version-glibc_2.26-1.patch
+	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.gpm
+	https://raw.githubusercontent.com/emmett1/rc-init/master/conf.d/gpm)
 build() {
 	cd $name-$version
 
@@ -26,4 +28,8 @@ build() {
 	                    $PKG/usr/share/doc/$name/support
 	install -v -m644    doc/{FAQ,HACK_GPM,README*}        \
 	                    $PKG/usr/share/doc/$name
+
+	# daemon files
+	install -Dm644 $SRC/rc.gpm $PKG/etc/rc.d/rc.gpm
+	install -Dm644 $SRC/gpm $PKG/etc/conf.d/gpm
 }

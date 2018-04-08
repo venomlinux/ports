@@ -13,6 +13,8 @@ build() {
 
 	patch -p1 -i ../pulseaudio-fix-build-with-glibc-2.27.patch
 
+	AUTOPOINT='intltoolize --automake --copy' autoreconf -fiv
+
 	./configure --prefix=/usr        \
                     --sysconfdir=/etc    \
                     --localstatedir=/var \

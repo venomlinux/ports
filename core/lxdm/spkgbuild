@@ -7,8 +7,9 @@
 
 name=lxdm
 version=0.5.3
-release=4
-source=(http://downloads.sourceforge.net/$name/$name-$version.tar.xz)
+release=5
+source=(http://downloads.sourceforge.net/$name/$name-$version.tar.xz
+	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.lxdm)
 
 build() {
 	cd $name-$version
@@ -47,4 +48,7 @@ sed -e 's/^bg/#&/'        \
 	            --with-systemdsystemunitdir=no
 	make
 	make DESTDIR=$PKG install
+
+	# daemon files
+	install -Dm754 $SRC/rc.lxdm $PKG/etc/rc.d/rc.lxdm
 }

@@ -1,14 +1,13 @@
 # description	: BSD-style init-script
-# backup	: etc/rc.conf etc/rc.local
+# backup	: etc/rc.d/rc.local etc/conf.d/clock etc/conf.d/modules
 
 name=rc-init
-version=20180228
-_commit=c62e130048a7c6934e5174f9e91537acf4e3e37b
-release=3
+version=20180407
+_commit=4066f659bd7d15a97a82e8d4c1e2667efa2b0de2
+release=1
 source=($name-$_commit.tar.gz::https://github.com/emmett1/rc-init/archive/${_commit}.tar.gz)
 
 build() {
 	cd $name-${_commit}
-
 	DESTDIR=$PKG ./INSTALL.sh
 }

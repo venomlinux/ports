@@ -3,9 +3,10 @@
 
 name=dbus
 version=1.12.6
-release=1
+release=2
 
-source=(http://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz)
+source=(http://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz
+	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.dbus)
 
 build() {
 	cd $name-$version
@@ -37,5 +38,8 @@ build() {
 
 </busconfig>
 EOF
+
+	# daemon files
+	install -Dm754 $SRC/rc.dbus $PKG/etc/rc.d/rc.dbus
 }
 
