@@ -1,21 +1,21 @@
 # ports
-Contain all ports used by [scratchpkg](https://github.com/emmett1/scratchpkg)
+Contains all ports used by [scratchpkg](https://github.com/emmett1/scratchpkg)
 
-All ports are separated into several repositories. This repositories will get sync by `scratchpkg` using a tool called `httpup`.
-These are repository exist (for now):
+All the ports are grouped into distinct repositories. These repositories will be synced by `scratchpkg` using a tool called `httpup`.
+These are the existing repositories (for the moment):
 
-* `core`:  Ports in this repository is follows BLFS SVN books.
-* `extra`:  All ports outside of BLFS SVN book is in here.
-* `git`:  Ports for package from git.
-* `xorg`:  All ports for Xorg.
-* `wip`:  Contain ports for testing package.
-* `kf5`:  All ports for kde plasma 5 desktop.
-* `lxde`:  All ports for lxde desktop.
-* `xfce4`:  All ports for xfce4 desktop.
+* `core`    : Ports in this repository are following the (B)LFS SVN books.
+* `extra`   : All ports not mentioned in the (B)LFS SVN book, are located here.
+* `git`     : Ports for packages coming from git sources.
+* `xorg`    : All ports for Xorg.
+* `wip`     : Contain ports for testing packages.
+* `kf5`     : All ports for kde plasma 5 desktop.
+* `lxde`    : All ports for lxde desktop.
+* `xfce4`   : All ports for xfce4 desktop.
 
 ### rep-gen
 
-`rep-gen` is a script to generate 'REPO' file in the repository. `rep-gen` need to run after any of ports changed.
+`rep-gen` is a script to generate the 'REPO' file in the repository. `rep-gen` needs to be run after any change of ports.
 
 #### how to use:
 
