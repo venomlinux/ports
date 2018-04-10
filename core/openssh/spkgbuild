@@ -1,0 +1,26 @@
+# description	: Free version of the SSH connectivity tools
+# depends	: openssl xauth
+
+name=openssh
+version=7.7p1
+release=1
+source=(http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-openssl-1.1.0-1.patch)
+
+build() {
+	cd $name-$version
+	
+	patch -Np1 -i ../openssh-7.7p1-openssl-1.1.0-1.patch
+
+	./configure --prefix=/usr                     \
+	            --sysconfdir=/etc/ssh             \
+	            --with-md5-passwords              \
+	            --with-privsep-path=/var/lib/sshd
+	make
+	make DESTDIR=$PKG install
+
+	install -v -m755    contrib/ssh-copy-id $PKG/usr/bin
+
+	install -v -m644    contrib/ssh-copy-id.1 \
+	                    $PKG/usr/share/man/man1
+}
