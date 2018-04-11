@@ -1,9 +1,9 @@
 # description	: Userspace virtual filesystem designed to work with the I/O abstractions of GLib's GIO library
-# depends	: glib gcr gtk3 libgudev libsecret libsoup udisks2
-# makedepends	: dbus
+# depends	: glib gcr gtk3 libgudev libsecret libsoup udisks2 libcdio-paranoia
+# makedepends	: dbus meson
 
 name=gvfs
-version=1.34.2
+version=1.36.0
 release=1
 source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz
 	gvfsd.hook)
@@ -11,12 +11,26 @@ source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$versi
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr \
-	            --sysconfdir=/etc \
-	            --disable-gphoto2 \
-		    --disable-documentation
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr     \
+	      --sysconfdir=/etc \
+	      -Dfuse=false      \
+	      -Dgphoto2=false   \
+	      -Dafc=false       \
+	      -Dbluray=false    \
+	      -Dnfs=false       \
+	      -Dmtp=false       \
+	      -Dsmb=false       \
+	      -Dtmpfilesdir=no  \
+	      -Dlogind=false    \
+	      -Ddnssd=false     \
+	      -Dgoa=false       \
+	      -Dgoogle=false    \
+	      -Dsystemduserunitdir=no
+	ninja
+	DESTDIR=$PKG ninja install
 
 	install -Dm644 $SRC/gvfsd.hook $PKG/etc/hooks/gvfsd.hook
 }

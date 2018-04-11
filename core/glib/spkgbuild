@@ -3,7 +3,7 @@
 # makedepends	: python3 docbook-xsl
 
 name=glib
-version=2.56.0
+version=2.56.1
 release=1
 source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz
 	gio-querymodules.hook
@@ -14,11 +14,10 @@ build() {
 
 	./configure --prefix=/usr \
 		    --with-pcre=system \
+		    --with-python=/usr/bin/python3 \
 		    --with-docs=no
 	make
 	make DESTDIR=$PKG install
-
-	chmod -v 755 $PKG/usr/bin/{gdbus-codegen,glib-gettextize}
 
 	install -Dm644 $SRC/gio-querymodules.hook $PKG/etc/hooks/gio-querymodules.hook
 	install -Dm644 $SRC/glib-compile-schemas.hook $PKG/etc/hooks/glib-compile-schemas.hook
