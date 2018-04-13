@@ -3,16 +3,14 @@
 # makedepends	: unzip zip autoconf2.13 yasm rust gconf llvm
 
 name=firefox
-version=57.0.4
+_commit=239e434d6d2b8e1e2b697c3416d1e96d48fe98e5
+version=59.0.2
 release=1
-source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/$name-$version.source.tar.xz
-	$name-system_graphite2_harfbuzz-1.patch
-	firefox-dir.patch)
+source=($name-$version.tar.bz2::https://hg.mozilla.org/releases/mozilla-release/archive/$_commit.tar.bz2
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-system_graphite2_harfbuzz-1.patch)
 
 build() {
-	cd $name-$version
-
-	patch -Np1 -i ../firefox-dir.patch
+	cd mozilla-release-$_commit
 
   	cat > mozconfig << "EOF"
 # If you have a multicore machine, all cores will be used by default.
@@ -91,7 +89,7 @@ ac_add_options --enable-official-branding
 # From firefox-40, using system cairo caused firefox to crash
 # frequently when it was doing background rendering in a tab.
 # This appears to again work in firefox-56
-ac_add_options --enable-system-cairo
+#ac_add_options --enable-system-cairo
 ac_add_options --enable-system-ffi
 ac_add_options --enable-system-pixman
 
@@ -105,17 +103,13 @@ ac_add_options --with-system-zlib
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
 EOF
 
-	patch -Np1 -i $SRC/$name-system_graphite2_harfbuzz-1.patch
+	patch -Np1 -i $SRC/$name-$version-system_graphite2_harfbuzz-1.patch
 
 	echo "AIzaSyDxKL42zsPjbke5O8_rPVpVrLrJ8aeE9rQ" > google-key
 	echo "d2284a20-0505-4927-a809-7ffaf4d91e55" > mozilla-key
 
-	export BINDGEN_CFLAGS=$(pkg-config --cflags nspr pixman-1)
-	make -f client.mk
-	unset BINDGEN_CFLAGS
-
-	make -f client.mk DESTDIR=$PKG install INSTALL_SDK=
-	chown -R 0:0 $PKG/usr/lib/$name
+	./mach build
+	DESTDIR=$PKG ./mach install
 
 	mkdir -pv    $PKG/usr/lib/mozilla/plugins
 	ln    -sfv   ../../mozilla/plugins $PKG/usr/lib/$name/browser
@@ -138,7 +132,7 @@ MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/vnd.mo
 StartupNotify=true
 EOF
 
-	ln -sfv /usr/lib/$name/browser/icons/mozicon128.png \
+	ln -sfv /usr/lib/$name/browser/chrome/icons/default/default128.png \
 	        $PKG/usr/share/pixmaps/firefox.png
 
 }
