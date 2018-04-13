@@ -8,12 +8,12 @@ name=libunique
 version=1.1.6
 release=1
 source=(http://ftp.gnome.org/pub/gnome/sources/libunique/${version::3}/$name-$version.tar.bz2
-	http://www.linuxfromscratch.org/patches/blfs/8.1/$name-$version-upstream_fixes-1.patch)
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-upstream_fixes-1.patch)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../libunique-1.1.6-upstream_fixes-1.patch
+	patch -Np1 -i ../$name-$version-upstream_fixes-1.patch
 	autoreconf -fi
 	
 	./configure --prefix=/usr  \
