@@ -1,0 +1,16 @@
+# description	: GStreamer plugins for Libav (a fork of FFmpeg)
+# depends	: gst-plugins-base ffmpeg
+# makedepends	: yasm
+
+name=gst-libav
+version=1.14.0
+release=1
+source=(https://gstreamer.freedesktop.org/src/gst-libav/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		    --with-package-name="GStreamer Good Plugins $version (Nyx)"
+	make
+	make DESTDIR=$PKG install
+}
