@@ -12,7 +12,7 @@ build() {
 	cd $name-autoconf-$_version
 
   	./configure --prefix=/usr --disable-static        \
-	            --enable-fts5 CFLAGS="$CFLAGS -g -02  \
+	            --enable-fts5 CFLAGS="$CFLAGS -g      \
 	            -DSQLITE_ENABLE_FTS4=1                \
 	            -DSQLITE_ENABLE_COLUMN_METADATA=1     \
 	            -DSQLITE_ENABLE_UNLOCK_NOTIFY=1       \
