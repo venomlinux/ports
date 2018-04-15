@@ -3,16 +3,16 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=sqlite
-version=3.23.0
-_version=3230000
-release=3
+version=3.23.1
+_version=3230100
+release=1
 source=(http://sqlite.org/2018/$name-autoconf-$_version.tar.gz)
 
 build() {
 	cd $name-autoconf-$_version
 
   	./configure --prefix=/usr --disable-static        \
-	            --enable-fts5 CFLAGS="$CFLAGS -g      \
+	            --enable-fts5 CFLAGS="$CFLAGS -g -02  \
 	            -DSQLITE_ENABLE_FTS4=1                \
 	            -DSQLITE_ENABLE_COLUMN_METADATA=1     \
 	            -DSQLITE_ENABLE_UNLOCK_NOTIFY=1       \
