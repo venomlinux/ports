@@ -1,10 +1,11 @@
 # description	: Userspace virtual filesystem designed to work with the I/O abstractions of GLib's GIO library
 # depends	: glib gcr gtk3 libgudev libsecret libsoup udisks2 libcdio-paranoia
 # makedepends	: dbus meson
+# optdepends	: libmtp
 
 name=gvfs
 version=1.36.0
-release=1
+release=2
 source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz
 	gvfsd.hook)
 
@@ -13,15 +14,17 @@ build() {
 
 	mkdir build
 	cd    build
+
+	[ -f /usr/lib/pkgconfig/libmtp.pc ] || GVFS_OPTS+=' -Dmtp=false'
 	
 	meson --prefix=/usr     \
 	      --sysconfdir=/etc \
+	      ${GVFS_OPTS}      \
 	      -Dfuse=false      \
 	      -Dgphoto2=false   \
 	      -Dafc=false       \
 	      -Dbluray=false    \
 	      -Dnfs=false       \
-	      -Dmtp=false       \
 	      -Dsmb=false       \
 	      -Dtmpfilesdir=no  \
 	      -Dlogind=false    \
