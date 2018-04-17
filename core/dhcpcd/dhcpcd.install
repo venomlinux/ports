@@ -1,0 +1,8 @@
+post_install() {
+	msginfo "rc.network script is disabled by default"
+	msginfo "run 'chmod +x /etc/rc.d/rc.network' to enable it"
+}
+
+post_upgrade() {
+	post_install
+}

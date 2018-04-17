@@ -4,8 +4,10 @@
 
 name=dhcpcd
 version=7.0.3
-release=1
-source=(http://roy.marples.name/downloads/$name/$name-$version.tar.xz)
+release=2
+source=(http://roy.marples.name/downloads/$name/$name-$version.tar.xz
+	network
+	rc.network)
 
 build() {
 	cd $name-$version
@@ -14,5 +16,11 @@ build() {
 	            --dbdir=/var/lib/dhcpcd
 	make
 	make DESTDIR=$PKG install
+
+	# daemon files
+	install -Dm644 $SRC/rc.network $PKG/etc/rc.d/rc.network
+
+	# daemon's config file
+	install -Dm644 $SRC/network $PKG/etc/conf.d/network
 }
 
