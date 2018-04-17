@@ -1,0 +1,25 @@
+# description	: A low-latency audio server
+# backup	: etc/security/limits.d/99-audio.conf
+# depends	: libsamplerate db zita-alsa-pcmi zita-resampler
+# makedepends	: celt
+
+name=jack
+_longname=jack-audio-connection-kit
+version=0.125.0
+release=1
+source=(http://jackaudio.org/downloads/$_longname-$version.tar.gz
+	99-audio.conf
+        40-hpet-permissions.rules)
+
+build() {
+	cd $_longname-$version
+	./configure --prefix=/usr --libdir=/usr/lib
+	make
+	make DESTDIR=$PKG install
+
+	install -Dm644 "$SRC/99-audio.conf" \
+	    "$PKG/etc/security/limits.d/99-audio.conf"
+
+	install -Dm644 "$SRC/40-hpet-permissions.rules" \
+	    "$PKG/lib/udev/rules.d/40-hpet-permissions.rules"
+}

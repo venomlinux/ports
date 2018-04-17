@@ -1,0 +1,34 @@
+# description	: The successor of clalsadrv, provides easy access to ALSA PCM devices
+# depends	: alsa-lib gcc
+
+name=zita-alsa-pcmi
+version=0.2.0
+release=1
+source=(http://kokkinizita.linuxaudio.org/linuxaudio/downloads/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version/libs
+
+	# call ldconfig locally
+	sed -i 's/ldconfig/& -N $(DESTDIR)$(PREFIX)\/$(LIBDIR)/' Makefile
+
+	# libs
+	make PREFIX=/usr
+
+	# create lib link for building apps
+	ln -s lib$name.so.$version lib$name.so
+
+	# apps
+	cd ../apps
+	CXXFLAGS+=" -I../libs" \
+	LDFLAGS+=" -L../libs" \
+	make PREFIX=/usr
+
+	cd ..
+	# libs
+	PATH="$PATH:/sbin:/bin:/usr/sbin:/usr/bin" \
+	make -C libs DESTDIR="$PKG" PREFIX=/usr LIBDIR=lib install
+
+	# apps
+	make -C apps DESTDIR="$PKG" PREFIX=/usr LIBDIR=lib install
+}
