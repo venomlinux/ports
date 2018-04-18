@@ -5,9 +5,9 @@
 
 name=lxde-meta
 version=0.1
-release=1
-source=()
+release=2
+source=(xinitrc.lxde)
 
 build() {
-	mkdir -pv $PKG/etc
+	install -Dm644 $SRC/xinitrc.lxde $PKG/etc/X11/app-defaults/xinitrc.lxde
 }

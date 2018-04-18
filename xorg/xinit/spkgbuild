@@ -6,7 +6,7 @@
 
 name=xinit
 version=1.4.0
-release=1
+release=2
 source=(http://ftp.x.org/pub/individual/app/xinit-$version.tar.bz2)
 
 build() {
@@ -23,5 +23,7 @@ build() {
 		--with-xinitdir=/etc/X11/app-defaults
 	make
 	make DESTDIR=$PKG install
+
+	mv $PKG/etc/X11/app-defaults/xinitrc{,.twm}
 }
 
