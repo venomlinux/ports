@@ -1,13 +1,14 @@
 # description	: An implementation of the DHCP client specified in RFC2131
 # homepage	: http://roy.marples.name/projects/dhcpcd/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# backup	: etc/conf.d/network
 
 name=dhcpcd
 version=7.0.3
 release=2
 source=(http://roy.marples.name/downloads/$name/$name-$version.tar.xz
-	network
-	rc.network)
+	https://raw.githubusercontent.com/emmett1/rc-init/master/conf.d/network
+	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.network)
 
 build() {
 	cd $name-$version
