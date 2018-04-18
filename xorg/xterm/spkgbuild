@@ -6,7 +6,8 @@
 name=xterm
 version=332
 release=1
-source=(http:///http://invisible-mirror.net/archives/$name/$name-$version.tgz
+source=(http://invisible-mirror.net/archives/$name/$name-$version.tgz
+	${name}_remove_list)
 	
 
 build() {
@@ -39,6 +40,8 @@ cat >> $PKG/etc/X11/app-defaults/XTerm << "EOF"
 *ptyInitialErase: true
 EOF
 
+## conflicted files with ncurses package
+## dont remove this unless theres no more conflict!
 for i in $(cat $SRC/${name}_remove_list); do
 	rm $PKG/$i
 done
