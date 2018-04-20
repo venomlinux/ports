@@ -1,7 +1,7 @@
 # description	: Userspace virtual filesystem designed to work with the I/O abstractions of GLib's GIO library
-# depends	: glib gcr gtk3 libgudev libsecret libsoup udisks2 libcdio-paranoia
+# depends	: glib gcr gtk3 libgudev libsecret libsoup udisks2 libcdio-paranoia openssh
 # makedepends	: dbus meson
-# optdepends	: libmtp
+# optdepends	: libmtp fuse2 libimobiledevice
 
 name=gvfs
 version=1.36.0
@@ -16,22 +16,21 @@ build() {
 	cd    build
 
 	[ -f /usr/lib/pkgconfig/libmtp.pc ] || GVFS_OPTS+=' -Dmtp=false'
+	[ -f /usr/lib/pkgconfig/fuse.pc ] || GVFS_OPTS+=' -Dfuse=false'
+	[ -f /usr/lib/pkgconfig/libimobiledevice-1.0.pc ] || GVFS_OPTS+=' -Dafc=false'
+	[ -f /usr/lib/pkgconfig/goa-1.0.pc ] || GVFS_OPTS+=' -Dgoa=false -Dgoogle=false'
+	[ -f /usr/lib/pkgconfig/libbluray.pc ] || GVFS_OPTS+=' -Dbluray=false'
+	[ -f /usr/lib/pkgconfig/smbclient.pc ] || GVFS_OPTS+=' -Dsmb=false'
+	[ -f /usr/lib/pkgconfig/libgphoto2.pc ] || GVFS_OPTS+=' -Dgphoto2=false'
+	[ -f /usr/lib/pkgconfig/libnfs.pc ] || GVFS_OPTS+=' -Dnfs=false'
 	
 	meson --prefix=/usr     \
 	      --sysconfdir=/etc \
-	      ${GVFS_OPTS}      \
-	      -Dfuse=false      \
-	      -Dgphoto2=false   \
-	      -Dafc=false       \
-	      -Dbluray=false    \
-	      -Dnfs=false       \
-	      -Dsmb=false       \
+	      -Dsystemduserunitdir=no \
 	      -Dtmpfilesdir=no  \
 	      -Dlogind=false    \
 	      -Ddnssd=false     \
-	      -Dgoa=false       \
-	      -Dgoogle=false    \
-	      -Dsystemduserunitdir=no
+	      ${GVFS_OPTS}
 	ninja
 	DESTDIR=$PKG ninja install
 
