@@ -1,0 +1,27 @@
+# description	: Mozilla's JavaScript engine written in C
+# depends	: gcc yasm icu
+# makedepends	: autoconf2.13 nspr python2 
+
+name=js52
+version=52.2
+release=1
+source=(http://ftp.gnome.org/pub/gnome/teams/releng/tarballs-needing-help/mozjs/mozjs-$version.1gnome1.tar.gz)
+
+build() {
+	cd mozjs-$version.1gnome1
+
+	cd js/src
+
+	./configure --prefix=/usr       \
+		    --with-intl-api     \
+		    --with-system-zlib  \
+		    --with-system-nspr  \
+		    --with-system-icu   \
+		    --enable-threadsafe \
+		    --enable-readline
+	make
+	make DESTDIR=$PKG install
+
+	# conflicted file with js38
+	rm $PKG/usr/lib/libjs_static.ajs
+}
