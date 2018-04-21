@@ -1,0 +1,14 @@
+# description	: C++ interface to GTK+ 3
+# depends	: atkmm pangomm gtk3
+
+name=gtkmm3
+version=3.22.2
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/gtkmm/${version::4}/gtkmm-$version.tar.xz)
+
+build() {
+	cd gtkmm-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
