@@ -7,12 +7,19 @@ name=gettext
 version=0.19.8.1
 release=1
 source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(df3f5690eaa30fd228537b00cb7b7590)
 
 build() {
 	cd $name-$version
 
+	# suppress two invocations of test-lock which on some machines can loop forever
 	sed -i '/^TESTS =/d' gettext-runtime/tests/Makefile.in
 	sed -i 's/test-lock..EXEEXT.//' gettext-tools/gnulib-tests/Makefile.in
+
+	# this sed cmd is break hexchat build says about appdata.loc
+	# so i hold this sed cmd
+	#sed -e '/AppData/N;N;p;s/\.appdata\./.metainfo./' \
+	#    -i gettext-tools/its/appdata.loc
 
 	./configure --prefix=/usr    \
 	            --disable-static
@@ -21,3 +28,5 @@ build() {
 
 	chmod -v 0755 $PKG/usr/lib/preloadable_libintl.so
 }
+
+
