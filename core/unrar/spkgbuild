@@ -3,9 +3,10 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=unrar
-version=5.6.2
+version=5.6.3
 release=1
 source=(http://www.rarlab.com/rar/unrarsrc-$version.tar.gz)
+md5sum=(520b4682527e30438b81adee58260ecc)
 
 build() {
 	cd unrar
@@ -13,3 +14,4 @@ build() {
 	make CXXFLAGS="$CXXFLAGS" -f makefile
 	install -v -Dm755 unrar $PKG/usr/bin/unrar
 }
+
