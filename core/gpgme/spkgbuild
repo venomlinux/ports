@@ -4,14 +4,16 @@
 # depends	: libassuan
 
 name=gpgme
-version=1.10.0
+version=1.11.1
 release=1
 source=(ftp://ftp.gnupg.org/gcrypt/gpgme/$name-$version.tar.bz2)
+md5sum=(129c46fb85a7ffa41e43345e48aee884)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr
+	./configure --prefix=/usr --disable-gpg-test
 	make
 	make DESTDIR=$PKG install
 }
+
 
