@@ -39,7 +39,6 @@ sed -e 's/^bg/#&/'        \
     -e "/arg=/a arg=/usr/bin/X" \
     -i data/lxdm.conf.in
 
-
 	./configure --prefix=/usr     \
 	            --sysconfdir=/etc \
 	            --with-pam        \
@@ -52,3 +51,6 @@ sed -e 's/^bg/#&/'        \
 	# daemon files
 	install -Dm754 $SRC/rc.lxdm $PKG/etc/rc.d/rc.lxdm
 }
+
+md5sum=(061caae432634e6db38bbdc84bc6ffa0
+81081530c57103156aac3f42fed0cf20)

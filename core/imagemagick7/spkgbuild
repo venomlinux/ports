@@ -5,10 +5,10 @@
 # makedepends	: libxml2 librsvg
 
 name=imagemagick7
-version=7.0.7.23
+version=7.0.7.28
 release=1
 options=(libtool)
-source=(ftp://ftp.imagemagick.org/pub/ImageMagick/releases/ImageMagick-${version%.*}-${version##*.}.tar.xz)
+source=(https://www.imagemagick.org/download/ImageMagick-${version%.*}-${version##*.}.tar.xz)
 
 build() {
 	cd ImageMagick-${version%.*}-${version##*.}
@@ -26,3 +26,4 @@ build() {
 
 }
 
+md5sum=(15907fe499f0377ff28eeafb5905510a)
