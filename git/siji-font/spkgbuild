@@ -1,0 +1,27 @@
+# description	: Iconic bitmap font based on stlarch with additional glyphs
+# depends	: fontconfig bdftopcf mkfontdir mkfontscale
+
+name=siji-font
+_name=siji
+version=git
+release=1
+gitsource=(git://github.com/stark/siji)
+
+get_git() {	
+	if [[ -d "$SOURCE_DIR/$name" ]]; then
+		git -C "$SOURCE_DIR/$name" fetch -q
+		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
+	else
+		git -C "$SOURCE_DIR" clone $1 "$name"
+	fi
+
+	cp -r "$SOURCE_DIR/$name" "$SRC"
+}
+
+build() {
+	get_git $gitsource master
+	cd $name
+
+	install -D -m644 pcf/siji.pcf "${PKG}/usr/share/fonts/X11/misc/siji.pcf"
+	install -D -m755 view.sh "${PKG}/usr/share/${_name}/view.sh"
+}

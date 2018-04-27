@@ -1,0 +1,9 @@
+post_install() {
+	fc-cache /usr/share/fonts/X11/misc/
+	mkfontscale /usr/share/fonts/X11/misc/
+	mkfontdir /usr/share/fonts/X11/misc/
+}
+
+post_upgrade() {
+	post_install
+}
