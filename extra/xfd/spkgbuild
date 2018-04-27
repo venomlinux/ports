@@ -1,0 +1,16 @@
+# description	: Displays all the characters in a font using either the X11 core protocol or libXft2
+# depends	: libxaw fontconfig libxft libxrender libxmu
+# makedepends	: util-macros
+
+name=xfd
+version=1.1.2
+release=1
+source=(https://xorg.freedesktop.org/archive/individual/app/$name-$version.tar.bz2)
+md5sum=(f19de745d181f5547ed59d6d9ed7a588)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
