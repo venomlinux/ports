@@ -1,0 +1,26 @@
+# description	: Stemming library supporting several languages
+# depends	: glibc
+# makedepends	: git
+
+name=stemmer
+version=git
+release=1
+_commit=fc2adaa96b0561506e6c1a80d73de7f4e0fa9663
+source=($name-$_commit.tar.gz::https://github.com/snowballstem/snowball/archive/$_commit.tar.gz
+	dynamiclib.patch)
+md5sum=(0f88cfe06a6169755848bd4bf10c1717
+	70e9965a8c2b415d5de3593d0728e517)
+
+build() {
+	cd snowball-$_commit
+
+	patch -Np1 -i ../dynamiclib.patch
+
+	make
+
+	install -Dm644 {.,"$PKG"/usr}/include/libstemmer.h
+	install -D {.,"$PKG"/usr/lib}/libstemmer.so.0.0.0
+	ln -s libstemmer.so.0.0.0 "$PKG/usr/lib/libstemmer.so.0"
+	ln -s libstemmer.so.0 "$PKG/usr/lib/libstemmer.so"
+
+}
