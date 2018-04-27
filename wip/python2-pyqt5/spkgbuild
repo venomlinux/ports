@@ -16,4 +16,11 @@ build() {
 	    -q /usr/bin/qmake
 	make
 	make DESTDIR="$PKG" INSTALL_ROOT="$PKG" install
+
+	mv $PKG/usr/bin/pyrcc5{,-py2}
+	mv $PKG/usr/bin/pyuic5{,-py2}
+	mv $PKG/usr/bin/pylupdate5{,-py2}
+
+	rm $PKG/usr/lib/qt5/plugins/PyQt5/libpyqt5qmlplugin.so
+	rm $PKG/usr/lib/qt5/plugins/designer/libpyqt5.so
 }
