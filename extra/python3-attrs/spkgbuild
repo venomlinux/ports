@@ -1,0 +1,14 @@
+# description	: Attributes without boilerplate
+# depends	: python3
+
+name=python3-attrs
+version=17.4.0
+release=1
+source=(https://pypi.io/packages/source/a/attrs/attrs-$version.tar.gz)
+md5sum=(d7a89063b2e0fd36bd82389c4d82821d)
+
+build() {
+	cd attrs-$version
+	python3 setup.py build
+	python3 setup.py install --root="$PKG" --optimize=1 --skip-build
+}
