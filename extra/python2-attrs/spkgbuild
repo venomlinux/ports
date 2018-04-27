@@ -1,0 +1,14 @@
+# description	: Attributes without boilerplate (python2)
+# depends	: python2
+
+name=python2-attrs
+version=17.4.0
+release=1
+source=(https://pypi.io/packages/source/a/attrs/attrs-$version.tar.gz)
+md5sum=(d7a89063b2e0fd36bd82389c4d82821d)
+
+build() {
+	cd attrs-$version
+	python2 setup.py build
+	python2 setup.py install --root="$PKG" --optimize=1 --skip-build
+}
