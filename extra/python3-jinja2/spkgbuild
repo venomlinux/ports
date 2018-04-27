@@ -1,0 +1,14 @@
+# description	: A simple pythonic template language written in Python
+# depends	: python3 python3-markupsafe
+
+name=python3-jinja2
+version=2.10
+release=1
+source=(https://pypi.org/packages/source/J/Jinja2/Jinja2-$version.tar.gz)
+md5sum=(61ef1117f945486472850819b8d1eb3d)
+
+build() {
+	cd Jinja2-$version
+	python3 setup.py build
+	python3 setup.py install --root="$PKG" -O1
+}
