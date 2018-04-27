@@ -1,0 +1,16 @@
+# description	: Python syntax highlighter (python2)
+# depends	: python2
+
+name=python2-pygments
+version=2.2.0
+release=1
+source=(https://pypi.org/packages/source/P/Pygments/Pygments-$version.tar.gz)
+md5sum=(13037baca42f16917cbd5ad2fab50844)
+
+build() {
+	cd Pygments-$version
+	python2 setup.py install --root="$PKG" -O1
+
+	# conflict with python3-pygments
+	rm $PKG/usr/bin/pygmentize
+}
