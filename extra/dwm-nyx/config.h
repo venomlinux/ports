@@ -28,6 +28,7 @@ static const char *tags[] = { "term", "www", "fm", "edit", "media", "irc", "work
 static const Rule rules[] = {
 	/* class					   instance    title           tags mask     isfloating   monitor */
 	{ "Gimp",						NULL,       NULL,       	0,				True,		-1 },
+	{ "qutebrowser",				NULL,       NULL,      		1 << 1,			False,		-1 },
 	{ "Google-chrome",				NULL,       NULL,      		1 << 1,			False,		-1 },
 	{ "Firefox",					NULL,       NULL,      		1 << 1,			False,		-1 },
 	{ "Firefox",					"Dialog",   NULL,      		1 << 1,			True,		-1 },
@@ -78,6 +79,7 @@ static const Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "urxvt", NULL };
+static const char *qute[]     = { "qutebrowser", NULL };
 static const char *www[]      = { "google-chrome-stable", NULL };
 //static const char *www[]      = { "firefox", NULL };
 static const char *fm[]       = { "thunar", NULL };
@@ -126,6 +128,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_a,      spawn,          {.v = fm } },
 	{ MODKEY|ShiftMask,             XK_a,      spawn,          {.v = rootfm } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = www } },
+	{ MODKEY,                       XK_q,      spawn,          {.v = qute } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
