@@ -3,9 +3,10 @@
 # makedepends	: freetype2
 
 name=mesa-demos
-version=8.3.0
+version=8.4.0
 release=1
-source=(ftp://ftp.freedesktop.org/pub/mesa/demos/$version/mesa-demos-$version.tar.bz2)
+source=(ftp://ftp.freedesktop.org/pub/mesa/demos/mesa-demos-$version.tar.bz2)
+md5sum=(6b65a02622765522176d00f553086fa3)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,3 @@ build() {
 	make DESTDIR=$PKG install
 	install -m 0755 src/egl/opengl/{eglgears_x11,eglinfo,eglkms,egltri_x11,peglgears,xeglgears,xeglthreads} $PKG/usr/bin
 }
-
-md5sum=(628e75c23c17394f11a316c36f8e4164)
