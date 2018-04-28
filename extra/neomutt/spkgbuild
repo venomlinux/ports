@@ -1,0 +1,29 @@
+# description	: A version of mutt with added features
+# depends	: lua libidn krb5
+
+name=neomutt
+version=20180323
+release=1
+source=(https://github.com/neomutt/neomutt/archive/$name-$version.tar.gz)
+md5sum=(f8be8b32ecf0166f0837f39f55adb070)
+
+build() {
+	cd $name-$name-$version
+
+	`type -p notmuch` && MUTT_OPTS+=' --notmuch'
+
+	./configure \
+	        --prefix=/usr \
+	        --sysconfdir=/etc \
+	        --libexecdir=/usr/lib \
+	        --gpgme \
+	        --enable-lua \
+	        --gss \
+	        --ssl \
+	        --with-ui=ncurses \
+	        --with-idn=/usr \
+        	--gdbm \
+		${MUTT_OPTS}
+	make
+	make DESTDIR=$PKG install
+}
