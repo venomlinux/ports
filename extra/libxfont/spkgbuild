@@ -3,9 +3,10 @@
 # makedepends	: util-macros xtrans
 
 name=libxfont
-version=1.5.3
+version=1.5.4
 release=1
 source=(https://www.x.org/pub/individual/lib/libXfont-$version.tar.bz2)
+md5sum=(16eaf156edd79b68038b6a7c44aa9e9b)
 
 build() {
 	cd libXfont-$version
@@ -19,4 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(9ba75bf38ba62a6ad52550ab716da9b3)
