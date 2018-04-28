@@ -5,10 +5,12 @@
 # makedepends	: bison flex
 
 name=i3
-version=4.14.1
+version=4.15
 release=1
 source=(http://i3wm.org/downloads/$name-$version.tar.bz2
 	0001-Use-OVER-operator-for-drawing-text.patch)
+md5sum=(6ff0e7d59cf6983af68f9b4cdaf2a641
+	4f8c9f6f66b17fd59254f7f472441883)
 
 build() {
 	cd $name-$version
@@ -25,5 +27,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(0f4eec9e5a9f7be060bda41206b13f87
-4f8c9f6f66b17fd59254f7f472441883)
