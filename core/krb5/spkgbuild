@@ -1,0 +1,48 @@
+# description	: MIT Kerberos V5 is a network authentication protocol
+
+name=krb5
+version=1.16
+release=1
+source=(https://web.mit.edu/kerberos/dist/krb5/$version/krb5-$version.tar.gz)
+md5sum=(23c5e9f07642db4a67f7a5b6168b1319)
+
+build() {
+	cd $name-$version
+	
+	cd src
+ 
+	# fixes Python detection
+	sed -i -e 's@\^u}@^u cols 300}@' tests/dejagnu/config/default.exp
+	
+	# increases the width of the virtual terminal used for some tests to
+	# prevent some spurious text in the output which is taken as a failure
+	sed -i -e '/eq 0/{N;s/12 //}'    plugins/kdb/db2/libdb2/test/run.test
+	
+	./configure --prefix=/usr            \
+	            --sysconfdir=/etc        \
+	            --localstatedir=/var/lib \
+	            --with-system-et         \
+	            --with-system-ss         \
+	            --with-system-verto=no   \
+	            --enable-dns-for-realm
+	make
+	make DESTDIR=$PKG install
+
+	for f in gssapi_krb5 gssrpc k5crypto kadm5clnt kadm5srv \
+	         kdb5 kdb_ldap krad krb5 krb5support verto ; do
+	    find $PKG/usr/lib -type f -name "lib$f*.so*" -exec chmod -v 755 {} \;    
+	done
+
+	mkdir -p $PKG/lib
+	mv -v $PKG/usr/lib/libkrb5.so.3*        $PKG/lib
+	mv -v $PKG/usr/lib/libk5crypto.so.3*    $PKG/lib
+	mv -v $PKG/usr/lib/libkrb5support.so.0* $PKG/lib
+	
+	ln -v -sf ../../lib/libkrb5.so.3.3        $PKG/usr/lib/libkrb5.so
+	ln -v -sf ../../lib/libk5crypto.so.3.1    $PKG/usr/lib/libk5crypto.so
+	ln -v -sf ../../lib/libkrb5support.so.0.1 $PKG/usr/lib/libkrb5support.so
+	
+	mkdir -p $PKG/bin
+	mv -v $PKG/usr/bin/ksu $PKG/bin
+	chmod -v 755 $PKG/bin/ksu
+}
