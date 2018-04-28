@@ -4,9 +4,10 @@
 # depends	: glibc
 
 name=jansson
-version=2.10
+version=2.11
 release=1
 source=(http://www.digip.org/$name/releases/$name-$version.tar.bz2)
+md5sum=(289ca8cbd2df31de9bda7e5220754d25)
 
 build() {
 	cd $name-$version
@@ -16,4 +17,3 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(8f85f653fba3ac8220ad8f2f47646ef1)
