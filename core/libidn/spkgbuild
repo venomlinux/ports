@@ -1,0 +1,14 @@
+# description	: Implementation of the Stringprep, Punycode and IDNA specifications
+
+name=libidn
+version=1.34
+release=1
+source=(https://ftp.gnu.org/gnu/libidn/$name-$version.tar.gz)
+md5sum=(a829db6cd0b85733017c20a50bf10798)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}
