@@ -1,13 +1,13 @@
 # description	: Encoding files for use with Poppler, to render CJK and Cyrillic properly
 
 name=poppler-data
-version=0.4.8
+version=0.4.9
 release=1
 source=(https://poppler.freedesktop.org/$name-$version.tar.gz)
+md5sum=(35cc7beba00aa174631466f06732be40)
 
 build() {
 	cd $name-$version
 	make prefix=$PKG/usr install
 }
 
-md5sum=(00f8989c804de84af0ba2ea629949980)
