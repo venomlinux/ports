@@ -2,9 +2,10 @@
 # depends	: alsa-lib ffmpeg liba52 libgcrypt libmad lua
 
 name=vlc
-version=3.0.1
+version=3.0.2
 release=1
 source=(https://download.videolan.org/$name/$version/$name-$version.tar.xz)
+md5sum=(bdca57018d772fd270b4243eab46f978)
 
 build() {
 	cd $name-$version
@@ -20,4 +21,3 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(32292f9fc6eab0b00432cdd574fc9eae)
