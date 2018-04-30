@@ -1,0 +1,16 @@
+# description	: An RSS/Atom feed reader for text terminals
+# depends	: curl json-c libxml2 sqlite stfl
+# makedepends	: asciidoc
+
+name=newsboat
+version=2.11.1
+release=1
+source=(https://newsboat.org/releases/$version/newsboat-$version.tar.xz)
+md5sum=(bb388dfad9dee34a3b5a593f55adacb2)
+
+build() {
+	cd $name-$version
+	./config.sh
+	make
+	make prefix=/usr DESTDIR=$PKG install
+}
