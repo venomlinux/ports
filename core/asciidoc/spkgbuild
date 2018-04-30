@@ -1,0 +1,14 @@
+# description	: Text document format for short documents, articles, books and UNIX man pages
+
+name=asciidoc
+version=8.6.9
+release=1
+source=(https://downloads.sourceforge.net/asciidoc/asciidoc-8.6.9.tar.gz)
+md5sum=(c59018f105be8d022714b826b0be130a)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}
