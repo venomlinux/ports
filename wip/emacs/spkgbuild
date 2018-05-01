@@ -6,6 +6,7 @@ name=emacs
 version=25.3
 release=1
 source=(ftp://ftp.gnu.org/gnu/emacs/$name-$version.tar.xz)
+md5sum=(05da38e18da75c98d48ad69b5ab74e71)
 
 build() {
 	cd $name-$version
@@ -20,5 +21,3 @@ build() {
 
 	chown -v -R root:root $PKG/usr/share/emacs/$version
 }
-
-md5sum=(05da38e18da75c98d48ad69b5ab74e71)
