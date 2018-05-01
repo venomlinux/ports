@@ -1,0 +1,20 @@
+# description	: Python HTTP for Humans
+# depends	: python3-chardet python3-idna python3-urllib3
+
+name=python3-requests
+version=2.18.4
+release=1
+source=(https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-$version.tar.gz
+	certs.patch)
+md5sum=(081412b2ef79bdc48229891af13f4d82
+	8701cd93ae4c4448cca368243d9b86f5)
+
+build() {
+	cd ${name#*-}-$version
+
+	sed -e '/certifi/d' -i setup.py
+	patch -p1 -i $SRC/certs.patch
+
+	python3 setup.py build
+	python3 setup.py install --prefix=/usr --root=$PKG
+}
