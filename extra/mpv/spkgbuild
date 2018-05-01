@@ -1,0 +1,21 @@
+# description	: A free, open source, and cross-platform media player
+# depends	: mesa lcms2 ffmpeg libass libarchive
+
+name=mpv
+version=0.28.2
+release=1
+source=($name-$version.tar.gz::https://github.com/mpv-player/mpv/archive/v$version.tar.gz)
+md5sum=(b6538dec29a2a69574f4e3a3d688fb8b)
+
+build() {
+	cd $name-$version
+	./bootstrap.py
+	./waf configure \
+	    --prefix=/usr \
+	    --enable-cdda \
+	    --enable-dvb \
+	    --enable-encoding \
+	    --enable-libarchive
+	./waf build
+	./waf install --destdir=$PKG
+}
