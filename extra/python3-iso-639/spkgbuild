@@ -1,0 +1,14 @@
+# description	: Python library for ISO 639 standard
+# depends	: python3
+
+name=python3-iso-639
+version=0.4.5
+release=1
+source=(https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-$version.tar.gz)
+md5sum=(cc282daf57f57061a9309f2567bff052)
+
+build() {
+	cd ${name#*-}-$version
+	python3 setup.py build
+	python3 setup.py install --root=$PKG --optimize=1
+}
