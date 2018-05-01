@@ -1,0 +1,14 @@
+# description	: Self-contained ISO 3166-1 country definitions (python2)
+# depends	: python2
+
+name=python2-iso3166
+version=0.8
+release=1
+source=(https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-$version.tar.gz)
+md5sum=(9b7a42df80495fe253d6edd035974128)
+
+build() {
+	cd ${name#*-}-$version
+	python2 setup.py build
+	python2 setup.py install --root=$PKG --optimize=1
+}
