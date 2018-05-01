@@ -5,9 +5,13 @@
 name=firefox
 _commit=239e434d6d2b8e1e2b697c3416d1e96d48fe98e5
 version=59.0.2
-release=1
+release=2
 source=($name-$version.tar.bz2::https://hg.mozilla.org/releases/mozilla-release/archive/$_commit.tar.bz2
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-system_graphite2_harfbuzz-1.patch)
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-system_graphite2_harfbuzz-1.patch
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-ffmpeg4.0-1.patch)
+md5sum=(fa4f7a5a7e2b2c7900369530b396b74a
+	e8067fd00669b83113be3f8717a93a60
+	555254a3ca73f0f517806790f0cdb335)
 
 build() {
 	cd mozilla-release-$_commit
@@ -108,6 +112,8 @@ EOF
 	echo "AIzaSyDxKL42zsPjbke5O8_rPVpVrLrJ8aeE9rQ" > google-key
 	echo "d2284a20-0505-4927-a809-7ffaf4d91e55" > mozilla-key
 
+	patch -Np1 -i $SRC/$name-$version-ffmpeg4.0-1.patch
+
 	./mach build
 	DESTDIR=$PKG ./mach install
 
@@ -136,6 +142,3 @@ EOF
 	        $PKG/usr/share/pixmaps/firefox.png
 
 }
-
-md5sum=(fa4f7a5a7e2b2c7900369530b396b74a
-e8067fd00669b83113be3f8717a93a60)
