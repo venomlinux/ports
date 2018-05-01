@@ -1,0 +1,15 @@
+# description	: Python module for character encoding auto-detection (python2)
+# depends	: python2
+
+name=python2-chardet
+version=3.0.4
+release=1
+source=(https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-$version.tar.gz)
+md5sum=(7dd1ba7f9c77e32351b0a0cfacf4055c)
+
+build() {
+	cd ${name#*-}-$version
+	python2 setup.py build
+	python2 setup.py install --prefix=/usr --root=$PKG --optimize=1
+	mv $PKG/usr/bin/chardetect{,-py2}
+}
