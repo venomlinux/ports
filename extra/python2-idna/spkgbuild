@@ -1,0 +1,14 @@
+# description	: Internationalized Domain Names in Applications (IDNA) (python2)
+# depends	: python2
+
+name=python2-idna
+version=2.6
+release=1
+source=(https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-$version.tar.gz)
+md5sum=(c706e2790b016bd0ed4edd2d4ba4d147)
+
+build() {
+	cd ${name#*-}-$version
+	python2 setup.py build
+	python2 setup.py install --prefix=/usr --root=$PKG --optimize=1
+}
