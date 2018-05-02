@@ -5,8 +5,9 @@
 
 name=python2
 version=2.7.14
-release=1
+release=2
 source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz)
+md5sum=(1f6db41ad91d9eb0a6f0c769b8613c5b)
 
 build() {
 	cd Python-$version
@@ -15,7 +16,6 @@ build() {
 	            --enable-shared     \
 	            --with-system-expat \
 	            --with-system-ffi   \
-	            --with-ensurepip=yes \
 	            --enable-unicode=ucs4 
 	make
 	make DESTDIR=$PKG install
@@ -23,4 +23,4 @@ build() {
 	chmod -v 755 $PKG/usr/lib/libpython2.7.so.1.0
 }
 
-md5sum=(1f6db41ad91d9eb0a6f0c769b8613c5b)
+
