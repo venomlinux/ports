@@ -1,12 +1,12 @@
 # description	: FFmpeg is a solution to record, convert and stream audio and video
 # homepage	: http://ffmpeg.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: libass fdk-aac freetype2 lame libtheora libvorbis libvpx opus x264 x265 alsa-lib libva libvdpau sdl2
+# depends	: libass fdk-aac freetype2 lame gnutls libtheora libvorbis libvpx opus x264 x265 alsa-lib libva libvdpau sdl2
 # makedepends	: yasm
 
 name=ffmpeg
 version=4.0
-release=1
+release=2
 source=(http://ffmpeg.org/releases/$name-$version.tar.xz)
 md5sum=(1cc9e8cb027b9fd4c54f598f51002c19)
 
@@ -17,6 +17,7 @@ build() {
 
 	./configure --prefix=/usr        \
 	            --enable-gpl         \
+		    --enable-gnutls      \
 	            --enable-version3    \
 	            --enable-nonfree     \
 	            --disable-static     \
