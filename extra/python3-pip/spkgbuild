@@ -5,12 +5,10 @@ name=python3-pip
 version=9.0.1
 release=1
 source=(https://pypi.io/packages/source/p/pip/pip-${version}.tar.gz)
+md5sum=(35f01da33009719497f01a4ba69d63c9)
 
 build() {
 	cd pip-$version
 	python3 setup.py build
 	python3 setup.py install --prefix=/usr --root="$PKG"
-	rm $PKG/usr/bin/pip
 }
-
-md5sum=(35f01da33009719497f01a4ba69d63c9)
