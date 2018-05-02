@@ -5,11 +5,11 @@ name=python2-pip
 version=9.0.1
 release=1
 source=(https://pypi.io/packages/source/p/pip/pip-${version}.tar.gz)
+md5sum=(35f01da33009719497f01a4ba69d63c9)
 
 build() {
 	cd pip-$version
 	python2 setup.py build
 	python2 setup.py install --prefix=/usr --root="$PKG"
+	mv $PKG/usr/bin/pip{,-py2}
 }
-
-md5sum=(35f01da33009719497f01a4ba69d63c9)
