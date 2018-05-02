@@ -2,10 +2,10 @@
 # depends	: python2-packaging python2-appdirs
 
 name=python2-setuptools
-version=38.4.0
-release=1
-options=()
+version=39.1.0
+release=2
 source=(python-setuptools-$version.tar.gz::https://github.com/pypa/setuptools/archive/v$version.tar.gz)
+md5sum=(64bd5869c9a11d5f19613ee71f9c7423)
 
 build() {
 	cd setuptools-$version
@@ -16,5 +16,3 @@ build() {
 	python2 setup.py install --prefix=/usr --root="$PKG" --optimize=1 --skip-build
 	rm $PKG/usr/bin/easy_install
 }
-
-md5sum=(c054bf96f691ae8329347e40fe897d48)
