@@ -3,8 +3,9 @@
 
 name=python3
 version=3.6.4
-release=1
+release=2
 source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz)
+md5sum=(1325134dd525b4a2c3272a1a0214dd54)
 
 build() {
 	cd Python-$version
@@ -14,7 +15,7 @@ build() {
 	            --enable-shared     \
 	            --with-system-expat \
 	            --with-system-ffi   \
-	            --with-ensurepip=yes
+	            --without-ensurepip
 	make
 	make DESTDIR=$PKG install
 
@@ -24,4 +25,4 @@ build() {
 	rm $PKG/usr/bin/2to3
 }
 
-md5sum=(1325134dd525b4a2c3272a1a0214dd54)
+
