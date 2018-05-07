@@ -4,14 +4,18 @@
 # depends	: sdl qt5
 
 name=virtualbox
-version=5.2.8
-release=2
+version=5.2.10
+release=1
 _name=Oracle_VM_VirtualBox_Extension_Pack
-_release=121009
+_release=122088
 
 source=(http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_amd64.run
 	http://download.virtualbox.org/virtualbox/$version/${_name}-${version}-${_release}.vbox-extpack
 	virtualbox.60-vboxdrv.rules)
+
+md5sum=(756b1d59bbe5fed3b6f7131dd6f7d223
+	2c043bd43f8d23f79e5fe0378f5f815c
+	7e2790e8c21dd5fc7af08d1e3a3f95d9)
 
 build() {
 	sh VirtualBox-${version}-${_release}-Linux_amd64.run --keep --noexec --target $SRC/
@@ -57,7 +61,3 @@ build() {
 	chmod g-w $PKG/opt/VirtualBox
 	chmod g-w $PKG/opt/VirtualBox/components
 }
-
-md5sum=(78b5d2176e797f8ce88627f822313ea1
-dfbe3c4b35b8759e7c9b0fc572c742dc
-7e2790e8c21dd5fc7af08d1e3a3f95d9)
