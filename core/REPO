@@ -111,6 +111,7 @@ d:glib-networking
 d:libxml2
 d:gzip
 d:openssl-1.0
+d:gexiv2
 d:xdg-utils
 d:nano
 d:libpng
@@ -298,6 +299,7 @@ d:lvm2
 d:ca-certificates
 d:perl-xml-namespacesupport
 d:lm_sensors
+d:libmypaint
 d:libva-intel
 d:mlt
 d:sysklogd
@@ -391,6 +393,7 @@ d:kbd
 d:perl
 d:freetype2
 d:lsb-release
+d:mypaint-brushes
 d:apache-lfsbootscripts
 d:tar
 d:libfm
@@ -554,6 +557,7 @@ f:f0fe1a64d40c056baf2149b1efebf1b4:libxml2/libxml2-2.9.8-python3_hack-1.patch
 f:26f50dbb0b799ef66e6ea8b5a740d373:gzip/spkgbuild
 f:b94d4b17b2fdddf8bfe422041320e174:openssl-1.0/openssl-compat_versioned_symbols-1.patch
 f:859265e3520b1bc527c64622dac3bdc3:openssl-1.0/spkgbuild
+f:2b7d65bf3cde4cd6422fe531880d60e6:gexiv2/spkgbuild
 f:9a30c482d612c1b3928c42c8c13f7b19:xdg-utils/spkgbuild
 f:2c184ad3575e70766c7c3e0e82efebd2:nano/spkgbuild
 f:5e3ee2ce0f0dc65bbfd816cd9720b9a4:libpng/spkgbuild
@@ -592,7 +596,7 @@ f:c3406624453c6541ea20532ca47615a8:lmdb/spkgbuild
 f:d5c929082b1079f38134acefb6d7105e:git/spkgbuild
 f:58a0c4a1c18452a29e95ba5953c61ab1:iptables/readme
 f:efd31d1b34494e11288dfe093e0529be:iptables/spkgbuild
-f:759c9a902f8997a550e9a60060723c3b:gegl/spkgbuild
+f:6f4260b9e39fe52445da356871aa7f17:gegl/spkgbuild
 f:469ad5c05ab87d4c748a20484f8e3d61:transmission-qt/spkgbuild
 f:c3fdff3ffad2ff393ec68fb5b543f640:gobject-introspection/spkgbuild
 f:27954b840f4e97669e3e3dca69c652b7:iproute2/spkgbuild
@@ -614,7 +618,7 @@ f:d10d3acb880c18c3348d9aec5ad7355e:lxdm-lfsbootscripts/spkgbuild
 f:c5f47ff27531b8ce0be656ea2e538c7c:ffmpeg/spkgbuild
 f:8df4978b29d6b2442807f5e24d1c5185:gstreamer/spkgbuild
 f:c208ccbb244d1d0dbc6245fbb33f98fd:nspr/spkgbuild
-f:dd6d52dbd31e805424ed0b0216b4a8a1:firefox/spkgbuild
+f:27482ab56bf142fc7dbbb4cda80106f2:firefox/spkgbuild
 f:26781e60dc3ec80e03445a81b86e64b8:gperf/spkgbuild
 f:748e17d4de646e4d9c1b6bfb832a2bab:giflib/spkgbuild
 f:921750203346eadde2d89f61636956a9:harfbuzz/spkgbuild
@@ -675,7 +679,7 @@ f:4815ab3805760bbe62dfb391ddf91af0:python3-atspi/spkgbuild
 f:4710b7c9452ffb873b960e000b080350:python2-mako/spkgbuild
 f:55593646737e6b8ea9f12375528c692d:poppler-data/spkgbuild
 f:605ab5add281d83edba46dadb0b60180:modemmanager/spkgbuild
-f:c65ddfa6b2065d31b28f8d78a39d8525:gimp/spkgbuild
+f:cc6a7c809116c014b27a44264c5b496a:gimp/spkgbuild
 f:ecc69f607764f5dd046f2daa52c7d7be:mtdev/spkgbuild
 f:60f366063d4e2c5a1c2fd9b9cb6bf9dc:ncurses/spkgbuild
 f:14791ecad6695ee91a81f48c00ff96ba:guile/spkgbuild
@@ -775,6 +779,7 @@ f:9e27a0d9e39acb8116610d9274ba778d:ca-certificates/spkgbuild
 f:ae518f42e239a6a9058169f161d62ebb:perl-xml-namespacesupport/spkgbuild
 f:30a878ab01ab1f24cb997a041f8867ed:lm_sensors/readme
 f:25edb8dc360de4c8a39f62e36eaff66c:lm_sensors/spkgbuild
+f:f2d6a040112f72f0e99f999946486493:libmypaint/spkgbuild
 f:4527c83df315e3c1f39142d852da2112:libva-intel/spkgbuild
 f:297f46a85df8cb25a0327ab9ae834657:mlt/spkgbuild
 f:86a5d7a8e7ad7ad7dbe9a752acdbe6d8:sysklogd/spkgbuild
@@ -912,6 +917,7 @@ f:f75cca16a38da6caa7d52151f7136895:kbd/kbd-2.0.4-backspace-1.patch
 f:1b75d70bba311a93c71b0d786ace2b79:perl/spkgbuild
 f:e5bb44c0220ecfb523f411256ac387f2:freetype2/spkgbuild
 f:432b0e5edf4d1bdcbc5ad3a8b5cab923:lsb-release/spkgbuild
+f:771d6803577e0fc3022d64be2809d151:mypaint-brushes/spkgbuild
 f:62c20dbdd9efe1c05da5c7087ed19cd2:apache-lfsbootscripts/spkgbuild
 f:ecb0b611a6084830b26738416a1c6603:tar/spkgbuild
 f:cb2d9981c1f0b48b6be9ce58843ff673:libfm/spkgbuild
