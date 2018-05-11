@@ -8,6 +8,8 @@ options=(!strip)
 _channel=stable
 source=($name-${_channel}_${version}_amd64.deb::https://dl.google.com/linux/direct/$name-${_channel}_current_amd64.deb
 	$name-$_channel.sh)
+md5sum=(SKIP
+	99fa93d5e7fb5d622cef0f9621f3ffa3)
 
 build() {
 	bsdtar -xf $name-${_channel}_${version}_amd64.deb
@@ -29,6 +31,3 @@ build() {
 	rm -r $PKG/etc/cron.daily/ $PKG/opt/google/chrome/cron/
 	rm $PKG/opt/google/chrome/product_logo_*.png
 }
-
-md5sum=(c979c8fac57b9f78de0b899f1b09ce39
-99fa93d5e7fb5d622cef0f9621f3ffa3)
