@@ -1,0 +1,16 @@
+# description	: Library for making brushstrokes which is used by MyPaint and other projects
+# depends	: json-c glib
+# makedepends	: gobject-introspection
+
+name=libmypaint
+version=1.3.0
+release=1
+source=(https://github.com/mypaint/libmypaint/releases/download/v$version/libmypaint-$version.tar.xz)
+md5sum=(2e7200c7873514dfca26eea9e3d273f5)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
