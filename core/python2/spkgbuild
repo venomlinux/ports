@@ -4,13 +4,15 @@
 # depends	: libffi openssl
 
 name=python2
-version=2.7.14
-release=2
+version=2.7.15
+release=1
 source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz)
-md5sum=(1f6db41ad91d9eb0a6f0c769b8613c5b)
+md5sum=(a80ae3cc478460b922242f43a1b4094d)
 
 build() {
 	cd Python-$version
+
+	sed -i '/#SSL/,+3 s/^#//' Modules/Setup.dist
 
   	./configure --prefix=/usr       \
 	            --enable-shared     \
