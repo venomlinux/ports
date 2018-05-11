@@ -6,11 +6,14 @@ name=js52
 version=52.2
 release=1
 source=(http://ftp.gnome.org/pub/gnome/teams/releng/tarballs-needing-help/mozjs/mozjs-$version.1gnome1.tar.gz)
+md5sum=(72bd9a715ed1ab70b2aebe92969f6b63)
 
 build() {
 	cd mozjs-$version.1gnome1
 
 	cd js/src
+
+	export SHELL=/bin/sh
 
 	./configure --prefix=/usr       \
 		    --with-intl-api     \
@@ -25,5 +28,3 @@ build() {
 	# conflicted file with js38
 	rm $PKG/usr/lib/libjs_static.ajs
 }
-
-md5sum=(72bd9a715ed1ab70b2aebe92969f6b63)
