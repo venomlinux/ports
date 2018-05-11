@@ -4,12 +4,18 @@ name=elfutils
 version=0.170
 release=1
 source=(https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2)
+md5sum=(03599aee98c9b726c7a732a2dd0245d5)
 
 build() {
 	cd $name-$version
+
+	# fix a file to be compatible with gcc-8
+	sed -e '/ALIGN_PRSTATUS)/{ 
+	        s/__attribute/attribute_packed &/
+	        s/packed, //}' \
+	    -i backends/linux-core-note.c
+
 	./configure --prefix=/usr --program-prefix="eu-"
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(03599aee98c9b726c7a732a2dd0245d5)
