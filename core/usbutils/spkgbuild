@@ -8,6 +8,8 @@ version=009
 release=1
 source=(http://www.kernel.org/pub/linux/utils/usb/usbutils/$name-$version.tar.xz
 	http://www.linux-usb.org/usb.ids)
+md5sum=(a7cf9e8903041987efa5e5e0080e0b4d
+	SKIP)
 
 build() {
 	cd $name-$version
@@ -19,5 +21,3 @@ build() {
 	mkdir -p $PKG/usr/share/hwdata
 	cp $SRC/usb.ids $PKG/usr/share/hwdata/
 }
-md5sum=(a7cf9e8903041987efa5e5e0080e0b4d
-4c688bec341a642509b6130e54006df8)
