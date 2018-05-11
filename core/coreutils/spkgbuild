@@ -8,6 +8,8 @@ version=8.29
 release=2
 source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-i18n-1.patch)
+md5sum=(960cfe75a42c9907c71439f8eb436303
+	a9404fb575dfd5514f3c8f4120f9ca7d)
 
 build() {
 	cd $name-$version
@@ -17,6 +19,7 @@ build() {
 	patch -Np1 -i ../$name-i18n-1.patch
 	sed -i '/test.lock/s/^/#/' gnulib-tests/gnulib.mk
 
+	autoreconf -fiv
 	FORCE_UNSAFE_CONFIGURE=1 ./configure \
 	            --prefix=/usr            \
 	            --enable-no-install-program=kill,uptime
@@ -34,5 +37,3 @@ build() {
 
 	mv -v $PKG/usr/bin/{head,sleep,nice} $PKG/bin
 }
-md5sum=(960cfe75a42c9907c71439f8eb436303
-a9404fb575dfd5514f3c8f4120f9ca7d)
