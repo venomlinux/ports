@@ -6,13 +6,16 @@
 name=smplayer
 version=18.4.0
 release=1
-source=(https://downloads.sourceforge.net/$name/$name-$version.tar.bz2)
-md5sum=(6eb9f38e9f880aa29202beec076b8e0b)
+source=(https://downloads.sourceforge.net/$name/$name-$version.tar.bz2
+	disable-werror-patch.patch)
+md5sum=(6eb9f38e9f880aa29202beec076b8e0b SKIP)
 
 build() {
 	cd $name-$version
 
 	sed '/gzip -9/d' -i Makefile
+
+	patch -Np1 -i ../disable-werror-patch.patch
 
 	make PREFIX=/usr \
 	     DOC_PATH="\\\"/usr/share/doc/smplayer\\\"" \
