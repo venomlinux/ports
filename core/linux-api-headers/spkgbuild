@@ -1,9 +1,10 @@
 # description	: Expose the kernel's API for use by Glibc
 
 name=linux-api-headers
-version=4.15.7
+version=4.16.7
 release=1
 source=(https://www.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz)
+md5sum=(9795a3187c791e3b79153519733f045d)
 
 build() {
 	cd linux-$version
@@ -14,5 +15,3 @@ build() {
 	mkdir -p $PKG/usr/include
 	cp -rv dest/include/* $PKG/usr/include
 }
-
-md5sum=(8186ce63c489199b58b6a58ad2a24a94)
