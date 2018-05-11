@@ -2,11 +2,11 @@
 # depends	: openssl ca-certificates-utils
 
 name=ca-certificates
-version=20170903
+version=20180511
 release=2
-source=(certdata-$version.txt::http://anduin.linuxfromscratch.org/BLFS/other/certdata.txt)
+source=(certdata-$version.txt::https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt)
+md5sum=(SKIP)
 
 build() {
   	/usr/sbin/make-ca -D $PKG -C certdata-$version.txt
 }
-md5sum=(6a0815aa5d11461a8e5ae093ae46bf52)
