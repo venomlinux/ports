@@ -3,13 +3,17 @@
 name=nasm
 version=2.13.03
 release=1
-source=(http://www.nasm.us/pub/nasm/releasebuilds/$version/nasm-$version.tar.xz)
+source=(http://www.nasm.us/pub/nasm/releasebuilds/$version/nasm-$version.tar.xz
+	0001-nasmlib-Drop-unused-seg_init.patch)
 
 build() {
 	cd $name-$version
+
+	patch -p1 -i ../0001-nasmlib-Drop-unused-seg_init.patch
+
 	./configure --prefix=/usr
 	make
 	make INSTALLROOT=$PKG install
 }
 
-md5sum=(d5ca2ad7121ccbae69dd606b1038532c)
+md5sum=(d5ca2ad7121ccbae69dd606b1038532c SKIP)
