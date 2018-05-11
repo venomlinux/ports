@@ -4,9 +4,10 @@
 # depends	: binutils glibc
 
 name=gcc
-version=7.3.0
+version=8.1.0
 release=1
 source=(http://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz)
+md5sum=(65f7c65818dc540b3437605026d329fc)
 
 build() {
 	cd $name-$version
@@ -37,4 +38,3 @@ build() {
 	mkdir -pv $PKG/usr/share/gdb/auto-load/usr/lib
 	mv -v $PKG/usr/lib/*gdb.py $PKG/usr/share/gdb/auto-load/usr/lib
 }
-md5sum=(be2da21680f27624f3a87055c4ba5af2)
