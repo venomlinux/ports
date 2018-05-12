@@ -4,9 +4,10 @@
 # depends	: acl bash
 
 name=shadow
-version=4.5
+version=4.6
 release=1
 source=(https://github.com/shadow-maint/shadow/releases/download/$version/$name-$version.tar.xz)
+md5sum=(b491fecbf1232632c32ff8f1437fd60e)
 
 build() {
 	cd $name-$version
@@ -28,4 +29,3 @@ build() {
 	mkdir -p $PKG/bin
 	mv -v $PKG/usr/bin/passwd $PKG/bin
 }
-md5sum=(c350da50c2120de6bb29177699d89fe3)
