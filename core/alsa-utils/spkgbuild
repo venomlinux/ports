@@ -7,7 +7,11 @@ name=alsa-utils
 version=1.1.6
 release=1
 source=(ftp://ftp.alsa-project.org/pub/utils/$name-$version.tar.bz2
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.alsa)
+	run
+	finish)
+md5sum=(50ae75567459646b843bed78d916b002
+	3f0e774624f500b08f206305503c240e
+	83630fb06a08c936aacf5e368362e6db)
 
 build() {
 	cd $name-$version
@@ -19,9 +23,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# daemon files
-	install -Dm754 $SRC/rc.alsa $PKG/etc/rc.d/rc.alsa
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/alsa/run
+	install -Dm755 $SRC/finish $PKG/etc/sv/alsa/finish
 }
-
-md5sum=(50ae75567459646b843bed78d916b002
-27858686a93fdb8fad08c40c192092b1)
