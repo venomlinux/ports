@@ -6,13 +6,20 @@
 name=light
 version=1.0
 release=1
-source=($name-$version.tar.gz::https://github.com/haikarainen/light/archive/v$version.tar.gz)
+source=($name-$version.tar.gz::https://github.com/haikarainen/light/archive/v$version.tar.gz
+	run
+	finish)
+md5sum=(65ee0fb2ede482d64a53c38271b2eeb6
+	b4b85009911ad5c0f383d59f1a62de20
+	9daee4666c28f6c2dd2b1d8794cb8bec)
 
 build() {
 	cd $name-$version
 
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(65ee0fb2ede482d64a53c38271b2eeb6)
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/light/run
+	install -Dm755 $SRC/finish $PKG/etc/sv/light/finish
+}
