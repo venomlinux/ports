@@ -3,10 +3,13 @@
 
 name=apache
 version=2.4.29
-release=3
+release=1
 source=(https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 	httpd-$version-blfs_layout-1.patch
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.httpd)
+	run)
+md5sum=(0c599404ef6b69eee95bcd9fcd094407
+	f24185eaa0cbcab3c0b07032584575d9
+	07fbe634c7538b9cb5115ff707d75530)
 
 build() {
 	cd httpd-$version
@@ -39,10 +42,6 @@ build() {
 
 	rm -fr $PKG/var/run
 
-	# daemon files
-	install -Dm644 $SRC/rc.httpd $PKG/etc/rc.d/rc.httpd
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/httpd/run
 }
-
-md5sum=(0c599404ef6b69eee95bcd9fcd094407
-f24185eaa0cbcab3c0b07032584575d9
-864855685da076126a171c671bb2d961)
