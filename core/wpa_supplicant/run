@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -f conf ] && . ./conf
+exec wpa_supplicant -c ${CONF_FILE:=/etc/wpa_supplicant.conf} -i ${WPA_INTERFACE:=wlan0} ${OPTS:="-D nl80211,wext -s"}
