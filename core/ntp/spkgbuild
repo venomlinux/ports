@@ -7,7 +7,9 @@ name=ntp
 version=4.2.8p11
 release=2
 source=(https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-${version::3}/$name-$version.tar.gz
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.ntpd)
+	run)
+md5sum=(00950ca2855579541896513e78295361
+	4c1718bc27f66742ada77cfd3cdc94d1)
 
 build() {
 	cd $name-$version
@@ -55,9 +57,6 @@ restrict 127.0.0.1
 restrict ::1
 EOF
 
-	# daemon files
-	install -Dm644 $SRC/rc.ntpd $PKG/etc/rc.d/rc.ntpd
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/ntpd/run
 }
-
-md5sum=(00950ca2855579541896513e78295361
-cbe92b48c62b7d788385b178c68d7081)
