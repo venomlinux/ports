@@ -5,9 +5,11 @@
 
 name=rsync
 version=3.1.2
-release=5
+release=1
 source=(https://www.samba.org/ftp/rsync/src/$name-$version.tar.gz
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.rsyncd)
+	run)
+md5sum=(0f758d7e000c0f7f7d3792610fad70cb
+	19f06afc0a351605c10242252ad7ab9e)
 
 build() {
 	cd $name-$version
@@ -33,9 +35,6 @@ use chroot = yes
 
 EOF
 
-	# daemon files
-	install -Dm644 $SRC/rc.rsyncd $PKG/etc/rc.d/rc.rsyncd
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/rsyncd/run
 }
-
-md5sum=(0f758d7e000c0f7f7d3792610fad70cb
-e466a252c053656422a729258e1b0bdf)
