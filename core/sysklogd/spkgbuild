@@ -5,7 +5,10 @@
 name=sysklogd
 version=1.5.1
 release=1
-source=(http://www.infodrom.org/projects/$name/download/$name-$version.tar.gz)
+source=(http://www.infodrom.org/projects/$name/download/$name-$version.tar.gz
+	run)
+md5sum=(c70599ab0d037fde724f7210c2c8d7f8
+	dc3c0ed5f3e998d71395c956385db3b1)
 
 build() {
 	cd $name-$version
@@ -31,5 +34,7 @@ user.* -/var/log/user.log
 
 # End /etc/syslog.conf
 EOF
+
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/syslogd/run
 }
-md5sum=(c70599ab0d037fde724f7210c2c8d7f8)
