@@ -1,8 +1,15 @@
 post_install() {
-	msginfo "rc.network script is disabled by default"
-	msginfo "run 'chmod +x /etc/rc.d/rc.network' to enable it"
+	msginfo
+	msginfo "Enable and start dhcpcd service:"
+	msginfo "  ln -sv /etc/sv/dhcpcd /var/service"
+	msginfo
 }
 
-post_upgrade() {
-	post_install
+rm_sv() {
+	rm -f /etc/sv/$1/supervise
+	rm -f /var/service/$1
+}
+
+pre_remove() {
+	rm_sv dhcpcd
 }
