@@ -2,9 +2,10 @@
 # depends	: glibc
 
 name=tzdata
-version=2018d
+version=2018e
 release=1
 source=(http://www.iana.org/time-zones/repository/releases/${name}${version}.tar.gz)
+md5sum=(97d654f4d7253173b3eeb76a836dd65e)
 
 build() {
 	ZONEINFO=$PKG/usr/share/zoneinfo
@@ -21,4 +22,3 @@ build() {
 	/usr/sbin/zic -d $ZONEINFO -p America/New_York
 	unset ZONEINFO
 }
-md5sum=(871a7ef808eb42ebc551acdb3d661554)
