@@ -1,0 +1,15 @@
+post_install() {
+	msginfo
+	msginfo "Enable and start bluetoothd service:"
+	msginfo "  ln -sv /etc/sv/bluetoothd /var/service"
+	msginfo
+}
+
+rm_sv() {
+	rm -f /etc/sv/$1/supervise
+	rm -f /var/service/$1
+}
+
+pre_remove() {
+	rm_sv bluetoothd
+}
