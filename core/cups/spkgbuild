@@ -8,7 +8,9 @@ name=cups
 version=2.2.7
 release=2
 source=(https://github.com/apple/cups/releases/download/v$version/$name-$version-source.tar.gz
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.cups)
+	run)
+md5sum=(ac703bcde223dab6d205a5fff193f716
+	80065b6e5c703e840f0ebd131c9dc62e)
 
 build() {
 	cd $name-$version
@@ -51,9 +53,6 @@ EOF
 
 	rm -fr $PKG/var/run
 
-	# daemon files
-	install -Dm644 $SRC/rc.cups $PKG/etc/rc.d/rc.cups
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/cupsd/run
 }
-
-md5sum=(ac703bcde223dab6d205a5fff193f716
-465b71b85b94fb56e25698f9f86a04b4)
