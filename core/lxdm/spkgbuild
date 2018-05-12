@@ -9,7 +9,9 @@ name=lxdm
 version=0.5.3
 release=5
 source=(http://downloads.sourceforge.net/$name/$name-$version.tar.xz
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.lxdm)
+	run)
+md5sum=(061caae432634e6db38bbdc84bc6ffa0
+	5b9c5683ea65eb376d7c52ca3c68c471)
 
 build() {
 	cd $name-$version
@@ -48,9 +50,6 @@ sed -e 's/^bg/#&/'        \
 	make
 	make DESTDIR=$PKG install
 
-	# daemon files
-	install -Dm754 $SRC/rc.lxdm $PKG/etc/rc.d/rc.lxdm
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/lxdm/run
 }
-
-md5sum=(061caae432634e6db38bbdc84bc6ffa0
-81081530c57103156aac3f42fed0cf20)
