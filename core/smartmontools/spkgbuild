@@ -4,9 +4,11 @@
 
 name=smartmontools
 version=6.6
-release=4
+release=1
 source=(http://sourceforge.net/projects/$name/files/$name/$version/$name-$version.tar.gz
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.smartd)
+	run)
+md5sum=(9ae2c6e7131cd2813edcc65cbe5f223f
+	6f65c48412a1c30895aee51e1a7e9528)
 
 build() {
 	cd $name-$version
@@ -17,9 +19,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# daemon files
-	install -Dm644 $SRC/rc.smartd $PKG/etc/rc.d/rc.smartd
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/smartd/run
 }
-
-md5sum=(9ae2c6e7131cd2813edcc65cbe5f223f
-1545175974f49aaa953b222bf2a58a7b)
