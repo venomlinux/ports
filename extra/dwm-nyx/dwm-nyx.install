@@ -1,9 +1,17 @@
-post_install() {
+up_font_cache() {
 	fc-cache -s > /dev/null
 	mkfontscale /usr/share/fonts/X11/misc
 	mkfontdir /usr/share/fonts/X11/misc
 }
 
+post_install() {
+	up_font_cache
+	ln -sf xinitrc.dwm /etc/X11/app-defaults/xinitrc
+}
+
 post_remove() {
-	post_install
+	up_font_cache
+	if [ "$(readlink /etc/X11/app-defaults/xinitrc)" = "xinitrc.dwm" ]; then
+		rm /etc/X11/app-defaults/xinitrc
+	fi
 }
