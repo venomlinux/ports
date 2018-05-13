@@ -9,7 +9,7 @@
 
 /* appearance */
 //static const char font[]            = "-*-xbmicons-medium-r-*-*-12-*-*-*-*-*-*-*" ","
-//                           "-*-terminus2-medium-r-*-*-12-*-*-*-*-*-*-*";
+//                                      "-*-terminus2-medium-r-*-*-12-*-*-*-*-*-*-*";
 static const char font[]            = "-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1" "," "-*-ohsnap-medium-*-normal-*-12-*-*-*-*-*-iso8859-*";
 static const char normbordercolor[] = border;
 static const char normbgcolor[]     = barbg;
@@ -26,30 +26,29 @@ static const Bool topbar            = True;     /* False means bottom bar */
 static const char *tags[] = { "term", "www", "fm", "edit", "media", "irc", "work", "dev", "misc" };
 
 static const Rule rules[] = {
-	/* class					   instance    title           tags mask     isfloating   monitor */
-	{ "Gimp",						NULL,       NULL,       	0,				True,		-1 },
-	{ "qutebrowser",				NULL,       NULL,      		1 << 1,			False,		-1 },
-	{ "Google-chrome",				NULL,       NULL,      		1 << 1,			False,		-1 },
-	{ "Firefox",					NULL,       NULL,      		1 << 1,			False,		-1 },
-	{ "Firefox",					"Dialog",   NULL,      		1 << 1,			True,		-1 },
-	{ "Thunar",						NULL,       NULL,      		1 << 2,			False,		-1 },
-	{ "Geany",						NULL,       NULL,       	1 << 3,			False,		-1 },
-	{ "Spotify",					"spotify",  "Spotify",     	1 << 4,			False,		-1 },
-	{ "Gcolor2",					NULL,       NULL,       	0,				True,		-1 },
-	{ "Hexchat", 					NULL,       NULL,       	1 << 5,			False,		-1 },
-	{ "VirtualBox", 				NULL,       NULL,       	1 << 7,			False,		-1 },
-	{ "VirtualBox", 				NULL,      "Virtual Media Manager",       	0,			True,		-1 },
-	{ "Uget-gtk",					NULL,       NULL,       	0,				True,		-1 },
-	{ "Transmission-gtk",			NULL,       NULL,       	0,				True,		-1 },
-	{ "Gcolor2",					NULL,       NULL,       	0,				True,		-1 },
-	{ "Viewnior",					NULL,       NULL,       	0,				True,		-1 },
-	{ "Xarchiver",					NULL,       NULL,       	0,				True,		-1 },
-	{ "Qpdfview",					NULL,       NULL,       	0,				True,		-1 },
-	{ "Epdfview",					NULL,       NULL,       	0,				True,		-1 },
-	{ "Galculator",					NULL,       NULL,       	0,				True,		-1 },
-	{ "fontforge",					NULL,       NULL,       	0,				True,		-1 },
-	{ "URxvt",						NULL,       "alsamixer",	0,				True,		-1 },
-	{ NULL,							NULL,       "File Operation Progress",   0,		   True,        -1 },
+	/* class			       instance    title           	       tags mask     isfloating       monitor */
+	{ "Gimp",				NULL,       NULL,  		     	0,		True,		-1 },
+	{ "qutebrowser",			NULL,       NULL,      			1 << 1,		False,		-1 },
+	{ "Google-chrome",			NULL,       NULL,      			1 << 1,		False,		-1 },
+	{ "Firefox",				NULL,       NULL,      			1 << 1,		False,		-1 },
+	{ "Firefox",				"Dialog",   NULL,      			1 << 1,		True,		-1 },
+	{ "Thunar",				NULL,       NULL,      			1 << 2,		False,		-1 },
+	{ "Geany",				NULL,       NULL,       		1 << 3,		False,		-1 },
+	{ "Gcolor2",				NULL,       NULL,       		0,		True,		-1 },
+	{ "Hexchat", 				NULL,       NULL,       		1 << 5,		False,		-1 },
+	{ "VirtualBox", 			NULL,       NULL,       		1 << 7,		False,		-1 },
+	{ "VirtualBox", 			NULL,      "Virtual Media Manager",	0,		True,		-1 },
+	{ "Uget-gtk",				NULL,       NULL,       		0,		True,		-1 },
+	{ "Transmission-gtk",			NULL,       NULL,       		0,		True,		-1 },
+	{ "Gcolor2",				NULL,       NULL,       		0,		True,		-1 },
+	{ "Viewnior",				NULL,       NULL,       		0,		True,		-1 },
+	{ "Xarchiver",				NULL,       NULL,       		0,		True,		-1 },
+	{ "Qpdfview",				NULL,       NULL,       		0,		True,		-1 },
+	{ "Epdfview",				NULL,       NULL,       		0,		True,		-1 },
+	{ "Galculator",				NULL,       NULL,       		0,		True,		-1 },
+	{ "fontforge",				NULL,       NULL,       		0,		True,		-1 },
+	{ "URxvt",				NULL,       "alsamixer",		0,		True,		-1 },
+	{ NULL,					NULL,       "File Operation Progress",	0,		True,		-1 },
 };
 
 /* layout(s) */
@@ -116,6 +115,7 @@ static Key keys[] = {
 	{ 0,                XF86XK_AudioMute,      spawn,          {.v = volmute } },
 	{ 0,         XF86XK_AudioLowerVolume,      spawn,          {.v = voldw } },
 	{ 0,         XF86XK_AudioRaiseVolume,      spawn,          {.v = volup } },
+	{ 0,                 XF86XK_PowerOff,      spawn,          {.v = offscr } },
 	{ SUPER,                        XK_m,      spawn,          {.v = volmute } },
 	{ SUPER,                        XK_Down,   spawn,          {.v = voldw } },
 	{ SUPER,                        XK_Up,     spawn,          {.v = volup } },
