@@ -4,12 +4,12 @@
 
 name=filesystem
 version=0.1
-release=7
+release=8
 source=(passwd group resolv.conf hosts hostname inputrc usb.conf
 	shells fstab lsb-release bashrc profile
 	bash_completion.sh dircolors.sh readline.sh
 	umask.sh i18n.sh bash_profile.skel xprofile.skel bashrc.skel bash_logout.skel
-	motd nyx)
+	issue nyx)
 md5sum=(46393e48778149b3a285f9f379987f16
 	f5119514e956264b68c8696392c227cf
 	ef5ed2b51f2eddbebdddd065f0dbe1ff
@@ -31,7 +31,7 @@ md5sum=(46393e48778149b3a285f9f379987f16
 	376ae7c23d455d2114e593b322b2cd69
 	8250c7955ad6e22f41aa4d79257d95e0
 	f70bbec388eac3b99a99718b96b6d4c6
-	7923549c234718b9f4eaf014667d41ac
+	ba8993c4b89474e6e28ed9741accc5a4
 	3750ea82d9dc7df1d6f1e6df93b2edc7)
 
 build() {
@@ -90,7 +90,7 @@ build() {
 	install -m644 xprofile.skel $PKG/etc/skel/.xprofile
 	install -m644 bashrc.skel $PKG/etc/skel/.bashrc
 	install -m644 bash_logout.skel $PKG/etc/skel/.bash_logout
-	install -m644 motd $PKG/etc
+	install -m644 issue $PKG/etc
 	install -m755 nyx $PKG/usr/bin
 	
 	dircolors -p > $PKG/etc/dircolors
