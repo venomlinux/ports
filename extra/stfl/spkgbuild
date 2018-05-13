@@ -13,4 +13,6 @@ build() {
 	
 	sed -i 's|ncursesw/||' stfl_internals.h
 	make prefix=/usr DESTDIR=$PKG install
+
+	find $PKG -name perllocal.pod -delete
 }
