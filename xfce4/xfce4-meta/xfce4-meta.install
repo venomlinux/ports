@@ -1,3 +1,9 @@
 post_install() {
 	ln -svf xinitrc.xfce4 /etc/X11/app-defaults/xinitrc
 }
+
+post_remove() {
+	if [ "$(readlink /etc/X11/app-defaults/xinitrc)" = "xinitrc.xfce4" ]; then
+		rm /etc/X11/app-defaults/xinitrc
+	fi
+}
