@@ -1,0 +1,18 @@
+# description	: Openbox logout script
+# backup	: etc/oblogout.conf
+# conflict	: 
+# depends	: 
+# makedepends	: 
+# noextract	: 
+
+name=oblogout
+version=0.2
+release=1
+options=()
+source=(https://launchpad.net/oblogout/$version/$version.0/+download/$name-$version.tar.bz2)
+md5sum=(b74398625b1e0a7fcde8f6846f9c6d41)
+
+build() {
+	cd $name
+	python2 setup.py install --root="$PKG"
+}
