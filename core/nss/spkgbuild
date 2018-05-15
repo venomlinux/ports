@@ -4,10 +4,12 @@
 # depends	: nspr sqlite p11-kit
 
 name=nss
-version=3.36.1
+version=3.37
 release=1
 source=(https://archive.mozilla.org/pub/security/nss/releases/NSS_${version//./_}_RTM/src/$name-$version.tar.gz
 	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-standalone-1.patch)
+md5sum=(f86a8c5b15aa12a1deb05995726257dd
+	de42751a0a6d86d48e5d1cbb0e65096d)
 
 build() {
 	cd $name-$version
@@ -40,6 +42,3 @@ build() {
 	install -d $PKG/usr/lib/pkgconfig
 	install -v -m644 Linux*/lib/pkgconfig/nss.pc  $PKG/usr/lib/pkgconfig
 }
-
-md5sum=(814d8fe3ec89006cf62078e2a56cf2f9
-de42751a0a6d86d48e5d1cbb0e65096d)
