@@ -5,10 +5,12 @@
 # depends	: linux-pam
 
 name=sudo
-version=1.8.22
-release=3
+version=1.8.23
+release=1
 source=(http://www.sudo.ws/dist/$name-$version.tar.gz
 	sudo)
+md5sum=(ea444d747feb1decfebdffd0b38b0739
+	39e65caf258a38aebfe847a89ac5822f)
 
 build() {
 	cd $name-$version
@@ -32,6 +34,3 @@ build() {
 
 	rm -fr $PKG/var/run
 }
-
-md5sum=(24abdea48db4c5abcd410167c801cc8c
-39e65caf258a38aebfe847a89ac5822f)
