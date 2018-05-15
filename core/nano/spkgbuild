@@ -5,9 +5,10 @@
 # depends	: file ncurses
 
 name=nano
-version=2.9.5
+version=2.9.6
 release=1
 source=(https://www.nano-editor.org/dist/v${version::3}/$name-$version.tar.xz)
+md5sum=(a912360f59f4141f655d3f3b5f3e3924)
 
 build() {
 	cd $name-$version
@@ -20,5 +21,3 @@ build() {
 
 	install -v -Dm644 doc/sample.nanorc $PKG/etc/nanorc
 }
-
-md5sum=(5533a6d629324cc0b3454d263b8d83e9)
