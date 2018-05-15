@@ -2,9 +2,10 @@
 # depends	: ca-certificates openssl
 
 name=wget
-version=1.19.4
+version=1.19.5
 release=1
 source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+md5sum=(2db6f03d655041f82eb64b8c8a1fa7da)
 
 build() {
 	cd $name-$version
@@ -15,4 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(a2a2c1dc4ac5003fc25a8e60b4a9464e)
