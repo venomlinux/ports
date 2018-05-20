@@ -1,5 +1,5 @@
 post_install() {
-	for i in {1..6}; do
+	for i in {2..6}; do
 		[ -L /var/service/getty-tty$i ] || ln -s /etc/sv/getty-tty$i /var/service
 	done
 }

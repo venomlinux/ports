@@ -1,73 +1,17 @@
 # description	: Runit scripts for Nyx
-# backup	: etc/runit/rc.local etc/runit/modules-load
+# backup	: etc/runit/startup.local etc/runit/shutdown.local etc/runit/runit.conf etc/runit/modules
 # depends	: runit
 
 name=nyx-runit
-version=0.1
+version=20180521
 release=1
-source=(1 2 3 ctrlaltdel
-	rc.local rc.shutdown rc.conf modules-load
-	halt.{c,8} shutdown{,.8} zzz{,.8} pause.{c,1})
-md5sum=(737e2351d757606344caf38e11b71deb
-	5c64bddd4fd28400a3d0820e1271cc2c
-	c7db4047d279235beb71863c9de7aac6
-	9f1dcf4c31a2d9df9336b8d1c9b13a83
-	72758d6893ff80057af1fbe652b6e81f
-	9ad55550e64f1cf525b431a51f9b8ac5
-	d0fe81b569b02ea18c3de519b74fef7a
-	6ddda7003461656c1d88549565c0f40b
-	6c9af94ddcca1c20be317019d2dac06f
-	bf555929eda2b3252a240698510599f3
-	88f4548b1ef67f4a8992dacb82b58b32
-	878a905982924dc54ea0ddf51a6af143
-	b6bfe108600d3985dd2d8ba0090fe5f7
-	69c6ef3626550d57221777fce76afb3e
-	f2af41d7f566b1b5354b35a85e0175d3
-	838b2ee21b7102f3c8ff3fb4a7f47090)
+_commit=51462a1d6c4f893b8137ad47792d041ef8f6d0b5
+source=($name-$_commit.tar.gz::https://github.com/emmett1/nyx-runit/archive/$_commit.tar.gz)
+md5sum=(8d519897bdb2615e068970c31d147c8e)
 
 build() {
-	mkdir -p $PKG/usr/{sbin,share/man/man{1,8}}
-	gcc $CFLAGS -o halt $SRC/halt.c
-	gcc $CFLAGS -o pause $SRC/pause.c
-
-	install -m755 halt $PKG/usr/sbin/
-	install -m755 pause $PKG/usr/sbin/
-	install -m755 $SRC/zzz $PKG/usr/sbin/
-	install -m755 $SRC/shutdown $PKG/usr/sbin/
-	ln -sv halt $PKG/usr/sbin/reboot
-	ln -sv halt $PKG/usr/sbin/poweroff
-	ln -sv zzz $PKG/usr/sbin/ZZZ
-
-	install -m644 $SRC/pause.1 $PKG/usr/share/man/man1
-	install -m644 $SRC/halt.8 $PKG/usr/share/man/man8
-	install -m644 $SRC/zzz.8 $PKG/usr/share/man/man8
-	install -m644 $SRC/shutdown.8 $PKG/usr/share/man/man8
-	ln -sv halt.8 $PKG/usr/share/man/man8/reboot.8
-	ln -sv halt.8 $PKG/usr/share/man/man8/poweroff.8
-
-	mkdir -p $PKG/etc/runit/runsvdir/{default,single}
-	ln -sv default $PKG/etc/runit/runsvdir/current
-	install -m754 1 2 3 ctrlaltdel rc.{local,shutdown} \
-		$PKG/etc/runit/
-	install -m644 modules-load $PKG/etc/runit/
-
-	mkdir -p $PKG/{var,etc/sv}
-	ln -sv /etc/runit/runsvdir/current $PKG/var/service
-
-	for i in {1..6}; do
-		if [ $i = 1 ]; then
-			TTY="exec setsid agetty --noclear tty$i 38400 linux"
-		else
-			TTY="exec setsid agetty tty$i 38400 linux"
-		fi			
-		mkdir -p $PKG/etc/sv/getty-tty$i
-		echo "#!/bin/sh" > $PKG/etc/sv/getty-tty$i/run
-		echo "$TTY" >> $PKG/etc/sv/getty-tty$i/run
-		echo "#!/bin/sh" > $PKG/etc/sv/getty-tty$i/finish
-		echo "exec utmpset -w tty$i" >> $PKG/etc/sv/getty-tty$i/finish
-		chmod u+x $PKG/etc/sv/getty-tty$i/run
-	done
-
-	mkdir -p $PKG/sbin
-	ln -sv runit-init $PKG/sbin/init
+	cd $name-$_commit
+	make
+	make DESTDIR=$PKG OSNAME="Nyx GNU/Linux" install
+	ln -s runit-init $PKG/sbin/init
 }
