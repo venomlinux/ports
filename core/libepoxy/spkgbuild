@@ -4,9 +4,10 @@
 # makedepends	: mesa
 
 name=libepoxy
-version=1.5.0
+version=1.5.2
 release=1
 source=(https://github.com/anholt/$name/releases/download/$version/$name-$version.tar.xz)
+md5sum=(4a6b9e581da229dee74c2263c84b1eca)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(63fe3847789258254dcd7e3fdb9e7f5e)
