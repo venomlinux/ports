@@ -2,9 +2,10 @@
 # depends	: lzo
 
 name=btrfs-progs
-version=4.16
+version=4.16.1
 release=1
 source=(https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v$version.tar.xz)
+md5sum=(d7a4598d58fc91d49ee8e7c342b3b919)
 
 build() {
 	cd $name-v$version
@@ -28,5 +29,3 @@ build() {
 	# install bash completion (FS#44618)
 	install -Dm644 btrfs-completion $PKG/usr/share/bash-completion/completions/btrfs
 }
-
-md5sum=(830e173b9fcef4135b0e5a2e0399344e)
