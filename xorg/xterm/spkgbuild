@@ -1,13 +1,15 @@
 # description	: Terminal emulator for the X Window System
 # homepage	: http://invisible-island.net/xterm/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: libxaw libxft libxkbfile xbitmaps luit
+# depends	: libxaw libxft libxkbfile xbitmaps luit dejavu-fonts
 
 name=xterm
-version=332
+version=333
 release=1
 source=(http://invisible-mirror.net/archives/$name/$name-$version.tgz
 	${name}_remove_list)
+md5sum=(32a810c436db81775706f9cbe7efc290
+	1845cde6e5d8f018e20ce3c182111687)
 	
 
 build() {
@@ -49,6 +51,3 @@ done
 install -m755 -d $PKG/usr/share/applications
 install -m644 {xterm,uxterm}.desktop $PKG/usr/share/applications
 }
-
-md5sum=(4bbc75ecc68d100547662958cda346ae
-1845cde6e5d8f018e20ce3c182111687)
