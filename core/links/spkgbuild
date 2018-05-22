@@ -4,9 +4,10 @@
 # depends	: openssl
 
 name=links
-version=2.15
+version=2.16
 release=1
 source=(http://links.twibright.com/download/$name-$version.tar.bz2)
+md5sum=(645fb0c0294e4c3268f94d307d394ffb)
 
 build() {
 	cd $name-$version
@@ -18,5 +19,3 @@ build() {
 	install -v -m644 doc/links_cal/* KEYS BRAILLE_HOWTO \
 	    $PKG/usr/share/doc/$name
 }
-
-md5sum=(8f9e46a2bb093e7e1fd96f045b6b4c19)
