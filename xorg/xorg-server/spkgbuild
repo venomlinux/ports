@@ -3,9 +3,10 @@
 # makedepends	: libgcrypt mesa xorgproto
 
 name=xorg-server
-version=1.19.5
-release=2
+version=1.20.0
+release=1
 source=(http://ftp.x.org/pub/individual/xserver/$name-$version.tar.bz2)
+md5sum=(c1ca1ea0a905ea788da03c77cc38b06e)
 
 build() {
 	cd $name-$version
@@ -25,5 +26,3 @@ build() {
 
 	install -d $PKG/etc/X11/xorg.conf.d
 }
-
-md5sum=(4ac6feeae6790436ce9de879ca9a3bf8)
