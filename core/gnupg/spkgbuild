@@ -4,9 +4,10 @@
 # depends	: libassuan libgcrypt libgpg-error libksba npth pinentry
 
 name=gnupg
-version=2.2.6
+version=2.2.7
 release=1
 source=(https://gnupg.org/ftp/gcrypt/$name/$name-$version.tar.bz2)
+md5sum=(fc13424af7747a5dd6edb6086ec0cb2f)
 
 build() {
 	cd $name-$version
@@ -16,5 +17,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(2b13d3b6db10b9e93c828703fd6ff823)
