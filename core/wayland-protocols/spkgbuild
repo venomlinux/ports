@@ -2,9 +2,10 @@
 # depends	: wayland
 
 name=wayland-protocols
-version=1.13
+version=1.14
 release=1
 source=(https://wayland.freedesktop.org/releases/$name-$version.tar.xz)
+md5sum=(5d32eaf0f5d6b7da7f5ad0959e2551e6)
 
 build() {
 	cd $name-$version
@@ -12,5 +13,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(29312149dafcd4a0e739ba94995a574d)
