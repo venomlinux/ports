@@ -2,9 +2,10 @@
 # depends	: qt5 frei0r-plugins
 
 name=mlt
-version=6.6.0
+version=6.8.0
 release=1
 source=(https://github.com/mltframework/mlt/releases/download/v$version/mlt-$version.tar.gz)
+md5sum=(d32af8f99fc7fdd67a3853432a747229)
 
 build() {
 	cd $name-$version
@@ -22,5 +23,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(f745ff2d5dc9d8f711ba5fac9957691c)
