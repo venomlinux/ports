@@ -3,9 +3,10 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=libgpg-error
-version=1.29
+version=1.31
 release=1
 source=(ftp://ftp.gnupg.org/gcrypt/$name/$name-$version.tar.bz2)
+md5sum=(5cc6df0fea27832e9cdbafc60f51561b)
 
 build() {
 	cd $name-$version
@@ -16,5 +17,3 @@ build() {
 
 	install -v -m644 -D README $PKG/usr/share/doc/$name/README
 }
-
-md5sum=(3f6576c968e541b8fbab099a0f04cf5e)
