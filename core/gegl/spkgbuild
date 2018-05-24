@@ -4,17 +4,13 @@
 # depends	: babl json-glib
 
 name=gegl
-version=0.4.0
+version=0.4.2
 release=1
-source=(http://download.gimp.org/pub/gegl/${version::3}/$name-$version.tar.bz2
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-ffmpeg4-1.patch)
-md5sum=(70c054f584d32cd03a15b87fd8ace9e4
-	c7e9a49b373b46210ab5d62992577c8e)
+source=(http://download.gimp.org/pub/gegl/${version::3}/$name-$version.tar.bz2)
+md5sum=(47b8f88c466e0a38f5e8d6181bba89bd)
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i ../$name-$version-ffmpeg4-1.patch
 
 	./configure --prefix=/usr
 	make
