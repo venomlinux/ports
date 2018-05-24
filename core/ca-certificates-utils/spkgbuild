@@ -2,9 +2,10 @@
 # depends	: openssl
 
 name=ca-certificates-utils
-version=0.7
+version=0.8
 release=1
 source=(https://github.com/djlucas/make-ca/archive/v$version/make-ca-$version.tar.gz)
+md5sum=(1f0176c4fa89274971b2826a97f303f7)
 
 build() {
 	cd make-ca-$version
@@ -13,5 +14,3 @@ build() {
 	# remove systemd files
 	rm -fr $PKG/etc
 }
-
-md5sum=(4f180b9bf3b11f29d6a79e6022aeae23)
