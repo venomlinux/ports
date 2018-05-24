@@ -4,16 +4,13 @@
 # depends	: gegl json-glib python2-gtk gtk2 mypaint-brushes gexiv2
 
 name=gimp
-version=2.10.0
+version=2.10.2
 release=1
 source=(http://download.gimp.org/pub/$name/v${version%.*}/$name-$version.tar.bz2)
-md5sum=(5e91357ede5a5d5cb0db981ff8f9726c)
+md5sum=(66b527cac13485be411dd254896c20ae)
 
 build() {
 	cd $name-$version
-
-	# Fix a pkgconfig file error which prevents some extensions from building
-	sed -i 's/gegl-0.3/gegl-0.4/' gimp.pc.in
 
 	./configure \
 		--prefix=/usr \
