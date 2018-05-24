@@ -1,9 +1,10 @@
 # description	: C library for asynchronous DNS requests
 
 name=c-ares
-version=1.12.0
+version=1.14.0
 release=1
 source=(https://c-ares.haxx.se/download/$name-$version.tar.gz)
+md5sum=(e57b37a7c46283e83c21cde234df10c7)
 
 build() {
 	cd $name-$version
@@ -11,5 +12,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(2ca44be1715cd2c5666a165d35788424)
