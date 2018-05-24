@@ -2,9 +2,10 @@
 # makedepends	: gobject-introspection
 
 name=babl
-version=0.1.46
+version=0.1.50
 release=1
 source=(http://download.gimp.org/pub/$name/${version::3}/$name-$version.tar.bz2)
+md5sum=(e7b937608a758004af5a9c254c77069b)
 
 build() {
 	cd $name-$version
@@ -16,5 +17,3 @@ build() {
 	install -v -m644 docs/*.{css,html} $PKG/usr/share/gtk-doc/html/babl
 	install -v -m644 docs/graphics/*.{html,png,svg} $PKG/usr/share/gtk-doc/html/babl/graphics
 }
-
-md5sum=(b5a39a4e4606b6158cd4be304c7ccf25)
