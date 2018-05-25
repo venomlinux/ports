@@ -1,11 +1,11 @@
 # description	: utilities for handling the ext2, ext3 and ext4 file system
-# depends	: bash
-# makedepends	: bc
+# depends	: bash bc
 
 name=e2fsprogs
-version=1.44.1
+version=1.44.2
 release=1
-source=(http://downloads.sourceforge.net/project/$name/$name/v$version/$name-$version.tar.gz)
+source=(https://downloads.sourceforge.net/project/$name/$name/v$version/$name-$version.tar.gz)
+md5sum=(97b1c3603e5465667317775cf020e1a9)
 
 build() {
 	cd $name-$version
@@ -41,4 +41,3 @@ fi
 
 	chmod -v u+w $PKG/usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
 }
-md5sum=(d6079b031682fa947ea0f96013379155)
