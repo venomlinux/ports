@@ -4,9 +4,10 @@
 # depends	: ncurses
 
 name=procps-ng
-version=3.3.14
+version=3.3.15
 release=1
 source=(http://sourceforge.net/projects/procps-ng/files/Production/$name-$version.tar.xz)
+md5sum=(2b0717a7cb474b3d6dfdeedfbad2eccc)
 
 build() {
 	cd $name-$version
@@ -23,4 +24,3 @@ build() {
 	mv -v $PKG/usr/lib/libprocps.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libprocps.so) $PKG/usr/lib/libprocps.so
 }
-md5sum=(fce371ccc1c15a67af9d85e4057e559d)
