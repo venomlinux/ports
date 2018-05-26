@@ -42,4 +42,5 @@ EOF
 
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/dbus/run
+	ln -s /run/runit/supervise.dbus $PKG/etc/sv/dbus/supervise
 }
