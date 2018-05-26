@@ -52,4 +52,5 @@ sed -e 's/^bg/#&/'        \
 
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/lxdm/run
+	ln -s /run/runit/supervise.lxdm $PKG/etc/sv/lxdm/supervise
 }
