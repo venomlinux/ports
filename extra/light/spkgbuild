@@ -22,4 +22,5 @@ build() {
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/light/run
 	install -Dm755 $SRC/finish $PKG/etc/sv/light/finish
+	ln -s /run/runit/supervise.light $PKG/etc/sv/light/supervise
 }
