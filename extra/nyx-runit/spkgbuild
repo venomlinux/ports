@@ -3,15 +3,19 @@
 # depends	: runit
 
 name=nyx-runit
-version=20180521
+version=20180526
 release=1
-_commit=51462a1d6c4f893b8137ad47792d041ef8f6d0b5
+_commit=16db1f336acaeb4de1b5fc94db4baad3f18482a2
 source=($name-$_commit.tar.gz::https://github.com/emmett1/nyx-runit/archive/$_commit.tar.gz)
-md5sum=(8d519897bdb2615e068970c31d147c8e)
+md5sum=(92dc57a6e5ddc4cd73e07bcbae104bbe)
 
 build() {
 	cd $name-$_commit
 	make
 	make DESTDIR=$PKG OSNAME="Nyx GNU/Linux" install
 	ln -s runit-init $PKG/sbin/init
+	for i in {1..6}; do
+		ln -s /run/runit/supervise.getty-tty$i $PKG/etc/sv/getty-tty$i/supervise
+	done
+	ln -s /run/runit/supervise.sulogin $PKG/etc/sv/sulogin/supervise
 }
