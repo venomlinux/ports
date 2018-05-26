@@ -77,4 +77,5 @@ EOF
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/wpa_supplicant/run
 	install -Dm644 $SRC/conf $PKG/etc/sv/wpa_supplicant/conf
+	ln -s /run/runit/supervise.wpa_supplicant $PKG/etc/sv/wpa_supplicant/supervise
 }
