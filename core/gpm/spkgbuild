@@ -37,4 +37,5 @@ build() {
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/gpm/run
 	install -Dm644 $SRC/conf $PKG/etc/sv/gpm/conf
+	ln -s /run/runit/supervise.gpm $PKG/etc/sv/gpm/supervise
 }
