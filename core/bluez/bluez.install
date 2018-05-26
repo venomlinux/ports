@@ -5,11 +5,3 @@ post_install() {
 	msginfo
 }
 
-rm_sv() {
-	rm -f /etc/sv/$1/supervise
-	rm -f /var/service/$1
-}
-
-pre_remove() {
-	rm_sv bluetoothd
-}

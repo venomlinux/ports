@@ -57,4 +57,5 @@ EOF
 
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/bluetoothd/run
+	ln -s /run/runit/supervise.bluetoothd $PKG/etc/sv/bluetoothd/supervise
 }
