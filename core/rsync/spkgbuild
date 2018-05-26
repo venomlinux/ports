@@ -37,4 +37,5 @@ EOF
 
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/rsyncd/run
+	ln -s /run/runit/supervise.rsyncd $PKG/etc/sv/rsyncd/supervise
 }
