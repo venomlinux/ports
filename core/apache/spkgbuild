@@ -44,4 +44,5 @@ build() {
 
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/httpd/run
+	ln -s /run/runit/supervise.httpd $PKG/etc/sv/httpd/supervise
 }
