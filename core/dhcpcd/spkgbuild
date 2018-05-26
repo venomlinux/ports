@@ -24,4 +24,5 @@ build() {
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/dhcpcd/run
 	install -Dm644 $SRC/conf $PKG/etc/sv/dhcpcd/conf
+	ln -s /run/runit/supervise.dhcpcd $PKG/etc/sv/dhcpcd/supervise
 }
