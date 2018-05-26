@@ -55,4 +55,5 @@ EOF
 
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/cupsd/run
+	ln -s /run/runit/supervise.cupsd $PKG/etc/sv/cupsd/supervise
 }
