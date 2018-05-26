@@ -26,4 +26,5 @@ build() {
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/alsa/run
 	install -Dm755 $SRC/finish $PKG/etc/sv/alsa/finish
+	ln -s /run/runit/supervise.alsa $PKG/etc/sv/alsa/supervise
 }
