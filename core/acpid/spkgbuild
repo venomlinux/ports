@@ -33,4 +33,5 @@ EOF
 
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/acpid/run
+	ln -s /run/runit/supervise.acpid $PKG/etc/sv/acpid/supervise
 }
