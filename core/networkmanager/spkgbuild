@@ -44,4 +44,5 @@ EOF
 
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/networkmanager/run
+	ln -s /run/runit/supervise.networkmanager $PKG/etc/sv/networkmanager/supervise
 }
