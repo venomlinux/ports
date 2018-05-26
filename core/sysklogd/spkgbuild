@@ -37,4 +37,5 @@ EOF
 
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/syslogd/run
+	ln -s /run/runit/supervise.sysklogd $PKG/etc/sv/syslogd/supervise
 }
