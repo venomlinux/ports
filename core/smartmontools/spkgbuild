@@ -21,4 +21,5 @@ build() {
 
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/smartd/run
+	ln -s /run/runit/supervise.smartd $PKG/etc/sv/smartd/supervise
 }
