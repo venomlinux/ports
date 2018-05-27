@@ -5,11 +5,11 @@
 name=scratchpkg
 version=20180527
 release=1
-_commit=d4cab9285b4b4b7de92bf8ecefd1dbd57994910b
+_commit=06538a51767c5e1a787198ae1ba61bae09a2752d
 source=($name-$_commit.tar.gz::https://github.com/emmett1/scratchpkg/archive/$_commit.tar.gz)
-md5sum=(18c88cf68470614fc0ea88c9c296164d)
+md5sum=(99646548b58ddbb39d1ac180593241c3)
 
 build() {
 	cd $name-$_commit
-	make DESTDIR=$PKG install
+	DESTDIR=$PKG ./INSTALL.sh
 }
