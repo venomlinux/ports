@@ -3,9 +3,10 @@
 # makedepends	: yasm
 
 name=gst-libav
-version=1.14.0
+version=1.14.1
 release=1
 source=(https://gstreamer.freedesktop.org/src/gst-libav/$name-$version.tar.xz)
+md5sum=(d57b0052f6eccb8e6762def05995133c)
 
 build() {
 	cd $name-$version
@@ -14,5 +15,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(943045b9e937ffc5c6cfa0bd5c44230d)
