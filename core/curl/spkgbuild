@@ -3,9 +3,10 @@
 # optdepends	: c-ares gnutls libdn2 nghttp2 openldap samba
 
 name=curl
-version=7.58.0
+version=7.60.0
 release=1
 source=(https://curl.haxx.se/download/$name-$version.tar.xz)
+md5sum=(a889cd11b4ae8794b7030472cb4df0a0)
 
 build() {
 	cd $name-$version
@@ -17,5 +18,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(fcf429f28adddf9295ed0c42e79cb097)
