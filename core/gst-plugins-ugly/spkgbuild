@@ -1,13 +1,13 @@
 # description	: A set of plug-ins considered by the GStreamer developers to have good quality and correct functionality, but distributing them might pose problems
 # homepage	: https://gstreamer.freedesktop.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: gst-plugins-base lame liba52 libdvdread
-# makedepends	: x264
+# depends	: gst-plugins-base lame liba52 libdvdread x264
 
 name=gst-plugins-ugly
-version=1.14.0
+version=1.14.1
 release=1
 source=(https://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
+md5sum=(d1563f5dc0508afc6f8b261324d765d9)
 
 build() {
 	cd $name-$version
@@ -17,4 +17,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(bcb1f8d9339176aee2b5da2a9cb2df88)
