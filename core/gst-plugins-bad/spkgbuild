@@ -4,9 +4,10 @@
 # depends	: gst-plugins-base libdvdread libdvdnav llvm soundtouch
 
 name=gst-plugins-bad
-version=1.14.0
+version=1.14.1
 release=1
 source=(https://gstreamer.freedesktop.org/src/gst-plugins-bad/$name-$version.tar.xz)
+md5sum=(c2f963501fc6afc084c418894425dcfd)
 
 build() {
 	cd $name-$version
@@ -18,5 +19,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(555bbe7232fb4653c31b78e1f79068cf)
