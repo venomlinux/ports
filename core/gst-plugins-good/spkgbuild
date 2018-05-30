@@ -4,9 +4,10 @@
 # depends	: gst-plugins-base cairo flac gdk-pixbuf libjpeg-turbo libpng libsoup libvpx libxdamage
 
 name=gst-plugins-good
-version=1.14.0
+version=1.14.1
 release=1
 source=(https://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
+md5sum=(9afe4dd6678cdbd19d8b316c90d6717a)
 
 build() {
 	cd $name-$version
@@ -16,4 +17,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(48584b02e469a314b0e71f1553a2d2a7)
