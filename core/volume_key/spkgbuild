@@ -1,19 +1,16 @@
 # description	: Library for manipulating storage volume encryption keys and storing them separately from volumes to handle forgotten passphrases
 # homepage	: https://pagure.io/volume_key
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: cryptsetup glib gpgme python2
-# makedepends	: swig
+# depends	: cryptsetup glib gpgme python2 swig
 
 name=volume_key
-version=0.3.9
-release=2
-source=(https://releases.pagure.org/volume_key/$name-$version.tar.xz
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-cryptsetup2-1.patch)
+version=0.3.10
+release=1
+source=(https://releases.pagure.org/volume_key/$name-$version.tar.xz)
+md5sum=(605fd99a6e42916728020562a6edee78)
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i ../$name-$version-cryptsetup2-1.patch
 
 	./configure --prefix=/usr
 	make
@@ -22,6 +19,3 @@ build() {
 	# Removes a reference to config.h, which is not installed
 	sed -i '/config.h/d' $PKG/usr/include/volume_key/libvolume_key.h
 }
-
-md5sum=(a2d14931177c660e1f3ebbcf5f47d8e2
-0e1e0996150c04e34ad1d2e5c71c051c)
