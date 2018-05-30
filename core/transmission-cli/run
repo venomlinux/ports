@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -r conf ] && . ./conf
+exec chpst -u ${USER:=transmission}:${USER:=transmission} transmission-daemon -f --log-error
