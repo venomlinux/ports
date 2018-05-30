@@ -1,10 +1,11 @@
 # description	: Network related gio modules for GLib
-# depends	: glib gnutls gsettings-desktop-schemas ca-certificates p11-kit
+# depends	: glib gnutls gsettings-desktop-schemas ca-certificates p11-kit meson
 
 name=glib-networking
-version=2.56.0
+version=2.56.1
 release=1
 source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(456572f1e8fea32ef747541d64508a8e)
 
 build() {
 	cd $name-$version
@@ -18,5 +19,3 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 }
-
-md5sum=(f9e720a79014cc7d07eabd02ade0ae4e)
