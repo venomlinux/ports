@@ -2,9 +2,10 @@
 # depends	: glibc
 
 name=libunistring
-version=0.9.9
+version=0.9.10
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(db08bb384e81968957f997ec9808926e)
 
 build() {
 	cd $name-$version
@@ -13,5 +14,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(e4ecbf169a07ef021f89132e3fe55c02)
