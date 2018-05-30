@@ -1,12 +1,13 @@
 # description	: Library for encoding video streams into the H.265/HEVC format
 # homepage	: https://bitbucket.org/multicoreware/x265
 # maintainer	: daemonbsd56
-# makedepends	: cmake yasm
+# depends	: cmake yasm
 
 name=x265
-version=2.7
+version=2.8
 release=1
 source=(https://bitbucket.org/multicoreware/$name/downloads/${name}_${version}.tar.gz)
+md5sum=(b68dcd4e8a495e53e53034a11fec5eb9)
 
 build() {
 	cd ${name}_${version}
@@ -21,5 +22,3 @@ build() {
 
 	rm $PKG/usr/lib/libx265.a
 }
-
-md5sum=(b0d7d20da2a418fa4f53a559946ea079)
