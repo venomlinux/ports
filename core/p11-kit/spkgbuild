@@ -4,9 +4,10 @@
 # depends	: ca-certificates libtasn1 libffi
 
 name=p11-kit
-version=0.23.10
+version=0.23.11
 release=1
 source=(https://github.com/p11-glue/p11-kit/releases/download/$version/$name-$version.tar.gz)
+md5sum=(1030cc2507bfd7531596b1715813888f)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(0692fe6245e8d2ca5cc0b49b813b0be2)
