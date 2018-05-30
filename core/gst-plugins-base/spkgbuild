@@ -1,13 +1,13 @@
 # description	: Well-groomed and well-maintained collection of GStreamer plug-ins and elements
 # homepage	: https://gstreamer.freedesktop.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: alsa-lib gstreamer libtheora libvorbis libogg
-# makedepends	: gobject-introspection iso-codes
+# depends	: alsa-lib gstreamer libtheora libvorbis libogg gobject-introspection iso-codes
 
 name=gst-plugins-base
-version=1.14.0
+version=1.14.1
 release=1
 source=(http://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
+md5sum=(c42154ab6f85c59f0e449d8d7e290342)
 
 build() {
 	cd $name-$version
@@ -18,5 +18,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(370271327dd23110421a9c2927ac989a)
