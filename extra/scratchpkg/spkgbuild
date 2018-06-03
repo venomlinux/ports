@@ -1,13 +1,13 @@
 # description	: A simple package manager for Linux From Scratch
-# backup	: etc/scratchpkg.conf
+# backup	: etc/scratchpkg.conf etc/scratchpkg.repo
 # depends	: coreutils bash wget httpup
 
 name=scratchpkg
-version=20180530
+version=20180603
 release=1
-_commit=10931d3fad654991f9a3968d2bac40c03212cbb5
+_commit=aa33c479a84eed0783de3895b946811036d4b8b3
 source=($name-$_commit.tar.gz::https://github.com/emmett1/scratchpkg/archive/$_commit.tar.gz)
-md5sum=(6492dde605c34c67f223c324a230ec1a)
+md5sum=(65eebc679df28ce95e10eb0fb6b7fc35)
 
 build() {
 	cd $name-$_commit
