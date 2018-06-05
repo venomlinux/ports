@@ -4,12 +4,15 @@
 # depends	: libxslt libsm libxmu glib xdg-utils
 
 name=dropbox
-version=47.4.74
+version=50.4.71
 release=1
 options=(!strip)
 source=(https://clientupdates.dropboxstatic.com/dbx-releng/client/dropbox-lnx.x86_64-$version.tar.gz
 	dropbox.desktop
 	dropbox.png)
+md5sum=(6d7f25997400ed853ce95396f7f52f84
+	f3350cc0fb7b5f4fb6f2c0adda7e1260
+	2be5a57e477adf82a7d9b7fe77f22086)
 
 build() {
 	install -d $PKG/opt
@@ -28,7 +31,3 @@ build() {
 	rm -f $PKG/opt/dropbox/library.zip
 	ln -s dropbox $PKG/opt/dropbox/library.zip
 }
-
-md5sum=(6d7f25997400ed853ce95396f7f52f84
-f3350cc0fb7b5f4fb6f2c0adda7e1260
-2be5a57e477adf82a7d9b7fe77f22086)
