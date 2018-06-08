@@ -1,15 +1,24 @@
 # description	: QtWebEngine integrates chromium's web capabilities into Qt
-# depends	: qt5 nss libwebp libxslt opus
-# makedepends	: ninja
+# depends	: qt5 nss libwebp libxslt opus ninja
 
 name=qtwebengine
-version=5.10.1
-release=2
+version=5.11.0
+release=1
 source=(https://download.qt.io/archive/qt/${version::4}/$version/submodules/$name-everywhere-src-$version.tar.xz)
-md5sum=(77374c184f2ff5005d1c61a32ea38491)
+md5sum=(551a09ea35270c259223f1a4e69e67f3)
 
 build() {
 	cd $name-everywhere-src-$version
+
+	sed -i '/kPaddingSize/s/32/64/' \
+       src/3rdparty/chromium/media/base/decoder_buffer.h
+
+D=src/3rdparty/chromium/mojo/public/cpp/bindings
+sed -i '/explicit/s/return handle_/return (bool) handle_/' \
+       $D/associated_interface_ptr_info.h \
+       $D/associated_interface_request.h  \
+       $D/interface_request.h
+unset D
 
 	mkdir build
 	cd    build
