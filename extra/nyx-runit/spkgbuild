@@ -4,12 +4,10 @@
 
 name=nyx-runit
 version=20180603
-release=1
+release=2
 _commit=16db1f336acaeb4de1b5fc94db4baad3f18482a2
-source=($name-$_commit.tar.gz::https://github.com/emmett1/nyx-runit/archive/$_commit.tar.gz
-	runit-service.hook)
-md5sum=(92dc57a6e5ddc4cd73e07bcbae104bbe
-	00d6bad7fe6025193cc9acae7b68117b)
+source=($name-$_commit.tar.gz::https://github.com/emmett1/nyx-runit/archive/$_commit.tar.gz)
+md5sum=(92dc57a6e5ddc4cd73e07bcbae104bbe)
 
 build() {
 	cd $name-$_commit
@@ -20,6 +18,4 @@ build() {
 		ln -s /run/runit/supervise.getty-tty$i $PKG/etc/sv/getty-tty$i/supervise
 	done
 	ln -s /run/runit/supervise.sulogin $PKG/etc/sv/sulogin/supervise
-
-	install -Dm644 $SRC/runit-service.hook $PKG/etc/hooks/runit-service.hook
 }
