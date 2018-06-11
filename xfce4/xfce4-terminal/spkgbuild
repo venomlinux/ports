@@ -4,9 +4,10 @@
 # depends	: libxfce4ui vte3
 
 name=xfce4-terminal
-version=0.8.7.2
+version=0.8.7.4
 release=1
 source=(http://archive.xfce.org/src/apps/xfce4-terminal/${version::3}/$name-$version.tar.bz2)
+md5sum=(c861540dd1dd05f56e62382b3851cf66)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(2a812438aeeb3d76e3d8d790817456bd)
