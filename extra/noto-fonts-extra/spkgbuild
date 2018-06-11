@@ -1,0 +1,15 @@
+# description	: Google Noto TTF fonts (extra)
+# depends	: fontconfig noto-fonts
+
+name=noto-fonts-extra
+version=20171025
+_commit=8ef14e6c606a7a0ef3943b9ca01fd49445620d79
+release=1
+source=(noto-fonts-$version.tar.gz::https://github.com/googlei18n/noto-fonts/archive/$_commit.tar.gz)
+md5sum=(792cba92ec44d98ce069a2caab929739)
+
+build() {
+	cd noto-fonts-*
+	mkdir -p $PKG/usr/share/fonts/noto
+	cp hinted/Noto*{Condensed,SemiBold,Extra}*.tt[fc] $PKG/usr/share/fonts/noto
+}
