@@ -4,19 +4,20 @@
 name=noto-fonts
 version=20171025
 _commit=8ef14e6c606a7a0ef3943b9ca01fd49445620d79
-release=1
+release=2
 source=($name-$version.tar.gz::https://github.com/googlei18n/noto-fonts/archive/$_commit.tar.gz
 	66-noto-sans.conf 66-noto-serif.conf 66-noto-mono.conf)
+md5sum=(792cba92ec44d98ce069a2caab929739
+	d1c1f1fdd1ee428b9317de9e639d7544
+	e99b33ffbf57d7a7d277acea0a0ce910
+	2478ab187743480e77c10e9e8af5d326)
 
 build() {
 	cd noto-fonts-*
-	install -Dm644 unhinted/Noto*.ttf -t $PKG/usr/share/fonts/noto
-	install -Dm644 hinted/Noto*.ttf -t $PKG/usr/share/fonts/noto
+	install -Dm644 unhinted/Noto*.tt[fc] -t $PKG/usr/share/fonts/noto
+	install -Dm644 hinted/Noto*.tt[fc] -t $PKG/usr/share/fonts/noto
+
+	rm -f $PKG/usr/share/fonts/noto/Noto*{Condensed,SemiBold,Extra}*.ttf
 
 	install -Dm644 $SRC/*.conf -t $PKG/etc/fonts/conf.avail/
 }
-
-md5sum=(792cba92ec44d98ce069a2caab929739
-d1c1f1fdd1ee428b9317de9e639d7544
-e99b33ffbf57d7a7d277acea0a0ce910
-2478ab187743480e77c10e9e8af5d326)
