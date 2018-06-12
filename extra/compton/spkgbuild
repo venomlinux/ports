@@ -1,0 +1,22 @@
+# description	: X Compositor (a fork of xcompmgr-dana) (git-version)
+# homepage	: https://github.com/chjj/compton
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libconfig dbus
+
+name=compton
+version=20170430
+release=1
+_commit=316eac0613bf342ff91cc645a6c3c80e6b9083fb
+source=(https://github.com/chjj/compton/archive/$_commit.tar.gz
+	compton.conf)
+md5sum=(eb3fddcd691af8239b3ab56bf89e038c
+	3ba1d38df211634aa125362b438ad6f3)
+
+build() {
+	cd $name-$_commit
+
+	make MANPAGES= PREFIX="$PKG/usr" install
+	install -Dm755 compton $PKG/usr/bin/compton
+
+	install -Dm644 $SRC/compton.conf $PKG/etc/xdg/compton.conf
+}
