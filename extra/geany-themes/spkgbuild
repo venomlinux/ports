@@ -1,0 +1,17 @@
+# description	: Themes for geany
+# depends	: geany
+
+name=geany-themes
+version=20180117
+release=1
+options=(!strip)
+_commit=2379c6981fe257f779b214c0c54bf11fde2d75e8
+source=($name-$_commit.tar.gz::https://github.com/codebrainz/geany-themes/archive/$_commit.tar.gz)
+md5sum=(d754e8dc20cd7804e8654b1575bbdb16)
+
+build() {
+	cd $name-$_commit
+
+	mkdir -pv $PKG/usr/share/geany/colorschemes/
+	cp -v colorschemes/*.conf $PKG/usr/share/geany/colorschemes/
+}
