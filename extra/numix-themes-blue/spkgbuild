@@ -1,24 +1,16 @@
 # description	: A flat and light theme with a modern look
-# depends	: gdk-pixbuf glib gtk-engine-murrine git ruby-sass ruby-rb-fsevent ruby-sass-listen
+# depends	: gdk-pixbuf glib gtk-engine-murrine ruby-sass ruby-rb-fsevent ruby-sass-listen
 
 name=numix-themes-blue
-version=git
+version=20180608
 release=1
-
-get_git() {	
-	if [[ -d "$SOURCE_DIR/$name" ]]; then
-		git -C "$SOURCE_DIR/$name" fetch -q
-		git -C "$SOURCE_DIR/$name" reset --hard origin/$2
-	else
-		git -C "$SOURCE_DIR" clone $1 "$name"
-	fi
-
-	cp -r "$SOURCE_DIR/$name" "$SRC"
-}
+options=(!strip)
+_commit=8083a96a14472836f5c1090d8a0a2fa2e4633ffb
+source=($name-$_commit.tar.gz::https://github.com/shimmerproject/Numix/archive/$_commit.tar.gz)
+md5sum=(da3049cec5ae14145c88c81a6e1908b7)
 
 build() {
-	get_git https://github.com/shimmerproject/Numix master
-	cd $name
+	cd numix-gtk-theme-$_commit
 
 	for FILE in `find -type f`; do
 		sed -i 's/#fc6f5d/#1793d1/g' "${FILE}"

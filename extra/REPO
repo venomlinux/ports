@@ -25,6 +25,7 @@ d:fdupes
 d:libreplaygain
 d:virtualbox-modules
 d:cmus
+d:numix-icon-theme
 d:smtube
 d:python3-xlib
 d:papirus-icon-theme
@@ -90,6 +91,8 @@ d:python2-iso-639
 d:iftop
 d:httpup
 d:obkey
+d:numix-themes-blue
+d:numix-icon-theme-circle
 d:firefox-esr-bin
 d:cython2
 d:libsamplerate
@@ -145,6 +148,7 @@ d:xbindkeys
 d:os-prober
 d:viewnior
 d:flash-player-plugin
+d:pop-icon-theme
 d:stemmer
 d:vimix-gtk-themes
 d:ruby-maruku
@@ -178,6 +182,7 @@ d:python2-requests
 d:paper-icon-theme
 d:qt5-webengine-widevine
 d:help2man
+d:geany-themes
 d:python3-requests
 d:waterfox-bin
 d:syslinux
@@ -223,6 +228,7 @@ d:mps-youtube
 d:ruby-rb-inotify
 d:squashfs-tools
 d:freeglut
+d:arc-gtk-theme
 d:python3-pillow
 d:libpcap
 d:gcolor2
@@ -268,12 +274,13 @@ f:348b842d4ee65db80760ccb1b6a236d8:libev/spkgbuild
 f:fcc8d254e5f08df4186fe86be484a8ee:rc-init/spkgbuild
 f:52e9df728882642a9afb8848e37c58c6:optipng/spkgbuild
 f:1b9a9e066dc09a822c8dbb652b72ba65:autoconf-archive/spkgbuild
-f:6a0ed5fb81e44f9f3dd4be26e3ca03f0:scratchpkg/spkgbuild
+f:61644453480026ef305d62f600c2695e:scratchpkg/spkgbuild
 f:dca26f1c0af8546a982be1591d2d1c5e:fdupes/spkgbuild
 f:d853604fb1233a303290d19ecf3542ca:libreplaygain/spkgbuild
 f:90c301d113ec6ccf542dbbd28bad90a1:virtualbox-modules/spkgbuild
 f:f8adbb473e8beb2ae6824cd9121d4846:virtualbox-modules/virtualbox-modules.install
 f:045dd1924507a8e8ef73f4002be0a02b:cmus/spkgbuild
+f:69ad5cbf6d1135c6c35b3ea6e1c079ab:numix-icon-theme/spkgbuild
 f:aee7ec412cf811426d95b2ca39d1a293:smtube/spkgbuild
 f:81652002de0006da52361faebe7bd9f2:smtube/smtube-18.3.0.tar.bz2
 f:23de2eb025939fd83bdc15320a2af916:python3-xlib/spkgbuild
@@ -364,6 +371,8 @@ f:a1e51fed46134d148083e1918905e34b:python2-iso-639/spkgbuild
 f:0f2130d3b41a6b00c8366681d6dc74ee:iftop/spkgbuild
 f:510553dc43c4f6d14fc659818880d0ef:httpup/spkgbuild
 f:bd4d2a6296f0691d6a06e6fa05930158:obkey/spkgbuild
+f:782c04150af2ed8df87ae824d5e9a809:numix-themes-blue/spkgbuild
+f:56ead5f9be326b0575ff3ff120ce537f:numix-icon-theme-circle/spkgbuild
 f:a09c13f27cf47f2ef314a935ac65655b:firefox-esr-bin/spkgbuild
 f:8e79960212c996679484026bcf7fffb0:firefox-esr-bin/firefox-esr-safe.desktop
 f:697dbc5871be97b1d8860e34a7491f7d:firefox-esr-bin/firefox-esr.desktop
@@ -432,6 +441,7 @@ f:3de4b617386b718bdb041903f3006307:xbindkeys/spkgbuild
 f:a0eb75e37ac329819de2085718509231:os-prober/spkgbuild
 f:5227678ae86ff1e11222f0dd1110a44a:viewnior/spkgbuild
 f:7f59f7c6378dd4cfb69edaeefc6f5ed6:flash-player-plugin/spkgbuild
+f:0c039ce7363af08781ee5baed8377979:pop-icon-theme/spkgbuild
 f:8f46c512a1f9bf8f3e58daa68d70b785:stemmer/spkgbuild
 f:70e9965a8c2b415d5de3593d0728e517:stemmer/dynamiclib.patch
 f:37acebfa0d47886ec1c19947d0dd64cc:vimix-gtk-themes/spkgbuild
@@ -472,10 +482,11 @@ f:01eea9c289939fde4f4669cdee48909d:db/spkgbuild
 f:408119c89ff3504009966726f0091b2b:lz4/spkgbuild
 f:aef560ed1cedafd1ea3dea8a593ee388:python2-requests/spkgbuild
 f:8701cd93ae4c4448cca368243d9b86f5:python2-requests/certs.patch
-f:91c79545ee255bfb2ca94889c5b5a63a:paper-icon-theme/spkgbuild
+f:9b4114278dcca0d2e28ca18d719ec4d0:paper-icon-theme/spkgbuild
 f:9201cebe42eb9dbd11fbc68088fa6e69:qt5-webengine-widevine/spkgbuild
 f:2d4b190600c784bf84df38ea0b3a7650:qt5-webengine-widevine/libwidevinecdmadapter.so
 f:322ac53bad50a4654b79d1ad460277a8:help2man/spkgbuild
+f:5c1332153966ce985a5e28f0bc030cf5:geany-themes/spkgbuild
 f:73c55559bf915ef4b4c1839fc91bec13:python3-requests/spkgbuild
 f:8701cd93ae4c4448cca368243d9b86f5:python3-requests/certs.patch
 f:f7074e8eaccc831fc413cf8553614f06:waterfox-bin/waterfox.desktop
@@ -516,7 +527,7 @@ f:4f8c9f6f66b17fd59254f7f472441883:i3/0001-Use-OVER-operator-for-drawing-text.pa
 f:ba943ed3ce91d220ca957f69df349f59:cantarell-fonts/spkgbuild
 f:c064025db0dff9f4059a9ae05cc8ed25:linux-firmware/spkgbuild
 f:e8f9f14ac04a7eccd255067816f68503:rfkill/spkgbuild
-f:2196586a504c6099f186be1ac3c857bd:aircrack-ng/spkgbuild
+f:c2fad6545403b6dfdfb6a36fc7ccd668:aircrack-ng/spkgbuild
 f:f55e646248f25de2e8f835b3bb7dcc08:aircrack-ng/9a1846507ff043c397257206ff21adae90a122f4.patch
 f:f1a56cec4ab06e1d457ba6b13b1d0f0a:giblib/spkgbuild
 f:29dd3ae3369ac151fc32bcc3604bcc37:python3-iso-639/spkgbuild
@@ -534,6 +545,7 @@ f:ffcb69bc4698667cae5fa7f0482c75c2:mps-youtube/spkgbuild
 f:991fc42104aae85783c52797ba723404:ruby-rb-inotify/spkgbuild
 f:f25cd64d2c564cb116cd0a612a8f6517:squashfs-tools/spkgbuild
 f:e4b721d3ac06075262798abac0e667b0:freeglut/spkgbuild
+f:390fe4c5918ae41950602789345977db:arc-gtk-theme/spkgbuild
 f:eb4a36abe0d2f5e4f23fc330e528dfad:python3-pillow/spkgbuild
 f:5e0be2e46fccceeea93008eea5fcbc04:libpcap/spkgbuild
 f:79ca033963b376e851d87e99cb677f45:gcolor2/spkgbuild
