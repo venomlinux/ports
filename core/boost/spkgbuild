@@ -5,6 +5,7 @@ name=boost
 version=1.67.0
 release=1
 source=(https://dl.bintray.com/boostorg/release/$version/source/boost_${version//./_}.tar.bz2)
+md5sum=(ced776cb19428ab8488774e1415535ab)
 
 build() {
 	cd boost_${version//./_}
@@ -13,5 +14,3 @@ build() {
 	./b2 ${MAKEFLAGS} stage --stagedir=$PKG/usr threading=multi link=shared
 	./b2 ${MAKEFLAGS} install --prefix=$PKG/usr threading=multi link=shared
 }
-
-md5sum=(6cd3f06cfd97c1e9effd42bfbcff7153)
