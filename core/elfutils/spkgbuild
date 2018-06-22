@@ -1,19 +1,19 @@
 # description	: utilities and libraries for handling ELF files
 
 name=elfutils
-version=0.170
+version=0.172
 release=1
 source=(https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2)
-md5sum=(03599aee98c9b726c7a732a2dd0245d5)
+md5sum=(01e87ab4c5a6a249c04e22a97a4221d3)
 
 build() {
 	cd $name-$version
 
 	# fix a file to be compatible with gcc-8
-	sed -e '/ALIGN_PRSTATUS)/{ 
-	        s/__attribute/attribute_packed &/
-	        s/packed, //}' \
-	    -i backends/linux-core-note.c
+	#sed -e '/ALIGN_PRSTATUS)/{ 
+	#        s/__attribute/attribute_packed &/
+	#        s/packed, //}' \
+	#    -i backends/linux-core-note.c
 
 	./configure --prefix=/usr --program-prefix="eu-"
 	make
