@@ -1,5 +1,4 @@
-# description	: An image viewing/manipulation program (version 6)	
-# depends	: 
+# description	: An image viewing/manipulation program (version 6)
 
 name=imagemagick6
 version=6.9.9.35
@@ -9,6 +8,8 @@ options=()
 source=(#https://www.imagemagick.org/download/releases/ImageMagick-$_version.tar.xz
 	ftp://ftp.osuosl.org/pub/blfs/conglomeration/ImageMagick/ImageMagick-6.9.9-35.tar.xz
 	ImageMagick-$_version-libs_only-1.patch)
+md5sum=(85d5a523e3fe27105242f87dc39ae2cd
+	1f1d8a6a27b292d083a61231bb4099c4)
 
 build() {
 	cd ImageMagick-$_version
@@ -22,6 +23,6 @@ build() {
 	            --with-modules    \
 	            --disable-static
 	make
-	make DOCUMENTATION_PATH=/usr/share/doc/imagemagick-${version%.*} DESTDIR=$PKG install-libs-only
+	make DOCUMENTATION_PATH=/usr/share/doc/$name DESTDIR=$PKG install-libs-only
 }
 
