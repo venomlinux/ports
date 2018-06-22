@@ -2,9 +2,10 @@
 # depends	: curl openssl python2
 
 name=git
-version=2.17.0
+version=2.17.1
 release=1
 source=(https://www.kernel.org/pub/software/scm/$name/$name-$version.tar.xz)
+md5sum=(5179245515c637357b4a134e8d4e9a6f)
 
 build() {
 	cd $name-$version
@@ -18,5 +19,3 @@ build() {
 
 	find $PKG \( -name perllocal.pod -o -name .packlist \) -delete
 }
-
-md5sum=(371985891f467969802fe1c7584a45bf)
