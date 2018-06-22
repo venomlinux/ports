@@ -1,0 +1,23 @@
+# description	: The extensible, customizable, self-documenting real-time display editor
+# homepage	: https://www.gnu.org/software/emacs/
+# depends	: giflib libxml2 gnutls imagemagick6
+
+name=emacs
+version=26.1
+release=1
+source=(ftp://ftp.gnu.org/gnu/emacs/$name-$version.tar.xz)
+md5sum=(649ec46965a8b842bdb2cbf7764c2a9a)
+
+build() {
+	cd $name-$version
+
+	IMAGEMAGICK_CFLAGS=-I/usr/include/ImageMagick-6 \
+	IMAGEMAGICK_LIBS="-lMagickCore-6.Q16HDRI -lMagick++-6.Q16HDRI \
+		-lMagickWand-6.Q16HDRI"  \
+	./configure --prefix=/usr	 \
+		    --localstatedir=/var	
+	make
+	make DESTDIR=$PKG install
+
+	chown -v -R root:root $PKG/usr/share/emacs/$version
+}
