@@ -163,6 +163,7 @@ d:python3-crypto
 d:ca-certificates
 d:alsa-plugins
 d:swig
+d:imagemagick6
 d:gst-plugins-ugly
 d:menu-cache
 d:lvm2
@@ -207,6 +208,7 @@ d:apr-util
 d:libmypaint
 d:networkmanager-lfsbootscripts
 d:mlt
+d:emacs
 d:apr
 d:nettle
 d:sysvinit
@@ -471,7 +473,7 @@ f:196219b0dc4cf65ee29656944d0223fe:libcdio/spkgbuild
 f:6112c4f333ec5a522ca8634e09d3d7e2:acpid-lfsbootscripts/spkgbuild
 f:23a592d5c80e272367d97f737d4423a9:sqlite/spkgbuild
 f:5e3ee2ce0f0dc65bbfd816cd9720b9a4:libpng/spkgbuild
-f:13be506f8d069c3b7153f5662d9c45a7:elfutils/spkgbuild
+f:0c61b20f0b86661df995142edeaf9f7e:elfutils/spkgbuild
 f:5629c678aa790f116dbc393a725e7391:bc/spkgbuild
 f:312ebc50faff588a7fa95cf0400f192e:ninja/spkgbuild
 f:549d076b163ebbaeb1613250535b3f85:gnutls/spkgbuild
@@ -480,7 +482,7 @@ f:53b4a8b74eac1ae3aeb0caefd6d1a17b:libglade/spkgbuild
 f:3aa8deb3aa55af6cb4f75839014fca50:jfsutils/readme
 f:2dbdd08b080c1d68f62807e935cf9f26:jfsutils/spkgbuild
 f:68ccc537fd6d52b6d40a4c5e4bde4754:cdrtools/spkgbuild
-f:27954b840f4e97669e3e3dca69c652b7:iproute2/spkgbuild
+f:03e84bba56a3f52c25325f78eeb802f2:iproute2/spkgbuild
 f:42c03f90eed8c9f2ef8bbb0852cf60a0:binutils/spkgbuild
 f:52d8c0070d4b86460721bbf0c4de76df:psmisc/spkgbuild
 f:600d5e05464967b638e4fd429326c451:rsync/rsync.install
@@ -622,6 +624,8 @@ f:615950a2b8a167e02e48ee955c418788:python3-crypto/spkgbuild
 f:9e27a0d9e39acb8116610d9274ba778d:ca-certificates/spkgbuild
 f:fba692296009aa2adc8e14cc6f5e634d:alsa-plugins/spkgbuild
 f:d0e43c3240e002f6b38f11af08d63668:swig/spkgbuild
+f:626b07e9e85761c5f07f1781206971c5:imagemagick6/spkgbuild
+f:1f1d8a6a27b292d083a61231bb4099c4:imagemagick6/ImageMagick-6.9.9-35-libs_only-1.patch
 f:333b3100df1c3e4b797a8ca90d5a061d:gst-plugins-ugly/spkgbuild
 f:c7af86d970e18af1f18e76d6aa9e0076:menu-cache/spkgbuild
 f:79f918e12bdf1d565d517193c3fe709f:lvm2/readme
@@ -700,6 +704,7 @@ f:f000b47f4e51f8ecac4260a4e6050aeb:apr-util/spkgbuild
 f:cf7bde4400dbf3142232e6677e18bf72:libmypaint/spkgbuild
 f:dae2e315ab61e9f3ff83f4e257bcb63e:networkmanager-lfsbootscripts/spkgbuild
 f:59311619ac40b5d91072c5ba75996790:mlt/spkgbuild
+f:dca9b8f0e74d749395646b564b34a29e:emacs/spkgbuild
 f:53f2367278de82cef5932dc479bb7f28:apr/spkgbuild
 f:7612cb0835c4da63698e7a566fb357f0:nettle/spkgbuild
 f:d0ce02c3ab68568a641d05420e1f4218:sysvinit/spkgbuild
@@ -774,9 +779,9 @@ f:2d6251a6bce160d8d58872726d03c84d:networkmanager/run
 f:f4f25ac9e4e225711b603202762903f6:networkmanager/spkgbuild
 f:8af1ab6c0b6caaab2a134e476d0b6b1b:networkmanager/networkmanager.install
 f:ba9cb8385c5fc376e7e307ec576dd8ec:libxslt/spkgbuild
-f:19802a74d43a97a705ca6a580aed99c1:python3/spkgbuild
+f:2e3cfc16627f8695a2b8746975e673fa:python3/spkgbuild
 f:e98ff983e78eca027617cbedee1d9a56:yasm/spkgbuild
-f:8a2e8acf4770bf63e7d66dc7569bd57a:bison/spkgbuild
+f:59cbbb5a981f0d9f10a59d9373bb9cc5:bison/spkgbuild
 f:55c467ab968337596708e699b81a813b:python3-cairo/spkgbuild
 f:a911e3249b071fa86e56331145d2ca4f:dhcpcd-lfsbootscripts/dhcpcd-lfsbootscripts.install
 f:3a77c8ae29e258400686bff721aeda70:dhcpcd-lfsbootscripts/spkgbuild
@@ -916,7 +921,7 @@ f:f0fe1a64d40c056baf2149b1efebf1b4:libxml2/libxml2-2.9.8-python3_hack-1.patch
 f:bb7747690ca44cbf8705e5a5ce0e04e5:libxml2/spkgbuild
 f:e77e3f4c2b2343679bb8d16007d1d608:libpwquality/spkgbuild
 f:dfd70c30a11fa8f3e0b4327a97d5777a:grub/spkgbuild
-f:10b3da24f286dd2a6c05eac6b12ca615:git/spkgbuild
+f:3347ae9740d66af7b9917f54e9dadf12:git/spkgbuild
 f:0df852a2365dd90162cc24c615536dd7:newt/spkgbuild
 f:a007f71b2729e6f08fe12e1e4b04516f:acl/spkgbuild
 f:62c20dbdd9efe1c05da5c7087ed19cd2:apache-lfsbootscripts/spkgbuild
