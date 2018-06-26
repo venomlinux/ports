@@ -2,7 +2,7 @@
 
 name=runit
 version=2.1.2
-release=1
+release=2
 source=(http://smarden.org/runit/$name-$version.tar.gz)
 md5sum=(6c985fbfe3a34608eb3c53dc719172c4)
 
@@ -18,6 +18,6 @@ build() {
 	install -d $PKG/sbin
 	install -m 755 command/* $PKG/sbin
 	
-	install -d $PKG/usr/man/man8
-	install -m 644 man/* $PKG/usr/man/man8
+	install -d $PKG/usr/share/man/man8
+	install -m 644 man/* $PKG/usr/share/man/man8
 }
