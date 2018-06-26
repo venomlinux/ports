@@ -1,0 +1,27 @@
+# description	: A color image editing tool which features most standard paint program options
+# depends	: libpng libtiff libxft libxpm libxaw3dxft
+
+name=xpaint
+version=2.10.2
+release=1
+source=(http://downloads.sourceforge.net/sourceforge/sf-$name/$name-$version.tar.bz2
+	$name.desktop)
+md5sum=(86cdd5044d30de185675b33b552bc96b
+	390dcf908a947ff00a01d0d137d4c870)
+
+build() {
+	cd $name-$version
+
+	[ -L xaw_incdir ] && rm xaw_incdir
+	ln -s /usr/include/X11/Xaw3dxft xaw_incdir
+
+	aclocal 
+	XAPPLOADIR=$SHAREDIR/X11 automake --add-missing
+	CC=gcc ./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+	install -Dm644 XPaintIcon.xpm $PKG/usr/share/pixmaps/XPaintIcon.xpm
+	install -Dm644 $SRC/$name.desktop \
+	    $PKG/usr/share/applications/$pkgname.desktop
+	rm $PKG/usr/share/xpaint/XPaintIcon.xpm
+}
