@@ -61,7 +61,7 @@ print_wifi() {
 }
 
 print_music() {
-	if [ $(type -pa playerctl) ]; then
+	if [ $(type -p playerctl) ]; then
 		if [ "$(playerctl status 2>/dev/null)" == "Playing" ]; then
 			artist=$(playerctl metadata artist)
 			title=$(playerctl metadata title)
@@ -71,21 +71,22 @@ print_music() {
 }
 
 print_netspeed() {
-	if [ "$1" ]; then
-	    R1=`cat /sys/class/net/$1/statistics/rx_bytes`
-        T1=`cat /sys/class/net/$1/statistics/tx_bytes`
+	wifi_name=$(/sbin/ip -o link show | awk '{print $2,$9}' | grep UP | awk -F : '{print $1}' | head -n1)
+	if [ "$wifi_name" ]; then
+	    R1=`cat /sys/class/net/$wifi_name/statistics/rx_bytes`
+        T1=`cat /sys/class/net/$wifi_name/statistics/tx_bytes`
         sleep 1
-        R2=`cat /sys/class/net/$1/statistics/rx_bytes`
-        T2=`cat /sys/class/net/$1/statistics/tx_bytes`
+        R2=`cat /sys/class/net/$wifi_name/statistics/rx_bytes`
+        T2=`cat /sys/class/net/$wifi_name/statistics/tx_bytes`
         TBPS=`expr $T2 - $T1`
         RBPS=`expr $R2 - $R1`
         TKBPS=`expr $TBPS / 1024`
         RKBPS=`expr $RBPS / 1024`
         echo -e " \uE06C $TKBPS kb/s \uE06D $RKBPS kb/s |"
-       fi
+    fi
 }
 
 while true; do
-	xsetroot -name "$(print_music)$(print_netspeed $1)$(print_wifi)$(print_temp)$(print_ram)$(print_volume)$(print_datetime)"
+	xsetroot -name "$(print_music)$(print_netspeed)$(print_wifi)$(print_temp)$(print_ram)$(print_volume)$(print_datetime)"
 	sleep 1 
 done
