@@ -5,9 +5,13 @@
 
 name=polkit
 version=0.114
-release=1
+release=2
 source=(https://www.freedesktop.org/software/polkit/releases/polkit-0.114.tar.gz
-	polkit-1)
+	polkit-1
+	$name.sysusers)
+md5sum=(93ff41874e7df8c62ed9e41893817f04
+	4ce755378335620cc004fd5802a46907
+	e64baa35b703f30f6e47622a81181c5c)
 
 build() {
 	cd $name-$version
@@ -27,7 +31,5 @@ build() {
 	make DESTDIR=$PKG install
 
 	install -Dm 644 $SRC/polkit-1 $PKG/etc/pam.d/polkit-1
+	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers/$name.conf
 }
-
-md5sum=(93ff41874e7df8c62ed9e41893817f04
-4ce755378335620cc004fd5802a46907)
