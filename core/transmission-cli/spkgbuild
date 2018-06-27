@@ -5,13 +5,15 @@
 
 name=transmission-cli
 version=2.93
-release=1
+release=2
 source=(https://github.com/transmission/transmission-releases/raw/master/transmission-$version.tar.xz
 	conf
-	run)
+	run
+	transmission.sysusers)
 md5sum=(a1b8113ebc3402787312ecb443d9d3c1
 	a2eaff5f73705f1594a361b6a2ff8321
-	2de634181c2f126013ae22bcb639a068)
+	2de634181c2f126013ae22bcb639a068
+	a5fd7ef2fc25913c7bc059bf479b5173)
 
 build() {
 	cd transmission-$version
@@ -26,4 +28,6 @@ build() {
 	install -Dm755 $SRC/run $PKG/etc/sv/transmission-daemon/run
 	install -Dm644 $SRC/conf $PKG/etc/sv/transmission-daemon/conf
 	ln -s /run/runit/supervise.transmission-daemon $PKG/etc/sv/transmission-daemon/supervise
+
+	install -Dm 644 $SRC/transmission.sysusers $PKG/etc/sysusers/transmission.conf
 }
