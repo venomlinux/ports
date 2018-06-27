@@ -3,9 +3,11 @@
 
 name=colord
 version=1.4.3
-release=1
-source=(http://www.freedesktop.org/software/colord/releases/$name-$version.tar.xz)
-md5sum=(f032ecac927e9078c41fff97800441e8)
+release=2
+source=(http://www.freedesktop.org/software/colord/releases/$name-$version.tar.xz
+	$name.sysusers)
+md5sum=(f032ecac927e9078c41fff97800441e8
+	4118808e170e0dfa33c8e74bb392ee09)
 
 build() {
 	cd $name-$version
@@ -26,4 +28,5 @@ build() {
 	      -Dman=false ..
 	ninja
 	DESTDIR=$PKG ninja install
+	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers/$name.conf
 }
