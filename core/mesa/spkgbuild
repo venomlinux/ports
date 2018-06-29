@@ -2,10 +2,10 @@
 # depends	: libdrm python2 wayland libxshmfence libxdamage libxext libxfixes elfutils llvm libvdpau python2-mako libx11 xorgproto wayland-protocols
 
 name=mesa
-version=18.0.3
+version=18.1.1
 release=1
 source=(https://mesa.freedesktop.org/archive/$name-$version.tar.xz)
-md5sum=(b260580a26b71a5e52c608e3fe6d08a6)
+md5sum=(063468c930ff61d211ece0191874fa95)
 
 build() {
 	cd $name-$version
@@ -27,4 +27,3 @@ build() {
 	install -v -dm755 $PKG/usr/share/doc/$name
 	cp -rfv docs/* $PKG/usr/share/doc/$name
 }
-
