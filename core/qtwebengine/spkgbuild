@@ -10,16 +10,6 @@ md5sum=(75d2ff31addba4ec41981b0f459cc587)
 build() {
 	cd $name-everywhere-src-$version
 
-	sed -i '/kPaddingSize/s/32/64/' \
-       src/3rdparty/chromium/media/base/decoder_buffer.h
-
-D=src/3rdparty/chromium/mojo/public/cpp/bindings
-sed -i '/explicit/s/return handle_/return (bool) handle_/' \
-       $D/associated_interface_ptr_info.h \
-       $D/associated_interface_request.h  \
-       $D/interface_request.h
-unset D
-
 	mkdir build
 	cd    build
 
