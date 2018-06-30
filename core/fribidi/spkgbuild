@@ -1,18 +1,21 @@
 # description	: Implementation of the Unicode Bidirectional Algorithm (BIDI)
 # homepage	: http://fribidi.org
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: glib
+# depends	: glib meson
 
 name=fribidi
-version=1.0.3
+version=1.0.4
 release=1
 source=(https://github.com/fribidi/fribidi/releases/download/v$version/$name-$version.tar.bz2)
-md5sum=(ad74503b4c88091544f19308f517d3fc)
+md5sum=(00d058ac76e6c0f46a6671a63d31cf67)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --disable-docs
-	make || make -j1
-	make DESTDIR=$PKG install
+	mkdir build
+	cd build
+
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
 }
