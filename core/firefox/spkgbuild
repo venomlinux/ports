@@ -2,12 +2,12 @@
 # depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent libvpx sqlite dbus-glib graphite2 harfbuzz unzip zip autoconf2.13 yasm rust gconf llvm
 
 name=firefox
-version=60.0
+version=61.0
 release=1
-source=(https://archive.mozilla.org/pub/firefox/releases/60.0/source/firefox-60.0.source.tar.xz
+source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-system_graphite2_harfbuzz-1.patch)
-md5sum=(3d89ee8a722279c4e883a7a8af81c21d
-	5fc90301ce6e305d3c582ceb01f5544d)
+md5sum=(a5a0e633a348d338f1baaa838f5f24bf
+	253762662b15c13700de4dbc138b9c60)
 
 build() {
 	cd $name-$version
@@ -16,7 +16,7 @@ build() {
 # If you have a multicore machine, all cores will be used by default.
 # You can change the number of non-rust jobs by setting a valid number
 # of cores in this option, but when rust crates are being compiled
-# jobs will be scheduled for all the online CPU cores.
+# jobs will be scheduled for all the available CPU cores.
 #mk_add_options MOZ_MAKE_FLAGS="-j1"
 
 # If you have installed dbus-glib, comment out this line:
@@ -47,10 +47,7 @@ ac_add_options --enable-alsa
 # If you have installed GConf, comment out this line
 #ac_add_options --disable-gconf
 
-# Stylo is the new CSS code, including the rust 'style'
-# package. It is enabled by default but requires clang.
-# Uncomment this if you do not wish to use stylo.
-#ac_add_options --disable-stylo
+# From firefox-61, the stylo CSS code can no-longer be disabled
 
 # Comment out following options if you have not installed
 # recommended dependencies:
@@ -81,15 +78,13 @@ ac_add_options --disable-updater
 # increase the build time, for no obvious benefit.
 ac_add_options --disable-tests
 
-# Optimization for size is broken with gcc7
+# Optimization for size is broken with gcc7 and later
 ac_add_options --enable-optimize="-O2"
 
 ac_add_options --enable-official-branding
 
-# In firefox-59.0 system cairo breaks the build, so comment it
-# frequently when it was doing background rendering in a tab.
-# This appears to again work in firefox-56
-#ac_add_options --enable-system-cairo
+# From firefox-61 system cairo is not supported
+
 ac_add_options --enable-system-ffi
 ac_add_options --enable-system-pixman
 
@@ -107,8 +102,6 @@ EOF
 
 	echo "AIzaSyDxKL42zsPjbke5O8_rPVpVrLrJ8aeE9rQ" > google-key
 	echo "d2284a20-0505-4927-a809-7ffaf4d91e55" > mozilla-key
-
-	#patch -Np1 -i $SRC/$name-$version-ffmpeg4.0-1.patch
 
 	./mach build
 	DESTDIR=$PKG ./mach install

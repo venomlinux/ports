@@ -2,9 +2,10 @@
 # depends	: glib freetype2 icu
 
 name=harfbuzz
-version=1.7.6
+version=1.8.1
 release=1
 source=(http://www.freedesktop.org/software/$name/release/$name-$version.tar.bz2)
+md5sum=(97cb89c6e2a914c05c8b7e858703885f)
 
 build() {
 	cd $name-$version
@@ -13,5 +14,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(ffb94cf2942327344ac31330d07036ba)

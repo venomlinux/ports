@@ -4,9 +4,10 @@
 # depends	: libgpg-error
 
 name=libgcrypt
-version=1.8.2
+version=1.8.3
 release=1
 source=(ftp://ftp.gnupg.org/gcrypt/$name/$name-$version.tar.bz2)
+md5sum=(3139c2402e844985a67fb288a930534d)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	install -v -m644    README doc/{README.apichanges,fips*,libgcrypt*} \
 	                    $PKG/usr/share/doc/$name
 }
-
-md5sum=(cfb0b5c79eab07686b6898160a407139)

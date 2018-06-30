@@ -3,10 +3,12 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=sysvinit
-version=2.89
+version=2.90
 release=1
-source=(http://download.savannah.gnu.org/releases/$name/$name-$version.tar.bz2
-	http://www.linuxfromscratch.org/patches/lfs/development/sysvinit-2.89-consolidated-1.patch)
+source=(http://download.savannah.gnu.org/releases/$name/$name-$version.tar.xz
+	http://www.linuxfromscratch.org/patches/lfs/development/sysvinit-$version-consolidated-1.patch)
+md5sum=(7b6a16bde3da494b6aac7283b79c81de
+	b7872b43a97a81bac4f9fc8ffaef4364)
 
 build() {
 	cd $name-$version
@@ -16,5 +18,3 @@ build() {
 	make -C src
 	make -C src ROOT=$PKG install
 }
-md5sum=(6a2e0776a9a3e29264ddec738ef0031c
-84aba59c6beea5960c439106f5581bee)
