@@ -4,10 +4,27 @@
 # based on ufetch script
 #
 
+uptime() {
+	
+	uptime=$(</proc/uptime)
+	uptime=${uptime%%.*}
+
+	seconds=$(( uptime%60 ))
+	minutes=$(( uptime/60%60 ))
+	hours=$(( uptime/60/60%24 ))
+	days=$(( uptime/60/60/24 ))
+
+	[ "$days" != 0 ] && echo -n "${days}d "
+	[ "$hours" != 0 ] && echo -n "${hours}h "
+	[ "$minutes" != 0 ] && echo -n "${minutes}m "
+	[ "$seconds" != 0 ] && echo "${seconds}s "
+
+}
+
 host="$(hostname)"
 os="Nyx GNU/Linux"
 kernel="$(uname -r)"
-uptime="$(uptime -p | sed 's/up //')"
+uptime="$(uptime)"
 packages="$(ls /var/lib/scratchpkg/index/*/.pkginfo | wc -l)"
 shell="$(basename ${SHELL})"
 
