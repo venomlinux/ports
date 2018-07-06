@@ -5,16 +5,14 @@
 
 name=virtualbox
 version=5.2.12
-release=1
+release=2
 _name=Oracle_VM_VirtualBox_Extension_Pack
 _release=122591
 
 source=(http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_amd64.run
-	http://download.virtualbox.org/virtualbox/$version/${_name}-${version}-${_release}.vbox-extpack
 	virtualbox.60-vboxdrv.rules)
 
 md5sum=(2f9d2a24222ef529d79b9e5d6a9ab94b
-	cebb931e1e69c945cc5308d5fc0e0162
 	7e2790e8c21dd5fc7af08d1e3a3f95d9)
 
 build() {
@@ -43,13 +41,6 @@ build() {
 	$PKG/etc/vbox/vbox.cfg
 	echo "INSTALL_DIR="\"/opt/VirtualBox\" >> \
 		$PKG/etc/vbox/vbox.cfg
-
-	# ExtensionPacks
-	mkdir -p $PKG/opt/VirtualBox/ExtensionPacks/Oracle_VM_VirtualBox_Extension_Pack
-	tar -xf $SRC/${_name}-$version-${_release}.vbox-extpack \
-		-C $PKG/opt/VirtualBox/ExtensionPacks/Oracle_VM_VirtualBox_Extension_Pack
-	chown -R root:root $PKG/opt/VirtualBox/ExtensionPacks/Oracle_VM_VirtualBox_Extension_Pack
-	rm -fr $PKG/opt/VirtualBox/ExtensionPacks/Oracle_VM_VirtualBox_Extension_Pack/{darwin*,solaris*,win*}
 	
 	mkdir -p $PKG/etc/ld.so.conf.d
 	echo /opt/VirtualBox > $PKG/etc/ld.so.conf.d/virtualbox.conf
