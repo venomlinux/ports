@@ -4,18 +4,12 @@
 # depends	: attr
 
 name=acl
-version=2.2.52
+version=2.2.53
 release=1
 source=(https://download.savannah.gnu.org/releases/$name/$name-$version.src.tar.gz)
 
 build() {
 	cd $name-$version
-
-	sed -i "s:| sed.*::g" test/{sbits-restore,cp,misc}.test
-	sed -i 's/{(/\\{(/' test/run
-	sed -i -e "/TABS-1;/a if (x > (TABS-1)) x = (TABS-1);" \
-	    libacl/__acl_to_any_text.c
-
 	./configure --prefix=/usr    \
 	            --bindir=/bin    \
 	            --disable-static \
@@ -30,4 +24,4 @@ build() {
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libacl.so) $PKG/usr/lib/libacl.so
 }
 
-md5sum=(a61415312426e9c2212bd7dc7929abda)
+md5sum=(007aabf1dbb550bcddde52a244cd1070)
