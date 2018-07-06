@@ -19,7 +19,7 @@ build() {
 	            --disable-static
 				--sysconfdir=/etc \
 	make
-	make install
+	make DIST_ROOT=$PKG install
 
 	mv -v /usr/lib/libattr.so.* /lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libattr.so) $PKG/usr/lib/libattr.so
