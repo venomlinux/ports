@@ -2,10 +2,13 @@
 # depends	: libxt libnotify nss gtk2 gtk3 sqlite dbus-glib
 
 name=waterfox-bin
-version=56.0.1
+version=56.2.1
 release=1
 source=(https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$version.en-US.linux-x86_64.tar.bz2
 	waterfox.desktop)
+md5sum=(3c16a84b3d486c20b3bb569167338f23
+	f7074e8eaccc831fc413cf8553614f06)
+
 build() {
 	install -d "$PKG"/{usr/{bin,share/{applications,pixmaps}},opt}
 	install -m644 "$SRC"/waterfox.desktop "$PKG"/usr/share/applications/
@@ -13,6 +16,3 @@ build() {
 	cp -r waterfox "$PKG"/opt/
 	ln -s /opt/waterfox/waterfox "$PKG"/usr/bin/
 }
-
-md5sum=(108c78eadb47c25a50f965549018f068
-f7074e8eaccc831fc413cf8553614f06)
