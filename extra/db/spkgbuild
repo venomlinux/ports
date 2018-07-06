@@ -4,10 +4,17 @@
 name=db
 version=5.3.28
 release=1
-source=(http://download.oracle.com/berkeley-db/db-${version}.tar.gz)
+source=(http://download.oracle.com/berkeley-db/db-${version}.tar.gz
+	atomic.patch)
+md5sum=(b99454564d5b4479750567031d66fe24
+	007492e22d272871902afaf1f6765d6e)
 
 build() {
-	cd $name-$version/build_unix
+	cd $name-$version
+
+	patch -p0 -i $SRC/atomic.patch # Fix build
+
+	cd build_unix
 
 	../dist/configure --prefix=/usr --enable-compat185 \
 	    --enable-shared --enable-static --enable-cxx --enable-dbm \
@@ -17,5 +24,3 @@ build() {
 
 	rm -r $PKG/usr/docs
 }
-
-md5sum=(b99454564d5b4479750567031d66fe24)
