@@ -1,10 +1,3 @@
-post_install() {
-	msginfo
-	msginfo "Enable and start alsa service:"
-	msginfo "  ln -sv /etc/sv/alsa /var/service"
-	msginfo
-}
-
 pre_remove() {
 	rm -f /var/lib/alsa/asound.state
 }
