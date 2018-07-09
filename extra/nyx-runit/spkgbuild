@@ -1,13 +1,13 @@
 # description	: Runit scripts for Nyx
-# backup	: etc/runit/startup.local etc/runit/shutdown.local etc/runit/runit.conf etc/runit/modules
+# backup	: etc/runit/rc.startup.local etc/runit/rc.shutdown.local etc/runit/runit.conf etc/runit/modules
 # depends	: runit
 
 name=nyx-runit
-version=20180603
-release=2
-_commit=16db1f336acaeb4de1b5fc94db4baad3f18482a2
+version=20180709
+release=1
+_commit=c85ef0143919a4de59c5a35ccbe43a292dfebdf4
 source=($name-$_commit.tar.gz::https://github.com/emmett1/nyx-runit/archive/$_commit.tar.gz)
-md5sum=(92dc57a6e5ddc4cd73e07bcbae104bbe)
+md5sum=(3bbf71d9a68c95b1d2539dffe7b52ded)
 
 build() {
 	cd $name-$_commit
