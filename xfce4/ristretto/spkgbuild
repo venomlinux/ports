@@ -4,9 +4,10 @@
 # depends	: libexif libxfce4ui
 
 name=ristretto
-version=0.8.2
+version=0.8.3
 release=1
 source=(http://archive.xfce.org/src/apps/ristretto/${version::3}/$name-$version.tar.bz2)
+md5sum=(5866b4e11c32a38f72bc737239102544)
 
 build() {
 	cd $name-$version
@@ -15,4 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(a8d8bb6b8fa7f868cfa3ae778630946e)
