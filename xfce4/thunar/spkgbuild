@@ -4,9 +4,10 @@
 # depends	: exo libxfce4ui gnome-icon-theme libgudev libnotify
 
 name=thunar
-version=1.6.13
+version=1.8.1
 release=1
 source=(http://archive.xfce.org/src/xfce/$name/${version::3}/Thunar-$version.tar.bz2)
+md5sum=(f0681eccff31c027097a3e1e7db85218)
 
 build() {
 	cd Thunar-$version
@@ -16,5 +17,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(3e51987757d718ee7f27d0a0447b07fa)
