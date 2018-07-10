@@ -1,0 +1,17 @@
+# description	: BSD-style init (CRUX's init inspired)
+# backup	: etc/rc.conf etc/rc.local
+# depends	: sysvinit
+
+name=rc
+version=20180710
+release=1
+options=(!strip)
+_commit=12932afdb1d2fb81ea825aade989765d5d07968c
+source=($name-$_commit.tar.gz::https://github.com/emmett1/rc/archive/$_commit.tar.gz)
+md5sum=(e9f61f941b318f97eb083dc6b5fc06cb)
+
+build() {
+	cd $name-$_commit
+	make DESTDIR=$PKG install-all
+	chmod -x $PKG/etc/rc.d/template
+}
