@@ -5,12 +5,14 @@ name=pulseaudio
 version=11.1
 release=1
 source=(https://www.freedesktop.org/software/pulseaudio/releases/$name-$version.tar.xz
-	pulseaudio-fix-build-with-glibc-2.27.patch)
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-glibc_2.27_fix-1.patch)
+md5sum=(390de38231d5cdd6b43ada8939eb74f1
+	952e1e975db2fb409ab8580db22cecf4)
 
 build() {
 	cd $name-$version
 
-	patch -p1 -i ../pulseaudio-fix-build-with-glibc-2.27.patch
+	patch -p1 -i ../$name-$version-glibc_2.27_fix-1.patch
 
 	AUTOPOINT='intltoolize --automake --copy' autoreconf -fiv
 
@@ -26,6 +28,3 @@ build() {
         # remove the D-Bus configuration file for the system wide daemon to avoid creating unnecessary system users and groups
 	rm -fv $PKG/etc/dbus-1/system.d/pulseaudio-system.conf
 }
-
-md5sum=(390de38231d5cdd6b43ada8939eb74f1
-c563d7c583ba76806cd88cf3b004c37e)
