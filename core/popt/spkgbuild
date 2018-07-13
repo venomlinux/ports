@@ -5,7 +5,8 @@
 name=popt
 version=1.16
 release=1
-source=(http://rpm5.org/files/$name/$name-$version.tar.gz)
+source=(http://ftp.rpm.org/mirror/$name/$name-$version.tar.gz)
+md5sum=(3743beefa3dd6247a73f8f7a32c14c33)
 
 build() {
 	cd $name-$version
@@ -14,5 +15,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(3743beefa3dd6247a73f8f7a32c14c33)
