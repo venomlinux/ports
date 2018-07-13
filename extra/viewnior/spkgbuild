@@ -1,19 +1,21 @@
 # description	: A simple, fast and elegant image viewer program
 # homepage	: http://xsisqox.github.com/Viewnior/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: exiv2 gtk2 gnome-common intltool make perl pkg-config
+# depends	: exiv2 gtk2 gnome-common intltool meson perl pkg-config
 
 name=viewnior
-version=1.6
+version=1.7
 release=1
-source=(https://github.com/xsisqox/Viewnior/archive/$name-$version.tar.gz)
+source=(https://github.com/hellosiyan/Viewnior/archive/$name-$version.tar.gz)
+md5sum=(b09587081077b50f9cc51bb4b0223ffe)
 
 build() {
 	cd Viewnior-$name-$version
-	./autogen.sh
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
 	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr
+	ninja
+	DESTDIR=$PKG ninja install
 }
-md5sum=(f7d497360c48ce4bce09328d934cc4a4)
