@@ -7,10 +7,11 @@
 name=osx-arc-theme
 version=1.4.7
 release=1
-source=($name-$version.deb::https://github.com/LinxGem33/OSX-Arc-Shadow/releases/download/v$version/osx-arc-collection_${version}_amd64.deb)
+options=(!strip)
+source=($name-$version.deb::https://gitlab.com/LinxGem33/X-Arc-White/uploads/26bccc81678392584149afa3167f8e78/osx-arc-collection_${version}_amd64.deb)
+md5sum=(9ecf55af4de11632f19419cd9f853e27)
 
 build() {
 	bsdtar xf $name-$version.deb
 	tar xf data.tar.xz -C $PKG
 }
-md5sum=(9ecf55af4de11632f19419cd9f853e27)
