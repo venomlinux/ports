@@ -3,9 +3,10 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=iptables
-version=1.8.0
+version=1.6.2
 release=1
-source=(http://www.netfilter.org/projects/iptables/files/$name-$version.tar.bz2)
+source=(https://www.netfilter.org/projects/iptables/files/$name-$version.tar.bz2)
+md5sum=(7d2b7847e4aa8832a18437b8a4c1873d)
 
 build() {
 	cd $name-$version
@@ -26,4 +27,3 @@ build() {
 	  ln -sfv ../../lib/$(readlink $PKG/usr/lib/lib${file}.so) $PKG/usr/lib/lib${file}.so
 	done
 }
-md5sum=(3874ca08438be68cd793558283df48d1)
