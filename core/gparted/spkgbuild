@@ -6,7 +6,7 @@
 name=gparted
 version=0.31.0
 release=3
-source=(http://downloads.sourceforge.net/$name/$name-$version.tar.gz)
+source=(https://downloads.sourceforge.net/$name/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
@@ -33,7 +33,7 @@ cat > $PKG/usr/share/polkit-1/actions/org.gnome.gparted.policy << "EOF"
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE policyconfig PUBLIC
  "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
- "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+ "https://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
 <policyconfig>
 
   <action id="org.freedesktop.policykit.pkexec.run-gparted">
