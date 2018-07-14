@@ -4,9 +4,10 @@
 # depends	: curl libevent openssl qt5 desktop-file-utils intltool
 
 name=transmission-qt
-version=2.93
+version=2.94
 release=1
 source=(https://github.com/transmission/transmission-releases/raw/master/transmission-$version.tar.xz)
+md5sum=(c92829294edfa391c046407eeb16358a)
 
 build() {
 	cd transmission-$version
@@ -27,5 +28,3 @@ build() {
 	install -Dm644 qt/transmission-qt.desktop \
 	    $PKG/usr/share/applications/transmission-qt.desktop
 }
-
-md5sum=(a1b8113ebc3402787312ecb443d9d3c1)
