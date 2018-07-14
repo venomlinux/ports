@@ -3,9 +3,10 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=pciutils
-version=3.5.6
-release=2
+version=3.6.0
+release=1
 source=(https://www.kernel.org/pub/software/utils/$name/$name-$version.tar.xz)
+md5sum=(b98076a55055237a20586a086a17f979)
 
 build() {
 	cd $name-$version
@@ -25,4 +26,3 @@ build() {
 
 	chmod -v 755 $PKG/usr/lib/libpci.so
 }
-md5sum=(8e52278399b7b35fcfc031bc05da80a8)
