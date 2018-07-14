@@ -4,9 +4,10 @@
 # depends	: exo garcon libxfce4ui libcanberra libnotify libxklavier gnome-icon-theme libinput
 
 name=xfce4-settings
-version=4.12.3
+version=4.12.4
 release=1
 source=(http://archive.xfce.org/src/xfce/xfce4-settings/${version::4}/$name-$version.tar.bz2)
+md5sum=(176c2a3d8b8c73f8cf4dfa9ab31a8cea)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(d66d3606cd2fce9b875f9c43d993fca6)
