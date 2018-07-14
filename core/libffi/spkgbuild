@@ -5,8 +5,9 @@
 
 name=libffi
 version=3.2.1
-release=1
+release=2
 source=(ftp://sourceware.org/pub/$name/$name-$version.tar.gz)
+md5sum=(83b89587607e3eb65c70d361f13bab43)
 
 build() {
 	cd $name-$version
@@ -18,9 +19,7 @@ build() {
 	    -e 's/^Cflags: -I${includedir}/Cflags:/' \
 	    -i libffi.pc.in
 
-	./configure --prefix=/usr --disable-static
+	./configure --prefix=/usr --disable-static --with-gcc-arch=x86-64
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(83b89587607e3eb65c70d361f13bab43)
