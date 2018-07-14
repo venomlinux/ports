@@ -4,9 +4,10 @@
 # depends	: curl libevent openssl gtk3 hicolor-icon-theme desktop-file-utils intltool
 
 name=transmission-gtk
-version=2.93
+version=2.94
 release=1
 source=(https://github.com/transmission/transmission-releases/raw/master/transmission-$version.tar.xz)
+md5sum=(c92829294edfa391c046407eeb16358a)
 
 build() {
 	cd transmission-$version
@@ -16,5 +17,3 @@ build() {
 	make -C gtk DESTDIR=$PKG install
 	make -C po DESTDIR=$PKG install
 }
-
-md5sum=(a1b8113ebc3402787312ecb443d9d3c1)
