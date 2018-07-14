@@ -6,7 +6,8 @@
 name=giblib
 version=1.2.4
 release=1
-source=(http://crux.ster.zone/downloads/$name/$name-$version.tar.gz)
+source=(http://kent.dl.sourceforge.net/project/slackbuildsdirectlinks/giblib/giblib-$version.tar.gz)
+md5sum=(c810ef5389baf24882a1caca2954385e)
 
 build() {
 	cd giblib-$version
@@ -14,5 +15,3 @@ build() {
 	make
 	make DESTDIR=$PKG docsdir=/usr/share/doc/giblib install
 }
-
-md5sum=(c810ef5389baf24882a1caca2954385e)
