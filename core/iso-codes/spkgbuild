@@ -6,7 +6,8 @@
 name=iso-codes
 version=3.77
 release=1
-source=(https://pkg-isocodes.alioth.debian.org/downloads/$name-$version.tar.xz)
+source=(https://salsa.debian.org/iso-codes-team/iso-codes/uploads/053dcee773a67523328628c92dd7e919/$name-$version.tar.xz)
+md5sum=(9d0d06cfb4634428b300845edcd7140a)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(9d0d06cfb4634428b300845edcd7140a)

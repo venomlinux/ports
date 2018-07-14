@@ -6,7 +6,8 @@
 name=acl
 version=2.2.53
 release=1
-source=(https://download.savannah.gnu.org/releases/$name/$name-$version.src.tar.gz)
+source=(https://download.savannah.gnu.org/releases/$name/$name-$version.tar.gz)
+md5sum=(007aabf1dbb550bcddde52a244cd1070)
 
 build() {
 	cd $name-$version
@@ -15,7 +16,7 @@ build() {
 	            --disable-static \
 	            --libexecdir=/usr/lib
 	make
-	make DIST_ROOT=$PKG install install-dev install-lib
+	make DESTDIR=$PKG install
 
 	chmod -v 755 $PKG/usr/lib/libacl.so
 
@@ -23,5 +24,3 @@ build() {
 	mv -v $PKG/usr/lib/libacl.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libacl.so) $PKG/usr/lib/libacl.so
 }
-
-md5sum=(007aabf1dbb550bcddde52a244cd1070)

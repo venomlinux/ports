@@ -4,21 +4,20 @@
 # depends	: glibc
 
 name=attr
-version=2.4.47
+version=2.4.48
 release=1
-source=(https://download.savannah.gnu.org/releases/$name/$name-$version.src.tar.gz)
+source=(https://download.savannah.gnu.org/releases/$name/$name-$version.tar.gz)
+md5sum=(bc1e5cb5c96d99b24886f1f527d3bb3d)
 
 build() {
 	cd $name-$version
 
-	sed -i -e "/SUBDIRS/s|man[25]||g" man/Makefile
-	sed -i 's:{(:\\{(:' test/run
-
 	./configure --prefix=/usr \
 	            --bindir=/bin \
-	            --disable-static
+	            --disable-static \
+            	    --sysconfdir=/etc
 	make
-	make DIST_ROOT=$PKG install install-lib install-dev
+	make DESTDIR=$PKG install
 
 	chmod -v 755 $PKG/usr/lib/libattr.so
 
@@ -26,5 +25,3 @@ build() {
 	mv -v $PKG/usr/lib/libattr.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libattr.so) $PKG/usr/lib/libattr.so
 }
-
-md5sum=(84f58dec00b60f2dc8fd1c9709291cc7)
