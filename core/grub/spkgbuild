@@ -5,8 +5,11 @@
 
 name=grub
 version=2.02
-release=1
-source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+release=2
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
+	grub.default)
+md5sum=(8a4a2a95aac551fb0fba860ceabfa1d3
+	3877662038c1eae6afc5fd50664615d7)
 
 build() {
 	cd $name-$version
@@ -18,5 +21,7 @@ build() {
 	            --disable-werror
 	make
 	make DESTDIR=$PKG install
+
+	# borrow from Arch
+	install -D -m0644 $SRC/grub.default $PKG/etc/default/grub
 }
-md5sum=(8a4a2a95aac551fb0fba860ceabfa1d3)

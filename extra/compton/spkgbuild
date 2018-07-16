@@ -5,12 +5,14 @@
 
 name=compton
 version=20170430
-release=1
+release=2
 _commit=316eac0613bf342ff91cc645a6c3c80e6b9083fb
-source=(https://github.com/chjj/compton/archive/$_commit.tar.gz
-	compton.conf)
+source=($name-$_commit.tar.gz::https://github.com/chjj/compton/archive/$_commit.tar.gz
+	compton.conf
+	compton.custom.conf)
 md5sum=(eb3fddcd691af8239b3ab56bf89e038c
-	3ba1d38df211634aa125362b438ad6f3)
+	3ba1d38df211634aa125362b438ad6f3
+	36b7c08ffe1c79b915a3cd0fe6859790)
 
 build() {
 	cd $name-$_commit
@@ -18,5 +20,7 @@ build() {
 	make MANPAGES= PREFIX="$PKG/usr" install
 	install -Dm755 compton $PKG/usr/bin/compton
 
-	install -Dm644 $SRC/compton.conf $PKG/etc/xdg/compton.conf
+	#install -Dm644 $SRC/compton.conf $PKG/etc/xdg/compton.conf
+	install -Dm644 compton.sample.conf $PKG/etc/xdg/compton.sample.conf
+	install -Dm644 $SRC/compton.custom.conf $PKG/etc/xdg/compton.conf
 }

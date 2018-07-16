@@ -1,0 +1,23 @@
+# description	: A netload plugin for the Xfce panel
+# homepage	: http://goodies.xfce.org/projects/panel-plugins/xfce4-netload-plugin
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: xfce4-panel lm_sensors libnotify hicolor-icon-theme
+
+name=xfce4-sensors-plugin
+version=1.3.0
+release=1
+source=(http://archive.xfce.org/src/panel-plugins/$name/${version%.*}/$name-$version.tar.bz2)
+md5sum=(cf57ef3562e1f4f6d458894b33968600)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib \
+		--localstatedir=/var \
+		--disable-debug
+	make
+	make DESTDIR=$PKG install
+}
