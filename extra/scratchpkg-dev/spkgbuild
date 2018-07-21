@@ -1,0 +1,15 @@
+# description	: A simple package manager for Linux From Scratch
+# backup	: etc/scratchpkg.conf etc/scratchpkg.repo
+# depends	: coreutils bash wget httpup
+
+name=scratchpkg-dev
+version=20180721
+release=1
+_commit=e72f0e9955dcec9bde4ceb2d6af60955f05342e3
+source=($name-$_commit.tar.gz::https://github.com/emmett1/scratchpkg/archive/$_commit.tar.gz)
+md5sum=(b4924e3f83f40004ed3e8d9c56b54d94)
+
+build() {
+	cd scratchpkg-$_commit
+	DESTDIR=$PKG ./INSTALL.sh
+}
