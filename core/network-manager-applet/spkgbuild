@@ -2,33 +2,21 @@
 # depends	: gtk3 iso-codes libsecret libnotify networkmanager modemmanager gobject-introspection meson gtk-doc python2-six
 
 name=network-manager-applet
-version=1.8.10
+version=1.8.14
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::3}/$name-$version.tar.xz)
+md5sum=(bcdd92645d36fc5778f27aeb2773509b)
 
 build() {
 	cd $name-$version
-
-	#./configure --prefix=/usr       \
-	#            --sysconfdir=/etc   \
-	#            --disable-static    \
-        #    	    --without-selinux   \
-	#            --without-team
-	#make
-	#make DESTDIR=$PKG install
 
 	mkdir build
 	cd build
 	
 	meson --prefix=/usr           \
 	      --sysconfdir=/etc       \
-	      -Dlibnm-gtk=true \
 	      -Dselinux=false  \
 	      -Dteam=false
 	ninja
 	DESTDIR=$PKG ninja install
-
-	# Fix an error in the install pkg-config file
-	sed 's@linm-glib@libnm-glib@' -i $PKG/usr/lib/pkgconfig/libnm-gtk.pc
 }
-md5sum=(eae3be75e77ff1a7ea3174be25e62d03)

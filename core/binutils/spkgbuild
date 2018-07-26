@@ -4,9 +4,10 @@
 # depends	: glibc zlib
 
 name=binutils
-version=2.30
+version=2.31.1
 release=1
 source=(https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz)
+md5sum=(5b7c9d4ce96f507d95c1b9a255e52418)
 
 build() {
 	cd $name-$version
@@ -24,4 +25,3 @@ build() {
 	make tooldir=/usr
 	make tooldir=/usr DESTDIR=$PKG install
 }
-md5sum=(ffc476dd46c96f932875d1b2e27e929f)
