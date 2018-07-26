@@ -7,7 +7,8 @@ name=arc-icon-theme
 version=20161122
 release=1
 options=(!emptydirs !strip)
-source=($name-$version.zip::https://github.com/horst3180/$name/archive/$version.zip)
+source=($name-$version.tar.gz::https://github.com/horst3180/$name/archive/$version.tar.gz)
+md5sum=(8703547bf253e40bc98b4853dc2bfacd)
 
 build() {
 	cd $name-$version
@@ -15,4 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(be62051ff490d4657f4fd9b81bac29f0)
