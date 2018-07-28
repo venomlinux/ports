@@ -3,7 +3,7 @@
 
 name=mkinitramfs
 version=0.1
-release=1
+release=2
 
 build() {
 	mkdir -p $PKG/sbin
@@ -11,6 +11,7 @@ build() {
 #!/bin/bash
 # This file based in part on the mkinitramfs script for the LFS LiveCD
 # written by Alexander E. Patrakov and Jeremy Huntwork.
+# Modified by Emmett1 to make grub detect initrd file.
 
 copy()
 {
@@ -35,7 +36,7 @@ if [ -z $1 ] ; then
   INITRAMFS_FILE=initrd.img-no-kmods
 else
   KERNEL_VERSION=$1
-  INITRAMFS_FILE=initrd.img-$KERNEL_VERSION
+  INITRAMFS_FILE=initrd-$KERNEL_VERSION.img
 fi
 
 if [ -n "$KERNEL_VERSION" ] && [ ! -d "/lib/modules/$1" ] ; then

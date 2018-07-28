@@ -5,8 +5,9 @@
 
 name=gparted
 version=0.31.0
-release=3
+release=4
 source=(https://downloads.sourceforge.net/$name/$name-$version.tar.gz)
+md5sum=(c554cc5734c50459dd551bd3fa10710e)
 
 build() {
 	cd $name-$version
@@ -17,40 +18,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	sed -i 's:/usr/bin/gparted:/usr/bin/gparted_polkit:' \
-        	                             $PKG/usr/share/applications/gparted.desktop
-
-mkdir -p $PKG/usr/bin
-cat > $PKG/usr/bin/gparted_polkit << "EOF"
-#!/bin/bash
-
-pkexec /usr/bin/gparted $@
-EOF
-chmod -v 0755 $PKG/usr/bin/gparted_polkit
-
-install -d $PKG/usr/share/polkit-1/actions
-cat > $PKG/usr/share/polkit-1/actions/org.gnome.gparted.policy << "EOF"
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE policyconfig PUBLIC
- "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
- "https://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
-<policyconfig>
-
-  <action id="org.freedesktop.policykit.pkexec.run-gparted">
-    <description>Run GParted</description>
-    <message>Authentication is required to run GParted</message>
-    <defaults>
-      <allow_any>no</allow_any>
-      <allow_inactive>no</allow_inactive>
-      <allow_active>auth_admin_keep</allow_active>
-    </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/gparted</annotate>
-    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
-  </action>
-
-</policyconfig>
-EOF
-chmod -v 0644 $PKG/usr/share/polkit-1/actions/org.gnome.gparted.policy
+	# Install policy file
+	install -D -m0644 org.gnome.gparted.policy \
+	    $PKG/usr/share/polkit-1/actions/org.gnome.gparted.policy
 }
-
-md5sum=(c554cc5734c50459dd551bd3fa10710e)
