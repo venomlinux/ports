@@ -1,0 +1,60 @@
+# description	: Linux lts kernel, sources and modules
+# depends	: elfutils
+
+name=linux-lts
+version=4.14.58
+release=1
+options=(!strip)
+source=(https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
+	config)
+md5sum=(f8c9c683a90fb281e9126a8d157d57ef
+	5620ba314eef8c7f6ff0d3c5fa0f12fd)
+
+build() {
+	cd linux-$version
+
+	kernver=${version}$(grep CONFIG_LOCALVERSION= $SRC/config | cut -d '"' -f2)
+
+	make mrproper
+	cp $SRC/config ./.config
+	#make menuconfig
+	make bzImage modules
+	make INSTALL_MOD_PATH=$PKG modules_install
+
+	mkdir -p $PKG/boot
+
+	cp  System.map $PKG/boot/System.map-$kernver
+	cp  .config $PKG/boot/config-$kernver
+	cp  arch/x86/boot/bzImage $PKG/boot/vmlinuz-$kernver
+
+	make clean
+	make prepare
+
+	cd $PKG/lib/modules/$kernver
+	rm {build,source}
+	ln -sv /usr/src/linux-$version build
+	ln -sv /usr/src/linux-$version source
+
+	mkdir -p $PKG/usr/src
+	mv $SRC/linux-$version $PKG/usr/src/
+
+	rm -fr $PKG/usr/src/linux-$version/Documentation
+	rm -rf $PKG/lib/firmware
+
+	#rm -r $PKG/usr/src/linux-$version/{tools,ipc,init,drivers,firmware,fs,mm,samples,security,sound,virt}
+	for i in alpha arc arm arm26 arm64 avr32 blackfin c6x \
+		cris frv h8300 hexagon ia64 m32r m68k m68knommu metag \
+		mips microblaze mn10300 openrisc parisc powerpc ppc s390 \
+		score sh sh64 sparc sparc64 tile unicore32 um v850 xtensa \
+		nds32 nios2 riscv x86_64
+	do rm -rf $PKG/usr/src/linux-$version/arch/$i
+	done
+
+	cd $PKG/usr/src/linux-$version
+	# Don't package the kernel in the sources directory
+	find . -name "*Image" -exec rm "{}" \;
+	# No need for these:
+	rm -f .config.old .version
+	find . -name "*.cmd" -exec rm -f "{}" \; 
+	rm -f .*.d
+}
