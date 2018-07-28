@@ -4,7 +4,7 @@
 
 name=networkmanager
 version=1.10.8
-release=1
+release=2
 source=(https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
 	run)
 md5sum=(4bdcdfd05f609c2c53d3664b6573c078
@@ -30,15 +30,6 @@ mkdir -p $PKG/etc/NetworkManager
 cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"
 [main]
 plugins=keyfile
-EOF
-
-mkdir -p $PKG/usr/share/polkit-1/rules.d
-cat > $PKG/usr/share/polkit-1/rules.d/org.freedesktop.NetworkManager.rules << "EOF"
-polkit.addRule(function(action, subject) {
-    if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0 && subject.isInGroup("users")) {
-        return polkit.Result.YES;
-    }
-});
 EOF
 
 	# runit service
