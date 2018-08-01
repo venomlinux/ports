@@ -4,15 +4,13 @@
 # depends	: python2
 
 name=python2-beaker
-version=1.9.1
+version=1.10.0
 release=1
 source=(https://files.pythonhosted.org/packages/source/B/Beaker/Beaker-$version.tar.gz)
+md5sum=(c07254713337b7a1b404ef37ad880b07)
 
 build() {
 	cd Beaker-$version
-
 	python setup.py install --root=$PKG --optimize=1
 	
 }
-
-md5sum=(46fda0a164e2b0d24ccbda51a2310301)
