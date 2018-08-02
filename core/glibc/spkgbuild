@@ -5,7 +5,6 @@
 
 name=glibc
 version=2.27
-GCC_VER=8.1.0
 release=2
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-$version-fhs-1.patch)
@@ -20,7 +19,7 @@ build() {
 	mkdir -p $PKG/usr/{lib,bin}
 	ln -sfv /tools/lib/gcc $PKG/usr/lib
 
-	GCC_INCDIR=/usr/lib/gcc/x86_64-pc-linux-gnu/$GCC_VER/include
+	GCC_INCDIR=/usr/lib/gcc/x86_64-pc-linux-gnu/$(gcc -dumpversion)/include
 	mkdir $PKG/lib64
 	ln -sfv ../lib/ld-linux-x86-64.so.2 $PKG/lib64
 	ln -sfv ../lib/ld-linux-x86-64.so.2 $PKG/lib64/ld-lsb-x86-64.so.3
