@@ -5,7 +5,9 @@ name=w3m
 version=0.5.3
 release=2
 source=(https://downloads.sourceforge.net/w3m/$name-$version.tar.gz
-	$name-$version-bdwgc72-1.patch)
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-bdwgc72-1.patch)
+md5sum=(1b845a983a50b8dec0169ac48479eacc
+	0023b3d259ee913f7b421812f7379f58)
 
 build() {
 	cd $name-$version
@@ -22,6 +24,3 @@ build() {
 	install -v -m644 -D doc/keymap.default $PKG/etc/w3m/keymap
 	install -v -m644    doc/menu.default $PKG/etc/w3m/menu
 }
-
-md5sum=(1b845a983a50b8dec0169ac48479eacc
-0023b3d259ee913f7b421812f7379f58)
