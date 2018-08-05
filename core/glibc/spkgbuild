@@ -4,11 +4,11 @@
 # depends	: linux-api-headers
 
 name=glibc
-version=2.27
-release=2
+version=2.28
+release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
-	$name-$version-fhs-1.patch)
-md5sum=(898cd5656519ffbc3a03fe811dd89e82
+	http://www.linuxfromscratch.org/patches/lfs/development/$name-$version-fhs-1.patch)
+md5sum=(c81d2388896379997bc359d4f2084239
 	9a5997c3452909b1769918c759eff8a2)
 
 build() {
