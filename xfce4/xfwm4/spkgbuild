@@ -4,9 +4,10 @@
 # depends	: libwnck2 libxfce4ui libxfce4util startup-notification
 
 name=xfwm4
-version=4.12.4
+version=4.12.5
 release=1
 source=(http://archive.xfce.org/src/xfce/xfwm4/${version::4}/$name-$version.tar.bz2)
+md5sum=(61f6bc8b15c6a7361a58d875917e1791)
 
 build() {
 	cd $name-$version
@@ -15,4 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(3ec136efc5387fd3b53cd66b684f52d7)
