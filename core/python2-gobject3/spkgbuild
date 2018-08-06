@@ -2,9 +2,10 @@
 # depends	: python2-cairo gobject-introspection
 
 name=python2-gobject3
-version=3.28.2
+version=3.28.3
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/pygobject/${version::4}/pygobject-$version.tar.xz)
+md5sum=(3bac63c86bb963aa401f97859464aa90)
 
 build() {
 	cd pygobject-$version
@@ -16,5 +17,3 @@ build() {
 	# conflict with python3-gobject3
 	rm -r $PKG/usr/{lib/pkgconfig,include}
 }
-
-md5sum=(bda3178850e3ae886eef3acc7056b51a)

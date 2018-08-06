@@ -7,11 +7,16 @@ name=findutils
 version=4.6.0
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+md5sum=(9936aa8009438ce185bea2694a997fc1)
 
 build() {
 	cd $name-$version
 
+	# fixes required by glibc-2.28
 	sed -i 's/test-lock..EXEEXT.//' tests/Makefile.in
+	sed -i 's/IO_ftrylockfile/IO_EOF_SEEN/' gl/lib/*.c
+	sed -i '/unistd/a #include <sys/sysmacros.h>' gl/lib/mountlist.c
+	echo "#define _IO_IN_BACKUP 0x100" >> gl/lib/stdio-impl.h
 
 	./configure --prefix=/usr --localstatedir=/var/lib/locate
 	make
@@ -21,4 +26,3 @@ build() {
 	mv -v $PKG/usr/bin/find $PKG/bin
 	sed -i 's|find:=${BINDIR}|find:=/bin|' $PKG/usr/bin/updatedb
 }
-md5sum=(9936aa8009438ce185bea2694a997fc1)
