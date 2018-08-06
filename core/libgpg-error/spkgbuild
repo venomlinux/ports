@@ -3,10 +3,10 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=libgpg-error
-version=1.31
+version=1.32
 release=1
 source=(ftp://ftp.gnupg.org/gcrypt/$name/$name-$version.tar.bz2)
-md5sum=(5cc6df0fea27832e9cdbafc60f51561b)
+md5sum=(ef3d928a5a453fa701ecc3bb22be1c64)
 
 build() {
 	cd $name-$version
@@ -14,6 +14,4 @@ build() {
   	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
-
-	install -v -m644 -D README $PKG/usr/share/doc/$name/README
 }
