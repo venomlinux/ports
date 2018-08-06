@@ -3,10 +3,12 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=libpng
-version=1.6.34
+version=1.6.35
 release=1
 source=(https://downloads.sourceforge.net/$name/$name-$version.tar.xz
 	https://downloads.sourceforge.net/project/apng/libpng/libpng16/$name-$version-apng.patch.gz)
+md5sum=(678b7e696a62a193ed3503b04bf449d6
+	d0b3a2abd445d6091e5547066fc611a3)
 
 build() {
 	cd $name-$version
@@ -20,6 +22,3 @@ build() {
 	mkdir -p $PKG/usr/share/doc/$name
 	cp -v README libpng-manual.txt $PKG/usr/share/doc/$name
 }
-
-md5sum=(c05b6ca7190a5e387b78657dbe5536b2
-68b2811fed88359ab295ca906c4f4a96)
