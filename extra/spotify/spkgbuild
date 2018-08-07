@@ -2,13 +2,15 @@
 # depends	: alsa-lib gtk2 glib nss libxtst libx11 openssl libcurl-gnutls gconf libarchive
 
 name=spotify
-version=1.0.77.338
-_anotherversion=.g758ebd78
-_amd64_release=41
-release=2
+version=1.0.80.480
+_anotherversion=.g51b03ac3
+_amd64_release=13
+release=1
 options=(!strip)
 source=(http://repository.spotify.com/pool/non-free/s/spotify-client/spotify-client_${version}${_anotherversion}-${_amd64_release}_amd64.deb
 	spotify)
+md5sum=(1a959c27304e244a93c40a904a29cf7f
+	cfef2f72647980c639201c6ab39e8534)
 
 build() {
 
@@ -29,6 +31,3 @@ build() {
 	rm $PKG/usr/bin/spotify
 	install -Dm755 $SRC/spotify $PKG/usr/bin/spotify
 }
-
-md5sum=(0623d67362e2dd56a021fc1930285109
-cfef2f72647980c639201c6ab39e8534)
