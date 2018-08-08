@@ -3,14 +3,16 @@
 
 name=openssh
 version=7.7p1
-release=1
+release=2
 source=(https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
 	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-openssl-1.1.0-1.patch)
+md5sum=(68ba883aff6958297432e5877e9a0fe2
+	55e7b5588c5c10f09a4a08477eb56f6b)
 
 build() {
 	cd $name-$version
 	
-	patch -Np1 -i ../openssh-7.7p1-openssl-1.1.0-1.patch
+	patch -Np1 -i ../$name-$version-openssl-1.1.0-1.patch
 
 	./configure --prefix=/usr                     \
 	            --sysconfdir=/etc/ssh             \
@@ -20,10 +22,9 @@ build() {
 	make DESTDIR=$PKG install
 
 	install -v -m755    contrib/ssh-copy-id $PKG/usr/bin
-
 	install -v -m644    contrib/ssh-copy-id.1 \
 	                    $PKG/usr/share/man/man1
-}
 
-md5sum=(68ba883aff6958297432e5877e9a0fe2
-55e7b5588c5c10f09a4a08477eb56f6b)
+	sed '/^#ChallengeResponseAuthentication yes$/c ChallengeResponseAuthentication no' \
+	    -i $PKG/etc/ssh/sshd_config
+}
