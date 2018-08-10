@@ -6,14 +6,17 @@
 name=parted
 version=3.2
 release=1
-source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
+	parted-3.2-sysmacros.patch)
+md5sum=(0247b6a7b314f8edeb618159fa95f9cb
+	3f2af097400ae3e59b0ae84141d77dd2)
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i ../parted-3.2-sysmacros.patch
 
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(0247b6a7b314f8edeb618159fa95f9cb)
