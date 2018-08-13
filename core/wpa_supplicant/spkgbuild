@@ -1,7 +1,7 @@
 # description	: Implements WPA key negotiation with a WPA Authenticator and Extensible Authentication Protocol (EAP) authentication with an Authentication Server
 # homepage	: http://hostap.epitest.fi/wpa_supplicant
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# backup	: etc/wpa_supplicant.conf
+# backup	: etc/wpa_supplicant.conf etc/conf.d/wpa.conf
 # depends	: libnl openssl dbus dhcpcd
 
 name=wpa_supplicant
@@ -11,13 +11,13 @@ release=6
 source=(https://w1.fi/releases/$name-$version.tar.gz
 	$name-$version-upstream_fixes-1.patch
 	wpa_supplicant.conf
-	run
-	conf)
+	wpa_supplicant.rc
+	wpa.conf)
 md5sum=(091569eb4440b7d7f2b4276dbfc03c3c
 	93e3f82d21ec0c364e32d242a658b8ce
 	dace26d9323391e9bc9f647964536f4a
-	6d4f130ffb0b4840eb6b8d890e2be7c0
-	64d22c68fd52aaea378dde9d844872a2)
+	4e4936299bf2c89fdeea7031c2a63de6
+	a4c6bf306544a057838778d691d22c18)
 
 build() {
 	cd $name-$version
@@ -74,8 +74,7 @@ EOF
 	# wpa_supplicant.conf
 	install -Dm 600 $SRC/wpa_supplicant.conf $PKG/etc/wpa_supplicant.conf
 
-	# runit service
-	install -Dm755 $SRC/run $PKG/etc/sv/wpa_supplicant/run
-	install -Dm644 $SRC/conf $PKG/etc/sv/wpa_supplicant/conf
-	ln -s /run/runit/supervise.wpa_supplicant $PKG/etc/sv/wpa_supplicant/supervise
+	# rc service
+	install -Dm755 $SRC/wpa_supplicant.rc $PKG/etc/rc.d/wpa_supplicant
+	install -Dm755 $SRC/wpa.conf $PKG/etc/conf.d/wpa
 }

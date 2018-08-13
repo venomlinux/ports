@@ -12,6 +12,6 @@ md5sum=(29981873fa854364d969be555a7c6f13)
 
 build() {
 	cd $name-$_commit
-	make DESTDIR=$PKG install-all
-	chmod -x $PKG/etc/rc.d/template
+	make DESTDIR=$PKG install
+	#chmod -x $PKG/etc/rc.d/template
 }

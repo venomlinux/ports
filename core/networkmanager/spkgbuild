@@ -6,9 +6,9 @@ name=networkmanager
 version=1.10.8
 release=3
 source=(https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
-	run)
+	$name.rc)
 md5sum=(4bdcdfd05f609c2c53d3664b6573c078
-	2d6251a6bce160d8d58872726d03c84d)
+	73bd6cdb7d8913d5f65dfe14c24a61d0)
 
 build() {
 	cd NetworkManager-$version
@@ -33,7 +33,6 @@ cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"
 plugins=keyfile
 EOF
 
-	# runit service
-	install -Dm755 $SRC/run $PKG/etc/sv/networkmanager/run
-	ln -s /run/runit/supervise.networkmanager $PKG/etc/sv/networkmanager/supervise
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

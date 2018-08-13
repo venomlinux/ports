@@ -7,11 +7,9 @@ name=alsa-utils
 version=1.1.6
 release=1
 source=(ftp://ftp.alsa-project.org/pub/utils/$name-$version.tar.bz2
-	run
-	finish)
+	alsa.rc)
 md5sum=(50ae75567459646b843bed78d916b002
-	3f0e774624f500b08f206305503c240e
-	83630fb06a08c936aacf5e368362e6db)
+	f32e59dbae9576b1e6bd2371b5a36617)
 
 build() {
 	cd $name-$version
@@ -23,8 +21,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# runit service
-	install -Dm755 $SRC/run $PKG/etc/sv/alsa/run
-	install -Dm755 $SRC/finish $PKG/etc/sv/alsa/finish
-	ln -s /run/runit/supervise.alsa $PKG/etc/sv/alsa/supervise
+	# rc service
+	install -Dm755 $SRC/alsa.rc $PKG/etc/rc.d/alsa
 }

@@ -24,10 +24,5 @@ build() {
 	    make -C "$dir" DESTDIR=$PKG install
 	done
 
-	# runit service
-	install -Dm755 $SRC/run $PKG/etc/sv/transmission-daemon/run
-	install -Dm644 $SRC/conf $PKG/etc/sv/transmission-daemon/conf
-	ln -s /run/runit/supervise.transmission-daemon $PKG/etc/sv/transmission-daemon/supervise
-
 	install -Dm 644 $SRC/transmission.sysusers $PKG/etc/sysusers/transmission.conf
 }

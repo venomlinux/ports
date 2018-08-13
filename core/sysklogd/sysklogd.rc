@@ -1,0 +1,51 @@
+#!/bin/sh
+#
+# /etc/rc.d/sysklogd
+#
+
+. /etc/rc.subr
+
+PROG=/sbin/syslogd
+PROGK=/sbin/klogd
+
+case "$1" in
+	start)
+		msg "Starting system log daemon..."
+		parms=${SYSKLOGD_PARMS-'-m 0'}
+		start_daemon $PROG $parms
+		eval_stat
+
+		msg "Starting kernel log daemon..."
+		start_daemon $PROGK
+		eval_stat
+		;;
+	stop)
+		msg "Stopping kernel log daemon..."
+		stop_daemon $PROG
+		eval_stat
+		
+		msg "Stopping system log daemon..."
+		stop_daemon $PROGK
+		eval_stat
+		;;
+	reload)
+		echo "Reloading system log daemon config file..."
+		pid=`pidof syslogd`
+		kill -HUP "$pid"
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		status_daemon $PROG
+		status_daemon $PROGK
+		;;
+	*)
+		echo "Usage: $0 [start|stop|reload|restart|status]"
+		exit 1
+		;;
+esac
+
+# End of file
