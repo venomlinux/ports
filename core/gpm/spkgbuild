@@ -7,12 +7,12 @@ version=1.20.7
 release=1
 source=(https://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
 	$name-$version-glibc_2.26-1.patch
-	run
-	conf)
+	$name.rc
+	$name.conf)
 md5sum=(bf84143905a6a903dbd4d4b911a2a2b8
 	802caefec3613f56adf1d8bf4cb15145
-	e67409039df6e8e093e7967321bbc595
-	d79c2425f02cbd460c20b4afc22e4ae9)
+	b81930620d84ad49358fb294edd0caef
+	9b51737664eb9f1eba520c0553131833)
 
 build() {
 	cd $name-$version
@@ -34,8 +34,7 @@ build() {
 	install -v -m644    doc/{FAQ,HACK_GPM,README*}        \
 	                    $PKG/usr/share/doc/$name
 
-	# runit service
-	install -Dm755 $SRC/run $PKG/etc/sv/gpm/run
-	install -Dm644 $SRC/conf $PKG/etc/sv/gpm/conf
-	ln -s /run/runit/supervise.gpm $PKG/etc/sv/gpm/supervise
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+	install -Dm644 $SRC/$name.conf $PKG/etc/conf.d/$name
 }

@@ -1,17 +1,17 @@
 # description	: An implementation of the DHCP client specified in RFC2131
 # homepage	: https://roy.marples.name/projects/dhcpcd/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# backup	: etc/sv/dhcpcd/conf
+# backup	: etc/rc.d/network
 
 name=dhcpcd
 version=7.0.7
 release=1
 source=(http://roy.marples.name/downloads/$name/$name-$version.tar.xz
-	run
-	conf)
+	network.rc
+	network.conf)
 md5sum=(7c9e7fcecd8c678460f92956f558e5fd
-	7fab4ae292b107759129290840582cf6
-	3274e6951b00796790b5912fe042c2e2)
+	58a1de1f8fb957dfd3e7028c71ba0957
+	b4497f2961e91f0ffb62e82a34a993f3)
 
 build() {
 	cd $name-$version
@@ -21,8 +21,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# runit service
-	install -Dm755 $SRC/run $PKG/etc/sv/dhcpcd/run
-	install -Dm644 $SRC/conf $PKG/etc/sv/dhcpcd/conf
-	ln -s /run/runit/supervise.dhcpcd $PKG/etc/sv/dhcpcd/supervise
+	# rc service
+	install -Dm755 $SRC/network.rc $PKG/etc/rc.d/network
+	install -Dm644 $SRC/network.conf $PKG/etc/conf.d/network
 }

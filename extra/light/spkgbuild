@@ -7,11 +7,9 @@ name=light
 version=1.0
 release=1
 source=($name-$version.tar.gz::https://github.com/haikarainen/light/archive/v$version.tar.gz
-	run
-	finish)
+	$name.rc)
 md5sum=(65ee0fb2ede482d64a53c38271b2eeb6
-	b4b85009911ad5c0f383d59f1a62de20
-	9daee4666c28f6c2dd2b1d8794cb8bec)
+	df1690cfba146a0ad5a9b73c89690eca)
 
 build() {
 	cd $name-$version
@@ -19,8 +17,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# runit service
-	install -Dm755 $SRC/run $PKG/etc/sv/light/run
-	install -Dm755 $SRC/finish $PKG/etc/sv/light/finish
-	ln -s /run/runit/supervise.light $PKG/etc/sv/light/supervise
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

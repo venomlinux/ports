@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# /etc/rc.d/httpd: start/stop Apache HTTP daemon
+#
+
+. /etc/rc.subr
+
+NAME="Apache HTTP daemon"
+PROG=/usr/sbin/httpd
+
+case $1 in
+	start)
+		msg "Starting $NAME..."
+		mkdir -p /var/run/httpd
+		start_daemon /usr/sbin/apachectl -k start
+		eval_stat
+		;;
+	stop)
+		msg "Stopping $NAME..."
+		start_daemon /usr/sbin/apachectl -k stop
+		eval_stat
+		;;
+	restart)
+		msg "Restarting $NAME..."
+		start_daemon /usr/sbin/apachectl -k restart
+		eval_stat
+		;;
+	status)
+		status_daemon $PROG
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+# End of file

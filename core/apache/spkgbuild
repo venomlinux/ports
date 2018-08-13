@@ -6,10 +6,12 @@ version=2.4.29
 release=1
 source=(https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 	httpd-$version-blfs_layout-1.patch
-	run)
+	httpd.rc
+	$name.sysusers)
 md5sum=(0c599404ef6b69eee95bcd9fcd094407
 	f24185eaa0cbcab3c0b07032584575d9
-	07fbe634c7538b9cb5115ff707d75530)
+	94f888a181adf06b8aba59e99ec1dcca
+	0b1518b2d99a3486ecfba24eb5c68cda)
 
 build() {
 	cd httpd-$version
@@ -35,14 +37,16 @@ build() {
 	make DESTDIR=$PKG install
 
 	mv -v $PKG/usr/sbin/suexec $PKG/usr/lib/httpd/suexec
-	chgrp apache           $PKG/usr/lib/httpd/suexec
-	chmod 4754             $PKG/usr/lib/httpd/suexec
+	#chgrp apache           $PKG/usr/lib/httpd/suexec
+	#chmod 4754             $PKG/usr/lib/httpd/suexec
 
-	chown -v -R apache:apache $PKG/srv/www
+	#chown -v -R apache:apache $PKG/srv/www
 
 	rm -fr $PKG/var/run
 
-	# runit service
-	install -Dm755 $SRC/run $PKG/etc/sv/httpd/run
-	ln -s /run/runit/supervise.httpd $PKG/etc/sv/httpd/supervise
+	# rc service
+	install -Dm755 $SRC/httpd.rc $PKG/etc/rc.d/httpd
+
+	# sysusers file
+	install -Dm644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 }

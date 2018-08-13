@@ -6,9 +6,9 @@ name=smartmontools
 version=6.6
 release=1
 source=(https://sourceforge.net/projects/$name/files/$name/$version/$name-$version.tar.gz
-	run)
+	smartd.rc)
 md5sum=(9ae2c6e7131cd2813edcc65cbe5f223f
-	6f65c48412a1c30895aee51e1a7e9528)
+	c85f7e17a10083f8cb079f0dbceff134)
 
 build() {
 	cd $name-$version
@@ -19,7 +19,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# runit service
-	install -Dm755 $SRC/run $PKG/etc/sv/smartd/run
-	ln -s /run/runit/supervise.smartd $PKG/etc/sv/smartd/supervise
+	# rc service
+	install -Dm755 $SRC/smartd.rc $PKG/etc/rc.d/smartd
 }

@@ -7,13 +7,13 @@ version=0.9.10
 release=1
 options=(!emptydirs)
 source=(${name}-${version}.tar.gz::https://github.com/guard/rb-inotify/archive/v${version}.tar.gz)
+md5sum=(b3e3a933ca18e22f491c13f1e988a2a2)
 
 build() {
 	cd $_name-$version
+	sed 's|git ls-files|find -type f|' -i ${_name}.gemspec
 	gem build ${_name}.gemspec
 	local _gemdir="$(gem env gemdir)"
 	gem install --ignore-dependencies --no-user-install -i "${PKG}${_gemdir}" -n "${PKG}/usr/bin" ${_name}-${version}.gem
 	rm "${PKG}/${_gemdir}/cache/${_name}-${version}.gem"
 }
-
-md5sum=(b3e3a933ca18e22f491c13f1e988a2a2)

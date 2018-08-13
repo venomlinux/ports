@@ -5,9 +5,13 @@ name=openssh
 version=7.7p1
 release=2
 source=(https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-openssl-1.1.0-1.patch)
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-openssl-1.1.0-1.patch
+	sshd.rc
+	$name.sysusers)
 md5sum=(68ba883aff6958297432e5877e9a0fe2
-	55e7b5588c5c10f09a4a08477eb56f6b)
+	55e7b5588c5c10f09a4a08477eb56f6b
+	f90285592ebd04e0d511a3a6b4a115f5
+	d8fd01a5cda9f81bf7454e6e774d5bf9)
 
 build() {
 	cd $name-$version
@@ -27,4 +31,10 @@ build() {
 
 	sed '/^#ChallengeResponseAuthentication yes$/c ChallengeResponseAuthentication no' \
 	    -i $PKG/etc/ssh/sshd_config
+
+	# rc service
+	install -Dm755 $SRC/sshd.rc $PKG/etc/rc.d/sshd
+
+	# sysusers file
+	install -Dm644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 }

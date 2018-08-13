@@ -5,11 +5,13 @@
 
 name=ntp
 version=4.2.8p11
-release=2
+release=1
 source=(https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-${version::3}/$name-$version.tar.gz
-	run)
+	$name.sysusers
+	ntpd.rc)
 md5sum=(00950ca2855579541896513e78295361
-	4c1718bc27f66742ada77cfd3cdc94d1)
+	4a90e4f3f74be63a9ea702ac6e7dc6c6
+	8ee3a4d1066881ad59de3ff465b643e8)
 
 build() {
 	cd $name-$version
@@ -25,7 +27,7 @@ build() {
 	            --with-lineeditlibs=readline
 	make
 	make DESTDIR=$PKG install
-	install -v -o ntp -g ntp -d $PKG/var/lib/ntp
+	install -v -o 87 -d $PKG/var/lib/ntp
 
 mkdir -p $PKG/etc
 cat > $PKG/etc/ntp.conf << "EOF"
@@ -56,8 +58,8 @@ restrict -6 default limited kod nomodify notrap nopeer noquery
 restrict 127.0.0.1
 restrict ::1
 EOF
+	install -Dm644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 
-	# runit service
-	install -Dm755 $SRC/run $PKG/etc/sv/ntpd/run
-	ln -s /run/runit/supervise.ntpd $PKG/etc/sv/ntpd/supervise
+	# rc service
+	install -Dm755 $SRC/ntpd.rc $PKG/etc/rc.d/ntpd
 }

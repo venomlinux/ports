@@ -2,16 +2,19 @@
 # homepage	: http://www.bluez.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: dbus glib libical
+# backup	: etc/conf.d/bluetooth
 
 name=bluez
 version=5.49
 release=2
 source=(https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
 	$name-obexd_without_systemd-1.patch
-	run)
+	bluetooth.rc
+	bluetooth.conf)
 md5sum=(f210e84db707d66af3b889084a6f8bef
 	ed5071c4a89231f23cbb341f533ac1b6
-	e98557c6ed8f15da0668ebfb211a3075)
+	026b4a4545f65b77a6618ea98604e7c5
+	2d517e7805e7f9c4932d1ac4f6b481fd)
 
 build() {
 	cd $name-$version
@@ -55,7 +58,7 @@ cat > $PKG/etc/bluetooth/uart.conf << "EOF"
 # End of uart.conf
 EOF
 
-	# runit service
-	install -Dm755 $SRC/run $PKG/etc/sv/bluetoothd/run
-	ln -s /run/runit/supervise.bluetoothd $PKG/etc/sv/bluetoothd/supervise
+	# rc service
+	install -Dm755 $SRC/bluetooth.rc $PKG/etc/rc.d/bluetooth
+	install -Dm644 $SRC/bluetooth.conf $PKG/etc/conf.d/bluetooth
 }
