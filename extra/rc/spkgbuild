@@ -3,15 +3,15 @@
 # depends	: sysvinit
 
 name=rc
-version=20180811
+version=20180816
 release=1
 options=(!strip)
-_commit=b07f5a8f60a5571340e73aaf572f80eaf56253c1
+_commit=9ba33ef0a825e3b4c425dc878e8bb057ba28f128
 source=($name-$_commit.tar.gz::https://github.com/emmett1/rc/archive/$_commit.tar.gz)
-md5sum=(29981873fa854364d969be555a7c6f13)
+md5sum=(8f1be9f99c1d657fd4bc4c69a4b11af4)
 
 build() {
 	cd $name-$_commit
 	make DESTDIR=$PKG install
-	#chmod -x $PKG/etc/rc.d/template
+	
 }

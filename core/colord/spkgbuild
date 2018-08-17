@@ -28,5 +28,5 @@ build() {
 	      -Dman=false ..
 	ninja
 	DESTDIR=$PKG ninja install
-	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers/$name.conf
+	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 }

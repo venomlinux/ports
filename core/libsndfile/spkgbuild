@@ -7,7 +7,6 @@ source=(http://www.mega-nerd.com/libsndfile/files/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
-	autoreconf -fi
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install

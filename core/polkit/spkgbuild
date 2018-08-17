@@ -31,5 +31,5 @@ build() {
 	make DESTDIR=$PKG install
 
 	install -Dm 644 $SRC/polkit-1 $PKG/etc/pam.d/polkit-1
-	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers/$name.conf
+	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 }
