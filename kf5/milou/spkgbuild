@@ -2,8 +2,8 @@
 # depends	: krunner extra-cmake-modules python3 kdoctools
 
 name=milou
-version=5.12.5
-release=2
+version=5.13.4
+release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
 build() {
@@ -18,12 +18,6 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
-
-	(cd $PKG/usr/share/plasma/plasmoids
-		for j in $(find -name \*.js); do
-			ln -sfv ../code/$(basename $j) $(dirname $j)/../ui/
-		done
-	)
 }
 
-md5sum=(a6297963718e9315e72e1711e4f71e5c)
+md5sum=(69ff78fc195af7e4994429b44454f3f9)

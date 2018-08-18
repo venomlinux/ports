@@ -2,8 +2,8 @@
 # depends	: bluez-qt kio extra-cmake-modules plasma-framework kded python3
 
 name=bluedevil
-version=5.12.5
-release=2
+version=5.13.4
+release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
 build() {
@@ -18,12 +18,6 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
-
-	(cd $PKG/usr/share/plasma/plasmoids
-		for j in $(find -name \*.js); do
-			ln -sfv ../code/$(basename $j) $(dirname $j)/../ui/
-		done
-	)
 }
 
-md5sum=(60e92f4d444cba7e31041bf9c426d1aa)
+md5sum=(3f3de6be50ce252d5f000f200fd274c7)
