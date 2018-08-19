@@ -2,10 +2,12 @@
 # depends	: alsa-lib sdl2 glib python2 coreutils
 
 name=qemu
-version=2.12.0
+version=2.12.1
 release=1
-source=(http://download.qemu-project.org/$name-$version.tar.bz2)
-md5sum=(122fd7cdf241ff7eb1e42c0b503b5d1b)
+source=(http://download.qemu-project.org/$name-$version.tar.bz2
+	$name.sysusers)
+md5sum=(ef7d52d4c2e91143114d04b41671bb38
+	bec5cf16b8f46e6319c98c7bb2cc4c88)
 
 build() {
 	cd $name-$version
@@ -27,7 +29,6 @@ cat > $PKG/lib/udev/rules.d/65-kvm.rules << "EOF"
 KERNEL=="kvm", GROUP="kvm", MODE="0660"
 EOF
 
-chgrp kvm  $PKG/usr/libexec/qemu-bridge-helper
-chmod 4750 $PKG/usr/libexec/qemu-bridge-helper
+	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 }
 
