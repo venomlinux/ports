@@ -4,10 +4,12 @@
 # depends	: glib libxml2
 
 name=shared-mime-info
-version=1.9
-release=3
+version=1.10
+release=1
 source=(https://freedesktop.org/~hadess/$name-$version.tar.xz
 	update-mime-database.hook)
+md5sum=(418c2ced9dc4dd5ca8b06a755e6d64e9
+	ec13819b9163e9cb97df4eda0ef885db)
 
 build() {
 	cd $name-$version
@@ -18,6 +20,3 @@ build() {
 
 	install -Dm644 $SRC/update-mime-database.hook $PKG/etc/hooks/update-mime-database.hook
 }
-
-md5sum=(45103889b91242850aa47f09325e798b
-ec13819b9163e9cb97df4eda0ef885db)
