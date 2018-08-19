@@ -2,9 +2,10 @@
 # depends	: glib
 
 name=vala
-version=0.40.3
+version=0.40.8
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(3e3177692fb5d81a7b8aaa6b95a30bdd)
 
 build() {
 	cd $name-$version
@@ -17,5 +18,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(734a14b7dcffa8628d7e22742c513c0a)
