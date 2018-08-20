@@ -1,0 +1,16 @@
+# description	: A library for accessing weather information from online services
+# depends	: libsoup
+
+name=libmateweather
+version=1.20.1
+release=1
+options=()
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(4b2733b900b8e2bdfb5675a284acb2a9)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

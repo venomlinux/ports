@@ -1,0 +1,18 @@
+# description	: The MATE control center
+# depends	: desktop-file-utils
+
+name=mate-control-center
+version=1.20.3
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(3e9757a2b1840895cd5a96c89bca8b29)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		--sysconfdir=/etc \
+		--disable-update-mimedb
+	make
+	make DESTDIR=$PKG install
+	rm $PKG/usr/share/applications/mimeinfo.cache
+}

@@ -1,0 +1,15 @@
+# description	: The MATE panel
+# depends	: libwnck3 librsvg
+
+name=mate-panel
+version=1.20.2
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(72cf64b556d9106041baee1a22021220)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --libexecdir=/usr/lib/$name
+	make
+	make DESTDIR=$PKG install
+}

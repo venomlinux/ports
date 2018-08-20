@@ -1,0 +1,15 @@
+# description	: A library that implements the Desktop Menu Specifications from freedesktop.org
+# depends	: 
+
+name=mate-menus
+version=1.20.1
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(ae605c3736956c5f2dd4f984f3dd0296)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}

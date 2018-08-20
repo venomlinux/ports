@@ -1,0 +1,15 @@
+# description	: Backgrounds for MATE
+# depends	: 
+
+name=mate-backgrounds
+version=1.20.0
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(3ce47300f7e7d4d3b551659cc547c5d3)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

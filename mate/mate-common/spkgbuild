@@ -1,0 +1,18 @@
+# description	: Common files for MATE applications
+# backup	: 
+# depends	: 
+# noextract	: 
+
+name=mate-common
+version=1.20.0
+release=1
+options=()
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(b92cae6bf3d82c9e5e4f501021d4fba6)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
