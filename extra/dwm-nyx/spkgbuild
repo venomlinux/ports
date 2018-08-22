@@ -20,8 +20,7 @@ source=(http://dl.suckless.org/dwm/dwm-$version.tar.gz
 	terminus2.bdf
 	xbmicons.bdf
 	dwm-bar
-	dwm
-	xinitrc.dwm)
+	dwm)
 md5sum=(8bb00d4142259beb11e13473b81c0857
 	SKIP
 	939f403a71b6e85261d09fc3412269ee
@@ -36,8 +35,7 @@ md5sum=(8bb00d4142259beb11e13473b81c0857
 	f2324c7c9ed1102dad374b067c20d95a
 	683355025a6861644bfbb1df0467ba47
 	244dc747becbb523b9cb7a38b157d45b
-	7514bd3e98a9c70be5dfcddab84c7421
-	203f1aa1f32d1e568688398173014fb9)
+	7514bd3e98a9c70be5dfcddab84c7421)
 
 build() {
 	cd dwm-$version
@@ -61,6 +59,4 @@ build() {
 	install -m755 -D $SRC/dwm-bar $PKG/usr/bin/dwm-bar
 	mv $PKG/usr/bin/dwm $PKG/usr/bin/dwm-$version
 	install -m755 -D $SRC/dwm $PKG/usr/bin/dwm
-
-	install -Dm644 $SRC/xinitrc.dwm $PKG/etc/X11/app-defaults/xinitrc.dwm
 }

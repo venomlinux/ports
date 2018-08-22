@@ -2,14 +2,15 @@ d:libxext
 d:smproxy
 d:libdmx
 d:libxdmcp
+d:xorg-applications
 d:xf86-video-intel
 d:libxvmc
 d:util-macros
 d:libxdamage
 d:libevdev
+d:xorg
 d:font-util
 d:iceauth
-d:xorg-libraries-meta
 d:libfs
 d:luit
 d:xdriinfo
@@ -23,7 +24,6 @@ d:xkbcomp
 d:xkbevd
 d:xhost
 d:libxxf86dga
-d:xorg-applications-meta
 d:twm
 d:xcmsdb
 d:font-adobe-utopia-type1
@@ -57,7 +57,6 @@ d:xprop
 d:libxcursor
 d:xinit
 d:libpciaccess
-d:xorg-fonts-meta
 d:xsetroot
 d:libxmu
 d:xf86-video-fbdev
@@ -76,13 +75,13 @@ d:xcb-util-image
 d:xcb-util-keysyms
 d:libxaw
 d:font-alias
+d:xorg-libraries
 d:xpr
 d:libxt
 d:sessreg
 d:font-ibm-type1
 d:xcb-proto
 d:xtrans
-d:xorg-meta
 d:libfontenc
 d:libxpm
 d:font-bh-type1
@@ -99,6 +98,7 @@ d:xlsclients
 d:xcb-util-cursor
 d:xcursorgen
 d:xev
+d:xorg-fonts
 d:libxcb
 d:libxfont2
 d:xwd
@@ -111,6 +111,7 @@ f:b5ff3b5cf40d4e4663ad43251cbd50fb:libxext/spkgbuild
 f:dc920ddeb640300eb32cfd298a88f1d3:smproxy/spkgbuild
 f:b14e4a698716760e80aa2dc3fcba3bef:libdmx/spkgbuild
 f:02bbab360203827cf9f635dbb1c86360:libxdmcp/spkgbuild
+f:df7493d0c3637decc0f3842c5fe01756:xorg-applications/spkgbuild
 f:ccd7dbfe2c29eef8d492e70ce421f676:xf86-video-intel/spkgbuild
 f:601bd3e1074f891bd375b9ccacb10637:xf86-video-intel/readme
 f:076b434f88404e7a76d1547cde4a0df5:libxvmc/spkgbuild
@@ -118,9 +119,9 @@ f:51a807407825de165df39bb7038e55f2:util-macros/spkgbuild
 f:cec0cc12d825e2e7d154e31894201444:libxdamage/spkgbuild
 f:62317d37ab1bba453483697efcdd9cae:libevdev/spkgbuild
 f:a7cccf7f4fafba1e0b0c4f127b2823ea:libevdev/readme
+f:6209e61c6e88fae2fdcecff84bceca42:xorg/spkgbuild
 f:4522220677b45e92e7138536dff0c697:font-util/spkgbuild
 f:c6a193fa39eee8b32e436eb1a8a4759c:iceauth/spkgbuild
-f:a53c7d78c8491c5aa57f4b26fa481bea:xorg-libraries-meta/spkgbuild
 f:9232e15c798219243127e41020e4ed4c:libfs/spkgbuild
 f:94b3da51dfd81a8db53c221e8f7e0191:luit/spkgbuild
 f:4e0bb8ca961a6ab94e04a431f06f626a:xdriinfo/spkgbuild
@@ -134,7 +135,6 @@ f:0b6b64588abf32f53b596ac8e6373b71:xkbcomp/spkgbuild
 f:3b6f5786b3e907ad10533551a188f66e:xkbevd/spkgbuild
 f:fdd1a7863863429cd4b8544124ed6b04:xhost/spkgbuild
 f:5f2e1855cc720903c9624a8fa81f10e1:libxxf86dga/spkgbuild
-f:28fd5cbeb21a008d614daf8222b1640c:xorg-applications-meta/spkgbuild
 f:8fba0b51b99af95f6b77bdf81166494c:twm/spkgbuild
 f:e3b5a9209802c1e53b48a13401686399:xcmsdb/spkgbuild
 f:66d2a3464e0a49527a3606e703e7126c:font-adobe-utopia-type1/spkgbuild
@@ -167,10 +167,8 @@ f:d820c5f3d6a186c6cb77fd33b834f300:xrdb/spkgbuild
 f:a56ce30410227080603742e38d7d3622:font-misc-ethiopic/spkgbuild
 f:36eb3a5613554bf3ec3308133a7fe12b:xprop/spkgbuild
 f:0b9d0798453d152767336cfabf5ac887:libxcursor/spkgbuild
-f:415b29e417428097fa90cff2919d7468:xinit/spkgbuild
-f:9a086b6feca0cf74be807f108154fc0f:xinit/xinit.install
+f:f88ae5f25a1b83e021d17292809f5035:xinit/spkgbuild
 f:9256dc329da68fb57771b24d81e70b6a:libpciaccess/spkgbuild
-f:67dff70379d2d53f43658f849e2a4993:xorg-fonts-meta/spkgbuild
 f:36427b3d6db180485a23189bcbe88c37:xsetroot/spkgbuild
 f:c74f9743faec49d02b5b5a668c644134:libxmu/spkgbuild
 f:d1433f3ce0597e3ca682fa25f24bb1ef:xf86-video-fbdev/spkgbuild
@@ -189,6 +187,7 @@ f:5f76f5cda24d9402b734fe780cc3b6bf:xcb-util-image/spkgbuild
 f:f07632316a3db711e27ff64786c528a0:xcb-util-keysyms/spkgbuild
 f:fcf08d721b56032489ddc3c361cdbaf0:libxaw/spkgbuild
 f:0f724332c21823f51726ee2e15931f9d:font-alias/spkgbuild
+f:5b7ff8a1cf9b688dc73d30b9bd0f27cb:xorg-libraries/spkgbuild
 f:317da523522a1dc3f0288acab9604f1d:xpr/spkgbuild
 f:ffcba8be6b95f24c333d7fe3ceba3fe3:libxt/spkgbuild
 f:41b4a95f04df25c58f19c2bcb6c1e701:sessreg/spkgbuild
@@ -196,7 +195,6 @@ f:8aa64e5d0a58df7daeec443e34bbc5b0:font-ibm-type1/spkgbuild
 f:a97f47183ab9b1f0be6b2ec2319d26ff:font-ibm-type1/font-ibm-type1.install
 f:2f2954c90dee158fc144b25043f44622:xcb-proto/spkgbuild
 f:a9204b543b36d97e4e56cd91656bb41e:xtrans/spkgbuild
-f:e50762099e4cfb587e8a2afe375c7887:xorg-meta/spkgbuild
 f:a0e32f3acbf6ad896ee8983707f97564:libfontenc/spkgbuild
 f:70fc268c7a3fbd20ffe12536e33807b0:libxpm/spkgbuild
 f:0919625620337c560ee66ecf49abb214:font-bh-type1/spkgbuild
@@ -218,6 +216,7 @@ f:0cb9689da8da13f5c634069c5cea202a:xlsclients/spkgbuild
 f:7191a3a462968a66b28b81cf60e86199:xcb-util-cursor/spkgbuild
 f:02fcf1709048926dc5294f89634117d2:xcursorgen/spkgbuild
 f:10dccbe0f2d6b91d01c6fb9b839fb4ec:xev/spkgbuild
+f:0024efee20ac77677d48a08653e1c788:xorg-fonts/spkgbuild
 f:aa8a57f2372f23e82fc394fd3f453ee2:libxcb/spkgbuild
 f:77b502f7c839a8b34fe344cc30d3e304:libxfont2/spkgbuild
 f:60477e19ebd57ffd171467d809ef4729:xwd/spkgbuild

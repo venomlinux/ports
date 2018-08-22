@@ -1,0 +1,16 @@
+# description	: Meta port for Xorg
+
+depends=(util-macros xorgproto libxau libxdmcp xorg-libraries xcb-util
+	xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm
+	xcb-util-cursor mesa xbitmaps xorg-applications xcursor-themes
+	xorg-fonts xkeyboard-config xorg-server xf86-input-evdev libinput
+	twm xterm xclock xinit dejavu-fonts)
+
+name=xorg
+version=1.0
+release=1
+
+build() {
+	mkdir -pv $PKG/etc
+}
+
