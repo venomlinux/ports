@@ -1,28 +1,19 @@
-# description	: Linux lts kernel, sources and modules (based on Slackware huge kernel and aufs support patched)
-# depends	: elfutils
+# description	: Linux kernel (lts), sources and modules
+# depends	: elfutils mkinitramfs
 
 name=linux-lts
-version=4.14.58
-release=2
+version=4.14.65
+release=1
 options=(!strip)
-_aufs_commit=47363d98235b9ce06bfebd7e0742e14f56f548a3
 source=(https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
-	aufs4-20180726.tar.gz::https://github.com/sfjro/aufs4-standalone/archive/47363d98235b9ce06bfebd7e0742e14f56f548a3.tar.gz
-	config)
-md5sum=(f8c9c683a90fb281e9126a8d157d57ef
-	b9101068996ed14a9754ec2799393468
-	141165b690c830986a457e0f62ca7818)
+	config
+	linux.hook)
+md5sum=(3f8766fe38a87357e91b76cfc29909a9
+	474de474bb88e035f88458af5cb06649
+	97890691a1f8f1f7fb58e48c3140fdaa)
 
 build() {
 	cd linux-$version
-
-	# aufs4 patch
-	cp -r $SRC/aufs4-standalone-${_aufs_commit}/{Documentation,fs} .
-	cp $SRC/aufs4-standalone-${_aufs_commit}/include/uapi/linux/aufs_type.h include/uapi/linux/
-	patch -Np1 -i $SRC/aufs4-standalone-${_aufs_commit}/aufs4-kbuild.patch
-	patch -Np1 -i $SRC/aufs4-standalone-${_aufs_commit}/aufs4-base.patch
-	patch -Np1 -i $SRC/aufs4-standalone-${_aufs_commit}/aufs4-mmap.patch
-	#patch -Np1 -i $SRC/aufs4-standalone-${_aufs_commit}/aufs4-standalone.patch   # if plan to compile aufs as modules
 
 	kernver=${version}$(grep CONFIG_LOCALVERSION= $SRC/config | cut -d '"' -f2)
 
@@ -73,4 +64,11 @@ build() {
 	rm $PKG/lib/modules/$kernver/{build,source}
 	mv $SRC/linux-$version $PKG/lib/modules/$kernver/build
 	ln -sv build $PKG/lib/modules/$kernver/source
+
+	# remove now broken symlinks
+	find -L $PKG/lib/modules/$kernver/build -type l -exec rm -f "{}" \;
+
+	# hook file
+	mkdir -p $PKG/etc/hooks
+	sed "s/%KERNVER%/$kernver/g" $SRC/linux.hook > $PKG/etc/hooks/$name.hook
 }

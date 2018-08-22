@@ -1,0 +1,15 @@
+# description	: PolicyKit integration for the MATE desktop
+# depends	: polkit
+
+name=mate-polkit
+version=1.20.1
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(1ebd1f69ac259a1b8babefab5213dab7)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}

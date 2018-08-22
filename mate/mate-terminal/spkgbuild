@@ -1,0 +1,15 @@
+# description	: The MATE terminal emulator
+# depends	: vte3
+
+name=mate-terminal
+version=1.20.1
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(7b243df45e6abfa4381331e3b8dd762f)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,15 @@
+# description	: GObject based plugins engine
+# depends	: gobject-introspection gtk3 python2-gobject3 python3-gobject3
+
+name=libpeas
+version=1.22.0
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/libpeas/${version::4}/$name-$version.tar.xz)
+md5sum=(a20dc55c3f88ad06da9491cfd7de7558)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

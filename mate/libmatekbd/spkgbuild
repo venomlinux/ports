@@ -1,0 +1,16 @@
+# description	: A fork of libgnomekbd
+# depends	: libxklavier
+
+name=libmatekbd
+version=1.20.2
+release=1
+options=()
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(f0995699061d45bd73cd62b3870123f6)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

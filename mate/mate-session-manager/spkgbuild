@@ -1,0 +1,15 @@
+# description	: MATE session manager and configuration program
+# depends	: dbus-glib
+
+name=mate-session-manager
+version=1.20.1
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(f42444b7e48e80c0ad2d2925491e2c39)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --libexecdir=/usr/lib/$name
+	make
+	make DESTDIR=$PKG install
+}

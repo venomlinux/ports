@@ -1,0 +1,15 @@
+# description	: Allows display of dialog boxes from the command line and shell scripts
+# depends	: gtk3 itstool
+
+name=zenity
+version=3.28.1
+release=1
+source=(https://download.gnome.org/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(75344e6697f8f8111643d38f49a493ce)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --enable-libnotify
+	make
+	make DESTDIR=$PKG install
+}

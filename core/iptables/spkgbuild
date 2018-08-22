@@ -4,7 +4,7 @@
 
 name=iptables
 version=1.8.0
-release=1
+release=2
 source=(https://www.netfilter.org/projects/iptables/files/$name-$version.tar.bz2)
 md5sum=(3874ca08438be68cd793558283df48d1)
 
@@ -23,7 +23,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	ln -sfv ../../sbin/xtables-multi $PKG/usr/bin/iptables-xml
+	ln -sfv ../../sbin/xtables-legacy-multi $PKG/usr/bin/iptables-xml
 
 	for file in ip4tc ip6tc ipq iptc xtables
 	do

@@ -1,0 +1,5 @@
+post_install() {
+	if [ $(type -p mkinitramfs) ]; then
+		(cd /boot && mkinitramfs 4.17.11)
+	fi
+}

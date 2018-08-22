@@ -1,0 +1,19 @@
+# description	: Configuration database system
+# depends	: meson vala
+
+name=dconf
+version=0.28.0
+release=1
+source=(http://ftp.gnome.org/pub/gnome/sources/dconf/${version::4}/$name-$version.tar.xz)
+md5sum=(81faa8e68e5ea71ff0ee75050fc0759c)
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr --sysconfdir=/etc ..
+	ninja
+	DESTDIR=$PKG ninja install
+}
