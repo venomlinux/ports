@@ -2,9 +2,10 @@
 # depends	: cairo harfbuzz fribidi fontconfig glib gobject-introspection meson
 
 name=pango
-version=1.42.1
+version=1.42.3
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/pango/${version::4}/$name-$version.tar.xz)
+md5sum=(b281b95bca4591c28b3b784aadaa6f81)
 
 build() {
 	cd $name-$version
@@ -16,5 +17,3 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 }
-
-md5sum=(d66d2f29e92d33b6da5e19c563520f7c)

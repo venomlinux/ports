@@ -4,9 +4,10 @@
 # depends	: llvm
 
 name=icu
-version=61.1
+version=62.1
 release=1
 source=(http://download.icu-project.org/files/icu4c/$version/icu4c-${version//./_}-src.tgz)
+md5sum=(490ad9d920158e0314e10ba74ae9a150)
 
 build() {
 	cd icu/source
@@ -15,5 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(68fe38999fef94d622bd6843d43c0615)

@@ -7,14 +7,18 @@ depends=(sqlite ca-certificates dbus harfbuzz glib icu jasper libjpeg-turbo libm
 	libxrender libsm libxi libtiff libxkbcommon mesa mtdev openssl-1.0 pcre2 wayland
 	xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm alsa-lib python2
 	gst-plugins-base cups)
-source=(https://download.qt.io/archive/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz)
-md5sum=(c6f0854d7de7bde80cfd8cc85bb7152b)
+source=(https://download.qt.io/archive/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz
+	http://www.linuxfromscratch.org/patches/blfs/svn/qt-$version-glibc228-1.patch)
+md5sum=(c6f0854d7de7bde80cfd8cc85bb7152b
+	3e0f8cb1c827e07d2ed5749877afcb52)
 
 build() {
 	cd qt-everywhere-src-$version
 	   
 	QT5PREFIX=/usr
 	QT5BINDIR=$QT5PREFIX/lib/qt5/bin
+
+	patch -Np1 -i ../qt-$version-glibc228-1.patch
 
 	./configure -prefix         $QT5PREFIX \
 	            -sysconfdir     /etc/xdg   \

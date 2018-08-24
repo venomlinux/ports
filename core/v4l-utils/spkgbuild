@@ -4,16 +4,19 @@
 name=v4l-utils
 version=1.14.2
 release=1
-source=(https://www.linuxtv.org/downloads/v4l-utils/$name-$version.tar.bz2)
+source=(https://www.linuxtv.org/downloads/v4l-utils/$name-$version.tar.bz2
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-fix_sysmacros-1.patch)
+md5sum=(330f265c49122042b2340e4257a5c753
+	ab86d223293e1b0b1a440e045fc17a26)
 
 build() {
 	cd $name-$version
 	
+	patch -Np1 -i ../$name-$version-fix_sysmacros-1.patch
+
 	./configure --prefix=/usr     \
 	            --sysconfdir=/etc \
 	            --disable-static
 	make
 	make -j1 DESTDIR=$PKG install
 }
-
-md5sum=(330f265c49122042b2340e4257a5c753)

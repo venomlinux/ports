@@ -4,9 +4,10 @@
 # depends	: xkeyboard-config libxcb
 
 name=libxkbcommon
-version=0.7.2
+version=0.8.2
 release=1
 source=(https://xkbcommon.org/download/$name-$version.tar.xz)
+md5sum=(5f7f8533f907ebcfb1cf8dceb9501264)
 
 build() {
 	cd $name-$version
@@ -18,5 +19,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(f53fa65beb5ae4b6a6b7f08f9dedabc4)
