@@ -1,9 +1,10 @@
 # description	: Implementations for atomic memory update operations on a number of architectures
 
 name=libatomic_ops
-version=7.6.4
+version=7.6.6
 release=1
 source=(https://github.com/ivmai/libatomic_ops/releases/download/v$version/$name-$version.tar.gz)
+md5sum=(4514d85d14e21af05d59877c9ded5abc)
 
 build() {
 	cd $name-$version
@@ -13,5 +14,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(493859ecc543ca52b96926df97b7907c)
