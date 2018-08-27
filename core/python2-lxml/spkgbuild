@@ -2,14 +2,13 @@
 # depends	: python2 libxslt
 
 name=python2-lxml
-version=4.2.1
+version=4.2.4
 release=1
 source=(https://files.pythonhosted.org/packages/source/l/lxml/lxml-$version.tar.gz)
+md5sum=(31239400ca4e130b69993bb3c14204b3)
 
 build() {
 	cd lxml-$version
 	python2 setup.py build
 	python2 setup.py install --root=$PKG --optimize=1
 }
-
-md5sum=(c266d9062e23b08f66426979a2b36f51)
