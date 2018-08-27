@@ -4,9 +4,10 @@
 # depends	: glib libmbim
 
 name=libqmi
-version=1.20.0
+version=1.20.2
 release=1
 source=(https://www.freedesktop.org/software/$name/$name-$version.tar.xz)
+md5sum=(584214476ab75c394160cb85fbccaa1d)
 
 build() {
 	cd $name-$version
@@ -15,4 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(797e365521df76b77b067e6317618b41)
