@@ -4,9 +4,10 @@
 # depends	: libatasmart libblockdev libgudev libxslt polkit gobject-introspection
 
 name=udisks2
-version=2.7.6
+version=2.8.0
 release=1
 source=(https://github.com/storaged-project/udisks/releases/download/udisks-$version/udisks-$version.tar.bz2)
+md5sum=(32ae8b6d9aaf71d4609d3fb6b81d56e9)
 
 build() {
 	cd udisks-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(9e0fb5766ad542af920435cc5a68a749)
