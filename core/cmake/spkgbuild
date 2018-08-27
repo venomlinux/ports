@@ -2,19 +2,15 @@
 # depends	: curl libarchive libuv
 
 name=cmake
-version=3.12.0
+version=3.12.1
 release=1
-source=(https://www.cmake.org/files/v${version%.*}/$name-$version.tar.gz
-	fix-libuv.patch)
-md5sum=(ab4aa7df9301c94cdd6f8ee4fe66458b
-	de365e0384009c0b4f30fed4a66e9f5f)
+source=(https://www.cmake.org/files/v${version%.*}/$name-$version.tar.gz)
+md5sum=(10109246a51102bfda45ff3935275fbf)
 
 build() {
 	cd $name-$version
 
 	sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
-
-	#patch -Np0 -i $SRC/fix-libuv.patch
 
   	./bootstrap --prefix=/usr       \
 	            --system-libs       \
