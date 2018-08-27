@@ -3,15 +3,17 @@
 # backup	: etc/NetworkManager/NetworkManager.conf
 
 name=networkmanager
-version=1.10.8
-release=3
+version=1.12.2
+release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
 	$name.rc)
-md5sum=(4bdcdfd05f609c2c53d3664b6573c078
+md5sum=(94d02b80b120f166927e6ef242b29a9b
 	73bd6cdb7d8913d5f65dfe14c24a61d0)
 
 build() {
 	cd NetworkManager-$version
+
+	sed -i 's/1,12,2/1,12.2/' libnm-core/nm-version.h
 
 	CXXFLAGS="$CXXFLAGS -fPIC"                 \
 	./configure --prefix=/usr                  \
