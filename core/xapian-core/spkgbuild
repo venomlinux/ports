@@ -1,9 +1,10 @@
 # description	: Open source search engine library
 
 name=xapian-core
-version=1.4.5
+version=1.4.7
 release=1
 source=(https://oligarchy.co.uk/xapian/$version/$name-$version.tar.xz)
+md5sum=(f321cddd39cf68d027d13d58c7557a95)
 
 build() {
 	cd $name-$version
@@ -11,5 +12,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(ac661b7f130e7857e718f2f31d0cd01f)
