@@ -2,19 +2,13 @@
 # depends	: libsndfile alsa-lib dbus glib libcap openssl speexdsp libx11 libxcb libice libsm libxtst json-c
 
 name=pulseaudio
-version=11.1
+version=12.2
 release=1
-source=(https://www.freedesktop.org/software/pulseaudio/releases/$name-$version.tar.xz
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-glibc_2.27_fix-1.patch)
-md5sum=(390de38231d5cdd6b43ada8939eb74f1
-	952e1e975db2fb409ab8580db22cecf4)
+source=(https://www.freedesktop.org/software/pulseaudio/releases/$name-$version.tar.xz)
+md5sum=(c42f1f1465e8df9859d023dc184734bf)
 
 build() {
 	cd $name-$version
-
-	patch -p1 -i ../$name-$version-glibc_2.27_fix-1.patch
-
-	AUTOPOINT='intltoolize --automake --copy' autoreconf -fiv
 
 	./configure --prefix=/usr        \
                     --sysconfdir=/etc    \
