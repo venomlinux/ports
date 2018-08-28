@@ -4,9 +4,10 @@
 # depends	: dbus gcr linux-pam libxslt openssh
 
 name=gnome-keyring
-version=3.28.0.2
+version=3.28.2
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/gnome-keyring/${version::4}/$name-$version.tar.xz)
+md5sum=(284580f954f762caf62aed2ae7358177)
 
 build() {
 	cd $name-$version
@@ -19,4 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(0a12410cbc6080bf55eef2e4e43344f7)
