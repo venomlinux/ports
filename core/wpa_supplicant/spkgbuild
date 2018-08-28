@@ -6,15 +6,15 @@
 
 name=wpa_supplicant
 version=2.6
-release=6
+release=7
 
 source=(https://w1.fi/releases/$name-$version.tar.gz
-	$name-$version-upstream_fixes-1.patch
+	http://www.linuxfromscratch.org/patches/blfs/svn/wpa_supplicant-$version-upstream_fixes-2.patch
 	wpa_supplicant.conf
 	wpa_supplicant.rc
 	wpa.conf)
 md5sum=(091569eb4440b7d7f2b4276dbfc03c3c
-	93e3f82d21ec0c364e32d242a658b8ce
+	a1d5773c02e27fcef1367e4b7ec1e999
 	dace26d9323391e9bc9f647964536f4a
 	4e4936299bf2c89fdeea7031c2a63de6
 	a4c6bf306544a057838778d691d22c18)
@@ -53,8 +53,7 @@ CONFIG_CTRL_IFACE_DBUS_NEW=y
 CONFIG_CTRL_IFACE_DBUS_INTRO=y
 EOF
 
-	# fixes for Key Reinstallation Attacks (KRACK)
-	patch -p1 -i $SRC/wpa_supplicant-2.6-upstream_fixes-1.patch
+	patch -p1 -i $SRC/wpa_supplicant-$version-upstream_fixes-2.patch
 
 	cd $name
 	make BINDIR=/sbin LIBDIR=/lib
