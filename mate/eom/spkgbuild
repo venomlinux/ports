@@ -1,0 +1,15 @@
+# description	: An image viewing and cataloging program for MATE
+# depends	: glib mate-desktop libpeas gtk3 gobject-introspection libexif lcms2 dbus-glib librsvg zlib libjpeg-turbo libxml2 libx11
+
+name=eom
+version=1.20.1
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(684e03f79a9bfd6d0423c60a661e1049)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

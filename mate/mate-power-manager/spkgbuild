@@ -1,0 +1,15 @@
+# description	: Power management tool for the MATE desktop
+# depends	: dbus-glib mate-panel gtk3 libxrandr libx11 libxext upower libgnome-keyring libcanberra libnotify
+
+name=mate-power-manager
+version=1.20.2
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(5e15c3876b6f2af8ff41c3ab1da3e88d)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}

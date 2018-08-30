@@ -1,0 +1,15 @@
+# description	: Calculator for the MATE desktop environment
+# depends	: gtk3 glib libxml2
+
+name=mate-calc
+version=1.20.2
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(f4788a4efe253cfa8bc5a6b395d54a9c)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

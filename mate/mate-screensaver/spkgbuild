@@ -1,0 +1,15 @@
+# description	: Screensaver for MATE
+# depends	: libx11 libxscrnsaver dbus-glib mate-desktop gtk3 mate-menus mesa libsm libice libxext libxxf86vm linux-pam libmatekbd libxklavier libnotify
+
+name=mate-screensaver
+version=1.20.1
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(1d31d4acc1397b32f1189112b15ac129)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+	make
+	make DESTDIR=$PKG install
+}
