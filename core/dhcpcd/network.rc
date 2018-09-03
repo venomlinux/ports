@@ -14,12 +14,12 @@ OPTS="--waitip -h $(/bin/hostname) -z $DEV"
 	
 case $1 in	
 	start)	
-		msg "Starting $PROGNAME..."	
+		msg "Starting network..."	
 		start_daemon $PROG $OPTS
 		eval_stat
 		;;	
 	stop)	
-		msg "Stopping $PROGNAME..."	
+		msg "Stopping network..."	
 		stop_daemon $PROG
 		eval_stat
 		;;	
