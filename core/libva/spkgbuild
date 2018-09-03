@@ -2,9 +2,10 @@
 # depends	: mesa libdrm
 
 name=libva
-version=2.1.0
+version=2.2.0
 release=1
 source=(https://github.com/01org/libva/releases/download/$version/$name-$version.tar.bz2)
+md5sum=(92d04ad1700136dc75b1e5f47516e704)
 
 build() {
 	cd $name-$version
@@ -17,5 +18,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(9d6e4f1d36c407566343e9dde5a972b8)
