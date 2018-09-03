@@ -1,0 +1,52 @@
+Note
+
+For Direct Rendering to work, you need to enable the radeonsi Gallium driver
+at Mesa-18.1.6 build time. Also, all cards require Firmware to be available
+when the kernel driver is loaded.
+
+
+Kernel Configuration
+
+Enable the following options in the kernel configuration and recompile the
+kernel if necessary:
+
+Device Drivers  --->
+  Graphics support --->
+   <*> Direct Rendering Manager (XFree86 ... support) ---> [CONFIG_DRM]
+   <*/M> AMD GPU                                           [CONFIG_DRM_AMDGPU]
+    [ /*] Enable amdgpu support for SI parts               [CONFIG_DRM_AMDGPU_SI]
+    [ /*] Enable amdgpu support for CIK parts              [CONFIG_DRM_AMDGPU_CIK]
+
+The last two options enable experimental support for Southern and Sea Islands AMD GPUs
+so they can be used with this driver. Note that the support is marked experimental and
+disabled by default. Xorg ATI Driver-18.0.1 should be used for those GPUs.
+Kernel Configuration for additional firmware
+
+If you need to add firmware, install the file(s) and then point to them in the kernel
+configuration and recompile the kernel if necessary. To find out which firmware you need,
+consult the Decoder ring for engineering vs marketing names. Download any firmware for
+your card which is named like: <ENGINEERING_NAME>_rlc.bin, etc. Below is an example for
+Radeon R7 M340 GPU, which is codenamed Iceland/Topaz, along with a network card that also
+requires the firmware:
+
+CONFIG_EXTRA_FIRMWARE="amdgpu/topaz_ce.bin amdgpu/topaz_k_smc.bin amdgpu/topaz_mc.bin
+                       amdgpu/topaz_me.bin amdgpu/topaz_mec2.bin amdgpu/topaz_mec.bin
+                       amdgpu/topaz_pfp.bin amdgpu/topaz_rlc.bin amdgpu/topaz_sdma1.bin
+                       amdgpu/topaz_sdma.bin amdgpu/topaz_smc.bin rtl_nic/rtl8168e-3.fw"
+CONFIG_EXTRA_FIRMWARE_DIR="/lib/firmware"
+
+
+Note
+
+CONFIG_EXTRA_FIRMWARE should all be on one line. It is shown above as multiple lines for
+presentation only.
+Tip
+
+You can check dmesg output after boot to see which firmware is missing.
+
+Alternatively, if you change CONFIG_DRM_AMDGPU to '=m' in your linux kernel .config the
+firmware can be loaded automatically from /lib/firmware/amdgpu/ when it installs the module.
+This offers a tiny space saving, but also means that the screen will be blank for a longer
+time before the framebuffer appears. Distros take this approach because it is not practical
+to specify every possible firmware and the kernel would be excessively big.
+
