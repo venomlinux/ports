@@ -1,0 +1,16 @@
+# description	: Wrapper around libinput and allows for libinput to be used for input devices in X
+# depends	: libinput xorg-server
+
+name=xf86-input-libinput
+version=0.28.0
+release=1
+source=(https://www.x.org/pub/individual/driver/$name-$version.tar.bz2)
+md5sum=(2d7519ac0e39d4c88f3be32e81a637aa)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc \
+		--localstatedir=/var --disable-static
+	make
+	make DESTDIR=$PKG install
+}
