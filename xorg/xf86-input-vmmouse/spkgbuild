@@ -1,0 +1,22 @@
+# description	: VMMouse input driver for the Xorg X server
+# depends	: eudev xorg-server
+
+name=xf86-input-vmmouse
+version=13.1.0
+release=1
+source=(https://www.x.org/pub/individual/driver/$name-$version.tar.bz2)
+md5sum=(85e2e464b7219c495ad3a16465c226ed)
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static \
+		--without-hal-fdi-dir \
+		--without-hal-callouts-dir \
+		--with-udev-rules-dir=/lib/udev/rules.d
+	make
+	make DESTDIR=$PKG install
+}
