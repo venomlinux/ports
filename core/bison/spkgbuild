@@ -4,9 +4,10 @@
 # depends	: glibc m4 bash
 
 name=bison
-version=3.0.5
+version=3.1
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(db7e431785ad96870bfa570a15cab079)
 
 build() {
 	cd $name-$version
@@ -15,4 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(3e54f20988ecd1b62044e25481e5f06b)
