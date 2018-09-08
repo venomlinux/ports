@@ -4,9 +4,10 @@
 # depends	: glibc bash
 
 name=gdbm
-version=1.17
+version=1.18
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+md5sum=(e316f8e4a3e7e4f23955be65d54fec48)
 
 build() {
 	cd $name-$version
@@ -17,4 +18,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(f20ce117abc6f302ecf62c34d41c1ecf)
