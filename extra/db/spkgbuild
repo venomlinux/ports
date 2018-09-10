@@ -4,22 +4,24 @@
 name=db
 version=5.3.28
 release=1
-source=(http://download.oracle.com/berkeley-db/db-${version}.tar.gz
-	atomic.patch)
-md5sum=(b99454564d5b4479750567031d66fe24
-	007492e22d272871902afaf1f6765d6e)
+source=(http://download.oracle.com/berkeley-db/db-${version}.tar.gz)
+md5sum=(b99454564d5b4479750567031d66fe24)
 
 build() {
 	cd $name-$version
 
-	patch -p0 -i $SRC/atomic.patch # Fix build
+	# fix so that this will compile with current versions of g++
+	sed -i 's/\(__atomic_compare_exchange\)/\1_db/' src/dbinc/atomic.h
 
 	cd build_unix
 
-	../dist/configure --prefix=/usr --enable-compat185 \
-	    --enable-shared --enable-static --enable-cxx --enable-dbm \
-	    --enable-stl
-	make LIBSO_LIBS=-lpthread
+	../dist/configure \
+		--prefix=/usr \
+		--enable-compat185 \
+		--disable-static \
+		--enable-cxx \
+		--enable-dbm
+	make
 	make DESTDIR=$PKG install
 
 	rm -r $PKG/usr/docs
