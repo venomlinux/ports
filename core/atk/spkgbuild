@@ -13,7 +13,7 @@ build() {
 	mkdir build
 	cd    build
 
-	meson --prefix=/usr --libdir=/usr/lib 
+	meson --prefix=/usr --libdir=/usr/lib
 	ninja
 	DESTDIR=$PKG ninja install
 }
