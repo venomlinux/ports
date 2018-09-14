@@ -1,23 +1,26 @@
 # description	: Lightweight volume control with a tray icon
 # homepage	: https://github.com/nicklan/pnmixer
 # maintainer	: Emmett1, emmett1.2miligrams at mail.com
-# depends	: gtk2 alsa-utils
+# depends	: gtk3 alsa-utils libnotify
 
 name=pnmixer
-version=0.5.1
-release=2
-source=(https://github.com/downloads/nicklan/$name/$name-$version.tar.gz)
+version=0.7.2
+release=1
+source=(https://github.com/nicklan/pnmixer/releases/download/v$version/$name-v$version.tar.gz)
+md5sum=(e9f17f56c50de39393030a96e343427b)
 
 build() {
-	cd $name-$version
-	./autogen.sh --prefix=/usr
+	cd $name-v$version
+
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 	make
 	make DESTDIR=$PKG install
 
-	mkdir -p $PKG/usr/share/pixmaps
-	cp -v $PKG/usr/share/pnmixer/pixmaps/pnmixer-about.png \
-	      $PKG/usr/share/pixmaps/pnmixer.png
+	#mkdir -p $PKG/usr/share/pixmaps
+	#cp -v $PKG/usr/share/pnmixer/pixmaps/pnmixer-about.png \
+	#      $PKG/usr/share/pixmaps/pnmixer.png
 	#sed -i 's#Icon=pnmixer#Icon=/usr/share/pnmixer/pixmaps/pnmixer-about.png#' $PKG/usr/share/applications/pnmixer.desktop
 }
-
-md5sum=(2288af95ab280721b39b7c33601d5dd4)
