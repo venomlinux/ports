@@ -4,9 +4,10 @@
 # depends	: glib gobject-introspection
 
 name=gsettings-desktop-schemas
-version=3.28.0
+version=3.28.1
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(83bb19d025f126fae495ab43a2f26f40)
 
 build() {
 	cd $name-$version
@@ -16,5 +17,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(370610e29b37d063ede3ef0f29c06eb9)
