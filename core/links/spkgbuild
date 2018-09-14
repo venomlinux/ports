@@ -4,18 +4,14 @@
 # depends	: openssl
 
 name=links
-version=2.16
+version=2.17
 release=1
 source=(http://links.twibright.com/download/$name-$version.tar.bz2)
-md5sum=(645fb0c0294e4c3268f94d307d394ffb)
+md5sum=(e0cd5582b99a678b5ad3b112e9b42f7e)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr --mandir=/usr/share/man
 	make
 	make DESTDIR=$PKG install
-
-	install -v -d -m755 $PKG/usr/share/doc/$name
-	install -v -m644 doc/links_cal/* KEYS BRAILLE_HOWTO \
-	    $PKG/usr/share/doc/$name
 }
