@@ -3,10 +3,12 @@
 # optdepends	: colord cups docbook-utils gtk-doc json-glib
 
 name=gtk3
-version=3.22.30
+version=3.24.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/gtk+/${version::4}/gtk+-$version.tar.xz
 	gtk-query-immodules-3.0.hook)
+md5sum=(7ecfbcb662384c8b466dc342bf295f4d
+	dc13f687a7a9cf77f3fdf74fbb3d82de)
 
 build() {
 	cd gtk+-$version
@@ -38,6 +40,3 @@ EOF
 
 	install -Dm644 $SRC/gtk-query-immodules-3.0.hook $PKG/etc/hooks/gtk-query-immodules-3.0.hook
 }
-
-md5sum=(61e60dc073e0a6893c72043d20579dc0
-dc13f687a7a9cf77f3fdf74fbb3d82de)
