@@ -1,0 +1,26 @@
+# description	: Programs for compressing and decompressing files
+# homepage	: https://tukaani.org/xz/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: xz
+
+name=xz-32
+version=5.2.4
+release=1
+source=(https://tukaani.org/xz/xz-$version.tar.xz)
+md5sum=(003e4d0b1b1899fc6e3000b24feddf7c)
+
+build() {
+	cd xz-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr    \
+		    --libdir=/usr/lib32 \
+	            --disable-static
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

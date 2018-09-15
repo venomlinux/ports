@@ -1,0 +1,31 @@
+# description	: Portable foreign function interface library
+# homepage	: https://sourceware.org/libffi/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libffi
+
+name=libffi-32
+version=3.2.1
+release=1
+source=(ftp://sourceware.org/pub/libffi/libffi-$version.tar.gz)
+md5sum=(83b89587607e3eb65c70d361f13bab43)
+
+build() {
+	cd libffi-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  	sed -e '/^includesdir/ s/$(libdir).*$/$(includedir)/' \
+	    -i include/Makefile.in
+
+	sed -e '/^includedir/ s/=.*$/=@includedir@/' \
+	    -e 's/^Cflags: -I${includedir}/Cflags:/' \
+	    -i libffi.pc.in
+
+	./configure --prefix=/usr --libdir=/usr/lib32 --disable-static --with-gcc-arch=x86-64
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

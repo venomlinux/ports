@@ -1,0 +1,32 @@
+# description	: Font rasterization library
+# homepage	: https://www.freetype.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: freetype2 libpng-32 which
+
+name=freetype2-32
+version=2.9.1
+release=1
+source=(https://downloads.sourceforge.net/freetype/freetype-$version.tar.bz2)
+md5sum=(60ef7d8160cd4bf8cb118ee9d65367ca)
+
+build() {
+	cd freetype-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg
+
+	sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" \
+	    -i include/freetype/config/ftoption.h
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32 \
+		--disable-static
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

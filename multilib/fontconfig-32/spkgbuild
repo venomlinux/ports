@@ -1,0 +1,32 @@
+# description	: A library and support programs used for configuring and customizing font access (32bit)
+# homepage	: https://www.freedesktop.org/wiki/Software/fontconfig/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: fontconfig expat-32 freetype2-32 util-linux-32
+
+name=fontconfig-32
+version=2.13.0
+release=1
+source=(https://www.freedesktop.org/software/fontconfig/release/fontconfig-$version.tar.bz2)
+
+build() {
+	cd fontconfig-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	# make sure the system regenerates src/fcobjshash.h
+	rm -f src/fcobjshash.h
+
+	./configure --prefix=/usr        \
+		    --libdir=/usr/lib32  \
+	            --sysconfdir=/etc    \
+	            --localstatedir=/var \
+	            --disable-docs
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
+
+md5sum=(60d2394a79d3b2e5db2daea55193fa47)

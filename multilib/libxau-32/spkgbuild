@@ -1,0 +1,30 @@
+# description	: X11 authorisation library (32bit)
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxau
+
+name=libxau-32
+version=1.0.8
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libXau-$version.tar.bz2)
+
+build() {
+	cd libXau-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+ 	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32 \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
+
+md5sum=(685f8abbffa6d145c0f930f00703b21b)

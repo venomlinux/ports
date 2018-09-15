@@ -1,0 +1,54 @@
+# description	: Collection of modular and reusable compiler and toolchain technologies
+# depends	: llvm libffi-32 libxml-32
+
+name=llvm-32
+version=6.0.1
+release=1
+source=(http://llvm.org/releases/$version/llvm-$version.src.tar.xz
+	http://llvm.org/releases/$version/cfe-$version.src.tar.xz
+	http://llvm.org/releases/$version/compiler-rt-$version.src.tar.xz)
+md5sum=(c88c98709300ce2c285391f387fecce0
+	4e419bd4e3b55aa06d872320f754bd85
+	99bf8bcb68ba96dda74f6aee6c55f639)
+
+build() {
+	cd llvm-$version.src
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	mv ../cfe-$version.src tools/clang
+	mv ../compiler-rt-$version.src projects/compiler-rt
+
+	mkdir -v build
+	cd       build
+	
+	cmake .. -G Ninja \
+	      -DCMAKE_INSTALL_PREFIX=/usr           \
+	      -DLLVM_ENABLE_FFI=ON                  \
+	      -DCMAKE_BUILD_TYPE=Release            \
+	      -DLLVM_BUILD_LLVM_DYLIB=ON            \
+      	      -DLLVM_LINK_LLVM_DYLIB=ON             \
+	      -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU"  \
+	      -DLLVM_LIBDIR_SUFFIX=32               \
+	      -DLLVM_BUILD_32_BITS=ON \
+	      -DLLVM_BUILD_DOCS=OFF \
+	      -DLLVM_ENABLE_SPHINX=OFF \
+	      -DLLVM_INCLUDE_DOCS=OFF \
+	      -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
+	      -DFFI_LIBRARY_PATH="/usr/lib32/libffi.so" \
+	      -DCMAKE_C_FLAGS:STRING=-m32 \
+	      -DCMAKE_CXX_FLAGS:STRING=-m32 \
+	      -DLLVM_TARGET_ARCH:STRING=i686 \
+	      -DLLVM_DEFAULT_TARGET_TRIPLE="i686-pc-linux-gnu" \
+	      -Wno-dev
+	ninja
+	DESTDIR=$PWD/DESTDIR ninja install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+	mkdir -p $PKG/usr/bin
+	install -Dm0755 DESTDIR/usr/bin/llvm-config $PKG/usr/bin/llvm-config-32
+	mkdir -p $PKG/usr/include/llvm/Config/
+	install -Dm0644 DESTDIR/usr/include/llvm/Config/llvm-config.h $PKG/usr/include/llvm/Config/llvm-config-32.h
+}
