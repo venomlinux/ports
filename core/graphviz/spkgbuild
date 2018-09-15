@@ -1,0 +1,17 @@
+# description	: Graph visualization software
+# depends	: pango cairo fontconfig gtk2
+
+name=graphviz
+version=2.40.1
+release=1
+source=($name-$version.tar.gz::http://graphviz.gitlab.io/pub/graphviz/stable/SOURCES/graphviz.tar.gz)
+md5sum=(4ea6fd64603536406166600bcc296fc8)
+
+build() {
+	cd $name-$version
+	
+	export LIBPOSTFIX=/
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
