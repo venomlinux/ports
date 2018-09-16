@@ -5,7 +5,7 @@
 
 name=font-adobe-utopia-type1
 version=1.0.4
-release=1
+release=2
 source=(http://ftp.x.org/pub/individual/font/font-adobe-utopia-type1-$version.tar.bz2)
 
 build() {
@@ -15,11 +15,13 @@ build() {
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
+		--with-fontdir=/usr/share/fonts/Type1 \
 		--disable-static
 	make
 	make DESTDIR=$PKG install
 	
 	find $PKG -name 'fonts.dir' -delete
+	find $PKG -name 'fonts.scale' -delete
 }
 
 md5sum=(fcf24554c348df3c689b91596d7f9971)

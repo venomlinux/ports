@@ -1,0 +1,13 @@
+# description	: Updating X fontdir indices...
+# operation	: install upgrade remove
+# target	: usr/share/fonts/
+
+exechook() {
+	for dir in /usr/share/fonts/*; do
+		rm -f "$dir"/fonts.{dir,scale}
+	  	rmdir --ignore-fail-on-non-empty "$dir"
+		[[ -d $dir ]] || continue
+		mkfontscale "$dir"
+		mkfontdir "$dir"
+	done
+}

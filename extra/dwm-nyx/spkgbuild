@@ -5,7 +5,7 @@
 
 name=dwm-nyx
 version=6.0
-release=2
+release=3
 source=(http://dl.suckless.org/dwm/dwm-$version.tar.gz
         config.h
 	dwm.desktop
@@ -54,8 +54,8 @@ build() {
 	make PREFIX=/usr DESTDIR=$PKG install
 
 	install -m644 -D $SRC/dwm.desktop $PKG/usr/share/xsessions/dwm.desktop
-	install -m644 -D $SRC/terminus2.bdf $PKG/usr/share/fonts/X11/misc/terminus2.bdf
-	install -m644 -D $SRC/xbmicons.bdf $PKG/usr/share/fonts/X11/misc/xbmicons.bdf
+	install -m644 -D $SRC/terminus2.bdf $PKG/usr/share/fonts/misc/terminus2.bdf
+	install -m644 -D $SRC/xbmicons.bdf $PKG/usr/share/fonts/misc/xbmicons.bdf
 	install -m755 -D $SRC/dwm-bar $PKG/usr/bin/dwm-bar
 	mv $PKG/usr/bin/dwm $PKG/usr/bin/dwm-$version
 	install -m755 -D $SRC/dwm $PKG/usr/bin/dwm

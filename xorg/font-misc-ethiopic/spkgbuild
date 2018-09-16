@@ -5,7 +5,7 @@
 
 name=font-misc-ethiopic
 version=1.0.3
-release=1
+release=2
 source=(http://ftp.x.org/pub/individual/font/font-misc-ethiopic-$version.tar.bz2)
 
 build() {
@@ -15,11 +15,13 @@ build() {
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
+		--with-fontdir=/usr/share/fonts/misc \
 		--disable-static
 	make
 	make DESTDIR=$PKG install
-
-	rm -f $PKG/usr/share/fonts/X11/TTF/fonts.{dir,scale}
+	
+	find $PKG -name 'fonts.dir' -delete
+	find $PKG -name 'fonts.scale' -delete
 }
 
 md5sum=(6306c808f7d7e7d660dfb3859f9091d2)

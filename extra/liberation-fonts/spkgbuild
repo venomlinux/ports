@@ -5,7 +5,7 @@
 
 name=liberation-fonts
 version=2.00.1
-release=3
+release=4
 source=(https://releases.pagure.org/liberation-fonts/liberation-fonts-ttf-$version.tar.gz \
 	30-0-liberation-mono.conf \
         30-0-liberation-sans.conf \
@@ -13,8 +13,8 @@ source=(https://releases.pagure.org/liberation-fonts/liberation-fonts-ttf-$versi
 
 build() {
 	cd $name-ttf-$version
-	install -d $PKG/usr/share/fonts/X11/TTF
-	cp *.ttf $PKG/usr/share/fonts/X11/TTF/
+	install -d $PKG/usr/share/fonts/TTF
+	cp *.ttf $PKG/usr/share/fonts/TTF/
 
 	install -Dm0644 ../30-0-liberation-mono.conf $PKG/etc/fonts/conf.avail/30-$name-mono.conf
 	install -Dm0644 ../30-0-liberation-sans.conf $PKG/etc/fonts/conf.avail/30-$name-sans.conf

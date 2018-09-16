@@ -5,7 +5,7 @@
 
 name=awesome-font
 version=4.7.0
-release=1
+release=2
 source=($name-$version.tar.gz::https://github.com/FortAwesome/Font-Awesome/archive/v${version}.tar.gz)
 
 build() {
@@ -17,7 +17,7 @@ build() {
 
 	# otf
 	install -Dm644 $SRC/Font-Awesome-${version}/fonts/FontAwesome.otf \
-		$PKG/usr/share/fonts/X11/OTF/FontAwesome.otf
+		$PKG/usr/share/fonts/OTF/FontAwesome.otf
 }
 
 md5sum=(a6145901f233f7d54165d8ade779082e)
