@@ -4,7 +4,7 @@
 name=siji-font
 _name=siji
 version=20171022
-release=2
+release=1
 _commit=9d88311bb127b21672b2d4b43eed1ab0e494f143
 source=(https://github.com/stark/siji/archive/$_commit.tar.gz)
 md5sum=(74e921720864c04ab1830104590d559b)
@@ -12,6 +12,6 @@ md5sum=(74e921720864c04ab1830104590d559b)
 build() {
 	cd siji-$_commit
 
-	install -D -m644 pcf/siji.pcf "${PKG}/usr/share/fonts/misc/siji.pcf"
+	install -D -m644 pcf/siji.pcf "${PKG}/usr/share/fonts/X11/misc/siji.pcf"
 	install -D -m755 view.sh "${PKG}/usr/share/${_name}/view.sh"
 }

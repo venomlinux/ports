@@ -5,17 +5,19 @@
 
 name=ohsnap
 version=1.8.0
-release=3
+release=2
 source=(https://sourceforge.net/projects/osnapfont/files/$name-$version.tar.gz)
 md5sum=(aeb3d8e1f9634900036f886a14b3b03a)
 
 build() {
 	cd $name-$version
 
-	install -d "$PKG/usr/share/fonts/misc"
+	install -d "$PKG/usr/share/fonts/X11/misc"
 	install -d "$PKG/usr/share/consolefonts"
+	install -d "$PKG/usr/share/doc/$name"
 
-	install -m644 *.pcf "$PKG/usr/share/fonts/misc"
+	install -m644 *.pcf "$PKG/usr/share/fonts/X11/misc"
 	install -m644 *.psfu "$PKG/usr/share/consolefonts"
+	install -m644 README.ohsnap "$PKG/usr/share/doc/$name"
 }
 

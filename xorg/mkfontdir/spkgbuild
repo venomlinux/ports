@@ -1,13 +1,12 @@
 # description	: Create an index of X font files in a directory
 # homepage	: http://xorg.freedesktop.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: bash util-macros mkfontscale
+# depends	: bash util-macros
 
 name=mkfontdir
 version=1.0.7
-release=2
-source=(http://ftp.x.org/pub/individual/app/mkfontdir-$version.tar.bz2
-	mkfontdir.hook)
+release=1
+source=(http://ftp.x.org/pub/individual/app/mkfontdir-$version.tar.bz2)
 
 build() {
 	cd $name-$version
@@ -19,9 +18,6 @@ build() {
 		--disable-static
 	make
 	make DESTDIR=$PKG install
-
-	install -Dm644 $SRC/mkfontdir.hook $PKG/etc/hooks/mkfontdir.hook
 }
 
-md5sum=(18c429148c96c2079edda922a2b67632
-	3aa8cdea5fa9bb6dcd48c14a4959c489)
+md5sum=(18c429148c96c2079edda922a2b67632)
