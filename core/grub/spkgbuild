@@ -5,14 +5,17 @@
 
 name=grub
 version=2.02
-release=2
+release=3
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	grub.default)
 md5sum=(8a4a2a95aac551fb0fba860ceabfa1d3
-	3877662038c1eae6afc5fd50664615d7)
+	b4a4d287513091e7e66eca5853101a93)
 
 build() {
 	cd $name-$version
+
+	# fix os name
+	sed 's|GNU/Linux|Linux|' -i "util/grub.d/10_linux.in"
 
 	./configure --prefix=/usr          \
 	            --sbindir=/sbin        \
