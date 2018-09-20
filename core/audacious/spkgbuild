@@ -5,14 +5,14 @@
 
 name=audacious
 version=3.10
-release=1
+release=2
 source=(http://distfiles.audacious-media-player.org/$name-$version.tar.bz2)
 md5sum=(95c79e14c412f274624c6979236a3840)
 
 build() {
 	cd $name-$version
 	TPUT=/bin/true ./configure --prefix=/usr \
-        	                   --with-buildstamp="Nyx GNU/Linux"
+        	                   --with-buildstamp="Venom Linux"
 	make
 	make DESTDIR=$PKG install
 }
