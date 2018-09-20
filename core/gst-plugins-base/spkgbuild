@@ -5,7 +5,7 @@
 
 name=gst-plugins-base
 version=1.14.2
-release=1
+release=2
 source=(http://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
 md5sum=(8bc790d623350cd8eac68d3a13d79f7d)
 
@@ -13,7 +13,7 @@ build() {
 	cd $name-$version
 
 	./configure --prefix=/usr \
-		    --with-package-name="GStreamer Base Plugins $version (Nyx)" \
+		    --with-package-name="GStreamer Base Plugins $version (Venom)" \
 		    --disable-examples
 	make
 	make DESTDIR=$PKG install
