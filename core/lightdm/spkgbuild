@@ -1,0 +1,57 @@
+# description	: Lightweight display manager based upon GTK
+# backup	: etc/lightdm/keys.conf etc/lightdm/lightdm.conf etc/lightdm/users.conf
+# depends	: glib glibc libgcrypt linux-pam polkit pcre libxklavier itstool vala gobject-introspection
+
+name=lightdm
+version=1.28.0
+release=2
+source=(https://github.com/CanonicalLtd/lightdm/releases/download/$version/lightdm-$version.tar.xz
+	$name.sysusers
+	Xsession
+	lightdm.rules
+	$name.pam
+	$name-autologin.pam
+	rc.lightdm)
+md5sum=(3e33b2bd15d769bbcc2e73ac94a1e1ea
+	59ac8f47ca2f40d40c3e9b134f13d967
+	af2bad5ff8191d31f567f22047404cc0
+	2a7326f4de1d949b8c96749b62cc5021
+	3f11c7f5ad31b7b6e13b2e622527e3b7
+	af6bd6cd7a179fd7116f81c6ca1ba038	
+	72eeda43e315a7cc9d53b3eae0e1bfbe)
+
+build() {
+	cd $name-$version
+
+	./configure                          \
+	       --prefix=/usr                 \
+	       --libexecdir=/usr/lib/lightdm \
+	       --localstatedir=/var          \
+	       --sbindir=/usr/bin            \
+	       --sysconfdir=/etc             \
+	       --disable-static              \
+	       --disable-tests               \
+	       --with-greeter-user=lightdm   \
+	       --with-greeter-session=lightdm-gtk-greeter
+	make
+	make DESTDIR=$PKG install
+
+	rm -rf $PKG/etc/init
+
+	install -Dm755 $SRC/rc.lightdm $PKG/etc/rc.d/lightdm
+	install -Dm755 $SRC/Xsession $PKG/etc/lightdm/Xsession
+
+	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
+	install -Dm 644 $SRC/$name.rules $PKG/usr/share/polkit-1/rules.d/$name.rules
+	install -Dm 644 $SRC/$name.pam $PKG/etc/pam.d/$name
+	install -Dm 644 $SRC/$name-autologin.pam $PKG/etc/pam.d/$name-autologin
+
+	sed -i 's:#session-wrapper=lightdm-session:session-wrapper=/etc/lightdm/Xsession:' $PKG/etc/lightdm/lightdm.conf
+	sed -i 's:minimum-uid=500:minimum-uid=1000:' $PKG/etc/lightdm/users.conf
+
+	mkdir -p $PKG/var/lib/lightdm \
+		$PKG/var/lib/lightdm-data \
+		$PKG/var/cache/lightdm \
+		$PKG/var/log/lightdm
+}
+
