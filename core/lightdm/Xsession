@@ -1,41 +1,69 @@
-#!/bin/bash
+#!/bin/sh
+#
+# LightDM wrapper to run around X sessions.
 
-# use bash for "exec -l", howto run login shell by /bin/sh ?
+echo "Running X session wrapper"
 
-[ -f /etc/profile ] && . /etc/profile
-[ -f ~/.xprofile ] && . ~/.xprofile
+# Load profile
+for file in "/etc/profile" "$HOME/.profile" "/etc/xprofile" "$HOME/.xprofile"; do
+    if [ -f "$file" ]; then
+        echo "Loading profile from $file";
+        . "$file"
+    fi
+done
 
-if [ -f /etc/X11/xinit/xinitrc-common ]; then
-# fedora
-	. /etc/X11/xinit/xinitrc-common
-	exec -l bash -c "$@"
-elif [ -x /etc/X11/xinit/Xsession ]; then
-# fedora
-	exec /etc/X11/xinit/Xsession "$@"
-elif [ -x /etc/X11/Xsession ]; then
-# mandriva, debian, ubuntu
-	exec /etc/X11/Xsession "$@"
-elif [ -x /etc/X11/xinit/xinitrc ]; then
-#suse
-	export WINDOWMANAGER=$@
-	exec -l bash -c /etc/X11/xinit/xinitrc
-else
-# unknown, user should custom /etc/lxdm/xinitrc self
-	if [ -x /etc/lxdm/xinitrc ]; then
-		. /etc/lxdm/xinitrc "$@"
-	fi
-	if [ -d /etc/X11/xinit/xinitrc.d ] ; then
-		for f in /etc/X11/xinit/xinitrc.d/* ; do
-			[ -x "$f" ] && . "$f"
-		done
-		unset f
-	fi
+# Load resources
+for file in "/etc/X11/Xresources" "$HOME/.Xresources"; do
+    if [ -f "$file" ]; then
+        echo "Loading resource: $file"
+        xrdb -merge "$file"
+    fi
+done
 
-	if which dbus-launch >/dev/null && test -z "$DBUS_SESSION_BUS_ADDRESS";
-	then
-		eval "$(dbus-launch --sh-syntax --exit-with-session)"
-	fi
+# Load keymaps
+for file in "/etc/X11/Xkbmap" "$HOME/.Xkbmap"; do
+    if [ -f "$file" ]; then
+        echo "Loading keymap: $file"
+        setxkbmap `cat "$file"`
+        XKB_IN_USE=yes
+    fi
+done
 
-	exec -l bash -c "$@"
+# Load xmodmap if not using XKB
+if [ -z "$XKB_IN_USE" ]; then
+    for file in "/etc/X11/Xmodmap" "$HOME/.Xmodmap"; do
+        if [ -f "$file" ]; then
+           echo "Loading modmap: $file"
+           xmodmap "$file"
+        fi
+    done
 fi
 
+unset XKB_IN_USE
+
+# Run all system xinitrc shell scripts
+xinitdir="/etc/X11/app-defaults/xinitrc.d"
+if [ -d "$xinitdir" ]; then
+    for script in $xinitdir/*; do
+        echo "Loading xinit script $script"
+        if [ -x "$script" -a ! -d "$script" ]; then
+            . "$script"
+        fi
+    done
+fi
+
+# Run user xsession shell script
+script="$HOME/.xsession"
+if [ -x "$script" -a ! -d "$script" ]; then
+    echo "Loading xsession script $script"
+    . "$script"
+fi
+
+if which dbus-launch >/dev/null && test -z "$DBUS_SESSION_BUS_ADDRESS";
+then
+	eval "$(dbus-launch --sh-syntax --exit-with-session)"
+fi
+
+echo "X session wrapper complete, running session $@"
+
+exec $@
