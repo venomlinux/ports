@@ -5,13 +5,13 @@
 
 name=clipit
 _name=ClipIt
-version=1.4.3
+version=1.4.4
 release=1
 _snapshot=722fcf73fa0ce8430208c986e50b1c82975de69c
-source=(${_name}-${_snapshot}.tar.gz::https://github.com/CristianHenzel/ClipIt/archive/${_snapshot}.tar.gz)
+source=($name-$version.tar.gz::https://github.com/CristianHenzel/ClipIt/archive/v$version.tar.gz)
 
 build() {
-	cd ${_name}-${_snapshot}
+	cd $_name-$version
 
 	./autogen.sh
 	./configure \
@@ -23,4 +23,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(22eb7756fe35e4ce9a5c75aa8430852e)
+md5sum=(d49b9171c0b81269deafab9d6ecc7610)
