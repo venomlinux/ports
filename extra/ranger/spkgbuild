@@ -4,13 +4,13 @@
 # depends	: python3
 
 name=ranger
-version=1.9.0
+version=1.9.2
 release=1
 source=(http://ranger.github.io/$name-$version.tar.gz)
+md5sum=(08970e4343ac0457a60befa1ec97f62b)
 
 build() {
 	cd $name-$version
 
 	python3 setup.py -q install --root=$PKG --optimize=1
 }
-md5sum=(eaf4ed82525e2c047c516d7deb93f563)
