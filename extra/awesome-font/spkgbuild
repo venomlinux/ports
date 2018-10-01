@@ -4,16 +4,14 @@
 # depends	: fontconfig
 
 name=awesome-font
-version=4.7.0
-release=2
-source=($name-$version.tar.gz::https://github.com/FortAwesome/Font-Awesome/archive/v${version}.tar.gz)
+version=5.3.1
+release=1
+source=($name-$version.tar.gz::https://github.com/FortAwesome/Font-Awesome/archive/${version}.tar.gz)
+md5sum=(16dffd415504d9871eabb9b846279a66)
 
 build() {
-	cd Font-Awesome-$version/fonts
+	cd Font-Awesome-$version
 
 	install -d $PKG/usr/share/fonts/X11/{TTF,OTF}
-	install -m644 *.ttf $PKG/usr/share/fonts/X11/TTF/
-	install -m644 *.otf $PKG/usr/share/fonts/X11/OTF/
+	install -m644 web-fonts-with-css/webfonts/*.ttf $PKG/usr/share/fonts/X11/TTF/
 }
-
-md5sum=(a6145901f233f7d54165d8ade779082e)
