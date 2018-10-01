@@ -2,9 +2,10 @@
 # depends	: autoconf
 
 name=autoconf-archive
-version=2017.09.28
+version=2018.03.13
 release=1
 source=(https://ftpmirror.gnu.org/$name/$name-$version.tar.xz)
+md5sum=(46b13a5936372297b6d49980327a3c35)
 
 build() {
 	cd $name-$version
@@ -12,5 +13,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(1bfea2828cf204d46dcc748cce79ae4b)
