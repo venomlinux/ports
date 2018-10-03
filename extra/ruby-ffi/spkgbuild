@@ -3,15 +3,14 @@
 
 _name=ffi
 name=ruby-$_name
-version=1.9.18
+version=1.9.25
 release=1
 options=(!emptydirs)
 source=(https://rubygems.org/downloads/$_name-$version.gem)
+md5sum=(e8923807b970643d9e356a65038769ac)
 
 build() {
 	local _gemdir="$(ruby -e'puts Gem.default_dir')"
 	gem install --ignore-dependencies --no-user-install -i "$PKG/$_gemdir" -n "$PKG/usr/bin" $_name-$version.gem
 	rm "$PKG/$_gemdir/cache/$_name-$version.gem"
 }
-
-md5sum=(37284a51e5464443f7122b388329a2a0)
