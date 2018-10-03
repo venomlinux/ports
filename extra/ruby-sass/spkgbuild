@@ -3,10 +3,11 @@
 
 _name=sass
 name=ruby-$_name
-version=3.5.4
+version=3.5.6
 release=1
 options=(!emptydirs)
 source=(${name}-${version}.tar.gz::https://github.com/sass/sass/archive/${version}.tar.gz)
+md5sum=(5d043cdcb8f9f634e448c56f33d34b80)
 
 build() {
 	cd ${_name}-${version}
@@ -16,5 +17,3 @@ build() {
 	gem install --ignore-dependencies --no-user-install -i "${PKG}${_gemdir}" -n "${PKG}/usr/bin" ${_name}-${version}.gem
 	rm "${PKG}/${_gemdir}/cache/${_name}-${version}.gem"
 }
-
-md5sum=(497d407ecd804898fe5e3ae5b38486c4)
