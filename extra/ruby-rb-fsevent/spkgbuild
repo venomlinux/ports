@@ -3,15 +3,14 @@
 
 _name=rb-fsevent
 name=ruby-$_name
-version=0.10.2
+version=0.10.3
 release=1
 options=(!emptydirs)
 source=(https://rubygems.org/downloads/$_name-$version.gem)
+md5sum=(099d796b265d5c0772f6ad22bbf993fa)
 
 build() {
 	local _gemdir="$(ruby -e'puts Gem.default_dir')"
 	gem install --ignore-dependencies --no-user-install -i "$PKG/$_gemdir" -n "$PKG"/usr/bin $_name-$version.gem
 	rm "$PKG/$_gemdir"/cache/$_name-$version.gem
 }
-
-md5sum=(2adcacb447f1fe21c8d843639a25ad5f)
