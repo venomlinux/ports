@@ -5,16 +5,12 @@
 
 name=gcc
 version=8.2.0
-release=1
-source=(https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
-	http://isl.gforge.inria.fr/isl-0.18.tar.xz)
-md5sum=(4ab282f414676496483b3e1793d07862
-	5337cd4c29101fe8e8e1b0f5948f91e2)
+release=2
+source=(https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz)
+md5sum=(4ab282f414676496483b3e1793d07862)
 
 build() {
 	cd $name-$version
-
-	mv ../isl-0.18 isl
 
 	sed -e '/m64=/s/lib64/lib/' \
 	    -i.orig gcc/config/i386/t-linux64
@@ -24,9 +20,10 @@ build() {
 
 	SED=sed                               \
 	../configure --prefix=/usr            \
-	             --enable-languages=c,c++ \
-	             --enable-multilib       \
+	             --enable-languages=c,c++,fortran,go,objc,obj-c++ \
+	             --enable-multilib        \
 	             --disable-bootstrap      \
+		     --disable-libmpx         \
 	             --with-system-zlib
 	make
 	make DESTDIR=$PKG install
