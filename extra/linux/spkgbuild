@@ -2,32 +2,35 @@
 # depends	: elfutils mkinitramfs
 
 name=linux
-version=4.17.11
+version=4.18.9
 release=2
 options=(!strip)
 source=(https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
-	config
+	config-$version
 	linux.hook)
-md5sum=(4bc2fc2eb9dc8188525f575263ada3f3
-	4967245572cd2ba5be0b59a14988c84f
+md5sum=(6f082741ab20f03a334fe533d533880e
+	1590aac5e3b3ab667300bc6e2d60bc12
 	97890691a1f8f1f7fb58e48c3140fdaa)
 
 build() {
 	cd linux-$version
 
-	kernver=${version}$(grep CONFIG_LOCALVERSION= $SRC/config | cut -d '"' -f2)
-
 	make mrproper
-	cp $SRC/config ./.config
+
+	cp $SRC/config-$version ./.config
+
+	sed '/^CONFIG_LOCALVERSION=/d' -i .config
+	echo 'CONFIG_LOCALVERSION="-Venom"' >> .config
+
+	kernver=${version}$(grep CONFIG_LOCALVERSION= .config | cut -d '"' -f2)
+
 	#make menuconfig
 	make bzImage modules
 	make INSTALL_MOD_PATH=$PKG modules_install
 
 	mkdir -p $PKG/boot
 
-	cp  System.map $PKG/boot/System.map-$kernver
-	cp  .config $PKG/boot/config-$kernver
-	cp  arch/x86/boot/bzImage $PKG/boot/vmlinuz-$kernver
+	cp  arch/x86/boot/bzImage $PKG/boot/vmlinuz-venom
 
 	make clean
 	make prepare

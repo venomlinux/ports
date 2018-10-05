@@ -1,5 +1,14 @@
 post_install() {
 	if [ $(type -p mkinitramfs) ]; then
-		(cd /boot && mkinitramfs 4.17.11)
+		(
+		cd /boot
+		mkinitramfs 4.18.9
+		mv initrd-4.18.9.img initrd-venom.img
+		)
 	fi
+}
+
+post_upgrade() {
+	rm -f /boot/initrd-venom.img
+	post_install
 }
