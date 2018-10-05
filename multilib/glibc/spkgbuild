@@ -101,6 +101,7 @@ mkdir -p $PKG/etc/ld.so.conf.d
 	make
 	make install_root=$PWD/DESTDIR install
 	install -vdm755 $PKG/usr/lib32
+	install -vdm755 $PKG/usr/include/gnu/
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32/
 	install -vm644 DESTDIR/usr/include/gnu/{lib-names,stubs}-32.h \
 	               $PKG/usr/include/gnu/
