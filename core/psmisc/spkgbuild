@@ -4,9 +4,10 @@
 # depends	: ncurses
 
 name=psmisc
-version=23.1
+version=23.2
 release=1
 source=(https://downloads.sourceforge.net/project/$name/$name/$name-$version.tar.xz)
+md5sum=(0524258861f00be1a02d27d39d8e5e62)
 
 build() {
 	cd $name-$version
@@ -19,4 +20,3 @@ build() {
 	mv -v $PKG/usr/bin/fuser   $PKG/bin
 	mv -v $PKG/usr/bin/killall $PKG/bin
 }
-md5sum=(bbba1f701c02fb50d59540d1ff90d8d1)
