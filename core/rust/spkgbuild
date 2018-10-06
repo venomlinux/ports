@@ -1,12 +1,13 @@
 # description	: The Rust programming language is designed to be a safe, concurrent, practical language
 # homepage	: https://www.rust-lang.org
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: curl cmake python2 llvm
+# depends	: curl cmake python3 llvm libssh2
 
 name=rust
-version=1.25.0
-release=2
+version=1.29.1
+release=1
 source=(https://static.rust-lang.org/dist/rustc-$version-src.tar.gz)
+md5sum=(42bcdc69536ab7a04bfead2ddade1edd)
 
 build() {
 	cd rustc-$version-src
@@ -31,9 +32,6 @@ docdir = "share/doc/rustc"
 channel = "stable"
 rpath = false
 
-# get reasonably clean output from the test harness
-quiet-tests = true
-
 # BLFS does not install the FileCheck executable from llvm,
 # so disable codegen tests
 codegen-tests = false
@@ -47,8 +45,7 @@ llvm-config = "/usr/bin/llvm-config"
 EOF
 
 	export RUSTFLAGS="$RUSTFLAGS -C link-args=-lffi"
-	./x.py build
-	DESTDIR=$PKG ./x.py install
+	python3 ./x.py build
+	export LIBSSH2_SYS_USE_PKG_CONFIG=1
+	DESTDIR=$PKG python3 ./x.py install
 }
-
-md5sum=(d8d4d30c8d0b905f978bee3fdd618db5)
