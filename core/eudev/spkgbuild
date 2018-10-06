@@ -1,10 +1,12 @@
 # description	: Programs for dynamic creation of device nodes
 
 name=eudev
-version=3.2.5
-release=2
+version=3.2.6
+release=1
 source=(https://dev.gentoo.org/~blueness/$name/$name-$version.tar.gz
 	hwdb-update.hook)
+md5sum=(902c4cdc9235838067cc69978a780e72
+	746215758ebe4a99846d5ab2aed8d283)
 
 build() {
 	cd $name-$version
@@ -16,7 +18,8 @@ BLKID_LIBS="-lblkid"
 BLKID_CFLAGS="-I/tools/include"
 EOF
 fi
-	#./autogen.sh
+
+	autoreconf -fi
 	./configure --prefix=/usr           \
 	            --bindir=/sbin          \
 	            --sbindir=/sbin         \
@@ -45,6 +48,3 @@ fi
 
 	install -Dm644 $SRC/hwdb-update.hook $PKG/etc/hooks/hwdb-update.hook
 }
-
-md5sum=(6ca08c0e14380f87df8e8aceac123671
-746215758ebe4a99846d5ab2aed8d283)
