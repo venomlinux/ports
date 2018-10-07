@@ -4,9 +4,10 @@
 # depends	: garcon xfce4-panel cmake ninja
 
 name=xfce4-whiskermenu-plugin
-version=2.2.1
+version=2.3.0
 release=1
 source=(http://archive.be.xfce.org/src/panel-plugins/xfce4-whiskermenu-plugin/${version%.*}/xfce4-whiskermenu-plugin-$version.tar.bz2)
+md5sum=(d2383c3eb1b54adf5a206973bd20f159)
 
 build() {
 	mkdir -p build
@@ -22,4 +23,3 @@ build() {
 	
 	DESTDIR=$PKG ninja -C build install
 }
-md5sum=(8d202b984e6bdf9c96fc8b0701f881cc)
