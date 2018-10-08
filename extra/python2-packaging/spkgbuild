@@ -2,14 +2,13 @@
 # depends	: python2-pyparsing python2-six
 
 name=python2-packaging
-version=16.8
+version=18.0
 release=1
 source=(https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-$version.tar.gz)
+md5sum=(b066f2a33524519cf4e97ab69f462479)
 
 build() {
 	cd ${name#*-}-$version
 	python2 setup.py build
 	python2 setup.py install --root "$PKG"
 }
-
-md5sum=(53895cdca04ecff80b54128e475b5d3b)
