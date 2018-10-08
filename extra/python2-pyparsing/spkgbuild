@@ -2,14 +2,13 @@
 # depends	: python2
 
 name=python2-pyparsing
-version=2.2.0
+version=2.2.2
 release=1
 source=(https://files.pythonhosted.org/packages/source/p/${name#*-}/${name#*-}-$version.tar.gz)
+md5sum=(5a1b4242733d79e60a5b21ff894f5c43)
 
 build() {
 	cd ${name#*-}-$version
 	python2 setup.py build
 	python2 setup.py install --prefix=/usr --root="$PKG" --optimize=1
 }
-
-md5sum=(0214e42d63af850256962b6744c948d9)
