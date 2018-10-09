@@ -3,9 +3,10 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=libisofs
-version=1.4.8
+version=1.5.0
 release=1
 source=(http://files.libburnia-project.org/releases/$name-$version.tar.gz)
+md5sum=(6207379ff84e6988b479e09a8698fb6d)
 
 build() {
 	cd $name-$version
@@ -14,4 +15,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(8be74087dd1ef325ea8e1e9b80b613a5)
