@@ -1,9 +1,10 @@
 # description	: Supporting library for the Apache web server
 
 name=apr
-version=1.6.3
+version=1.6.5
 release=1
 source=(https://archive.apache.org/dist/apr/$name-$version.tar.bz2)
+md5sum=(ad4add8efdfe87330b88e5e788241775)
 
 build() {
 	cd $name-$version
@@ -13,5 +14,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(12f2a349483ad6f12db49ba01fbfdbfa)
