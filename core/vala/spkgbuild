@@ -2,13 +2,19 @@
 # depends	: glib graphviz
 
 name=vala
-version=0.42.0
+version=0.42.2
 release=1
-source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
-md5sum=(aa6eb8097d25b5847ad3fab34c0ff865)
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-avoid_graphviz-1.patch)
+md5sum=(e28ad84b16351a3e41eacabdeadaaf8a
+	ace98da4b652e69d88c15d6f27abb7b4)
 
 build() {
 	cd $name-$version
+
+	patch -p1 -i ../$name-$version-avoid_graphviz-1.patch
+	ACLOCAL= autoreconf -fiv
+
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
