@@ -2,9 +2,10 @@
 # depends	: libatomic_ops
 
 name=gc
-version=7.6.4
+version=8.0.0
 release=1
 source=(http://www.hboehm.info/gc/gc_source/$name-$version.tar.gz)
+md5sum=(e1a614247b6d6a071f7677365fbf18a4)
 
 build() {
 	cd $name-$version
@@ -17,5 +18,3 @@ build() {
 
 	install -v -Dm644 doc/gc.man $PKG/usr/share/man/man3/gc_malloc.3
 }
-
-md5sum=(cf390c4f7f2556a67ec49e964c86c847)
