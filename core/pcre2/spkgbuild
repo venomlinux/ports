@@ -3,14 +3,16 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=pcre2
-version=10.31
+version=10.32
 release=1
 source=(ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/$name-$version.tar.bz2)
+md5sum=(8a096287153fb994970df3570e90fcb5)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr                       \
 	            --enable-unicode                    \
+		    --enable-jit                        \
 	            --enable-pcre2-16                   \
 	            --enable-pcre2-32                   \
 	            --enable-pcre2grep-libz             \
@@ -20,5 +22,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(e0b91c891a3c49050f7fd15de33d0ba4)
