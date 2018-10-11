@@ -3,7 +3,7 @@
 
 name=llvm
 version=7.0.0
-release=1
+release=2
 source=(http://llvm.org/releases/$version/$name-$version.src.tar.xz
 	http://llvm.org/releases/$version/cfe-$version.src.tar.xz
 	http://llvm.org/releases/$version/compiler-rt-$version.src.tar.xz)
@@ -29,7 +29,7 @@ build() {
 	      -DCMAKE_BUILD_TYPE=Release            \
 	      -DLLVM_BUILD_LLVM_DYLIB=ON            \
       	      -DLLVM_LINK_LLVM_DYLIB=ON             \
-	      -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU" \
+	      -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF" \
 	      -Wno-dev
 	ninja
 	DESTDIR=$PKG ninja install
