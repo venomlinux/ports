@@ -3,16 +3,15 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=adwaita-icon-theme
-version=3.28.0
+version=3.30.0
 release=1
 options=(!strip)
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
-md5sum=(b25b2d82cbebf2cc9cd469457b604f2c)
+md5sum=(5ad28b28fecde7f997f56e76a903567e)
 
 build() {
 	cd $name-$version
 
-	autoreconf -fvi
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
