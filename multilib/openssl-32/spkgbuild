@@ -1,0 +1,31 @@
+# description	: Management tools and libraries relating to cryptography
+# depends	: openssl
+
+name=openssl-32
+version=1.1.1
+release=1
+source=(https://openssl.org/source/openssl-$version.tar.gz)
+md5sum=(7079eb017429e0ffb9efb42bf80ccb21)
+
+build() {
+	cd openssl-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  	./Configure --prefix=/usr      \
+	         --openssldir=/etc/ssl \
+	         --libdir=lib32        \
+		 -m32 linux-generic32  \
+	         shared                \
+	         zlib-dynamic
+	make
+
+	# disable static lib
+	sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
+
+	make DESTDIR=$PKG MANDIR=/usr/share/man MANSUFFIX=ssl install
+
+	rm -fr $PKG/{usr/{bin,include,share},etc/}
+}
