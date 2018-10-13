@@ -5,9 +5,11 @@
 
 name=python2
 version=2.7.15
-release=1
-source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz)
-md5sum=(a80ae3cc478460b922242f43a1b4094d)
+release=2
+source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz
+	pyconfig.h)
+md5sum=(a80ae3cc478460b922242f43a1b4094d
+	387d5f6d00d2be01ecb87216cac0f88c)
 
 build() {
 	cd Python-$version
@@ -23,6 +25,9 @@ build() {
 	make DESTDIR=$PKG install
 
 	chmod -v 755 $PKG/usr/lib/libpython2.7.so.1.0
+
+	mv $PKG/usr/include/python2.7/pyconfig{,-64}.h
+	install -m 0644 $SRC/pyconfig.h $PKG/usr/include/python2.7/
 }
 
 
