@@ -1,5 +1,5 @@
 # description	: Contains libraries and utilities used for parsing XML files
-# depends	: libxml2 icu-32
+# depends	: libxml2
 
 name=libxml2-32
 version=2.9.8
@@ -22,11 +22,11 @@ build() {
 		    --disable-static \
 		    --with-history \
 		    --with-icu \
-		    --with-python=/usr/bin/python3
+		    --without-python
 	make
-	make DESTDIR=$PWD/DESTDIR install
-	mkdir -p $PKG/usr/lib32
-	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{share,bin,include}
 }
 
 md5sum=(b786e353e2aa1b872d70d5d1ca0c740d
