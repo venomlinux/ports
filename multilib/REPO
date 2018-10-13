@@ -9,6 +9,7 @@ d:libxfont2-32
 d:zlib-32
 d:steam
 d:libxcb-32
+d:openssl-32
 d:binutils
 d:libpng-32
 d:libxext-32
@@ -39,6 +40,7 @@ d:libxshmfence-32
 d:libxrandr-32
 d:glib-32
 d:libxcomposite-32
+d:python2-32
 d:bzip2-32
 d:libxaw-32
 d:ncurses-32
@@ -52,8 +54,10 @@ d:libxinerama-32
 d:xorgproto-32
 d:elfutils-32
 d:libffi-32
+d:wayland-32
 d:gcc
 d:readline-32
+d:python3-32
 d:freetype2-32
 d:libxv-32
 d:libxdmcp-32
@@ -75,6 +79,7 @@ f:d0c9a8ab471f5c5acd83a16a8bb94dfc:zlib-32/spkgbuild
 f:ac0e03d70f1101331598b2b32ed9bac3:steam/alsa_sdl_audiodriver.patch
 f:3367807aa5d7e7d8e6b6dd0ca8ed68e6:steam/spkgbuild
 f:f4218b08ade8f23d44a2abaabbaf13d9:libxcb-32/spkgbuild
+f:95d059a155b25f7d2ab89f5e56d033cd:openssl-32/spkgbuild
 f:229912b042cca9dcce473e6cc00c9103:binutils/spkgbuild
 f:9a11acfbb75ab0173a15f3ba0f04039d:libpng-32/spkgbuild
 f:261a569cadf33de362d67cb4072bda43:libxext-32/spkgbuild
@@ -91,14 +96,14 @@ f:7c6f452980c11d59fd29a5fc66e79d92:libxscrnsaver-32/spkgbuild
 f:b0d496b3a2143cd94daa08e6bb5ed8e8:libxrender-32/spkgbuild
 f:0a17a03c0642b6dc61c16d8bb8349ec4:libxxf86vm-32/spkgbuild
 f:ab7b566045316c837bb2532e7c5ae1ab:fontconfig-32/spkgbuild
-f:77c22819a3cd2d35b438f313a5f614f2:mesa-32/spkgbuild
+f:0c1c75f4f35de8de73edee37e16aa1cf:mesa-32/spkgbuild
 f:4e3e206a2be8cd9fd2c437668d08f382:harfbuzz-32/spkgbuild
 f:da93964bdfd152c8bc5fcd2f6ccb2f0a:libxft-32/spkgbuild
 f:2c6ea0d258cbeaa14c5a419f21845d61:libdrm-32/spkgbuild
 f:89826a5da0a4342a8cbf08b2b6f5f4ab:libxt-32/spkgbuild
 f:bb9b4b9fbf4264f58303461f89a38ba2:pcre-32/spkgbuild
 f:f0fe1a64d40c056baf2149b1efebf1b4:libxml2-32/libxml2-2.9.8-python3_hack-1.patch
-f:4c5cce18aa4e1f54c87b6eb2d94b9983:libxml2-32/spkgbuild
+f:81d0cc12ba7c2bb96fa9d4ca28809d50:libxml2-32/spkgbuild
 f:67175c300f40305f8cf6a6f393a9d03f:libice-32/spkgbuild
 f:b7986be8880efaf41b0787bfe2c4aaa0:libxkbfile-32/spkgbuild
 f:98192bf6e247f88869af5a19957488da:cairo-32/spkgbuild
@@ -107,6 +112,7 @@ f:6aded06099a267d9b714b366f78a90c3:libxrandr-32/spkgbuild
 f:d06b9450d54e542c3e668639b10872df:glib-32/spkgbuild
 f:fe10afe13dd78428d2f6788a95412176:glib-32/gio-querymodules-32.hook
 f:61eac1f85b51ac0edb6025dc8323e2c7:libxcomposite-32/spkgbuild
+f:acd604eb74d988a6ee9687b0edcedbc5:python2-32/spkgbuild
 f:1f849ab6f54e3a61c33ef0e86fdd2b0f:bzip2-32/spkgbuild
 f:6a5ac7e89b791aae556de0f745916f7f:bzip2-32/bzip2-1.0.6-install_docs-1.patch
 f:2820beedeff240c7ac7830d2b69cb75f:libxaw-32/spkgbuild
@@ -121,12 +127,14 @@ f:fdccbad063022f02c2dc6b7729b6b06c:libxinerama-32/spkgbuild
 f:4b98ec9d8ed5217c26dcb00c48f7a6f4:xorgproto-32/spkgbuild
 f:d40f8ddee0ebba9857fb22cfc7a63570:elfutils-32/spkgbuild
 f:633ef0047c4fe2fd7cbb3f04003e11f1:libffi-32/spkgbuild
+f:34c71c2fda2c56c5de4fd11884a581aa:wayland-32/spkgbuild
 f:34385c70fee2f8c725617fe8971732ba:gcc/spkgbuild
 f:eb64cd4db03c52d1320103484c77d3b9:readline-32/spkgbuild
+f:eab522bae4a9f5adaf0c49ee5ed067e0:python3-32/spkgbuild
 f:7b399d71396f7bf5098647562a2361b5:freetype2-32/spkgbuild
 f:66d1df16e6ed290a56aec1d171245e54:libxv-32/spkgbuild
 f:1171a001ab8a2c402d786c43d838eeb5:libxdmcp-32/spkgbuild
-f:8b567797431b8c89394887f7a3ad48ff:llvm-32/spkgbuild
+f:f11d3fad70b699f7508bda032453078f:llvm-32/spkgbuild
 f:bd0097e3b49be783f0822ad0c9d1fe45:libxtst-32/spkgbuild
 f:21fcb58444e806733d6a2b413e069bb3:libpciaccess-32/spkgbuild
 f:39c98e41b98e34daddb2656bfa248238:pixman-32/spkgbuild
