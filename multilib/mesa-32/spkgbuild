@@ -1,11 +1,11 @@
 # description	: OpenGL compatible 3D graphics library
-# depends	: mesa libdrm python2 wayland libxshmfence libxdamage libxext libxfixes elfutils llvm libvdpau python2-mako libx11 xorgproto wayland-protocols
+# depends	: llvm-32 mesa
 
 name=mesa-32
-version=18.1.6
+version=18.2.2
 release=1
 source=(https://mesa.freedesktop.org/archive/mesa-$version.tar.xz)
-md5sum=(f798814c0b93ca3c1cf395bb936db3e0)
+md5sum=(5931dd76a7533c7c5e702a4e5c00d3bb)
 
 build() {
 	cd mesa-$version
@@ -19,18 +19,17 @@ build() {
 
 	./configure LDFLAGS=-lLLVM                  \
                     --prefix=/usr	            \
+		    --libdir=/usr/lib32		    \
+		    --host=i686-pc-linux-gnu	    \
 	            --sysconfdir=/etc               \
-		    --libdir=/usr/lib32             \
 	            --enable-texture-float          \
         	    --enable-osmesa                 \
         	    --enable-xa                     \
         	    --enable-glx-tls                \
 	            --with-platforms="drm,x11,wayland"  \
-	            --with-gallium-drivers=$GLL_DRV \
-		    --enable-libglvnd
+	            --with-gallium-drivers=$GLL_DRV
 	make
 	make DESTDIR=$PKG install
 
-	install -v -dm755 $PKG/usr/share/doc/$name
-	cp -rfv docs/* $PKG/usr/share/doc/$name
+	rm -fr $PKG/{etc/,usr/include/}
 }
