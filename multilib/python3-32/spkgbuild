@@ -1,0 +1,36 @@
+# description	: Next generation of the python high-level scripting language
+# depends	: libffi-32 python3
+
+name=python3-32
+version=3.7.0
+release=1
+source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz)
+md5sum=(eb8c2a6b1447d50813c02714af4681f3)
+
+build() {
+	cd Python-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  	CXX="/usr/bin/g++"              \
+	./configure --prefix=/usr       \
+		    --libdir=/usr/lib32 \
+	            --enable-shared     \
+	            --with-system-expat \
+	            --with-system-ffi   \
+	            --without-ensurepip
+	make
+	make DESTDIR=$PKG install
+
+	chmod -v 755 $PKG/usr/lib32/libpython${version::3}m.so
+	chmod -v 755 $PKG/usr/lib32/libpython3.so
+
+	mv $PKG/usr/include/python3.7m/pyconfig.h $PKG/
+	rm -r $PKG/usr/{bin,include,lib,share/man}
+	install -d $PKG/usr/include/python3.7m
+	mv $PKG/pyconfig.h $PKG/usr/include/python3.7m/pyconfig-32.h
+}
+
+
