@@ -23,7 +23,7 @@ static const Bool showbar           = True;     /* False means no bar */
 static const Bool topbar            = True;     /* False means bottom bar */
 
 /* tagging */
-static const char *tags[] = { "term", "www", "fm", "edit", "media", "irc", "work", "dev", "misc" };
+static const char *tags[] = { "term", "www", "fm", "edit", "media", "irc", "game", "dev", "misc" };
 
 static const Rule rules[] = {
 	/* class			       instance    title           	       tags mask     isfloating       monitor */
@@ -47,6 +47,7 @@ static const Rule rules[] = {
 	{ "Epdfview",				NULL,       NULL,       		0,		True,		-1 },
 	{ "Galculator",				NULL,       NULL,       		0,		True,		-1 },
 	{ "fontforge",				NULL,       NULL,       		0,		True,		-1 },
+	{ "Steam",				NULL,       NULL,       		1 << 6,		True,		-1 },
 	{ "URxvt",				NULL,       "alsamixer",		0,		True,		-1 },
 	{ NULL,					NULL,       "File Operation Progress",	0,		True,		-1 },
 };
