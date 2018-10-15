@@ -1,0 +1,36 @@
+# description	: Tool for simulating superuser privileges
+# homepage	: http://packages.debian.org/fakeroot
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: fakeroot
+
+name=fakeroot-32
+version=1.23
+release=1
+source=(http://ftp.debian.org/debian/pool/main/f/fakeroot/fakeroot_${version}.orig.tar.xz
+        silence-dlerror.patch)
+md5sum=(b82c5e99b6365a838e73d05718083f6a
+	5fba0b541b5af39d804265223fda525c)
+
+build() {
+	cd fakeroot-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	patch -p1 -i $SRC/silence-dlerror.patch
+
+	./bootstrap
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32/libfakeroot \
+		--disable-static \
+		--with-ipc=sysv
+	make
+	make DESTDIR=$PKG install
+
+	install -dm755 $PKG/etc/ld.so.conf.d
+	  echo '/usr/lib32/libfakeroot' > $PKG/etc/ld.so.conf.d/fakeroot32.conf
+
+	rm -fr $PKG/usr/{bin,share}
+}
