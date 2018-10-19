@@ -1,15 +1,11 @@
-# description	: Certificate Authority certificates
+# description	: Certificate Authority certificates (Utilities)
 # depends	: openssl
 
 name=ca-certificates-utils
 version=0.9
 release=2
-source=(https://github.com/djlucas/make-ca/archive/v$version/make-ca-$version.tar.gz
-	https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
-	http://www.cacert.org/certs/root.crt
-	http://www.cacert.org/certs/class3.crt)
-md5sum=(0eeaf712eedeae4fa55d8bfa37f4ca32
-	SKIP SKIP SKIP)
+source=(https://github.com/djlucas/make-ca/archive/v$version/make-ca-$version.tar.gz)
+md5sum=(0eeaf712eedeae4fa55d8bfa37f4ca32)
 
 build() {
 	cd make-ca-$version
@@ -17,15 +13,4 @@ build() {
 
 	# remove systemd files
 	rm -fr $PKG/etc
-
-	cd -
-	
-	install -d $PKG/etc/ssl/local
-	cp certdata.txt $PKG/etc/ssl/
-	openssl x509 -in root.crt -text -fingerprint -setalias "CAcert Class 1 root" \
-	        -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
-	        > $PKG/etc/ssl/local/CAcert_Class_1_root.pem
-	openssl x509 -in class3.crt -text -fingerprint -setalias "CAcert Class 3 root" \
-	        -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
-	        > $PKG/etc/ssl/local/CAcert_Class_3_root.pem
 }
