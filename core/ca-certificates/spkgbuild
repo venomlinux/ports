@@ -1,25 +1,15 @@
 # description	: Certificate Authority certificates
-# depends	: openssl
+# depends	: ca-certificates-utils
 
-name=ca-certificates-utils
+name=ca-certificates
 version=0.9
 release=2
-source=(https://github.com/djlucas/make-ca/archive/v$version/make-ca-$version.tar.gz
-	https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
+source=(https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
 	http://www.cacert.org/certs/root.crt
 	http://www.cacert.org/certs/class3.crt)
-md5sum=(0eeaf712eedeae4fa55d8bfa37f4ca32
-	SKIP SKIP SKIP)
+md5sum=(SKIP SKIP SKIP)
 
-build() {
-	cd make-ca-$version
-	make DESTDIR=$PKG install
-
-	# remove systemd files
-	rm -fr $PKG/etc
-
-	cd -
-	
+build() {	
 	install -d $PKG/etc/ssl/local
 	cp certdata.txt $PKG/etc/ssl/
 	openssl x509 -in root.crt -text -fingerprint -setalias "CAcert Class 1 root" \
