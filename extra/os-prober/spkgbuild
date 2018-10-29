@@ -7,9 +7,10 @@ name=os-prober
 version=1.76
 release=1
 source=(http://http.debian.net/debian/pool/main/o/$name/${name}_${version}.tar.xz)
+md5sum=(c4579128b997b4b6927f7c6793f5133e)
 
 build() {
-	cd $name
+	cd $name-$version
 	# adjust lib dir to allow detection of 64-bit distros
 	sed -i -e "s:/lib/ld\*\.so\*:/lib*/ld*.so*:g" os-probes/mounted/common/90linux-distro
 	
@@ -30,5 +31,3 @@ build() {
 	
 	install -dm755 $PKG/var/lib/os-prober
 }
-
-md5sum=(c4579128b997b4b6927f7c6793f5133e)
