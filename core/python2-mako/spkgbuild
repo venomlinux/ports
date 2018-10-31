@@ -4,14 +4,13 @@
 # depends	: python2 python2-markupsafe python2-beaker
 
 name=python2-mako
-version=1.0.4
+version=1.0.7
 release=1
 source=(https://files.pythonhosted.org/packages/source/M/Mako/Mako-$version.tar.gz)
+md5sum=(5836cc997b1b773ef389bf6629c30e65)
 
 build() {
 	cd Mako-$version
 
 	python setup.py install --root=$PKG --optimize=1
 }
-
-md5sum=(c5fc31a323dd4990683d2f2da02d4e20)
