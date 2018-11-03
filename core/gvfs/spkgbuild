@@ -4,7 +4,7 @@
 
 name=gvfs
 version=1.36.2
-release=2
+release=3
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz
 	gvfsd.hook)
 md5sum=(10b84073fe5f3d540abd9d36ed342b37
@@ -36,4 +36,8 @@ build() {
 	DESTDIR=$PKG ninja install
 
 	install -Dm644 $SRC/gvfsd.hook $PKG/etc/hooks/gvfsd.hook
+
+	# exclude library for revdep
+	mkdir -p $PKG/etc/revdep.d/
+	echo "/usr/lib/gvfs/libgvfsdaemon.so" > $PKG/etc/revdep.d/$name.conf
 }

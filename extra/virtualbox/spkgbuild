@@ -5,7 +5,7 @@
 
 name=virtualbox
 version=5.2.20
-release=1
+release=2
 _name=Oracle_VM_VirtualBox_Extension_Pack
 _release=125813
 
@@ -73,4 +73,8 @@ build() {
 	# fix permission
 	chmod g-w $PKG/opt/VirtualBox
 	chmod g-w $PKG/opt/VirtualBox/components
+
+	# exclude library for revdep
+	mkdir -p $PKG/etc/revdep.d/
+	echo "/opt/VirtualBox/VBoxPython2_6.so" > $PKG/etc/revdep.d/$name.conf
 }
