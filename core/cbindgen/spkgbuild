@@ -1,0 +1,15 @@
+# description	: A tool for generating C bindings for Rust code
+# depends	: llvm
+
+name=cbindgen
+version=0.6.6
+release=1
+source=(https://github.com/eqrion/cbindgen/archive/v$version/cbindgen-$version.tar.gz)
+md5sum=(59b31c737722e3becbac3c80c02bbeab)
+
+build() {
+	cd $name-$version
+	cargo build --release
+	mkdir -p $PKG/usr/bin/
+	install -Dm755 target/release/cbindgen $PKG/usr/bin/
+}
