@@ -1,11 +1,11 @@
 # description	: OpenGL compatible 3D graphics library
-# depends	: llvm-32 mesa wayland-32 libxdamage-32 libxfixes-32 libxxf86vm-32 libxv-32 libxvmc-32
+# depends	: llvm-32 mesa libglvnd-32 wayland-32 libxdamage-32 libxfixes-32 libxxf86vm-32 libxv-32 libxvmc-32
 
 name=mesa-32
-version=18.2.2
+version=18.2.4
 release=1
 source=(https://mesa.freedesktop.org/archive/mesa-$version.tar.xz)
-md5sum=(5931dd76a7533c7c5e702a4e5c00d3bb)
+md5sum=(33c4b4ad2f33d4faedec3206da7853d3)
 
 build() {
 	cd mesa-$version
@@ -27,9 +27,15 @@ build() {
         	    --enable-xa                     \
         	    --enable-glx-tls                \
 	            --with-platforms="drm,x11,wayland"  \
-	            --with-gallium-drivers=$GLL_DRV
+	            --with-gallium-drivers=$GLL_DRV \
+		    --enable-libglvnd
 	make
 	make DESTDIR=$PKG install
 
-	rm -fr $PKG/{etc/,usr/include/}
+	# indirect rendering symlink
+	ln -s libGLX_mesa.so.0 $PKG/usr/lib32/libGLX_indirect.so.0
+
+	rm $PKG/usr/lib32/libGLES*
+
+	rm -r $PKG/etc $PKG/usr/{include,share/glvnd}
 }
