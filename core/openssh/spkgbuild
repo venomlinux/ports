@@ -2,21 +2,17 @@
 # depends	: openssl xauth
 
 name=openssh
-version=7.8p1
+version=7.9p1
 release=1
 source=(https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-openssl-1.1.0-1.patch
 	sshd.rc
 	$name.sysusers)
-md5sum=(ce1d090fa6239fd38eb989d5e983b074
-	9b1aad2b9d54744ec30f7ca0bee80cc4
+md5sum=(c6af50b7a474d04726a5aa747a5dce8f
 	f90285592ebd04e0d511a3a6b4a115f5
 	d8fd01a5cda9f81bf7454e6e774d5bf9)
 
 build() {
 	cd $name-$version
-	
-	patch -Np1 -i ../$name-$version-openssl-1.1.0-1.patch
 
 	./configure --prefix=/usr                     \
 	            --sysconfdir=/etc/ssh             \
