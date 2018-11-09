@@ -2,9 +2,10 @@
 # depends	: gdk-pixbuf libcroco pango gtk3 gobject-introspection vala rust
 
 name=librsvg
-version=2.42.2
+version=2.44.7
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(dea87c6dfb293e9e6eb2816b838ca654)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(6c142d792873a7c397b731e7486ac496)
