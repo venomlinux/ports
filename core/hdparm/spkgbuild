@@ -3,9 +3,10 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=hdparm
-version=9.56
+version=9.57
 release=1
 source=(https://downloads.sourceforge.net/hdparm/$name-$version.tar.gz)
+md5sum=(cd976dc4c114ebb667a73df1200d0532)
 
 build() {
 	cd $name-$version
@@ -13,5 +14,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(7900608e32834f65d2654fdb696e71a0)
