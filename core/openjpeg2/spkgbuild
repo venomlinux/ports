@@ -3,15 +3,23 @@
 
 name=openjpeg2
 version=2.3.0
-release=1
-source=(https://github.com/uclouvain/openjpeg/archive/v$version/openjpeg-$version.tar.gz)
+release=2
+source=(https://github.com/uclouvain/openjpeg/archive/v$version/openjpeg-$version.tar.gz
+	http://www.linuxfromscratch.org/patches/blfs/svn/openjpeg-$version-only_shared-1.patch)
+md5sum=(6a1f8aaa1fe55d2088e3a9c942e0f698
+	b03c8edfc9322a69fe4b6891bf549e29)
 
 build() {
 	cd openjpeg-$version
+
+	patch -Np1 -i ../openjpeg-$version-only_shared-1.patch
+
 	mkdir -v build
 	cd       build
 
-	cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
+	cmake -DCMAKE_BUILD_TYPE=Release \
+	      -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DBUILD_STATIC_LIBS=OFF ..
 	make
 	make DESTDIR=$PKG install
 
@@ -21,5 +29,3 @@ build() {
 	  done 
 	popd
 }
-
-md5sum=(6a1f8aaa1fe55d2088e3a9c942e0f698)
