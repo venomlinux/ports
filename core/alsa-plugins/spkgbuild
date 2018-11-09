@@ -2,9 +2,10 @@
 # depends	: alsa-lib
 
 name=alsa-plugins
-version=1.1.6
+version=1.1.7
 release=1
-source=(ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-1.1.6.tar.bz2)
+source=(ftp://ftp.alsa-project.org/pub/plugins/$name-$version.tar.bz2)
+md5sum=(c86cd9c069cfec2e8a491aaa7d3c584c)
 
 build() {
 	cd $name-$version
@@ -12,5 +13,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(8387279e99feeb2ecffaac5f293223d7)
