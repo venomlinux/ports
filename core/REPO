@@ -103,6 +103,7 @@ d:taglib
 d:lame
 d:x264
 d:gst-plugins-base
+d:libaio
 d:python3-scour
 d:libndp
 d:vala
@@ -458,7 +459,7 @@ f:3627d7b7fec4f5d5ca21d527bba81d6e:libfm-extra/spkgbuild
 f:72e3cfed32439535abbc8e3868c0c148:perl-xml-sax-base/spkgbuild
 f:e350d0649463e14a7845c23d5f68f568:tree/spkgbuild
 f:731ee6ce38a52851e54a58d30b1f3e19:keybinder2/spkgbuild
-f:43a41f8b1f481550bedf75f646ea7496:openjpeg2/spkgbuild
+f:7d642ff2153096faa488954ccab908ab:openjpeg2/spkgbuild
 f:fa6ce99e0329c7854e0a83d022da6fe3:filesystem/readline.sh
 f:62448885abb18bec6bb2f81db2bad1eb:filesystem/profile
 f:376ae7c23d455d2114e593b322b2cd69:filesystem/xprofile.skel
@@ -588,6 +589,7 @@ f:b82416de3dbc8b57579b5e2a6bf33117:taglib/spkgbuild
 f:6602b012ed68387f5e943af2f938b235:lame/spkgbuild
 f:d61d65899f8f339aaea7c17632411622:x264/spkgbuild
 f:09e69294cef5f42f316ec2dcc79a151c:gst-plugins-base/spkgbuild
+f:77387a4041217e84ba242a07678ed5fa:libaio/spkgbuild
 f:b433c52e740a54f5dccb00a64644afb1:python3-scour/spkgbuild
 f:3de0d9b8ac284ed45e4a02d499df345c:libndp/spkgbuild
 f:921bbdc84ab2351cf32537373b68f6ae:vala/spkgbuild
@@ -611,7 +613,7 @@ f:9917f902aa67e72c6b788a50270058bc:expat/spkgbuild
 f:396e0440e4761eecc941744b7e5da5db:libidn2/spkgbuild
 f:019cf90831a5c4fa8228cbb6c6dbb367:python2-dbus/spkgbuild
 f:89130ac6017ffee0ef5a60a50a820d8c:epdfview/spkgbuild
-f:b618f71a937d4dd5ec11c568a314260b:hdparm/spkgbuild
+f:9cf0ec6569ecc829ebdeb7f0a51f6dd1:hdparm/spkgbuild
 f:e714126492c5b694b114573efa117811:libblockdev/spkgbuild
 f:e151a7e1014004fe68164e547ba00e22:nettle/spkgbuild
 f:8d22cfca94fcd4ab95c31166cb32f0a9:libgusb/spkgbuild
@@ -700,7 +702,7 @@ f:e58bb1c53c3a891f001e5e70edd69ea5:libva/spkgbuild
 f:8f696e6f43a7de888276eb9b777da48a:time/spkgbuild
 f:f02328b9d6bd9b64e948cdbd8b6a1749:python2-markupsafe/spkgbuild
 f:58a0c4a1c18452a29e95ba5953c61ab1:iptables/readme
-f:be674637b220c3f981edf0b0ef53671e:iptables/spkgbuild
+f:2d59ad3e3ff8da1ac04670c11177a01f:iptables/spkgbuild
 f:b1f330d8335d1d7cccd1a641ca568f3d:lxdm/lxdm.rc
 f:1bfa890e080ade32ec5977f517890c3a:lxdm/spkgbuild
 f:b4a4d287513091e7e66eca5853101a93:grub/grub.default
@@ -761,13 +763,13 @@ f:6cc582a474ec9e4c89638b419ddcaac9:coreutils/coreutils-i18n-1.patch
 f:2ae7c610e9f28cd7be52f89ba370e888:e2fsprogs/spkgbuild
 f:9c86f42335600fbade02bba467c34a19:hicolor-icon-theme/spkgbuild
 f:20d509f6f4854c3fe154b311906a0cf3:mesa/spkgbuild
-f:87679299242859c3a980c49807cb8884:libdrm/spkgbuild
+f:40c0112aaaff49b9155ac5c2e6c7b579:libdrm/spkgbuild
 f:60f77650652a4e77d869d9278412c177:docbook-xml/spkgbuild
 f:1b5df1353785f4b2db76303dd0cfc35d:docbook-xml/install
 f:bce5185831b39d7d46d7759ec8e51196:gst-plugins-ugly/spkgbuild
 f:eb6c0825c7135e866df8ecf8fb713fdf:nspr/spkgbuild
 f:76226b0dee30494f6932b0a92d1ee6f4:alsa-lib/readme
-f:1383e26aef77df46ee4135abaef8d217:alsa-lib/spkgbuild
+f:802a4c6384b20bf32afa42d630103454:alsa-lib/spkgbuild
 f:dca9b8f0e74d749395646b564b34a29e:emacs/spkgbuild
 f:e3d6cc4c3a3348ac52583cdb26c61916:adwaita-icon-theme/spkgbuild
 f:56cab5d00aa14efb3b940dd97ad2a383:libdvdread/spkgbuild
@@ -823,11 +825,11 @@ f:2791a556c2adecf34dfefce11b0ac4a6:gconf/spkgbuild
 f:ea0cdfb7c4e10921bf53b8ad68296fed:util-linux/spkgbuild
 f:3fdb83509ea6530372558ef137f1da14:python3-markupsafe/spkgbuild
 f:03baa4b99f56602ca3348c4a4b6f0bcd:babl/spkgbuild
-f:d0d8b9c34072427564eff2f522557fb4:curl/spkgbuild
+f:0465bb59e8e514f40b74695602f1ffe6:curl/spkgbuild
 f:69a79d439d58c195d98766a6efc8b195:libunistring/spkgbuild
 f:e24786b59916b09bdbe4ca4dbe9a0894:js52/spkgbuild
 f:6d7e3f33144eb66c16730b2e337899c4:wayland-protocols/spkgbuild
-f:0f8c52a3986955a943001230f16ee771:alsa-utils/spkgbuild
+f:745439c5fc8994508367ce1862a1573c:alsa-utils/spkgbuild
 f:f32e59dbae9576b1e6bd2371b5a36617:alsa-utils/alsa.rc
 f:1c220083b7dd56c088354606520b0ccf:alsa-utils/install
 f:a0ff5c64eef01b9418da26aa2af73452:libxkbcommon/spkgbuild
@@ -838,7 +840,7 @@ f:4a90e4f3f74be63a9ea702ac6e7dc6c6:ntp/ntp.sysusers
 f:f2b7b7fe42875208d871ac0b315d3cec:ntp/spkgbuild
 f:770c476c85da77bb25e2f7114aec63cb:ntp/install
 f:c103dcea2499955a17b0ce5b73cb2956:gtkmm2/spkgbuild
-f:61052532411cd0fa3a55b112a30d2b11:gegl/spkgbuild
+f:0208192f66b9524672177c4f5a7da1f4:gegl/spkgbuild
 f:5d44ef85acb47cebedf879d082528712:libcdio-paranoia/spkgbuild
 f:a35dd58a36a6ab078318d9ca2541e643:audacious-plugins/spkgbuild
 f:f1b2f36d95b32c84068da5befc4a32f0:libgcrypt/spkgbuild
@@ -908,7 +910,7 @@ f:c40116a716316a01766df2eb152f0877:libfm/spkgbuild
 f:bb7ad4497eaff372a9e5a72f4b384827:imagemagick6/spkgbuild
 f:e9a908bb7787c24a7615a2a40e3c1a39:gtksourceview3/spkgbuild
 f:e80482bab535a039e68179173a8be24b:sdl/spkgbuild
-f:92e5174a24818d5207642e3bd02be709:librsvg/spkgbuild
+f:89e7b8580240836b9e264f1e0d0af8aa:librsvg/spkgbuild
 f:143ca9eed347bc351904c27df1751b67:xdg-utils/spkgbuild
 f:e379c9663ccd75e95354174f10a44a43:libvdpau-va-gl/spkgbuild
 f:104329129d8a446201d47e7661d19943:grep/spkgbuild
@@ -952,7 +954,7 @@ f:f8f5989e3299fb46c1be5680f08a4954:neon/spkgbuild
 f:4e6ac057c2031cf9e741b5e4d5415d2b:lfs-bootscripts/spkgbuild
 f:b3fe85a1df852bb91f748bc32cdde359:python2-cairo/spkgbuild
 f:ea280f619c2551ad7e8c0008b0712ac1:openssl/spkgbuild
-f:928f6c364c94b091ebd2fcde7a4515e7:cairo/spkgbuild
+f:0a8535a4df05990e76206b95b0c12f16:cairo/spkgbuild
 f:de82abd7a88ab32b0860b23ea3ebd348:cups/spkgbuild
 f:4d4a9d7ec7d334307ae800b2a28775ef:cups/cups.rc
 f:df6c7c694d8d764f0a1b3924a5d38295:cups/install
@@ -969,7 +971,7 @@ f:c5ddb2218266a0458f94ff7f3ba0096b:sdl2/spkgbuild
 f:723f543582e006432d77c0ae11423a9f:imlib2/spkgbuild
 f:f90285592ebd04e0d511a3a6b4a115f5:openssh/sshd.rc
 f:d8fd01a5cda9f81bf7454e6e774d5bf9:openssh/openssh.sysusers
-f:db6106c6c240ce59820248ed4a7615df:openssh/spkgbuild
+f:f27257aadc0de8379d5064297dcafd0c:openssh/spkgbuild
 f:8d139fc3573a07d21a256d482da78370:openssh/install
 f:5c3327c32a2247a6f23836e7af70213a:python2-libxml2/spkgbuild
 f:d53ef65fe2dbee0e2c1ea13aa38001bd:python2-mako/spkgbuild
@@ -980,13 +982,13 @@ f:4565b9209b3c04054dd0074be1a14884:libevent/spkgbuild
 f:bf7d816a8d1528c77c0a579bc401a0f7:bc/spkgbuild
 f:4db744419ee4c1567c496758a1f9fd62:libbytesize/spkgbuild
 f:a3ac01c8824c817d7c55354e3cb8e14e:libogg/spkgbuild
-f:fba692296009aa2adc8e14cc6f5e634d:alsa-plugins/spkgbuild
+f:8c5b395b4baab04fd794d0fbbcc428c8:alsa-plugins/spkgbuild
 f:354816b9ed26f7092ffad0a0249bf60c:base/spkgbuild
 f:4d4d1ddb0df59d7fc99359d3a24b55f2:jasper/spkgbuild
 f:5bc8a15b1f11f4e1b59f73e9c3120d67:cryptsetup/readme
 f:e525dc9588a80ec4823a3ed3674aa72c:cryptsetup/spkgbuild
 f:79f918e12bdf1d565d517193c3fe709f:lvm2/readme
-f:8818203491a5a1775a6c925f2ea07f82:lvm2/spkgbuild
+f:6e11c0efc95494424b391b627bccc620:lvm2/spkgbuild
 f:1699dd1f99939e60de5a6f7c43fc444a:enchant/spkgbuild
 f:275daf685e4f602606074d70d02467cd:pulseaudio/spkgbuild
 f:71fd0fdee4915d01b0011ba967378a7b:python2-xdg/spkgbuild
