@@ -1,0 +1,14 @@
+# description	: Dynamic Kernel Modules System
+# backup	: etc/dkms/framework.conf
+# depends	: bash kmod gcc make patch
+
+name=dkms
+version=2.6.1
+release=1
+source=($name-$version.tar.gz::https://github.com/dell/dkms/archive/v$version.tar.gz)
+md5sum=(742fc7ece11a0808638a0f1e184f2069)
+
+build() {
+	cd $name-$version
+	make DESTDIR=$PKG install
+}
