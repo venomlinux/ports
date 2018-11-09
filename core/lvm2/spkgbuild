@@ -1,9 +1,11 @@
 # description	: Set of tools that manage logical partitions
+# depends	: libaio
 
 name=lvm2
-version=2.02.177
+version=2.03.00
 release=1
 source=(ftp://sources.redhat.com/pub/lvm2/releases/LVM2.${version}.tgz)
+md5sum=(f63cc5feaadd3000138e73f7143ed370)
 
 build() {
 	cd LVM2.$version
@@ -20,5 +22,3 @@ build() {
 	unset SAVEPATH
 	make DESTDIR=$PKG install
 }
-
-md5sum=(ee6cfbc5a0c5696ffae79dac04ee7a2b)
