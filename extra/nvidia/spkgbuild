@@ -123,6 +123,10 @@ build() {
 	install -m 0644 nvidia-settings.desktop $PKG/usr/share/applications/
 	install -m 0644 nvidia-settings.png $PKG/usr/share/pixmaps/
 
+	# blacklist conflict module
+	install -d $PKG/etc/modprobe.d
+	echo "blacklist nouveau" > $PKG/etc/modprobe.d/nvidia.conf
+
 	# kernel modules
 	cd kernel
 	IGNORE_CC_MISMATCH=1 make module
