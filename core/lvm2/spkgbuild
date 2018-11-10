@@ -1,9 +1,10 @@
 # description	: Set of tools that manage logical partitions
 # depends	: libaio
+# backup	: etc/lvm/lvm.conf etc/lvm/lvmlocal.conf
 
 name=lvm2
 version=2.03.00
-release=1
+release=2
 source=(ftp://sources.redhat.com/pub/lvm2/releases/LVM2.${version}.tgz)
 md5sum=(f63cc5feaadd3000138e73f7143ed370)
 
@@ -13,7 +14,6 @@ build() {
 	PATH=$PATH:/sbin:/usr/sbin
 	./configure --prefix=/usr       \
 	            --exec-prefix=      \
-	            --enable-applib     \
 	            --enable-cmdlib     \
 	            --enable-pkgconfig  \
 	            --enable-udev_sync
@@ -21,4 +21,7 @@ build() {
 	PATH=$SAVEPATH
 	unset SAVEPATH
 	make DESTDIR=$PKG install
+
+	# temporary workaround
+	sed -i 's/@DEFAULT_USE_LVMETAD@/0/' $PKG/etc/lvm/lvm.conf
 }
