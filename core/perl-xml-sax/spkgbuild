@@ -4,22 +4,20 @@
 # depends	: perl perl-xml-namespacesupport perl-xml-sax-base
 
 name=perl-xml-sax
-version=0.99
+version=1.00
 release=1
-source=(http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/XML-SAX-$version.tar.gz
-	perl-xml-sax.patch)
+source=(http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/XML-SAX-$version.tar.gz)
+md5sum=(861a454f7bf269990ed2c1c125f4db48)
 
 build() {
 	cd XML-SAX-$version
 
-	patch -Np1 -i $SRC/perl-xml-sax.patch
+	#patch -Np1 -i $SRC/perl-xml-sax.patch
 
 	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
 	make
-	make install DESTDIR=$PKG
+	PERLLIB=blib/lib make install DESTDIR=$PKG
 
 	find $PKG -name '.packlist' -delete
 	find $PKG -name '*.pod' -delete
 }
-md5sum=(290f5375ae87fdebfdb5bc3854019f24
-f114c4aad3221d3e7d8314d13b84a869)
