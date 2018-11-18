@@ -2,9 +2,10 @@
 # depends	: c-ares icu openssl python2
 
 name=nodejs
-version=9.11.1
+version=10.13.0
 release=1
 source=(https://nodejs.org/dist/v$version/node-v$version.tar.xz)
+md5sum=(8cee04dd5e57cfebd370c90375596513)
 
 build() {
 	cd node-v$version
@@ -16,5 +17,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(f375dc584e8887203dae2cdc741de185)
