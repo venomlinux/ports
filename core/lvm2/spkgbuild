@@ -3,10 +3,10 @@
 # backup	: etc/lvm/lvm.conf etc/lvm/lvmlocal.conf
 
 name=lvm2
-version=2.03.00
-release=2
-source=(ftp://sources.redhat.com/pub/lvm2/releases/LVM2.${version}.tgz)
-md5sum=(f63cc5feaadd3000138e73f7143ed370)
+version=2.03.01
+release=1
+source=(https://sourceware.org/pub/lvm2/LVM2.$version.tgz)
+md5sum=(800287d3521388dcc4a601d099b47bcd)
 
 build() {
 	cd LVM2.$version
@@ -21,7 +21,4 @@ build() {
 	PATH=$SAVEPATH
 	unset SAVEPATH
 	make DESTDIR=$PKG install
-
-	# temporary workaround
-	sed -i 's/@DEFAULT_USE_LVMETAD@/0/' $PKG/etc/lvm/lvm.conf
 }
