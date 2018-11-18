@@ -4,9 +4,10 @@
 # depends	: python3
 
 name=libevdev
-version=1.5.9
+version=1.6.0
 release=1
 source=(https://www.freedesktop.org/software/libevdev/libevdev-$version.tar.xz)
+md5sum=(154b24f01425c4c82fdc3e11f2c13af6)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(a1ca11e961c1efed720fac4130881904)
