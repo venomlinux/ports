@@ -2,12 +2,12 @@
 # depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent libvpx sqlite dbus-glib graphite2 harfbuzz unzip zip autoconf2.13 yasm rust gconf llvm cbindgen
 
 name=firefox
-version=63.0
+version=63.0.3
 release=1
 source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-system_graphite2_harfbuzz-1.patch)
-md5sum=(17f6cea22026840dfa255190a7cec1e2
-	ab55348015892495e3d008523a551250)
+md5sum=(SKIP SKIP)
+	#ab55348015892495e3d008523a551250)
 
 build() {
 	cd $name-$version
@@ -23,6 +23,7 @@ ac_add_options --with-system-libevent
 ac_add_options --with-system-libvpx
 ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
+ac_add_options --with-system-icu
 ac_add_options --enable-linker=gold
 ac_add_options --enable-official-branding
 ac_add_options --with-system-graphite2
@@ -47,6 +48,8 @@ EOF
 	echo "AIzaSyDxKL42zsPjbke5O8_rPVpVrLrJ8aeE9rQ" > google-key
 	echo "d2284a20-0505-4927-a809-7ffaf4d91e55" > mozilla-key
 
+	# Fix a problem with certain versions of ICU
+	sed -e 's/checkImpl/checkFFImpl/g' -i js/src/vm/JSContext*.h
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
 	./mach build
 	DESTDIR=$PKG ./mach install
