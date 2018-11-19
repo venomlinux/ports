@@ -1,0 +1,95 @@
+# description	: Stand-alone mail/news client based on the Mozilla codebase
+# depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent libvpx nspr sqlite dbus-glib gconf llvm
+
+name=thunderbird
+version=60.3.0
+release=1
+source=(https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz)
+md5sum=(246090e1e31bda1985c21336e6655db0)
+
+build() {
+	cd $name-$version
+	
+	cat > mozconfig << "EOF"
+# If you have a multicore machine, the build may be faster if using parallel
+# jobs. The build system automatically adds -jN to the "make" flags, where N
+# is the number of CPU cores. The option below is therefore useless, unless
+# you want to use a smaller number of jobs:
+#mk_add_options MOZ_MAKE_FLAGS="-j1"
+
+# If you have installed dbus-glib, comment out this line:
+#ac_add_options --disable-dbus
+
+# If you have installed wireless-tools comment out this line:
+ac_add_options --disable-necko-wifi
+
+# Uncomment these lines if you have installed optional dependencies:
+#ac_add_options --enable-system-hunspell
+#ac_add_options --enable-startup-notification
+
+# Comment out following option if you have PulseAudio installed
+ac_add_options --disable-pulseaudio
+
+# Comment out following option if you have gconf installed
+#ac_add_options --disable-gconf
+
+# If you want to compile the Mozilla Calendar, uncomment this line:
+#ac_add_options --enable-calendar
+
+# Comment out following options if you have not installed
+# recommended dependencies:
+ac_add_options --enable-system-sqlite
+ac_add_options --with-system-libevent
+ac_add_options --with-system-libvpx
+ac_add_options --with-system-nspr
+ac_add_options --with-system-nss
+ac_add_options --with-system-icu
+
+# The BLFS editors recommend not changing anything below this line:
+ac_add_options --prefix=/usr
+ac_add_options --enable-application=comm/mail
+
+ac_add_options --disable-crashreporter
+ac_add_options --disable-updater
+ac_add_options --disable-debug
+ac_add_options --disable-tests
+
+ac_add_options --enable-optimize=-O2
+ac_add_options --enable-strip
+ac_add_options --enable-install-strip
+
+ac_add_options --enable-official-branding
+
+ac_add_options --enable-system-ffi
+ac_add_options --enable-system-pixman
+
+ac_add_options --with-pthreads
+
+ac_add_options --with-system-bz2
+ac_add_options --with-system-jpeg
+ac_add_options --with-system-png
+ac_add_options --with-system-zlib
+EOF
+
+	./mach build
+	DESTDIR=$PKG ./mach install
+
+	mkdir -pv $PKG/usr/share/{applications,pixmaps}
+
+cat > $PKG/usr/share/applications/thunderbird.desktop << "EOF"
+[Desktop Entry]
+Name=Thunderbird Mail
+Comment=Send and receive mail with Thunderbird
+GenericName=Mail Client
+Exec=thunderbird %u
+Terminal=false
+Type=Application
+Icon=thunderbird
+Categories=Network;Email;
+MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/xml;application/rss+xml;x-scheme-handler/mailto;
+StartupNotify=true
+EOF
+
+ln -sfv $PKG/usr/lib/thunderbird-$version/chrome/icons/default/default256.png \
+        $PKG/usr/share/pixmaps/thunderbird.png
+}
