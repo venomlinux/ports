@@ -1,5 +1,5 @@
 # description	: Stand-alone mail/news client based on the Mozilla codebase
-# depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent libvpx nspr sqlite dbus-glib gconf llvm
+# depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent libvpx nspr sqlite dbus-glib gconf llvm startup-notification
 
 name=thunderbird
 version=60.3.0
@@ -25,7 +25,7 @@ ac_add_options --disable-necko-wifi
 
 # Uncomment these lines if you have installed optional dependencies:
 #ac_add_options --enable-system-hunspell
-#ac_add_options --enable-startup-notification
+ac_add_options --enable-startup-notification
 
 # Comment out following option if you have PulseAudio installed
 ac_add_options --disable-pulseaudio
