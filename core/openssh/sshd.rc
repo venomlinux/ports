@@ -13,7 +13,6 @@ case $1 in
 	start)
 		msg "Starting $NAME..."
 		start_daemon -f $PROG
-		eval_stat
 		sleep 1
 		pid=`cat $PIDFILE 2>/dev/null`
 		[ $pid ] && echo "-16" >/proc/$pid/oom_score_adj

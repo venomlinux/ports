@@ -13,20 +13,16 @@ case "$1" in
 		msg "Starting system log daemon..."
 		parms=${SYSKLOGD_PARMS-'-m 0'}
 		start_daemon $PROG $parms
-		eval_stat
 
 		msg "Starting kernel log daemon..."
 		start_daemon $PROGK
-		eval_stat
 		;;
 	stop)
 		msg "Stopping kernel log daemon..."
 		stop_daemon $PROG
-		eval_stat
 		
 		msg "Stopping system log daemon..."
 		stop_daemon $PROGK
-		eval_stat
 		;;
 	reload)
 		echo "Reloading system log daemon config file..."

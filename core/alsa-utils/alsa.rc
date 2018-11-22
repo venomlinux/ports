@@ -13,13 +13,11 @@ case $1 in
 		if [ -f /var/lib/alsa/asound.state ]; then
 			msg "Restoring ALSA volume state..."
 			$ALSACTL restore
-			eval_stat
 		fi
 		;;
 	stop)
 		msg "Saving ALSA volume state..."
 		$ALSACTL store
-		eval_stat
 		;;
 	restart)
 		$0 stop

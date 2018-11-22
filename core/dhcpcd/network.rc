@@ -16,12 +16,10 @@ case $1 in
 	start)	
 		msg "Starting network..."	
 		start_daemon $PROG $OPTS
-		eval_stat
 		;;	
 	stop)	
 		msg "Stopping network..."	
 		stop_daemon $PROG
-		eval_stat
 		;;	
 	restart)	
 		$0 stop	

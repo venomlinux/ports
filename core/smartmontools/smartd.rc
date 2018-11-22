@@ -13,13 +13,11 @@ case $1 in
 	start)
 		msg "Starting $NAME..."
 		start_daemon $PROG
-		eval_stat
 		#touch $PIDFILE
 		;;
 	stop)
 		msg "Stopping $NAME..."
 		stop_daemon $PROG
-		eval_stat
 		;;
 	restart)
 		$0 stop

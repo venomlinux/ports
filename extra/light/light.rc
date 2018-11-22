@@ -12,12 +12,10 @@ case $1 in
 	start)
 		msg "Restoring $NAME..."
 		start_daemon $PROG -I
-		eval_stat
 		;;
 	stop)
 		msg "Saving $NAME..."
 		start_daemon $PROG -O
-		eval_stat
 		;;
 	restart)
 		$0 stop

@@ -70,7 +70,6 @@ case $1 in
 	start)
 		msg "Starting $NAME..."
 		start_daemon $PROG &
-		eval_stat
 		start_hci_dev
 		run_sdptool
 		start_uarts
@@ -81,7 +80,6 @@ case $1 in
 		stop_uarts
 		msg "Stopping $NAME..."
 		stop_daemon $PROG
-		eval_stat
 		;;
 	restart)
 		$0 stop

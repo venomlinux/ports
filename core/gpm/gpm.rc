@@ -14,12 +14,10 @@ case $1 in
 	start)
 		msg "Starting GPM console mouse service..."
 		start_daemon $PROG $OPTS
-		eval_stat
 		;;
 	stop)
 		msg "Stopping GPM console mouse service..."
 		stop_daemon $PROG
-		eval_stat
 		;;
 	restart)
 		$0 stop

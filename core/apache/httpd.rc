@@ -13,17 +13,14 @@ case $1 in
 		msg "Starting $NAME..."
 		mkdir -p /var/run/httpd
 		start_daemon /usr/sbin/apachectl -k start
-		eval_stat
 		;;
 	stop)
 		msg "Stopping $NAME..."
 		start_daemon /usr/sbin/apachectl -k stop
-		eval_stat
 		;;
 	restart)
 		msg "Restarting $NAME..."
 		start_daemon /usr/sbin/apachectl -k restart
-		eval_stat
 		;;
 	status)
 		status_daemon $PROG
