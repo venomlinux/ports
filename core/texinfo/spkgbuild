@@ -5,12 +5,15 @@
 
 name=texinfo
 version=6.5
-release=3
+release=4
 source=(https://ftp.gnu.org/gnu/texinfo/$name-$version.tar.xz
 	texinfo-install.hook)
 
 build() {
 	cd $name-$version
+
+	# Fix a file that creates a lot of failures in the regression checks
+	sed -i '5481,5485 s/({/(\\{/' tp/Texinfo/Parser.pm
 
 	./configure --prefix=/usr --disable-static
 	make
