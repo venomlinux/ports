@@ -6,7 +6,7 @@
 
 name=glibc
 version=2.28
-release=2
+release=3
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	http://www.linuxfromscratch.org/patches/lfs/development/$name-$version-fhs-1.patch
 	genlocales)
@@ -31,6 +31,7 @@ build() {
 
 	#CC="gcc -isystem $GCC_INCDIR -isystem /usr/include" \
 	../configure --prefix=/usr                          \
+		     --libexecdir=/usr/lib                  \
 	             --disable-werror                       \
 	             --enable-kernel=3.2                    \
 		     --enable-multi-arch                    \
@@ -96,6 +97,7 @@ mkdir -p $PKG/etc/ld.so.conf.d
 	             --enable-obsolete-rpc           \
 	             --enable-stack-protector=strong \
 	             --libdir=/usr/lib32             \
+		     --libexecdir=/usr/lib32         \
 	             libc_cv_slibdir=/usr/lib32      \
 	             i686-pc-linux-gnu
 	make
