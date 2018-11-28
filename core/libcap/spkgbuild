@@ -4,7 +4,7 @@
 # depends	: attr glibc linux-api-headers
 
 name=libcap
-version=2.25
+version=2.26
 release=1
 source=(https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/$name-$version.tar.xz)
 
@@ -21,4 +21,4 @@ build() {
 	mv -v $PKG/usr/lib/libcap.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libcap.so) $PKG/usr/lib/libcap.so
 }
-md5sum=(6666b839e5d46c2ad33fc8aa2ceb5f77)
+md5sum=(968ac4d42a1a71754313527be2ab5df3)
