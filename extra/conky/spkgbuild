@@ -4,18 +4,21 @@
 # depends	: lua imlib2 wireless_tools cmake man-db docbook2x
 
 name=conky
-version=1.10.7
+version=1.10.8
 release=1
 options=(!strip)
 source=($name-$version.tar.gz::https://github.com/brndnmtthws/conky/archive/v${version}.tar.gz
 	lua53.patch
 	out_to_x.patch)
+md5sum=(b02bc92e4b02d4f18259ab3a26c8c5ba
+44cdadfe92266e99698e5424b7c6e265
+0979e41e06b551cca534e595b0914cfd)
 
 build() {
 	cd $name-$version
 
-	patch -p1 -i ../lua53.patch
-	patch -p1 -i ../out_to_x.patch
+	#patch -p1 -i ../lua53.patch
+	#patch -p1 -i ../out_to_x.patch
 
 	cmake \
 		-D CMAKE_BUILD_TYPE=Release \
@@ -35,6 +38,3 @@ build() {
 	install -Dm644 extras/vim/syntax/conkyrc.vim $PKG/usr/share/vim/vimfiles/syntax/conkyrc.vim
 	install -Dm644 extras/vim/ftdetect/conkyrc.vim $PKG/usr/share/vim/vimfiles/ftdetect/conkyrc.vim
 }
-md5sum=(7a8adac8466164f484963c3557be09f1
-44cdadfe92266e99698e5424b7c6e265
-0979e41e06b551cca534e595b0914cfd)
