@@ -4,9 +4,10 @@
 # depends	: xcb-util util-macros
 
 name=xbacklight
-version=1.2.1
+version=1.2.2
 release=1
 source=(http://ftp.x.org/pub/individual/app/xbacklight-$version.tar.bz2)
+md5sum=(d50cf135af04436b9456a5ab7dcf7971)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(0066f23f69ca3ef62dcaeb74a87fdc48)
