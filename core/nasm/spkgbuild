@@ -1,10 +1,10 @@
 # description	: 80x86 assembler designed for portability and modularity
 
 name=nasm
-version=2.13.03
+version=2.14
 release=1
 source=(https://www.nasm.us/pub/nasm/releasebuilds/$version/nasm-$version.tar.xz)
-md5sum=(d5ca2ad7121ccbae69dd606b1038532c)
+md5sum=(7d0f554cacd6c5021b3cda3ba9f2474c)
 
 build() {
 	cd $name-$version
@@ -15,5 +15,5 @@ build() {
 
 	./configure --prefix=/usr
 	make
-	make INSTALLROOT=$PKG install
+	make DESTDIR=$PKG install
 }
