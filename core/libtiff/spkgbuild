@@ -4,9 +4,10 @@
 # depends	: cmake ninja
 
 name=libtiff
-version=4.0.9
+version=4.0.10
 release=1
 source=(https://download.osgeo.org/$name/tiff-$version.tar.gz)
+md5sum=(114192d7ebe537912a2b97408832e7fd)
 
 build() {
 	cd tiff-$version
@@ -19,5 +20,3 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 }
-
-md5sum=(54bad211279cc93eb4fca31ba9bfdc79)
