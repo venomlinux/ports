@@ -4,9 +4,10 @@
 # depends	: libx11 xorgproto util-macros
 
 name=xdriinfo
-version=1.0.5
+version=1.0.6
 release=1
 source=(http://ftp.x.org/pub/individual/app/xdriinfo-$version.tar.bz2)
+md5sum=(480e63cd365f03eb2515a6527d5f4ca6)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(fceddaeb08e32e027d12a71490665866)
