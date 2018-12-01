@@ -5,7 +5,7 @@
 
 name=cups
 version=2.2.8
-release=2
+release=3
 source=(https://github.com/apple/cups/releases/download/v$version/$name-$version-source.tar.gz
 	$name.rc)
 md5sum=(33150d08993a04c8e22176e93805a051
@@ -20,7 +20,7 @@ build() {
 	aclocal  -I config-scripts
 	autoconf -I config-scripts
 	
-	CC=gcc \
+	CC=gcc CXX=g++ \
 	./configure --libdir=/usr/lib            \
 	            --disable-systemd            \
 	            --with-rcdir=/tmp/cupsinit   \
