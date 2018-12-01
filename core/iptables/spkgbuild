@@ -3,20 +3,13 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=iptables
-version=1.8.1
+version=1.8.2
 release=1
 source=(https://www.netfilter.org/projects/iptables/files/$name-$version.tar.bz2)
-md5sum=(b5b0b43afc245176c36a14c4fca6e661)
+md5sum=(944558e88ddcc3b9b0d9550070fa3599)
 
 build() {
 	cd $name-$version
-
-	# Fix a build failure if nftables is not installed
-	sed -e "/iptables\/nft\.h/d" \
-	    -i extensions/libxt_limit.c
-	sed -e "/^struct nftnl_rule;/a struct iptables_command_state;" \
-	    -i iptables/nft-bridge.h
-
 
 	./configure --prefix=/usr      \
 	            --sbindir=/sbin    \
