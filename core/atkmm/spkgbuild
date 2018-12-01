@@ -4,9 +4,10 @@
 # depends	: atk glibmm
 
 name=atkmm
-version=2.24.2
+version=2.28.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(6194ac577f15567adfa3c923944c6651)
 
 build() {
 	cd $name-$version
@@ -18,5 +19,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(d53b60b0f1be597e86070954a49cf0c3)
