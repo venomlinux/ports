@@ -4,9 +4,10 @@
 # depends	: libxv
 
 name=libxv-32
-version=1.0.10
+version=1.0.11
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXv-$version.tar.bz2)
+md5sum=(210b6ef30dda2256d54763136faa37b9)
 
 build() {
 	cd libXv-$version
@@ -26,5 +27,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(e0af49d7d758b990e6fef629722d4aca)
