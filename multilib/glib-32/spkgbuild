@@ -2,25 +2,30 @@
 # depends	: glib pcre-32 libffi-32 util-linux-32 elfutils-32
 
 name=glib-32
-version=2.56.1
+version=2.58.1
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/glib/${version::4}/glib-$version.tar.xz
 	gio-querymodules-32.hook)
+md5sum=(4fd2ead128a408c89b9153dfdb99f9a5
+	fe10afe13dd78428d2f6788a95412176)
 
 build() {
 	cd glib-$version
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	./configure --prefix=/usr \
-		    --libdir=/usr/lib32 \
-		    --with-pcre=system \
-		    --with-python=/usr/bin/python3 \
-		    --with-docs=no
-	make
-	make DESTDIR=$PWD/DESTDIR install
+	mkdir build-glib
+	cd    build-glib
+	
+	meson --prefix=/usr   \
+	      --libdir=/usr/lib32 \
+	      -Dman=true      \
+	      -Dselinux=false \
+	      ..
+	ninja
+	DESTDIR=$PWD/DESTDIR ninja install
 	mkdir -p $PKG/usr/bin
 	cp DESTDIR/usr/bin/gio-querymodules $PKG/usr/bin/gio-querymodules-32
 	mkdir -p $PKG/usr/lib32
@@ -28,6 +33,3 @@ build() {
 
 	install -Dm644 $SRC/gio-querymodules-32.hook $PKG/etc/hooks/gio-querymodules-32.hook
 }
-
-md5sum=(988af38524804ea1ae6bc9a2bad181ff
-	fe10afe13dd78428d2f6788a95412176)
