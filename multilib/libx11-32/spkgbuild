@@ -4,9 +4,10 @@
 # depends	: libx11 libxcb-32 xtrans-32
 
 name=libx11-32
-version=1.6.5
+version=1.6.7
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libX11-$version.tar.bz2)
+md5sum=(034fdd6cc5393974d88aec6f5bc96162)
 
 build() {
 	cd libX11-$version
@@ -26,5 +27,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(0f618db70c4054ca67cee0cc156a4255)
