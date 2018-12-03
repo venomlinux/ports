@@ -5,7 +5,7 @@
 
 name=fakeroot-32
 version=1.23
-release=1
+release=2
 source=(http://ftp.debian.org/debian/pool/main/f/fakeroot/fakeroot_${version}.orig.tar.xz
         silence-dlerror.patch)
 md5sum=(b82c5e99b6365a838e73d05718083f6a
@@ -32,5 +32,8 @@ build() {
 	install -dm755 $PKG/etc/ld.so.conf.d
 	  echo '/usr/lib32/libfakeroot' > $PKG/etc/ld.so.conf.d/fakeroot32.conf
 
-	rm -fr $PKG/usr/{bin,share}
+	mv $PKG/usr/bin/fakeroot{,-32}
+	mv $PKG/usr/bin/faked{,-32}
+
+	rm -fr $PKG/usr/share
 }
