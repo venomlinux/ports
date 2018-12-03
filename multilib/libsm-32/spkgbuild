@@ -4,9 +4,10 @@
 # depends	: libsm
 
 name=libsm-32
-version=1.2.2
+version=1.2.3
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libSM-$version.tar.bz2)
+md5sum=(87c7fad1c1813517979184c8ccd76628)
 
 build() {
 	cd libSM-$version
@@ -26,5 +27,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(499a7773c65aba513609fe651853c5f3)
