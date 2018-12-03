@@ -4,9 +4,10 @@
 # depends	: libxcb libxau-32
 
 name=libxcb-32
-version=1.13
+version=1.13.1
 release=1
 source=(http://xcb.freedesktop.org/dist/libxcb-$version.tar.bz2)
+md5sum=(f33cdfc67346f7217a9326c0d8679975)
 
 build() {
 	cd libxcb-$version
@@ -31,5 +32,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(c2b6cf928afa16b0047c974e7aaa783f)
