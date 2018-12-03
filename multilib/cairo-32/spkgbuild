@@ -4,9 +4,10 @@
 # depends	: cairo libpng-32 pixman-32 fontconfig-32 glib-32 libxcb-32 libxrender-32 libx11-32 libxext-32
 
 name=cairo-32
-version=1.14.12
+version=1.16.0
 release=1
 source=(https://cairographics.org/releases/cairo-$version.tar.xz)
+md5sum=(f19e0353828269c22bd72e271243a552)
 
 build() {
 	cd cairo-$version
@@ -24,5 +25,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(9f0db9dbfca0966be8acd682e636d165)
