@@ -2,14 +2,13 @@
 # depends	: python3 libxslt
 
 name=python3-lxml
-version=4.2.1
+version=4.2.5
 release=1
 source=(https://files.pythonhosted.org/packages/source/l/lxml/lxml-$version.tar.gz)
+md5sum=(ce042575c4459c4994f68b9a862a72a4)
 
 build() {
 	cd lxml-$version
 	python3 setup.py build
 	python3 setup.py install --root=$PKG --optimize=1
 }
-
-md5sum=(c266d9062e23b08f66426979a2b36f51)

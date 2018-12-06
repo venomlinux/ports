@@ -2,10 +2,10 @@
 # depends	: libdrm python2 wayland libxshmfence libxdamage libxext libxfixes elfutils llvm libvdpau python2-mako libx11 xorgproto wayland-protocols
 
 name=mesa
-version=18.1.5
+version=18.2.0
 release=1
 source=(https://mesa.freedesktop.org/archive/$name-$version.tar.xz)
-md5sum=(622bd23ca8daa83a62938bd33600a580)
+md5sum=(88e1a7f31f259cec69bb76b3cb10c956)
 
 build() {
 	cd $name-$version
@@ -23,7 +23,4 @@ build() {
 	            --with-gallium-drivers=$GLL_DRV
 	make
 	make DESTDIR=$PKG install
-
-	install -v -dm755 $PKG/usr/share/doc/$name
-	cp -rfv docs/* $PKG/usr/share/doc/$name
 }

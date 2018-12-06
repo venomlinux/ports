@@ -4,9 +4,10 @@
 # depends	: libffi libxml2
 
 name=wayland
-version=1.15.0
-release=1
+version=1.16.0
+release=2
 source=(http://wayland.freedesktop.org/releases/$name-$version.tar.xz)
+md5sum=(0c215e53de71d6fb26f7102cdc6432d3)
 
 build() {
 	cd $name-$version
@@ -18,7 +19,5 @@ build() {
 	make DESTDIR=$PKG install
 
 	# remove file conflict with mesa
-	rm $PKG/usr/lib/{libwayland-egl.so{,.1,.1.0.0},pkgconfig/wayland-egl.pc}
+	#rm $PKG/usr/lib/{libwayland-egl.so{,.1,.1.0.0},pkgconfig/wayland-egl.pc}
 }
-
-md5sum=(b7393c17fdce9a8d383edab656c92fd2)

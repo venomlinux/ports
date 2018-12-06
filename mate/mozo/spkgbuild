@@ -1,0 +1,15 @@
+# description	: MATE menu editing tooldictionaries and searching files
+# depends	: mate-menus
+
+name=mozo
+version=1.20.1
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(979bdc71e5268c2abc78697966fc6856)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

@@ -4,10 +4,11 @@
 # depends	: fontconfig lcms2 libtool libxext libxt perl libxml2 librsvg
 
 name=imagemagick7
-version=7.0.7.28
+version=7.0.8.10
 release=1
 options=(libtool)
 source=(https://www.imagemagick.org/download/ImageMagick-${version%.*}-${version##*.}.tar.xz)
+md5sum=(9ae81c8d5f2196d9592533472110261f)
 
 build() {
 	cd ImageMagick-${version%.*}-${version##*.}
@@ -24,5 +25,3 @@ build() {
 	find $PKG -name perllocal.pod -exec rm {} \;
 
 }
-
-md5sum=(15907fe499f0377ff28eeafb5905510a)

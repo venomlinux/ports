@@ -2,10 +2,10 @@
 # depends	: alsa-lib ffmpeg liba52 libgcrypt libmad lua
 
 name=vlc
-version=3.0.3
+version=3.0.4
 release=1
 source=(https://download.videolan.org/$name/$version/$name-$version.tar.xz)
-md5sum=(cf01d4755c719fe1c8605ceb40d8f1d2)
+md5sum=(f5e49a0fb9594ab8debf934a710e92f1)
 
 build() {
 	cd $name-$version
@@ -16,9 +16,8 @@ build() {
 	# This command allows building with the current version of FreeType-2.9
 	sed -i '/DEPRECATED/s:^://:'  modules/text_renderer/freetype/text_layout.c
 
-	# This command allows building with the current version of Qt-5.11.1
-	sed -i '/#include <QString>/i#include <QButtonGroup>' \
-	        modules/gui/qt/components/simple_preferences.cpp
+	# This command allows building with the current version of x264-20180819-2245
+	sed -i '/118/s/$/\&\& X264_BUILD < 153/' modules/codec/x264.c
 
         BUILDCC=gcc ./configure --prefix=/usr --disable-opencv
 	make

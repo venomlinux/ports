@@ -1,0 +1,15 @@
+# description	: A system monitor for MATE
+# depends	: glib libgtop libwnck3 gtkmm3 gtk3 cairomm libxml2 librsvg gdk-pixbuf glibmm
+
+name=mate-system-monitor
+version=1.20.1
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(6c30f8dc1890a1ec051a52e5cdb497b0)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

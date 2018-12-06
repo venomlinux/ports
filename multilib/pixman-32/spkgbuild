@@ -1,0 +1,28 @@
+# description	: Library that provides low-level pixel manipulation features such as image compositing and trapezoid rasterization
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: pixman
+
+name=pixman-32
+version=0.34.0
+release=1
+source=(https://cairographics.org/releases/pixman-$version.tar.gz)
+
+build() {
+	cd pixman-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32 \
+		--disable-static
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
+
+md5sum=(e80ebae4da01e77f68744319f01d52a3)

@@ -1,0 +1,17 @@
+# description	: GNOME keyring client library
+# depends	: glib dbus libgcrypt libgpg-error vala gobject-introspection
+
+name=libgnome-keyring
+version=3.12.0
+release=1
+source=(https://download.gnome.org/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(6696e4f2e9aed4625cdc3af30bd8c238 )
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc \
+	      --localstatedir=/var --disable-static \
+	      --libexecdir=/usr/lib/gnome-keyring
+	make
+	make DESTDIR=$PKG install
+}

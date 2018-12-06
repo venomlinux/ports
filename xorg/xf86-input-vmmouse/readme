@@ -1,0 +1,17 @@
+
+Kernel Configuration
+
+To get kernel support for the VMMouse, enable the following options in the kernel
+configuration and recompile the kernel if necessary:
+
+Processor type and features --->
+  [*] Symmetric multi-processing support          [CONFIG_SMP]
+  [*] Support for extended (non-PC) x86 platforms [CONFIG_X86_EXTENDED_PLATFORM]
+  [*] ScaleMP vSMP                                [CONFIG_X86_VSMP]
+Device Drivers --->
+  Input device support --->
+    [*] Mice --->                                 [CONFIG_INPUT_MOUSE]
+      <*/M> PS/2 mouse                            [CONFIG_MOUSE_PS2]
+      [*] Virtual mouse (vmmouse)                 [CONFIG_MOUSE_PS2_VMMOUSE]
+
+

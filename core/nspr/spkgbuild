@@ -3,9 +3,10 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=nspr
-version=4.19
+version=4.20
 release=1
 source=(https://archive.mozilla.org/pub/$name/releases/v$version/src/$name-$version.tar.gz)
+md5sum=(1c198c7e73f6b0e2bb9153a644ba246b)
 
 build() {
 	cd $name-$version/$name
@@ -20,5 +21,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(e1d27282ad6286b69d6b9fd07201d3dd)

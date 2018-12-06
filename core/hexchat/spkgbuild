@@ -4,9 +4,10 @@
 # depends	: glib gtk2 lua python3 libcanberra
 
 name=hexchat
-version=2.14.1
+version=2.14.2
 release=1
 source=(https://dl.hexchat.net/$name/$name-$version.tar.xz)
+md5sum=(91d5dd21291d6f54e52a7044f1ac5de0)
 
 build() {
 	cd $name-$version
@@ -18,5 +19,3 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 }
-
-md5sum=(8dd81178847390be6b860cff367eab18)

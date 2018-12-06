@@ -1,0 +1,40 @@
+# description	: Valve's digital software delivery system
+# backup	: 
+# depends	: libx11-32 libdrm-32
+# noextract	: 
+
+name=steam
+version=1.0.0.56
+release=1
+source=(http://repo.steampowered.com/$name/pool/$name/s/$name/${name}_$version.tar.gz
+	alsa_sdl_audiodriver.patch)
+md5sum=(1ea5a9bbfc742ce7fee18d67d62c79ea
+	ac0e03d70f1101331598b2b32ed9bac3)
+
+build() {
+	cd $name
+
+	patch -p1 -i $SRC/alsa_sdl_audiodriver.patch
+
+	#install -m 0755 -D $SRC/steam-native.sh \
+	#	$PKG/usr/bin/steam-native
+
+	#install -m 0644 -D $SRC/steam-native.desktop \
+	#	-t $PKG/usr/share/applications
+	
+	make DESTDIR=$PKG install
+
+	# blank steamdeps because apt-get
+	ln -sf /bin/true $PKG/usr/bin/steamdeps
+
+	#install -d $PKG/etc/ssl/certs
+	#ln -sf /etc/ssl/cert.pem $PKG/etc/ssl/certs/ca-certificates.crt
+
+	#mv $PKG/usr/lib $PKG/usr/lib32
+
+	#sed \
+	#	-e 's|/usr/lib/$STEAMPACKAGE|/usr/lib32/$STEAMPACKAGE|' \
+	#	-i $PKG/usr/bin/steam
+
+	#rm -r $PKG/usr/share/doc
+}

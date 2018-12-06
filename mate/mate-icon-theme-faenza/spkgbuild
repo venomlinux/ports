@@ -1,0 +1,16 @@
+# description	: Faenza icon theme for MATE
+# depends	: mate-common
+
+name=mate-icon-theme-faenza
+version=1.20.0
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(846d05c73cca8059a5b1a636f5edcfd3)
+
+build() {
+	cd $name-$version
+	./autogen.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

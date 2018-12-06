@@ -1,0 +1,30 @@
+# description	: FreeType-based font drawing library for X
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxft
+
+name=libxft-32
+version=2.3.2
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libXft-$version.tar.bz2)
+
+build() {
+	cd libXft-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+		--libdir=/usr/lib32 \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
+
+md5sum=(331b3a2a3a1a78b5b44cfbd43f86fcfe)

@@ -3,10 +3,12 @@
 # optdepends	: libmtp fuse2 libimobiledevice
 
 name=gvfs
-version=1.36.0
+version=1.36.2
 release=2
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz
 	gvfsd.hook)
+md5sum=(10b84073fe5f3d540abd9d36ed342b37
+	27b998be86899b622d6a33dfba56085b)
 
 build() {
 	cd $name-$version
@@ -35,6 +37,3 @@ build() {
 
 	install -Dm644 $SRC/gvfsd.hook $PKG/etc/hooks/gvfsd.hook
 }
-
-md5sum=(216d461c5e96e2cea74253be407af6dc
-27b998be86899b622d6a33dfba56085b)

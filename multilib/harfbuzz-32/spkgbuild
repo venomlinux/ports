@@ -1,0 +1,22 @@
+# description	: OpenType text shaping engine
+# depends	: harfbuzz glib-32 freetype-32
+
+name=harfbuzz-32
+version=1.8.8
+release=1
+source=(https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-$version.tar.bz2)
+md5sum=(81dbce82d6471ec2b2a627ce02d03e5d)
+
+build() {
+	cd harfbuzz-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr --libdir=/usr/lib32 --with-gobject
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

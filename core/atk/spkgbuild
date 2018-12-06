@@ -2,10 +2,10 @@
 # depends	: glib gobject-introspection meson
 
 name=atk
-version=2.29.2
+version=2.30.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
-md5sum=(5bbf717d2534251dc72736704148da30)
+md5sum=(769c85005d392ad17ffbc063f2d26454)
 
 build() {
 	cd $name-$version
@@ -13,7 +13,7 @@ build() {
 	mkdir build
 	cd    build
 
-	meson --prefix=/usr
+	meson --prefix=/usr --libdir=/usr/lib
 	ninja
 	DESTDIR=$PKG ninja install
 }

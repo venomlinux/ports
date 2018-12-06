@@ -2,9 +2,10 @@
 # depends	: cmake
 
 name=libical
-version=3.0.3
+version=3.0.4
 release=1
 source=(https://github.com/libical/$name/releases/download/v$version/$name-$version.tar.gz)
+md5sum=(23fa99808d3ab9f1c65651b0e1532828)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(ead7d0d349f872a909cd4f30988de7fc)

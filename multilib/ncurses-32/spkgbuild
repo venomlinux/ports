@@ -1,0 +1,38 @@
+# description	: Libraries for terminal-independent handling of character screens (32bit)
+# homepage	: https://invisible-island.net/ncurses/ncurses.html
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: ncurses
+
+name=ncurses-32
+version=6.1
+release=1
+source=(https://ftp.gnu.org/gnu/ncurses/ncurses-$version.tar.gz)
+
+build() {
+	cd ncurses-$version
+
+	export CC="gcc -m32" CXX="g++ -m32"
+
+	sed -i '/LIBTOOL_INSTALL/d' c++/Makefile.in
+
+	./configure --prefix=/usr           \
+		    --libdir=/usr/lib32     \
+	            --mandir=/usr/share/man \
+	            --with-shared           \
+	            --without-debug         \
+	            --without-normal        \
+	            --enable-pc-files       \
+	            --enable-widec
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	for lib in ncurses form panel menu ; do
+	    rm -vf                    DESTDIR/usr/lib32/lib${lib}.so
+	    echo "INPUT(-l${lib}w)" > DESTDIR/usr/lib32/lib${lib}.so
+	done
+	rm -vf                     DESTDIR/usr/lib32/libcursesw.so
+	echo "INPUT(-lncursesw)" > DESTDIR/usr/lib32/libcursesw.so
+	ln -sfv libncurses.so      DESTDIR/usr/lib32/libcurses.so
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
+md5sum=(98c889aaf8d23910d2b92d65be2e737a)

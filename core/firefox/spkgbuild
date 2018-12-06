@@ -2,12 +2,12 @@
 # depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent libvpx sqlite dbus-glib graphite2 harfbuzz unzip zip autoconf2.13 yasm rust gconf llvm
 
 name=firefox
-version=61.0.1
+version=62.0
 release=1
 source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-system_graphite2_harfbuzz-1.patch)
-md5sum=(SKIP
-	SKIP)
+md5sum=(dfa830ac99156ece5e580c82d1abdead
+	1572b649f3b933de018abdda590a953f)
 
 build() {
 	cd $name-$version
@@ -88,7 +88,7 @@ ac_add_options --enable-official-branding
 ac_add_options --enable-system-ffi
 ac_add_options --enable-system-pixman
 
-ac_add_options --with-pthreads
+#ac_add_options --with-pthreads
 
 ac_add_options --with-system-bz2
 ac_add_options --with-system-jpeg

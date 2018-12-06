@@ -1,0 +1,30 @@
+# description	: A stream oriented C library for parsing XML
+# homepage	: http://expat.sourceforge.net/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: expat
+
+name=expat-32
+version=2.2.6
+release=1
+source=(http://prdownloads.sourceforge.net/expat/expat-$version.tar.bz2)
+md5sum=(ca047ae951b40020ac831c28859161b2)
+
+build() {
+	cd expat-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	# fix a problem with the regression tests in the LFS environment
+	sed -i 's|usr/bin/env |bin/|' run.sh.in
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32 \
+		--disable-static
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

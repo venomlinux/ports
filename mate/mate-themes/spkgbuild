@@ -2,10 +2,10 @@
 # depends	: gtk2
 
 name=mate-themes
-version=3.22.9
+version=3.22.18
 release=1
 source=(http://pub.mate-desktop.org/releases/themes/${version:0:4}/$name-$version.tar.xz)
-md5sum=(ac8e0b21196fec1aacbf07962f49f02d)
+md5sum=(2a6417c705e4f34ba2b2602c7ea998dd)
 
 build() {
 	cd $name-$version
@@ -13,3 +13,4 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+

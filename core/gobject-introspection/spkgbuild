@@ -2,9 +2,10 @@
 # depends	: glib python3 which
 
 name=gobject-introspection
-version=1.56.1
+version=1.58.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+md5sum=(94fec875276262037bfcd51226db12fe)
 
 build() {
 	cd $name-$version
@@ -13,5 +14,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(62e5f5685b8d9752fdeaf17c057d53d1)

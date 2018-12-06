@@ -2,20 +2,22 @@
 # depends	: glib libjpeg-turbo libpng libtiff shared-mime-info libx11 libxcb libxau jasper gobject-introspection
 
 name=gdk-pixbuf
-version=2.36.12
+version=2.38.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz
 	gdk-pixbuf.hook)
+md5sum=(77765f24496dc8c90c6e0cbe10fd8f0e
+	cb430ab6c753ff880f1e7765734370db)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --with-x11 --with-libjasper
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+	cd build
+	
+	meson --prefix=/usr -Djasper=true ..
+	ninja
+	DESTDIR=$PKG ninja install
 
 	install -Dm644 $SRC/gdk-pixbuf.hook $PKG/etc/hooks/gdk-pixbuf.hook
 }
-
-md5sum=(7305ab43d741270ffa53ad2896d7f530
-cb430ab6c753ff880f1e7765734370db)

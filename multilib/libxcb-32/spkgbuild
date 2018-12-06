@@ -1,0 +1,35 @@
+# description	: X11 client-side library (32bit)
+# homepage	: http://xcb.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxcb libxau-32
+
+name=libxcb-32
+version=1.13
+release=1
+source=(http://xcb.freedesktop.org/dist/libxcb-$version.tar.bz2)
+
+build() {
+	cd libxcb-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	
+	# removes dependency on libpthread-stubs package which is useless on Linux
+	sed -i "s/pthread-stubs//" configure
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32 \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static     \
+		--without-doxygen \
+		--docdir='${datadir}'/doc/libxcb
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
+
+md5sum=(c2b6cf928afa16b0047c974e7aaa783f)

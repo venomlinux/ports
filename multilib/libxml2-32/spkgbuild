@@ -1,0 +1,33 @@
+# description	: Contains libraries and utilities used for parsing XML files
+# depends	: libxml2 icu-32
+
+name=libxml2-32
+version=2.9.8
+release=2
+source=(http://xmlsoft.org/sources/libxml2-$version.tar.gz
+	libxml2-$version-python3_hack-1.patch)
+
+build() {
+	cd libxml2-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	patch -Np1 -i ../libxml2-$version-python3_hack-1.patch
+
+	sed -i '/_PyVerify_fd/,+1d' python/types.c
+	./configure --prefix=/usr \
+		    --libdir=/usr/lib32 \
+		    --disable-static \
+		    --with-history \
+		    --with-icu \
+		    --with-python=/usr/bin/python3
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
+
+md5sum=(b786e353e2aa1b872d70d5d1ca0c740d
+f0fe1a64d40c056baf2149b1efebf1b4)
