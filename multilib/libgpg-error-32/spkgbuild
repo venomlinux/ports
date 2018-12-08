@@ -1,0 +1,24 @@
+# description	: Library that defines common error values for all GnuPG components
+# homepage	: https://www.gnupg.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libgpg-error
+
+name=libgpg-error-32
+version=1.32
+release=1
+source=(ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-$version.tar.bz2)
+md5sum=(ef3d928a5a453fa701ecc3bb22be1c64)
+
+build() {
+	cd libgpg-error-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+  	./configure --prefix=/usr --libdir=/usr/lib32
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{bin,share,include}
+}

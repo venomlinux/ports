@@ -11,6 +11,7 @@ d:firefox-bin
 d:syslinux
 d:cdw
 d:libreplaygain
+d:cabextract
 d:scratchpkg-dev
 d:python3-distutils-extra
 d:python2-idna
@@ -54,6 +55,7 @@ d:python3-appdirs
 d:clipit
 d:ohsnap
 d:cantarell-fonts
+d:winetricks
 d:ttf-wps-fonts
 d:newsboat
 d:python2-pycryptodome
@@ -64,12 +66,14 @@ d:python2-urwid
 d:elinks
 d:mesa-demos
 d:python3-pypeg2
+d:icoutils
 d:tint2
 d:libfakekey
 d:python3-sip
 d:reaver
 d:python2-pyparsing
 d:xbindkeys
+d:xbps
 d:squashfs-tools
 d:waterfox-bin
 d:mps-youtube
@@ -96,6 +100,7 @@ d:libsamplerate
 d:xlsfonts
 d:python2-setuptools
 d:plank
+d:wine-mono
 d:awesome-font
 d:python3-pip
 d:python3-packaging
@@ -147,13 +152,16 @@ d:dmenu
 d:mpv
 d:fakeroot
 d:help2man
+d:python2-wxpython3
 d:python2-urllib3
 d:linux-lts
 d:noto-fonts-extra
 d:freeglut
 d:ruby-ffi
+d:busybox
 d:os-prober
 d:dfc
+d:gnu-netcat
 d:ck4up
 d:python3-pysocks
 d:volumeicon
@@ -178,8 +186,10 @@ d:python3-requests
 d:nitrogen
 d:ncdu
 d:dropbox
+d:opencl-headers
 d:vtclock
 d:uget
+d:wine-gecko
 d:python3-jinja2
 d:gmrun
 d:figlet
@@ -198,6 +208,7 @@ d:python2-appdirs
 d:tty-clock
 d:numix-icon-theme
 d:python3-pygments
+d:wine
 d:optipng
 d:celt
 d:obkey
@@ -229,6 +240,7 @@ d:python2-iso-639
 d:python3-yaml
 d:firefox-esr-bin
 d:cmus
+d:playonlinux
 d:pacmixer
 d:python3-urllib3
 d:acpi
@@ -242,6 +254,7 @@ d:dejavu-fonts
 d:python2-pyqt5
 d:noto-fonts
 d:telegram-desktop-bin
+d:wxgtk3
 d:conky
 d:python2-sip
 d:leafpad
@@ -263,6 +276,7 @@ f:3f1370d9ad233b9c717f14d5ae9859c1:syslinux/syslinux-6.03-sysmacros.patch
 f:d68b5ed13557dca3070f69f9bc3f9b4a:syslinux/spkgbuild
 f:3c4d5ba4f19f301b7975251740a970f9:cdw/spkgbuild
 f:d853604fb1233a303290d19ecf3542ca:libreplaygain/spkgbuild
+f:d9e2f3a687bd822d73c8f8a57e5af425:cabextract/spkgbuild
 f:260ab1223f7f8d823737025694f35d85:scratchpkg-dev/spkgbuild
 f:78cc78a25075bb1397f748681ec879cd:python3-distutils-extra/spkgbuild
 f:439a08488aa0f4db479db2cdf9fc6b55:python2-idna/spkgbuild
@@ -316,6 +330,7 @@ f:ef50fce46fcd1c75bd1135e6d42f2103:python3-appdirs/spkgbuild
 f:a75431694fb5a647c5aa50639b9fc8c3:clipit/spkgbuild
 f:3013e0e8d688e98fe05054dd4927a531:ohsnap/spkgbuild
 f:db187e06b304ac490d01cefbfa6edfca:cantarell-fonts/spkgbuild
+f:8bae7e95fc4bf5819c8d11add6df4180:winetricks/spkgbuild
 f:fabb1548940e811857b0c6e07c7c3602:ttf-wps-fonts/spkgbuild
 f:aeb1ea3657097bfe7a41f22b38ace944:newsboat/spkgbuild
 f:ccc55605cd43f55989bf7a903b5d631f:python2-pycryptodome/spkgbuild
@@ -327,12 +342,14 @@ f:c04fa9aa2678bb781466d3dfae659d24:python2-urwid/spkgbuild
 f:604967db0b99bcfddf5e069e26672f22:elinks/spkgbuild
 f:630d6c7db9c73b6c50645cfc4664410d:mesa-demos/spkgbuild
 f:3addccca77db54e00dfccf64fc88c609:python3-pypeg2/spkgbuild
+f:51dc1b7956eb9ee8cc807ae1334c29d4:icoutils/spkgbuild
 f:2331de72e4700f17e21480a0ecff0d2c:tint2/spkgbuild
 f:18bbfdb87530d7bcedd7dc930112e92c:libfakekey/spkgbuild
 f:45d91d3723575e6930d615e7ae6c3e80:python3-sip/spkgbuild
 f:e571e90bfd96fc06c85b1871f792b318:reaver/spkgbuild
 f:059726a70e61b908f29b2ad66d2526b3:python2-pyparsing/spkgbuild
 f:3de4b617386b718bdb041903f3006307:xbindkeys/spkgbuild
+f:135547afabb6cebb3de400a8b36c4d07:xbps/spkgbuild
 f:4ff1b2a7aaf6f837a821a2ab4a21de07:squashfs-tools/squashfs-tools-4.3-sysmacros.patch
 f:f963f6d83ff2df9e1512361e88fded7c:squashfs-tools/spkgbuild
 f:f7074e8eaccc831fc413cf8553614f06:waterfox-bin/waterfox.desktop
@@ -365,6 +382,7 @@ f:e4d145c85c427eaca40d8a6340448b99:libsamplerate/spkgbuild
 f:51d3232df8a5e0331d2c72948604af85:xlsfonts/spkgbuild
 f:950f051701bf44f4aa725e59599a1127:python2-setuptools/spkgbuild
 f:9acc376abb7c54fd2cbc14a3e4d9b74a:plank/spkgbuild
+f:16b93271f3111351107bf979f15eeeec:wine-mono/spkgbuild
 f:be784408d69b4eca72333db8c2e0c743:awesome-font/spkgbuild
 f:7de90bdeb67f8616830455e3719f1bfc:python3-pip/spkgbuild
 f:8197fd127d328d804b8d4d0a52b19bd4:python3-packaging/spkgbuild
@@ -440,6 +458,7 @@ f:e4a9cc205987f623139b8a70e7251b42:mpv/spkgbuild
 f:96bc8408182e11afc5156506513921df:fakeroot/spkgbuild
 f:5fba0b541b5af39d804265223fda525c:fakeroot/silence-dlerror.patch
 f:d96b004e73cda4cd43e4ef39e1114d3a:help2man/spkgbuild
+f:d6e0c32a82ad53a23c63268ae029d965:python2-wxpython3/spkgbuild
 f:378b05932c7ea56f39dfe680ffc8266b:python2-urllib3/spkgbuild
 f:97890691a1f8f1f7fb58e48c3140fdaa:linux-lts/linux.hook
 f:1f43a362e008bed914d0d1f8a4bbe6f3:linux-lts/spkgbuild
@@ -448,8 +467,11 @@ f:9b551473a81d9c423f21e6d9414b2b96:linux-lts/install
 f:a81ecfd86021afd750cdf3372104bfdf:noto-fonts-extra/spkgbuild
 f:e4b721d3ac06075262798abac0e667b0:freeglut/spkgbuild
 f:7e8f3bcdda7f32275be344e4ed68ffe7:ruby-ffi/spkgbuild
+f:b6c31d0b1c04a20a558d3b6f88697bd2:busybox/spkgbuild
+f:ddf87daed0dadbe37e4fc4f043159036:busybox/config
 f:3e00308ac547638cbb8ca878d2e48ba3:os-prober/spkgbuild
 f:915d2f120ed47c1e98e231bba7a763b4:dfc/spkgbuild
+f:881c2e9bf49b366354f6160f07504863:gnu-netcat/spkgbuild
 f:0385e5cc70355938b7f9f377073f9cd9:ck4up/spkgbuild
 f:2925b8d8c8c815dea43bdc90b30dcece:python3-pysocks/spkgbuild
 f:7183338bcfb349ead9295a7f80f420c3:volumeicon/spkgbuild
@@ -481,8 +503,10 @@ f:b01255e0de1bfc299df4940f58fae690:ncdu/spkgbuild
 f:2be5a57e477adf82a7d9b7fe77f22086:dropbox/dropbox.png
 f:f3350cc0fb7b5f4fb6f2c0adda7e1260:dropbox/dropbox.desktop
 f:9f0631549fc05972ecd827d9946537fa:dropbox/spkgbuild
+f:36c5d7f19b7fa4d1906ed85ac29a4315:opencl-headers/spkgbuild
 f:2595dfceb79f3b625dba7c40d1dc8f90:vtclock/spkgbuild
 f:16370a81ac27cea49b1d7364e5f800df:uget/spkgbuild
+f:8d8adba0ddcac952a4fa987c07d3a4a9:wine-gecko/spkgbuild
 f:36761a4222d6b6b3919855b4391d1326:python3-jinja2/spkgbuild
 f:a8fd3421b163421ea7990668c634d406:gmrun/gcc43.patch
 f:93bb21b42cb6e06adac40f69b2962f04:gmrun/spkgbuild
@@ -505,6 +529,7 @@ f:37711181adee8b1d6a7f937fd8bbb22b:python2-appdirs/spkgbuild
 f:de9bb96e582204a0dda797edf05a4764:tty-clock/spkgbuild
 f:69ad5cbf6d1135c6c35b3ea6e1c079ab:numix-icon-theme/spkgbuild
 f:450fdad4a66e15cea9b6956af8bd1029:python3-pygments/spkgbuild
+f:2ca8c4e2ae91695611a7c2e0ada0b94c:wine/spkgbuild
 f:b03ff4236a99989c9337f5a15aef8ca2:optipng/spkgbuild
 f:cdb8e2e57109b573328beaba31a177ac:celt/spkgbuild
 f:bd4d2a6296f0691d6a06e6fa05930158:obkey/spkgbuild
@@ -554,6 +579,7 @@ f:697dbc5871be97b1d8860e34a7491f7d:firefox-esr-bin/firefox-esr.desktop
 f:8e79960212c996679484026bcf7fffb0:firefox-esr-bin/firefox-esr-safe.desktop
 f:a09c13f27cf47f2ef314a935ac65655b:firefox-esr-bin/spkgbuild
 f:045dd1924507a8e8ef73f4002be0a02b:cmus/spkgbuild
+f:be696731611050aa35b9b29babb65f5e:playonlinux/spkgbuild
 f:7c9173c32227cdbefb05f450050548f8:pacmixer/spkgbuild
 f:3c667bec5a0aece7025b2035308d2b74:python3-urllib3/spkgbuild
 f:819c36437d9104f2d7dbd99e0c95914f:acpi/spkgbuild
@@ -572,6 +598,7 @@ f:ea893561a9d021c7b21fa8de5846ef1d:noto-fonts/spkgbuild
 f:d1c1f1fdd1ee428b9317de9e639d7544:noto-fonts/66-noto-sans.conf
 f:fa93a0c669b5f0cd8b9be4c8eecf5cdd:telegram-desktop-bin/telegram-desktop-bin.desktop
 f:27a77cf389ecc2683b3366537d9a61f8:telegram-desktop-bin/spkgbuild
+f:8e5a941ddba7b200492fc880338e8ee8:wxgtk3/spkgbuild
 f:b55b5a98eafc8d69082a0a3e75a903e2:conky/spkgbuild
 f:0979e41e06b551cca534e595b0914cfd:conky/out_to_x.patch
 f:44cdadfe92266e99698e5424b7c6e265:conky/lua53.patch

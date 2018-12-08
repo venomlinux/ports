@@ -1,0 +1,24 @@
+# description	: Console-based MP3 player
+# homepage	: https://sourceforge.net/projects/mpg123
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: mpg123 alsa-lib-32 sdl-32
+
+name=mpg123-32
+version=1.25.10
+release=1
+source=(https://downloads.sourceforge.net/mpg123/mpg123-$version.tar.bz2)
+md5sum=(ea32caa61d41d8be797f0b04a1b43ad9)
+
+build() {
+	cd mpg123-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr --libdir=/usr/lib32 --with-audio="alsa sdl" --with-cpu=i586
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/{bin,share,include}
+}

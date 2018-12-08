@@ -1,0 +1,73 @@
+# description	: Implementation of Windows DLL's and core
+# depends	: alsa-lib-32 dbus-32 gnutls-32 opencl-headers glu-32 libxslt-32 v4l-utils-32 libjpeg-turbo-32 libtiff-32 lcms2-32
+
+name=wine
+version=3.0.4
+release=1
+source=(https://dl.winehq.org/wine/source/${version::3}/$name-$version.tar.xz)
+md5sum=(21f71387f4975493c392e3019f5d536b)
+
+### NOTE ###
+#
+## list 64 bit dependencies package not created yet ##
+#
+# OpenCL 64-bit development files not found, OpenCL won't be supported.
+# pcap 64-bit development files not found, wpcap won't be supported.
+# libhal 64-bit development files not found, no legacy dynamic device support.
+# libsane 64-bit development files not found, scanners won't be supported.
+# libgphoto2 64-bit development files not found, digital cameras won't be supported.
+# libgphoto2_port 64-bit development files not found, digital cameras won't be auto-detected.
+# OSS sound system found but too old (OSSv4 needed), OSS won't be supported.
+# libcapi20 64-bit development files not found, ISDN won't be supported.
+# libgsm 64-bit development files not found, gsm 06.10 codec won't be supported.
+# libkrb5 64-bit development files not found, Kerberos won't be supported.
+# libopenal 64-bit development files not found (or too old), OpenAL won't be supported.
+# openal-soft 64-bit development files not found (or too old), XAudio2 won't be supported.
+# libldap (OpenLDAP) 64-bit development files not found, LDAP won't be supported.
+#
+## list 32 bit dependencies package not created yet ##
+#
+# OpenCL 32-bit development files not found, OpenCL won't be supported.
+# pcap 32-bit development files not found, wpcap won't be supported.
+# libhal 32-bit development files not found, no legacy dynamic device support.
+# libsane 32-bit development files not found, scanners won't be supported.
+# libgphoto2 32-bit development files not found, digital cameras won't be supported.
+# libgphoto2_port 32-bit development files not found, digital cameras won't be auto-detected.
+# libpulse 32-bit development files not found or too old, Pulse won't be supported.
+# gstreamer-1.0 base plugins 32-bit development files not found, GStreamer won't be supported.
+# OSS sound system found but too old (OSSv4 needed), OSS won't be supported.
+# libcapi20 32-bit development files not found, ISDN won't be supported.
+# libcups 32-bit development files not found, CUPS won't be supported.
+# libgsm 32-bit development files not found, gsm 06.10 codec won't be supported.
+# libkrb5 32-bit development files not found, Kerberos won't be supported.
+# libopenal 32-bit development files not found (or too old), OpenAL won't be supported.
+# openal-soft 32-bit development files not found (or too old), XAudio2 won't be supported.
+# libldap (OpenLDAP) 32-bit development files not found, LDAP won't be supported.
+#
+
+build() {
+	cd $name-$version
+
+	mkdir build64 build32
+	cd build64
+
+	../configure \
+		--prefix=/usr \
+		--libdir=/usr/lib \
+		--with-x \
+		--enable-win64
+	make
+	make DESTDIR=$PKG install
+
+	cd ../build32
+
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	../configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32 \
+		--with-x \
+		--with-wine64=../build64
+	make
+	make DESTDIR=$PKG install
+}

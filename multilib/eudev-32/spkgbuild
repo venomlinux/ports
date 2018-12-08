@@ -1,0 +1,26 @@
+# description	: Programs for dynamic creation of device nodes
+# depends	: eudev kmod-32
+
+name=eudev-32
+version=3.2.7
+release=1
+source=(https://dev.gentoo.org/~blueness/eudev/eudev-$version.tar.gz)
+md5sum=(c75d99910c1791dd9430d26ab76059c0)
+
+build() {
+	cd eudev-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr           \
+	            --libdir=/usr/lib32     \
+	            --sysconfdir=/etc       \
+	            --with-rootprefix=      \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{bin,sbin,share,include,lib32/udev} $PKG/etc
+}

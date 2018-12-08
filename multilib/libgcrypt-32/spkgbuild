@@ -1,0 +1,24 @@
+# description	: A general purpose crypto library based on the code used in GnuPG
+# homepage	: https://www.gnupg.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libgcrypt
+
+name=libgcrypt-32
+version=1.8.4
+release=1
+source=(ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-$version.tar.bz2)
+md5sum=(fbfdaebbbc6d7e5fbbf6ffdb3e139573)
+
+build() {
+	cd libgcrypt-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+  	./configure --prefix=/usr --libdir=/usr/lib32 --disable-asm
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{bin,share,include}
+}

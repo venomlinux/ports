@@ -1,0 +1,27 @@
+# description	: Cross-platform library designed to make it easy to write multimedia software
+# homepage	: https://www.libsdl.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: sdl
+
+name=sdl-32
+version=1.2.15
+release=1
+source=(https://www.libsdl.org/release/SDL-$version.tar.gz)
+md5sum=(9d96df8417572a2afb781a7c4c811a85)
+
+build() {
+	cd SDL-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+	
+	sed -e '/_XData32/s:register long:register _Xconst long:' \
+	    -i src/video/x11/SDL_x11sym.h
+
+	./configure --prefix=/usr --libdir=/usr/lib32 --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/{bin,share,include}
+}

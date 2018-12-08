@@ -1,0 +1,32 @@
+# description	: Message bus system, a simple way for applications to talk to one another
+# depends	: dbus
+
+name=dbus-32
+version=1.12.10
+release=1
+source=(https://dbus.freedesktop.org/releases/dbus/dbus-$version.tar.gz)
+md5sum=(c3e12b4206e2a7da39d7cc42567790ef)
+
+build() {
+	cd dbus-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr                  \
+		    --libdir=/usr/lib32            \
+		    --libexecdir=/usr/lib32/dbus   \
+	            --sysconfdir=/etc              \
+	            --localstatedir=/var           \
+	            --disable-doxygen-docs         \
+	            --disable-xml-docs             \
+	            --disable-static               \
+	            --with-console-auth-dir=/run/console \
+	            --with-system-pid-file=/run/dbus/pid \
+	            --with-system-socket=/run/dbus/system_bus_socket
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/var $PKG/etc $PKG/usr/{bin,share,include}
+}

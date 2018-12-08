@@ -1,0 +1,27 @@
+# description	: Well-groomed and well-maintained collection of GStreamer plug-ins and elements
+# homepage	: https://gstreamer.freedesktop.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gst-plugins-base gstreamer-32
+
+name=gst-plugins-base-32
+version=1.14.2
+release=1
+source=(http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-$version.tar.xz)
+md5sum=(8bc790d623350cd8eac68d3a13d79f7d)
+
+build() {
+	cd gst-plugins-base-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr \
+		    --libdir=/usr/lib32 \
+		    --with-package-name="GStreamer Base Plugins $version (Venom)" \
+		    --disable-examples
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/{bin,share,include}
+}

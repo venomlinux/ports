@@ -1,0 +1,18 @@
+# description	: GNU rewrite of netcat, the network piping application
+# depends	: texinfo
+
+name=gnu-netcat
+version=0.7.1
+release=1
+source=(http://downloads.sourceforge.net/sourceforge/netcat/netcat-$version.tar.bz2)
+md5sum=(0a29eff1736ddb5effd0b1ec1f6fe0ef)
+
+build() {
+	cd netcat-$version
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info
+	make
+	make DESTDIR=$PKG install
+}

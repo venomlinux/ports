@@ -1,0 +1,29 @@
+# description	: Provides a way to load and enumerate PKCS #11 (a Cryptographic Token Interface Standard) modules
+# homepage	: https://github.com/p11-glue/p11-kit/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: p11-kit
+
+name=p11-kit-32
+version=0.23.14
+release=1
+source=(https://github.com/p11-glue/p11-kit/releases/download/$version/p11-kit-$version.tar.gz)
+md5sum=(85e1cdb5fce0087711ba2521975f0420)
+
+build() {
+	cd p11-kit-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32 \
+		--libexecdir=/usr/lib32 \
+		--sysconfdir=/etc \
+		--with-trust-paths=/etc/pki/anchors	
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/etc $PKG/usr/{bin,share,include}
+}

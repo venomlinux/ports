@@ -1,0 +1,17 @@
+# description	: Utilities for rescue and embedded systems
+# depends	: ncurses glibc
+
+name=busybox
+version=1.29.3
+release=1
+source=(https://www.busybox.net/downloads/$name-$version.tar.bz2
+	config)
+md5sum=(0a367e19cdfd157e8258d87f893ee516
+	ddf87daed0dadbe37e4fc4f043159036)
+
+build() {
+	cd $name-$version
+	cp $SRC/config .config
+	make
+	install -Dm0755 busybox $PKG/bin/busybox
+}

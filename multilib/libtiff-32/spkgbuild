@@ -1,0 +1,29 @@
+# description	: TIFF libraries and associated utilities
+# homepage	: http://www.libtiff.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: cmake ninja libtiff
+
+name=libtiff-32
+version=4.0.10
+release=1
+source=(https://download.osgeo.org/$name/tiff-$version.tar.gz)
+md5sum=(114192d7ebe537912a2b97408832e7fd)
+
+build() {
+	cd tiff-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	./configure \
+	    --prefix=/usr \
+	    --sysconfdir=/etc \
+	    --mandir=/usr/share/man \
+	    --libdir=/usr/lib32 \
+	    --includedir=/usr/include/libtiff32
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/{bin,share}
+}

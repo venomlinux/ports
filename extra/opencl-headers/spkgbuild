@@ -1,0 +1,26 @@
+# description	: OpenCL (Open Computing Language) header files
+# depends	: python3
+
+name=opencl-headers
+version=20181101
+release=1
+_commit=03490c3f8cb3b8667942b084a3151de20649f57a
+_commit2=a807dcf0f8623d40dc5ce9d1eb00ffd0e46150c7
+source=(OpenCL-Headers.tar.gz::https://github.com/KhronosGroup/OpenCL-Headers/archive/$_commit.tar.gz
+	OpenCL-CLHPP.tar.gz::https://github.com/KhronosGroup/OpenCL-CLHPP/archive/$_commit2.tar.gz)
+md5sum=(ee261fe9518faa51275f14e2d73c9685
+	26cf1214330640a1cf38ad7388c588d8)
+
+build() {
+	cd OpenCL-Headers-$_commit/CL
+	install -dm755 $PKG/usr/include/CL
+
+	for h in *.h; do
+		install -m 644 $h $PKG/usr/include/CL/
+	done
+
+	cd $SRC/OpenCL-CLHPP-$_commit2
+	python3 gen_cl_hpp.py -i input_cl.hpp -o cl.hpp
+	install -m 644 cl.hpp $PKG/usr/include/CL/
+	install -m 644 input_cl2.hpp $PKG/usr/include/CL/cl2.hpp
+}

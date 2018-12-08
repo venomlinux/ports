@@ -1,0 +1,28 @@
+# description	: Low-level cryptographic library that is designed to fit easily in many contexts
+# homepage	: https://www.lysator.liu.se/~nisse/nettle/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: nettle
+
+name=nettle-32
+version=3.4
+release=1
+source=(https://ftp.gnu.org/gnu/nettle/nettle-$version.tar.gz)
+md5sum=(dc0f13028264992f58e67b4e8915f53d)
+
+build() {
+	cd nettle-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr \
+		    --libdir=/usr/lib32 \
+		    --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	chmod 755 $PKG/usr/lib32/lib{hogweed,nettle}.so
+
+	rm -fr $PKG/usr/{bin,share,include}
+}
