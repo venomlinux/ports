@@ -2,19 +2,15 @@
 # depends	: docbook-xml python3 libxml2
 
 name=itstool
-version=2.0.4
-release=2
-source=(http://files.itstool.org/$name/$name-$version.tar.bz2
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-segfault-1.patch)
+version=2.0.5
+release=1
+source=(http://files.itstool.org/$name/$name-$version.tar.bz2)
+md5sum=(655c6f78fc64faee45adcc45ccc5a57e)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../$name-$version-segfault-1.patch
 	PYTHON=/usr/bin/python3 ./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(9415ddf6a12012ff688549d2ed767bc5
-a08ab535de48caf63d07a0b4de33871c)
