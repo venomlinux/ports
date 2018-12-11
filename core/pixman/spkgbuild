@@ -3,9 +3,10 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=pixman
-version=0.34.0
+version=0.36.0
 release=1
 source=(https://cairographics.org/releases/$name-$version.tar.gz)
+md5sum=(552df0d7ccccfadd07ae3758cc9a057f)
 
 build() {
 	cd $name-$version
@@ -14,5 +15,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(e80ebae4da01e77f68744319f01d52a3)
