@@ -1,15 +1,15 @@
-# description	: Allows display of dialog boxes from the command line and shell scripts
-# depends	: gtk3 itstool
+# description	: Display graphical dialog boxes from shell scripts
+# depends	: webkitgtk libnotify itstool gnome-common
 
 name=zenity
-version=3.28.1
+version=3.30.0
 release=1
-source=(https://download.gnome.org/sources/$name/${version:0:4}/$name-$version.tar.xz)
-md5sum=(75344e6697f8f8111643d38f49a493ce)
+source=(https://github.com/GNOME/zenity/archive/ZENITY_${version//./_}.tar.gz)
+md5sum=(98ad33967b6a66b4c828944bb2bc1c83)
 
 build() {
-	cd $name-$version
-	./configure --prefix=/usr --enable-libnotify
+	cd $name-ZENITY_${version//./_}
+	./autogen.sh --prefix=/usr
 	make
 	make DESTDIR=$PKG install
 }
