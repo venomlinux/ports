@@ -1,13 +1,18 @@
 # description	: Provide a straightforward and cross-platform crypto API, using Qt datatypes and conventions
-# depends	: ca-certificates qt5 which openssl-1.0 nss cmake
+# depends	: ca-certificates qt5 which openssl nss cmake
 
 name=qca
 version=2.1.3
-release=1
-source=(http://download.kde.org/stable/qca/$version/src/$name-$version.tar.xz)
+release=2
+source=(http://download.kde.org/stable/qca/$version/src/$name-$version.tar.xz
+	$name-$version-openssl-1.patch)
+md5sum=(5019cc29efcf828681cd93164238ce26
+	59bf65f2b85f9ace7766c095a1bb653b)
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i ../$name-$version-openssl-1.patch
 
 	# Fix the location of the CA certificates
 	sed -i 's@ca-bundle.pem@ca-bundle.crt@' CMakeLists.txt
@@ -17,13 +22,9 @@ build() {
 	
 	cmake -DCMAKE_INSTALL_PREFIX=/usr	                         \
 	      -DCMAKE_BUILD_TYPE=Release                                 \
+	      -DQCA_INSTALL_IN_QT_PREFIX=ON                              \
 	      -DQCA_MAN_INSTALL_DIR:PATH=/usr/share/man                  \
-	      -DOPENSSL_INCLUDE_DIR=/usr/include/openssl-1.0             \
-	      -DOPENSSL_SSL_LIBRARY=/usr/lib/openssl-1.0/libssl.so       \
-	      -DOPENSSL_CRYPTO_LIBRARY=/usr/lib/openssl-1.0/libcrypto.so \
 	      .. 
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(5019cc29efcf828681cd93164238ce26)
