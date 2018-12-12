@@ -3,13 +3,13 @@
 
 name=engrampa
 version=1.20.1
-release=1
+release=2
 source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
 md5sum=(266c924bd208516afbabc3f5c2121684)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr
+	./configure --prefix=/usr --libexecdir=/usr/lib
 	make
 	make DESTDIR=$PKG install
 }
