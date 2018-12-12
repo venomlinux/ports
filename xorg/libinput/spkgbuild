@@ -3,19 +3,20 @@
 
 name=libinput
 version=1.12.3
-release=1
+release=2
 source=(https://www.freedesktop.org/software/libinput/libinput-$version.tar.xz)
 md5sum=(083d6bf311d5e1e3a62440dc634bb8f0)
 
 build() {
 	cd libinput-$version
 
-  	meson --prefix /usr         \
-	      -Dudev-dir=/lib/udev  \
-	      -Ddebug-gui=false     \
-	      -Dtests=false         \
+  	meson --prefix /usr \
+	      --libexecdir=/usr/lib \
+	      -Dudev-dir=/lib/udev \
+	      -Ddebug-gui=false \
+	      -Dtests=false \
 	      -Ddocumentation=false \
-	      -Dlibwacom=false      \
+	      -Dlibwacom=false \
 	      build
 	cd build
 	ninja
