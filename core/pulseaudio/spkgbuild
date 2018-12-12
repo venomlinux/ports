@@ -3,7 +3,7 @@
 
 name=pulseaudio
 version=12.2
-release=1
+release=2
 source=(https://www.freedesktop.org/software/pulseaudio/releases/$name-$version.tar.xz)
 md5sum=(c42f1f1465e8df9859d023dc184734bf)
 
@@ -12,6 +12,7 @@ build() {
 
 	./configure --prefix=/usr        \
                     --sysconfdir=/etc    \
+		    --libexecdir=/usr/lib \
                     --localstatedir=/var \
                     --disable-bluez4     \
                     --disable-bluez5     \
