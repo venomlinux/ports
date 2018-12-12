@@ -5,8 +5,9 @@
 
 name=xf86-video-intel
 version=20180223
-release=1
+release=2
 source=(http://anduin.linuxfromscratch.org/BLFS/xf86-video-intel/xf86-video-intel-$version.tar.xz)
+md5sum=(bca9c6bbada7dc5a19252e930c1bc587)
 
 build() {
 	cd xf86-video-intel-$version
@@ -14,6 +15,7 @@ build() {
   	./autogen.sh \
 		--prefix=/usr \
 		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name \
 		--localstatedir=/var \
 		--disable-static \
 		--enable-kms-only \
@@ -27,5 +29,3 @@ build() {
 
 	sed -i '/\.TH/s/4/1/' $PKG/usr/share/man/man1/intel-virtual-output.1
 }
-
-md5sum=(bca9c6bbada7dc5a19252e930c1bc587)
