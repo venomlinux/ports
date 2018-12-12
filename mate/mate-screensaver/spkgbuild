@@ -3,13 +3,17 @@
 
 name=mate-screensaver
 version=1.20.2
-release=1
+release=2
 source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
 md5sum=(e4b32ef2f4309736ce1b555e4faceed5)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib \
+		--localstatedir=/var
 	make
 	make DESTDIR=$PKG install
 }
