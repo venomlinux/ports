@@ -3,8 +3,9 @@
 
 name=gawk
 version=4.2.1
-release=1
+release=2
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(95cf553f50ec9f386b5dfcd67f30180a)
 
 build() {
 	cd $name-$version
@@ -12,11 +13,10 @@ build() {
 	# ensure some unneeded files are not installed
 	sed -i 's/extras//' Makefile.in
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr --libexecdir=/usr/lib
 	make
 	make DESTDIR=$PKG install
 
 	# remove trash
 	rm -fr $PKG/usr/etc
 }
-md5sum=(95cf553f50ec9f386b5dfcd67f30180a)
