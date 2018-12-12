@@ -5,7 +5,7 @@
 
 name=findutils
 version=4.6.0
-release=1
+release=2
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
 md5sum=(9936aa8009438ce185bea2694a997fc1)
 
@@ -18,7 +18,7 @@ build() {
 	sed -i '/unistd/a #include <sys/sysmacros.h>' gl/lib/mountlist.c
 	echo "#define _IO_IN_BACKUP 0x100" >> gl/lib/stdio-impl.h
 
-	./configure --prefix=/usr --localstatedir=/var/lib/locate
+	./configure --prefix=/usr --libexecdir=/usr/lib/$name --localstatedir=/var/lib/locate
 	make
 	make DESTDIR=$PKG install
 
