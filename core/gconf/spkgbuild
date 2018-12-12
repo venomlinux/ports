@@ -5,13 +5,15 @@
 
 name=gconf
 version=3.2.6
-release=1
+release=2
 source=(https://ftp.gnome.org/pub/gnome/sources/GConf/${version::3}/GConf-$version.tar.xz)
+md5sum=(2b16996d0e4b112856ee5c59130e822c)
 
 build() {
 	cd GConf-$version
 	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
+		    --libexecdir=/usr/lib/$name \
 	            --disable-orbit \
 	            --disable-static
 	make
@@ -19,5 +21,3 @@ build() {
 
 	ln -s gconf.xml.defaults $PKG/etc/gconf/gconf.xml.system
 }
-
-md5sum=(2b16996d0e4b112856ee5c59130e822c)
