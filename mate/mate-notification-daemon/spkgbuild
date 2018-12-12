@@ -1,15 +1,14 @@
 # description	: Notification daemon for MATE
-# depends	: 
 
 name=mate-notification-daemon
 version=1.20.1
-release=1
+release=2
 source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
 md5sum=(917b307454c289c852c2b678511e484e)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr
+	./configure --prefix=/usr --libexecdir=/usr/lib/$name
 	make
 	make DESTDIR=$PKG install
 }
