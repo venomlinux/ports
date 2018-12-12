@@ -4,7 +4,7 @@
 
 name=gvfs
 version=1.36.2
-release=3
+release=4
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz
 	gvfsd.hook)
 md5sum=(10b84073fe5f3d540abd9d36ed342b37
@@ -27,6 +27,7 @@ build() {
 	
 	meson --prefix=/usr     \
 	      --sysconfdir=/etc \
+	      --libexecdir=/usr/lib \
 	      -Dsystemduserunitdir=no \
 	      -Dtmpfilesdir=no  \
 	      -Dlogind=false    \
