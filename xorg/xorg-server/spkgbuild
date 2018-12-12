@@ -3,7 +3,7 @@
 
 name=xorg-server
 version=1.20.3
-release=1
+release=2
 source=(http://ftp.x.org/pub/individual/xserver/$name-$version.tar.bz2)
 md5sum=(8ee29e8b24cef6b3cfa747ec01b9155a)
 
@@ -13,6 +13,7 @@ build() {
   	./configure \
 		--prefix=/usr			\
 		--sysconfdir=/etc		\
+	        --libexecdir=/usr/lib           \
 		--localstatedir=/var		\
 		--disable-static		\
 		--enable-glamor			\
