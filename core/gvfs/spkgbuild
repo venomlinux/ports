@@ -27,7 +27,7 @@ build() {
 	
 	meson --prefix=/usr     \
 	      --sysconfdir=/etc \
-	      --libexecdir=/usr/lib \
+	      --libexecdir=/usr/lib/$name \
 	      -Dsystemduserunitdir=no \
 	      -Dtmpfilesdir=no  \
 	      -Dlogind=false    \
