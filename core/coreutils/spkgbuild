@@ -5,7 +5,7 @@
 
 name=coreutils
 version=8.30
-release=2
+release=3
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-i18n-1.patch)
 md5sum=(ab06d68949758971fe744db66b572816
@@ -20,9 +20,11 @@ build() {
 	sed -i '/test.lock/s/^/#/' gnulib-tests/gnulib.mk
 
 	autoreconf -fiv
-	FORCE_UNSAFE_CONFIGURE=1 ./configure \
-	            --prefix=/usr            \
-	            --enable-no-install-program=kill,uptime
+	FORCE_UNSAFE_CONFIGURE=1 \
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+		--enable-no-install-program=kill,uptime
 	FORCE_UNSAFE_CONFIGURE=1 make
 	make DESTDIR=$PKG install
 
