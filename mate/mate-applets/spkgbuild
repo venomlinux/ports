@@ -3,13 +3,16 @@
 
 name=mate-applets
 version=1.20.2
-release=1
+release=2
 source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
 md5sum=(01f189fd7cad20cd88e125179888a249)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --sysconfdir=/etc
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name
 	make
 	make DESTDIR=$PKG install
 }
