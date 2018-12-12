@@ -5,17 +5,18 @@
 
 name=gcr
 version=3.28.0
-release=1
+release=2
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(5321319307dad34dca2fd52e7c9c01ab)
 
 build() {
 	cd $name-$version
 
 	sed -i -r 's:"(/desktop):"/org/gnome\1:' schema/*.xml
-	./configure --prefix=/usr     \
-	            --sysconfdir=/etc
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(5321319307dad34dca2fd52e7c9c01ab)
