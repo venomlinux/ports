@@ -3,13 +3,13 @@
 
 name=atril
 version=1.20.2
-release=1
+release=2
 source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
 md5sum=(a86dfcd89ab246a5a5ff315d2136bc90)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr
+	./configure --prefix=/usr --libexecdir=/usr/lib/$name
 	make
 	make DESTDIR=$PKG install
 }
