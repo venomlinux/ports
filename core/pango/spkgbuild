@@ -3,7 +3,7 @@
 
 name=pango
 version=1.42.4
-release=1
+release=2
 source=(https://ftp.gnome.org/pub/gnome/sources/pango/${version::4}/$name-$version.tar.xz)
 md5sum=(deb171a31a3ad76342d5195a1b5bbc7c)
 
@@ -13,7 +13,11 @@ build() {
 	mkdir build
 	cd    build
 
-	meson --prefix=/usr --sysconfdir=/etc ..
+	meson \
+	--prefix=/usr \
+	--sysconfdir=/etc \
+	--libexecdir=/usr/lib/$name \
+	..
 	ninja
 	DESTDIR=$PKG ninja install
 }
