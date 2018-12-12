@@ -3,13 +3,16 @@
 
 name=mate-utils
 version=1.20.1
-release=1
+release=2
 source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
 md5sum=(0190dddf5e0433db6581fbcd41910492)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --sysconfdir=/etc
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name
 	make
 	make DESTDIR=$PKG install
 }
