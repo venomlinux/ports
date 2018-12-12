@@ -5,7 +5,7 @@
 
 name=at-spi2-core
 version=2.30.0
-release=1
+release=2
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
 md5sum=(d4f22c66b3210ffe6b10d01c04e008b5)
 
@@ -15,7 +15,10 @@ build() {
 	mkdir build
 	cd    build
 
-	meson --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib ..
+	meson --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --libexecdir=/usr/lib/$name ..
 	ninja
 	DESTDIR=$PKG ninja install
+
+	# remove systemd files
+	rm -fr $PKG/usr/lib/systemd/
 }
