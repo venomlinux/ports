@@ -3,7 +3,7 @@
 
 name=openssh
 version=7.9p1
-release=2
+release=3
 source=(https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
 	sshd.rc
 	$name.sysusers)
@@ -16,6 +16,7 @@ build() {
 
 	./configure --prefix=/usr                     \
 	            --sysconfdir=/etc/ssh             \
+		    --libexecdir=/usr/lib/$name       \
 	            --with-md5-passwords              \
 	            --with-privsep-path=/var/lib/sshd
 	make
