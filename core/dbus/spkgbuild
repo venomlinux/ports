@@ -3,7 +3,7 @@
 
 name=dbus
 version=1.12.10
-release=2
+release=3
 source=(https://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz
 	$name.rc)
 md5sum=(c3e12b4206e2a7da39d7cc42567790ef
@@ -12,20 +12,22 @@ md5sum=(c3e12b4206e2a7da39d7cc42567790ef
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr                  \
-	            --sysconfdir=/etc              \
-	            --localstatedir=/var           \
-	            --disable-doxygen-docs         \
-	            --disable-xml-docs             \
-	            --disable-static               \
-	            --with-console-auth-dir=/run/console \
-	            --with-system-pid-file=/run/dbus/pid \
-	            --with-system-socket=/run/dbus/system_bus_socket
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name \
+		--localstatedir=/var \
+		--disable-doxygen-docs \
+		--disable-xml-docs \
+		--disable-static \
+		--with-console-auth-dir=/run/console \
+		--with-system-pid-file=/run/dbus/pid \
+		--with-system-socket=/run/dbus/system_bus_socket
 	make
 	make DESTDIR=$PKG install
 
-	chown -v root:messagebus $PKG/usr/libexec/dbus-daemon-launch-helper
-	chmod -v      4750       $PKG/usr/libexec/dbus-daemon-launch-helper
+	chown -v root:messagebus $PKG/usr/lib/$name/dbus-daemon-launch-helper
+	chmod -v      4750       $PKG/usr/lib/$name/dbus-daemon-launch-helper
 
 	install -d $PKG/etc/dbus-1
 	cat > $PKG/etc/dbus-1/session-local.conf << "EOF"
