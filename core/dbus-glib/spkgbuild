@@ -5,17 +5,17 @@
 
 name=dbus-glib
 version=0.110
-release=1
+release=2
 source=(http://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz)
+md5sum=(d7cebf1d69445cbd28b4983392145192)
 
 build() {
 	cd $name-$version
 
-  	./configure --prefix=/usr     \
+  	./configure --prefix=/usr \
+		    --libexecdir=/usr/lib/$name \
 	            --sysconfdir=/etc \
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(d7cebf1d69445cbd28b4983392145192)
