@@ -3,7 +3,7 @@
 
 name=colord
 version=1.4.3
-release=2
+release=3
 source=(https://www.freedesktop.org/software/colord/releases/$name-$version.tar.xz
 	$name.sysusers)
 md5sum=(f032ecac927e9078c41fff97800441e8
@@ -15,16 +15,17 @@ build() {
 	mkdir build
 	cd    build
 	
-	meson --prefix=/usr            \
-	      --sysconfdir=/etc        \
-	      --localstatedir=/var     \
-	      -Ddaemon_user=colord     \
-	      -Dvapi=true              \
-	      -Dsystemd=false          \
-	      -Dlibcolordcompat=true   \
+	meson --prefix=/usr \
+	      --sysconfdir=/etc \
+	      --libexecdir=/usr/lib/$name \
+	      --localstatedir=/var \
+	      -Ddaemon_user=colord \
+	      -Dvapi=true \
+	      -Dsystemd=false \
+	      -Dlibcolordcompat=true \
 	      -Dargyllcms_sensor=false \
-	      -Dbash_completion=false  \
-	      -Ddocs=false             \
+	      -Dbash_completion=false \
+	      -Ddocs=false \
 	      -Dman=false ..
 	ninja
 	DESTDIR=$PKG ninja install
