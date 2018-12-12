@@ -5,7 +5,7 @@
 
 name=udisks2
 version=2.8.1
-release=1
+release=2
 source=(https://github.com/storaged-project/udisks/releases/download/udisks-$version/udisks-$version.tar.bz2)
 md5sum=(aefebdb5a082f99b4f86cadc41352b3d)
 
@@ -14,6 +14,7 @@ build() {
 
 	./configure --prefix=/usr        \
 	            --sysconfdir=/etc    \
+		    --libexecdir=/usr/lib \
 	            --localstatedir=/var \
 	            --disable-static	 \
 		    --disable-man
