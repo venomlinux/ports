@@ -3,7 +3,7 @@
 
 name=gdk-pixbuf
 version=2.38.0
-release=1
+release=2
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz
 	gdk-pixbuf.hook)
 md5sum=(77765f24496dc8c90c6e0cbe10fd8f0e
@@ -15,7 +15,7 @@ build() {
 	mkdir build
 	cd build
 	
-	meson --prefix=/usr -Djasper=true ..
+	meson --prefix=/usr --libexecdir=/usr/lib/$name -Djasper=true ..
 	ninja
 	DESTDIR=$PKG ninja install
 
