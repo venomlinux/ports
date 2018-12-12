@@ -5,7 +5,7 @@
 
 name=consolekit2
 version=1.2.1
-release=1
+release=2
 source=(https://github.com/Consolekit2/ConsoleKit2/releases/download/$version/ConsoleKit2-$version.tar.bz2
 	pam-foreground-compat.ck)
 md5sum=(17d31475f9b08969e55ea60750f4f219
@@ -14,14 +14,16 @@ md5sum=(17d31475f9b08969e55ea60750f4f219
 build() {
 	cd ConsoleKit2-$version
 
-	./configure --prefix=/usr        \
-	            --sysconfdir=/etc    \
-	            --localstatedir=/var \
-	            --enable-udev-acl    \
-	            --enable-pam-module  \
-	            --enable-polkit      \
-	            --with-xinitrc-dir=/etc/X11/app-defaults/xinitrc.d \
-	            --with-systemdsystemunitdir=no
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib \
+		--localstatedir=/var \
+		--enable-udev-acl \
+		--enable-pam-module \
+		--enable-polkit \
+		--with-xinitrc-dir=/etc/X11/app-defaults/xinitrc.d \
+		--with-systemdsystemunitdir=no
 	make
 	make DESTDIR=$PKG install
 
