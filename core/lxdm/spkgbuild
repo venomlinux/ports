@@ -6,7 +6,7 @@
 
 name=lxdm
 version=0.5.3
-release=6
+release=7
 source=(https://downloads.sourceforge.net/$name/$name-$version.tar.xz
 	$name.rc)
 md5sum=(061caae432634e6db38bbdc84bc6ffa0
@@ -40,11 +40,12 @@ sed -e 's/^bg/#&/'        \
     -e "/arg=/a arg=/usr/bin/X" \
     -i data/lxdm.conf.in
 
-	./configure --prefix=/usr     \
+	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
-	            --with-pam        \
-		    --disable-nls     \
-		    --enable-gtk3     \
+		    --libexecdir=/usr/lib/$name \
+	            --with-pam \
+		    --disable-nls \
+		    --enable-gtk3 \
 	            --with-systemdsystemunitdir=no
 	make
 	make DESTDIR=$PKG install
