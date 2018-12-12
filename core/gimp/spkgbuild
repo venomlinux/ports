@@ -5,7 +5,7 @@
 
 name=gimp
 version=2.10.6
-release=1
+release=2
 source=(https://download.gimp.org/pub/$name/v${version%.*}/$name-$version.tar.bz2)
 md5sum=(6e92c1e2ccee90b4075547fc3d129ca1)
 
@@ -14,7 +14,8 @@ build() {
 
 	./configure \
 		--prefix=/usr \
-		--sysconfdir=/etc
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name
 	make
 	make DESTDIR=$PKG install
 }
