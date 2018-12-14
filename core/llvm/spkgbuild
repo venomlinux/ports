@@ -3,7 +3,7 @@
 
 name=llvm
 version=7.0.0
-release=2
+release=3
 source=(http://llvm.org/releases/$version/$name-$version.src.tar.xz
 	http://llvm.org/releases/$version/cfe-$version.src.tar.xz
 	http://llvm.org/releases/$version/compiler-rt-$version.src.tar.xz
@@ -11,7 +11,7 @@ source=(http://llvm.org/releases/$version/$name-$version.src.tar.xz
 md5sum=(e0140354db83cdeb8668531b431398f0
 	2ac5d8d78be681e31611c5e546e11174
 	3b759c47076298363f4443395e0e51c1
-	SKIP)
+	295c343dcd457dc534662f011d7cff1a)
 
 build() {
 	cd $name-$version.src
@@ -38,4 +38,9 @@ build() {
 
 	mv $PKG/usr/include/llvm/Config/llvm-config{,-64}.h
 	cp $SRC/llvm-config.h $PKG/usr/include/llvm/Config/llvm-config.h
+
+	mkdir -p $PKG/usr/lib/llvm
+	mv $PKG/usr/libexec/{c++-analyzer,ccc-analyzer} $PKG/usr/lib/llvm
+	rmdir $PKG/usr/libexec
+	sed -i 's|libexec|lib/llvm|' $PKG/usr/bin/scan-build
 }
