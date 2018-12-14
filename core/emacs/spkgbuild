@@ -13,8 +13,9 @@ build() {
 
 	IMAGEMAGICK_CFLAGS=-I/usr/include/ImageMagick-6 \
 	IMAGEMAGICK_LIBS="-lMagickCore-6.Q16HDRI -lMagick++-6.Q16HDRI \
-		-lMagickWand-6.Q16HDRI"  \
-	./configure --prefix=/usr	 \
+		-lMagickWand-6.Q16HDRI" \
+	./configure --prefix=/usr \
+		    --with-tiff=no \
 		    --localstatedir=/var	
 	make
 	make DESTDIR=$PKG install
