@@ -4,9 +4,10 @@
 # depends	: cairomm glibmm pango
 
 name=pangomm
-version=2.40.1
+version=2.42.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(6cffedf2225c4e72645a7d757fb5b832)
 
 build() {
 	cd $name-$version
@@ -18,5 +19,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(874eadd9434613dbacf0272c82c3ac23)
