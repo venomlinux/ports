@@ -3,7 +3,7 @@
 
 name=qemu
 version=3.0.0
-release=1
+release=2
 source=(http://download.qemu-project.org/$name-$version.tar.bz2
 	$name.sysusers)
 md5sum=(25440304a1ee31935475e9aedf604d5c
@@ -15,11 +15,12 @@ build() {
 	mkdir -vp build
 	cd        build
 	
-	../configure --prefix=/usr			\
-	             --sysconfdir=/etc			\
-	             --target-list=x86_64-softmmu	\
-	             --audio-drv-list=alsa		\
-	             --with-sdlabi=2.0			\
+	../configure --prefix=/usr \
+	             --sysconfdir=/etc \
+	             --libexecdir=/usr/lib/$name \
+	             --target-list=x86_64-softmmu \
+	             --audio-drv-list=alsa \
+	             --with-sdlabi=2.0 \
 		     --disable-gtk
 	make
 	make DESTDIR=$PKG install
