@@ -5,14 +5,17 @@
 
 name=libmbim
 version=1.16.2
-release=1
+release=2
 source=(https://www.freedesktop.org/software/$name/$name-$version.tar.xz)
 md5sum=(5a70d0f8ee4b7b1530400f8db3e195b6)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --disable-static
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib/$name \
+		--disable-static
 	make
 	make DESTDIR=$PKG install
 }
