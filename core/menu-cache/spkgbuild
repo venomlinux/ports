@@ -5,16 +5,16 @@
 
 name=menu-cache
 version=1.1.0
-release=1
+release=2
 source=(https://downloads.sourceforge.net/lxde/$name-$version.tar.xz)
+md5sum=(99999a0bca48b980105208760c8fd893)
 
 build() {
 	cd $name-$version
 
 	./configure --prefix=/usr \
+	            --libexecdir=/usr/lib \
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(99999a0bca48b980105208760c8fd893)
