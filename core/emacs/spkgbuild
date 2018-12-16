@@ -4,7 +4,7 @@
 
 name=emacs
 version=26.1
-release=1
+release=2
 source=(ftp://ftp.gnu.org/gnu/emacs/$name-$version.tar.xz)
 md5sum=(649ec46965a8b842bdb2cbf7764c2a9a)
 
@@ -15,6 +15,7 @@ build() {
 	IMAGEMAGICK_LIBS="-lMagickCore-6.Q16HDRI -lMagick++-6.Q16HDRI \
 		-lMagickWand-6.Q16HDRI" \
 	./configure --prefix=/usr \
+		    --libexecdir=/usr/lib \
 		    --with-tiff=no \
 		    --localstatedir=/var	
 	make
