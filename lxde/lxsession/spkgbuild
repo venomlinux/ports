@@ -5,15 +5,17 @@
 
 name=lxsession
 version=0.5.3
-release=1
+release=2
 source=(https://downloads.sourceforge.net/lxde/$name-$version.tar.xz)
+md5sum=(823c50e6d0e4ce15a23a42e8f8bf4221)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --disable-man
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+		--disable-man
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(823c50e6d0e4ce15a23a42e8f8bf4221)
