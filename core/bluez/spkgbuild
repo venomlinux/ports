@@ -6,7 +6,7 @@
 
 name=bluez
 version=5.50
-release=2
+release=3
 source=(https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
 	$name-obexd_without_systemd-1.patch
 	bluetooth.rc
@@ -21,10 +21,11 @@ build() {
 
 	patch -Np1 -i ../$name-obexd_without_systemd-1.patch
 
-	./configure --prefix=/usr         \
-	            --sysconfdir=/etc     \
-	            --localstatedir=/var  \
-	            --enable-library      \
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+	            --libexecdir=/usr/lib \
+	            --localstatedir=/var \
+	            --enable-library \
 	            --disable-systemd
 	make
 	make DESTDIR=$PKG install
