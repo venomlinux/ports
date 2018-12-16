@@ -3,9 +3,10 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=ruby
-version=2.5.1
+version=2.5.3
 release=1
 source=(https://cache.ruby-lang.org/pub/$name/${version::3}/$name-$version.tar.xz)
+md5sum=(7eeae640892f1dc89403edcfbb901223)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(b7d48b39fd09933e232f172384d03b94)
