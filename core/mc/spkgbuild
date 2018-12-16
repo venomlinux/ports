@@ -5,16 +5,16 @@
 
 name=mc
 version=4.8.21
-release=1
+release=2
 source=(http://ftp.midnight-commander.org/$name-$version.tar.xz)
+md5sum=(743a421db8a5469bb373874cd6efbcb2)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
+	            --libexecdir=/usr/lib \
 	            --enable-charset
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(743a421db8a5469bb373874cd6efbcb2)
