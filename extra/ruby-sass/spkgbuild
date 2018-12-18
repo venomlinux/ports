@@ -6,14 +6,11 @@ name=ruby-$_name
 version=3.5.6
 release=1
 options=(!emptydirs)
-source=(${name}-${version}.tar.gz::https://github.com/sass/sass/archive/${version}.tar.gz)
-md5sum=(5d043cdcb8f9f634e448c56f33d34b80)
+source=(https://rubygems.org/downloads/$_name-$version.gem)
+md5sum=(f9b0f23f55c308cccf88d2f5e410243a)
 
 build() {
-	cd ${_name}-${version}
-
-	gem build ${_name}.gemspec
 	local _gemdir="$(gem env gemdir)"
-	gem install --ignore-dependencies --no-user-install -i "${PKG}${_gemdir}" -n "${PKG}/usr/bin" ${_name}-${version}.gem
-	rm "${PKG}/${_gemdir}/cache/${_name}-${version}.gem"
+	gem install --ignore-dependencies --no-user-install -i "$PKG/$_gemdir" -n "$PKG/usr/bin" $_name-$version.gem
+	rm "$PKG/$_gemdir/cache/$_name-$version.gem"
 }

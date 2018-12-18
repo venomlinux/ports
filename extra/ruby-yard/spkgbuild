@@ -6,14 +6,11 @@ name=ruby-$_name
 version=0.9.16
 release=1
 options=(!emptydirs)
-source=(${name}-${version}.tar.gz::https://github.com/lsegal/yard/archive/v${version}.tar.gz)
-md5sum=(586dd32ca2e91791750e7118f691eb5f)
+source=(https://rubygems.org/downloads/$_name-$version.gem)
+md5sum=(3326cf1b73fa295e96f0630f0f46db89)
 
 build() {
-	cd ${_name}-${version}
-
-	gem build ${_name}.gemspec
 	local _gemdir="$(gem env gemdir)"
-	gem install --ignore-dependencies --no-user-install -i "${PKG}${_gemdir}" -n "${PKG}/usr/bin" ${_name}-${version}.gem
-	rm "${PKG}/${_gemdir}/cache/${_name}-${version}.gem"
+	gem install --ignore-dependencies --no-user-install -i "$PKG/$_gemdir" -n "$PKG/usr/bin" $_name-$version.gem
+	rm "$PKG/$_gemdir/cache/$_name-$version.gem"
 }
