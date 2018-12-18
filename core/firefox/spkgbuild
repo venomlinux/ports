@@ -1,13 +1,13 @@
 # description	: Stand-alone browser based on the Mozilla codebase
-# depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent libvpx sqlite dbus-glib graphite2 harfbuzz unzip zip autoconf2.13 yasm rust gconf llvm cbindgen
+# depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent libvpx sqlite dbus-glib graphite2 harfbuzz unzip zip autoconf2.13 yasm rust gconf llvm cbindgen nodejs
 
 name=firefox
-version=63.0.3
+version=64.0
 release=1
 source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-system_graphite2_harfbuzz-1.patch)
-md5sum=(SKIP SKIP)
-	#ab55348015892495e3d008523a551250)
+md5sum=(4aed9945fa0b8ceec75ff4bab509a78b
+	275fb431b9e95650f32c77cce95a164d)
 
 build() {
 	cd $name-$version
@@ -17,7 +17,6 @@ ac_add_options --with-mozilla-api-keyfile=$PWD/mozilla-key
 ac_add_options --with-google-api-keyfile=$PWD/google-key
 ac_add_options --disable-pulseaudio
 ac_add_options --enable-alsa
-ac_add_options --disable-nodejs
 ac_add_options --enable-system-sqlite
 ac_add_options --with-system-libevent
 ac_add_options --with-system-libvpx
@@ -51,6 +50,7 @@ EOF
 	# Fix a problem with certain versions of ICU
 	sed -e 's/checkImpl/checkFFImpl/g' -i js/src/vm/JSContext*.h
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
+	export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 	./mach build
 	DESTDIR=$PKG ./mach install
 
