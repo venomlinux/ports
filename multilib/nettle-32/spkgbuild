@@ -4,17 +4,17 @@
 # depends	: nettle
 
 name=nettle-32
-version=3.4
+version=3.4.1
 release=1
 source=(https://ftp.gnu.org/gnu/nettle/nettle-$version.tar.gz)
-md5sum=(dc0f13028264992f58e67b4e8915f53d)
+md5sum=(9bdebb0e2f638d3b9d91f7fc264b70c1)
 
 build() {
 	cd nettle-$version
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	./configure --prefix=/usr \
 		    --libdir=/usr/lib32 \
