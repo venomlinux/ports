@@ -4,16 +4,17 @@
 # depends	: pixman
 
 name=pixman-32
-version=0.34.0
+version=0.36.0
 release=1
 source=(https://cairographics.org/releases/pixman-$version.tar.gz)
+md5sum=(552df0d7ccccfadd07ae3758cc9a057f)
 
 build() {
 	cd pixman-$version
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
   	./configure \
 		--prefix=/usr \
@@ -24,5 +25,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(e80ebae4da01e77f68744319f01d52a3)
