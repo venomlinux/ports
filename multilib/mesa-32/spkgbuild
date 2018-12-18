@@ -2,17 +2,17 @@
 # depends	: llvm-32 mesa libglvnd-32 wayland-32 libxdamage-32 libxfixes-32 libxxf86vm-32 libxv-32 libxvmc-32
 
 name=mesa-32
-version=18.2.4
+version=18.3.1
 release=1
 source=(https://mesa.freedesktop.org/archive/mesa-$version.tar.xz)
-md5sum=(33c4b4ad2f33d4faedec3206da7853d3)
+md5sum=(d60828056d77bfdbae0970f9b15fb1be)
 
 build() {
 	cd mesa-$version
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig:/usr/share/pkgconfig"
 	export LLVM_CONFIG="/usr/bin/llvm-config-32"
         
 	GLL_DRV="r300,r600,svga,swrast,radeonsi,nouveau"
@@ -37,5 +37,6 @@ build() {
 
 	rm $PKG/usr/lib32/libGLES*
 
-	rm -r $PKG/etc $PKG/usr/{include,share/glvnd}
+	rm -r $PKG/usr/{include,share/glvnd}
+	rm $PKG/usr/share/drirc.d/00-mesa-defaults.conf
 }
