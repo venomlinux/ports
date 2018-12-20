@@ -1,19 +1,18 @@
 # description	: An image viewing/manipulation program (version 6)
 
 name=imagemagick6
-version=6.9.10.10
+version=6.9.10.18
 _version=${version%.*}-${version##*.}
-release=1
-options=()
+release=2
 source=(https://www.imagemagick.org/download/releases/ImageMagick-$_version.tar.xz
-	http://www.linuxfromscratch.org/patches/blfs/svn/ImageMagick-$_version-libs_only-1.patch)
-md5sum=(b273e560556ba1b1e66d248e524319b0
+	http://www.linuxfromscratch.org/patches/blfs/svn/ImageMagick-6.9.10-10-libs_only-1.patch)
+md5sum=(43d2cc5b3ae378d4bdc74060430fcf10
 	1f1d8a6a27b292d083a61231bb4099c4)
 
 build() {
 	cd ImageMagick-$_version
 	
-	patch -Np1 -i ../ImageMagick-$_version-libs_only-1.patch
+	patch -Np1 -i ../ImageMagick-6.9.10-10-libs_only-1.patch
 	autoreconf -fi
 
 	./configure --prefix=/usr     \
@@ -23,5 +22,8 @@ build() {
 	            --disable-static
 	make
 	make DOCUMENTATION_PATH=/usr/share/doc/$name DESTDIR=$PKG install-libs-only
+
+	# remove conflict with imagemagick7
+	rm -fr $PKG/usr/share/man
 }
 
