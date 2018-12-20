@@ -3,17 +3,21 @@
 name=jfsutils
 version=1.1.15
 release=1
-source=(http://jfs.sourceforge.net/project/pub/jfsutils-$version.tar.gz)
+source=(http://jfs.sourceforge.net/project/pub/jfsutils-$version.tar.gz
+	inttypes.patch
+	sysmacros.patch)
+md5sum=(8809465cd48a202895bc2a12e1923b5d
+	444078802d798606be9e32fda7cf7376
+	774b8c2383c3097a85369441a4af0b75)
 
 build() {
 	cd $name-$version
 
-	# Fixes building with Glibc 2.17
-	sed "s@<unistd.h>@&\n#include <sys/types.h>@g" -i fscklog/extract.c
+	# patch taken from Arch
+	patch -Np1 -i ../inttypes.patch
+	patch -Np1 -i ../sysmacros.patch
 
 	./configure
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(8809465cd48a202895bc2a12e1923b5d)
