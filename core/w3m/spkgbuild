@@ -5,14 +5,14 @@ name=w3m
 version=0.5.3
 release=2
 source=(https://downloads.sourceforge.net/w3m/$name-$version.tar.gz
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-bdwgc72-1.patch)
+	fix-compile.patch)
 md5sum=(1b845a983a50b8dec0169ac48479eacc
-	0023b3d259ee913f7b421812f7379f58)
+	1a2eedaba387dee4f6db5048015777dc)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../$name-$version-bdwgc72-1.patch
+	patch -Np1 -i ../fix-compile.patch
 	sed -i 's/file_handle/file_foo/' istream.{c,h}
 	sed -i 's#gdk-pixbuf-xlib-2.0#& x11#' configure
 	sed -i '/USE_EGD/s/define/undef/' config.h.in
