@@ -11,7 +11,7 @@ build() {
 	cd $name-$version
 	
 	sed -i 's|ncursesw/||' stfl_internals.h
-	make prefix=/usr DESTDIR=$PKG install
+	make prefix=/usr FOUND_SWIG=0 DESTDIR=$PKG install
 
 	find $PKG -name perllocal.pod -delete
 }
