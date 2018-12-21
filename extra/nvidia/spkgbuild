@@ -2,11 +2,11 @@
 # depends	: gtk gtk3
 
 name=nvidia
-version=410.73
+version=415.25
 release=1
 source=(http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
 	nvidia-drm-outputclass.conf)
-md5sum=(c472621894ea888344cdd9f7c824be19
+md5sum=(f93b6681de0eb52e3eb63c28fdf13170
 	768a64259f7e8d8a46a13b876d6c443c)
 
 build() {
@@ -83,8 +83,8 @@ build() {
 
 	# TLS libraries
 	install -m 0755 libnvidia-tls.so.$version $PKG/usr/lib/
-	install -d $PKG/usr/lib/tls
-	install -m 0755 tls/libnvidia-tls.so.$version $PKG/usr/lib/tls/
+	#install -d $PKG/usr/lib/tls
+	#install -m 0755 tls/libnvidia-tls.so.$version $PKG/usr/lib/tls/
 
 	# monitoring and management API library
 	install -m 0755 libnvidia-ml.so.$version $PKG/usr/lib/
