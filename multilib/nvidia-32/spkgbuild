@@ -1,10 +1,10 @@
 # description	: NVIDIA Linux Display Driver (long lived branch)
 
 name=nvidia-32
-version=410.73
+version=415.25
 release=1
 source=(http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run)
-md5sum=(c472621894ea888344cdd9f7c824be19)
+md5sum=(f93b6681de0eb52e3eb63c28fdf13170)
 
 build() {
 	sh NVIDIA-Linux-x86_64-$version.run --extract-only
@@ -53,8 +53,8 @@ build() {
 
 	# TLS libraries
 	install -m 0755 libnvidia-tls.so.$version $PKG/usr/lib32/
-	install -d $PKG/usr/lib32/tls
-	install -m 0755 tls/libnvidia-tls.so.$version $PKG/usr/lib32/tls/
+	#install -d $PKG/usr/lib32/tls
+	#install -m 0755 tls/libnvidia-tls.so.$version $PKG/usr/lib32/tls/
 
 	# monitoring and management API library
 	install -m 0755 libnvidia-ml.so.$version $PKG/usr/lib32/
