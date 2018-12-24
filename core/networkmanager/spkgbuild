@@ -1,35 +1,45 @@
 # description	: Network connection manager and user applications
-# depends	: nss dbus-glib libgudev libndp libnl consolekit2 dhcpcd libsoup newt polkit upower wpa_supplicant gobject-introspection iptables vala docbook-xsl python2-gobject3 libxslt
+# depends	: meson nss dbus-glib libgudev libndp libnl consolekit2 dhcpcd libsoup newt polkit upower wpa_supplicant gobject-introspection iptables vala docbook-xsl python2-gobject3 libxslt
 # backup	: etc/NetworkManager/NetworkManager.conf
 
 name=networkmanager
-version=1.12.2
-release=4
+version=1.14.4
+release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
 	$name.rc)
-md5sum=(94d02b80b120f166927e6ef242b29a9b
+md5sum=(54ce62f0aa18ef6c5e754eaac47494ac
 	6dafed6f16ea2d29761be435cbedcae9)
 
 build() {
 	cd NetworkManager-$version
 
-	sed -i 's/1,12,2/1,12.2/' libnm-core/nm-version.h
+	# Fix a missing meson.build file for initrd hooks
+	sed '/initrd/d' -i src/meson.build
 
-	CXXFLAGS="$CXXFLAGS -fPIC"                 \
-	./configure --prefix=/usr                  \
-	            --sysconfdir=/etc              \
-		    --libexecdir=/usr/lib/$name    \
-	            --localstatedir=/var           \
-	            --with-nmtui                   \
-		    --with-libnm-glib              \
-	            --disable-ppp                  \
-	            --disable-json-validation      \
-	            --disable-ovs                  \
-            	    --with-udev-dir=/lib/udev      \
-	            --with-systemdsystemunitdir=no \
-		    --enable-modify-system
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+	cd build
+	
+	CXXFLAGS+="-O2 -fPIC"            \
+	meson --prefix /usr              \
+	      --sysconfdir /etc          \
+	      --localstatedir /var       \
+	      -Djson_validation=false    \
+	      -Dlibaudit=no              \
+	      -Dlibnm_glib=true          \
+	      -Dlibpsl=false             \
+	      -Dnmtui=true               \
+	      -Dovs=false                \
+	      -Dppp=false                \
+	      -Dselinux=false            \
+	      -Dudev_dir=/lib/udev       \
+	      -Dsession_tracking=no      \
+	      -Dmodem_manager=false      \
+	      -Dsystemdsystemunitdir=no  \
+	      -Dsystemd_journal=false    \
+	      -Dqt=false                 \
+	      ..
+	ninja
+	DESTDIR=$PKG ninja install
 
 mkdir -p $PKG/etc/NetworkManager
 cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"
