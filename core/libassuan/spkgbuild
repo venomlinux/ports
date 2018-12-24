@@ -4,9 +4,10 @@
 # depends	: libgpg-error
 
 name=libassuan
-version=2.5.1
+version=2.5.2
 release=1
 source=(ftp://ftp.gnupg.org/gcrypt/$name/$name-$version.tar.bz2)
+md5sum=(4d0d5738936bd8f4f0287e1dd80432b6)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(4354b7ae296894f232ada226a062d7d7)
