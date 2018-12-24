@@ -4,20 +4,21 @@
 # depends	: glib js52 linux-pam gobject-introspection
 
 name=polkit
-version=0.114
-release=2
-source=(https://www.freedesktop.org/software/polkit/releases/polkit-0.114.tar.gz
+version=0.115
+release=1
+source=(https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz
 	polkit-1
-	$name.sysusers)
-md5sum=(93ff41874e7df8c62ed9e41893817f04
+	$name.sysusers
+	polkit-security-patch.patch)
+md5sum=(f03b055d6ae5fc8eac76838c7d83d082
 	4ce755378335620cc004fd5802a46907
-	e64baa35b703f30f6e47622a81181c5c)
+	e64baa35b703f30f6e47622a81181c5c
+	252c1b18ba86a7b05840e992321f4639)
 
 build() {
 	cd $name-$version
 
-	sed -e '/JS_ReportWarningUTF8/s/,/, "%s",/'  \
-	        -i  src/polkitbackend/polkitbackendjsauthority.cpp
+	patch -Np1 -i ../polkit-security-patch.patch
 
 	./configure --prefix=/usr                    \
 	            --sysconfdir=/etc                \
