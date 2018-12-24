@@ -3,7 +3,7 @@
 
 name=w3m
 version=0.5.3
-release=2
+release=3
 source=(https://downloads.sourceforge.net/w3m/$name-$version.tar.gz
 	fix-compile.patch)
 md5sum=(1b845a983a50b8dec0169ac48479eacc
@@ -17,7 +17,9 @@ build() {
 	sed -i 's#gdk-pixbuf-xlib-2.0#& x11#' configure
 	sed -i '/USE_EGD/s/define/undef/' config.h.in
 	
-	./configure --prefix=/usr --sysconfdir=/etc
+	./configure --prefix=/usr \
+		    --sysconfdir=/etc \
+		    --libexecdir=/usr/lib
 	make || make -j1
 	make DESTDIR=$PKG install
 
