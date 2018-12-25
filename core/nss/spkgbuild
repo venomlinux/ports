@@ -4,17 +4,17 @@
 # depends	: nspr sqlite p11-kit
 
 name=nss
-version=3.40.1
+version=3.41
 release=1
 source=(https://archive.mozilla.org/pub/security/nss/releases/NSS_${version//./_}_RTM/src/$name-$version.tar.gz
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-standalone-1.patch)
-md5sum=(589ab784db168e876bd9ae4eef294728
+	nss-standalone.patch)
+md5sum=(eec62a289387a7ce2fd9cca1f76600f3
 	ee90a1dc6ae266ec6c842d8019a6ef48)
 
 build() {
 	cd $name-$version
 
-  	patch -Np1 -i $SRC/$name-$version-standalone-1.patch
+  	patch -Np1 -i $SRC/nss-standalone.patch
 
 	cd nss
 
