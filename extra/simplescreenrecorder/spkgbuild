@@ -3,23 +3,16 @@
 # optdepends	: pulseaudio jack
 
 name=simplescreenrecorder
-version=0.3.10
+version=0.3.11
 release=1
 source=(https://github.com/MaartenBaert/ssr/archive/$version/ssr-$version.tar.gz)
-md5sum=(f1a390e75f245a0e292a501aab98ce8c)
+md5sum=(035dcd0a73667d27f890c9ad242d4cf0)
 
 build() {
 	cd ssr-$version
 
 	[ -e /usr/lib/pkgconfig/libpulse.pc ] || SSRCONF+=' -DWITH_PULSEAUDIO=FALSE'
 	[ -e /usr/lib/pkgconfig/jack.pc ] || SSRCONF+=' -DWITH_JACK=FALSE'
-
-	# ffmpeg 4.0 tweaks
-	sed -i 's|CODEC_CAP_VARIABLE_FRAME_SIZE|AV_CODEC_CAP_VARIABLE_FRAME_SIZE|'  src/AV/Output/AudioEncoder.cpp
-	sed -i 's|CODEC_FLAG_QSCALE|AV_CODEC_FLAG_QSCALE|'  src/AV/Output/{Audio,Video}Encoder.cpp
-	sed -i 's|CODEC_CAP_DELAY|AV_CODEC_CAP_DELAY|'  src/AV/Output/BaseEncoder.cpp
-	sed -i 's|CODEC_FLAG_GLOBAL_HEADER|AV_CODEC_FLAG_GLOBAL_HEADER|'  src/AV/Output/Muxer.cpp
-	sed -i 's|CODEC_CAP_EXPERIMENTAL|AV_CODEC_CAP_EXPERIMENTAL|'  src/AV/Output/Muxer.cpp
 
 	mkdir build
 	cd build
