@@ -4,16 +4,18 @@
 # depends	: help2man
 
 name=light
-version=1.0
-release=2
+version=1.2
+release=1
 source=($name-$version.tar.gz::https://github.com/haikarainen/light/archive/v$version.tar.gz
 	$name.rc)
-md5sum=(65ee0fb2ede482d64a53c38271b2eeb6
+md5sum=(042b757a0fafd14750fed4c96a4ff767
 	d443423606ba6fb12ae58215c606afc9)
 
 build() {
 	cd $name-$version
 
+	./autogen.sh
+	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
 
