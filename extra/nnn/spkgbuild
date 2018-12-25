@@ -4,12 +4,12 @@
 # depends	: ncurses readline
 
 name=nnn
-version=1.6
+version=2.1
 release=1
 source=($name-$version.tar.gz::https://github.com/jarun/$name/archive/v${version//_/-}.tar.gz)
+md5sum=(6c4094064a9e8edbc73c0f37c6d4ccf0)
 
 build() {
 	cd $name-$version
 	make DESTDIR=$PKG PREFIX=/usr install
 }
-md5sum=(3040d88a3eebb93cb27b1376d490805d)
