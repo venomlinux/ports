@@ -4,17 +4,15 @@
 # depends	: libx11 util-macros
 
 name=xlsfonts
-version=1.0.5
+version=1.0.6
 release=1
 source=(http://xorg.freedesktop.org/releases/individual/app/xlsfonts-$version.tar.bz2)
+md5sum=(5774fd4f518b3f338f2b28f270e04bfc)
 
 build() {
 	cd $name-$version
 
 	./configure --prefix=/usr
-
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(6f5711bef8c765857a0887a91476283b)
