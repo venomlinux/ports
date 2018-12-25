@@ -4,9 +4,10 @@
 # depends	: cmake
 
 name=libcue
-version=2.1.0
+version=2.2.1
 release=1
 source=($name-$version.tar.gz::https://github.com/lipnitsk/libcue/archive/v$version.tar.gz)
+md5sum=(1dfe65751c3817c76a107bd5a0d924a3)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(0fff773e95175df349329ea34bc775cf)
