@@ -5,9 +5,10 @@
 # depends	: glib openssl
 
 name=irssi
-version=1.1.0
+version=1.1.1
 release=1
 source=(https://github.com/irssi/irssi/releases/download/$version/$name-$version.tar.xz)
+md5sum=(1eb33d621c163827ee076f5c8ca2b5ee)
 
 build() {
 	cd $name-$version
@@ -21,4 +22,3 @@ build() {
 	make DESTDIR=$PKG install
 	find $PKG -name perllocal.pod -delete
 }
-md5sum=(159ac7a24a06b439ce227dcce51271a0)
