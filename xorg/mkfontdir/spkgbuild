@@ -5,9 +5,11 @@
 
 name=mkfontdir
 version=1.0.7
-release=2
+release=3
 source=(http://ftp.x.org/pub/individual/app/mkfontdir-$version.tar.bz2
 	mkfontdir.hook)
+md5sum=(18c429148c96c2079edda922a2b67632
+	a4af0f2a1a0fddb83e1926ec03f6bfda)
 
 build() {
 	cd $name-$version
@@ -22,6 +24,3 @@ build() {
 
 	install -Dm644 $SRC/mkfontdir.hook $PKG/etc/hooks/mkfontdir.hook
 }
-
-md5sum=(18c429148c96c2079edda922a2b67632
-	2160e9c2bd4f874a1c92d64389489ec7)

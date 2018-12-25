@@ -1,6 +1,6 @@
 # description	: Updating X fontdir indices...
 # operation	: install upgrade remove
-# target	: usr/share/fonts/
+# target	: ^usr/share/fonts/[^/]*/$
 
 exechook() {
 	for dir in $(find /usr/share/fonts -maxdepth 1 -type d \( ! -path /usr/share/fonts -a ! -name X11 \)) /usr/share/fonts/X11/*; do
