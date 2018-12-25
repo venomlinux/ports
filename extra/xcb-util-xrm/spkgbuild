@@ -4,9 +4,10 @@
 # depends	: xcb-util util-macros libx11
 
 name=xcb-util-xrm
-version=1.2
+version=1.3
 release=1
 source=(https://github.com/Airblader/$name/releases/download/v$version/$name-$version.tar.gz)
+md5sum=(fb5e5bf24c7288e652cf4a254bcf994a)
 
 build() {
 	cd $name-$version
@@ -15,4 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(c9c63ac728d19eefbf2319f0dad4c127)
