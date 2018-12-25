@@ -3,15 +3,17 @@
 # optdepends	: colord cups docbook-utils gtk-doc json-glib
 
 name=gtk3
-version=3.24.1
+version=3.24.2
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/gtk+/${version::4}/gtk+-$version.tar.xz
 	gtk-query-immodules-3.0.hook)
-md5sum=(9dfe16f486573815f242fa400763feb7
-	dc13f687a7a9cf77f3fdf74fbb3d82de)
+md5sum=(f336c5ce0bc10f6ebdd9e34dcff65b15
+	f646a81b85c711a2f475fdfe5f6c464e)
 
 build() {
 	cd gtk+-$version
+
+	sed -i 's/dfeault/default/' docs/tools/shooter.c
 
 	./configure --prefix=/usr             \
 	            --sysconfdir=/etc         \
