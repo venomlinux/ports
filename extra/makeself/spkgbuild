@@ -2,9 +2,10 @@
 # depends	: bash
 
 name=makeself
-version=2.3.1
+version=2.4.0
 release=1
 source=($name-$version.tar.gz::https://github.com/megastep/$name/archive/release-$version.tar.gz)
+md5sum=(280d3c6a0407731604a773d30972d50d)
 
 build() {
 	cd $name-release-$version
@@ -15,5 +16,3 @@ build() {
 	install -m755 makeself.sh $PKG/usr/bin/makeself
 	install -m755 makeself-header.sh $PKG/usr/share/$name
 }
-
-md5sum=(39ac750d790935c1714e48bb8338f64a)
