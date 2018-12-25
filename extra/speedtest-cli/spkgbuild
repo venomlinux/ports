@@ -2,9 +2,10 @@
 # depends	: python3
 
 name=speedtest-cli
-version=1.0.7
+version=2.0.2
 release=1
 source=($name-$version.tar.gz::https://github.com/sivel/speedtest-cli/archive/v$version.tar.gz)
+md5sum=(3943d71172eaec3f882a020f3d5fae56)
 
 build() {
 	cd $name-$version
@@ -13,5 +14,3 @@ build() {
 	install -Dm 644 README.rst -t $PKG/usr/share/doc/$name
 	install -Dm 644 $name.1 -t $PKG/usr/share/man/man1
 }
-
-md5sum=(774b7678ed4afe8eef76c65f454d657c)
