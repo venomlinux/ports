@@ -4,9 +4,10 @@
 # depends	: glibc
 
 name=libev
-version=4.24
+version=4.25
 release=1
 source=(http://dist.schmorp.de/$name/$name-$version.tar.gz)
+md5sum=(911daf566534f745726015736a04f04a)
 
 build() {
 	cd $name-$version
@@ -18,4 +19,3 @@ build() {
 	# fix conflict with libevent
 	rm $PKG/usr/include/event.h
 }
-md5sum=(94459a5a22db041dec6f98424d6efe54)
