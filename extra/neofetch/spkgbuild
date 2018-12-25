@@ -4,12 +4,12 @@
 # depends	: bash lsb-release
 
 name=neofetch
-version=3.3.0
+version=5.0.0
 release=1
 source=($name-$version.tar.gz::https://github.com/dylanaraps/$name/archive/$version.tar.gz)
+md5sum=(807c41694ff5b861e4233eb71d507be9)
 
 build() {
 	cd $name-$version
 	make DESTDIR=$PKG install
 }
-md5sum=(98e4d79ff945326e14f673e34c386837)
