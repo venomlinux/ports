@@ -2,9 +2,10 @@
 # depends	: curl glibc gnutls nettle zlib
 
 name=libcurl-gnutls
-version=7.59.0
+version=7.63.0
 release=1
-source=(https://curl.haxx.se/download/curl-$version.tar.gz)
+source=(https://curl.haxx.se/download/curl-$version.tar.xz)
+md5sum=(f43d618cc49c1820d3a2fed31e451d4c)
 
 build() {
 	cd curl-$version
@@ -31,5 +32,3 @@ build() {
 	    ln -s libcurl-gnutls.so.4.5.0 "$PKG"/usr/lib/libcurl-gnutls.so.${v}
 	done
 }
-
-md5sum=(a44f98c25c7506e7103039b542aa5ad8)
