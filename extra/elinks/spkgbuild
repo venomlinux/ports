@@ -1,22 +1,26 @@
 # description	: An advanced and well-established feature-rich text mode web browser
 # homepage	: http://elinks.or.cz/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: bzip2 expat openssl zlib
+# depends	: expat openssl zlib
 
 name=elinks
-version=0.11.7
+version=20170613
 release=1
-source=(http://elinks.cz/download/$name-$version.tar.gz)
+source=(http://crux.nu/files/distfiles/$name-$version.tar.xz)
+md5sum=(e8e1b4e00087296d8aa793276f049128)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --mandir=/usr/share/man \
-              --sysconfdir=/etc \
-              --disable-smb --without-x --enable-cgi \
-              --enable-leds --enable-256-colors --enable-html-highlight \
-              --with-zlib
-	make
+	 autoreconf -i
+
+	./configure --prefix=/usr \
+                --sysconfdir=/usr/etc \
+                --enable-256-colors \
+                --enable-html-highlight \
+                --disable-nls \
+                --with-zlib \
+                --without-{x,bzlib,lua}
+	make CFLAGS="$CFLAGS -Wno-all"
 	make DESTDIR=$PKG install
 }
-md5sum=(145c510cae41c204d0f23dce4bdd23ab)
