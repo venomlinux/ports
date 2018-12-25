@@ -4,9 +4,10 @@
 # depends	: perl
 
 name=strace
-version=4.20
+version=4.21
 release=1
 source=(https://downloads.sourceforge.net/sourceforge/$name/$name-$version.tar.xz)
+md5sum=(785b679a75e9758ebeb66816f315b9fe)
 
 build() {
 	cd $name-$version
@@ -14,5 +15,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(f2271ab0fac49ebee9cbd7f3469227cb)
