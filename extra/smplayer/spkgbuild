@@ -4,7 +4,7 @@
 # depends	: mplayer qt5 hicolor-icon-theme
 
 name=smplayer
-version=18.5.0
+version=18.10.0
 release=1
 source=(https://downloads.sourceforge.net/sourceforge/$name/$name-$version.tar.bz2
 	disable-werror-patch.patch)
@@ -13,9 +13,9 @@ md5sum=(SKIP SKIP)
 build() {
 	cd $name-$version
 
-	sed '/gzip -9/d' -i Makefile
+	#sed '/gzip -9/d' -i Makefile
 
-	patch -Np1 -i ../disable-werror-patch.patch
+	#patch -Np1 -i ../disable-werror-patch.patch
 
 	make PREFIX=/usr \
 	     DOC_PATH="\\\"/usr/share/doc/smplayer\\\"" \
