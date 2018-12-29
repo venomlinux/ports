@@ -1,39 +1,24 @@
-# description	: A C++ library for resampling audio signals
-# depends	: gcc libsndfile
+# description	: A C++ library for resampling audio signals (apps)
+# depends	: zita-resampler-libs
 
 name=zita-resampler
 version=1.6.2
 release=1
-source=(https://kokkinizita.linuxaudio.org/linuxaudio/downloads/$name-$version.tar.bz2)
+source=(https://kokkinizita.linuxaudio.org/linuxaudio/downloads/zita-resampler-$version.tar.bz2)
 md5sum=(9b2cff7fa419febbca3a13435b2a24b3)
 
 build() {
-	cd $name-$version
+	cd zita-resampler-$version/apps
 
-	PATH="$PATH:/sbin:/bin:/usr/sbin:/usr/bin"
+	# strip march=native
+	sed -e '/native/d' -i Makefile
 
-	# FS#36248 - strip march=native
-	sed -e '/native/d' -i {source,apps}/Makefile
-	# removing local call to ldconfig
-	sed -e 's/ldconfig/& -N $(DESTDIR)\/$(LIBDIR)/' \
-	    -i source/Makefile
 	# fix use of BINDIR without preceeding DESTDIR
 	# fix use of MANDIR without preceeding DESTDIR
 	sed -e 's/\ $(BINDIR)/\ $(DESTDIR)$(BINDIR)/' \
 	    -e 's/\ $(MANDIR)/\ $(DESTDIR)$(MANDIR)/' \
-	    -i apps/Makefile
+	    -i Makefile
 
-	cd source
-	# libs
 	make
-	# create lib link for building apps
-	ln -sv "lib${name}.so.${version}" "lib${name}.so"
-	# apps
-	cd ../apps
-	make LDFLAGS+=" -L../libs" CXXFLAGS+=" -I../libs"
-	rm -rv ../source/"lib${name}.so"
-
-	cd ..
-	make -C source DESTDIR=$PKG PREFIX=/usr SUFFIX="" install
-	make -C apps DESTDIR=$PKG PREFIX=/usr install
+	make PREFIX=/usr DESTDIR=$PKG install
 }
