@@ -4,21 +4,16 @@
 # depends	: acl attr glibc gettext
 
 name=sed
-version=4.5
+version=4.7
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(777ddfd9d71dd06711fe91f0925e1573)
 
 build() {
 	cd $name-$version
-
-	sed -i 's/usr/tools/'       build-aux/help2man
-	sed -i 's/panic-tests.sh//' Makefile.in
 
 	./configure --prefix=/usr --bindir=/bin
 	make
 	make html
 	make DESTDIR=$PKG install
-	install -d -m755           $PKG/usr/share/doc/$name
-	install -m644 doc/sed.html $PKG/usr/share/doc/$name
 }
-md5sum=(ade8f8c2c548bf41f74db2dcfc37e4e3)

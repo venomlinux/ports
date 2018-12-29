@@ -4,9 +4,10 @@
 # depends	: glibc texinfo
 
 name=grep
-version=3.1
+version=3.3
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(05d0718a1b7cc706a4bdf8115363f1ed)
 
 build() {
 	cd $name-$version
@@ -15,4 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(feca7b3e7c7f4aab2b42ecbfc513b070)

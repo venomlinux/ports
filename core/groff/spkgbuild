@@ -4,9 +4,10 @@
 # depends	: gcc perl
 
 name=groff
-version=1.22.3
+version=1.22.4
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+md5sum=(08fb04335e2f5e73f23ea4c3adbf0c5f)
 
 build() {
 	cd $name-$version
@@ -15,4 +16,3 @@ build() {
 	make || make -j1
 	make DESTDIR=$PKG install
 }
-md5sum=(cc825fa64bc7306a885f2fb2268d3ec5)

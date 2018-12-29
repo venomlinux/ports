@@ -6,7 +6,7 @@
 
 name=bluez
 version=5.50
-release=3
+release=4
 source=(https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
 	$name-obexd_without_systemd-1.patch
 	bluetooth.rc
@@ -31,7 +31,7 @@ build() {
 	make DESTDIR=$PKG install
 
 	install -d $PKG/usr/sbin
-	ln -svf ../libexec/bluetooth/bluetoothd $PKG/usr/sbin/bluetoothd
+	ln -svf ../lib/bluetooth/bluetoothd $PKG/usr/sbin/bluetoothd
 
 	# main configuration
 	install -v -dm755 $PKG/etc/bluetooth
