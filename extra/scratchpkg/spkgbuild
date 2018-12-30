@@ -3,14 +3,16 @@
 # depends	: coreutils bash wget httpup libarchive
 
 name=scratchpkg
-version=20181226
+version=20181230
 release=1
 _commit=56ed76c2ddf8938526c64fcdbf8f957d6a9590a5
-source=($name-$_commit.tar.gz::https://github.com/emmett1/scratchpkg/archive/$_commit.tar.gz)
-md5sum=(e68a85e8a480f7f81ab5d269bf7ebe54)
+source=($name-$_commit.tar.gz::https://github.com/emmett1/scratchpkg/archive/$_commit.tar.gz
+	repo)
+md5sum=(e68a85e8a480f7f81ab5d269bf7ebe54
+	6246e0d85b24f0d2ab193ca69ed4918d)
 
 build() {
 	cd $name-$_commit
 	DESTDIR=$PKG ./INSTALL.sh
-	sed 's/master/1.0/g' -i $PKG/etc/scratchpkg.repo
+	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
 }
