@@ -4,9 +4,10 @@
 # depends	: glibc bash
 
 name=diffutils
-version=3.6
+version=3.7
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(4824adc0e95dbbf11dfbdfaad6a1e461)
 
 build() {
 	cd $name-$version
@@ -15,4 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(07cf286672ced26fba54cd0313bdc071)
