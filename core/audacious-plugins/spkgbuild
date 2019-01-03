@@ -4,9 +4,10 @@
 # depends	: mpg123 audacious flac neon
 
 name=audacious-plugins
-version=3.10
+version=3.10.1
 release=1
 source=(http://distfiles.audacious-media-player.org/$name-$version.tar.bz2)
+md5sum=(c54e49a3a32c0df2beaf4fdf14a4bd75)
 
 build() {
 	cd $name-$version
@@ -14,5 +15,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(26268359f4f21171de35cc10d0545733)
