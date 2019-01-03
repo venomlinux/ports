@@ -4,12 +4,12 @@
 # depends	: giblib
 
 name=scrot
-version=0.8.18
+version=0.8.19
 release=1
 source=(http://http.debian.net/debian/pool/main/s/${name}/${name}_${version%.*}.orig.tar.gz
         http://http.debian.net/debian/pool/main/s/${name}/${name}_${version%.*}-${version##*.}.debian.tar.xz)
 md5sum=(ccae904d225609571bdd3b03445c1e88
-	3c8f0bc69050714872495f8ef171767f)
+	2bcae08f7a929b21eda91be0132c590d)
 
 build() {
 	for patch in $(<$SRC/debian/patches/series); do
