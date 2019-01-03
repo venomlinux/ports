@@ -92,6 +92,7 @@ d:python2-gobject2
 d:docbook-xsl
 d:python2-beaker
 d:dhcpcd
+d:bash-completion
 d:llvm
 d:openssh
 d:nasm
@@ -445,9 +446,9 @@ f:f7f0a36ef760f22cd6a22ac23f306fbd:guile/spkgbuild
 f:b8c580f9e7730c051139178328d5e9d4:initd-tools/spkgbuild
 f:717278fe209365e9956e32a733d6ce2f:vlc/spkgbuild
 f:81f4f5e3ba75404ceec822a8bfdb5dd8:apache/install
-f:f24185eaa0cbcab3c0b07032584575d9:apache/httpd-2.4.29-blfs_layout-1.patch
-f:9195026cd752dd7461e43ff0521448b8:apache/spkgbuild
+f:89afac1b1b964aab8bb71f3122097b1f:apache/spkgbuild
 f:4aa473be24266e0d48be1143f22d02e8:apache/httpd.rc
+f:f24185eaa0cbcab3c0b07032584575d9:apache/httpd-blfs_layout-1.patch
 f:0b1518b2d99a3486ecfba24eb5c68cda:apache/apache.sysusers
 f:f8ca278cc2a7e1c0d7ad7373e136ced3:gtk-engines/spkgbuild
 f:d92cf146d2195f318a5fb546eae4a1f7:lynx/spkgbuild
@@ -561,6 +562,7 @@ f:ab83bf5e8577638f6cfbc3ba5403e6aa:python2-beaker/spkgbuild
 f:b4497f2961e91f0ffb62e82a34a993f3:dhcpcd/network.conf
 f:72920ef961ac8488fa8059251772da28:dhcpcd/spkgbuild
 f:b409e06f2d3d7b4f032bd3e5973959aa:dhcpcd/network.rc
+f:750eace31f2fc345ddfbd0a58a24bd6a:bash-completion/spkgbuild
 f:20dc38a812684d41b6867159e5a0f593:llvm/spkgbuild
 f:295c343dcd457dc534662f011d7cff1a:llvm/llvm-config.h
 f:8d139fc3573a07d21a256d482da78370:openssh/install
@@ -655,7 +657,7 @@ f:59beb6a75a9416176156b0b90250a6b7:wireless_tools/spkgbuild
 f:dd8d3eced8594f2f312292bec774ac2a:cdrtools/spkgbuild
 f:6d5aeaa54ddce1df01773f70900283f3:gettext/spkgbuild
 f:5900d6c5b9b1b38a1443080cc4727a9a:libisoburn/spkgbuild
-f:22616867318e9b9bb4f336470454132b:wget/spkgbuild
+f:75833b3ad0bc9407146fd68a719baa00:wget/spkgbuild
 f:bf7d816a8d1528c77c0a579bc401a0f7:bc/spkgbuild
 f:748e17d4de646e4d9c1b6bfb832a2bab:giflib/spkgbuild
 f:ba9cb8385c5fc376e7e307ec576dd8ec:libxslt/spkgbuild
@@ -729,7 +731,7 @@ f:b7f2b1be633c2c61ed86fe21e531d172:e2fsprogs/spkgbuild
 f:d2bbef4d643826bb23fc3bec8bf4cb90:pulseaudio/spkgbuild
 f:208bb060a9c01caf9a4a75dbe38b88de:xmlto/spkgbuild
 f:f098b2198259df62f00fbd8793c17e46:libksba/spkgbuild
-f:cc003ff0948a4289e2c00d463953c670:audacious/spkgbuild
+f:3cd3b8834b5d566fdc910d67ba09e5fc:audacious/spkgbuild
 f:eb6c0825c7135e866df8ecf8fb713fdf:nspr/spkgbuild
 f:407b4eba60e0d99b95199c8fac25cdd3:at-spi2-atk/spkgbuild
 f:eb05964882b35c4ebcd2ac7a57243447:glibmm/spkgbuild
@@ -770,7 +772,7 @@ f:e774a4360c6f5ed6a6f4c1d9b8314cac:python3-lxml/spkgbuild
 f:b45f7d933eaefbfb55a6a4d345cc2262:ntfs-3g/ntfs-3g-2016.2.22-security_fix-1.patch
 f:1c2d44a4cb1793a27f37f1b9334c7310:ntfs-3g/spkgbuild
 f:f3e0eb6014974090dd2593151485e75c:ntfs-3g/readme
-f:ba7ee6232e049c3a6a1d5da1a0926a26:harfbuzz/spkgbuild
+f:fddbde9afceddf1b80194efa05529d03:harfbuzz/spkgbuild
 f:13442b786c0b2984f5fed9811abf0935:p11-kit/spkgbuild
 f:f0eb505fcce53ed872a9d994a78460bb:libpng/spkgbuild
 f:6dd6af7e11c272ae15def3cc25a1568c:atk/spkgbuild
@@ -810,7 +812,7 @@ f:26cac3968faf069114c5844f5f04c1dc:cairomm/spkgbuild
 f:137ad20addc605983950aea008a7737c:frei0r-plugins/spkgbuild
 f:4fedb2591e4784a327f2749c8d9b25cc:libassuan/spkgbuild
 f:83aba9b29dcb77d353db8b4e510f977d:icewm/spkgbuild
-f:4a5ff0f04eeb385a7d52f25a4b1216ef:tar/spkgbuild
+f:855e5708ce9cd2715719186f8207b113:tar/spkgbuild
 f:d1e52e86f7dfa66db23663b96292554b:gst-libav/spkgbuild
 f:69a79d439d58c195d98766a6efc8b195:libunistring/spkgbuild
 f:011b7d3a49654224c764f5b5f187af23:gtkmm3/spkgbuild
@@ -938,7 +940,7 @@ f:cf5ed4f37d15fd82f292df31f23cf405:gtk2/spkgbuild
 f:3f67752892e32e193b44b13901573981:gtk2/gtk-query-immodules-2.0.hook
 f:8a6fa67eb29bdbd21a1887f02bbd6d30:gtk2/gtk-update-icon-cache.hook
 f:ec321905ab8b2b704397dc85f0cfb5f8:linux-api-headers/spkgbuild
-f:a35dd58a36a6ab078318d9ca2541e643:audacious-plugins/spkgbuild
+f:6dc302e657aab0603f2910a53bba0c6e:audacious-plugins/spkgbuild
 f:312ebc50faff588a7fa95cf0400f192e:ninja/spkgbuild
 f:7061f18d0b9a78cf7a5de432660728a0:chrpath/spkgbuild
 f:b6a3bb4d20e843dc67240859cbc56d98:polkit/install
@@ -963,7 +965,7 @@ f:bfa3c80fa2491fdaf3b9c3343f55e531:vte3/spkgbuild
 f:6102d67240bdeb1b98d7be403774a3b0:x265/spkgbuild
 f:98f5c1319d829be0d813a97e082767ab:procps-ng/spkgbuild
 f:a3f6ca1b707f4914b394d2f6a36adeb2:zlib/spkgbuild
-f:c7c9ed1473d63df3995ab434534754ff:dconf/spkgbuild
+f:a16236e6a68e50b2e63fe618c4e1b5cb:dconf/spkgbuild
 f:007492e22d272871902afaf1f6765d6e:db/atomic.patch
 f:d75c8c693f3c53978abd69ab29d309ac:db/spkgbuild
 f:11575e3df34df99cac085c317bf7c580:iproute2/spkgbuild
