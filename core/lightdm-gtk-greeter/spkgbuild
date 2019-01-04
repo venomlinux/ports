@@ -3,9 +3,10 @@
 # depends	: gtk3 lightdm exo gobject-introspection intltool
 
 name=lightdm-gtk-greeter
-version=2.0.5
+version=2.0.6
 release=1
 source=(https://launchpad.net/$name/${version::3}/$version/+download/$name-$version.tar.gz)
+md5sum=(36dc961f14cc3b0baef3ddb1c494eb16)
 
 build() {
 	cd $name-$version
@@ -23,5 +24,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(0274c3bf4387944d322941f85bdf91b9)
