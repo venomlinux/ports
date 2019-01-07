@@ -1,0 +1,35 @@
+# description	: Compiz is an OpenGL compositing manager for X
+# homepage	: http://www.compiz.org
+# maintainer	: Ren shijun
+# depends	: glibmm boost mesa glu
+
+name=compiz
+version=0.9.13.1
+release=1
+source=($name-$version.tar.bz2::https://launchpad.net/compiz/0.9.13/0.9.13.1/+download/compiz-0.9.13.1.tar.bz2
+	compiz_link_rpath.txt)
+md5sum=(e609c538e170b1ebb37bb86063fdbd09
+	577e1db89c22ee8b9719faac5aed2440)
+
+build() {
+	cd $name-$version
+	
+	
+
+	mkdir build
+	cd build
+
+	
+	cmake .. \
+	 -DCMAKE_INSTALL_PREFIX="/usr" \
+	 -DCOMPIZ_BUILD_WITH_RPATH=Off \
+    	 -DCOMPIZ_WERROR=Off 
+   	 
+
+	cp -rf ../../compiz_link_rpath.txt compizconfig/compizconfig-python/CMakeFiles/compizconfig_python_module.dir/link.txt
+
+	make
+	make DESTDIR=$PKG install
+
+	
+}
