@@ -2,11 +2,11 @@
 # depends	: libx11-32 libdrm-32 xz-32 icu-32 libxshmfence-32 mesa-32
 
 name=steam
-version=1.0.0.56
-release=2
+version=1.0.0.59
+release=1
 source=(http://repo.steampowered.com/$name/pool/$name/s/$name/${name}_$version.tar.gz
 	alsa_sdl_audiodriver.patch)
-md5sum=(1ea5a9bbfc742ce7fee18d67d62c79ea
+md5sum=(994dc0700ed28da3a8e23c53ac4717b8
 	ac0e03d70f1101331598b2b32ed9bac3)
 
 build() {
@@ -18,7 +18,4 @@ build() {
 
 	# blank steamdeps because apt-get
 	ln -sf /bin/true $PKG/usr/bin/steamdeps
-
-	install -d $PKG/etc/ssl/certs
-	ln -sf /etc/ssl/ca-bundle.crt $PKG/etc/ssl/certs/ca-certificates.crt
 }
