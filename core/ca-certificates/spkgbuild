@@ -2,8 +2,8 @@
 # depends	: ca-certificates-utils p11-kit
 
 name=ca-certificates
-version=0.9
-release=2
+version=1.2
+release=1
 source=(https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
 	http://www.cacert.org/certs/root.crt
 	http://www.cacert.org/certs/class3.crt)
@@ -18,4 +18,9 @@ build() {
 	openssl x509 -in class3.crt -text -fingerprint -setalias "CAcert Class 3 root" \
 	        -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
 	        > $PKG/etc/ssl/local/CAcert_Class_3_root.pem
+
+	#ln -sv /etc/pki/tls/certs/ca-bundle.crt $PKG/etc/ssl/ca-bundle.crt
+
+	install -d $PKG/etc/ssl/certs
+	ln -sv /etc/ssl/ca-bundle.crt $PKG/etc/ssl/certs/ca-certificates.crt
 }
