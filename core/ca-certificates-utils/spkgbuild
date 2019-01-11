@@ -2,15 +2,15 @@
 # depends	: openssl
 
 name=ca-certificates-utils
-version=0.9
-release=2
+version=1.2
+release=1
 source=(https://github.com/djlucas/make-ca/archive/v$version/make-ca-$version.tar.gz)
-md5sum=(0eeaf712eedeae4fa55d8bfa37f4ca32)
+md5sum=(68c3953260dd415a0b597790685cb6c7)
 
 build() {
 	cd make-ca-$version
-	make DESTDIR=$PKG install
+	make -j1 LIBEXECDIR=/usr/lib DESTDIR=$PKG install
 
 	# remove systemd files
-	rm -fr $PKG/etc
+	rm -fr $PKG/lib/
 }
