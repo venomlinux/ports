@@ -3,9 +3,10 @@
 # optdepends	: vala valgrind gtk-doc itstool fop glade
 
 name=gtksourceview3
-version=3.24.8
+version=3.24.9
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/gtksourceview/${version::4}/gtksourceview-$version.tar.xz)
+md5sum=(191907870cbad8f2573442ce26e193db)
 
 build() {
 	cd gtksourceview-$version
@@ -14,4 +15,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(52f8c83ad21ad75e9ee6cca03ce2e63f)
