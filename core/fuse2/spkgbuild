@@ -3,10 +3,12 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=fuse2
-version=2.9.7
+version=2.9.9
 release=1
 source=(https://github.com/libfuse/libfuse/releases/download/fuse-$version/fuse-$version.tar.gz
 	fuse.conf)
+md5sum=(8000410aadc9231fd48495f7642f3312
+	c9457cf5b2196da67d5ac816d1c86a4f)
 
 build() {
 	cd fuse-$version
@@ -19,12 +21,8 @@ build() {
 
 	install -d $PKG/lib
 	mv -v   $PKG/usr/lib/libfuse.so.* $PKG/lib
-	ln -sfv ../../lib/libfuse.so.2.9.7 $PKG/usr/lib/libfuse.so
-	rm -rf  $PKG/tmp
+	ln -sfv ../../lib/libfuse.so.2.9.9 $PKG/usr/lib/libfuse.so
+	rm -rf  $PKG/{tmp,dev}
 
 	install -Dm 644 $SRC/fuse.conf $PKG/etc/fuse.conf
-	rm -fr $PKG/dev/fuse
 }
-
-md5sum=(9bd4ce8184745fd3d000ca2692adacdb
-c9457cf5b2196da67d5ac816d1c86a4f)
