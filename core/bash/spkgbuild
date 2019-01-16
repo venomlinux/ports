@@ -4,9 +4,10 @@
 # depends	: glibc ncurses readline
 
 name=bash
-version=4.4.18
+version=5.0
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+md5sum=(2b44b47b905be16f45709648f671820b)
 
 build() {
 	cd $name-$version
@@ -21,4 +22,3 @@ build() {
 	mv $PKG/usr/bin/bash $PKG/bin
 	ln -s bash $PKG/bin/sh 
 }
-md5sum=(518e2c187cc11a17040f0915dddce54e)
