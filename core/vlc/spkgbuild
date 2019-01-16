@@ -2,22 +2,16 @@
 # depends	: alsa-lib ffmpeg liba52 libgcrypt libmad lua
 
 name=vlc
-version=3.0.4
+version=3.0.6
 release=1
 source=(https://download.videolan.org/$name/$version/$name-$version.tar.xz)
-md5sum=(f5e49a0fb9594ab8debf934a710e92f1)
+md5sum=(4ff71d262e070fd19f86a1c3542c7b4e)
 
 build() {
 	cd $name-$version
 
 	# This command allows building with the current version of Lua-5.3.4
 	sed -i '/vlc_demux.h/a #define LUA_COMPAT_APIINTCASTS' modules/lua/vlc.h
-
-	# This command allows building with the current version of FreeType-2.9
-	sed -i '/DEPRECATED/s:^://:'  modules/text_renderer/freetype/text_layout.c
-
-	# This command allows building with the current version of x264-20180819-2245
-	sed -i '/118/s/$/\&\& X264_BUILD < 153/' modules/codec/x264.c
 
         BUILDCC=gcc ./configure --prefix=/usr --disable-opencv
 	make
