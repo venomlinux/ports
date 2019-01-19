@@ -4,9 +4,10 @@
 # depends	: glibc ncurses
 
 name=readline
-version=7.0
+version=8.0
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+md5sum=(7e6c1f16aee3244a69aba6e438295ca3)
 
 build() {
 	cd $name-$version
@@ -32,4 +33,3 @@ build() {
 	mkdir -p $PKG/usr/share/doc/$name
 	install -v -m644 doc/*.{ps,pdf,html,dvi} $PKG/usr/share/doc/$name
 }
-md5sum=(205b03a87fc83dab653b628c59b9fc91)
