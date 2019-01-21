@@ -2,10 +2,10 @@
 # depends	: libxml2 icu-32
 
 name=libxml2-32
-version=2.9.8
-release=2
+version=2.9.9
+release=1
 source=(http://xmlsoft.org/sources/libxml2-$version.tar.gz
-	libxml2-$version-python3_hack-1.patch)
+	libxml2-python3_hack-1.patch)
 
 build() {
 	cd libxml2-$version
@@ -14,7 +14,7 @@ build() {
 	export CXX="g++ -m32"
 	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
-	patch -Np1 -i ../libxml2-$version-python3_hack-1.patch
+	patch -Np1 -i ../libxml2-python3_hack-1.patch
 
 	sed -i '/_PyVerify_fd/,+1d' python/types.c
 	./configure --prefix=/usr \
@@ -29,5 +29,5 @@ build() {
 	rm -fr $PKG/usr/{share,bin,include}
 }
 
-md5sum=(b786e353e2aa1b872d70d5d1ca0c740d
+md5sum=(c04a5a0a042eaa157e8e8c9eabe76bd6
 f0fe1a64d40c056baf2149b1efebf1b4)
