@@ -41,7 +41,7 @@ print_ram() {
 
 print_temp() {
 	if [ $(type -p sensors) ]; then
-		temp="$(sensors | grep temp | awk '{print $2}' | sed 's/+//')"
+		temp="$(sensors | grep "Package id" | awk '{print $4}' | sed 's/+//')"
 		echo -e " \uE01D ${temp} |"
 	elif [ $(type -p acpi) ]; then
 		temp="$(acpi -t | awk '{print $4}')"
