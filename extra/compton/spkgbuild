@@ -1,24 +1,26 @@
-# description	: X Compositor (a fork of xcompmgr-dana) (git-version)
-# homepage	: https://github.com/chjj/compton
+# description	: A compositor for X11
+# homepage	: https://github.com/yshui/compton
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: libconfig dbus
+# depends	: libconfig dbus libev libxdg-basedir
 
 name=compton
-version=20170430
-release=2
-_commit=316eac0613bf342ff91cc645a6c3c80e6b9083fb
-source=($name-$_commit.tar.gz::https://github.com/chjj/compton/archive/$_commit.tar.gz
+version=5
+release=1
+source=($name-$version.tar.gz::https://github.com/yshui/compton/archive/v$version.tar.gz
 	compton.conf
 	compton.custom.conf)
-md5sum=(eb3fddcd691af8239b3ab56bf89e038c
+md5sum=(66fc002b382c0b1b1a561b154a84ab86
 	3ba1d38df211634aa125362b438ad6f3
 	36b7c08ffe1c79b915a3cd0fe6859790)
 
 build() {
-	cd $name-$_commit
+	cd $name-$version
 
-	make MANPAGES= PREFIX="$PKG/usr" install
-	install -Dm755 compton $PKG/usr/bin/compton
+	mkdir build
+
+	meson --prefix=/usr --buildtype=release . build
+	ninja -C build
+	DESTDIR=$PKG ninja -C build install
 
 	#install -Dm644 $SRC/compton.conf $PKG/etc/xdg/compton.conf
 	install -Dm644 compton.sample.conf $PKG/etc/xdg/compton.sample.conf
