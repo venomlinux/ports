@@ -1,15 +1,21 @@
 # description	: Python3 bindings for PyGObject3
-# makedepends	: python3-cairo gobject-introspection
+# depends	: python-gobject3-common
 
 name=python3-gobject3
-version=3.28.2
+version=3.30.4
 release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/pygobject/${version::4}/pygobject-$version.tar.xz)
+source=(https://ftp.gnome.org/pub/gnome/sources/pygobject/${version::4}/pygobject-$version.tar.xz)
+md5sum=(d42f8ec30faa76a25f7d0afc88b4d822)
 
 build() {
 	cd pygobject-$version
 
-	./configure --prefix=/usr --with-python=/usr/bin/python3
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+	cd build
+
+	meson --prefix=/usr -Dpython=python3 ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -fr $PKG/usr/{include/,lib/pkgconfig/}
 }

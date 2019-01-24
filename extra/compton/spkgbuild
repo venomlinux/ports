@@ -1,0 +1,28 @@
+# description	: A compositor for X11
+# homepage	: https://github.com/yshui/compton
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libconfig dbus libev libxdg-basedir
+
+name=compton
+version=5
+release=1
+source=($name-$version.tar.gz::https://github.com/yshui/compton/archive/v$version.tar.gz
+	compton.conf
+	compton.custom.conf)
+md5sum=(66fc002b382c0b1b1a561b154a84ab86
+	3ba1d38df211634aa125362b438ad6f3
+	36b7c08ffe1c79b915a3cd0fe6859790)
+
+build() {
+	cd $name-$version
+
+	mkdir build
+
+	meson --prefix=/usr --buildtype=release . build
+	ninja -C build
+	DESTDIR=$PKG ninja -C build install
+
+	#install -Dm644 $SRC/compton.conf $PKG/etc/xdg/compton.conf
+	install -Dm644 compton.sample.conf $PKG/etc/xdg/compton.sample.conf
+	install -Dm644 $SRC/compton.custom.conf $PKG/etc/xdg/compton.conf
+}

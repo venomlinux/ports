@@ -1,13 +1,13 @@
 # description	: Create an X cursor file from PNG images
 # homepage	: http://xorg.freedesktop.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: libpng libx11 libxcursor
-# makedepends	: util-macros
+# depends	: libpng libx11 libxcursor util-macros
 
 name=xcursorgen
-version=1.0.6
+version=1.0.7
 release=1
 source=(http://ftp.x.org/pub/individual/app/xcursorgen-$version.tar.bz2)
+md5sum=(25cc7ca1ce5dcbb61c2b471c55e686b5)
 
 build() {
 	cd $name-$version
@@ -20,4 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-

@@ -2,9 +2,10 @@
 # depends	: curl libarchive libuv
 
 name=cmake
-version=3.11.0
+version=3.13.3
 release=1
-source=(http://www.cmake.org/files/v${version%.*}/$name-$version.tar.gz)
+source=(https://www.cmake.org/files/v${version%.*}/$name-$version.tar.gz)
+md5sum=(08b1be23ddbd089d4c55cb807196c49f)
 
 build() {
 	cd $name-$version
@@ -20,4 +21,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-

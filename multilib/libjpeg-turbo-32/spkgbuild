@@ -1,0 +1,31 @@
+# description	: A fork of the original IJG libjpeg which uses SIMD to accelerate baseline JPEG compression and decompression
+# homepage	: http://www.libjpeg-turbo.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libjpeg-turbo
+
+name=libjpeg-turbo-32
+version=2.0.1
+release=1
+source=(https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-$version.tar.gz)
+md5sum=(1b05a66aa9b006fd04ed29f408e68f46)
+
+build() {
+	cd libjpeg-turbo-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DCMAKE_BUILD_TYPE=RELEASE  \
+	      -DENABLE_STATIC=FALSE       \
+	      -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib32  \
+	      ..
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{bin,share,include}
+}

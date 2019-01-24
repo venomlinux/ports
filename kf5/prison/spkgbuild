@@ -1,9 +1,8 @@
 # description	: A barcode API to produce QRCode barcodes and DataMatrix barcodes
-# depends	: qt5 libdmtx qrencode
-# makedepends	: extra-cmake-modules
+# depends	: qt5 libdmtx qrencode extra-cmake-modules
 
 name=prison
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(49f35779816680e7da357abba972ceb0)

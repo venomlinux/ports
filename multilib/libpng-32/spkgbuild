@@ -1,0 +1,31 @@
+# description	: A collection of routines used to create PNG format graphics files (32bit)
+# homepage	: http://www.libpng.org/pub/png/libpng.html
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: zlib-32
+
+name=libpng-32
+version=1.6.36
+release=1
+source=(https://downloads.sourceforge.net/libpng/libpng-$version.tar.xz
+	https://downloads.sourceforge.net/project/apng/libpng/libpng16/libpng-$version-apng.patch.gz)
+md5sum=(df2be2d29c40937fe1f5349b16bc2826
+	3c78d32f6131d38b3cfd47ddc9a9df12)
+
+build() {
+	cd libpng-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+  	gzip -cd $SRC/libpng-$version-apng.patch.gz | patch -p0
+
+	LIBS=-lpthread ./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32 \
+		--disable-static
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

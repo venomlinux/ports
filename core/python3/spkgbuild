@@ -2,9 +2,12 @@
 # depends	: libffi
 
 name=python3
-version=3.6.4
+version=3.7.2
 release=1
-source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz)
+source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz
+	pyconfig.h)
+md5sum=(df6ec36011808205beda239c72f947cb
+	387d5f6d00d2be01ecb87216cac0f88c)
 
 build() {
 	cd Python-$version
@@ -14,7 +17,7 @@ build() {
 	            --enable-shared     \
 	            --with-system-expat \
 	            --with-system-ffi   \
-	            --with-ensurepip=yes
+	            --without-ensurepip
 	make
 	make DESTDIR=$PKG install
 
@@ -22,4 +25,9 @@ build() {
 	chmod -v 755 $PKG/usr/lib/libpython3.so
 
 	rm $PKG/usr/bin/2to3
+
+	mv $PKG/usr/include/python3.7m/pyconfig{,-64}.h
+	install -m 0644 $SRC/pyconfig.h $PKG/usr/include/python3.7m/
 }
+
+

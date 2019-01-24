@@ -1,0 +1,29 @@
+# description	: Libraries and utilities for loading kernel modules
+# homepage	: https://git.kernel.org/?p=utils/kernel/kmod/kmod.git;a=summary
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: kmod
+
+name=kmod-32
+version=25
+release=1
+source=(https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-$version.tar.xz)
+md5sum=(34f325cab568f842fdde4f8b2182f220)
+
+build() {
+	cd kmod-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr          \
+		    --libdir=/usr/lib32    \
+	            --bindir=/bin          \
+	            --sysconfdir=/etc      \
+	            --with-xz              \
+	            --with-zlib
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{share,include} $PKG/bin
+}

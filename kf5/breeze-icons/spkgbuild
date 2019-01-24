@@ -1,8 +1,8 @@
 # description	: Breeze icon themes
-# makedepends	: extra-cmake-modules qt5
+# depends	: extra-cmake-modules qt5
 
 name=breeze-icons
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -18,3 +18,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(a556bc1666851b8437ccaafd8cefe1d2)

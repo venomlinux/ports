@@ -1,9 +1,8 @@
 # description	: Support for bookmarks and the XBEL format
-# depends	: kxmlgui
-# makedepends	: extra-cmake-modules qt5 python3
+# depends	: kxmlgui extra-cmake-modules qt5 python3
 
 name=kbookmarks
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(f047e46e6b2ff7555a35678dbfaf06d5)

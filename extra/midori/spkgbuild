@@ -1,0 +1,24 @@
+# description	: Lightweight web browser
+# depends	: cmake gcr webkitgtk vala gtk3 libsoup sqlite libpeas gst-plugins-base gst-plugins-good gst-libav
+
+name=midori
+version=7.0
+release=1
+source=(https://github.com/midori-browser/core/releases/download/v7/midori-v$version.tar.gz)
+md5sum=(c90278bab4442c258b13a7e6110de8ff)
+
+build() {
+	cd $name-v$version
+
+	mkdir build
+	cd    build
+
+	cmake \
+	-DCMAKE_INSTALL_PREFIX=/usr \
+      	-DCMAKE_BUILD_TYPE=Release  \
+	-DCMAKE_C_FLAGS="$CFLAGS -fPIC -w" \
+	-DVALA_CFLAGS="$CFLAGS -fPIC -w" \
+      	..
+	make
+	make DESTDIR=$PKG install
+}

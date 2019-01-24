@@ -1,0 +1,30 @@
+# description	: Qt based web browser engine
+# depends	: icu libjpeg-turbo libpng libwebp libxslt qt5 ruby sqlite gst-plugins-base
+
+name=qtwebkit
+version=5.9.0
+release=1
+source=(https://download.qt.io/community_releases/${version::3}/$version-final/qtwebkit-opensource-src-$version.tar.xz
+	$name-$version-icu_59-1.patch)
+
+build() {
+	cd qtwebkit-opensource-src-$version
+
+	patch -Np1 -i ../$name-$version-icu_59-1.patch
+
+	sed -e '/CONFIG/a QMAKE_CXXFLAGS += -Wno-expansion-to-defined' \
+	    -i Tools/qmake/mkspecs/features/unix/default_pre.prf
+
+	mkdir -p build
+	cd       build
+	
+	qmake ../WebKit.pro
+	make
+	make INSTALL_ROOT=$PKG install
+
+	find $PKG/usr/ -name \*.prl \
+	   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+}
+
+md5sum=(1fc0ed873cc9326b823a8a83126714f5
+b67e9ffcd9b478cb4fcda90b89af54c4)

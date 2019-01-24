@@ -1,22 +1,17 @@
 # description	: Lightweight system monitor for X
 # homepage	: https://github.com/brndnmtthws/conky
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: lua imlib2 wireless_tools
-# makedepends	: cmake man-db git docbook2x
+# depends	: lua imlib2 wireless_tools cmake man-db docbook2x
 
 name=conky
-version=1.10.7
+version=1.11.1
 release=1
 options=(!strip)
-source=($name-$version.tar.gz::https://github.com/brndnmtthws/conky/archive/v${version}.tar.gz
-	lua53.patch
-	out_to_x.patch)
+source=($name-$version.tar.gz::https://github.com/brndnmtthws/conky/archive/v${version}.tar.gz)
+md5sum=(2d59fcb331936d576d2a054e38db2d52)
 
 build() {
 	cd $name-$version
-
-	patch -p1 -i ../lua53.patch
-	patch -p1 -i ../out_to_x.patch
 
 	cmake \
 		-D CMAKE_BUILD_TYPE=Release \

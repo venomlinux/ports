@@ -1,20 +1,21 @@
 # description	: GLib interfaces to the D-Bus API
-# homepage	: http://www.freedesktop.org/wiki/Software/DBusBindings
+# homepage	: https://www.freedesktop.org/wiki/Software/DBusBindings
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: dbus glib
 
 name=dbus-glib
 version=0.110
-release=1
+release=2
 source=(http://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz)
+md5sum=(d7cebf1d69445cbd28b4983392145192)
 
 build() {
 	cd $name-$version
 
-  	./configure --prefix=/usr     \
+  	./configure --prefix=/usr \
+		    --libexecdir=/usr/lib/$name \
 	            --sysconfdir=/etc \
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
 }
-

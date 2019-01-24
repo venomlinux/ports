@@ -1,26 +1,28 @@
 # description	: Virtualbox host kernel modules
 # homepage	: http://virtualbox.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: virtualbox
 
 name=virtualbox-modules
-version=5.2.8
+version=5.2.24
 release=1
 _name=Oracle_VM_VirtualBox_Extension_Pack
-_release=121009
+_release=128163
 
 source=(http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_amd64.run)
+md5sum=(6c58d3766b85883bee4d15e351780023)
 
 build() {
 	sh VirtualBox-${version}-${_release}-Linux_amd64.run --keep --noexec --target $PWD
 	tar xf VirtualBox.tar.bz2 src/vboxhost/
 	cd src/vboxhost/
-
-	make
-	
-	for i in *.ko
-	do
-		install -D -m0644 $i \
-		$PKG/lib/modules/$(uname -r)/extra/$i
+	make	
+	for i in *.ko; do
+	    install -Dm0644 $i $PKG/lib/modules/$(uname -r)/extra/$i
 	done
+	install -d $PKG/etc/modules.d/
+	echo "# Load virtualbox modules at startup" > $PKG/etc/modules.d/virtualbox.conf
+	echo "vboxdrv" >> $PKG/etc/modules.d/virtualbox.conf
+	echo "vboxnetadp" >> $PKG/etc/modules.d/virtualbox.conf
+	echo "vboxnetflt" >> $PKG/etc/modules.d/virtualbox.conf
+	echo "vboxpci" >> $PKG/etc/modules.d/virtualbox.conf
 }

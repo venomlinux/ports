@@ -1,9 +1,8 @@
 # description	: Multi-language application scripting
-# depends	: kparts
-# makedepends	: extra-cmake-modules kdoctools qt5 python3
+# depends	: kparts extra-cmake-modules kdoctools qt5 python3
 
 name=kross
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/portingAids/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(690b0c422b7b22b7adf030be6a178e59)

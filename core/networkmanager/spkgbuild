@@ -1,27 +1,34 @@
 # description	: Network connection manager and user applications
-# depends	: nss dbus-glib libgudev libndp libnl consolekit2 dhcpcd libsoup newt polkit upower wpa_supplicant
-# makedepends	: gobject-introspection iptables vala docbook-xsl python2-gobject3
+# depends	: nss dbus-glib libgudev libndp libnl consolekit2 dhcpcd libsoup newt polkit upower wpa_supplicant gobject-introspection iptables vala docbook-xsl python2-gobject3 libxslt
 # backup	: etc/NetworkManager/NetworkManager.conf
 
 name=networkmanager
-version=1.10.6
+version=1.14.4
 release=2
-source=(http://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.networkmanager)
+source=(https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
+	$name.rc)
+md5sum=(54ce62f0aa18ef6c5e754eaac47494ac
+	6dafed6f16ea2d29761be435cbedcae9)
 
 build() {
 	cd NetworkManager-$version
 
+	# Fix a missing meson.build file for initrd hooks
+	sed '/initrd/d' -i src/meson.build
+
 	CXXFLAGS="$CXXFLAGS -fPIC"                 \
 	./configure --prefix=/usr                  \
 	            --sysconfdir=/etc              \
+		    --libexecdir=/usr/lib/$name    \
 	            --localstatedir=/var           \
 	            --with-nmtui                   \
+		    --with-libnm-glib              \
 	            --disable-ppp                  \
 	            --disable-json-validation      \
 	            --disable-ovs                  \
             	    --with-udev-dir=/lib/udev      \
-	            --with-systemdsystemunitdir=no
+	            --with-systemdsystemunitdir=no \
+		    --enable-modify-system
 	make
 	make DESTDIR=$PKG install
 
@@ -31,15 +38,6 @@ cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"
 plugins=keyfile
 EOF
 
-mkdir -p $PKG/usr/share/polkit-1/rules.d
-cat > $PKG/usr/share/polkit-1/rules.d/org.freedesktop.NetworkManager.rules << "EOF"
-polkit.addRule(function(action, subject) {
-    if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0 && subject.isInGroup("users")) {
-        return polkit.Result.YES;
-    }
-});
-EOF
-
-	# daemon files
-	install -Dm754 $SRC/rc.networkmanager $PKG/etc/rc.d/rc.networkmanager
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

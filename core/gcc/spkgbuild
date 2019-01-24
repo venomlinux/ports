@@ -4,9 +4,10 @@
 # depends	: binutils glibc
 
 name=gcc
-version=7.3.0
-release=1
-source=(http://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz)
+version=8.2.0
+release=2
+source=(https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz)
+md5sum=(4ab282f414676496483b3e1793d07862)
 
 build() {
 	cd $name-$version
@@ -19,9 +20,10 @@ build() {
 
 	SED=sed                               \
 	../configure --prefix=/usr            \
-	             --enable-languages=c,c++ \
+	             --enable-languages=c,c++,fortran,go,objc,obj-c++ \
 	             --disable-multilib       \
 	             --disable-bootstrap      \
+		     --disable-libmpx         \
 	             --with-system-zlib
 	make
 	make DESTDIR=$PKG install

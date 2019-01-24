@@ -2,12 +2,14 @@
 # depends	: python2 python2-setuptools
 
 name=python2-pip
-version=9.0.1
+version=18.1
 release=1
 source=(https://pypi.io/packages/source/p/pip/pip-${version}.tar.gz)
+md5sum=(75cad449ad62c88b22de317a26781714)
 
 build() {
 	cd pip-$version
 	python2 setup.py build
 	python2 setup.py install --prefix=/usr --root="$PKG"
+	mv $PKG/usr/bin/pip{,-py2}
 }

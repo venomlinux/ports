@@ -1,9 +1,8 @@
 # description	: Syntax highlighting engine for structured text and code
-# depends	: qt5
-# makedepends	: extra-cmake-modules
+# depends	: qt5 extra-cmake-modules
 
 name=syntax-highlighting
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -25,3 +24,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(62d67899a9cd5cd6b93761ebafd88942)

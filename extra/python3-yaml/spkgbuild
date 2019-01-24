@@ -1,0 +1,14 @@
+# description	: Python bindings for YAML, using fast libYAML library
+# depends	: python3 yaml
+
+name=python3-yaml
+version=3.13
+release=1
+source=(http://pyyaml.org/download/pyyaml/PyYAML-$version.tar.gz)
+md5sum=(b78b96636d68ac581c0e2f38158c224f)
+
+build() {
+	cd PyYAML-$version
+	python3 setup.py --with-libyaml build
+	python3 setup.py  --with-libyaml install --prefix=/usr --root="$PKG" -O1 --skip-build
+}

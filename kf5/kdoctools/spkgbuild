@@ -1,9 +1,8 @@
 # description	: Documentation generation from docbook
-# depends	: karchive docbook-xsl docbook-xml libxslt
-# makedepends	: extra-cmake-modules ki18n python3 perl-uri
+# depends	: karchive docbook-xsl docbook-xml libxslt extra-cmake-modules ki18n python3 perl-uri
 
 name=kdoctools
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(905d494671f33de9827c9a4467c0bdc7)

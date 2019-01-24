@@ -6,7 +6,7 @@
 name=libcroco
 version=0.6.12
 release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:3}/$name-$version.tar.xz)
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:3}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -15,3 +15,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(bc0984fce078ba2ce29f9500c6b9ddce)

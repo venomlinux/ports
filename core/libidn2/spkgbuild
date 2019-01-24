@@ -1,0 +1,15 @@
+# description	: Free software implementation of IDNA2008, Punycode and TR46
+# depends	: libunistring
+
+name=libidn2
+version=2.1.0
+release=1
+source=(https://ftp.gnu.org/gnu/libidn/libidn2-$version.tar.gz)
+md5sum=(b9c8aa6e48394155adb39b6d1db086d3)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

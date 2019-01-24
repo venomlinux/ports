@@ -1,9 +1,8 @@
 # description	: Configuration system
-# depends	: qt5
-# makedepends	: extra-cmake-modules
+# depends	: qt5 extra-cmake-modules
 
 name=kconfig
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(94c1924e39827a9bdfe19d1746383553)

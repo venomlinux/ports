@@ -2,9 +2,10 @@
 # depends	: glibc
 
 name=tzdata
-version=2018d
+version=2018i
 release=1
-source=(http://www.iana.org/time-zones/repository/releases/${name}${version}.tar.gz)
+source=(https://www.iana.org/time-zones/repository/releases/${name}${version}.tar.gz)
+md5sum=(b3f0a1a789480a036e58466cd0702477)
 
 build() {
 	ZONEINFO=$PKG/usr/share/zoneinfo

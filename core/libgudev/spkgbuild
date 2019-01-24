@@ -4,7 +4,7 @@
 name=libgudev
 version=232
 release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/$name/$version/$name-$version.tar.xz)
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/$version/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -13,3 +13,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(6914852377156665567abf8a38d89236)

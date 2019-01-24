@@ -1,0 +1,18 @@
+# description	: Applets for MATE panel
+# depends	: libnotify mate-panel libmateweather gtk3 glib dbus-glib libx11 libsm libice upower gtksourceview3 libwnck3 libxml2 libgtop wireless_tools polkit
+
+name=mate-applets
+version=1.20.3
+release=2
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(c1273cce9d9bd9c45419518c3f682960)
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,14 @@
+# description	: P(ortable|ackageable) NaCl-based crypto library
+
+name=libsodium
+version=1.0.16
+release=1
+source=(https://download.libsodium.org/libsodium/releases/libsodium-$version.tar.gz)
+md5sum=(37b18839e57e7a62834231395c8e962b)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

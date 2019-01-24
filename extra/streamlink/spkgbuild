@@ -1,0 +1,14 @@
+# description	: CLI program that launches streams from various streaming services in a custom video player (livestreamer fork)
+# depends	: python3-pysocks python3-websocket-client python3-iso3166 python3-iso-639 python3-requests python3-pycryptodome
+
+name=streamlink
+version=0.14.2
+release=1
+source=(https://github.com/$name/$name/releases/download/$version/$name-$version.tar.gz)
+md5sum=(c6f106592e7f911034217b5be7595739)
+
+build() {
+	cd $name-$version
+	python3 setup.py build
+	python3 setup.py install --root=$PKG --optimize=1
+}

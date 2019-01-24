@@ -1,9 +1,8 @@
 # description	: Qt-style Client and Server library wrapper for the Wayland libraries
-# depends	: qt5 wayland
-# makedepends	: extra-cmake-modules
+# depends	: qt5 wayland extra-cmake-modules
 
 name=kwayland
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(89674cb577a239da0c6decddb62e8e28)

@@ -1,0 +1,15 @@
+# description	: Language for writing Python extension modules
+# backup	: 
+# depends	: 
+# noextract	: 
+
+name=pyrex
+version=0.9.9
+release=1
+source=(http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/Pyrex-$version.tar.gz)
+md5sum=(515dee67d15d4393841e2d60e8341947)
+
+build() {
+	cd Pyrex-$version
+	python2 setup.py install --root=$PKG
+}

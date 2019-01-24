@@ -1,9 +1,8 @@
 # description	: Advanced text editing widgets
-# depends	: kcompletion kservice kiconthemes sonnet qt5
-# makedepends	: extra-cmake-modules python3 qt5
+# depends	: kcompletion kservice kiconthemes sonnet qt5 extra-cmake-modules python3 qt5
 
 name=ktextwidgets
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(41089d37d64582213161d5ea55833afa)

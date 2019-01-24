@@ -1,0 +1,28 @@
+# description	: utilities and libraries for handling ELF files
+# depends	: elfutils
+
+name=elfutils-32
+version=0.175
+release=1
+source=(https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2)
+md5sum=(9a02b0382b78cc2d515fb950275d4c02)
+
+build() {
+	cd elfutils-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	# fix a file to be compatible with gcc-8
+	#sed -e '/ALIGN_PRSTATUS)/{ 
+	#        s/__attribute/attribute_packed &/
+	#        s/packed, //}' \
+	#    -i backends/linux-core-note.c
+
+	./configure --prefix=/usr --libdir=/usr/lib32 --disable-textrelcheck
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

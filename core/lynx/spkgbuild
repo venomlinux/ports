@@ -1,23 +1,16 @@
 # description	: Text based web browser
-# homepage	: http://lynx.isc.org/
+# homepage	: https://lynx.isc.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: openssl
+# depends	: gnutls
 
 name=lynx
-version=2.8.8rel.2
+version=2.8.9rel.1
 release=1
-source=(http://invisible-mirror.net/archives/lynx/tarballs/${name}${version}.tar.bz2
-	$name-$version-openssl_1.1.0-1.patch
-	$name-$version-ncurses_6.1-1.patch)
+source=(https://invisible-mirror.net/archives/lynx/tarballs/${name}${version}.tar.bz2)
+md5sum=(44316f1b8a857b59099927edc26bef79)
 
 build() {
-	cd ${name}2-8-8
-
-	# patch to build Lynx with openssl-1.1
-	patch -p1 -i ../$name-$version-openssl_1.1.0-1.patch
-
-	# patch to build Lynx with ncurses-6.1
-	patch -p1 -i ../$name-$version-ncurses_6.1-1.patch
+	cd ${name}${version}
 
 	./configure --prefix=/usr          \
 	            --sysconfdir=/etc/lynx \

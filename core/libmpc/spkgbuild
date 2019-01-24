@@ -6,7 +6,7 @@
 name=libmpc
 version=1.1.0
 release=1
-source=(http://www.multiprecision.org/mpc/download/mpc-$version.tar.gz)
+source=(https://ftp.gnu.org/gnu/mpc/mpc-$version.tar.gz)
 
 build() {
 	cd mpc-$version
@@ -21,3 +21,4 @@ build() {
 	mv $PKG/usr/share/info/{mpc,$name}.info
 	mv $PKG/usr/share/doc/{mpc,$name}
 }
+md5sum=(4125404e41e482ec68282a2e687f6c73)

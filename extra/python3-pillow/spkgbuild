@@ -1,0 +1,17 @@
+# description	: Python Imaging Library (PIL) fork
+# depends	: python3 python3-setuptools freetype2
+
+name=python3-pillow
+version=5.4.1
+release=1
+source=(https://files.pythonhosted.org/packages/source/P/Pillow/Pillow-$version.tar.gz)
+md5sum=(f7d0ce066fc7ea7a685739227887aeaf)
+
+build() {
+	cd Pillow-$version
+	python3 setup.py build
+	python3 setup.py install --root="$PKG" --optimize=1
+
+	install -dm755 "$PKG/usr/include/python3.6m/"
+	install -m644 -t "$PKG/usr/include/python3.6m/" src/libImaging/*.h
+}

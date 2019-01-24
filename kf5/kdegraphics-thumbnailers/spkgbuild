@@ -1,9 +1,8 @@
 # description	: Thumbnailers for various graphics file formats
-# depends	: libkexiv2 libkdcraw kio
-# makedepends	: extra-cmake-modules
+# depends	: libkexiv2 libkdcraw kio extra-cmake-modules
 
 name=kdegraphics-thumbnailers
-version=17.12.2
+version=18.12.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(921bc1ad68c3a3f4b97423dac8651efb)

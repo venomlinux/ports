@@ -1,9 +1,8 @@
 # description	: KDE Plasma Desktop
-# depends	: polkit-kde-agent-1 libcanberra libxkbfile kmenuedit systemsettings ksysguard kpeople baloo qt5 kactivities-stats
-# makedepends	: extra-cmake-modules kdoctools boost xf86-input-evdev xf86-input-synaptics xorg-server python3 kdesignerplugin
+# depends	: polkit-kde-agent-1 libcanberra libxkbfile kmenuedit systemsettings ksysguard kpeople baloo qt5 kactivities-stats extra-cmake-modules kdoctools boost xf86-input-evdev xf86-input-synaptics xorg-server python3 kdesignerplugin
 
 name=plasma-desktop
-version=5.12.1
+version=5.14.4
 release=2
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -19,10 +18,6 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
-
-	(cd $PKG/usr/share/plasma/plasmoids
-		for j in $(find -name \*.js); do
-			ln -sfv ../code/$(basename $j) $(dirname $j)/../ui/
-		done
-	)
 }
+
+md5sum=(2db6c86391fcb083a0ff079a14875821)

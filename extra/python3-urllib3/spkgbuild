@@ -1,0 +1,14 @@
+# description	: HTTP library with thread-safe connection pooling and file post support
+# depends	: python3
+
+name=python3-urllib3
+version=1.24.1
+release=1
+source=(https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-$version.tar.gz)
+md5sum=(f3d8b1841539200c949a33e87e551d8e)
+
+build() {
+	cd ${name#*-}-$version
+	python3 setup.py build
+	python3 setup.py install --prefix=/usr --root=$PKG --optimize=1
+}

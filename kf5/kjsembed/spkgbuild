@@ -1,9 +1,8 @@
 # description	: Embedded JS
-# depends	: qt5 ki18n kjs
-# makedepends	: extra-cmake-modules kdoctools python3
+# depends	: qt5 ki18n kjs extra-cmake-modules kdoctools python3
 
 name=kjsembed
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/portingAids/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(91b293e616518e7603ef4063c748b324)

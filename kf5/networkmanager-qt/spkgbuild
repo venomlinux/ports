@@ -1,9 +1,8 @@
 # description	: Qt wrapper for NetworkManager API
-# depends	: networkmanager qt5
-# makedepends	: extra-cmake-modules
+# depends	: networkmanager qt5 extra-cmake-modules
 
 name=networkmanager-qt
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(0c55c1c31cc8c78b748d09cd5e4da395)

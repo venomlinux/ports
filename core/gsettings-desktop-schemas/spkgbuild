@@ -1,13 +1,13 @@
 # description	: Collection of GSettings schemas for settings shared by various components of a GNOME Desktop
 # homepage	: https://git.gnome.org/browse/gsettings-desktop-schemas
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: glib
-# makedepends	: gobject-introspection
+# depends	: glib gobject-introspection
 
 name=gsettings-desktop-schemas
-version=3.24.1
-release=2
-source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+version=3.28.1
+release=1
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(83bb19d025f126fae495ab43a2f26f40)
 
 build() {
 	cd $name-$version

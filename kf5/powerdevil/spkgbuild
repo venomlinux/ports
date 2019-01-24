@@ -1,9 +1,8 @@
 # description	: Manages the power consumption settings of a Plasma Shell
-# depends	: plasma-workspace bluez-qt networkmanager-qt libkscreen
-# makedepends	: extra-cmake-modules kdoctools python3 kdesignerplugin
+# depends	: plasma-workspace bluez-qt networkmanager-qt libkscreen extra-cmake-modules kdoctools python3 kdesignerplugin
 
 name=powerdevil
-version=5.12.1
+version=5.14.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(fdb962c816db14a40c5e455c6f25523a)

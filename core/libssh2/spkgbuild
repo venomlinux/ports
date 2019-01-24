@@ -1,0 +1,15 @@
+# description	: Client-side C library implementing the SSH2 protocol
+# depends	: libgcrypt openssh
+
+name=libssh2
+version=1.8.0
+release=1
+source=(https://www.libssh2.org/download/$name-$version.tar.gz)
+md5sum=(3d1147cae66e2959ea5441b183de1b1c)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

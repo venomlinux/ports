@@ -1,0 +1,38 @@
+# description	: Next generation of the python high-level scripting language
+# homepage	: https://www.python.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libffi-32 python2 openssl-32
+
+name=python2-32
+version=2.7.15
+release=1
+source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz)
+md5sum=(a80ae3cc478460b922242f43a1b4094d)
+
+build() {
+	cd Python-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	sed -i '/#SSL/,+3 s/^#//' Modules/Setup.dist
+
+  	./configure --prefix=/usr       \
+		    --libdir=/usr/lib32 \
+	            --enable-shared     \
+	            --with-system-expat \
+	            --with-system-ffi   \
+	            --enable-unicode=ucs4 
+	make
+	make DESTDIR=$PKG install
+
+	chmod -v 755 $PKG/usr/lib32/libpython2.7.so.1.0
+
+	mv $PKG/usr/include/python2.7/pyconfig.h $PKG/
+	rm -r $PKG/usr/{bin,include,lib,share/man}
+	install -d $PKG/usr/include/python2.7
+	mv $PKG/pyconfig.h $PKG/usr/include/python2.7/pyconfig-32.h
+}
+
+

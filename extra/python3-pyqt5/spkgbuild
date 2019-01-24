@@ -1,0 +1,21 @@
+# description	: A set of Python 3.x bindings for the Qt5 toolkit
+# depends	: python3-sip qtwebengine qt5-webkit python3-dbus
+
+name=python3-pyqt5
+version=5.11.3
+release=1
+source=(https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-$version/PyQt5_gpl-$version.tar.gz)
+md5sum=(aac3428e90eca5df68c5764282fd9b98)
+
+build() {
+	cd PyQt5_gpl-$version
+	
+	python3 configure.py \
+	    --confirm-license \
+	    --no-sip-files \
+	    -q /usr/bin/qmake
+	make
+	install -d $PKG/usr/share/sip/PyQt5
+	cp -a sip/* $PKG/usr/share/sip/PyQt5
+	make DESTDIR="$PKG" INSTALL_ROOT="$PKG" install -j1
+}

@@ -4,7 +4,7 @@
 name=glew
 version=2.1.0
 release=1
-source=(http://downloads.sourceforge.net/$name/$name-$version.tgz)
+source=(https://downloads.sourceforge.net/sourceforge/$name/$name-$version.tgz)
 
 build() {
 	cd $name-$version
@@ -14,3 +14,5 @@ build() {
 	make
 	make GLEW_DEST=$PKG/usr install.all
 }
+
+md5sum=(b2ab12331033ddfaa50dc39345343980)

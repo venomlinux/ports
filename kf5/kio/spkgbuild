@@ -1,9 +1,8 @@
 # description	: Resource and network access abstraction
-# depends	: solid kjobwidgets kbookmarks libxslt kwallet desktop-file-utils
-# makedepends	: extra-cmake-modules kdoctools python3 qt5
+# depends	: solid kjobwidgets kbookmarks libxslt kwallet desktop-file-utils extra-cmake-modules kdoctools python3 qt5
 
 name=kio
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(23e7ef2aedfca8e77907d50d5bcfcb7e)

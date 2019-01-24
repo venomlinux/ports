@@ -1,9 +1,8 @@
 # description	: Porting aid from KDELibs4
-# depends	: kunitconversion kitemmodels kemoticons kded kparts
-# makedepends	: extra-cmake-modules kdoctools qt5 networkmanager perl-uri python3 kdesignerplugin
+# depends	: kunitconversion kitemmodels kemoticons kded kparts extra-cmake-modules kdoctools qt5 networkmanager perl-uri python3 kdesignerplugin
 
 name=kdelibs4support
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/portingAids/$name-$version.tar.xz)
 
@@ -27,3 +26,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(4cc726dd1c9633b8c41e64b6c41264d5)

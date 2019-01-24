@@ -1,0 +1,26 @@
+# description	: A set of Python 3.x bindings for the Qt5 toolkit (python2)
+# depends	: python2-sip qtwebengine qt5-webkit python2-dbus
+
+name=python2-pyqt5
+version=5.10.1
+release=1
+source=(https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-$version/PyQt5_gpl-$version.tar.gz)
+md5sum=(be36c2abaffc9daa8b993f1ca982968f)
+
+build() {
+	cd PyQt5_gpl-$version
+	
+	python2 configure.py \
+	    --confirm-license \
+	    --no-sip-files \
+	    -q /usr/bin/qmake
+	make
+	make DESTDIR="$PKG" INSTALL_ROOT="$PKG" install
+
+	mv $PKG/usr/bin/pyrcc5{,-py2}
+	mv $PKG/usr/bin/pyuic5{,-py2}
+	mv $PKG/usr/bin/pylupdate5{,-py2}
+
+	rm $PKG/usr/lib/qt5/plugins/PyQt5/libpyqt5qmlplugin.so
+	rm $PKG/usr/lib/qt5/plugins/designer/libpyqt5.so
+}

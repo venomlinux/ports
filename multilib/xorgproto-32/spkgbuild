@@ -1,0 +1,26 @@
+# description	: Combined X.Org X11 Protocol headers
+# depends	: meson
+
+name=xorgproto-32
+version=2018.4
+release=1
+source=(https://xorg.freedesktop.org/archive/individual/proto/xorgproto-$version.tar.bz2)
+
+build() {
+	cd xorgproto-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	mkdir build
+	cd build
+	
+	meson --prefix=/usr --libdir=/usr/lib32 --datadir=/usr/lib32
+	ninja
+	DESTDIR=$PWD/DESTDIR ninja install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
+
+md5sum=(81557ca47ee66a4e54590fcdadd28114)

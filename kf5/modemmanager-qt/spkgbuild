@@ -1,9 +1,8 @@
 # description	: Qt wrapper for ModemManager DBus API
-# depends	: modemmanager qt5
-# makedepends	: extra-cmake-modules
+# depends	: modemmanager qt5 extra-cmake-modules
 
 name=modemmanager-qt
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(21d412157131d544fe2fd76e230af5e8)

@@ -1,0 +1,15 @@
+# description	: Archive manipulator for MATE
+# depends	: caja gtk3 glib gzip zip unzip tar
+
+name=engrampa
+version=1.20.2
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(5390da4f78f3eb54b516bffee77718ee)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --libexecdir=/usr/lib
+	make
+	make DESTDIR=$PKG install
+}

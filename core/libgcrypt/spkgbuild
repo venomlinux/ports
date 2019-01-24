@@ -1,12 +1,13 @@
 # description	: A general purpose crypto library based on the code used in GnuPG
-# homepage	: http://www.gnupg.org/
+# homepage	: https://www.gnupg.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: libgpg-error
 
 name=libgcrypt
-version=1.8.2
+version=1.8.4
 release=1
 source=(ftp://ftp.gnupg.org/gcrypt/$name/$name-$version.tar.bz2)
+md5sum=(fbfdaebbbc6d7e5fbbf6ffdb3e139573)
 
 build() {
 	cd $name-$version
@@ -19,4 +20,3 @@ build() {
 	install -v -m644    README doc/{README.apichanges,fips*,libgcrypt*} \
 	                    $PKG/usr/share/doc/$name
 }
-

@@ -1,12 +1,12 @@
 # description	: CD audio extraction tool
-# homepage	: http://www.xiph.org/paranoia/
+# homepage	: https://www.xiph.org/paranoia/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=cdparanoia
 version=10.2
 release=1
-source=(http://downloads.xiph.org/releases/$name/$name-III-$version.src.tgz
-	http://www.linuxfromscratch.org/patches/blfs/8.1/$name-III-$version-gcc_fixes-1.patch)
+source=(https://downloads.xiph.org/releases/$name/$name-III-$version.src.tgz
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-III-$version-gcc_fixes-1.patch)
 
 build() {
 	cd $name-III-$version
@@ -19,3 +19,6 @@ build() {
 
 	chmod -v 755 $PKG/usr/lib/libcdda_*.so.0.10.2
 }
+
+md5sum=(b304bbe8ab63373924a744eac9ebc652
+4d6a164f760b59c2f0d82d0997dbdce1)

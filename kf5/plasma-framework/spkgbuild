@@ -1,9 +1,8 @@
 # description	: Plasma library and runtime components based upon KF5 and Qt5
-# depends	: qt5 kactivities kdeclarative kwayland kirigami2
-# makedepends	: extra-cmake-modules kdoctools python3
+# depends	: qt5 kactivities kdeclarative kwayland kirigami2 extra-cmake-modules kdoctools python3
 
 name=plasma-framework
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(b083d295d7f2ba6236ca466b0cdaca64)

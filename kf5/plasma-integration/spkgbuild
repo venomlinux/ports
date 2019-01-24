@@ -1,9 +1,8 @@
 # description	: Qt Platform Theme integration plugins for the Plasma workspaces
-# depends	: kio kwayland libxcursor noto-fonts
-# makedepends	: extra-cmake-modules python3 breeze
+# depends	: kio kwayland libxcursor noto-fonts extra-cmake-modules python3 breeze
 
 name=plasma-integration
-version=5.12.1
+version=5.14.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(14289404eeff5fd571aefbe2a025dc86)

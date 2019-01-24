@@ -1,18 +1,20 @@
 # description	: Daemon that displays passive pop-up notifications
-# homepage	: http://www.gnome.org/
+# homepage	: https://www.gnome.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: gtk3 libcanberra
 
 name=notification-daemon
 version=3.20.0
-release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+release=2
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+md5sum=(2de7f4075352831f1d98d8851b642124)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr     \
+	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
+	            --libexecdir=/usr/lib/$name \
 	            --disable-static
 	make
 	make DESTDIR=$PKG install

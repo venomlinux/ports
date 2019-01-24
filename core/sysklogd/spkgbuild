@@ -4,8 +4,11 @@
 
 name=sysklogd
 version=1.5.1
-release=1
-source=(http://www.infodrom.org/projects/$name/download/$name-$version.tar.gz)
+release=2
+source=(http://www.infodrom.org/projects/$name/download/$name-$version.tar.gz
+	$name.rc)
+md5sum=(c70599ab0d037fde724f7210c2c8d7f8
+	6b5bf4e2fae36cc8131f09cb2bf06d86)
 
 build() {
 	cd $name-$version
@@ -31,4 +34,7 @@ user.* -/var/log/user.log
 
 # End /etc/syslog.conf
 EOF
+
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

@@ -4,10 +4,12 @@
 # depends	: freetype2
 
 name=fontconfig
-version=2.13.0
-release=1
-source=(http://www.freedesktop.org/software/fontconfig/release/$name-$version.tar.bz2
+version=2.13.1
+release=2
+source=(https://www.freedesktop.org/software/fontconfig/release/$name-$version.tar.bz2
 	fontconfig.hook)
+md5sum=(36cdea1058ef13cbbfdabe6cb019dc1c
+	061e0e151ec159b1918b8968e4541f9d)
 
 build() {
 	cd $name-$version
@@ -24,4 +26,3 @@ build() {
 
 	install -Dm644 $SRC/fontconfig.hook $PKG/etc/hooks/fontconfig.hook
 }
-

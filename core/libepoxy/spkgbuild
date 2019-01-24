@@ -1,18 +1,21 @@
 # description	: Library for handling OpenGL function pointer management
 # homepage	: https://github.com/anholt/libepoxy
 # maintainer	: daemonbsd56
-# makedepends	: mesa
+# depends	: mesa meson
 
 name=libepoxy
-version=1.5.0
+version=1.5.3
 release=1
 source=(https://github.com/anholt/$name/releases/download/$version/$name-$version.tar.xz)
+md5sum=(e2845de8d2782b2d31c01ae8d7cd4cbb)
 
 build() {
 	cd $name-$version
 
-  	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
+  	mkdir build
+	cd build
+	
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
 }
-

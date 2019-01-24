@@ -1,16 +1,16 @@
 # description	: Version control system designed to handle everything from small to very large projects with speed and efficiency
-# depends	: curl openssl
-# makedepends	: python2
+# depends	: curl openssl python2
 
 name=git
-version=2.16.3
+version=2.20.1
 release=1
 source=(https://www.kernel.org/pub/software/scm/$name/$name-$version.tar.xz)
+md5sum=(5fb4ff92b56ce3172b99c1c74c046c1a)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --with-gitconfig=/etc/gitconfig
+	./configure --prefix=/usr --libexecdir=/usr/lib --with-gitconfig=/etc/gitconfig
 	make
 	make DESTDIR=$PKG install
 

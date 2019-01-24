@@ -5,8 +5,8 @@
 name=libmad
 version=0.15.1b
 release=1
-source=(http://downloads.sourceforge.net/mad/libmad-0.15.1b.tar.gz
-	http://www.linuxfromscratch.org/patches/blfs/8.1/$name-$version-fixes-1.patch)
+source=(https://downloads.sourceforge.net/mad/libmad-0.15.1b.tar.gz
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-fixes-1.patch)
 
 build() {
 	cd $name-$version
@@ -37,3 +37,6 @@ Libs: -L${libdir} -lmad
 Cflags: -I${includedir}
 EOF
 }
+
+md5sum=(1be543bc30c56fb6bea1d7bf6a64e66c
+d66a99860fd79066515671a511bd8f4f)

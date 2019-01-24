@@ -1,11 +1,10 @@
 # description	: Qt implementation of the DBusMenu specification that exposes menus via DBus
-# depends	: qt5
-# makedepends	: cmake
+# depends	: qt5 cmake
 
 name=libdbusmenu-qt
 version=0.9.3+16.04.20160218
 release=1
-source=(http://launchpad.net/ubuntu/+archive/primary/+files/${name}_${version}.orig.tar.gz)
+source=(https://launchpad.net/ubuntu/+archive/primary/+files/${name}_${version}.orig.tar.gz)
 
 build() {
 	cd ${name}-${version}
@@ -19,3 +18,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(8b90312bd8654e026d814d4db986ce5e)

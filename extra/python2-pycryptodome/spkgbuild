@@ -1,0 +1,14 @@
+# description	: Cryptographic library for Python (python2)
+# depends	: python2
+
+name=python2-pycryptodome
+version=3.7.2
+release=1
+source=(https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-$version.tar.gz)
+md5sum=(817125c7d19313308a59cbfd25795060)
+
+build() {
+	cd ${name#*-}-$version
+	python2 setup.py build
+	python2 setup.py install --root=$PKG --optimize=1
+}

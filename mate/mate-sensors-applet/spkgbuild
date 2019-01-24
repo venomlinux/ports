@@ -1,0 +1,15 @@
+# description	: A MATE Panel applet to display readings from hardware sensors, including CPU temperature, fan speeds and voltage readings
+# depends	: glib libx11 libxext mate-panel gtk3 libnotify
+
+name=mate-sensors-applet
+version=1.20.3
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(8f8aefaba2e7539de81b7dfb9521ecdc)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --libexecdir=/usr/lib/$name
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,27 @@
+# description	: 2D graphics library with support for multiple output devices
+# homepage	: https://cairographics.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: cairo libpng-32 pixman-32 fontconfig-32 glib-32 libxcb-32 libxrender-32 libx11-32 libxext-32
+
+name=cairo-32
+version=1.16.0
+release=1
+source=(https://cairographics.org/releases/cairo-$version.tar.xz)
+md5sum=(f19e0353828269c22bd72e271243a552)
+
+build() {
+	cd cairo-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr    \
+		    --libdir=/usr/lib32 \
+        	    --disable-static \
+	            --enable-tee
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

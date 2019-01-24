@@ -1,0 +1,14 @@
+# description	: A small youtube browser
+# depends	: hicolor-icon-theme qt5 qt5-webkit
+
+name=smtube
+version=18.11.0
+release=1
+source=(https://sourceforge.net/projects/smtube/files/SMTube/$version/smtube-$version.tar.bz2)
+md5sum=(ffedec06fc5895e42d0afb284d760e6c)
+
+build() {
+	cd $name-$version
+	make PREFIX=/usr
+	make PREFIX=/usr DESTDIR=$PKG install
+}

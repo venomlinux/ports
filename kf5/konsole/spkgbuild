@@ -1,9 +1,8 @@
 # description	: KDE's terminal emulator
-# depends	: knotifyconfig kpty kparts kinit
-# makedepends	: extra-cmake-modules kdoctools python3
+# depends	: knotifyconfig kpty kparts kinit extra-cmake-modules kdoctools python3
 
 name=konsole
-version=17.12.2
+version=18.12.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(6e51d07c71cd4b07cf3648e392210d2f)

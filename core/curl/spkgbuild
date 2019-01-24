@@ -1,11 +1,13 @@
 # description	: Utility and a library used for transferring files
+# homepage	: https://curl.haxx.se/
 # depends	: ca-certificates openssl
 # optdepends	: c-ares gnutls libdn2 nghttp2 openldap samba
 
 name=curl
-version=7.58.0
+version=7.63.0
 release=1
 source=(https://curl.haxx.se/download/$name-$version.tar.xz)
+md5sum=(f43d618cc49c1820d3a2fed31e451d4c)
 
 build() {
 	cd $name-$version
@@ -17,4 +19,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-

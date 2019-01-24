@@ -1,20 +1,18 @@
 # description	: Vi Improved, a highly configurable, improved version of the vi text editor
-# homepage	: http://www.vim.org/
+# homepage	: https://www.vim.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: acl
-# makedepends	: gawk
+# depends	: acl gawk
 
 name=vim
-version=8.0.586
+version=8.1
 release=1
 source=(ftp://ftp.vim.org/pub/vim/unix/$name-$version.tar.bz2)
+md5sum=(1739a1df312305155285f0cfa6118294)
 
 build() {
-	cd vim80
+	cd vim81
 
 	echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
-
-	sed -i '/call/{s/split/xsplit/;s/303/492/}' src/testdir/test_recover.vim
 
 	./configure --prefix=/usr
 	make
@@ -43,7 +41,6 @@ syntax on
 if (&term == "xterm") || (&term == "putty")
   set background=dark
 endif
-
 
 " End /etc/vimrc
 EOF

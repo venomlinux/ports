@@ -1,0 +1,7 @@
+# description	: Updating kernel module dependencies...
+# operation	: install upgrade remove
+# target	: lib/modules/%KERNVER%/extra
+
+exechook() {
+	/sbin/depmod %KERNVER%
+}

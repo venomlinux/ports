@@ -1,0 +1,19 @@
+# description	: Fast and reliable FTP, FTPS and SFTP client
+# depends	: libfilezilla gnutls dbus wxgtk3
+
+name=filezilla
+version=3.39.0
+release=1
+source=(https://download.filezilla-project.org/client/FileZilla_${version}_src.tar.bz2)
+md5sum=(9e819e21fafe9ff16bfc1c07b4c09153)
+
+build() {
+	cd $name-$version
+	./configure \
+	    --prefix=/usr \
+	    --disable-manualupdatecheck \
+	    --disable-autoupdatecheck \
+	    --with-pugixml=builtin
+	make
+	make DESTDIR=$PKG install
+}

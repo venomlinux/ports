@@ -4,13 +4,14 @@
 # depends	: mplayer qt5 hicolor-icon-theme
 
 name=smplayer
-version=18.2.0
+version=18.10.0
 release=1
-source=(https://downloads.sourceforge.net/$name/$name-$version.tar.bz2)
+source=(https://downloads.sourceforge.net/sourceforge/$name/$name-$version.tar.bz2)
+md5sum=(2785988247e3ee9aa94ee2010473c08a)
 
 build() {
 	cd $name-$version
-	   
+
 	make PREFIX=/usr \
 	     DOC_PATH="\\\"/usr/share/doc/smplayer\\\"" \
 	     QMAKE_OPTS=DEFINES+=NO_DEBUG_ON_CONSOLE

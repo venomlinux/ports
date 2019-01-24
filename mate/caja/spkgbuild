@@ -1,0 +1,15 @@
+# description	: The file manager for MATE
+# depends	: gtk3 libnotify glib mate-desktop libnotify
+
+name=caja
+version=1.20.3
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(357fb5009e942378e7fbde4126fcbbc5)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-update-mimedb
+	make
+	make DESTDIR=$PKG install
+}

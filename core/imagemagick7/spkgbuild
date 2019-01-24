@@ -1,14 +1,14 @@
 # description	: ImageMagick is a collection of tools and libraries to read, write, and manipulate an image in various image formats
-# homepage	: http://www.imagemagick.org
+# homepage	: https://www.imagemagick.org
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: fontconfig lcms2 libtool libxext libxt perl
-# makedepends	: libxml2 librsvg
+# depends	: fontconfig lcms2 libtool libxext libxt perl libxml2 librsvg
 
 name=imagemagick7
-version=7.0.7.23
+version=7.0.8.16
 release=1
 options=(libtool)
-source=(ftp://ftp.imagemagick.org/pub/ImageMagick/releases/ImageMagick-${version%.*}-${version##*.}.tar.xz)
+source=(https://www.imagemagick.org/download/ImageMagick-${version%.*}-${version##*.}.tar.xz)
+md5sum=(e058cadb0c53375c122dd65c753fc54a)
 
 build() {
 	cd ImageMagick-${version%.*}-${version##*.}
@@ -25,4 +25,3 @@ build() {
 	find $PKG -name perllocal.pod -exec rm {} \;
 
 }
-

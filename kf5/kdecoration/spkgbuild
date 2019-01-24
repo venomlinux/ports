@@ -1,9 +1,8 @@
 # description	: Plugin based library to create window decorations
-# depends	: qt5
-# makedepends	: extra-cmake-modules
+# depends	: qt5 extra-cmake-modules
 
 name=kdecoration
-version=5.12.1
+version=5.14.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(014d15755600481d8bd2125d82776510)

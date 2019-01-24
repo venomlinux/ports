@@ -1,12 +1,13 @@
 # description	: Provides a way to load and enumerate PKCS #11 (a Cryptographic Token Interface Standard) modules
 # homepage	: https://github.com/p11-glue/p11-kit/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: ca-certificates libtasn1 libffi
+# depends	: libtasn1 libffi
 
 name=p11-kit
-version=0.23.10
-release=1
+version=0.23.14
+release=2
 source=(https://github.com/p11-glue/p11-kit/releases/download/$version/$name-$version.tar.gz)
+md5sum=(85e1cdb5fce0087711ba2521975f0420)
 
 build() {
 	cd $name-$version
@@ -14,9 +15,8 @@ build() {
 	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
-		--with-trust-paths=/etc/pki/anchors
-	
+		--libexecdir=/usr/lib \
+		--with-trust-paths=/etc/pki/anchors	
 	make
 	make DESTDIR=$PKG install
 }
-

@@ -1,9 +1,8 @@
 # description	: KDE Oxygen style
-# depends	: frameworkintegration kdecoration kcmutils kwayland
-# makedepends	: kcmutils kdecoration extra-cmake-modules kdoctools python3
+# depends	: frameworkintegration kdecoration kcmutils kwayland kcmutils kdecoration extra-cmake-modules kdoctools python3
 
 name=oxygen
-version=5.12.1
+version=5.14.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(a194273fcb39e57b694121d258188a7a)

@@ -1,0 +1,33 @@
+# description	: Perl Compatible Regular Expression libraries
+# homepage	: https://www.pcre.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: pcre bzip2-32 readline-32
+
+name=pcre-32
+version=8.42
+release=1
+source=(ftp://ftp.pcre.org/pub/pcre/pcre-$version.tar.bz2)
+
+build() {
+	cd pcre-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr                     \
+		    --libdir=/usr/lib32               \
+	            --enable-unicode-properties       \
+	            --enable-pcre16                   \
+	            --enable-pcre32                   \
+	            --enable-pcregrep-libz            \
+	            --enable-pcregrep-libbz2          \
+	            --enable-pcretest-libreadline     \
+	            --disable-static
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
+
+md5sum=(085b6aa253e0f91cae70b3cdbe8c1ac2)

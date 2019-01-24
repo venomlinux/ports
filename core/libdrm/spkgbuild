@@ -1,12 +1,12 @@
 # description	: Provides a user space library for accessing the DRM, direct rendering manager, on operating systems that support the ioctl interface
-# depends	: libpciaccess
-# makedepends	: meson
+# depends	: libpciaccess meson
 # optdepends	: cairo docbook-xml docbook-xml libxslt valgrind cunit
 
 name=libdrm
-version=2.4.91
+version=2.4.96
 release=1
-source=(http://dri.freedesktop.org/$name/$name-$version.tar.bz2)
+source=(https://dri.freedesktop.org/$name/$name-$version.tar.bz2)
+md5sum=(f296d87272b1befeada3bb135751ab3d)
 
 build() {
 	cd $name-$version
@@ -17,4 +17,3 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 }
-

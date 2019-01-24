@@ -1,0 +1,23 @@
+# description	: dhcpcd lfsbootscripts
+# depends	: dbus
+
+name=dhcpcd-lfsbootscripts
+version=20180105
+release=2
+source=(http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$version.tar.xz)
+
+build() {
+	cd blfs-bootscripts-$version
+	make DESTDIR=$PKG install-service-dhcpcd
+
+	mkdir -p $PKG/etc/sysconfig
+	cat > $PKG/etc/sysconfig/ifconfig.eth0 << "EOF"
+ONBOOT="no"
+IFACE="eth0"
+SERVICE="dhcpcd"
+#DHCP_START="-b -q <insert appropriate start options here>"
+#DHCP_STOP="-k <insert additional stop options here>"
+EOF
+}
+
+md5sum=(7bed272b5af14abc6a3705e4d40326bf)

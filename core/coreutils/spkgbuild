@@ -4,10 +4,12 @@
 # depends	: acl attr glibc gmp
 
 name=coreutils
-version=8.29
-release=2
-source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
+version=8.30
+release=3
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-i18n-1.patch)
+md5sum=(ab06d68949758971fe744db66b572816
+	6cc582a474ec9e4c89638b419ddcaac9)
 
 build() {
 	cd $name-$version
@@ -17,9 +19,12 @@ build() {
 	patch -Np1 -i ../$name-i18n-1.patch
 	sed -i '/test.lock/s/^/#/' gnulib-tests/gnulib.mk
 
-	FORCE_UNSAFE_CONFIGURE=1 ./configure \
-	            --prefix=/usr            \
-	            --enable-no-install-program=kill,uptime
+	autoreconf -fiv
+	FORCE_UNSAFE_CONFIGURE=1 \
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+		--enable-no-install-program=kill,uptime
 	FORCE_UNSAFE_CONFIGURE=1 make
 	make DESTDIR=$PKG install
 

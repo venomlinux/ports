@@ -1,6 +1,4 @@
 # Begin ~/.bashrc
-# Written for Beyond Linux From Scratch
-# by James Robertson <jameswrobertson@earthlink.net>
 
 # Personal aliases and functions.
 

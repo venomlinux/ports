@@ -1,14 +1,15 @@
 # description	: Print spooler and associated utilities
 # homepage	: https://www.cups.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: gnutls libusb linux-pam
-# makedepends	: dbus colord xdg-utils
+# depends	: gnutls libusb linux-pam dbus colord xdg-utils
 
 name=cups
-version=2.2.7
-release=2
+version=2.2.10
+release=1
 source=(https://github.com/apple/cups/releases/download/v$version/$name-$version-source.tar.gz
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.cups)
+	$name.rc)
+md5sum=(3d22d747403ec5dcd0b66d1332564816
+	324848d098be356a18083b0a02c3c842)
 
 build() {
 	cd $name-$version
@@ -19,7 +20,7 @@ build() {
 	aclocal  -I config-scripts
 	autoconf -I config-scripts
 	
-	CC=gcc \
+	CC=gcc CXX=g++ \
 	./configure --libdir=/usr/lib            \
 	            --disable-systemd            \
 	            --with-rcdir=/tmp/cupsinit   \
@@ -51,6 +52,6 @@ EOF
 
 	rm -fr $PKG/var/run
 
-	# daemon files
-	install -Dm644 $SRC/rc.cups $PKG/etc/rc.d/rc.cups
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

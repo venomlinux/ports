@@ -1,11 +1,12 @@
 # description	: Extraction utility used for extracting files from RAR archives
-# homepage	: http://www.rarlab.com/rar_add.htm
+# homepage	: https://www.rarlab.com/rar_add.htm
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=unrar
-version=5.6.1
+version=5.6.8
 release=1
-source=(http://www.rarlab.com/rar/unrarsrc-$version.tar.gz)
+source=(https://www.rarlab.com/rar/unrarsrc-$version.tar.gz)
+md5sum=(def579782da17dc85940cda559b92287)
 
 build() {
 	cd unrar
@@ -13,3 +14,4 @@ build() {
 	make CXXFLAGS="$CXXFLAGS" -f makefile
 	install -v -Dm755 unrar $PKG/usr/bin/unrar
 }
+

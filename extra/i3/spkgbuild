@@ -1,14 +1,15 @@
 # description	: An improved dynamic tiling window manager
 # homepage	: http://i3wm.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: xcb-util-cursor xcb-util-keysyms xcb-util-wm xcb-util-xrm libev yajl startup-notification pango libxkbcommon
-# makedepends	: bison flex
+# depends	: xcb-util-cursor xcb-util-keysyms xcb-util-wm xcb-util-xrm libev yajl startup-notification pango libxkbcommon bison flex
 
 name=i3
-version=4.14.1
+version=4.16
 release=1
 source=(http://i3wm.org/downloads/$name-$version.tar.bz2
 	0001-Use-OVER-operator-for-drawing-text.patch)
+md5sum=(084ca32d3a4e67f5c7ccd7282bf58c2b
+	4f8c9f6f66b17fd59254f7f472441883)
 
 build() {
 	cd $name-$version

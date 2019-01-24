@@ -1,19 +1,21 @@
 # description	: GNU's tool for secure communication and data storage
-# homepage	: http://www.gnupg.org/
+# homepage	: https://www.gnupg.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: libassuan libgcrypt libgpg-error libksba npth pinentry
 
 name=gnupg
-version=2.2.5
+version=2.2.12
 release=1
 source=(https://gnupg.org/ftp/gcrypt/$name/$name-$version.tar.bz2)
+md5sum=(421b17028878b253c5acfef056bc6141)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr            \
-	            --enable-symcryptrun     \
-	            --enable-maintainer-mode
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib/$name \
+		--enable-symcryptrun
 	make
 	make DESTDIR=$PKG install
 }

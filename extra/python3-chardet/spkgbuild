@@ -1,0 +1,14 @@
+# description	: Python module for character encoding auto-detection
+# depends	: python3
+
+name=python3-chardet
+version=3.0.4
+release=1
+source=(https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-$version.tar.gz)
+md5sum=(7dd1ba7f9c77e32351b0a0cfacf4055c)
+
+build() {
+	cd ${name#*-}-$version
+	python3 setup.py build
+	python3 setup.py install --prefix=/usr --root=$PKG --optimize=1
+}

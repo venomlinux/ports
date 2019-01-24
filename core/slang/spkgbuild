@@ -1,12 +1,12 @@
 # description	: Interpreted language that may be embedded into an application to make the application extensible
-# homepage	: http://www.jedsoft.org/slang/
+# homepage	: https://www.jedsoft.org/slang/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: libpng pcre
 
 name=slang
 version=2.3.2
 release=1
-source=(http://www.jedsoft.org/releases/$name/$name-$version.tar.bz2)
+source=(https://www.jedsoft.org/releases/$name/$name-$version.tar.bz2)
 
 build() {
 	cd $name-$version
@@ -23,3 +23,5 @@ build() {
 	chmod -v 755 $PKG/usr/lib/libslang.so.$version \
              $PKG/usr/lib/slang/v2/modules/*.so
 }
+
+md5sum=(c2d5a7aa0246627da490be4e399c87cb)

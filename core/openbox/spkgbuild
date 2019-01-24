@@ -5,14 +5,16 @@
 
 name=openbox
 version=3.6.1
-release=1
+release=2
 source=(http://openbox.org/dist/$name/$name-$version.tar.gz)
+md5sum=(b72794996c6a3ad94634727b95f9d204)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr     \
+	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
+	            --libexecdir=/usr/lib/$name \
 	            --disable-static
 	make
 	make DESTDIR=$PKG install

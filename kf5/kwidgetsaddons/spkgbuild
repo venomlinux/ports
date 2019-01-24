@@ -1,9 +1,8 @@
 # description	: Addons to QtWidgets
-# depends	: qt5
-# makedepends	: extra-cmake-modules
+# depends	: qt5 extra-cmake-modules
 
 name=kwidgetsaddons
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(d73f5e3087bac6610b217df937024f5a)

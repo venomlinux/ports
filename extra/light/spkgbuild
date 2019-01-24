@@ -1,16 +1,24 @@
 # description	: Program to easily change brightness on backlight-controllers
 # homepage	: https://github.com/haikarainen/light
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# makedepends	: help2man
+# depends	: help2man
 
 name=light
-version=1.0
+version=1.2
 release=1
-source=($name-$version.tar.gz::https://github.com/haikarainen/light/archive/v$version.tar.gz)
+source=($name-$version.tar.gz::https://github.com/haikarainen/light/archive/v$version.tar.gz
+	$name.rc)
+md5sum=(042b757a0fafd14750fed4c96a4ff767
+	d443423606ba6fb12ae58215c606afc9)
 
 build() {
 	cd $name-$version
 
+	./autogen.sh
+	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
+
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

@@ -1,9 +1,8 @@
 # description	: A style for Qt Quick Controls 2 to make it follow your desktop theme
-# depends	: kirigami2 kiconthemes
-# makedepends	: extra-cmake-modules
+# depends	: kirigami2 kiconthemes extra-cmake-modules
 
 name=qqc2-desktop-style
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(b873771ad44ec37625a79d7a41e8679f)

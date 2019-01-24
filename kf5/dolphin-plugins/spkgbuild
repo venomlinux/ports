@@ -1,9 +1,8 @@
 # description	: Extra Dolphin plugins
-# depends	: dolphin kdelibs4support
-# makedepends	: extra-cmake-modules kdoctools ktexteditor kdesignerplugin
+# depends	: dolphin kdelibs4support extra-cmake-modules kdoctools ktexteditor kdesignerplugin
 
 name=dolphin-plugins
-version=17.12.2
+version=18.12.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(cda075981571d51e0c20607f58c84fe4)

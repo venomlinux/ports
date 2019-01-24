@@ -1,9 +1,8 @@
 # description	: Adjust your monitor's gamma settings
-# depends	: kconfigwidgets
-# makedepends	: extra-cmake-modules kdoctools python3
+# depends	: kconfigwidgets extra-cmake-modules kdoctools python3
 
 name=kgamma5
-version=5.12.1
+version=5.14.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(3c3ba960cca9349126dcafcbf702eab1)

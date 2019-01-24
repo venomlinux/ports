@@ -1,12 +1,13 @@
 # description	: Library for encoding video streams into the H.265/HEVC format
 # homepage	: https://bitbucket.org/multicoreware/x265
 # maintainer	: daemonbsd56
-# makedepends	: cmake yasm
+# depends	: cmake nasm
 
 name=x265
-version=2.7
+version=2.9
 release=1
 source=(https://bitbucket.org/multicoreware/$name/downloads/${name}_${version}.tar.gz)
+md5sum=(693ee4ce7929a59735f441107310f0bb)
 
 build() {
 	cd ${name}_${version}

@@ -1,12 +1,13 @@
 # description	: The Practical Extraction and Report Language
-# homepage	: http://www.perl.org/
+# homepage	: https://www.perl.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: gdbm glibc
 
 name=perl
-version=5.26.1
-release=1
-source=(http://www.cpan.org/src/5.0/$name-$version.tar.xz)
+version=5.28.1
+release=2
+source=(https://www.cpan.org/src/5.0/$name-$version.tar.xz)
+md5sum=(fbb590c305f2f88578f448581b8cf9c4)
 
 build() {
 	cd $name-$version
@@ -16,6 +17,9 @@ build() {
 
 	sh Configure -des -Dprefix=/usr                 \
 	                  -Dvendorprefix=/usr           \
+	                  -Dprivlib=/usr/lib/perl5/${version%.*} \
+	                  -Dsitelib=/usr/lib/perl5/site_perl/${version%.*} \
+	                  -Dvendorlib=/usr/lib/perl5/site_perl/${version%.*} \
 	                  -Dman1dir=/usr/share/man/man1 \
 	                  -Dman3dir=/usr/share/man/man3 \
 	                  -Dpager="/usr/bin/less -isR"  \

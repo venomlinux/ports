@@ -1,13 +1,13 @@
 # description	: Provides a Service Provider Interface for the Assistive Technologies available on the GNOME platform and a library against which applications can be linked
-# homepage	: http://www.gnome.org/
+# homepage	: https://www.gnome.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: dbus glib libxtst
-# makedepends	: gobject-introspection meson
+# depends	: dbus glib libxtst gobject-introspection meson
 
 name=at-spi2-core
-version=2.28.0
-release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+version=2.30.0
+release=2
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+md5sum=(d4f22c66b3210ffe6b10d01c04e008b5)
 
 build() {
 	cd $name-$version
@@ -15,7 +15,10 @@ build() {
 	mkdir build
 	cd    build
 
-	meson --prefix=/usr --sysconfdir=/etc  ..
+	meson --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --libexecdir=/usr/lib/$name ..
 	ninja
 	DESTDIR=$PKG ninja install
+
+	# remove systemd files
+	rm -fr $PKG/usr/lib/systemd/
 }

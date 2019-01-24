@@ -1,9 +1,8 @@
 # description	: Support for emoticons and emoticons themes
-# depends	: karchive kservice
-# makedepends	: extra-cmake-modules python3 mesa qt5
+# depends	: karchive kservice extra-cmake-modules python3 mesa qt5
 
 name=kemoticons
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(cf48b7990b0026a6eb193bff21eb2ad8)

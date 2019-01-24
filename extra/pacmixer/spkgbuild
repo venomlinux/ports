@@ -1,0 +1,14 @@
+# description	: alsamixer alike for PulseAudio
+# depends	: gcc gnustep-make gnustep-base pulseaudio ncurses ninja
+
+name=pacmixer
+version=0.6.3
+release=1
+source=($name-$version.tar.gz::https://github.com/KenjiTakahashi/pacmixer/archive/$version.tar.gz)
+md5sum=(ad37c17e67994c9a123563092ac841c3)
+
+build() {
+	cd $name-$version
+	./mk
+	DESTDIR=$PKG PREFIX="/usr" ./mk install
+}

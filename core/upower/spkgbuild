@@ -1,19 +1,20 @@
 # description	: Interface to enumerating power devices, listening to device events and querying history and statistics
-# homepage	: http://upower.freedesktop.org/
+# homepage	: https://upower.freedesktop.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: dbus-glib libgudev libusb polkit
-# makedepends	: gobject-introspection
+# depends	: dbus-glib libgudev libusb polkit gobject-introspection
 
 name=upower
 version=0.99.7
-release=1
-source=(http://upower.freedesktop.org/releases/$name-$version.tar.xz)
+release=2
+source=(https://upower.freedesktop.org/releases/$name-$version.tar.xz)
+md5sum=(236bb439d9ff1151450b3d8582399532)
 
 build() {
 	cd $name-$version
 
 	./configure --prefix=/usr        \
 	            --sysconfdir=/etc    \
+		    --libexecdir=/usr/lib/$name \
 	            --localstatedir=/var \
 	            --enable-deprecated  \
 	            --disable-static

@@ -1,11 +1,11 @@
 # description	: OpenGL compatible 3D graphics library
-# depends	: libdrm python2 wayland libxshmfence libxdamage libxext libxfixes elfutils llvm
-# makedepends	: libvdpau python2-mako libx11 xorgproto wayland-protocols
+# depends	: libdrm python2 wayland libxshmfence libxdamage libxext libxfixes elfutils llvm libvdpau libglvnd python2-mako libx11 xorgproto wayland-protocols
 
 name=mesa
-version=17.3.7
+version=18.3.2
 release=1
 source=(https://mesa.freedesktop.org/archive/$name-$version.tar.xz)
+md5sum=(4a82bf3ac2e81493a1a84dd7581ec786)
 
 build() {
 	cd $name-$version
@@ -20,11 +20,13 @@ build() {
         	    --enable-xa                     \
         	    --enable-glx-tls                \
 	            --with-platforms="drm,x11,wayland"  \
-	            --with-gallium-drivers=$GLL_DRV
+	            --with-gallium-drivers=$GLL_DRV \
+		    --enable-libglvnd
 	make
 	make DESTDIR=$PKG install
 
-	install -v -dm755 $PKG/usr/share/doc/$name
-	cp -rfv docs/* $PKG/usr/share/doc/$name
-}
+	# indirect rendering symlink
+	ln -s libGLX_mesa.so.0 $PKG/usr/lib/libGLX_indirect.so.0
 
+	rm $PKG/usr/lib/libGLES*
+}

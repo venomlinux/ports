@@ -1,0 +1,32 @@
+# description	: Portable web rendering engine WebKit to the GTK+ 3 and GTK+ 2 platforms
+# depends	: cairo cmake gst-plugins-base gst-plugins-bad gtk2 gtk3 icu libgudev libsecret libsoup
+# depends	: libwebp mesa ruby sqlite which enchant libxslt
+
+name=webkitgtk
+version=2.22.2
+release=2
+source=(https://webkitgtk.org/releases/$name-$version.tar.xz)
+md5sum=(207d50d313c07b03726f3a7f22643934)
+
+build() {
+	cd $name-$version
+	
+	mkdir -vp build
+	cd        build
+	
+	CFLAGS="$CFLAGS -Wno-expansion-to-defined"  \
+	CXXFLAGS="$CXXFLAGS -Wno-expansion-to-defined" \
+	cmake -DCMAKE_BUILD_TYPE=Release \
+	      -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DCMAKE_SKIP_RPATH=ON \
+	      -DPORT=GTK \
+	      -DLIB_INSTALL_DIR=/usr/lib \
+	      -DCMAKE_INSTALL_LIBEXECDIR:PATH=/usr/lib \
+	      -DUSE_LIBHYPHEN=OFF \
+	      -DENABLE_MINIBROWSER=ON \
+	      -DUSE_WOFF2=OFF \
+	      -DENABLE_GEOLOCATION=OFF \
+	      -Wno-dev -G Ninja ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

@@ -1,16 +1,19 @@
 # description	: Libraries used for creating graphical user interfaces for applications
-# depends	: adwaita-icon-theme at-spi2-atk gdk-pixbuf libepoxy pango python3-six wayland wayland-protocols libxkbcommon
-# makedepends	: gobject-introspection
+# depends	: adwaita-icon-theme at-spi2-atk gdk-pixbuf libepoxy pango python3-six wayland wayland-protocols libxkbcommon gobject-introspection
 # optdepends	: colord cups docbook-utils gtk-doc json-glib
 
 name=gtk3
-version=3.22.29
-release=3
-source=(http://ftp.gnome.org/pub/gnome/sources/gtk+/${version::4}/gtk+-$version.tar.xz
+version=3.24.3
+release=1
+source=(https://ftp.gnome.org/pub/gnome/sources/gtk+/${version::4}/gtk+-$version.tar.xz
 	gtk-query-immodules-3.0.hook)
+md5sum=(795fdc22e031a1a8774fa1aeaf0822e1
+	f646a81b85c711a2f475fdfe5f6c464e)
 
 build() {
 	cd gtk+-$version
+
+	sed -i 's/dfeault/default/' docs/tools/shooter.c
 
 	./configure --prefix=/usr             \
 	            --sysconfdir=/etc         \

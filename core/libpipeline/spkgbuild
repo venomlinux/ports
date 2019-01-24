@@ -6,7 +6,7 @@
 name=libpipeline
 version=1.5.0
 release=1
-source=(http://download.savannah.gnu.org/releases/$name/$name-$version.tar.gz)
+source=(https://download.savannah.gnu.org/releases/$name/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
@@ -19,3 +19,4 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+md5sum=(b7437a5020190cfa84f09c412db38902)

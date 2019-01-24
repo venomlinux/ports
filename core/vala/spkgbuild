@@ -2,15 +2,17 @@
 # depends	: glib
 
 name=vala
-version=0.40.0
+version=0.42.4
 release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz
+	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-avoid_graphviz-1.patch)
+md5sum=(f34cb465a164ba7f1f2e7fea31f36d13
+	ace98da4b652e69d88c15d6f27abb7b4)
 
 build() {
 	cd $name-$version
 
-	sed -i '115d; 121,137d; 139,140d'  configure.ac
-	sed -i '/valadoc/d' Makefile.am
+	patch -p1 -i ../$name-$version-avoid_graphviz-1.patch
 	ACLOCAL= autoreconf -fiv
 
 	./configure --prefix=/usr

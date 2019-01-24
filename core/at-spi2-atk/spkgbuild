@@ -4,14 +4,18 @@
 # depends	: at-spi2-core atk
 
 name=at-spi2-atk
-version=2.26.1
-release=2
-source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+version=2.30.0
+release=1
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+md5sum=(1ad754b90bcb14244b73ca4d0c14d274)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+	cd build &&
+	
+	meson --prefix=/usr --libdir=/usr/lib ..
+	ninja
+	DESTDIR=$PKG ninja install
 }

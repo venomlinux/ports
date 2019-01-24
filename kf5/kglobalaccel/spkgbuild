@@ -1,9 +1,8 @@
 # description	: Add support for global workspace shortcuts
-# depends	: kdbusaddons kconfig kcrash
-# makedepends	: extra-cmake-modules qt5
+# depends	: kdbusaddons kconfig kcrash extra-cmake-modules qt5
 
 name=kglobalaccel
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(ae6ea47653d2828821ec897b7e723134)

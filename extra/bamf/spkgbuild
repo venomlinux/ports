@@ -1,11 +1,11 @@
 # description	: Application matching framework
-# depends	: libgtop libwnck3 python2-libxml2
-# makedepends	: gobject-introspection python2-lxml vala
+# depends	: libgtop libwnck3 python2-libxml2 gobject-introspection python2-lxml vala
 
 name=bamf
-version=0.5.3
-release=1
+version=0.5.4
+release=2
 source=(https://launchpad.net/bamf/${version::3}/$version/+download/$name-$version.tar.gz)
+md5sum=(e5078ec8f6c8a9d77242010dcd3b3217)
 
 build() {
 	cd $name-$version
@@ -14,6 +14,7 @@ build() {
 	export CFLAGS="$CFLAGS -Wno-deprecated-declarations"
 
 	./configure --prefix=/usr \
+		    --libexecdir=/usr/lib \
 		    --disable-static \
 		    --disable-webapps
 	make

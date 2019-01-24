@@ -1,0 +1,22 @@
+# description	: Mesa OpenGL Utility library
+# depends	: glu
+
+name=glu-32
+version=9.0.0
+release=1
+source=(ftp://ftp.freedesktop.org/pub/mesa/glu/glu-$version.tar.bz2)
+md5sum=(be9249132ff49275461cf92039083030)
+
+build() {
+	cd glu-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr --libdir=/usr/lib32 --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/include/
+}

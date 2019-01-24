@@ -1,0 +1,21 @@
+# description	: Runit scripts for Nyx
+# backup	: etc/runit/rc.startup.local etc/runit/rc.shutdown.local etc/runit/runit.conf etc/runit/modules
+# depends	: runit
+
+name=nyx-runit
+version=20180709
+release=1
+_commit=c85ef0143919a4de59c5a35ccbe43a292dfebdf4
+source=($name-$_commit.tar.gz::https://github.com/emmett1/nyx-runit/archive/$_commit.tar.gz)
+md5sum=(3bbf71d9a68c95b1d2539dffe7b52ded)
+
+build() {
+	cd $name-$_commit
+	make
+	make DESTDIR=$PKG OSNAME="Nyx GNU/Linux" install
+	ln -s runit-init $PKG/sbin/init
+	for i in {1..6}; do
+		ln -s /run/runit/supervise.getty-tty$i $PKG/etc/sv/getty-tty$i/supervise
+	done
+	ln -s /run/runit/supervise.sulogin $PKG/etc/sv/sulogin/supervise
+}

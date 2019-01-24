@@ -1,10 +1,11 @@
 # description	: Utility useful for non-interactive downloading of files from the Web
-# depends	: ca-certificates openssl
+# depends	: ca-certificates openssl pcre util-linux libidn2 pcre2
 
 name=wget
-version=1.19.4
+version=1.20.1
 release=1
-source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+md5sum=(f6ebe9c7b375fc9832fb1b2028271fb7)
 
 build() {
 	cd $name-$version

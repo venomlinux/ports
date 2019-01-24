@@ -1,9 +1,8 @@
 # description	: Core components for the KDE's Activities
-# depends	: kcoreaddons kconfig kwindowsystem qt5
-# makedepends	: extra-cmake-modules boost python3
+# depends	: kcoreaddons kconfig kwindowsystem qt5 extra-cmake-modules boost python3
 
 name=kactivities
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(c05f22156c27da1ad2f7d2d07026b2e8)

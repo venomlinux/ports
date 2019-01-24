@@ -1,13 +1,12 @@
 # description	: Window Navigator Construction Kit
 # homepage	: https://developer.gnome.org/libwnck/stable/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: gtk3 startup-notification
-# makedepends	: gobject-introspection
+# depends	: gtk3 startup-notification gobject-introspection
 
 name=libwnck3
 version=3.24.1
 release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/libwnck/${version::4}/libwnck-$version.tar.xz)
+source=(https://ftp.gnome.org/pub/gnome/sources/libwnck/${version::4}/libwnck-$version.tar.xz)
 
 build() {
 	cd libwnck-$version
@@ -15,3 +14,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(23df51ec0a1169014fe3a102d572b244)

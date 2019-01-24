@@ -1,0 +1,16 @@
+# description	: A library for computing the discrete Fourier transform (DFT)
+# depends	: bash gcc
+
+name=fftw
+version=3.3.8
+release=1
+source=(http://www.fftw.org/$name-$version.tar.gz)
+md5sum=(8aac833c943d8e90d51b697b27d4384d)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --enable-shared --enable-threads
+	make
+	make DESTDIR=$PKG install
+}

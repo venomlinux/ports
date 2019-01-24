@@ -1,9 +1,8 @@
 # description	: Framework for providing different actions given a string query
-# depends	: plasma-framework threadweaver
-# makedepends	: extra-cmake-modules kdoctools python3 qt5
+# depends	: plasma-framework threadweaver extra-cmake-modules kdoctools python3 qt5
 
 name=krunner
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(284425457f8270e91e94d13d1a522cce)

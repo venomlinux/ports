@@ -1,9 +1,8 @@
 # description	: Integration of Frameworks widgets in Qt Designer/Creator
-# depends	: kplotting kio
-# makedepends	: extra-cmake-modules qt5 kdoctools python3
+# depends	: kplotting kio extra-cmake-modules qt5 kdoctools python3
 
 name=kdesignerplugin
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(1d4e9805bb6d3748b01140fdb0ecff41)

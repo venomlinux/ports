@@ -1,12 +1,13 @@
 # description	: Multi-platform support library with a focus on asynchronous I/O
 
 name=libuv
-version=1.19.2
+version=1.25.0
 release=1
-source=(https://github.com/libuv/libuv/archive/v$version/libuv-$version.tar.gz)
+source=(https://dist.libuv.org/dist/v$version/libuv-v$version.tar.gz)
+md5sum=(fade1235edaef8dbc688956cc42b3bd4)
 
 build() {
-	cd $name-$version
+	cd $name-v$version
 	sh autogen.sh
 	./configure --prefix=/usr --disable-static
 	make

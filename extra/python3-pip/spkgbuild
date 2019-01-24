@@ -2,13 +2,13 @@
 # depends	: python3 python3-setuptools
 
 name=python3-pip
-version=9.0.1
+version=18.1
 release=1
 source=(https://pypi.io/packages/source/p/pip/pip-${version}.tar.gz)
+md5sum=(75cad449ad62c88b22de317a26781714)
 
 build() {
 	cd pip-$version
 	python3 setup.py build
 	python3 setup.py install --prefix=/usr --root="$PKG"
-	rm $PKG/usr/bin/pip
 }

@@ -1,9 +1,8 @@
 # description	: Provides integration of QML and KDE Frameworks
-# depends	: kio kpackage libepoxy
-# makedepends	: extra-cmake-modules python3 qt5
+# depends	: kio kpackage libepoxy extra-cmake-modules python3 qt5
 
 name=kdeclarative
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(89d9a968e01ad5c5937628dfc0b107f1)

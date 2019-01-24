@@ -1,0 +1,34 @@
+Note
+
+The new “Maxwell” and “Pascal” GPUs require Glamor to be built with the Xorg server.
+
+User Notes: http://wiki.linuxfromscratch.org/blfs/wiki/xorg-nouveau-driver
+Kernel Configuration
+
+Enable the following options in the kernel configuration and recompile the kernel if necessary:
+
+Device Drivers  --->
+  Graphics support --->
+   <*> Direct Rendering Manager (XFree86 ... support) ---> [CONFIG_DRM]
+   <*> Nouveau (NVIDIA) cards                              [CONFIG_DRM_NOUVEAU]
+      [*]   Support for backlight control                     [CONFIG_DRM_NOUVEAU_BACKLIGHT]
+
+
+Glamor Acceleration
+
+Glamor is an acceleration library which uses cards' 3D capabilities to accelerate 2D rendering.
+Glamor acceleration is enabled by default for the new “Maxwell” GPU's. According to the
+documentation, Glamor acceleration can be used with other chips as well, but that does not
+seem functional yet.
+
+If you want anyway to try to enable Glamor for GPU's other than the new “Maxwell” ones, create
+the following file as the root user:
+
+cat >> /etc/X11/xorg.conf.d/nvidia.conf << "EOF"
+Section "Device"
+        Identifier "nvidia"
+        Driver "nouveau"
+        Option "AccelMethod" "glamor"
+EndSection
+EOF
+

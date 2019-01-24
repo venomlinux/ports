@@ -1,9 +1,8 @@
 # description	: Utilities for interacting with KCModules
-# depends	: kdeclarative
-# makedepends	: extra-cmake-modules python3 qt5
+# depends	: kdeclarative extra-cmake-modules python3 qt5
 
 name=kcmutils
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(62046f1c778dbc0cb1d4cdf2964006c6)

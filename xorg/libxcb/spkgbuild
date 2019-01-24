@@ -1,13 +1,13 @@
 # description	: X11 client-side library
 # homepage	: http://xcb.freedesktop.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: libxau libxdmcp xcb-proto
-# makedepends	: python3 util-macros
+# depends	: libxau libxdmcp xcb-proto python3 util-macros
 
 name=libxcb
-version=1.13
+version=1.13.1
 release=1
 source=(http://xcb.freedesktop.org/dist/libxcb-$version.tar.bz2)
+md5sum=(f33cdfc67346f7217a9326c0d8679975)
 
 build() {
 	cd $name-$version
@@ -26,4 +26,3 @@ build() {
 	make DESTDIR=$PKG install
 
 }
-

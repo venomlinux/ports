@@ -5,7 +5,7 @@
 name=sdl
 version=1.2.15
 release=1
-source=(http://www.libsdl.org/release/SDL-$version.tar.gz)
+source=(https://www.libsdl.org/release/SDL-$version.tar.gz)
 
 build() {
 	cd SDL-$version
@@ -21,3 +21,5 @@ build() {
 	install -v -m644    docs/html/*.html \
 	                    $PKG/usr/share/doc/SDL/html
 }
+
+md5sum=(9d96df8417572a2afb781a7c4c811a85)

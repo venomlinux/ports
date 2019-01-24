@@ -1,11 +1,11 @@
 # description	: A utility to show the full path of commands
-# homepage	: http://savannah.gnu.org/projects/which
+# homepage	: https://savannah.gnu.org/projects/which
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=which
 version=2.21
 release=1
-source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
@@ -14,3 +14,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(097ff1a324ae02e0a3b0369f07a7544a)

@@ -1,0 +1,13 @@
+# description	: Lightweight panel/taskbar written in Python and C for X11 window managers
+# depends	: python2 python2-xlib imlib2
+
+name=pypanel
+version=2.4
+release=1
+source=(https://downloads.sourceforge.net/sourceforge/pypanel/PyPanel-$version.tar.gz)
+md5sum=(f1f9a2ed80be72ab36e748833618daba)
+
+build() {
+	cd PyPanel-$version
+	python2 setup.py install --root=$PKG
+}

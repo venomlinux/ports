@@ -1,9 +1,8 @@
 # description	: KDE daemon listening for wall and write messages
-# depends	: kpty knotifications kdbusaddons
-# makedepends	: extra-cmake-modules kdoctools python3
+# depends	: kpty knotifications kdbusaddons extra-cmake-modules kdoctools python3
 
 name=kwrited
-version=5.12.1
+version=5.14.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(9f36e858f57d24098c2ddb5987bf200e)

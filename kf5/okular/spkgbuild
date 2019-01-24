@@ -1,9 +1,8 @@
 # description	: Document Viewer
-# depends	: libkexiv2 poppler qca kpty kactivities threadweaver kjs kparts libtiff
-# makedepends	: extra-cmake-modules kdoctools khtml python3
+# depends	: libkexiv2 poppler qca kpty kactivities threadweaver kjs kparts libtiff extra-cmake-modules kdoctools khtml python3
 
 name=okular
-version=17.12.2
+version=18.12.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/okular-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(fc356a501f08cc3c83fd685faf9a18c7)

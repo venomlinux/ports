@@ -1,59 +1,80 @@
 # description	: Powerful x86 virtualization for enterprise as well as home use
 # homepage	: http://virtualbox.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: sdl qt5
+# depends	: sdl qt5 virtualbox-modules
 
 name=virtualbox
-version=5.2.8
-release=2
+version=5.2.24
+release=1
 _name=Oracle_VM_VirtualBox_Extension_Pack
-_release=121009
+_release=128163
 
 source=(http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_amd64.run
-	http://download.virtualbox.org/virtualbox/$version/${_name}-${version}-${_release}.vbox-extpack
 	virtualbox.60-vboxdrv.rules)
+md5sum=(6c58d3766b85883bee4d15e351780023
+	7e2790e8c21dd5fc7af08d1e3a3f95d9)
 
 build() {
+	local _installdir=/opt/VirtualBox
+
+	# extract source file
 	sh VirtualBox-${version}-${_release}-Linux_amd64.run --keep --noexec --target $SRC/
-	mkdir -p $PKG/opt/VirtualBox $PKG/etc/vbox $PKG/usr/bin $PKG/etc/udev/rules.d/ \
-	$PKG/usr/share/applications/ $PKG/usr/share/pixmaps/
+	
+	# creating directories
+	mkdir -p $PKG/opt/VirtualBox $PKG/etc/vbox $PKG/usr/bin $PKG/lib/udev/rules.d/ \
+	    $PKG/usr/share/applications/ $PKG/usr/share/pixmaps/ $PKG/usr/share/mime/packages/ \
+	    $PKG/etc/ld.so.conf.d
+	
 	cd $PKG/opt/VirtualBox
 	tar xfj $SRC/VirtualBox.tar.bz2
 	rm -Rf $PKG/opt/VirtualBox/{sdk,src}
-	for i in VirtualBox VBoxManage VBoxSDL VBoxHeadless 
-		do ln -s /opt/VirtualBox/VBox.sh $PKG/usr/bin/$i
+	for i in VirtualBox VBox{Manage,SDL,Headless}; do
+	    ln -s /opt/VirtualBox/VBox.sh $PKG/usr/bin/$i
 	done
-	cd components
-	for i in VBoxDDU.so VBoxREM.so VBoxRT.so VBoxVMM.so VBoxXPCOM.so
-		do ln -s ../$i .
+
+	pushd components
+	for i in VBox{DDU,REM,RT,VMM,XPCOM}.so; do
+	    ln -s ../$i .
 	done
+	popd
+
 	ln -s /opt/VirtualBox/rdesktop-vrdp $PKG/usr/bin/rdesktop-vrdp
-	mv $PKG/opt/VirtualBox/VBox.png $PKG/usr/share/pixmaps/VBox.png
 	mv $PKG/opt/VirtualBox/virtualbox.desktop $PKG/usr/share/applications/virtualbox.desktop
 	chmod +s $PKG/opt/VirtualBox/{VirtualBox,VBoxSDL,VBoxHeadless}
 
-	mkdir -p $PKG/etc/udev/rules.d
-	cp $SRC/virtualbox.60-vboxdrv.rules $PKG/etc/udev/rules.d/60-vboxdrv.rules
+	cp $SRC/virtualbox.60-vboxdrv.rules $PKG/lib/udev/rules.d/60-vboxdrv.rules
 
-	echo "# VirtualBox installation directory" > \
-	$PKG/etc/vbox/vbox.cfg
-	echo "INSTALL_DIR="\"/opt/VirtualBox\" >> \
-		$PKG/etc/vbox/vbox.cfg
-
-	# ExtensionPacks
-	mkdir -p $PKG/opt/VirtualBox/ExtensionPacks/Oracle_VM_VirtualBox_Extension_Pack
-	tar -xf $SRC/${_name}-$version-${_release}.vbox-extpack \
-		-C $PKG/opt/VirtualBox/ExtensionPacks/Oracle_VM_VirtualBox_Extension_Pack
-	chown -R root:root $PKG/opt/VirtualBox/ExtensionPacks/Oracle_VM_VirtualBox_Extension_Pack
-	rm -fr $PKG/opt/VirtualBox/ExtensionPacks/Oracle_VM_VirtualBox_Extension_Pack/{darwin*,solaris*,win*}
+	echo "# VirtualBox installation directory" > $PKG/etc/vbox/vbox.cfg
+	echo "INSTALL_DIR="\"/opt/VirtualBox\" >> $PKG/etc/vbox/vbox.cfg
 	
-	mkdir -p $PKG/etc/ld.so.conf.d
 	echo /opt/VirtualBox > $PKG/etc/ld.so.conf.d/virtualbox.conf
 
+	mv $name.xml $PKG/usr/share/mime/packages/
+
 	# Icon
+	mv $PKG/opt/VirtualBox/VBox.png $PKG/usr/share/pixmaps/VBox.png
 	ln -s VBox.png $PKG/usr/share/pixmaps/virtualbox.png
+	pushd icons
+	for _dir in *; do
+            cd "$_dir"
+            install -d -m0755 $PKG/usr/share/icons/hicolor/${_dir}/{apps,mimetypes}
+	        for _icon in *; do
+	            if [ "$_icon" = 'virtualbox.png' ]; then
+	                mv $PKG/${_installdir}/icons/${_dir}/${_icon} $PKG/usr/share/icons/hicolor/${_dir}/apps/${_icon}
+	            else
+	                mv $PKG/${_installdir}/icons/${_dir}/${_icon} $PKG/usr/share/icons/hicolor/${_dir}/mimetypes/${_icon}
+	            fi
+	        done
+	    cd - >/dev/null
+	done
+	popd
+	rm -fr icons
 
 	# fix permission
 	chmod g-w $PKG/opt/VirtualBox
 	chmod g-w $PKG/opt/VirtualBox/components
+
+	# exclude library for revdep
+	mkdir -p $PKG/etc/revdep.d/
+	echo "/opt/VirtualBox/VBoxPython2_6.so" > $PKG/etc/revdep.d/$name.conf
 }

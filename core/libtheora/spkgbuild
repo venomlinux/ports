@@ -1,13 +1,12 @@
 # description	: Reference implementation of the Theora video compression format
-# homepage	: http://www.xiph.org/
+# homepage	: https://www.xiph.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: libogg
-# makedepends	: libvorbis
+# depends	: libogg libvorbis
 
 name=libtheora
 version=1.1.1
 release=1
-source=(http://downloads.xiph.org/releases/theora/$name-$version.tar.xz)
+source=(https://downloads.xiph.org/releases/theora/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -18,3 +17,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(9eeabf1ad65b7f41533854a59f7a716d)

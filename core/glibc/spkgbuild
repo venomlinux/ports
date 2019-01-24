@@ -1,34 +1,35 @@
 # description	: The main C library
-# homepage	: http://www.gnu.org/software/libc
+# homepage	: https://www.gnu.org/software/libc
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: linux-api-headers
+# backup	: etc/locales
 
 name=glibc
-version=2.27
-release=1
-source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
-	$name-$version-fhs-1.patch)
+version=2.28
+release=2
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
+	http://www.linuxfromscratch.org/patches/lfs/development/$name-$version-fhs-1.patch
+	genlocales)
+md5sum=(c81d2388896379997bc359d4f2084239
+	9a5997c3452909b1769918c759eff8a2
+	fb58fbd47ff4aaf84e6940436cb5ce3b)
 
 build() {
 	cd $name-$version
 
 	patch -Np1 -i ../$name-$version-fhs-1.patch
 
-	mkdir -p $PKG/usr/{lib,bin}
-	ln -sfv /tools/lib/gcc $PKG/usr/lib
-	ln -sfv /tools/bin/m4 $PKG/usr/bin
-
-	GCC_INCDIR=$PKG/usr/lib/gcc/x86_64-pc-linux-gnu/7.3.0/include
+	GCC_INCDIR=/usr/lib/gcc/x86_64-pc-linux-gnu/$(gcc -dumpversion)/include
 	mkdir $PKG/lib64
 	ln -sfv ../lib/ld-linux-x86-64.so.2 $PKG/lib64
 	ln -sfv ../lib/ld-linux-x86-64.so.2 $PKG/lib64/ld-lsb-x86-64.so.3
 	
-	rm -f $PKG/usr/include/limits.h
+	#rm -f $PKG/usr/include/limits.h
 
 	mkdir -v build
 	cd       build
 
-	CC="gcc -isystem $GCC_INCDIR -isystem /usr/include" \
+	#CC="gcc -isystem $GCC_INCDIR -isystem /usr/include" \
 	../configure --prefix=/usr                          \
 	             --disable-werror                       \
 	             --enable-kernel=3.2                    \
@@ -78,6 +79,9 @@ EOF
 
 mkdir -p $PKG/etc/ld.so.conf.d
 
-rm -v $PKG/usr/lib/gcc
-rm -v $PKG/usr/bin/m4
+# supported locales
+sed -e '1,3d' -e 's|/| |g' -e 's|\\| |g' -e 's|^|#|g' \
+	$SRC/glibc-$version/localedata/SUPPORTED >> $PKG/etc/locales
+
+install -Dm755 $SRC/genlocales $PKG/usr/bin/genlocales
 }

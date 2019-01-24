@@ -1,0 +1,19 @@
+# description	: Base icon theme from the Numix project (circle)
+# homepage	: http://numixproject.org/
+# maintainer	: Emmett1, emmett1.2miligrams at mail.com
+# depends	: gtk3
+
+name=numix-icon-theme-circle
+version=20180405
+release=1
+options=(!strip)
+_commit=be25c10520157507a0ddcad12a8870730ad533e7
+source=($name-$_commit.tar.gz::https://github.com/numixproject/numix-icon-theme-circle/archive/$_commit.tar.gz)
+md5sum=(29c6d3434d9c0cfda96474e3148585d2)
+
+build() {
+	cd $name-$_commit
+	install -dm 755 $PKG/usr/share/icons
+	cp -dr --no-preserve='ownership' Numix-Circle{,-Light} $PKG/usr/share/icons/
+}
+

@@ -1,6 +1,5 @@
 # description	: Enhancements to the Python build system
-# depends	: intltool python2
-# makedepends	: python2-setuptools
+# depends	: intltool python2 python2-setuptools
 
 name=python2-distutils-extra
 version=2.39
@@ -11,3 +10,5 @@ build() {
 	cd python-distutils-extra-$version
 	python2 setup.py install --root=$PKG
 }
+
+md5sum=(16e06db0ef73a35b4bff4b9eed5699b5)

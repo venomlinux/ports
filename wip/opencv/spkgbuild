@@ -1,6 +1,5 @@
 # description	: Graphics libraries mainly aimed at real-time computer vision
-# depends	: ffmpeg gst-plugins-base gtk3 jasper libjpeg-turbo libpng libtiff libwebp python2 v4l-utils xine-lib
-# makedepends	: libarchive cmake
+# depends	: ffmpeg gst-plugins-base gtk3 jasper libjpeg-turbo libpng libtiff libwebp python2 v4l-utils xine-lib libarchive cmake
 # noextract	: ippicv_2017u2_lnx_intel64_20170418.tgz opencv_contrib-3.3.0.tar.gz
 
 name=opencv
@@ -45,3 +44,7 @@ build() {
 
 	cp -v 3rdparty/ippicv/ippicv_lnx/lib/$ARCH/libippicv.a $PKG/usr/lib
 }
+
+md5sum=(cc586ebe960a7cdd87100e89088abc06
+87cbdeb627415d8e4bc811156289fa3a
+7878ff39d3488b335861831419d30c64)

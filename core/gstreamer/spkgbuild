@@ -1,19 +1,20 @@
 # description	: Streaming media framework that enables applications to share a common set of plugins
 # homepage	: https://gstreamer.freedesktop.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: glib
-# makedepends	: gobject-introspection
+# depends	: glib gobject-introspection
 
 name=gstreamer
-version=1.14.0
+version=1.14.4
 release=1
 source=(http://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
+md5sum=(f67fbbc42bd85a0701df119f52fb52bd)
 
 build() {
 	cd $name-$version
 
 	./configure --prefix=/usr \
-        	    --with-package-name="GStreamer $version (Nyx)"
+		    --libexecdir=/usr/lib \
+        	    --with-package-name="GStreamer $version (Venom)"
 	make
 	make DESTDIR=$PKG install
 }

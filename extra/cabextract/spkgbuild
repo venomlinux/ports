@@ -1,0 +1,17 @@
+# description	: A program to extract Microsoft cabinet (.CAB) files
+# depends	: glibc
+
+name=cabextract
+version=1.6
+release=1
+source=(https://cabextract.org.uk/$name-$version.tar.gz)
+md5sum=(ee3ded0b1f84e5c6e3309bb36d701916)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --mandir=/usr/share/man
+	make
+	make DESTDIR=$PKG install
+}

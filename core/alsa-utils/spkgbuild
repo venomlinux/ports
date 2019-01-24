@@ -1,13 +1,15 @@
 # description	: Various utilities for controlling sound card
-# homepage	: http://www.alsa-project.org/
+# homepage	: https://www.alsa-project.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: alsa-lib
 
 name=alsa-utils
-version=1.1.5
-release=3
+version=1.1.8
+release=1
 source=(ftp://ftp.alsa-project.org/pub/utils/$name-$version.tar.bz2
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.alsa)
+	alsa.rc)
+md5sum=(54d6f9b483144823d0fc0c26e8cea028
+	911d2befcbb52fdd62e79c954c9a537c)
 
 build() {
 	cd $name-$version
@@ -19,6 +21,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# daemon files
-	install -Dm754 $SRC/rc.alsa $PKG/etc/rc.d/rc.alsa
+	# rc service
+	install -Dm755 $SRC/alsa.rc $PKG/etc/rc.d/alsa
 }

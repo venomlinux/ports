@@ -1,11 +1,12 @@
 # description	: utilities for handling the ext2, ext3 and ext4 file system
-# depends	: bash
-# makedepends	: bc
+# homepage	: http://e2fsprogs.sourceforge.net/
+# depends	: bash bc
 
 name=e2fsprogs
-version=1.44.1
+version=1.44.5
 release=1
-source=(http://downloads.sourceforge.net/project/$name/$name/v$version/$name-$version.tar.gz)
+source=(https://downloads.sourceforge.net/project/$name/$name/v$version/$name-$version.tar.gz)
+md5sum=(8d78b11d04d26c0b2dd149529441fa80)
 
 build() {
 	cd $name-$version
@@ -13,10 +14,6 @@ build() {
 	mkdir -v build
 	cd build
 
-if [ -d /tools ]; then
-	LIBS=-L/tools/lib                    \
-	CFLAGS=-I/tools/include              \
-	PKG_CONFIG_PATH=/tools/lib/pkgconfig \
 	../configure --prefix=/usr           \
 	             --bindir=/bin           \
 	             --with-root-prefix=""   \
@@ -25,16 +22,6 @@ if [ -d /tools ]; then
 	             --disable-libuuid       \
 	             --disable-uuidd         \
 	             --disable-fsck
-else
-	../configure --prefix=/usr           \
-	             --bindir=/bin           \
-	             --with-root-prefix=""   \
-	             --enable-elf-shlibs     \
-	             --disable-libblkid      \
-	             --disable-libuuid       \
-	             --disable-uuidd         \
-	             --disable-fsck
-fi
 	make
 	make DESTDIR=$PKG install
 	make DESTDIR=$PKG install-libs

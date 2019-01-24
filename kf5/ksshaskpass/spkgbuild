@@ -1,9 +1,8 @@
 # description	: ssh-add helper that uses kwallet and kpassworddialog
-# depends	: kwallet
-# makedepends	: extra-cmake-modules kdoctools python3
+# depends	: kwallet extra-cmake-modules kdoctools python3
 
 name=ksshaskpass
-version=5.12.1
+version=5.14.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(878b25b3c87b13030b303c7f667c450a)

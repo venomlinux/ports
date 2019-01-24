@@ -4,15 +4,15 @@
 # depends	: librsvg libxklavier xfce4-panel
 
 name=xfce4-xkb-plugin
-version=0.7.1
+version=0.8.1
 release=1
 source=(http://archive.xfce.org/src/panel-plugins/xfce4-xkb-plugin/${version::3}/$name-$version.tar.bz2)
 
 build() {
 	cd $name-$version
 
-	sed -e 's|xfce4/panel-plugins|xfce4/panel/plugins|' \
-	    -i panel-plugin/{Makefile.in,xkb-plugin.desktop.in.in}
+	#sed -e 's|xfce4/panel-plugins|xfce4/panel/plugins|' \
+	#    -i panel-plugin/{Makefile.in,xkb-plugin.desktop.in.in}
 
 	./configure --prefix=/usr         \
 	            --libexecdir=/usr/lib \
@@ -20,3 +20,4 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+md5sum=(72530bf59d7cd902326469e5a7a9892b)

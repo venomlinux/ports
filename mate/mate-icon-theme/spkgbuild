@@ -1,0 +1,15 @@
+# description	: Icon theme for MATE
+# depends	: icon-naming-utils
+
+name=mate-icon-theme
+version=1.20.3
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(d78fd23336f642f52f37a5d6f8a9893a)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

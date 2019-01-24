@@ -1,19 +1,20 @@
 # description	: A Text-mode full-screen file manager and visual shell
-# homepage	: http://www.ibiblio.org/mc/
+# homepage	: https://www.ibiblio.org/mc/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: glib pcre slang
 
 name=mc
-version=4.8.20
+version=4.8.22
 release=1
 source=(http://ftp.midnight-commander.org/$name-$version.tar.xz)
+md5sum=(62bba2bfccadf08eb554321899f475bc)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
+	            --libexecdir=/usr/lib \
 	            --enable-charset
 	make
 	make DESTDIR=$PKG install
 }
-

@@ -1,9 +1,8 @@
 # description	: Models for Qt Model/View system
-# depends	: qt5
-# makedepends	: extra-cmake-modules
+# depends	: qt5 extra-cmake-modules
 
 name=kitemmodels
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(f4d5826a20517d81387d20afb558ad0a)

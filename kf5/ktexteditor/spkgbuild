@@ -1,9 +1,8 @@
 # description	: Advanced embeddable text editor
-# depends	: kparts syntax-highlighting
-# makedepends	: extra-cmake-modules python3 qt5
+# depends	: kparts syntax-highlighting extra-cmake-modules python3 qt5
 
 name=ktexteditor
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(fec5ca67093aa83378d2b0daae131a43)

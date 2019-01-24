@@ -2,12 +2,14 @@
 # depends	: alsa-lib gconf gtk3 libxtst nss cups libarchive
 
 name=google-chrome
-version=64.0.3282.119
+version=71.0.3578.98
 release=1
 options=(!strip)
 _channel=stable
 source=($name-${_channel}_${version}_amd64.deb::https://dl.google.com/linux/direct/$name-${_channel}_current_amd64.deb
 	$name-$_channel.sh)
+md5sum=(SKIP
+	99fa93d5e7fb5d622cef0f9621f3ffa3)
 
 build() {
 	bsdtar -xf $name-${_channel}_${version}_amd64.deb

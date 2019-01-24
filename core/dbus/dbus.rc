@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# /etc/rc.d/dbus: start/stop dbus messagebus daemon
+#
+
+. /etc/rc.subr
+
+PROG=/usr/bin/dbus-daemon
+PIDFILE=/run/dbus/pid
+OPTS="--system"
+SOCKET=/run/dbus/system_bus_socket
+
+case $1 in
+	start)
+		msg "Starting D-BUS Messagebus daemon..."
+		mkdir -p /run/dbus
+		/usr/bin/dbus-uuidgen --ensure
+		start_daemon -p $PIDFILE $PROG $OPTS
+		;;
+	stop)
+		msg "Stopping D-BUS Messagebus daemon..."
+		stop_daemon -p $PIDFILE $PROG
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		status_daemon $PROG
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+# End of file

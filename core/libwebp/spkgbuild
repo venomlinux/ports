@@ -4,9 +4,10 @@
 # depends	: libjpeg-turbo libpng libtiff
 
 name=libwebp
-version=0.6.1
+version=1.0.1
 release=1
 source=(http://downloads.webmproject.org/releases/webp/$name-$version.tar.gz)
+md5sum=(ba72dfa7588c751a3a9b735a6746a23e)
 
 build() {
 	cd $name-$version
@@ -21,3 +22,4 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+

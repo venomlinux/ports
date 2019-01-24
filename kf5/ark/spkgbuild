@@ -1,9 +1,8 @@
 # description	: KF5 archive tool
-# depends	: kparts kpty libarchive kitemmodels hicolor-icon-theme
-# makedepends	: extra-cmake-modules kdoctools python3
+# depends	: kparts kpty libarchive kitemmodels hicolor-icon-theme extra-cmake-modules kdoctools python3
 
 name=ark
-version=17.12.2
+version=18.12.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
@@ -19,3 +18,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(54946702f3254fe1cae106f56b6ad49e)

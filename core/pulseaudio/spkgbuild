@@ -1,22 +1,18 @@
 # description	: Sound system for POSIX OSes
-# depends	: libsndfile alsa-lib dbus glib libcap openssl speexdsp libx11 libxcb libice libsm libxtst
-# makedepends	: json-c
+# depends	: libsndfile alsa-lib dbus glib libcap openssl speexdsp libx11 libxcb libice libsm libxtst json-c
 
 name=pulseaudio
-version=11.1
-release=1
-source=(https://www.freedesktop.org/software/pulseaudio/releases/$name-$version.tar.xz
-	pulseaudio-fix-build-with-glibc-2.27.patch)
+version=12.2
+release=2
+source=(https://www.freedesktop.org/software/pulseaudio/releases/$name-$version.tar.xz)
+md5sum=(c42f1f1465e8df9859d023dc184734bf)
 
 build() {
 	cd $name-$version
 
-	patch -p1 -i ../pulseaudio-fix-build-with-glibc-2.27.patch
-
-	AUTOPOINT='intltoolize --automake --copy' autoreconf -fiv
-
 	./configure --prefix=/usr        \
                     --sysconfdir=/etc    \
+		    --libexecdir=/usr/lib \
                     --localstatedir=/var \
                     --disable-bluez4     \
                     --disable-bluez5     \

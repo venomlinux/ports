@@ -2,35 +2,38 @@
 # depends	: expat libx11 libsm libice
 
 name=dbus
-version=1.12.6
-release=2
-
-source=(http://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.dbus)
+version=1.12.12
+release=1
+source=(https://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz
+	$name.rc)
+md5sum=(ea11069521beeee4e47f0086596a43c8
+	fe2bdfbce1fc35a1f49b04e03764a8d7)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr                  \
-	            --sysconfdir=/etc              \
-	            --localstatedir=/var           \
-	            --disable-doxygen-docs         \
-	            --disable-xml-docs             \
-	            --disable-static               \
-	            --with-console-auth-dir=/run/console \
-	            --with-system-pid-file=/run/dbus/pid \
-	            --with-system-socket=/run/dbus/system_bus_socket
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name \
+		--localstatedir=/var \
+		--disable-doxygen-docs \
+		--disable-xml-docs \
+		--disable-static \
+		--with-console-auth-dir=/run/console \
+		--with-system-pid-file=/run/dbus/pid \
+		--with-system-socket=/run/dbus/system_bus_socket
 	make
 	make DESTDIR=$PKG install
 
-	chown -v root:messagebus $PKG/usr/libexec/dbus-daemon-launch-helper
-	chmod -v      4750       $PKG/usr/libexec/dbus-daemon-launch-helper
+	chown -v root:messagebus $PKG/usr/lib/$name/dbus-daemon-launch-helper
+	chmod -v      4750       $PKG/usr/lib/$name/dbus-daemon-launch-helper
 
 	install -d $PKG/etc/dbus-1
 	cat > $PKG/etc/dbus-1/session-local.conf << "EOF"
 <!DOCTYPE busconfig PUBLIC
  "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
- "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+ "https://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
 <busconfig>
 
   <!-- Search for .service files in /usr/local -->
@@ -39,7 +42,6 @@ build() {
 </busconfig>
 EOF
 
-	# daemon files
-	install -Dm754 $SRC/rc.dbus $PKG/etc/rc.d/rc.dbus
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
 }
-

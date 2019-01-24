@@ -1,0 +1,24 @@
+# description	: A C++ library for resampling audio signals (apps)
+# depends	: zita-resampler-libs
+
+name=zita-resampler
+version=1.6.2
+release=1
+source=(https://kokkinizita.linuxaudio.org/linuxaudio/downloads/zita-resampler-$version.tar.bz2)
+md5sum=(9b2cff7fa419febbca3a13435b2a24b3)
+
+build() {
+	cd zita-resampler-$version/apps
+
+	# strip march=native
+	sed -e '/native/d' -i Makefile
+
+	# fix use of BINDIR without preceeding DESTDIR
+	# fix use of MANDIR without preceeding DESTDIR
+	sed -e 's/\ $(BINDIR)/\ $(DESTDIR)$(BINDIR)/' \
+	    -e 's/\ $(MANDIR)/\ $(DESTDIR)$(MANDIR)/' \
+	    -i Makefile
+
+	make
+	make PREFIX=/usr DESTDIR=$PKG install
+}

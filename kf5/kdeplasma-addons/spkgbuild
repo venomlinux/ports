@@ -1,10 +1,9 @@
 # description	: All kind of addons to improve your Plasma experience
-# depends	: plasma-workspace
-# makedepends	: extra-cmake-modules kdoctools kross python3 kdesignerplugin
+# depends	: plasma-workspace extra-cmake-modules kdoctools kross python3 kdesignerplugin kholidays
 
 name=kdeplasma-addons
-version=5.12.1
-release=2
+version=5.14.4
+release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
 build() {
@@ -19,10 +18,6 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
-
-	(cd $PKG/usr/share/plasma/plasmoids
-		for j in $(find -name \*.js); do
-			ln -sfv ../code/$(basename $j) $(dirname $j)/../ui/
-		done
-	)
 }
+
+md5sum=(16c0b5f4737a9fce99018d49858cb47d)

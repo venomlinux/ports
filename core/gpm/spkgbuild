@@ -1,14 +1,19 @@
 # description	: Mouse server for the console and xterm
-# homepage	: http://www.nico.schottelius.org/software/gpm/
+# homepage	: https://www.nico.schottelius.org/software/gpm/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=gpm
 version=1.20.7
-release=3
-source=(http://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
+release=2
+source=(https://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
 	$name-$version-glibc_2.26-1.patch
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.gpm
-	https://raw.githubusercontent.com/emmett1/rc-init/master/conf.d/gpm)
+	$name.rc
+	$name.conf)
+md5sum=(bf84143905a6a903dbd4d4b911a2a2b8
+	802caefec3613f56adf1d8bf4cb15145
+	6e49c378ce5d1ee27cacbd833b646061
+	9b51737664eb9f1eba520c0553131833)
+
 build() {
 	cd $name-$version
 
@@ -29,7 +34,7 @@ build() {
 	install -v -m644    doc/{FAQ,HACK_GPM,README*}        \
 	                    $PKG/usr/share/doc/$name
 
-	# daemon files
-	install -Dm644 $SRC/rc.gpm $PKG/etc/rc.d/rc.gpm
-	install -Dm644 $SRC/gpm $PKG/etc/conf.d/gpm
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+	install -Dm644 $SRC/$name.conf $PKG/etc/conf.d/$name
 }

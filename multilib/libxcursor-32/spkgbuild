@@ -1,0 +1,30 @@
+# description	: X cursor management library
+# homepage	: http://xorg.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libxcursor
+
+name=libxcursor-32
+version=1.1.15
+release=1
+source=(http://ftp.x.org/pub/individual/lib/libXcursor-$version.tar.bz2)
+
+build() {
+	cd libXcursor-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+		--libdir=/usr/lib32 \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
+
+md5sum=(58fe3514e1e7135cf364101e714d1a14)

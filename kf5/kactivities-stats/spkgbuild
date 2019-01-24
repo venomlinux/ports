@@ -1,9 +1,8 @@
 # description	: A library for accessing the usage data collected by the activities system
-# depends	: kactivities
-# makedepends	: extra-cmake-modules boost qt5
+# depends	: kactivities extra-cmake-modules boost qt5
 
 name=kactivities-stats
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(74f48c21cc7ccf14fcc441b7ec53ae65)

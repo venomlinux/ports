@@ -1,22 +1,28 @@
 # description	: A feature-rich screen recorder that supports X11 and OpenGL
-# depends	: ffmpeg glu mesa qt5 pulseaudio
-# makedepends	: cmake
+# depends	: ffmpeg glu mesa qt5 cmake
+# optdepends	: pulseaudio jack
 
 name=simplescreenrecorder
-version=0.3.9
+version=0.3.11
 release=1
 source=(https://github.com/MaartenBaert/ssr/archive/$version/ssr-$version.tar.gz)
+md5sum=(035dcd0a73667d27f890c9ad242d4cf0)
 
 build() {
 	cd ssr-$version
 
+	[ -e /usr/lib/pkgconfig/libpulse.pc ] || SSRCONF+=' -DWITH_PULSEAUDIO=FALSE'
+	[ -e /usr/lib/pkgconfig/jack.pc ] || SSRCONF+=' -DWITH_JACK=FALSE'
+
 	mkdir build
 	cd build
 
-	cmake -DCMAKE_INSTALL_PREFIX="/usr" -DCMAKE_BUILD_TYPE=Release \
-	    -DWITH_QT5=on \
-	    -DCMAKE_INSTALL_LIBDIR='lib' \
-	    -DWITH_JACK=FALSE ..
+	cmake -DCMAKE_INSTALL_PREFIX="/usr" \
+	      -DCMAKE_BUILD_TYPE=Release \
+	      -DWITH_QT5=TRUE \
+	      ${SSRCONF} \
+	..
 	make
 	make DESTDIR=$PKG install
 }
+

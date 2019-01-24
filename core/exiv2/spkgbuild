@@ -1,23 +1,30 @@
 # description	: C++ library and a command line utility for managing image and video metadata
 # homepage	: http://exiv2.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: curl
+# depends	: curl cmake
 
 name=exiv2
-version=0.26
+version=0.27.0
 release=1
-source=(http://www.exiv2.org/builds/$name-$version-trunk.tar.gz)
+source=(http://www.exiv2.org/builds/$name-$version-Source.tar.gz)
+md5sum=(57d58c9cef127c5fa24bf0e1fbbd1f8c)
 
 build() {
-	cd $name-trunk
+	cd $name-$version-Source
 
-	./configure --prefix=/usr     \
-	            --enable-video    \
-	            --enable-webready \
-	            --without-ssh     \
-	            --disable-static
+	# disable building a sample program that fails
+	sed -i '/conntest/s/^/#/' samples/CMakeLists.txt
+
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr  \
+	      -DCMAKE_BUILD_TYPE=Release   \
+	      -DEXIV2_ENABLE_VIDEO=yes     \
+	      -DEXIV2_ENABLE_WEBREADY=yes  \
+	      -DEXIV2_ENABLE_CURL=yes      \
+	      -DEXIV2_BUILD_SAMPLES=no     \
+	      -G "Unix Makefiles" ..
 	make
 	make DESTDIR=$PKG install
-
-	chmod -v 755 $PKG/usr/lib/libexiv2.so
 }

@@ -3,10 +3,12 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=smartmontools
-version=6.6
-release=4
-source=(http://sourceforge.net/projects/$name/files/$name/$version/$name-$version.tar.gz
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.smartd)
+version=7.0
+release=1
+source=(https://sourceforge.net/projects/$name/files/$name/$version/$name-$version.tar.gz
+	smartd.rc)
+md5sum=(b2a80e4789af23d67dfe1e88a997abbf
+	7d14428e62f1a3c871fd93da52b31bfc)
 
 build() {
 	cd $name-$version
@@ -17,7 +19,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# daemon files
-	install -Dm644 $SRC/rc.smartd $PKG/etc/rc.d/rc.smartd
+	# rc service
+	install -Dm755 $SRC/smartd.rc $PKG/etc/rc.d/smartd
 }
-

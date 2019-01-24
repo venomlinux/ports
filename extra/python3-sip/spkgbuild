@@ -1,0 +1,15 @@
+# description	: A tool that makes it easy to create Python bindings for C and C++ libraries
+# depends	: python3 glibc
+
+name=python3-sip
+version=4.19.13
+release=1
+source=(https://sourceforge.net/projects/pyqt/files/sip/sip-$version/sip-$version.tar.gz)
+md5sum=(9124cb8978742685747a5415179a9890)
+
+build() {
+	cd sip-$version
+	python3 configure.py CFLAGS="$CFLAGS" LFLAGS="$LDFLAGS"
+	make
+	make DESTDIR=$PKG install
+}

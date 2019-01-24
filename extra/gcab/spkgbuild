@@ -1,0 +1,15 @@
+# description	: A GObject library to create cabinet files
+# depends	: glib gobject-introspection vala
+
+name=gcab
+version=0.6
+release=1
+source=(https://ftp.gnome.org/pub/GNOME/sources/gcab/$version/$name-$version.tar.xz)
+md5sum=(dd7333644cb88995693f043da9bf55d3)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

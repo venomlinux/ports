@@ -1,0 +1,15 @@
+# description	: Customizable Tetris clone for the terminal
+# depends 	: ncurses
+
+name=yetris
+version=2.3.0
+release=1
+source=($name-$version.tar.gz::https://github.com/alexdantas/$name/archive/v$version.tar.gz)
+md5sum=(2a503ccfc91c99910d53659dbfc14c5c)
+
+build() {
+	cd $name-$version
+	
+	make
+	make DESTDIR=$PKG PREFIX=/usr install
+}

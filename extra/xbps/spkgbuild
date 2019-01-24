@@ -1,0 +1,24 @@
+# description	: The X Binary Package System from Void Linux
+# depends	: ca-certificates libarchive openssl-1.0
+
+name=xbps
+version=0.53
+release=1
+source=($name-$version.tar.gz::https://github.com/void-linux/xbps/archive/$version.tar.gz)
+md5sum=(cb3769e73bc465d5b97effc415aa793f)
+
+build() {
+	cd $name-$version
+
+	export PKG_CONFIG_PATH=/usr/lib/openssl-1.0/pkgconfig
+	export LDFLAGS="-L/usr/lib/openssl-1.0"
+	export CFLAGS="$CFLAGS -I/usr/include/openssl-1.0"
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--dbdir=/var/lib/xbps
+	sed -i '/-Werror/d' config.mk
+	make
+	make DESTDIR=$PKG install
+}

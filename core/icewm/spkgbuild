@@ -1,0 +1,16 @@
+# description	: Window manager with the goals of speed, simplicity, and not getting in the user's way
+# depends	: libxrandr libxft libsm libxinerama gdk-pixbuf mkfontdir
+
+name=icewm
+version=1.4.2
+release=1
+source=(https://github.com/bbidulock/icewm/releases/download/$version/icewm-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}
+
+md5sum=(3e7c3a95e7f8518346267f48a11966cd)

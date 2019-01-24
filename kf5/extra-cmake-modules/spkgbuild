@@ -1,9 +1,8 @@
 # description	: Extra modules and scripts for CMake
-# depends	; cmake
-# makedepends	: qt5
+# depends	: cmake qt5
 
 name=extra-cmake-modules
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -19,3 +18,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(a57cf2aa488fdcce7323a2a4b9aecb65)

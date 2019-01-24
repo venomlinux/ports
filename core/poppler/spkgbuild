@@ -1,12 +1,12 @@
 # description	: PDF rendering library and command line tools used to manipulate PDF files
-# depends	: fontconfig cairo libjpeg-turbo libpng nss openjpeg2 glib poppler-data
-# makedepends	: cmake
+# depends	: cmake fontconfig cairo libjpeg-turbo libpng nss openjpeg2 glib poppler-data
 # optdepends	: curl gdk-pixbuf gtk3 lcms2 libtiff qt5
 
 name=poppler
-version=0.63.0
+version=0.72.0
 release=1
-source=(http://poppler.freedesktop.org/$name-$version.tar.xz)
+source=(https://poppler.freedesktop.org/$name-$version.tar.xz)
+md5sum=(5a18b02019daf33559eceb30e5ee2b6b)
 
 build() {
 	cd $name-$version
@@ -23,4 +23,3 @@ build() {
 	make DESTDIR=$PKG install
 	make -C qt5 DESTDIR=$PKG install
 }
-

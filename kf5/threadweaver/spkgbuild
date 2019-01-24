@@ -1,9 +1,8 @@
 # description	: High-level multithreading framework
-# depends	: qt5
-# makedepends	: extra-cmake-modules mesa
+# depends	: qt5 extra-cmake-modules mesa
 
 name=threadweaver
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(58eda3124d5b24282e20471ed8275816)

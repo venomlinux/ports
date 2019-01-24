@@ -1,14 +1,37 @@
-# description	: Base Nyx GNU/Linux files
+# description	: Base Venom Linux files
 # backup	: etc/passwd etc/resolv.conf etc/hostname etc/group etc/fstab etc/hosts etc/shells
 # depends	: iana-etc
 
 name=filesystem
-version=0.1
-release=6
+version=1.0
+release=4
 source=(passwd group resolv.conf hosts hostname inputrc usb.conf
 	shells fstab lsb-release bashrc profile
 	bash_completion.sh dircolors.sh readline.sh
-	umask.sh i18n.sh bash_profile.skel xprofile.skel bashrc.skel bash_logout.skel)
+	umask.sh i18n.sh bash_profile.skel xprofile.skel bashrc.skel bash_logout.skel
+	issue)
+md5sum=(46393e48778149b3a285f9f379987f16
+	8dae1a1bd7394619836eed4edb32706a
+	ef5ed2b51f2eddbebdddd065f0dbe1ff
+	f047ea3a98eda020cffc83f306e46034
+	b8419160170a41ae01abab13a3b887df
+	a1514268c756b0029d071e2c33b3feb5
+	2249d7af8f86efc097c30b788667a4bd
+	2ed0cf9d92e8a8fa49a41918b8a0207f
+	e88c301afb37a590c8626c4d48287699
+	becf29ed388847d9ab2e628e6e3b1a85
+	638f9df1106c653d9dfdbfc116563ba6
+	73eb068b713e6e98d01abc836fd343da
+	bd1247f39c4990ae1d1a163b4a93f280
+	c374459fd914c975b41e68902a40c9e1
+	fa6ce99e0329c7854e0a83d022da6fe3
+	f1dd87922e8fddfe73ef20ae76c2f777
+	9ac887b370aa53cbcd0a7b8e0ec7a828
+	4af6fbdec247d04b6d2bb25f11669e18
+	376ae7c23d455d2114e593b322b2cd69
+	c31d298271558e15749248d06da2fe6f
+	12bdec246acc2c98969b764110b606df
+	5515689cb0b00a1f8474908e32bc309f)
 
 build() {
 
@@ -20,7 +43,6 @@ build() {
 	mkdir -pv $PKG/usr/{,local/}{bin,include,lib,sbin,src}
 	mkdir -pv $PKG/usr/{,local/}share/{color,dict,doc,info,locale,man}
 	mkdir -v  $PKG/usr/{,local/}share/{misc,terminfo,zoneinfo}
-	mkdir -v  $PKG/usr/libexec
 	mkdir -pv $PKG/usr/{,local/}share/man/man{1..8}
 	mkdir -v $PKG/lib64
 	mkdir -v $PKG/var/{log,mail,spool}
@@ -66,6 +88,7 @@ build() {
 	install -m644 xprofile.skel $PKG/etc/skel/.xprofile
 	install -m644 bashrc.skel $PKG/etc/skel/.bashrc
 	install -m644 bash_logout.skel $PKG/etc/skel/.bash_logout
+	install -m644 issue $PKG/etc
 	
 	dircolors -p > $PKG/etc/dircolors
 }

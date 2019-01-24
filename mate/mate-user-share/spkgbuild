@@ -1,0 +1,18 @@
+# description	: User level public file sharing via WebDAV for MATE
+# depends	: caja gtk3 glib dbus-glib libnotify libcanberra libsm libice libx11
+
+name=mate-user-share
+version=1.20.1
+release=2
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(b3695df92277be934f2cea9088703111)
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name
+	make
+	make DESTDIR=$PKG install
+}

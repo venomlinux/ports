@@ -1,0 +1,15 @@
+# description	: A small command-line program to download videos from YouTube.com and a few more sites
+# depends	: python3
+
+name=youtube-dl
+version=2018.04.25
+release=1
+source=(https://yt-dl.org/downloads/$version/$name-$version.tar.gz)
+md5sum=(1cd00475fad9222f6fe52d2e1ec89a97)
+
+build() {
+	cd $name
+	sed -i 's|etc/bash_completion.d|share/bash-completion/completions|' setup.py
+	sed -i 's|etc/fish/completions|share/fish/completions|' setup.py
+	python3 setup.py install --root=$PKG --optimize=1
+}

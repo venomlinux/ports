@@ -2,10 +2,12 @@
 # depends	: bash
 
 name=acpid
-version=2.0.28
-release=3
+version=2.0.31
+release=2
 source=(https://downloads.sourceforge.net/acpid2/$name-$version.tar.xz
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.acpid)
+	$name.rc)
+md5sum=(599dd38681b5917eeeafb58176793952
+	e1bee990daa2faa500db9b9cb9327d54)
 
 build() {
 	cd $name-$version
@@ -29,6 +31,6 @@ cat > $PKG/etc/acpi/lid.sh << "EOF"
 EOF
 	chmod +x $PKG/etc/acpi/lid.sh
 
-	# daemon files
-	install -Dm644 $SRC/rc.acpid $PKG/etc/rc.d/rc.acpid
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

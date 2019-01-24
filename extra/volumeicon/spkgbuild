@@ -2,20 +2,18 @@
 # homepage	: http://softwarebakery.com/maato/volumeicon.html
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: gtk3 alsa-lib libnotify
-# makedepends	: intltool
 
 name=volumeicon
 version=0.5.1
 release=1
-source=(#http://nullwise.com/files/$name/$name-$version.tar.gz
-	$name-$version.tar.gz::https://github.com/Maato/volumeicon/archive/$version.tar.gz)
+source=(http://nullwise.com/files/$name/$name-$version.tar.gz)
+md5sum=(48230f3a1843fa4cc4ec97d0da35c3f5)
 
 build() {
 	cd $name-$version
 
-	./autogen.sh
+	#./autogen.sh
   	./configure --prefix=/usr --enable-notify
 	make
 	make DESTDIR=$PKG install
 }
-

@@ -1,18 +1,21 @@
 # description	: Implements WPA key negotiation with a WPA Authenticator and Extensible Authentication Protocol (EAP) authentication with an Authentication Server
 # homepage	: http://hostap.epitest.fi/wpa_supplicant
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# backup	: etc/wpa_supplicant.conf
+# backup	: etc/wpa_supplicant.conf etc/conf.d/wpa
 # depends	: libnl openssl dbus dhcpcd
 
 name=wpa_supplicant
-version=2.6
-release=6
+version=2.7
+release=1
 
 source=(https://w1.fi/releases/$name-$version.tar.gz
-	$name-$version-upstream_fixes-1.patch
 	wpa_supplicant.conf
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.wpa_supplicant
-	https://raw.githubusercontent.com/emmett1/rc-init/master/conf.d/wpa_supplicant)
+	wpa_supplicant.rc
+	wpa.conf)
+md5sum=(a68538fb62766f40f890125026c42c10
+	dace26d9323391e9bc9f647964536f4a
+	a645164cbb9b5de514f0dd80d59843ea
+	a4c6bf306544a057838778d691d22c18)
 
 build() {
 	cd $name-$version
@@ -48,9 +51,6 @@ CONFIG_CTRL_IFACE_DBUS_NEW=y
 CONFIG_CTRL_IFACE_DBUS_INTRO=y
 EOF
 
-	# fixes for Key Reinstallation Attacks (KRACK)
-	patch -p1 -i $SRC/wpa_supplicant-2.6-upstream_fixes-1.patch
-
 	cd $name
 	make BINDIR=/sbin LIBDIR=/lib
 
@@ -69,8 +69,7 @@ EOF
 	# wpa_supplicant.conf
 	install -Dm 600 $SRC/wpa_supplicant.conf $PKG/etc/wpa_supplicant.conf
 
-	# daemon files
-	install -Dm754 $SRC/rc.wpa_supplicant $PKG/etc/rc.d/rc.wpa_supplicant
-	install -Dm644 $SRC/wpa_supplicant $PKG/etc/conf.d/wpa_supplicant
+	# rc service
+	install -Dm755 $SRC/wpa_supplicant.rc $PKG/etc/rc.d/wpa_supplicant
+	install -Dm755 $SRC/wpa.conf $PKG/etc/conf.d/wpa
 }
-

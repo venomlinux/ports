@@ -1,10 +1,9 @@
 # description	: A dedicated search application built on top of Baloo
-# depends	: krunner
-# makedepends	: extra-cmake-modules python3 kdoctools
+# depends	: krunner extra-cmake-modules python3 kdoctools
 
 name=milou
-version=5.12.1
-release=2
+version=5.14.4
+release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
 build() {
@@ -19,10 +18,6 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
-
-	(cd $PKG/usr/share/plasma/plasmoids
-		for j in $(find -name \*.js); do
-			ln -sfv ../code/$(basename $j) $(dirname $j)/../ui/
-		done
-	)
 }
+
+md5sum=(ea0c7fe6cf49049b9a68b9d0094634b9)

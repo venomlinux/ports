@@ -1,0 +1,13 @@
+# description	: Script to install various redistributable runtime libraries in Wine
+# depends	: wine cabextract unzip xmessage zenity
+
+name=winetricks
+version=20181203
+release=1
+source=($name-$version.tar.gz::https://github.com/Winetricks/winetricks/archive/$version.tar.gz)
+md5sum=(f45c0eeb1a02fcca0d4de9b41553caf5)
+
+build() {
+	cd $name-$version
+	make DESTDIR=$PKG install
+}

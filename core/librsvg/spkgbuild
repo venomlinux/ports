@@ -1,11 +1,11 @@
 # description	: Library and tools used to manipulate, convert and view Scalable Vector Graphic (SVG) images
-# depends	: gdk-pixbuf libcroco pango gtk3
-# makedepends	: gobject-introspection vala rust
+# depends	: gdk-pixbuf libcroco pango gtk3 gobject-introspection vala rust
 
 name=librsvg
-version=2.42.2
+version=2.44.11
 release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(0f162c9b145874c42d7ffbfb80826bbb)
 
 build() {
 	cd $name-$version

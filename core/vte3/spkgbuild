@@ -1,11 +1,11 @@
 # description	: Termcap file implementation for terminal emulators
-# depends	: gtk3 pcre2 gnutls
-# makedepends	: gobject-introspection libxml2 vala
+# depends	: gtk3 pcre2 gnutls gobject-introspection libxml2 vala
 
 name=vte3
-version=0.52.0
-release=2
-source=(http://ftp.gnome.org/pub/gnome/sources/vte/${version::4}/vte-$version.tar.xz)
+version=0.54.3
+release=1
+source=(https://ftp.gnome.org/pub/gnome/sources/vte/${version::4}/vte-$version.tar.xz)
+md5sum=(fc0e9de2b6199c69e529ff3629fa35c8)
 
 build() {
 	cd vte-$version

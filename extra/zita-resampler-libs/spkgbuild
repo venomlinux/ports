@@ -1,0 +1,19 @@
+# description	: A C++ library for resampling audio signals
+# depends	: gcc libsndfile
+
+name=zita-resampler-libs
+version=1.6.2
+release=1
+source=(https://kokkinizita.linuxaudio.org/linuxaudio/downloads/zita-resampler-$version.tar.bz2)
+md5sum=(9b2cff7fa419febbca3a13435b2a24b3)
+
+build() {
+	cd zita-resampler-$version/source
+
+	# strip march=native
+	sed -e '/native/d' -i Makefile
+	sed -e '/ldconfig/d' -i Makefile
+
+	make
+	make SUFFIX="" PREFIX=/usr DESTDIR=$PKG install
+}

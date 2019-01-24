@@ -1,0 +1,17 @@
+# description	: Python module that implements a XML/HTML/XHTML Markup safe string
+# homepage	: http://pypi.python.org/pypi/MarkupSafe
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: python3
+
+name=python3-markupsafe
+version=1.0
+release=1
+source=(https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-$version.tar.gz)
+md5sum=(2fcedc9284d50e577b5192e8e3578355)
+
+build() {
+	cd MarkupSafe-$version
+	
+	python3 setup.py build
+	python3 setup.py install --root=$PKG --optimize=1
+}

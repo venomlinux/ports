@@ -1,11 +1,13 @@
 # description	: System activated daemon that maps devices to color profiles
-# depends	: dbus glib lcms2 sqlite libgudev libgusb polkit
-# makedepends	: gobject-introspection vala
+# depends	: dbus glib lcms2 sqlite libgudev libgusb polkit gobject-introspection vala meson
 
 name=colord
-version=1.4.2
-release=1
-source=(http://www.freedesktop.org/software/colord/releases/$name-$version.tar.xz)
+version=1.4.3
+release=3
+source=(https://www.freedesktop.org/software/colord/releases/$name-$version.tar.xz
+	$name.sysusers)
+md5sum=(f032ecac927e9078c41fff97800441e8
+	4118808e170e0dfa33c8e74bb392ee09)
 
 build() {
 	cd $name-$version
@@ -13,17 +15,19 @@ build() {
 	mkdir build
 	cd    build
 	
-	meson --prefix=/usr                   \
-	      --sysconfdir=/etc               \
-	      --localstatedir=/var            \
-	      -Dwith-daemon-user=colord       \
-	      -Denable-vala=true              \
-	      -Denable-systemd=false          \
-	      -Denable-libcolordcompat=true   \
-	      -Denable-argyllcms-sensor=false \
-	      -Denable-bash-completion=false  \
-	      -Denable-docs=false             \
-	      -Denable-man=false ..
+	meson --prefix=/usr \
+	      --sysconfdir=/etc \
+	      --libexecdir=/usr/lib/$name \
+	      --localstatedir=/var \
+	      -Ddaemon_user=colord \
+	      -Dvapi=true \
+	      -Dsystemd=false \
+	      -Dlibcolordcompat=true \
+	      -Dargyllcms_sensor=false \
+	      -Dbash_completion=false \
+	      -Ddocs=false \
+	      -Dman=false ..
 	ninja
 	DESTDIR=$PKG ninja install
+	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 }

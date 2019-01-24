@@ -1,13 +1,13 @@
 # description	: X Keyboard description compiler
 # homepage	: http://xorg.freedesktop.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: libxkbfile
-# makedepends	: util-macros
+# depends	: libxkbfile util-macros
 
 name=xkbcomp
-version=1.4.1
+version=1.4.2
 release=1
 source=(http://ftp.x.org/pub/individual/app/xkbcomp-$version.tar.bz2)
+md5sum=(12610df19df2af3797f2c130ee2bce97)
 
 build() {
 	cd $name-$version
@@ -20,4 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-

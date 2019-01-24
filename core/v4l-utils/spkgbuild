@@ -1,15 +1,15 @@
 # description	: Provides a series of utilities for media devices
-# depends	: alsa-lib glu libjpeg-turbo
-# makedepends	: qt5
+# depends	: alsa-lib glu libjpeg-turbo qt5 llvm
 
 name=v4l-utils
-version=1.14.2
+version=1.16.3
 release=1
 source=(https://www.linuxtv.org/downloads/v4l-utils/$name-$version.tar.bz2)
+md5sum=(ecc98c6140916135725a4d9ada10404f)
 
 build() {
 	cd $name-$version
-	
+
 	./configure --prefix=/usr     \
 	            --sysconfdir=/etc \
 	            --disable-static

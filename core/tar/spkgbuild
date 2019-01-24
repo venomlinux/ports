@@ -4,15 +4,17 @@
 # depends	: acl attr glibc
 
 name=tar
-version=1.30
+version=1.31
 release=1
-source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(bc9a89da1185ceb2210de12552c43ce2)
 
 build() {
 	cd $name-$version
 
 	FORCE_UNSAFE_CONFIGURE=1  \
 	./configure --prefix=/usr \
+		    --libexecdir=/usr/lib/$name \
 	            --bindir=/bin
 	make
 	make DESTDIR=$PKG install

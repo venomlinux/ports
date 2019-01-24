@@ -1,0 +1,15 @@
+# description	: A library with common API for MATE modules
+# depends	: dconf gdk-pixbuf gtk3
+
+name=mate-desktop
+version=1.20.4
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(1fe38c2ec1d1a4e0ae46f17c6ca41611)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,12 +1,12 @@
 # description	: Loading Glade interface files in a program at runtime
-# homepage	: http://www.gnome.org/
+# homepage	: https://www.gnome.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: libxml2 gtk2
 
 name=libglade
 version=2.6.4
 release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/libglade/${version::3}/$name-$version.tar.bz2)
+source=(https://ftp.gnome.org/pub/gnome/sources/libglade/${version::3}/$name-$version.tar.bz2)
 
 build() {
 	cd $name-$version
@@ -16,3 +16,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(d1776b40f4e166b5e9c107f1c8fe4139)

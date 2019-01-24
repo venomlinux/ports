@@ -1,0 +1,27 @@
+# description	: Streaming media framework that enables applications to share a common set of plugins
+# homepage	: https://gstreamer.freedesktop.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gstreamer
+
+name=gstreamer-32
+version=1.14.4
+release=1
+source=(http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-$version.tar.xz)
+md5sum=(f67fbbc42bd85a0701df119f52fb52bd)
+
+build() {
+	cd gstreamer-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr \
+		    --libdir=/usr/lib32 \
+		    --libexecdir=/usr/lib32 \
+        	    --with-package-name="GStreamer $version (Venom)"
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/{bin,share,include}
+}

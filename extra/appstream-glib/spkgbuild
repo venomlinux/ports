@@ -1,0 +1,19 @@
+# description	: Objects and methods for reading and writing AppStream metadata
+# depends	: gcab yaml json-glib stemmer meson
+
+name=appstream-glib
+version=0.7.14
+release=1
+source=(https://github.com/hughsie/appstream-glib/archive/appstream_glib_${version//./_}.tar.gz)
+md5sum=(fefee89385effad41890cd45ed05658c)
+
+build() {
+	cd appstream-glib-appstream_glib_${version//./_}
+	meson \
+	  --prefix=/usr \
+	  --sysconfdir=/etc \
+	  -Drpm=false \
+	build
+	ninja -C build
+	DESTDIR=$PKG ninja -C build install
+}

@@ -1,9 +1,8 @@
 # description	: Addons to QtGui
-# depends	: qt5
-# makedepends	: extra-cmake-modules mesa
+# depends	: qt5 extra-cmake-modules mesa
 
 name=kguiaddons
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(f2dee5c934be5a795c8caae2c9ef9c2f)

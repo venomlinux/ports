@@ -1,9 +1,8 @@
 # description	: Tools based on KDE Frameworks 5 to better interact with the system
-# depends	: kdesu kcmutils kinit kactivities
-# makedepends	: extra-cmake-modules python3 kdoctools
+# depends	: kdesu kcmutils kinit kactivities extra-cmake-modules plasma-workspace python3 kdoctools
 
 name=kde-cli-tools
-version=5.12.1
+version=5.14.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(d008931a914d5748da62f6667915c7d6)

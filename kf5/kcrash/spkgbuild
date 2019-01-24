@@ -1,9 +1,8 @@
 # description	: Support for application crash analysis and bug report from apps
-# depends	: kcoreaddons kwindowsystem
-# makedepends	: extra-cmake-modules mesa qt5
+# depends	: kcoreaddons kwindowsystem extra-cmake-modules mesa qt5
 
 name=kcrash
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(cabf02514d5ef0d5b25c44ff7d708ac3)

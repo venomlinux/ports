@@ -1,6 +1,5 @@
 # description	: Settings editor for the LightDM GTK+ Greeter
-# depends	: gtk3 lightdm-gtk-greeter python3-gobject3
-# makedepends	: python3-distutils-extra
+# depends	: gtk3 lightdm-gtk-greeter python3-gobject3 python3-distutils-extra
 
 name=lightdm-gtk-greeter-settings
 version=1.2.2
@@ -12,3 +11,5 @@ build() {
 	python3 setup.py build
 	python3 setup.py install --root="$PKG" --optimize='1' --xfce-integration
 }
+
+md5sum=(ca3b16105bb2fe691c2c058cc36886aa)

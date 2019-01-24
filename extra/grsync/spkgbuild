@@ -1,0 +1,22 @@
+# description	: GTK+ GUI for rsync to synchronize folders, files and make backups
+# depends	: rsync gtk3 intltool
+
+name=grsync
+version=1.2.6
+release=1
+options=()
+source=(http://www.opbyte.it/release/$name-$version.tar.gz
+        gtk3-port.patch)
+md5sum=(eb2b39e68a04ea5b9c92bcb7d9401e80
+	3bbd0a2ba5b769d20cbb1992fe310716)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../gtk3-port.patch
+	autoreconf -fi
+
+	./configure --prefix=/usr --disable-unity
+	make
+	make DESTDIR=$PKG install
+}

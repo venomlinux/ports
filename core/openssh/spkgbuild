@@ -1,0 +1,37 @@
+# description	: Free version of the SSH connectivity tools
+# depends	: openssl xauth
+
+name=openssh
+version=7.9p1
+release=3
+source=(https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
+	sshd.rc
+	$name.sysusers)
+md5sum=(c6af50b7a474d04726a5aa747a5dce8f
+	b7e7193fefab7b03d54e55ca3f178fad
+	d8fd01a5cda9f81bf7454e6e774d5bf9)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr                     \
+	            --sysconfdir=/etc/ssh             \
+		    --libexecdir=/usr/lib/$name       \
+	            --with-md5-passwords              \
+	            --with-privsep-path=/var/lib/sshd
+	make
+	make DESTDIR=$PKG install
+
+	install -v -m755    contrib/ssh-copy-id $PKG/usr/bin
+	install -v -m644    contrib/ssh-copy-id.1 \
+	                    $PKG/usr/share/man/man1
+
+	sed '/^#ChallengeResponseAuthentication yes$/c ChallengeResponseAuthentication no' \
+	    -i $PKG/etc/ssh/sshd_config
+
+	# rc service
+	install -Dm755 $SRC/sshd.rc $PKG/etc/rc.d/sshd
+
+	# sysusers file
+	install -Dm644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
+}

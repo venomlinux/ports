@@ -1,8 +1,7 @@
 # description	: Library which implements the VDPAU library
 # homepage	: https://github.com/i-rinat/libvdpau-va-gl
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: ffmpeg libvdpau libva
-# makedepends	: cmake
+# depends	: ffmpeg libvdpau libva cmake
 
 name=libvdpau-va-gl
 version=0.4.0
@@ -22,3 +21,5 @@ build() {
 	install -d $PKG/etc/profile.d/
 	echo "export VDPAU_DRIVER=va_gl" >> $PKG/etc/profile.d/libvdpau.sh
 }
+
+md5sum=(638244652a702d0262039890904f37ce)

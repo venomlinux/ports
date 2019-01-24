@@ -1,9 +1,8 @@
 # description	: A non-linear video editor for Linux using the MLT video framework
-# depends	: mlt
-# makedepends	: extra-cmake-modules kdoctools python3 v4l-utils
+# depends	: mlt extra-cmake-modules kdoctools python3 v4l-utils
 
 name=kdenlive
-version=17.12.2
+version=18.12.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/kdenlive-$version.tar.xz)
 
@@ -26,3 +25,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(28e8c79216d3393eb50d90dd8d36e019)

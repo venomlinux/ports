@@ -1,11 +1,11 @@
 # description	: Used to describe the program APIs and collect them in a uniform, machine readable format
-# depends	: glib python3
-# makedepends	: which
+# depends	: glib python3 which
 
 name=gobject-introspection
-version=1.56.0
+version=1.58.3
 release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+md5sum=(182432c1f33886be8f4da073218b597d)
 
 build() {
 	cd $name-$version

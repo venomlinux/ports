@@ -1,0 +1,53 @@
+# description	: Collection of modular and reusable compiler and toolchain technologies
+# depends	: libffi-32 python2-32 libxml2-32 llvm
+
+name=llvm-32
+version=7.0.1
+release=1
+source=(http://llvm.org/releases/$version/llvm-$version.src.tar.xz
+	http://llvm.org/releases/$version/cfe-$version.src.tar.xz
+	http://llvm.org/releases/$version/compiler-rt-$version.src.tar.xz)
+md5sum=(79f1256f97d52a054da8660706deb5f6
+	8583c9fb2af0ce61a7154fd9125363c1
+	697b70141ae7cc854e4fbde1a07b7287)
+
+build() {
+	cd llvm-$version.src
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	mv ../cfe-$version.src tools/clang
+	mv ../compiler-rt-$version.src projects/compiler-rt
+
+	mkdir -v build
+	cd       build
+	
+	cmake .. -G Ninja \
+	      -DCMAKE_INSTALL_PREFIX=/usr           \
+	      -DLLVM_ENABLE_FFI=ON                  \
+	      -DCMAKE_BUILD_TYPE=Release            \
+	      -DLLVM_BUILD_LLVM_DYLIB=ON            \
+      	      -DLLVM_LINK_LLVM_DYLIB=ON             \
+	      -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF" \
+	      -DLLVM_LIBDIR_SUFFIX=32               \
+	      -DCMAKE_C_FLAGS:STRING=-m32           \
+	      -DCMAKE_CXX_FLAGS:STRING=-m32         \
+	      -DLLVM_TARGET_ARCH:STRING=i686        \
+	      -DLLVM_DEFAULT_TARGET_TRIPLE="i686-pc-linux-gnu" \
+	      -Wno-dev
+	ninja
+	DESTDIR=$PKG ninja install
+
+	# keep 32bit header and config
+	mkdir -p $SRC/keep
+	install -t $SRC/keep $PKG/usr/bin/llvm-config $PKG/usr/include/llvm/Config/llvm-config.h
+
+	# remove unneeded files
+	rm -rf $PKG/usr/{bin,include,share,libexec}
+
+	# install 32bit header and config
+	install -m 0755 -D $SRC/keep/llvm-config $PKG/usr/bin/llvm-config-32
+	install -m 0644 -D $SRC/keep/llvm-config.h $PKG/usr/include/llvm/Config/llvm-config-32.h
+}

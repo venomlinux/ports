@@ -1,15 +1,18 @@
 # description	: Parses so-called cue sheets and handles the parsed data
 # homepage	: https://github.com/lipnitsk/libcue/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# makedepends	: cmake
+# depends	: cmake
 
 name=libcue
-version=2.1.0
-release=1
+version=2.2.1
+release=2
 source=($name-$version.tar.gz::https://github.com/lipnitsk/libcue/archive/v$version.tar.gz)
+md5sum=(1dfe65751c3817c76a107bd5a0d924a3)
 
 build() {
 	cd $name-$version
+
+	export CFLAGS="$CFLAGS -fPIC"
 
 	cmake -DCMAKE_INSTALL_PREFIX=/usr .
 	make

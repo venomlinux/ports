@@ -2,14 +2,15 @@
 # homepage	: http://lxde.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # backup	: etc/lxdm/lxdm.conf
-# depends	: gtk3 iso-codes consolekit2 linux-pam xorg-server
-# makedepends	: librsvg
+# depends	: gtk3 iso-codes consolekit2 linux-pam xorg-server librsvg
 
 name=lxdm
 version=0.5.3
-release=5
-source=(http://downloads.sourceforge.net/$name/$name-$version.tar.xz
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.lxdm)
+release=7
+source=(https://downloads.sourceforge.net/$name/$name-$version.tar.xz
+	$name.rc)
+md5sum=(061caae432634e6db38bbdc84bc6ffa0
+	8a1b4778ea38a912c024d9291090a2fb)
 
 build() {
 	cd $name-$version
@@ -39,16 +40,16 @@ sed -e 's/^bg/#&/'        \
     -e "/arg=/a arg=/usr/bin/X" \
     -i data/lxdm.conf.in
 
-
-	./configure --prefix=/usr     \
+	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
-	            --with-pam        \
-		    --disable-nls     \
-		    --enable-gtk3     \
+		    --libexecdir=/usr/lib/$name \
+	            --with-pam \
+		    --disable-nls \
+		    --enable-gtk3 \
 	            --with-systemdsystemunitdir=no
 	make
 	make DESTDIR=$PKG install
 
-	# daemon files
-	install -Dm754 $SRC/rc.lxdm $PKG/etc/rc.d/rc.lxdm
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

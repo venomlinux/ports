@@ -2,30 +2,36 @@
 # homepage	: http://www.bluez.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: dbus glib libical
+# backup	: etc/conf.d/bluetooth
 
 name=bluez
-version=5.49
-release=2
-source=(http://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
+version=5.50
+release=4
+source=(https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
 	$name-obexd_without_systemd-1.patch
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.bluetooth
-	https://raw.githubusercontent.com/emmett1/rc-init/master/conf.d/bluetooth)
+	bluetooth.rc
+	bluetooth.conf)
+md5sum=(8e35c67c81a55d3ad4c9f22280dae178
+	ed5071c4a89231f23cbb341f533ac1b6
+	16baf2462c222b819504f9a9ce05300f
+	2d517e7805e7f9c4932d1ac4f6b481fd)
 
 build() {
 	cd $name-$version
 
 	patch -Np1 -i ../$name-obexd_without_systemd-1.patch
 
-	./configure --prefix=/usr         \
-	            --sysconfdir=/etc     \
-	            --localstatedir=/var  \
-	            --enable-library      \
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+	            --libexecdir=/usr/lib \
+	            --localstatedir=/var \
+	            --enable-library \
 	            --disable-systemd
 	make
 	make DESTDIR=$PKG install
 
 	install -d $PKG/usr/sbin
-	ln -svf ../libexec/bluetooth/bluetoothd $PKG/usr/sbin/bluetoothd
+	ln -svf ../lib/bluetooth/bluetoothd $PKG/usr/sbin/bluetoothd
 
 	# main configuration
 	install -v -dm755 $PKG/etc/bluetooth
@@ -41,7 +47,6 @@ cat > $PKG/etc/bluetooth/rfcomm.conf << "EOF"
 # Use one line per command
 # See the rfcomm man page for options
 
-
 # End of rfcomm.conf
 EOF
 
@@ -54,7 +59,7 @@ cat > $PKG/etc/bluetooth/uart.conf << "EOF"
 # End of uart.conf
 EOF
 
-	# daemon files
-	install -Dm754 $SRC/rc.bluetooth $PKG/etc/rc.d/rc.bluetooth
-	install -Dm644 $SRC/bluetooth $PKG/etc/conf.d/bluetooth
+	# rc service
+	install -Dm755 $SRC/bluetooth.rc $PKG/etc/rc.d/bluetooth
+	install -Dm644 $SRC/bluetooth.conf $PKG/etc/conf.d/bluetooth
 }

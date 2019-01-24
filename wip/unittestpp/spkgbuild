@@ -1,0 +1,21 @@
+# description	: Lightweight unit testing framework for C++
+# depends	: cmake
+
+name=unittestpp
+version=2.0.0
+release=1
+source=($name-$version.tar.gz::https://github.com/unittest-cpp/unittest-cpp/archive/v$version.tar.gz)
+md5sum=(edaccca3e61d977881bdf1e0cf372243)
+
+build() {
+	cd unittest-cpp-$version
+
+	mkdir build
+	cd build
+
+	cmake .. \
+	    -DCMAKE_INSTALL_PREFIX=/usr \
+	    -DCMAKE_BUILD_TYPE=Release
+	make all
+	make DESTDIR=$PKG install
+}

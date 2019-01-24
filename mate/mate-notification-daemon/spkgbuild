@@ -1,0 +1,14 @@
+# description	: Notification daemon for MATE
+
+name=mate-notification-daemon
+version=1.20.2
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(1064bb17bec370a774c32fca99746547)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --libexecdir=/usr/lib/$name
+	make
+	make DESTDIR=$PKG install
+}

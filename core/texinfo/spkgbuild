@@ -1,16 +1,21 @@
 # description	: Programs for reading, writing, and converting info pages
-# homepage	: http://www.gnu.org/software/texinfo/
+# homepage	: https://www.gnu.org/software/texinfo/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: gzip ncurses perl bash
 
 name=texinfo
 version=6.5
-release=3
-source=(http://ftp.gnu.org/gnu/texinfo/$name-$version.tar.xz
+release=5
+source=(https://ftp.gnu.org/gnu/texinfo/$name-$version.tar.xz
 	texinfo-install.hook)
+md5sum=(3715197e62e0e07f85860b3d7aab55ed
+	cf9f27a9600f02ba0776addcbfe80fd6)
 
 build() {
 	cd $name-$version
+
+	# Fix a file that creates a lot of failures in the regression checks
+	sed -i '5481,5485 s/({/(\\{/' tp/Texinfo/Parser.pm
 
 	./configure --prefix=/usr --disable-static
 	make

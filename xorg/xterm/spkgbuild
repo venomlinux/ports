@@ -1,13 +1,16 @@
 # description	: Terminal emulator for the X Window System
 # homepage	: http://invisible-island.net/xterm/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: libxaw libxft libxkbfile xbitmaps luit
+# depends	: libxaw libxft libxkbfile xbitmaps luit dejavu-fonts
 
 name=xterm
-version=331
-release=3
-source=(ftp://ftp.invisible-island.net/$name/$name-$version.tgz
+version=343
+release=1
+source=(http://invisible-mirror.net/archives/$name/$name-$version.tgz
 	${name}_remove_list)
+md5sum=(cf2de9c722de3cede22c55ffa2be62e4
+	f1ba25cbea76867398d874a60a6b7797)
+	
 
 build() {
 	cd $name-$version
@@ -39,6 +42,8 @@ cat >> $PKG/etc/X11/app-defaults/XTerm << "EOF"
 *ptyInitialErase: true
 EOF
 
+## conflicted files with ncurses package
+## dont remove this unless theres no more conflict!
 for i in $(cat $SRC/${name}_remove_list); do
 	rm $PKG/$i
 done

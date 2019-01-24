@@ -1,0 +1,14 @@
+# description	: Library for accessing and resolving information from the Public Suffix List
+# depends	: libidn2 libunistring python2
+name=libpsl
+version=0.20.2
+release=1
+source=(https://github.com/rockdaboot/libpsl/releases/download/libpsl-$version/libpsl-$version.tar.gz)
+md5sum=(f604f7d30d64bc673870ecf84b860a1e)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

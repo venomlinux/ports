@@ -1,0 +1,24 @@
+# description	: Plugin that makes screenshots for the Xfce panel
+# homepage	: http://goodies.xfce.org/projects/applications/xfce4-screenshooter
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: xfce4-panel intltool libsoup hicolor-icon-theme
+
+name=xfce4-screenshooter
+version=1.9.3
+release=1
+source=(http://archive.xfce.org/src/apps/$name/${version::3}/$name-$version.tar.bz2)
+md5sum=(f783eb575e2015f39e1c1aae499b113f)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib \
+		--localstatedir=/var \
+		--disable-static \
+		--disable-debug
+	make
+	make DESTDIR=$PKG install
+}

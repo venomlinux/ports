@@ -1,13 +1,13 @@
 # description	: X11 client-side library
 # homepage	: http://xorg.freedesktop.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: xorgproto libxcb
-# makedepends	: util-macros xtrans
+# depends	: xorgproto libxcb util-macros xtrans
 
 name=libx11
-version=1.6.5
+version=1.6.7
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libX11-$version.tar.bz2)
+md5sum=(034fdd6cc5393974d88aec6f5bc96162)
 
 build() {
 	cd libX11-$version
@@ -20,4 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-

@@ -5,9 +5,12 @@ name=gavl
 version=1.4.0
 release=1
 source=(https://downloads.sourceforge.net/gmerlin/$name-$version.tar.gz)
+md5sum=(2752013a817fbc43ddf13552215ec2c0)
 
 build() {
 	cd $name-$version
+
+	LIBS=-lm \
 	./configure --prefix=/usr     \
 	            --without-doxygen
 	make

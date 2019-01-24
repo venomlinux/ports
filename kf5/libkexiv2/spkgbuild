@@ -1,9 +1,8 @@
 # description	: A library to manipulate pictures metadata
-# depends	: exiv2 qt5
-# makedepends	: extra-cmake-modules
+# depends	: exiv2 qt5 extra-cmake-modules
 
 name=libkexiv2
-version=17.12.2
+version=18.12.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(9a54efc78ff4ebb1a720754a4f90f079)

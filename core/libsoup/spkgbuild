@@ -1,16 +1,19 @@
 # description	: HTTP client/server library for GNOME
-# depends	: glib-networking libxml2 sqlite
-# makedepends	: gobject-introspection vala
+# depends	: glib-networking libxml2 sqlite gobject-introspection vala meson libpsl
 
 name=libsoup
-version=2.62.0
+version=2.64.2
 release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(cac755dc6c6acd6e0c70007f547548f5)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --disable-static
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+	cd build
+	
+	meson --prefix=/usr --libdir=/usr/lib -Dgssapi=false -Dvapi=true ..
+	ninja
+	DESTDIR=$PKG ninja install
 }

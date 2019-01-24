@@ -1,9 +1,8 @@
 # description	: A framework for searching and managing metadata
-# depends	: kfilemetadata kidletime kio lmdb hicolor-icon-theme
-# makedepends	: extra-cmake-modules kdoctools python3 qt5
+# depends	: kfilemetadata kidletime kio lmdb hicolor-icon-theme extra-cmake-modules kdoctools python3 qt5
 
 name=baloo
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(deed1d430e5c9b73008ca45c78df9ee3)

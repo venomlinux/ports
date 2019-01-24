@@ -1,9 +1,8 @@
 # description	: User configurable main windows
-# depends	: kglobalaccel ktextwidgets attica
-# makedepends	: extra-cmake-modules python3 mesa qt5
+# depends	: kglobalaccel ktextwidgets attica extra-cmake-modules python3 mesa qt5
 
 name=kxmlgui
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(b4c155182fd4ce55a40c9805fb405952)

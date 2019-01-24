@@ -1,11 +1,12 @@
 # description	: Conversion tool to create man files
-# homepage	: http://www.gnu.org/software/help2man/
+# homepage	: https://www.gnu.org/software/help2man/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=help2man
-version=1.47.5
+version=1.47.8
 release=1
-source=(http://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(41db5054f91d465507c18343410c7369)
 
 build() {
 	cd $name-$version
@@ -17,3 +18,4 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+

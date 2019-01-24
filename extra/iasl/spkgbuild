@@ -2,14 +2,13 @@
 # depends	: glibc
 
 name=iasl
-version=20180105
+version=20190108
 release=1
-source=(https://acpica.org/sites/acpica/files/acpica-unix-$version.tar.gz
-)
+source=(https://acpica.org/sites/acpica/files/acpica-unix-$version.tar.gz)
+md5sum=(9a0c56cdb84bba8ed42af85c13841a41)
 
 build() {
-	cd acpica-unix-$version/generate/unix
-	make clean
+	cd acpica-unix-$version
 	make
 	make DESTDIR=$PKG install
 }

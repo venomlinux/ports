@@ -1,13 +1,13 @@
 # description	: Interactive process viewer
 # homepage	: http://hisham.hm/htop/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: ncurses
-# makedepends	: python3
+# depends	: ncurses python3
 
 name=htop
-version=2.1.0
+version=2.2.0
 release=1
 source=(http://hisham.hm/htop/releases/$version/htop-$version.tar.gz)
+md5sum=(0d816b6beed31edc75babcfbf863ffa8)
 
 build() {
     cd $name-$version
@@ -15,3 +15,4 @@ build() {
     make
     make DESTDIR=$PKG install
 }
+

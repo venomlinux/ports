@@ -1,9 +1,8 @@
 # description	: Application to show KDE Applications' documentation
-# depends	: khtml kdoctools xapian-core grantlee kinit
-# makedepends	: extra-cmake-modules python3
+# depends	: khtml kdoctools xapian-core grantlee kinit extra-cmake-modules python3
 
 name=khelpcenter
-version=17.12.2
+version=18.12.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
@@ -24,3 +23,5 @@ build() {
 	mv -v $PKG/usr/share/kde4/services/khelpcenter.desktop $PKG/usr/share/applications/
 	rm -rv $PKG/usr/share/kde4
 }
+
+md5sum=(9e6e51807c0d58b863e095cb7cb6d380)

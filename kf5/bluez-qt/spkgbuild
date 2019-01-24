@@ -1,9 +1,8 @@
 # description	: Qt wrapper for Bluez 5 DBus API
-# depends	: qt5 bluez
-# makedepends	: extra-cmake-modules mesa
+# depends	: qt5 bluez extra-cmake-modules mesa
 
 name=bluez-qt
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(a95dc95f2ab7b4892d3cb166516b6c73)

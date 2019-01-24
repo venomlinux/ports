@@ -1,9 +1,8 @@
 # description	: Provide a collection of methods to manipulate strings using various encodings
-# depends	: qt5
-# makedepends	: extra-cmake-modules qt5 gperf
+# depends	: qt5 extra-cmake-modules qt5 gperf
 
 name=kcodecs
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(968d1595082a3e167204a3b9585aa815)

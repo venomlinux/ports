@@ -1,8 +1,8 @@
 # description	: Additional wallpapers for the Plasma Workspace
-# makedepends	: extra-cmake-modules qt5
+# depends	: extra-cmake-modules qt5
 
 name=plasma-workspace-wallpapers
-version=5.12.1
+version=5.14.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -19,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(5896ef78ebf9b4784ed1fb44c4af1d69)

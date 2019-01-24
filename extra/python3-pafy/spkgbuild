@@ -1,0 +1,13 @@
+# description	: Python API for YouTube
+# depends	: python3 youtube-dl python3-setuptools
+
+name=python3-pafy
+version=0.5.4
+release=1
+source=($name-$version.tar.gz::https://github.com/mps-youtube/pafy/archive/v$version.tar.gz)
+md5sum=(6a40db1c4887dcf92bd54cbd7944c119)
+
+build() {
+	cd pafy-$version
+	python3 setup.py install --root="$PKG" --optimize=1
+}

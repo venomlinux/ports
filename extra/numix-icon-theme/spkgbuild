@@ -1,0 +1,19 @@
+# description	: Base icon theme from the Numix project
+# homepage	: http://numixproject.org/
+# maintainer	: Emmett1, emmett1.2miligrams at mail.com
+# depends	: gtk3
+
+name=numix-icon-theme
+version=20180405
+release=1
+options=(!strip)
+_commit=763489fcf4161796fc30c68e0c1819171b2a3c70
+source=($name-$_commit.tar.gz::https://github.com/numixproject/numix-icon-theme/archive/$_commit.tar.gz)
+md5sum=(2286ba36e565e475d46ef590fa05610f)
+
+build() {
+	cd $name-$_commit
+	install -dm 755 $PKG/usr/share/icons
+	cp -dr --no-preserve='ownership' Numix{,-Light} $PKG/usr/share/icons/
+}
+

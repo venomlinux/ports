@@ -1,0 +1,24 @@
+# description	: ALSA library used by programs (including ALSA Utilities) requiring access to the ALSA sound interface
+# homepage	: https://www.alsa-project.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: alsa-lib
+
+name=alsa-lib-32
+version=1.1.8
+release=1
+source=(ftp://ftp.alsa-project.org/pub/lib/alsa-lib-$version.tar.bz2)
+md5sum=(0eec0d657a07927795809c8f87fb76ca)
+
+build() {
+	cd alsa-lib-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+  	./configure --libdir=/usr/lib32
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{bin,share,include}
+}

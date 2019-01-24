@@ -1,9 +1,8 @@
 # description	: Support for JS scripting in applications
-# depends	: qt5
-# makedepends	: extra-cmake-modules kdoctools
+# depends	: qt5 extra-cmake-modules kdoctools
 
 name=kjs
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/portingAids/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(14303adfba7c862f0a7f4761f90d079b)

@@ -1,0 +1,35 @@
+# description	: Low-level libraries useful for providing data structure handling for C, portability wrappers and interfaces
+# depends	: glib pcre-32 libffi-32 util-linux-32 elfutils-32
+
+name=glib-32
+version=2.58.2
+release=1
+source=(https://ftp.gnome.org/pub/gnome/sources/glib/${version::4}/glib-$version.tar.xz
+	gio-querymodules-32.hook)
+md5sum=(8483db194fd8a4653394a1413df97a4c
+	99239f1ffe9f716b8d19712fa8d7f61c)
+
+build() {
+	cd glib-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	mkdir build-glib
+	cd    build-glib
+	
+	meson --prefix=/usr   \
+	      --libdir=/usr/lib32 \
+	      -Dman=true      \
+	      -Dselinux=false \
+	      ..
+	ninja
+	DESTDIR=$PWD/DESTDIR ninja install
+	mkdir -p $PKG/usr/bin
+	cp DESTDIR/usr/bin/gio-querymodules $PKG/usr/bin/gio-querymodules-32
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+
+	install -Dm644 $SRC/gio-querymodules-32.hook $PKG/etc/hooks/gio-querymodules-32.hook
+}

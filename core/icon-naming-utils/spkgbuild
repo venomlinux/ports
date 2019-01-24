@@ -5,13 +5,14 @@
 
 name=icon-naming-utils
 version=0.8.90
-release=1
+release=2
 source=(http://tango.freedesktop.org/releases/$name-$version.tar.bz2)
+md5sum=(dd8108b56130b9eedc4042df634efa66)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr --libexecdir=/usr/lib/$name
 	make
 	make DESTDIR=$PKG install
 }

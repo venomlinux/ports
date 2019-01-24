@@ -1,26 +1,36 @@
 # description	: Toolkit for defining and handling authorizations
-# homepage	: http://www.freedesktop.org/wiki/Software/polkit
+# homepage	: https://www.freedesktop.org/wiki/Software/polkit
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: glib js linux-pam
-# makedepends	: gobject-introspection
+# depends	: glib js52 linux-pam gobject-introspection
 
 name=polkit
-version=0.113+git_2919920+js38
-release=1
-source=(http://anduin.linuxfromscratch.org/BLFS/polkit/$name-$version.tar.xz
-	polkit-1)
+version=0.115
+release=2
+source=(https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz
+	polkit-1
+	$name.sysusers
+	polkit-security-patch.patch)
+md5sum=(f03b055d6ae5fc8eac76838c7d83d082
+	4ce755378335620cc004fd5802a46907
+	c39684caa22df624030a01bb50c8eadb
+	252c1b18ba86a7b05840e992321f4639)
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i ../polkit-security-patch.patch
 
 	./configure --prefix=/usr                    \
 	            --sysconfdir=/etc                \
 	            --localstatedir=/var             \
 	            --disable-static                 \
 	            --enable-libsystemd-login=no     \
+		    --with-authfw=pam		     \
+		    --enable-libelogind=no	     \
 		    --disable-man-pages
 	make
 	make DESTDIR=$PKG install
 
 	install -Dm 644 $SRC/polkit-1 $PKG/etc/pam.d/polkit-1
+	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 }

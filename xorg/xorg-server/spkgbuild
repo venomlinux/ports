@@ -1,28 +1,28 @@
 # description	: The core of the X Window system
-# depends	: pixman libepoxy xkeyboard-config openssl nettle libxfont2 libinput
-# makedepends	: libgcrypt mesa xorgproto
+# depends	: pixman libepoxy xkeyboard-config openssl nettle libxfont2 libinput libgcrypt mesa xorgproto
 
 name=xorg-server
-version=1.19.5
+version=1.20.3
 release=2
 source=(http://ftp.x.org/pub/individual/xserver/$name-$version.tar.bz2)
+md5sum=(8ee29e8b24cef6b3cfa747ec01b9155a)
 
 build() {
 	cd $name-$version
 
   	./configure \
-		--prefix=/usr			\
-		--sysconfdir=/etc		\
-		--localstatedir=/var		\
-		--disable-static		\
-		--enable-glamor			\
-		--enable-install-setuid		\
-		--enable-suid-wrapper		\
-		--disable-systemd-logind	\
+		--prefix=/usr \
+		--sysconfdir=/etc \
+	        --libexecdir=/usr/lib/$name \
+		--localstatedir=/var \
+		--disable-static \
+		--enable-glamor \
+		--enable-install-setuid \
+		--enable-suid-wrapper \
+		--disable-systemd-logind \
 		--with-xkb-output=/var/lib/xkb
 	make
 	make DESTDIR=$PKG install
 
 	install -d $PKG/etc/X11/xorg.conf.d
 }
-

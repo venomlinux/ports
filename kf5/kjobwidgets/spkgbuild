@@ -1,9 +1,8 @@
 # description	: Widgets for tracking KJob instances
-# depends	: qt5 kcoreaddons kwidgetsaddons
-# makedepends	: extra-cmake-modules
+# depends	: qt5 kcoreaddons kwidgetsaddons extra-cmake-modules
 
 name=kjobwidgets
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(3437728b6b9a09a59720d86392c05624)

@@ -1,12 +1,12 @@
 # description	: Functions for multiple precision math
-# homepage	: http://www.mpfr.org/
+# homepage	: https://www.mpfr.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: gmp
 
 name=mpfr
 version=4.0.1
 release=1
-source=(http://www.mpfr.org/$name-$version/$name-$version.tar.xz)
+source=(https://www.mpfr.org/$name-$version/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -19,3 +19,4 @@ build() {
 	make DESTDIR=$PKG install
 	make DESTDIR=$PKG install-html
 }
+md5sum=(b8dd19bd9bb1ec8831a6a582a7308073)

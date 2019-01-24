@@ -4,10 +4,12 @@
 # depends	: giblib
 
 name=scrot
-version=0.8.17
-release=2
-source=(http://scrot.sourcearchive.com/downloads/${version%.*}-${version##*.}/${name}_${version%.*}.orig.tar.gz
-	http://scrot.sourcearchive.com/downloads/${version%.*}-${version##*.}/${name}_${version%.*}-${version##*.}.debian.tar.xz)
+version=0.8.19
+release=1
+source=(http://http.debian.net/debian/pool/main/s/${name}/${name}_${version%.*}.orig.tar.gz
+        http://http.debian.net/debian/pool/main/s/${name}/${name}_${version%.*}-${version##*.}.debian.tar.xz)
+md5sum=(ccae904d225609571bdd3b03445c1e88
+	2bcae08f7a929b21eda91be0132c590d)
 
 build() {
 	for patch in $(<$SRC/debian/patches/series); do
@@ -23,4 +25,3 @@ build() {
 	make
 	make DESTDIR=$PKG docsdir=/usr/share/doc/scrot install
 }
-

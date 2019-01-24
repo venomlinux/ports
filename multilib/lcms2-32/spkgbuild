@@ -1,0 +1,24 @@
+# description	: Small-footprint color management engine, with special focus on accuracy and performance
+# homepage	: http://www.littlecms.com/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: lcms2
+
+name=lcms2-32
+version=2.9
+release=1
+source=(https://downloads.sourceforge.net/lcms/lcms2-$version.tar.gz)
+md5sum=(8de1b7724f578d2995c8fdfa35c3ad0e)
+
+build() {
+	cd lcms2-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr --libdir=/usr/lib32 --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/{bin,share,include}
+}

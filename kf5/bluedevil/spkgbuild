@@ -1,10 +1,9 @@
 # description	: Integrate the Bluetooth technology within KDE workspace and applications
-# depends	: bluez-qt kio
-# makedepends	: extra-cmake-modules plasma-framework kded python3
+# depends	: bluez-qt kio extra-cmake-modules plasma-framework kded python3
 
 name=bluedevil
-version=5.12.1
-release=2
+version=5.14.4
+release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
 build() {
@@ -19,10 +18,6 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
-
-	(cd $PKG/usr/share/plasma/plasmoids
-		for j in $(find -name \*.js); do
-			ln -sfv ../code/$(basename $j) $(dirname $j)/../ui/
-		done
-	)
 }
+
+md5sum=(fe29af65a55d434bfb5a1806f7ca61b0)

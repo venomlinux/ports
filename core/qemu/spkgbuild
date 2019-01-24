@@ -1,25 +1,26 @@
 # description	: Virtualization for Linux on x86 hardware containing virtualization extensions (Intel VT or AMD-V)
-# depends	: alsa-lib sdl2 glib
-# makedepends	: python2 coreutils
+# depends	: alsa-lib sdl2 glib python2 coreutils
 
 name=qemu
-version=2.11.1
+version=3.1.0
 release=1
-source=(http://download.qemu-project.org/$name-$version.tar.bz2)
+source=(http://download.qemu-project.org/$name-$version.tar.bz2
+	$name.sysusers)
+md5sum=(8a75cfd18460143d1b352234e437ca8d
+	a1af9e25ccde3ef12f6cf863242cf37d)
 
 build() {
 	cd $name-$version
 
-	sed -i 's/ memfd_create/ qemu_memfd_create/' util/memfd.c
-
 	mkdir -vp build
 	cd        build
 	
-	../configure --prefix=/usr			\
-	             --sysconfdir=/etc			\
-	             --target-list=x86_64-softmmu	\
-	             --audio-drv-list=alsa		\
-	             --with-sdlabi=2.0			\
+	../configure --prefix=/usr \
+	             --sysconfdir=/etc \
+	             --libexecdir=/usr/lib/$name \
+	             --target-list=x86_64-softmmu \
+	             --audio-drv-list=alsa \
+	             --with-sdlabi=2.0 \
 		     --disable-gtk
 	make
 	make DESTDIR=$PKG install
@@ -29,6 +30,6 @@ cat > $PKG/lib/udev/rules.d/65-kvm.rules << "EOF"
 KERNEL=="kvm", GROUP="kvm", MODE="0660"
 EOF
 
-chgrp kvm  $PKG/usr/libexec/qemu-bridge-helper
-chmod 4750 $PKG/usr/libexec/qemu-bridge-helper
+	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 }
+

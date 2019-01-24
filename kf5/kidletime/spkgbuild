@@ -1,9 +1,8 @@
 # description	: Monitoring user activity
-# depends	: qt5
-# makedepends	: extra-cmake-modules mesa
+# depends	: qt5 extra-cmake-modules mesa
 
 name=kidletime
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(176fb9a35f39ff79694c2a14be20ad44)

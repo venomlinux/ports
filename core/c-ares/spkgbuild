@@ -1,13 +1,18 @@
 # description	: C library for asynchronous DNS requests
+# depends	: cmake
 
 name=c-ares
-version=1.12.0
+version=1.15.0
 release=1
 source=(https://c-ares.haxx.se/download/$name-$version.tar.gz)
+md5sum=(d2391da274653f7643270623e822dff7)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --disable-static
+	mkdir build
+	cd    build
+	
+	cmake  -DCMAKE_INSTALL_PREFIX=/usr ..
 	make
 	make DESTDIR=$PKG install
 }

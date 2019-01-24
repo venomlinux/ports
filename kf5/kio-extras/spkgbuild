@@ -1,9 +1,8 @@
 # description	: Additional components to increase the functionality of KIO
-# depends	: kio kdnssd exiv2 libmtp kpty kactivities
-# makedepends	: extra-cmake-modules kdoctools gperf taglib khtml
+# depends	: kio kdnssd exiv2 libmtp kpty kactivities extra-cmake-modules kdoctools gperf taglib khtml
 
 name=kio-extras
-version=17.12.2
+version=18.12.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(3b6666cb471cbb913f9cc84a89f48b94)

@@ -1,20 +1,22 @@
 # description	: Libraries used for displaying certificates and accessing key stores
 # homepage	: https://git.gnome.org/browse/gcr
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: glib libgcrypt p11-kit libtasn1 gtk3 gnupg
-# makedepends	: gobject-introspection libxslt vala
+# depends	: glib libgcrypt p11-kit libtasn1 gtk3 gnupg gobject-introspection libxslt vala
 
 name=gcr
-version=3.28.0
+version=3.28.1
 release=1
-source=(http://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(afd88cacfd54c1ac5b3e0eb35e3aa674)
 
 build() {
 	cd $name-$version
 
 	sed -i -r 's:"(/desktop):"/org/gnome\1:' schema/*.xml
-	./configure --prefix=/usr     \
-	            --sysconfdir=/etc
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name
 	make
 	make DESTDIR=$PKG install
 }

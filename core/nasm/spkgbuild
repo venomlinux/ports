@@ -1,13 +1,19 @@
 # description	: 80x86 assembler designed for portability and modularity
 
 name=nasm
-version=2.13.03
+version=2.14
 release=1
-source=(http://www.nasm.us/pub/nasm/releasebuilds/$version/nasm-$version.tar.xz)
+source=(https://www.nasm.us/pub/nasm/releasebuilds/$version/nasm-$version.tar.xz)
+md5sum=(7d0f554cacd6c5021b3cda3ba9f2474c)
 
 build() {
 	cd $name-$version
+
+	sed -e '/seg_init/d'                      \
+	    -e 's/pure_func seg_alloc/seg_alloc/' \
+	    -i include/nasmlib.h
+
 	./configure --prefix=/usr
 	make
-	make INSTALLROOT=$PKG install
+	make DESTDIR=$PKG install
 }

@@ -6,7 +6,7 @@ name=wireless_tools
 version=29
 release=1
 source=(http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/${name}.${version}.tar.gz
-	http://www.linuxfromscratch.org/patches/blfs/8.1/wireless_tools-${version}-fix_iwlist_scanning-1.patch)
+	http://www.linuxfromscratch.org/patches/blfs/svn/wireless_tools-${version}-fix_iwlist_scanning-1.patch)
 
 build() {
 	cd ${name}.${version}
@@ -17,3 +17,6 @@ build() {
 	     INSTALL_DIR=$PKG/usr/bin \
 	     INSTALL_MAN=$PKG/usr/share/man install
 }
+
+md5sum=(e06c222e186f7cc013fd272d023710cb
+9db3a9451d8cb969e388e089be401408)

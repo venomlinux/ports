@@ -1,9 +1,8 @@
 # description	: Plasma applet written in QML for managing network connections
-# depends	: plasma-workspace modemmanager-qt networkmanager-qt qca
-# makedepends	: extra-cmake-modules kdoctools python3 kdesignerplugin
+# depends	: plasma-workspace modemmanager-qt networkmanager-qt qca extra-cmake-modules kdoctools python3 kdesignerplugin
 
 name=plasma-nm
-version=5.12.1
+version=5.14.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -20,3 +19,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(3e1200ad29cae12d7672902164449403)

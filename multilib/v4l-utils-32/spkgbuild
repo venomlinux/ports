@@ -1,0 +1,25 @@
+# description	: Provides a series of utilities for media devices
+# depends	: v4l-utils eudev-32
+
+name=v4l-utils-32
+version=1.16.3
+release=1
+source=(https://www.linuxtv.org/downloads/v4l-utils/v4l-utils-$version.tar.bz2)
+md5sum=(ecc98c6140916135725a4d9ada10404f)
+
+build() {
+	cd v4l-utils-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr     \
+		    --libdir=/usr/lib32 \
+	            --sysconfdir=/etc \
+	            --disable-static
+	make
+	make -j1 DESTDIR=$PKG install
+
+	rm -r $PKG/usr/{bin,sbin,share,include} $PKG/{etc,lib}
+}

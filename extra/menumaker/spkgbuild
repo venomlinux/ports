@@ -6,7 +6,7 @@
 name=menumaker
 version=0.99.10
 release=1
-source=(http://downloads.sourceforge.net/$name/$name-$version.tar.gz)
+source=(https://downloads.sourceforge.net/sourceforge/$name/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
@@ -14,3 +14,5 @@ build() {
 	make
 	make -j1 DESTDIR=$PKG install
 }
+
+md5sum=(7d63d39e497cb5779d598b06ff357e4d)

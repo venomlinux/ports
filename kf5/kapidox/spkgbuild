@@ -1,8 +1,8 @@
 # description	: Frameworks API Documentation Tools
-# makedepends	: extra-cmake-modules qt5
+# depends	: extra-cmake-modules qt5
 
 name=kapidox
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -22,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(4ecdd6e9ab36b9bbdbe183f042eecb62)

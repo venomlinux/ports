@@ -1,0 +1,16 @@
+# description	: PulseAudio Volume Control
+# depends	: gtkmm3 libsigc++ libcanberra
+
+name=pavucontrol
+version=3.0
+release=1
+source=(https://freedesktop.org/software/pulseaudio/pavucontrol/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
+
+md5sum=(176308d2c03f8f3a7b2bd4f4d284fe71)

@@ -1,0 +1,17 @@
+# description	: The Linux-native asynchronous I/O facility (aio) library
+
+name=libaio
+version=0.3.111
+release=1
+source=(http://ftp.de.debian.org/debian/pool/main/liba/libaio/libaio_$version.orig.tar.gz)
+md5sum=(abb8f46d64b9bd3d0c6097e3a36639be)
+
+build() {
+	cd $name-$version
+
+	# disable the installation of the static library
+	sed '/install.*libaio.a/s/^/#/' src/Makefile
+
+	make
+	make prefix=$PKG/usr install
+}

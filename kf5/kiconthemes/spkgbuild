@@ -1,9 +1,8 @@
 # description	: Support for icon themes
-# depends	: qt5 kconfigwidgets kitemviews karchive
-# makedepends	: extra-cmake-modules python3 mesa
+# depends	: qt5 kconfigwidgets kitemviews karchive extra-cmake-modules python3 mesa
 
 name=kiconthemes
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(234017ec51e4dc3f02989af75121e8f5)

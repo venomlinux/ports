@@ -1,10 +1,10 @@
 # description	: Implements the user-space interfaces to the POSIX 1003.1e capabilities available in Linux kernels
-# homepage	: http://sites.google.com/site/fullycapable/
+# homepage	: https://sites.google.com/site/fullycapable/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: attr glibc linux-api-headers
 
 name=libcap
-version=2.25
+version=2.26
 release=1
 source=(https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/$name-$version.tar.xz)
 
@@ -21,3 +21,4 @@ build() {
 	mv -v $PKG/usr/lib/libcap.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libcap.so) $PKG/usr/lib/libcap.so
 }
+md5sum=(968ac4d42a1a71754313527be2ab5df3)

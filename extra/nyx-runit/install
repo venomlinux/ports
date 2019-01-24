@@ -1,0 +1,11 @@
+post_install() {
+	for i in {2..6}; do
+		[ -L /var/service/getty-tty$i ] || ln -s /etc/sv/getty-tty$i /var/service
+	done
+}
+
+post_remove() {
+	for i in {2..6}; do
+		rm -f /var/service/getty-tty$i
+	done
+}

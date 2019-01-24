@@ -1,13 +1,13 @@
 # description	: Monospace bitmap font (for X11 and console)
-# homepage	: http://sourceforge.net/projects/terminus-font/
+# homepage	: https://sourceforge.net/projects/terminus-font/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: fontconfig encodings
-# makedepends	: mkfontscale mkfontdir bdftopcf python3
+# depends	: fontconfig encodings mkfontscale mkfontdir bdftopcf python3
 
 name=terminus-font
 version=4.46
-release=1
-source=(http://downloads.sourceforge.net/project/$name/$name-$version/$name-$version.tar.gz)
+release=2
+source=(https://downloads.sourceforge.net/project/$name/$name-$version/$name-$version.tar.gz)
+md5sum=(368f512a88b5855fe2f12a9262da52f2)
 
 build() {
 	cd $name-$version
@@ -16,7 +16,7 @@ build() {
 	./configure \
 		--prefix=/usr \
 		--x11dir=/usr/share/fonts/X11/misc \
-		--psfdir=/usr/share/kbd/consolefonts
+		--psfdir=/usr/share/consolefonts
 	make
 	make DESTDIR=$PKG install
 

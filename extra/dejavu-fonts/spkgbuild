@@ -5,18 +5,18 @@
 
 name=dejavu-fonts
 version=2.37
-release=1
-source=(http://downloads.sourceforge.net/project/dejavu/dejavu/$version/dejavu-fonts-ttf-$version.tar.bz2)
+release=2
+source=(https://downloads.sourceforge.net/project/dejavu/dejavu/$version/dejavu-fonts-ttf-$version.tar.bz2)
 
 build() {
 	cd dejavu-fonts-ttf-$version
 
 	install -dm755 $PKG/etc/fonts/conf.avail
 	install -dm755 $PKG/etc/fonts/conf.d
-	install -dm755 $PKG/usr/share/fonts/TTF
+	install -dm755 $PKG/usr/share/fonts/X11/TTF
 
 	cd $SRC/dejavu-fonts-ttf-$version
-	install -m644 ttf/*.ttf $PKG/usr/share/fonts/TTF/
+	install -m644 ttf/*.ttf $PKG/usr/share/fonts/X11/TTF/
 	install -m644 fontconfig/*.conf $PKG/etc/fonts/conf.avail/
 
 	pushd $PKG/etc/fonts/conf.avail
@@ -25,3 +25,4 @@ build() {
 	done
 	popd
 }
+md5sum=(d0efec10b9f110a32e9b8f796e21782c)

@@ -1,9 +1,8 @@
 # description	: Integration with su for elevated privileges
-# depends	: kservice kpty
-# makedepends	: extra-cmake-modules python3 qt5
+# depends	: kservice kpty extra-cmake-modules python3 qt5
 
 name=kdesu
-version=5.43.0
+version=5.53.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
@@ -23,3 +22,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(253c8af01d93472f5940fd6f7fb33271)

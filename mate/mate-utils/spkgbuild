@@ -1,0 +1,18 @@
+# description	: Common MATE utilities for viewing disk usage, logs and fonts, taking screenshots, managing dictionaries and searching files
+# depends	: gtk3 glib mate-panel libxext libcanberra libx11 zlib libgtop libsm libice
+
+name=mate-utils
+version=1.20.2
+release=1
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(20a6e2e3ebede56a49e0765af281f595)
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name
+	make
+	make DESTDIR=$PKG install
+}

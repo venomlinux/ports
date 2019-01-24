@@ -1,19 +1,20 @@
 # description	: Daemon, tools and libraries to access and manipulate disks and storage devices
-# homepage	: http://www.freedesktop.org/wiki/Software/udisks
+# homepage	: https://www.freedesktop.org/wiki/Software/udisks
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: libatasmart libblockdev libgudev libxslt polkit
-# makedepends	: gobject-introspection
+# depends	: libatasmart libblockdev libgudev libxslt polkit gobject-introspection
 
 name=udisks2
-version=2.7.6
-release=1
+version=2.8.1
+release=2
 source=(https://github.com/storaged-project/udisks/releases/download/udisks-$version/udisks-$version.tar.bz2)
+md5sum=(aefebdb5a082f99b4f86cadc41352b3d)
 
 build() {
 	cd udisks-$version
 
 	./configure --prefix=/usr        \
 	            --sysconfdir=/etc    \
+		    --libexecdir=/usr/lib \
 	            --localstatedir=/var \
 	            --disable-static	 \
 		    --disable-man

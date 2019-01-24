@@ -1,19 +1,19 @@
 # description	: Well-groomed and well-maintained collection of GStreamer plug-ins and elements
 # homepage	: https://gstreamer.freedesktop.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: alsa-lib gstreamer libtheora libvorbis libogg
-# makedepends	: gobject-introspection iso-codes
+# depends	: alsa-lib gstreamer libtheora libvorbis libogg gobject-introspection iso-codes
 
 name=gst-plugins-base
-version=1.14.0
+version=1.14.4
 release=1
 source=(http://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
+md5sum=(4dbe20c1bf44191c2b8833234df5cb2a)
 
 build() {
 	cd $name-$version
 
 	./configure --prefix=/usr \
-		    --with-package-name="GStreamer Base Plugins $version (Nyx)" \
+		    --with-package-name="GStreamer Base Plugins $version (Venom)" \
 		    --disable-examples
 	make
 	make DESTDIR=$PKG install

@@ -1,0 +1,23 @@
+# description	: The GL Vendor-Neutral Dispatch library
+
+name=libglvnd-32
+version=1.1.0
+release=1
+source=(libglvnd-$version.tar.gz::https://github.com/NVIDIA/libglvnd/archive/v$version.tar.gz)
+md5sum=(5ed9218738892d5865cd68ce9cdcd5c3)
+
+build() {
+	cd libglvnd-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	./autogen.sh
+	./configure --prefix=/usr \
+		--build=i686-unknown-linux-gnu \
+		--libdir=/usr/lib32
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/include
+}

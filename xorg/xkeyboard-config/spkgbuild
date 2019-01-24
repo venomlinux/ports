@@ -1,10 +1,11 @@
 # description	: Keyboard configuration database for the X Window System
-# makedepends	: intltool xkbcomp
+# depends	: intltool xkbcomp
 
 name=xkeyboard-config
-version=2.23.1
+version=2.25
 release=1
 source=(http://xorg.freedesktop.org/archive/individual/data/xkeyboard-config/xkeyboard-config-$version.tar.bz2)
+md5sum=(a0238f95118f39f5f685dd28fbd9d24f)
 
 build() {
 	cd $name-$version
@@ -18,4 +19,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-

@@ -4,10 +4,12 @@
 # depends	: libusb python2
 
 name=usbutils
-version=009
+version=010
 release=1
-source=(http://www.kernel.org/pub/linux/utils/usb/usbutils/$name-$version.tar.xz
+source=(https://www.kernel.org/pub/linux/utils/usb/usbutils/$name-$version.tar.xz
 	http://www.linux-usb.org/usb.ids)
+md5sum=(938e3707593974be99a0dd6d1de76671
+	SKIP)
 
 build() {
 	cd $name-$version

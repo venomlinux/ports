@@ -5,7 +5,7 @@
 name=zip
 version=3.0
 release=1
-source=(http://downloads.sourceforge.net/infozip/${name}${version//./}.tar.gz)
+source=(https://downloads.sourceforge.net/infozip/${name}${version//./}.tar.gz)
 
 build() {
 	cd ${name}${version//./}
@@ -14,3 +14,4 @@ build() {
 	make prefix=$PKG/usr MANDIR=$PKG/usr/share/man/man1 -f unix/Makefile install
 }
 
+md5sum=(7b74551e63f8ee6aab6fbc86676c0d37)

@@ -1,12 +1,12 @@
 # description	: Generates a perfect hash function from a key set
-# homepage	: http://www.gnu.org/software/gperf/
+# homepage	: https://www.gnu.org/software/gperf/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: gcc texinfo
 
 name=gperf
 version=3.1
 release=1
-source=(http://ftp.gnu.org/gnu/gperf/$name-$version.tar.gz)
+source=(https://ftp.gnu.org/gnu/gperf/$name-$version.tar.gz)
 
 build() {
 	cd $name-$version
@@ -18,3 +18,4 @@ build() {
 	mkdir -p $PKG/usr/share/doc/$name
 	mv $PKG/usr/share/doc/{$name.html,$name}
 }
+md5sum=(9e251c0a618ad0824b51117d5d9db87e)

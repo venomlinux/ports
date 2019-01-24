@@ -1,0 +1,35 @@
+# description	: Kingsoft Office (WPS Office) is an office productivity suite
+# depends	: fontconfig libxrender desktop-file-utils shared-mime-info xdg-utils openssl-1.0 sdl2 hicolor-icon-theme pulseaudio
+
+name=wps-office
+version=10.1.0.6634
+release=1
+source=(http://kdl.cc.ksosoft.com/wps-community/download/6634/wps-office_${version}_x86_64.tar.xz)
+md5sum=(f3f754db343928b83ef4167a8440e2b7)
+
+build() {
+	cd ${name}_${version}_x86_64
+
+	sed -i 's|/opt/kingsoft/wps-office|/opt/wps-office|' wps wpp et
+
+	install -d $PKG/opt/wps-office
+	cp -r office6 $PKG/opt/wps-office
+
+	install -d $PKG/usr/bin
+	install -m755 wps wpp et $PKG/usr/bin
+
+	install -d $PKG/usr/share/applications
+	cp -r resource/applications/* $PKG/usr/share/applications
+
+	install -d $PKG/usr/share/mime
+	cp -r resource/mime/* $PKG/usr/share/mime
+
+	install -d $PKG/usr/share/icons
+	cp -r resource/icons/* $PKG/usr/share/icons
+
+	install -d $PKG/usr/share/fonts/TTF
+	cp -r fonts/* $PKG/usr/share/fonts/TTF
+
+	install -d $PKG/etc/fonts/conf.avail
+	cp -r fontconfig/* $PKG/etc/fonts/conf.avail
+}

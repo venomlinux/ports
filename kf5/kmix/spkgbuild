@@ -1,9 +1,8 @@
 # description	: KDE volume control program
-# depends	: kdelibs4support libcanberra hicolor-icon-theme
-# makedepends	: cmake extra-cmake-modules python3 kdoctools kdelibs4support plasma-framework libcanberra kdesignerplugin
+# depends	: kdelibs4support libcanberra hicolor-icon-theme cmake extra-cmake-modules python3 kdoctools kdelibs4support plasma-framework libcanberra kdesignerplugin
 
 name=kmix
-version=17.12.2
+version=18.12.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
@@ -21,3 +20,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+
+md5sum=(7e84451af562bf4b599c083919e973e1)

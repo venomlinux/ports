@@ -1,0 +1,34 @@
+# description	: An URL retrieval library (linked against gnutls)
+# depends	: curl glibc gnutls nettle zlib
+
+name=libcurl-gnutls
+version=7.63.0
+release=1
+source=(https://curl.haxx.se/download/curl-$version.tar.xz)
+md5sum=(f43d618cc49c1820d3a2fed31e451d4c)
+
+build() {
+	cd curl-$version
+	./configure \
+	    --prefix=/usr \
+	    --disable-ldap \
+	    --disable-ldaps \
+	    --disable-manual \
+	    --disable-versioned-symbols \
+	    --enable-ipv6 \
+	    --enable-threaded-resolver \
+	    --without-gssapi \
+	    --without-libidn \
+	    --without-ssl \
+	    --with-gnutls=/usr \
+	    --with-random=/dev/urandom \
+	    --with-ca-bundle=/etc/ssl/ca-bundle.crt
+	make -C lib
+	make -C lib DESTDIR=$PKG install
+
+	mv "$PKG"/usr/lib/libcurl{,-gnutls}.so.4.5.0
+	rm "$PKG"/usr/lib/libcurl.{a,so}*
+	for v in 3 4 4.0.0 4.1.0 4.2.0 4.3.0 4.4.0; do
+	    ln -s libcurl-gnutls.so.4.5.0 "$PKG"/usr/lib/libcurl-gnutls.so.${v}
+	done
+}

@@ -1,13 +1,13 @@
 # description	: X.org evdev input driver
 # homepage	: http://xorg.freedesktop.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: libevdev mtdev
-# makedepends	: xorg-server xorgproto
+# depends	: libevdev mtdev xorg-server xorgproto
 
 name=xf86-input-evdev
-version=2.10.5
+version=2.10.6
 release=1
 source=(http://ftp.x.org/pub/individual/driver/xf86-input-evdev-$version.tar.bz2)
+md5sum=(e8bd1edc6751f92e425cae7eba3c61eb)
 
 build() {
 	cd xf86-input-evdev-$version
@@ -20,4 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-

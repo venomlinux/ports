@@ -4,10 +4,14 @@
 # depends	: wget
 
 name=ntp
-version=4.2.8p11
-release=2
+version=4.2.8p12
+release=3
 source=(https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-${version::3}/$name-$version.tar.gz
-	https://raw.githubusercontent.com/emmett1/rc-init/master/rc.d/rc.ntpd)
+	$name.sysusers
+	ntpd.rc)
+md5sum=(1522d66574bae14abb2622746dad2bdc
+	4a90e4f3f74be63a9ea702ac6e7dc6c6
+	0b371501d534ace7dab3bf6256cd8217)
 
 build() {
 	cd $name-$version
@@ -16,14 +20,15 @@ build() {
 	    -i scripts/update-leap/update-leap.in
 
 	./configure CFLAGS="$CFLAGS -g -fPIC" \
-	            --prefix=/usr         \
-	            --bindir=/usr/sbin    \
-	            --sysconfdir=/etc     \
-	            --enable-linuxcaps    \
+	            --prefix=/usr \
+	            --bindir=/usr/sbin \
+	            --sysconfdir=/etc \
+	            --libexecdir=/usr/lib/$name \
+	            --enable-linuxcaps \
 	            --with-lineeditlibs=readline
 	make
 	make DESTDIR=$PKG install
-	install -v -o ntp -g ntp -d $PKG/var/lib/ntp
+	install -v -o 87 -d $PKG/var/lib/ntp
 
 mkdir -p $PKG/etc
 cat > $PKG/etc/ntp.conf << "EOF"
@@ -54,7 +59,8 @@ restrict -6 default limited kod nomodify notrap nopeer noquery
 restrict 127.0.0.1
 restrict ::1
 EOF
+	install -Dm644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 
-	# daemon files
-	install -Dm644 $SRC/rc.ntpd $PKG/etc/rc.d/rc.ntpd
+	# rc service
+	install -Dm755 $SRC/ntpd.rc $PKG/etc/rc.d/ntpd
 }

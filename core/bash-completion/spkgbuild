@@ -1,0 +1,18 @@
+# description	: Programmable completion for the bash shell
+# depends	: bash
+
+name=bash-completion
+version=2.8
+release=1
+source=(https://github.com/scop/bash-completion/releases/download/$version/$name-$version.tar.xz)
+md5sum=(201b6ae62f7d5fb5b1b25e34427db919)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+
+	rm $PKG/etc/profile.d/bash_completion.sh
+	rm $PKG/usr/share/bash-completion/completions/{u,}mount
+}
