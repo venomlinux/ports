@@ -2,10 +2,10 @@
 # depends	: alsa-lib-32 dbus-32 gnutls-32 opencl-headers glu-32 libxslt-32 v4l-utils-32 libjpeg-turbo-32 libtiff-32 lcms2-32
 
 name=wine
-version=3.0.4
+version=4.0
 release=1
 source=(https://dl.winehq.org/wine/source/${version::3}/$name-$version.tar.xz)
-md5sum=(21f71387f4975493c392e3019f5d536b)
+md5sum=(SKIP)
 
 ### NOTE ###
 #
@@ -47,6 +47,12 @@ md5sum=(21f71387f4975493c392e3019f5d536b)
 
 build() {
 	cd $name-$version
+
+	# https://bugs.winehq.org/show_bug.cgi?id=43530
+	export CFLAGS="${CFLAGS/-fno-plt/}"
+	export LDFLAGS="${LDFLAGS/,-z,now/}"
+
+	export CPPFLAGS="${CPPFLAGS/-D_FORTIFY_SOURCE=2/} -D_FORTIFY_SOURCE=0"
 
 	mkdir build64 build32
 	cd build64
