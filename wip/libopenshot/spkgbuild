@@ -1,0 +1,22 @@
+# description	: A high quality, open-source video editing, animation, and playback library for C++, Python, and Ruby
+# depends	: cmake libopenshot-audio ffmpeg unittestpp zeromq
+
+name=libopenshot
+version=0.2.2
+release=1
+source=($name-$version.tar.gz::https://github.com/OpenShot/libopenshot/archive/v$version.tar.gz)
+md5sum=(4f4597b8e4546d3edf55377bfe846b69)
+
+build() {
+	cd $name-$version
+	mkdir build
+	cd build
+	cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+	      -DMAGICKCORE_HDRI_ENABLE=1 \
+	      -DMAGICKCORE_QUANTUM_DEPTH=16 \
+	      -DUSE_SYSTEM_JSONCPP=ON \
+	      -DENABLE_RUBY=OFF \
+	      ..
+	make
+	make DESTDIR=$PKG install
+}

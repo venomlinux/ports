@@ -1,0 +1,19 @@
+# description	: C++ library for interacting with JSON
+# depends	: meson
+
+name=jsoncpp
+version=1.8.4
+release=1
+source=($name-$version.tar.gz::https://github.com/open-source-parsers/jsoncpp/archive/$version.tar.gz)
+md5sum=(fa47a3ab6b381869b6a5f20811198662)
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd build
+
+	meson --prefix=/usr --buildtype release --default-library shared
+	ninja
+	DESTDIR=$PKG ninja install
+}

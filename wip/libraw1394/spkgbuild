@@ -1,0 +1,14 @@
+# description	: Provides an API to the Linux IEEE1394 (FireWire) driver
+
+name=libraw1394
+version=2.1.2
+release=1
+source=(https://www.kernel.org/pub/linux/libs/ieee1394/$name-$version.tar.xz)
+md5sum=(118060584c04f1aa5e29c4d22c1c235a)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

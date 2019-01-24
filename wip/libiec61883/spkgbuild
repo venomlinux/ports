@@ -1,0 +1,14 @@
+# description	: A higher level API for streaming DV, MPEG-2 and audio over Linux IEEE 1394
+
+name=libiec61883
+version=1.2.0
+release=1
+source=(https://mirrors.edge.kernel.org/pub/linux/libs/ieee1394/libiec61883-$version.tar.xz)
+md5sum=(ed91bc1727fac8e019402fc3724a283d)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

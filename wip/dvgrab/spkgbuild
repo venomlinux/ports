@@ -1,0 +1,18 @@
+# description	: Saves audio and video data from an IEEE (FireWire) digital source
+# depends	: libavc1394 libraw1394 libiec61883
+# optdepends	: quicktime libdv
+
+name=dvgrab
+version=20181209
+release=1
+_commit=57e642b5a8ccafba702ea0d1ab0cf109a19b1d12
+source=(https://github.com/ddennedy/dvgrab/archive/$_commit.tar.gz)
+md5sum=(ee57f174c765af3a29f1fa39a5570e8b)
+
+build() {
+	cd $name-$_commit
+	autoreconf -vi
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

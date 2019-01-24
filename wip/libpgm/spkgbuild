@@ -1,0 +1,18 @@
+# description	: OpenPGM: implementation of the Pragmatic General Multicast (PGM, RFC3208)
+# depends	: python2
+
+name=libpgm
+version=5.2.122
+release=1
+options=(!strip)
+source=(https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/openpgm/libpgm-$version.tar.gz)
+md5sum=(d7673e9ff6cc33cf42fe9fb9a7bfbffa)
+
+build() {
+	cd $name-$version/openpgm/pgm
+
+	find . -type f -exec sed -i 's/python/python2/g' {} \+
+	./configure --prefix=/usr
+	make
+	make prefix=$PKG/usr install
+}

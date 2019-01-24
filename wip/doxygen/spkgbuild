@@ -1,0 +1,22 @@
+# description	: Documentation system for C++, C, Java, IDL and PHP
+# depends	: cmake
+
+name=doxygen
+version=1.8.14
+release=1
+source=(http://doxygen.nl/files/doxygen-$version.src.tar.gz)
+md5sum=(41d8821133e8d8104280030553e2b42b)
+
+build() {
+	cd $name-$version
+
+	mkdir -v build
+	cd       build
+
+	cmake -G "Unix Makefiles"         \
+	      -DCMAKE_BUILD_TYPE=Release  \
+	      -DCMAKE_INSTALL_PREFIX=/usr \
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}

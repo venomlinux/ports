@@ -1,0 +1,16 @@
+# description	: An open-source, non-linear video editor for Linux based on MLT framework
+# backup	: 
+# depends	: 
+# noextract	: 
+
+name=openshot
+version=2.4.3
+release=1
+options=()
+source=($name-$version.tar.gz::https://github.com/OpenShot/openshot-qt/archive/v$version.tar.gz)
+md5sum=(1d5dab40ee47748d1322bdd18b902171)
+
+build() {
+	cd openshot-qt-$version
+	python3 setup.py install --root="$PKG/" --optimize=1
+}

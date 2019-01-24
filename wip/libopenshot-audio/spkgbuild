@@ -1,0 +1,17 @@
+# description	: A high-quality audio editing and playback library used by libopenshot
+# depends	: cmake
+
+name=libopenshot-audio
+version=0.1.7
+release=1
+source=($name-$version.tar.gz::https://github.com/OpenShot/libopenshot-audio/archive/v$version.tar.gz)
+md5sum=(d9b5b91c29ecb47e4a3c5c34a258abc6)
+
+build() {
+	cd $name-$version
+	mkdir build
+	cd build
+	cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+	make
+	make DESTDIR=$PKG install
+}
