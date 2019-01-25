@@ -1,9 +1,9 @@
 # description	: A set of free peer-reviewed portable C++ source libraries
-# depends	: glibc gcc zlib bzip2 which icu python2
+# depends	: glibc gcc zlib bzip2 which icu python2 python3
 
 name=boost
 version=1.69.0
-release=1
+release=2
 source=(https://dl.bintray.com/boostorg/release/$version/source/boost_${version//./_}.tar.bz2)
 md5sum=(a1332494397bf48332cb152abfefcec2)
 
@@ -13,5 +13,20 @@ build() {
 	./bootstrap.sh --prefix=/usr
 	./b2 ${MAKEFLAGS} stage --stagedir=$PKG/usr threading=multi link=shared
 	./b2 ${MAKEFLAGS} install --prefix=$PKG/usr threading=multi link=shared
+
+	sed -e '/using python/ s@;@: /usr/include/python${PYTHON_VERSION/3*/${PYTHON_VERSION}m} ;@' \
+	      -i bootstrap.sh
+
+	./bootstrap.sh --prefix=/usr --with-python=/usr/bin/python3
+	./b2 clean
+	./b2 ${MAKEFLAGS} install --prefix=$SRC/py3 threading=multi link=shared
+	cp -a $SRC/py3/lib/libboost_* $PKG/usr/lib
+
+	# https://github.com/boostorg/python/issues/203#issuecomment-391477685
+	for _lib in python numpy; do
+		ln -srL $PKG/usr/lib/libboost_${_lib}{27,}.so
+		ln -srL $PKG/usr/lib/libboost_${_lib}3{7,}.so
+	done
+
 	ln -sv detail/sha1.hpp $PKG/usr/include/boost/uuid/sha1.hpp
 }
