@@ -1,0 +1,13 @@
+# description	: A cross-platform process and system utilities module for Python2
+# depends	: python2
+
+name=python2-psutil
+version=5.4.8
+release=1
+source=(https://github.com/giampaolo/psutil/archive/release-$version.tar.gz)
+md5sum=(27a34a9aba8bec93cc0927647999b400)
+
+build() {
+	cd psutil-release-$version
+	python2 setup.py install --root=$PKG --optimize=1
+}
