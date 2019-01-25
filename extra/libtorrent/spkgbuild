@@ -1,0 +1,48 @@
+# description	: A C++ BitTorrent library that aims to be a good alternative to all the other implementations around
+# depends	: boost python2 python3
+
+name=libtorrent
+version=1.1.12
+release=1
+source=(https://github.com/arvidn/libtorrent/archive/libtorrent_${version//./_}.tar.gz)
+md5sum=(c02cdcdb0f527ad4aae7182823690fd7)
+
+build() {
+	cd libtorrent-libtorrent_${version//./_}
+
+	# Avoid depending on newer processors
+	sed -i 's/-msse4.2//' configure.ac
+
+	./autotool.sh
+
+	mkdir ../py{2,3}
+
+	cd ../py2
+
+	# https://github.com/qbittorrent/qBittorrent/issues/5265#issuecomment-220007436
+	CXXFLAGS="$CXXFLAGS -std=c++11" \
+	PYTHON=/usr/bin/python2 \
+	../libtorrent-libtorrent_${version//./_}/configure \
+	    --prefix=/usr \
+	    --enable-python-binding \
+	    --enable-examples \
+	    --disable-static \
+	    --with-libiconv \
+	    --with-boost-python=boost_python
+	make DESTDIR=$PKG install
+
+	cd ../py3
+
+	CXXFLAGS="$CXXFLAGS -std=c++11" \
+	PYTHON=/usr/bin/python3 \
+	../libtorrent-libtorrent_${version//./_}/configure \
+	    --prefix=/usr \
+	    --enable-python-binding \
+	    --enable-examples \
+	    --disable-static \
+	    --with-libiconv \
+	    --with-boost-python=boost_python3
+	make DESTDIR=$PKG install
+
+	rm $PKG/usr/bin/{*_test,*_tester,simple_client,stats_counters}
+}
