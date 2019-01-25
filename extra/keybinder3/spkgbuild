@@ -1,0 +1,17 @@
+# description	: Utility library registering global X keyboard shortcuts
+# homepage	: https://github.com/engla/keybinder
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk3 gobject-introspection
+
+name=keybinder3
+version=0.3.2
+release=1
+source=(https://github.com/kupferlauncher/keybinder/releases/download/keybinder-3.0-v$version/keybinder-3.0-$version.tar.gz)
+md5sum=(97260321fda721fce799174ea6ba10cf)
+
+build() {
+	cd keybinder-3.0-$version
+	./configure --prefix=/usr --disable-lua
+	make
+	make DESTDIR=$PKG install
+}
