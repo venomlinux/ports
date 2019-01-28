@@ -3,16 +3,17 @@
 # depends	: coreutils bash wget httpup libarchive
 
 name=scratchpkg
-version=20190106
+version=20190129
 release=1
-_commit=e58295a42fd1b8e40d0ca06c24dbe7aa46d6540c
+_commit=32e1828b4ba1f3aba702c889126403a11265e166
 source=($name-$_commit.tar.gz::https://github.com/emmett1/scratchpkg/archive/$_commit.tar.gz
 	repo)
-md5sum=(430ad90e4ba2990effa2a69ff03ea822
+md5sum=(6bb6773f1c3d3dbe4dcdd010fe8aa259
 	6246e0d85b24f0d2ab193ca69ed4918d)
 
 build() {
 	cd $name-$_commit
 	DESTDIR=$PKG ./INSTALL.sh
 	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
+	mkdir -p $PKG/var/lib/scratchpkg/index
 }
