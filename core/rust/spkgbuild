@@ -4,29 +4,39 @@
 # depends	: curl cmake python3 llvm libssh2
 
 name=rust
-version=1.29.1
+version=1.32.0
 release=1
 source=(https://static.rust-lang.org/dist/rustc-$version-src.tar.gz)
-md5sum=(42bcdc69536ab7a04bfead2ddade1edd)
+md5sum=(366f049777e00d0d6f15d25895485efb)
 
 build() {
 	cd rustc-$version-src
 
 cat <<EOF > config.toml
-# see src/bootstrap/config.toml.example for more possible options
+# see config.toml.example for more possible options
 [llvm]
-targets = "X86"
 
-# When using system llvm prefer shared libraries
-link-shared = true
+# use ninja
+ninja = true
+
+targets = "X86"
+# When compiling LLVM, the experimental targets (WebAssembly
+# and RISCV) are built by default - omit them
+experimental-targets = ""
 
 [build]
+# omit HTML docs to save time and space (comment this to build them)
+docs = false
+
 # install cargo as well as rust
 extended = true
 
 [install]
+# Adjust the prefix for the desired destination
 prefix = "/usr"
-docdir = "share/doc/rustc"
+
+# docdir is used even if the full awesome docs are not installed
+docdir = "share/doc/rustc-1.32.0"
 
 [rust]
 channel = "stable"
@@ -36,16 +46,13 @@ rpath = false
 # so disable codegen tests
 codegen-tests = false
 
-[target.x86_64-unknown-linux-gnu]
-# delete this *section* if you are not using system llvm.
-# NB the output of llvm-config (i.e. help options) may be
-# dumped to the screen when config.toml is parsed.
-llvm-config = "/usr/bin/llvm-config"
+# get a trace if there is an Internal Compiler Exception
+backtrace-on-ice = true
 
 EOF
 
 	export RUSTFLAGS="$RUSTFLAGS -C link-args=-lffi"
-	python3 ./x.py build
+	python3 ./x.py build --exclude src/tools/miri
 	export LIBSSH2_SYS_USE_PKG_CONFIG=1
 	DESTDIR=$PKG python3 ./x.py install
 }
