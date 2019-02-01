@@ -7,6 +7,7 @@ name=make
 version=4.2.1
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2)
+md5sum=(15b012617e7c44c0ed482721629577ac)
 
 build() {
 	cd $name-$version
@@ -14,8 +15,9 @@ build() {
 	# work around an error caused by glibc-2.27
 	sed -i '211,217 d; 219,229 d; 232 d' glob/glob.c
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info
 }
-md5sum=(15b012617e7c44c0ed482721629577ac)

@@ -11,5 +11,5 @@ build() {
 	cd $name-$version
 	python2 setup.py build
 	python2 setup.py install --skip-build --root=$PKG --optimize=1
-	rm $PKG/usr/share/icons/hicolor/icon-theme.cache
+	rm -r $PKG/usr/share/{icons/hicolor/icon-theme.cache,locale}
 }

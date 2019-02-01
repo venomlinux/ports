@@ -15,7 +15,10 @@ build() {
 	./configure \
 		--prefix=/usr \
 		--libexecdir=/usr/lib/$name \
-		--enable-symcryptrun
+		--enable-symcryptrun \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{doc,info}
 }

@@ -118,4 +118,6 @@ sed -e '1,3d' -e 's|/| |g' -e 's|\\| |g' -e 's|^|#|g' \
 	$SRC/glibc-$version/localedata/SUPPORTED >> $PKG/etc/locales
 
 install -Dm755 $SRC/genlocales $PKG/usr/bin/genlocales
+
+	rm -fr $PKG/usr/share/{info,locale}
 }

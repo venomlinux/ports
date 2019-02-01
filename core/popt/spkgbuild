@@ -11,7 +11,7 @@ md5sum=(3743beefa3dd6247a73f8f7a32c14c33)
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --disable-static
+	./configure --prefix=/usr --disable-static --disable-nls
 	make
 	make DESTDIR=$PKG install
 }

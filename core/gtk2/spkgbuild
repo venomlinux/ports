@@ -23,6 +23,8 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
+	rm -r $PKG/usr/share/{locale,gtk-doc,gtk-2.0}
+
 	cat > $PKG/etc/gtk-2.0/gtkrc << "EOF"
 gtk-icon-theme-name = "Adwaita"
 gtk-theme-name = "Adwaita"

@@ -7,6 +7,7 @@ name=vte2
 version=0.28.2
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/vte/${version::4}/vte-$version.tar.xz)
+md5sum=(497f26e457308649e6ece32b3bb142ff)
 
 build() {
 	cd vte-$version
@@ -16,5 +17,6 @@ build() {
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{locale,gtk-doc}
 }
-md5sum=(497f26e457308649e6ece32b3bb142ff)

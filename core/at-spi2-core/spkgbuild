@@ -19,6 +19,6 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 
-	# remove systemd files
-	rm -fr $PKG/usr/lib/systemd/
+	# remove junk files
+	rm -fr $PKG/usr/lib/systemd/ $PKG/usr/share/locale
 }

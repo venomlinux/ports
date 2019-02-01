@@ -13,8 +13,13 @@ build() {
 	# This command allows building with the current version of Lua-5.3.4
 	sed -i '/vlc_demux.h/a #define LUA_COMPAT_APIINTCASTS' modules/lua/vlc.h
 
-        BUILDCC=gcc ./configure --prefix=/usr --disable-opencv
+        BUILDCC=gcc ./configure \
+		--prefix=/usr \
+		--disable-opencv \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 }
 

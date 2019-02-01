@@ -12,7 +12,9 @@ md5sum=(4824adc0e95dbbf11dfbdfaad6a1e461)
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info/
 }

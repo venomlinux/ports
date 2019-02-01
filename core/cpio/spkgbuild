@@ -2,17 +2,19 @@
 
 name=cpio
 version=2.12
-release=1
+release=2
 source=(https://ftp.gnu.org/gnu/cpio/$name-$version.tar.bz2)
+md5sum=(93eea9f07c0058c097891c73e4955456)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr \
 	            --bindir=/bin \
 	            --enable-mt   \
-	            --with-rmt=/usr/libexec/rmt
+		    --disable-nls \
+	            --with-rmt=/usr/lib/tar/rmt
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(93eea9f07c0058c097891c73e4955456)
+	rm -r $PKG/usr/share/info
+}

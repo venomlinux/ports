@@ -14,6 +14,7 @@ build() {
 	./configure --prefix=/usr    \
 	            --bindir=/bin    \
 	            --disable-static \
+		    --disable-nls    \
 	            --libexecdir=/usr/lib
 	make
 	make DESTDIR=$PKG install
@@ -23,4 +24,6 @@ build() {
 	mkdir -p $PKG/lib
 	mv -v $PKG/usr/lib/libacl.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libacl.so) $PKG/usr/lib/libacl.so
+
+	rm -fr $PKG/usr/share/doc
 }

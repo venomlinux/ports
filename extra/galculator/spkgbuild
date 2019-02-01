@@ -5,12 +5,12 @@ name=galculator
 version=2.1.4
 release=1
 source=(http://galculator.mnim.org/downloads/$name-$version.tar.bz2)
+md5sum=(1a115d6799dc453a29760e7bd4a56374)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/locale
 }
-
-md5sum=(1a115d6799dc453a29760e7bd4a56374)

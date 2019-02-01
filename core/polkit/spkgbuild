@@ -20,16 +20,18 @@ build() {
 
 	patch -Np1 -i ../polkit-security-patch.patch
 
-	./configure --prefix=/usr                    \
-	            --sysconfdir=/etc                \
-	            --localstatedir=/var             \
-	            --disable-static                 \
-	            --enable-libsystemd-login=no     \
-		    --with-authfw=pam		     \
-		    --enable-libelogind=no	     \
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+	            --localstatedir=/var \
+	            --disable-static \
+	            --enable-libsystemd-login=no \
+		    --with-authfw=pam \
+		    --enable-libelogind=no \
 		    --disable-man-pages
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 
 	install -Dm 644 $SRC/polkit-1 $PKG/etc/pam.d/polkit-1
 	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf

@@ -17,9 +17,11 @@ build() {
 	# Fix a file that creates a lot of failures in the regression checks
 	sed -i '5481,5485 s/({/(\\{/' tp/Texinfo/Parser.pm
 
-	./configure --prefix=/usr --disable-static
+	./configure --prefix=/usr --disable-static --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info
 
 	install -Dm644 $SRC/texinfo-install.hook $PKG/etc/hooks/texinfo-install.hook
 }

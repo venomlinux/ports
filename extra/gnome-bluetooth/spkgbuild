@@ -7,16 +7,14 @@ name=gnome-bluetooth
 version=3.20.1
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+md5sum=(0768931f17eaba8b05eddacf17204f60)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr --disable-desktop-update --disable-icon-update --disable-nls
 	make
 	make DESTDIR=$PKG install
 
-	rm $PKG/usr/share/applications/mimeinfo.cache
-	rm $PKG/usr/share/icons/hicolor/icon-theme.cache
+	rm -r $PKG/usr/share/gtk-doc
 }
-
-md5sum=(0768931f17eaba8b05eddacf17204f60)

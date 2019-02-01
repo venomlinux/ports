@@ -17,7 +17,8 @@ build() {
 	./configure --disable-alsaconf \
 	            --disable-bat   \
 	            --disable-xmlto \
-	            --with-curses=ncursesw
+	            --with-curses=ncursesw \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
 

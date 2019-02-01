@@ -20,7 +20,10 @@ build() {
 	   --enable-kill-on-sigterm      \
 	   --disable-libido              \
 	   --disable-libindicator        \
-	   --disable-static
+	   --disable-static              \
+	   --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 }

@@ -23,7 +23,10 @@ build() {
 	            --disable-static     \
 	            --without-python     \
 	            --without-systemd    \
+		    --disable-nls        \
 	            --without-systemdsystemunitdir
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 }

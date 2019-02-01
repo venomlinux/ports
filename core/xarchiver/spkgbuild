@@ -8,17 +8,18 @@ version=0.5.4
 release=1
 source=(https://downloads.sourceforge.net/project/$name/$name-$version.tar.bz2
 	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-fixes-1.patch)
+md5sum=(1b4cd37a6af03afc957a8e307417e8d0
+	0b3c933f2ed64e75d572f88bc26635fd)
 
 build() {
 	cd $name-$version
 
 	patch -Np1 -i ../$name-$version-fixes-1.patch
 
-	./autogen.sh --prefix=/usr               \
+	./autogen.sh --prefix=/usr \
 	             --libexecdir=/usr/lib/xfce4
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(1b4cd37a6af03afc957a8e307417e8d0
-0b3c933f2ed64e75d572f88bc26635fd)
+	rm -r $PKG/usr/share/{locale,doc}
+}

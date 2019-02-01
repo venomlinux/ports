@@ -18,4 +18,6 @@ build() {
 	      -Dpkcs11_support=true
 	ninja
 	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
 }

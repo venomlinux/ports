@@ -7,15 +7,15 @@ name=plank
 version=0.11.4
 release=1
 source=(https://launchpad.net/plank/1.0/$version/+download/plank-$version.tar.xz)
+md5sum=(d2405f33bfefd16ab80c868f83526f9b)
 
 build() {
 	cd $name-$version
 	./configure \
-	    --prefix='/usr' \
-	    --sysconfdir='/etc' \
-	    --disable-apport
+	    --prefix=/usr \
+	    --sysconfdir=/etc \
+	    --disable-apport \
+	    --disable-nls
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(d2405f33bfefd16ab80c868f83526f9b)

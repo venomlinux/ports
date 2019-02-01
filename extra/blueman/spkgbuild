@@ -20,7 +20,10 @@ build() {
 	    --prefix=/usr \
 	    --sysconfdir=/etc \
 	    --libexecdir=/usr/lib/$pkgname \
-	    --disable-schemas-compile
+	    --disable-schemas-compile \
+	    --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 }

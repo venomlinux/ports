@@ -24,7 +24,8 @@ build() {
 	./configure \
 		--prefix=/usr \
 		--libexecdir=/usr/lib \
-		--enable-no-install-program=kill,uptime
+		--enable-no-install-program=kill,uptime \
+		--disable-nls
 	FORCE_UNSAFE_CONFIGURE=1 make
 	make DESTDIR=$PKG install
 
@@ -38,4 +39,6 @@ build() {
 	sed -i s/\"1\"/\"8\"/1 $PKG/usr/share/man/man8/chroot.8
 
 	mv -v $PKG/usr/bin/{head,sleep,nice} $PKG/bin
+
+	rm -r $PKG/usr/share/info/
 }

@@ -7,14 +7,14 @@ name=gpicview
 version=0.2.5
 release=1
 source=(https://downloads.sourceforge.net/lxde/$name-$version.tar.xz)
+md5sum=(26be9b0c5a234f1afe7d83d02a4a33f4)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr --disable-nls
 	make
 	make DESTDIR=$PKG install
 
 	sed -i 's/Utility;//' $PKG/usr/share/applications/gpicview.desktop
 }
-md5sum=(26be9b0c5a234f1afe7d83d02a4a33f4)

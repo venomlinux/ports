@@ -9,7 +9,8 @@ md5sum=(b9c8aa6e48394155adb39b6d1db086d3)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr
+	./configure --prefix=/usr --disable-nls
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/{info,gtk-doc}
 }

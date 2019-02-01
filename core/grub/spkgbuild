@@ -17,13 +17,16 @@ build() {
 	# fix os name
 	sed 's|GNU/Linux|Linux|' -i "util/grub.d/10_linux.in"
 
-	./configure --prefix=/usr          \
-	            --sbindir=/sbin        \
-	            --sysconfdir=/etc      \
-	            --disable-efiemu       \
-	            --disable-werror
+	./configure --prefix=/usr \
+	            --sbindir=/sbin \
+	            --sysconfdir=/etc \
+	            --disable-efiemu \
+	            --disable-werror \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info
 
 	# borrow from Arch
 	install -D -m0644 $SRC/grub.default $PKG/etc/default/grub

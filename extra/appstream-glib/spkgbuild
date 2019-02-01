@@ -16,4 +16,6 @@ build() {
 	build
 	ninja -C build
 	DESTDIR=$PKG ninja -C build install
+
+	rm -r $PKG/usr/share/locale
 }

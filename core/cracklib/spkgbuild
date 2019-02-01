@@ -4,6 +4,7 @@ name=cracklib
 version=2.9.6
 release=1
 source=(https://github.com/cracklib/cracklib/releases/download/$name-$version/$name-$version.tar.gz)
+md5sum=(c52f463585d85924b28cdc1e373ae06d)
 
 build() {
 	cd $name-$version
@@ -12,6 +13,7 @@ build() {
 
 	./configure --prefix=/usr    \
 	            --disable-static \
+		    --disable-nls    \
 	            --with-default-dict=/lib/cracklib/pw_dict
 	make
 	make DESTDIR=$PKG install
@@ -20,5 +22,3 @@ build() {
 	mv -v $PKG/usr/lib/libcrack.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libcrack.so) $PKG/usr/lib/libcrack.so
 }
-
-md5sum=(c52f463585d85924b28cdc1e373ae06d)

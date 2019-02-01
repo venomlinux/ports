@@ -5,12 +5,11 @@ name=libpwquality
 version=1.4.0
 release=1
 source=(https://github.com/libpwquality/libpwquality/releases/download/$name-$version/$name-$version.tar.bz2)
+md5sum=(b8defcc7280a90e9400d6689c93a279c)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --disable-static
+	./configure --prefix=/usr --disable-static --disable-nls
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(b8defcc7280a90e9400d6689c93a279c)

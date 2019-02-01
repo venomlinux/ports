@@ -19,5 +19,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
+	rm -r $PKG/usr/share/{locale,gtk-doc}
+
 	ln -s gconf.xml.defaults $PKG/etc/gconf/gconf.xml.system
 }

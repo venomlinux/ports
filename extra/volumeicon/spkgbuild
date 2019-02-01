@@ -12,8 +12,9 @@ md5sum=(48230f3a1843fa4cc4ec97d0da35c3f5)
 build() {
 	cd $name-$version
 
-	#./autogen.sh
   	./configure --prefix=/usr --enable-notify
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }

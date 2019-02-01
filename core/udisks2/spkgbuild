@@ -12,12 +12,14 @@ md5sum=(aefebdb5a082f99b4f86cadc41352b3d)
 build() {
 	cd udisks-$version
 
-	./configure --prefix=/usr        \
-	            --sysconfdir=/etc    \
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
 		    --libexecdir=/usr/lib \
 	            --localstatedir=/var \
-	            --disable-static	 \
+	            --disable-static \
 		    --disable-man
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{locale,gtk-doc}
 }

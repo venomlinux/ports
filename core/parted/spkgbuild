@@ -16,7 +16,9 @@ build() {
 
 	patch -Np1 -i ../parted-3.2-sysmacros.patch
 
-	./configure --prefix=/usr --disable-static
+	./configure --prefix=/usr --disable-static --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info
 }

@@ -7,10 +7,10 @@ name=obkey
 version=1.0
 release=1
 source=($name-$version.tar.gz::https://github.com/nsf/obkey/archive/v$version.tar.gz)
+md5sum=(41686cfe4708fe304a16163496fa05d8)
 
 build() {
 	cd $name-$version
-	    
 	python2 setup.py install --root=$PKG
+	rm -r $PKG/usr/share/locale
 }
-md5sum=(41686cfe4708fe304a16163496fa05d8)

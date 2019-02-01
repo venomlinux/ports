@@ -12,12 +12,13 @@ md5sum=(236bb439d9ff1151450b3d8582399532)
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr        \
-	            --sysconfdir=/etc    \
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
 		    --libexecdir=/usr/lib/$name \
 	            --localstatedir=/var \
-	            --enable-deprecated  \
-	            --disable-static
+	            --enable-deprecated \
+	            --disable-static \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
 }

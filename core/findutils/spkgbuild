@@ -18,11 +18,17 @@ build() {
 	sed -i '/unistd/a #include <sys/sysmacros.h>' gl/lib/mountlist.c
 	echo "#define _IO_IN_BACKUP 0x100" >> gl/lib/stdio-impl.h
 
-	./configure --prefix=/usr --libexecdir=/usr/lib/$name --localstatedir=/var/lib/locate
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib/$name \
+		--localstatedir=/var/lib/locate \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
 
 	mkdir -pv $PKG/bin
 	mv -v $PKG/usr/bin/find $PKG/bin
 	sed -i 's|find:=${BINDIR}|find:=/bin|' $PKG/usr/bin/updatedb
+
+	rm -r $PKG/usr/share/info
 }

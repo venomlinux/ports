@@ -7,6 +7,7 @@ name=opensp
 version=1.5.2
 release=1
 source=(https://downloads.sourceforge.net/openjade/OpenSP-$version.tar.gz)
+md5sum=(670b223c5d12cee40c9137be86b6c39b)
 
 build() {
 	cd OpenSP-$version
@@ -15,11 +16,12 @@ build() {
 	sed -i 's/LITLEN          240 /LITLEN          8092/' \
 	    unicode/{gensyntax.pl,unicode.syn}
 
-	./configure --prefix=/usr                              \
-		    --disable-static                           \
-		    --disable-doc-build                        \
+	./configure --prefix=/usr \
+		    --disable-static \
+		    --disable-doc-build \
+		    --disable-nls \
 		    --enable-default-catalog=/etc/sgml/catalog \
-		    --enable-http                              \
+		    --enable-http \
 		    --enable-default-search-path=/usr/share/sgml
 	make pkgdatadir=/usr/share/sgml/OpenSP-$version
 	make pkgdatadir=/usr/share/sgml/OpenSP-$version DESTDIR=$PKG install
@@ -32,5 +34,6 @@ build() {
 	ln -v -sf osx       $PKG/usr/bin/sx
 	ln -v -sf osx       $PKG/usr/bin/sgml2xml
 	ln -v -sf libosp.so $PKG/usr/lib/libsp.so
+
+	rm -r $PKG/usr/share/doc
 }
-md5sum=(670b223c5d12cee40c9137be86b6c39b)

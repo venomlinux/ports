@@ -15,7 +15,8 @@ build() {
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--disable-static \
-		--with-xkb-rules-symlink=xorg
+		--with-xkb-rules-symlink=xorg \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
 }

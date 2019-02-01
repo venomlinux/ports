@@ -18,7 +18,7 @@ md5sum=(3e33b2bd15d769bbcc2e73ac94a1e1ea
 	2a7326f4de1d949b8c96749b62cc5021
 	3f11c7f5ad31b7b6e13b2e622527e3b7
 	af6bd6cd7a179fd7116f81c6ca1ba038	
-	72eeda43e315a7cc9d53b3eae0e1bfbe)
+	31339251a2cd4897e60adeec7e57ccda)
 
 build() {
 	cd $name-$version
@@ -31,12 +31,13 @@ build() {
 	       --sysconfdir=/etc             \
 	       --disable-static              \
 	       --disable-tests               \
+	       --disable-nls                 \
 	       --with-greeter-user=lightdm   \
 	       --with-greeter-session=lightdm-gtk-greeter
 	make
 	make DESTDIR=$PKG install
 
-	rm -rf $PKG/etc/init
+	rm -rf $PKG/etc/init $PKG/usr/share/gtk-doc
 
 	install -Dm755 $SRC/rc.lightdm $PKG/etc/rc.d/lightdm
 	install -Dm755 $SRC/Xsession $PKG/etc/lightdm/Xsession

@@ -36,6 +36,8 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 
+	rm -r $PKG/usr/share/locale
+
 	install -Dm644 $SRC/gvfsd.hook $PKG/etc/hooks/gvfsd.hook
 
 	# exclude library for revdep

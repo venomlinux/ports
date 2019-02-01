@@ -25,15 +25,12 @@ build() {
 	            --disable-systemd            \
 	            --with-rcdir=/tmp/cupsinit   \
 	            --with-system-groups=lpadmin \
-	            --with-docdir=/usr/share/$name/doc-$version
+	            --with-docdir=/usr/share/$name/doc
 	make
 	make BUILDROOT=$PKG install
 
 	# remove cups init script
 	rm -fr $PKG/tmp
-
-	mkdir -pv $PKG/usr/share/doc
-	ln -svnf ../$name/doc-$version $PKG/usr/share/doc/$name
 
 	# Create a basic Cups client configuration file
 	echo "ServerName /var/run/cups/cups.sock" > $PKG/etc/cups/client.conf
@@ -50,7 +47,7 @@ session include system-session
 # End /etc/pam.d/cups
 EOF
 
-	rm -fr $PKG/var/run
+	rm -fr $PKG/var/run $PKG/usr/share/locale
 
 	# rc service
 	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name

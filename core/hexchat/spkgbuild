@@ -18,4 +18,6 @@ build() {
 	meson --prefix=/usr -Dwith-libproxy=false -Dwith-lua=lua ..
 	ninja
 	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
 }

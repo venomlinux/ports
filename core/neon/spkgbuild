@@ -7,6 +7,7 @@ name=neon
 version=0.30.2
 release=1
 source=(https://fossies.org/linux/www/$name-$version.tar.gz)
+md5sum=(e28d77bf14032d7f5046b3930704ef41)
 
 build() {
 	cd $name-$version
@@ -17,12 +18,13 @@ build() {
 	    -e 's/type = t/cert_&/' \
 	    -i src/ne_gnutls.c
 
-	./configure --prefix=/usr    \
-	            --with-ssl       \
-	            --enable-shared  \
-	            --disable-static
+	./configure --prefix=/usr \
+	            --with-ssl \
+	            --enable-shared \
+	            --disable-static \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(e28d77bf14032d7f5046b3930704ef41)
+	rm -r $PKG/usr/share/doc
+}

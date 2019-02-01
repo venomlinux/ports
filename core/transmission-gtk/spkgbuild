@@ -12,8 +12,9 @@ md5sum=(c92829294edfa391c046407eeb16358a)
 build() {
 	cd transmission-$version
 
+	export LINGUAS=" "
+
 	./configure --prefix=/usr
 	make
 	make -C gtk DESTDIR=$PKG install
-	make -C po DESTDIR=$PKG install
 }

@@ -5,7 +5,7 @@
 
 name=vim
 version=8.1
-release=1
+release=2
 source=(ftp://ftp.vim.org/pub/vim/unix/$name-$version.tar.bz2)
 md5sum=(1739a1df312305155285f0cfa6118294)
 
@@ -14,14 +14,13 @@ build() {
 
 	echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr --enable-multibyte --disable-gui
 	make
 	make DESTDIR=$PKG install
 
-	ln -sv vim $PKG/usr/bin/vi
-	for L in  $PKG/usr/share/man/{,*/}man1/vim.1; do
-	    ln -sv vim.1 $(dirname $L)/vi.1
-	done
+	mv $PKG/usr/share/man/man1 $SRC/man1
+	rm -r $PKG/usr/share/man/*
+	mv $SRC/man1 $PKG/usr/share/man/man1
 
 	# no desktop files and icons
 	rm -r $PKG/usr/share/{applications,icons}

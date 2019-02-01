@@ -16,11 +16,12 @@ build() {
 	cd $name-$version
 
 	./configure \
-	    --prefix=/usr              \
-            --libexecdir=/usr/lib      \
-            --with-secure-path         \
-            --with-all-insults         \
-            --with-env-editor          \
+	    --prefix=/usr \
+            --libexecdir=/usr/lib \
+            --with-secure-path \
+            --with-all-insults \
+            --with-env-editor \
+	    --disable-nls \
             --with-passprompt="[sudo] password for %p: "
 	make
 	make DESTDIR=$PKG install
@@ -34,4 +35,6 @@ build() {
 
 	rm -fr $PKG/var/run
 	rm -fr $PKG/run/sudo
+
+	rm -r $PKG/usr/share/doc
 }

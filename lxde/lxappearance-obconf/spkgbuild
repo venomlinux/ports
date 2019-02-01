@@ -7,6 +7,7 @@ name=lxappearance-obconf
 version=0.2.3
 release=1
 source=(https://downloads.sourceforge.net/lxde/$name-$version.tar.xz)
+md5sum=(ae0076d489aa786f5d573f7ff592a4ab)
 
 build() {
 	cd $name-$version
@@ -14,5 +15,6 @@ build() {
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }
-md5sum=(ae0076d489aa786f5d573f7ff592a4ab)

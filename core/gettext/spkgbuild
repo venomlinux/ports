@@ -16,15 +16,13 @@ build() {
 	sed -i '/^TESTS =/d' gettext-runtime/tests/Makefile.in
 	sed -i 's/test-lock..EXEEXT.//' gettext-tools/gnulib-tests/Makefile.in
 
-	# this sed cmd is break hexchat build says about appdata.loc
-	# so i hold this sed cmd
-	#sed -e '/AppData/N;N;p;s/\.appdata\./.metainfo./' \
-	#    -i gettext-tools/its/appdata.loc
-
-	./configure --prefix=/usr    \
-	            --disable-static
+	./configure --prefix=/usr \
+	            --disable-static \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{doc,info}
 
 	chmod -v 0755 $PKG/usr/lib/preloadable_libintl.so
 }

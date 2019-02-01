@@ -28,9 +28,12 @@ build() {
 	            --disable-ovs                  \
             	    --with-udev-dir=/lib/udev      \
 	            --with-systemdsystemunitdir=no \
-		    --enable-modify-system
+		    --enable-modify-system         \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{doc,gtk-doc}
 
 mkdir -p $PKG/etc/NetworkManager
 cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"

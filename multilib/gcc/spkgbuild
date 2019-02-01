@@ -28,7 +28,8 @@ build() {
 	             --enable-multilib        \
 	             --disable-bootstrap      \
 		     --disable-libmpx         \
-	             --with-system-zlib
+	             --with-system-zlib       \
+		     --disable-nls
 	make
 	make DESTDIR=$PKG install
 
@@ -45,4 +46,6 @@ build() {
 
 	install -Dm755 $SRC/c89 $PKG/usr/bin/c89
 	install -Dm755 $SRC/c99 $PKG/usr/bin/c99
+
+	rm -fr $PKG/usr/share/{info,$name-$version}
 }

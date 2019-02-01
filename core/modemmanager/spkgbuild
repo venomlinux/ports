@@ -14,7 +14,8 @@ build() {
 	            --sysconfdir=/etc    \
 	            --localstatedir=/var \
 	            --enable-more-warnings=no \
-	            --disable-static
+	            --disable-static \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
 }

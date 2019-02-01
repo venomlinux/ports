@@ -14,7 +14,10 @@ build() {
 
 	./configure --prefix=/usr \
 		    --libexecdir=/usr/lib \
+		    --disable-nls \
         	    --with-package-name="GStreamer $version (Venom)"
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
 }

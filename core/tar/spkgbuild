@@ -15,7 +15,10 @@ build() {
 	FORCE_UNSAFE_CONFIGURE=1  \
 	./configure --prefix=/usr \
 		    --libexecdir=/usr/lib/$name \
-	            --bindir=/bin
+	            --bindir=/bin \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info
 }

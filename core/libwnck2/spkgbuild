@@ -7,6 +7,7 @@ name=libwnck2
 version=2.30.7
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/libwnck/${version::4}/libwnck-$version.tar.xz)
+md5sum=(3d20f26105a2fd878899d6ecdbe9a082)
 
 build() {
 	cd libwnck-$version
@@ -16,6 +17,6 @@ build() {
 	            --program-suffix=-1
 	make GETTEXT_PACKAGE=libwnck-1
 	make GETTEXT_PACKAGE=libwnck-1 DESTDIR=$PKG install
-}
 
-md5sum=(3d20f26105a2fd878899d6ecdbe9a082)
+	rm -r $PKG/usr/share/{locale,gtk-doc}
+}

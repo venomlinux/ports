@@ -5,12 +5,12 @@ name=pavucontrol
 version=3.0
 release=1
 source=(https://freedesktop.org/software/pulseaudio/pavucontrol/$name-$version.tar.xz)
+md5sum=(176308d2c03f8f3a7b2bd4f4d284fe71)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/{locale,doc}
 }
-
-md5sum=(176308d2c03f8f3a7b2bd4f4d284fe71)

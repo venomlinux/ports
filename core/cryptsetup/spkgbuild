@@ -12,6 +12,7 @@ md5sum=(ec03e09cbe978a19fa6d6194ac642bae)
 build() {
 	cd $name-$version
 	./configure --prefix=/usr \
+		    --disable-nls \
 	            --with-crypto_backend=openssl
 	make
 	make DESTDIR=$PKG install

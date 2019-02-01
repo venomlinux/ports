@@ -23,7 +23,10 @@ build() {
 	        --with-ui=ncurses \
 	        --with-idn=/usr \
         	--gdbm \
+		--disable-nls \
 		${MUTT_OPTS}
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 }

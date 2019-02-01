@@ -21,10 +21,13 @@ build() {
 	             --disable-libblkid      \
 	             --disable-libuuid       \
 	             --disable-uuidd         \
-	             --disable-fsck
+	             --disable-fsck          \
+		     --disable-nls
 	make
 	make DESTDIR=$PKG install
 	make DESTDIR=$PKG install-libs
 
 	chmod -v u+w $PKG/usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
+
+	rm -r $PKG/usr/share/info
 }

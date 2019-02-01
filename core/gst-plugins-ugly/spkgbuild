@@ -13,7 +13,10 @@ build() {
 	cd $name-$version
 
 	./configure --prefix=/usr \
+		    --disable-nls \
 		    --with-package-name="GStreamer Ugly Plugins $version (Venom)"
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
 }

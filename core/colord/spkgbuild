@@ -30,4 +30,6 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
+
+	rm -r $PKG/usr/share/locale
 }

@@ -8,6 +8,8 @@ version=2.0.4
 release=2
 source=(https://www.kernel.org/pub/linux/utils/$name/$name-$version.tar.xz
 	$name-$version-backspace-1.patch)
+md5sum=(c1635a5a83b63aca7f97a3eab39ebaa6
+	f75cca16a38da6caa7d52151f7136895)
 
 build() {
 	cd $name-$version
@@ -17,15 +19,11 @@ build() {
 	sed -i 's/\(RESIZECONS_PROGS=\)yes/\1no/g' configure
 	sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
 
-	PKG_CONFIG_PATH=/tools/lib/pkgconfig ./configure --prefix=/usr --disable-vlock
+	[ -d /tools ] && export PKG_CONFIG_PATH=/tools/lib/pkgconfig
+	./configure --prefix=/usr --disable-vlock --disable-nls
 	make
 	make DESTDIR=$PKG install
 
 	mkdir -p $PKG/bin
 	mv -v $PKG/usr/bin/{dumpkeys,kbd_mode,loadkeys,setfont} $PKG/bin
-
-	mkdir -p       $PKG/usr/share/doc/$name
-	cp -R -v docs/doc/* $PKG/usr/share/doc/$name
 }
-md5sum=(c1635a5a83b63aca7f97a3eab39ebaa6
-f75cca16a38da6caa7d52151f7136895)

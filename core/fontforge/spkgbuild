@@ -5,6 +5,7 @@ name=fontforge
 version=20170731
 release=1
 source=(https://github.com/fontforge/fontforge/releases/download/$version/fontforge-dist-$version.tar.xz)
+md5sum=(8a717035915ab4cd78b89b0942dfa1fc)
 
 build() {
 	cd $name-2.0.$version
@@ -13,6 +14,5 @@ build() {
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/{locale,doc}
 }
-
-md5sum=(8a717035915ab4cd78b89b0942dfa1fc)

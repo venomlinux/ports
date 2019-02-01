@@ -12,7 +12,8 @@ md5sum=(533fcf1f07aad911472f48bfa8e87a5b)
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr --disable-docs
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/locale
 }

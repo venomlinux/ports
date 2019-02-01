@@ -7,6 +7,7 @@ name=lxpanel
 version=0.9.3
 release=1
 source=(https://downloads.sourceforge.net/lxde/$name-$version.tar.xz)
+md5sum=(57f0add873815dc608eb45241c9504a7)
 
 build() {
 	cd $name-$version
@@ -14,6 +15,6 @@ build() {
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(57f0add873815dc608eb45241c9504a7)
+	rm -r $PKG/usr/share/locale
+}

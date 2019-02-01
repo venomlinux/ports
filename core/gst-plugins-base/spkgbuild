@@ -14,7 +14,10 @@ build() {
 
 	./configure --prefix=/usr \
 		    --with-package-name="GStreamer Base Plugins $version (Venom)" \
+		    --disable-nls \
 		    --disable-examples
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
 }

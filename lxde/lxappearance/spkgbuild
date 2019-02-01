@@ -7,6 +7,7 @@ name=lxappearance
 version=0.6.3
 release=1
 source=(https://downloads.sourceforge.net/lxde/$name-$version.tar.xz)
+md5sum=(f10345313e2c12bad51c1b58bd46b454)
 
 build() {
 	cd $name-$version
@@ -17,6 +18,6 @@ build() {
 	            --enable-dbus
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(f10345313e2c12bad51c1b58bd46b454)
+	rm -r $PKG/usr/share/locale
+}

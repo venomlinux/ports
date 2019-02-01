@@ -12,8 +12,10 @@ md5sum=(777ddfd9d71dd06711fe91f0925e1573)
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --bindir=/bin
+	./configure --prefix=/usr --bindir=/bin --disable-nls
 	make
 	make html
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info
 }

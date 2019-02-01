@@ -12,13 +12,16 @@ md5sum=(2b0717a7cb474b3d6dfdeedfbad2eccc)
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr                            \
-	            --exec-prefix=                           \
-	            --libdir=/usr/lib                        \
-	            --disable-static                         \
-	            --disable-kill
+	./configure --prefix=/usr \
+	            --exec-prefix= \
+	            --libdir=/usr/lib \
+	            --disable-static \
+	            --disable-kill \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 
 	mkdir -pv $PKG/lib
 	mv -v $PKG/usr/lib/libprocps.so.* $PKG/lib

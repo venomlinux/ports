@@ -7,17 +7,19 @@ name=flex
 version=2.6.4
 release=1
 source=(https://github.com/westes/flex/releases/download/v$version/$name-$version.tar.gz)
+md5sum=(2882e3179748cc9f9c23ec593d6adc8d)
 
 build() {
 	cd $name-$version
 
 	sed -i "/math.h/a #include <malloc.h>" src/flexdef.h
 
-	[ -d /tools ] && HELP2MAN=/tools/bin/true \
-	./configure --prefix=/usr
+	[ -d /tools ] && export HELP2MAN=/tools/bin/true
+	./configure --prefix=/usr --disable-nls
 	make
 	make DESTDIR=$PKG install
 
 	ln -sv flex $PKG/usr/bin/lex
+
+	rm -r $PKG/usr/share/{info,doc}
 }
-md5sum=(2882e3179748cc9f9c23ec593d6adc8d)

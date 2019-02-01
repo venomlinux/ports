@@ -12,10 +12,13 @@ md5sum=(003e4d0b1b1899fc6e3000b24feddf7c)
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr    \
-	            --disable-static
+	./configure --prefix=/usr \
+	            --disable-static \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 
 	mkdir -pv $PKG/{bin,lib}
 	mv -v   $PKG/usr/bin/{lzma,unlzma,lzcat,xz,unxz,xzcat} $PKG/bin

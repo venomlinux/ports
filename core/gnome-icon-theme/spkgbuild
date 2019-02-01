@@ -7,13 +7,12 @@ name=gnome-icon-theme
 version=3.12.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(f14bed7f804e843189ffa7021141addd)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure --prefix=/usr --disable-nls
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(f14bed7f804e843189ffa7021141addd)

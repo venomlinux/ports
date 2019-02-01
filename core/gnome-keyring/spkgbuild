@@ -12,11 +12,12 @@ md5sum=(284580f954f762caf62aed2ae7358177)
 build() {
 	cd $name-$version
 
-	sed -i -r 's:"(/desktop):"/org/gnome\1:' schema/*.xml &&
+	sed -i -r 's:"(/desktop):"/org/gnome\1:' schema/*.xml
 
-	./configure --prefix=/usr     \
+	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
-	            --with-pam-dir=/lib/security
+	            --with-pam-dir=/lib/security \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
 }

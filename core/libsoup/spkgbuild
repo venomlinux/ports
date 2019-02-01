@@ -16,4 +16,6 @@ build() {
 	meson --prefix=/usr --libdir=/usr/lib -Dgssapi=false -Dvapi=true ..
 	ninja
 	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
 }

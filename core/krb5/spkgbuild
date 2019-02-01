@@ -24,7 +24,8 @@ build() {
 	            --with-system-et         \
 	            --with-system-ss         \
 	            --with-system-verto=no   \
-	            --enable-dns-for-realm
+	            --enable-dns-for-realm   \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
 

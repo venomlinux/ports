@@ -25,6 +25,7 @@ build() {
 	./configure \
 		--sysconfdir=/etc \
 		--without-libpam \
+		--disable-nls \
 		--with-group-name-max-length=32
 	make
 	make DESTDIR=$PKG install

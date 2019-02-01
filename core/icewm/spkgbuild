@@ -5,12 +5,12 @@ name=icewm
 version=1.4.2
 release=1
 source=(https://github.com/bbidulock/icewm/releases/download/$version/icewm-$version.tar.bz2)
+md5sum=(3e7c3a95e7f8518346267f48a11966cd)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --sysconfdir=/etc
+	./configure --prefix=/usr --sysconfdir=/etc --disable-nls
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/doc
 }
-
-md5sum=(3e7c3a95e7f8518346267f48a11966cd)

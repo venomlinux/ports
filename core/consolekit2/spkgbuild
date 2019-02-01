@@ -19,6 +19,7 @@ build() {
 		--sysconfdir=/etc \
 		--libexecdir=/usr/lib/$name \
 		--localstatedir=/var \
+		--disable-nls \
 		--enable-udev-acl \
 		--enable-pam-module \
 		--enable-polkit \
@@ -30,4 +31,6 @@ build() {
 	mv -v $PKG/etc/X11/app-defaults/xinitrc.d/90-consolekit{,.sh}
 
 	install -Dm 755 $SRC/pam-foreground-compat.ck $PKG/usr/lib/ConsoleKit/run-session.d/pam-foreground-compat.ck
+
+	rm -r $PKG/usr/share/gtk-doc/
 }

@@ -5,11 +5,11 @@ name=lightdm-gtk-greeter-settings
 version=1.2.2
 release=1
 source=(https://launchpad.net/lightdm-gtk-greeter-settings/${version%.*}/$version/+download/lightdm-gtk-greeter-settings-$version.tar.gz)
+md5sum=(ca3b16105bb2fe691c2c058cc36886aa)
 
 build() {
 	cd $name-$version
 	python3 setup.py build
 	python3 setup.py install --root="$PKG" --optimize='1' --xfce-integration
+	rm -r $PKG/usr/share/{locale,doc}
 }
-
-md5sum=(ca3b16105bb2fe691c2c058cc36886aa)

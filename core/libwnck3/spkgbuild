@@ -7,12 +7,12 @@ name=libwnck3
 version=3.24.1
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/libwnck/${version::4}/libwnck-$version.tar.xz)
+md5sum=(23df51ec0a1169014fe3a102d572b244)
 
 build() {
 	cd libwnck-$version
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/{locale,gtk-doc}
 }
-
-md5sum=(23df51ec0a1169014fe3a102d572b244)

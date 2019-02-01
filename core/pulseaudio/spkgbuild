@@ -10,15 +10,17 @@ md5sum=(c42f1f1465e8df9859d023dc184734bf)
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr        \
-                    --sysconfdir=/etc    \
+	./configure --prefix=/usr \
+                    --sysconfdir=/etc \
 		    --libexecdir=/usr/lib \
                     --localstatedir=/var \
-                    --disable-bluez4     \
-                    --disable-bluez5     \
+                    --disable-bluez4 \
+                    --disable-bluez5 \
                     --disable-rpath
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 	
         # remove the D-Bus configuration file for the system wide daemon to avoid creating unnecessary system users and groups
 	rm -fv $PKG/etc/dbus-1/system.d/pulseaudio-system.conf

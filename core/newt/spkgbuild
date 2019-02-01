@@ -7,6 +7,7 @@ name=newt
 version=0.52.20
 release=1
 source=(http://fedorahosted.org/releases/n/e/newt/$name-$version.tar.gz)
+md5sum=(70b288f821234593a8e7920e435b259b)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,6 @@ build() {
 	./configure --prefix=/usr --with-gpm-support
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }
-md5sum=(70b288f821234593a8e7920e435b259b)

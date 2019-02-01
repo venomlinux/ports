@@ -20,4 +20,6 @@ build() {
 	      -Dmobile_broadband_provider_info=false
 	ninja
 	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/{locale,gtk-doc}
 }

@@ -10,9 +10,10 @@ md5sum=(ecc98c6140916135725a4d9ada10404f)
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr     \
+	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
-	            --disable-static
+	            --disable-static \
+		    --disable-nls
 	make
 	make -j1 DESTDIR=$PKG install
 }

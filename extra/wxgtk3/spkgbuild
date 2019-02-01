@@ -28,4 +28,6 @@ build() {
 		--disable-precomp-headers
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }

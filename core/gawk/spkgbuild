@@ -13,10 +13,9 @@ build() {
 	# ensure some unneeded files are not installed
 	sed -i 's/extras//' Makefile.in
 
-	./configure --prefix=/usr --libexecdir=/usr/lib
+	./configure --prefix=/usr --libexecdir=/usr/lib --sysconfdir=/etc --disable-nls
 	make
 	make DESTDIR=$PKG install
 
-	# remove trash
-	rm -fr $PKG/usr/etc
+	rm -r $PKG/usr/share/info
 }

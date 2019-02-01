@@ -10,9 +10,12 @@ md5sum=(f6ebe9c7b375fc9832fb1b2028271fb7)
 build() {
 	cd $name-$version
 
-  	./configure --prefix=/usr      \
-	            --sysconfdir=/etc  \
-	            --with-ssl=openssl
+  	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+	            --with-ssl=openssl \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info
 }

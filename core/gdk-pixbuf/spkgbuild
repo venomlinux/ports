@@ -19,5 +19,7 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 
+	rm -r $PKG/usr/share/locale
+
 	install -Dm644 $SRC/gdk-pixbuf.hook $PKG/etc/hooks/gdk-pixbuf.hook
 }
