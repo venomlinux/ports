@@ -15,7 +15,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	cp -r samples $PKG/usr/share/doc/acpid
+	rm -r $PKG/usr/share/doc
 
 	install -v -m755 -d $PKG/etc/acpi/events
 

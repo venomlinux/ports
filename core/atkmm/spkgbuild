@@ -12,10 +12,9 @@ md5sum=(6194ac577f15567adfa3c923944c6651)
 build() {
 	cd $name-$version
 
-	sed -e "/^libdocdir =/ s/\$(book_name)/$name/" \
-	    -i doc/Makefile.in
-
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 }
