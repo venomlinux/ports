@@ -26,6 +26,8 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
+	rm -r $PKG/usr/share/doc
+
 	chown -v root:messagebus $PKG/usr/lib/$name/dbus-daemon-launch-helper
 	chmod -v      4750       $PKG/usr/lib/$name/dbus-daemon-launch-helper
 

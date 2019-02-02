@@ -10,10 +10,8 @@ md5sum=(549cffbdb72fa105b782756f2713ffc7)
 
 build() {
 	cd $name-$version
-
-	sed -e '/^libdocdir =/ s/$(book_name)/libsigc++/' -i docs/Makefile.in
-
 	./configure --prefix=/usr
 	make
+	sed -i -e 's/^doc_subdirs/#doc_subdirs/' Makefile
 	make DESTDIR=$PKG install
 }

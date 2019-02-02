@@ -7,6 +7,7 @@ name=automake
 version=1.16.1
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(53f38e7591fa57c3d2cee682be668e5b)
 
 build() {
 	cd $name-$version
@@ -14,5 +15,6 @@ build() {
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{{info,doc},aclocal/README}
 }
-md5sum=(53f38e7591fa57c3d2cee682be668e5b)

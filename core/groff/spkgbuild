@@ -15,4 +15,6 @@ build() {
 	PAGE=A4 ./configure --prefix=/usr --docdir=/usr/share/doc/$name
 	make || make -j1
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{info,doc}
 }

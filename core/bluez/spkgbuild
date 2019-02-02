@@ -37,10 +37,6 @@ build() {
 	install -v -dm755 $PKG/etc/bluetooth
 	install -v -m644 src/main.conf $PKG/etc/bluetooth/main.conf
 
-	# doc
-	install -v -dm755 $PKG/usr/share/doc/$name
-	install -v -m644 doc/*.txt $PKG/usr/share/doc/$name
-
 cat > $PKG/etc/bluetooth/rfcomm.conf << "EOF"
 # Start rfcomm.conf
 # Set up the RFCOMM configuration of the Bluetooth subsystem in the Linux kernel.

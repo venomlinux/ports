@@ -7,6 +7,7 @@ name=libmpc
 version=1.1.0
 release=1
 source=(https://ftp.gnu.org/gnu/mpc/mpc-$version.tar.gz)
+md5sum=(4125404e41e482ec68282a2e687f6c73)
 
 build() {
 	cd mpc-$version
@@ -14,11 +15,7 @@ build() {
 	./configure --prefix=/usr    \
 	            --disable-static
 	make
-	make html
 	make DESTDIR=$PKG install
-	make DESTDIR=$PKG install-html
 
-	mv $PKG/usr/share/info/{mpc,$name}.info
-	mv $PKG/usr/share/doc/{mpc,$name}
+	rm -r $PKG/usr/share
 }
-md5sum=(4125404e41e482ec68282a2e687f6c73)

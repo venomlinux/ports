@@ -6,6 +6,7 @@ name=lame
 version=3.100
 release=1
 source=(https://downloads.sourceforge.net/$name/$name-$version.tar.gz)
+md5sum=(83e260acbe4389b54fe08e0bdbf7cddb)
 
 build() {
 	cd $name-$version
@@ -16,6 +17,6 @@ build() {
 		--disable-static
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(83e260acbe4389b54fe08e0bdbf7cddb)
+	rm -r $PKG/usr/share/doc
+}

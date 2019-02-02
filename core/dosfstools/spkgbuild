@@ -4,6 +4,7 @@ name=dosfstools
 version=4.1
 release=1
 source=(https://github.com/dosfstools/dosfstools/releases/download/v$version/dosfstools-$version.tar.xz)
+md5sum=(07a1050db1a898e9a2e03b0c4569c4bd)
 
 build() {
 	cd $name-$version
@@ -13,6 +14,6 @@ build() {
 		    --docdir=/usr/share/doc/$name
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(07a1050db1a898e9a2e03b0c4569c4bd)
+	rm -r $PKG/usr/share/doc
+}

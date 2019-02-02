@@ -7,6 +7,7 @@ name=jasper
 version=2.0.14
 release=1
 source=(https://www.ece.uvic.ca/~frodo/jasper/software/$name-$version.tar.gz)
+md5sum=(23561b51da8eb5d0dc85b91eff3d9a7f)
 
 build() {
 	cd $name-$version
@@ -21,6 +22,6 @@ build() {
 	      ..
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(23561b51da8eb5d0dc85b91eff3d9a7f)
+	rm -r $PKG/usr/share/doc
+}

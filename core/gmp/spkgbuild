@@ -7,6 +7,7 @@ name=gmp
 version=6.1.2
 release=1
 source=(https://ftp.gnu.org/gnu/gmp/$name-$version.tar.xz)
+md5sum=(f58fa8001d60c4c77595fbbb62b63c1d)
 
 build() {
 	cd $name-$version
@@ -15,8 +16,7 @@ build() {
 	            --enable-cxx     \
 	            --disable-static
 	make
-	make html
 	make DESTDIR=$PKG install
-	make DESTDIR=$PKG install-html
+
+	rm -r $PKG/usr/share
 }
-md5sum=(f58fa8001d60c4c77595fbbb62b63c1d)

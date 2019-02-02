@@ -7,6 +7,7 @@ name=libtheora
 version=1.1.1
 release=1
 source=(https://downloads.xiph.org/releases/theora/$name-$version.tar.xz)
+md5sum=(9eeabf1ad65b7f41533854a59f7a716d)
 
 build() {
 	cd $name-$version
@@ -16,6 +17,6 @@ build() {
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(9eeabf1ad65b7f41533854a59f7a716d)
+	rm -r $PKG/usr/share
+}

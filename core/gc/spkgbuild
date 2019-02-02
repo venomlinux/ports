@@ -17,4 +17,6 @@ build() {
 	make DESTDIR=$PKG install
 
 	install -v -Dm644 doc/gc.man $PKG/usr/share/man/man3/gc_malloc.3
+
+	rm -r $PKG/usr/share/doc
 }

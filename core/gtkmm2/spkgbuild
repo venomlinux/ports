@@ -7,16 +7,13 @@ name=gtkmm2
 version=2.24.5
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/gtkmm/${version:0:4}/gtkmm-$version.tar.xz)
+md5sum=(6c59ae8bbff48fad9132f23af347acf1)
 
 build() {
 	cd gtkmm-$version
 
-	sed -e "/^libdocdir =/ s/\$(book_name)/$name/" \
-	    -i docs/Makefile.in
-
 	./configure --prefix=/usr
 	make
+	sed -i -e 's/^doc_subdirs/#doc_subdirs/' Makefile
 	make DESTDIR=$PKG install
 }
-
-md5sum=(6c59ae8bbff48fad9132f23af347acf1)

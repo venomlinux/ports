@@ -7,6 +7,7 @@ name=imlib2
 version=1.5.1
 release=1
 source=(https://downloads.sourceforge.net/enlightenment/$name-$version.tar.bz2)
+md5sum=(390aa207693e051bb692f2db650c694b)
 
 build() {
 	cd $name-$version
@@ -14,10 +15,4 @@ build() {
   	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
-
-	install -v -m755 -d $PKG/usr/share/doc/$name
-	install -v -m644    doc/{*.gif,index.html} \
-	                    $PKG/usr/share/doc/$name
 }
-
-md5sum=(390aa207693e051bb692f2db650c694b)

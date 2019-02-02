@@ -5,14 +5,14 @@ version=6.9.10.18
 _version=${version%.*}-${version##*.}
 release=2
 source=(https://www.imagemagick.org/download/releases/ImageMagick-$_version.tar.xz
-	http://www.linuxfromscratch.org/patches/blfs/svn/ImageMagick-6.9.10-10-libs_only-1.patch)
+	ImageMagick-libs_only-1.patch)
 md5sum=(43d2cc5b3ae378d4bdc74060430fcf10
 	1f1d8a6a27b292d083a61231bb4099c4)
 
 build() {
 	cd ImageMagick-$_version
 	
-	patch -Np1 -i ../ImageMagick-6.9.10-10-libs_only-1.patch
+	patch -Np1 -i ../ImageMagick-libs_only-1.patch
 	autoreconf -fi
 
 	./configure --prefix=/usr     \
@@ -21,7 +21,9 @@ build() {
 	            --with-modules    \
 	            --disable-static
 	make
-	make DOCUMENTATION_PATH=/usr/share/doc/$name DESTDIR=$PKG install-libs-only
+	make DESTDIR=$PKG install-libs-only
+
+	rm -r $PKG/usr/share/doc
 
 	# remove conflict with imagemagick7
 	rm -fr $PKG/usr/share/man

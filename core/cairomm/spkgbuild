@@ -7,16 +7,13 @@ name=cairomm
 version=1.12.2
 release=1
 source=(https://cairographics.org/releases/$name-$version.tar.gz)
+md5sum=(9d2282ea34cf9aaa89208bb4bb911909)
 
 build() {
 	cd $name-$version
 
-	sed -e "/^libdocdir =/ s/\$(book_name)/$name/" \
-	    -i docs/Makefile.in
-
 	./configure --prefix=/usr
 	make
+	sed -i -e 's/^doc_subdirs/#doc_subdirs/' Makefile
 	make DESTDIR=$PKG install
 }
-
-md5sum=(9d2282ea34cf9aaa89208bb4bb911909)

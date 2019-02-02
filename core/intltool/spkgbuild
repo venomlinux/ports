@@ -6,6 +6,7 @@ name=intltool
 version=0.51.0
 release=1
 source=(http://launchpad.net/intltool/trunk/$version/+download/$name-$version.tar.gz)
+md5sum=(12e517cac2b57a0121cda351570f1e63)
 
 build() {
 	cd $name-$version
@@ -15,7 +16,4 @@ build() {
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
-
-	install -v -Dm644 doc/I18N-HOWTO $PKG/usr/share/doc/$name/I18N-HOWTO
 }
-md5sum=(12e517cac2b57a0121cda351570f1e63)

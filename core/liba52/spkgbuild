@@ -6,6 +6,7 @@ name=liba52
 version=0.7.4
 release=1
 source=(http://liba52.sourceforge.net/files/a52dec-$version.tar.gz)
+md5sum=(caa9f5bc44232dc8aeea773fea56be80)
 
 build() {
 	cd a52dec-$version
@@ -19,7 +20,4 @@ build() {
 	make DESTDIR=$PKG install
 
 	cp liba52/a52_internal.h $PKG/usr/include/a52dec
-	install -v -m644 -D doc/liba52.txt \
-	    $PKG/usr/share/doc/$name/liba52.txt
 }
-md5sum=(caa9f5bc44232dc8aeea773fea56be80)

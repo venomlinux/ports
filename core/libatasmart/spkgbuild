@@ -6,6 +6,7 @@ name=libatasmart
 version=0.19
 release=1
 source=(http://0pointer.de/public/$name-$version.tar.xz)
+md5sum=(53afe2b155c36f658e121fe6def33e77)
 
 build() {
 	cd $name-$version
@@ -13,6 +14,6 @@ build() {
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(53afe2b155c36f658e121fe6def33e77)
+	rm -r $PKG/usr/share/doc
+}

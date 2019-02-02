@@ -13,5 +13,6 @@ build() {
 	cd $name-$version
 	./configure --prefix=/usr
 	make
-	make DESTDIR=$PKG docdir=/usr/share/doc/chrpath install
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/doc
 }

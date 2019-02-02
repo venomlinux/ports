@@ -8,6 +8,7 @@ version=3.02a09
 release=1
 options=(!makeflags)
 source=(https://downloads.sourceforge.net/$name/alpha/$name-$version.tar.bz2)
+md5sum=(1e224a6adbbe4ad40047b9fddbb0e60c)
 
 build() {
 	cd $name-${version%%a*}
@@ -27,5 +28,7 @@ build() {
 	ln -s readcd readom
 	ln -s mkisofs genisoimage
 	ln -s cdda2wav icedax
+
+	# remove junk
+	rm -r $PKG/usr/share/doc
 }
-md5sum=(1e224a6adbbe4ad40047b9fddbb0e60c)

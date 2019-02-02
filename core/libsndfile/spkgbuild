@@ -4,12 +4,12 @@ name=libsndfile
 version=1.0.28
 release=1
 source=(http://www.mega-nerd.com/libsndfile/files/$name-$version.tar.gz)
+md5sum=(646b5f98ce89ac60cdb060fcd398247c)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/doc
 }
-
-md5sum=(646b5f98ce89ac60cdb060fcd398247c)
