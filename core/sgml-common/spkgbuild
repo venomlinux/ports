@@ -7,6 +7,8 @@ version=0.6.3
 release=1
 source=(ftp://sources.redhat.com/pub/docbook-tools/new-trials/SOURCES/$name-$version.tgz
 	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-manpage-1.patch)
+md5sum=(103c9828f24820df86e55e7862e28974
+	645f3c898abd270a9143036824ae121a)
 
 build() {
 	cd $name-$version
@@ -17,6 +19,6 @@ build() {
 	./configure --prefix=/usr --sysconfdir=/etc
 	make
 	make docdir=/usr/share/doc DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 }
-md5sum=(103c9828f24820df86e55e7862e28974
-645f3c898abd270a9143036824ae121a)

@@ -20,4 +20,6 @@ build() {
 	sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 
 	make DESTDIR=$PKG MANDIR=/usr/share/man MANSUFFIX=ssl install
+
+	rm -r $PKG/usr/share/doc
 }

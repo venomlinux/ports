@@ -30,6 +30,5 @@ build() {
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libreadline.so) $PKG/usr/lib/libreadline.so
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libhistory.so ) $PKG/usr/lib/libhistory.so
 
-	mkdir -p $PKG/usr/share/doc/$name
-	install -v -m644 doc/*.{ps,pdf,html,dvi} $PKG/usr/share/doc/$name
+	rm -r $PKG/usr/share/{info,doc}
 }

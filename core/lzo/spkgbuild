@@ -4,14 +4,15 @@ name=lzo
 version=2.10
 release=1
 source=(https://www.oberhumer.com/opensource/lzo/download/lzo-$version.tar.gz)
+md5sum=(39d3f3f9c55c87b1e5d6888e1420f4b5)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr                    \
-	            --enable-shared                  \
+	./configure --prefix=/usr \
+	            --enable-shared \
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(39d3f3f9c55c87b1e5d6888e1420f4b5)
+	rm -r $PKG/usr/share
+}

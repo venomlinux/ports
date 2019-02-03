@@ -30,6 +30,8 @@ build() {
 	make DESTDIR=$PKG install
 	install -v -o 87 -d $PKG/var/lib/ntp
 
+	rm -r $PKG/usr/share/doc
+
 mkdir -p $PKG/etc
 cat > $PKG/etc/ntp.conf << "EOF"
 # Asia

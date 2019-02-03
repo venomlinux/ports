@@ -4,12 +4,12 @@ name=speexdsp
 version=1.2rc3
 release=1
 source=(https://downloads.xiph.org/releases/speex/$name-$version.tar.gz)
+md5sum=(70d9d31184f7eb761192fd1ef0b73333)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share
 }
-
-md5sum=(70d9d31184f7eb761192fd1ef0b73333)

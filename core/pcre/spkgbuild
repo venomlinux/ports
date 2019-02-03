@@ -6,6 +6,7 @@ name=pcre
 version=8.42
 release=1
 source=(ftp://ftp.pcre.org/pub/$name/$name-$version.tar.bz2)
+md5sum=(085b6aa253e0f91cae70b3cdbe8c1ac2)
 
 build() {
 	cd $name-$version
@@ -24,6 +25,6 @@ build() {
 	install -d $PKG/lib
 	mv -v $PKG/usr/lib/libpcre.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libpcre.so) $PKG/usr/lib/libpcre.so
-}
 
-md5sum=(085b6aa253e0f91cae70b3cdbe8c1ac2)
+	rm -r $PKG/usr/share/doc
+}

@@ -7,6 +7,7 @@ name=startup-notification
 version=0.12
 release=1
 source=(https://www.freedesktop.org/software/$name/releases/$name-$version.tar.gz)
+md5sum=(2cd77326d4dcaed9a5a23a1232fb38e9)
 
 build() {
 	cd $name-$version
@@ -14,9 +15,4 @@ build() {
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
-
-	install -v -m644 -D doc/$name.txt \
-	    $PKG/usr/share/doc/$name/$name.txt
 }
-
-md5sum=(2cd77326d4dcaed9a5a23a1232fb38e9)

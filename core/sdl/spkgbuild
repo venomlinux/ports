@@ -6,6 +6,7 @@ name=sdl
 version=1.2.15
 release=1
 source=(https://www.libsdl.org/release/SDL-$version.tar.gz)
+md5sum=(9d96df8417572a2afb781a7c4c811a85)
 
 build() {
 	cd SDL-$version
@@ -16,10 +17,4 @@ build() {
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
-
-	install -v -m755 -d $PKG/usr/share/doc/SDL/html
-	install -v -m644    docs/html/*.html \
-	                    $PKG/usr/share/doc/SDL/html
 }
-
-md5sum=(9d96df8417572a2afb781a7c4c811a85)

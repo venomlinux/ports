@@ -7,18 +7,20 @@ name=ncurses
 version=6.1
 release=1
 source=(https://ftp.gnu.org/gnu//$name/$name-$version.tar.gz)
+md5sum=(98c889aaf8d23910d2b92d65be2e737a)
 
 build() {
 	cd $name-$version
 
 	sed -i '/LIBTOOL_INSTALL/d' c++/Makefile.in
 
-	./configure --prefix=/usr           \
+	./configure --prefix=/usr \
 	            --mandir=/usr/share/man \
-	            --with-shared           \
-	            --without-debug         \
-	            --without-normal        \
-	            --enable-pc-files       \
+		    --with-pkg-config-libdir=/usr/lib/pkgconfig \
+	            --with-shared \
+	            --without-debug \
+	            --without-normal \
+	            --enable-pc-files \
 	            --enable-widec
 	make
 	make DESTDIR=$PKG install
@@ -36,8 +38,4 @@ build() {
 	rm -vf                     $PKG/usr/lib/libcursesw.so
 	echo "INPUT(-lncursesw)" > $PKG/usr/lib/libcursesw.so
 	ln -sfv libncurses.so      $PKG/usr/lib/libcurses.so
-
-	mkdir -pv       $PKG/usr/share/doc/$name
-	cp -v -R doc/* $PKG/usr/share/doc/$name
 }
-md5sum=(98c889aaf8d23910d2b92d65be2e737a)

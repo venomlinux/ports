@@ -23,5 +23,5 @@ build() {
 	make
 	make DESTDIR=$PKG install-full
 
-	chgrp -v -R root $PKG/usr/share/doc/$name/lynx_doc
+	rm -r $PKG/usr/share/doc
 }

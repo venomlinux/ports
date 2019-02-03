@@ -26,6 +26,8 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
+	rm -r $PKG/usr/share/doc
+
 install -d $PKG/lib/udev/rules.d/
 cat > $PKG/lib/udev/rules.d/65-kvm.rules << "EOF"
 KERNEL=="kvm", GROUP="kvm", MODE="0660"

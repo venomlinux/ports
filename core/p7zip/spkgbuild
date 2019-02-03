@@ -6,6 +6,7 @@ name=p7zip
 version=16.02
 release=1
 source=(https://downloads.sourceforge.net/$name/${name}_${version}_src_all.tar.bz2)
+md5sum=(a0128d661cfe7cc8c121e73519c54fbf)
 
 build() {
 	cd ${name}_${version}
@@ -14,5 +15,6 @@ build() {
 	make DEST_HOME=/usr \
 	     DEST_MAN=/usr/share/man \
 	     DEST_DIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 }
-md5sum=(a0128d661cfe7cc8c121e73519c54fbf)

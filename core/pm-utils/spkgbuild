@@ -4,13 +4,17 @@ name=pm-utils
 version=1.4.1
 release=1
 source=(https://pm-utils.freedesktop.org/releases/$name-$version.tar.gz)
+md5sum=(1742a556089c36c3a89eb1b957da5a60)
 
 build() {
 	cd $name-$version
+
 	./configure --prefix=/usr     \
 		    --sysconfdir=/etc
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 
 	install -d $PKG/usr/share/man/man{1,8}
 	install -v -m644 man/*.1 $PKG/usr/share/man/man1
@@ -19,5 +23,3 @@ build() {
 	ln -svf pm-action.8 $PKG/usr/share/man/man8/pm-hibernate.8
 	ln -svf pm-action.8 $PKG/usr/share/man/man8/pm-suspend-hybrid.8
 }
-
-md5sum=(1742a556089c36c3a89eb1b957da5a60)

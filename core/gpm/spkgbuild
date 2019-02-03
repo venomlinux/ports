@@ -25,14 +25,10 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
+	rm -r $PKG/usr/share/info
+
 	ln -sfv libgpm.so.2.1.0 $PKG/usr/lib/libgpm.so
 	install -v -m644 conf/gpm-root.conf $PKG/etc
-
-	install -v -m755 -d $PKG/usr/share/doc/$name/support
-	install -v -m644    doc/support/*                     \
-	                    $PKG/usr/share/doc/$name/support
-	install -v -m644    doc/{FAQ,HACK_GPM,README*}        \
-	                    $PKG/usr/share/doc/$name
 
 	# rc service
 	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name

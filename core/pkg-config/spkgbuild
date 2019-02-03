@@ -6,6 +6,7 @@ name=pkg-config
 version=0.29.2
 release=1
 source=(https://pkg-config.freedesktop.org/releases/$name-$version.tar.gz)
+md5sum=(f6e931e319531b736fadc017f470e68a)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,6 @@ build() {
 	            --disable-host-tool
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 }
-md5sum=(f6e931e319531b736fadc017f470e68a)

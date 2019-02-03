@@ -7,6 +7,7 @@ name=ntfs-3g
 version=2017.3.23
 release=2
 source=(https://tuxera.com/opensource/${name}_ntfsprogs-$version.tgz)
+md5sum=(d97474ae1954f772c6d2fa386a6f462c)
 
 build() {
 	cd ${name}_ntfsprogs-$version
@@ -24,6 +25,6 @@ build() {
 	ln -sv ntfs-3g.8 $PKG/usr/share/man/man8/mount.ntfs.8
 
 	chmod -v 4755 $PKG/sbin/mount.ntfs
-}
 
-md5sum=(d97474ae1954f772c6d2fa386a6f462c)
+	rm -r $PKG/usr/share/doc
+}

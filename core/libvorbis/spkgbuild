@@ -7,6 +7,7 @@ name=libvorbis
 version=1.3.6
 release=1
 source=(https://downloads.xiph.org/releases/vorbis/$name-$version.tar.xz)
+md5sum=(b7d1692f275c73e7833ed1cc2697cd65)
 
 build() {
 	cd $name-$version
@@ -14,6 +15,6 @@ build() {
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(b7d1692f275c73e7833ed1cc2697cd65)
+	rm -r $PKG/usr/share/doc
+}
