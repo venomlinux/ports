@@ -27,5 +27,5 @@ build() {
 	install -dm755 $PKG/etc/ld.so.conf.d
 	  echo '/usr/lib/libfakeroot' > $PKG/etc/ld.so.conf.d/fakeroot.conf
 
-	install -Dm644 README $PKG/usr/share/doc/$name/README
+	rm -r $PKG/usr/share/man/{nl,sv,de,fr,es,pt}
 }

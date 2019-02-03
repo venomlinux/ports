@@ -7,12 +7,12 @@ name=cmus
 version=2.7.1
 release=1
 source=(https://github.com/cmus/cmus/archive/v${version}.tar.gz)
+md5sum=(0588ab955db44a8e9deb03446d73b5df)
 
 build() {
 	cd $name-$version
 	./configure prefix=/usr
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/doc
 }
-
-md5sum=(0588ab955db44a8e9deb03446d73b5df)

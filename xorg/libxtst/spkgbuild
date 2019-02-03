@@ -18,6 +18,7 @@ build() {
                 --disable-static
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/doc
 }
 
 md5sum=(ef8c2c1d16a00bd95b9fdcef63b8a2ca)

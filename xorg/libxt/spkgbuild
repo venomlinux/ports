@@ -19,6 +19,7 @@ build() {
 		--with-appdefaultdir=/etc/X11/app-defaults
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/doc
 }
 
 md5sum=(8f5b5576fbabba29a05f3ca2226f74d3)

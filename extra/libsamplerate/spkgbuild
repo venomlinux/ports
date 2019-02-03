@@ -5,12 +5,12 @@ name=libsamplerate
 version=0.1.9
 release=1
 source=(http://www.mega-nerd.com/SRC/libsamplerate-$version.tar.gz)
+md5sum=(2b78ae9fe63b36b9fbb6267fad93f259)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share
 }
-
-md5sum=(2b78ae9fe63b36b9fbb6267fad93f259)

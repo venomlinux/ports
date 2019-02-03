@@ -19,6 +19,7 @@ build() {
 		ICE_LIBS=-lpthread
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share
 }
 
 md5sum=(addfb1e897ca8079531669c7c7711726)

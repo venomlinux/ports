@@ -8,22 +8,23 @@ version=0.8.8
 release=2
 source=(https://downloads.sourceforge.net/sourceforge/$name/docbook2X-$version.tar.gz
 	docbook2x.datadir.patch)
+md5sum=(b9b76a6af198c4f44574cfd17a322f01
+	826fae88a435d9278c4f9614991d55a1)
 
 build(){
-    cd docbook2X-$version
-    patch < ../$name.datadir.patch || exit 1
-    sed -e 's/AM_CONFIG_HEADER(/AC_CONFIG_HEADERS(/' -i configure.ac || exit 1
+	cd docbook2X-$version
+	patch < ../$name.datadir.patch || exit 1
+	sed -e 's/AM_CONFIG_HEADER(/AC_CONFIG_HEADERS(/' -i configure.ac
     
-    autoreconf -i -f
-    ./configure --prefix=/usr \
-                --mandir=/usr/share/man \
-                --program-transform-name 's,2x-,2,'
-    make
-    make DESTDIR=$PKG install
+	autoreconf -i -f
+	./configure --prefix=/usr \
+	            --mandir=/usr/share/man \
+	            --program-transform-name 's,2x-,2,'
+	make
+	make DESTDIR=$PKG install
 
-    sed -i 's|http://docbook2x.sf.net/latest|/usr/share/docbook2X|g' \
-        $PKG/usr/bin/db2x_xsltproc
+	sed -i 's|http://docbook2x.sf.net/latest|/usr/share/docbook2X|g' \
+	    $PKG/usr/bin/db2x_xsltproc
+
+	rm -r $PKG/usr/share/{doc,info}
 }
-
-md5sum=(b9b76a6af198c4f44574cfd17a322f01
-826fae88a435d9278c4f9614991d55a1)

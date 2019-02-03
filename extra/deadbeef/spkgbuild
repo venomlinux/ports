@@ -7,12 +7,13 @@ name=deadbeef
 version=0.7.2
 release=3
 source=(https://downloads.sourceforge.net/project/$name/$name-$version.tar.bz2)
+md5sum=(f8f5353e7c201fce316f8b082ab408bb)
 
 build() {
-	    cd $name-$version
-	    ./configure --prefix=/usr \
-			--disable-nls
-	    make
-	    make DESTDIR=$PKG install
+	cd $name-$version
+	./configure --prefix=/usr \
+		    --disable-nls
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/doc
 }
-md5sum=(f8f5353e7c201fce316f8b082ab408bb)
