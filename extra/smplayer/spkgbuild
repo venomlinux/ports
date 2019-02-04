@@ -17,4 +17,6 @@ build() {
 	     QMAKE_OPTS=DEFINES+=NO_DEBUG_ON_CONSOLE
 	make DOC_PATH=/usr/share/doc/smplayer \
 	     DESTDIR=$PKG PREFIX=/usr install
+
+	rm -r $PKG/usr/share/doc
 }

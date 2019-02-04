@@ -13,4 +13,5 @@ build() {
 		    --with-package-name="GStreamer Good Plugins $version (Venom)"
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/gtk-doc
 }

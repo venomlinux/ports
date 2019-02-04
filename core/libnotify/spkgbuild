@@ -14,6 +14,8 @@ build() {
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
 }
 
 md5sum=(e9d911f6a22435e0b922f2fe71212b59)

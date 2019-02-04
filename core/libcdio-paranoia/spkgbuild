@@ -7,6 +7,7 @@ name=libcdio-paranoia
 version=10.2+0.94+2
 release=1
 source=(https://ftp.gnu.org/gnu/libcdio/$name-$version.tar.gz)
+md5sum=(34ac925c9b903bd40b90ff25b81744a6)
 
 build() {
 	cd $name-$version
@@ -14,6 +15,6 @@ build() {
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(34ac925c9b903bd40b90ff25b81744a6)
+	rm -r $PKG/usr/share/man/jp
+}

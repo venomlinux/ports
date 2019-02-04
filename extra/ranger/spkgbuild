@@ -11,6 +11,6 @@ md5sum=(08970e4343ac0457a60befa1ec97f62b)
 
 build() {
 	cd $name-$version
-
 	python3 setup.py -q install --root=$PKG --optimize=1
+	rm -r $PKG/usr/share/doc
 }

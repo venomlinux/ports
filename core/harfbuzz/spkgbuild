@@ -13,4 +13,6 @@ build() {
 	./configure --prefix=/usr --with-gobject --with-graphite2
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
 }

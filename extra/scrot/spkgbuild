@@ -24,4 +24,6 @@ build() {
 		--disable-doc
 	make
 	make DESTDIR=$PKG docsdir=/usr/share/doc/scrot install
+
+	rm -r $PKG/usr/share/doc
 }

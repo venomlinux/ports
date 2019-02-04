@@ -17,4 +17,6 @@ build() {
 	            --enable-tee
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
 }

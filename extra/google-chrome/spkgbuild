@@ -30,4 +30,7 @@ build() {
 	# Removing Debian Cron job and duplicate product logos
 	rm -r $PKG/etc/cron.daily/ $PKG/opt/google/chrome/cron/
 	rm $PKG/opt/google/chrome/product_logo_*.png
+
+	# remove junks
+	rm -r $PKG/usr/share/doc
 }

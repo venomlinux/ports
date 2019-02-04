@@ -9,8 +9,6 @@ md5sum=(3943d71172eaec3f882a020f3d5fae56)
 
 build() {
 	cd $name-$version
-
 	python3 setup.py install -O1 --root=$PKG --prefix=/usr
-	install -Dm 644 README.rst -t $PKG/usr/share/doc/$name
 	install -Dm 644 $name.1 -t $PKG/usr/share/man/man1
 }

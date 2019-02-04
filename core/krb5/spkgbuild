@@ -46,4 +46,6 @@ build() {
 	mkdir -p $PKG/bin
 	mv -v $PKG/usr/bin/ksu $PKG/bin
 	chmod -v 755 $PKG/bin/ksu
+
+	rm -r $PKG/usr/share/man/cat{1,5,7,8}
 }

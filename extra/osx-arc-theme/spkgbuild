@@ -14,4 +14,5 @@ md5sum=(9ecf55af4de11632f19419cd9f853e27)
 build() {
 	bsdtar xf $name-$version.deb
 	tar xf data.tar.xz -C $PKG
+	rm -r $PKG/usr/share/doc
 }
