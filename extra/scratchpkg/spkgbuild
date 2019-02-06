@@ -15,5 +15,4 @@ build() {
 	cd $name-$_commit
 	DESTDIR=$PKG ./INSTALL.sh
 	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
-	mkdir -p $PKG/var/lib/scratchpkg/index
 }
