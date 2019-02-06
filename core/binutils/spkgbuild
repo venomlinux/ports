@@ -24,4 +24,5 @@ build() {
 	             --with-system-zlib
 	make tooldir=/usr
 	make tooldir=/usr DESTDIR=$PKG install
+	rm -fr $PKG/usr/share/info
 }

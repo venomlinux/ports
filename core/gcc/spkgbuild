@@ -6,8 +6,11 @@
 name=gcc
 version=8.2.0
 release=2
-source=(https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz)
-md5sum=(4ab282f414676496483b3e1793d07862)
+source=(https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
+	c89 c99)
+md5sum=(4ab282f414676496483b3e1793d07862
+	3d333df77302ed89e06a4a8539943b7d
+	da96f545b863e57c6ab2598c1ea9a740)
 
 build() {
 	cd $name-$version
@@ -24,7 +27,8 @@ build() {
 	             --disable-multilib       \
 	             --disable-bootstrap      \
 		     --disable-libmpx         \
-	             --with-system-zlib
+	             --with-system-zlib       \
+		     --disable-nls
 	make
 	make DESTDIR=$PKG install
 
@@ -33,9 +37,14 @@ build() {
 	ln -sv gcc $PKG/usr/bin/cc
 
 	install -v -dm755 $PKG/usr/lib/bfd-plugins
-	ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/$version/liblto_plugin.so \
+	ln -sfv ../../lib/gcc/$(gcc -dumpmachine)/$version/liblto_plugin.so \
 	        $PKG/usr/lib/bfd-plugins/
 
 	mkdir -pv $PKG/usr/share/gdb/auto-load/usr/lib
 	mv -v $PKG/usr/lib/*gdb.py $PKG/usr/share/gdb/auto-load/usr/lib
+
+	install -Dm755 $SRC/c89 $PKG/usr/bin/c89
+	install -Dm755 $SRC/c99 $PKG/usr/bin/c99
+
+	rm -fr $PKG/usr/share/{info,$name-$version}
 }
