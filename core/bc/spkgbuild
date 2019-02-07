@@ -7,6 +7,7 @@ name=bc
 version=1.07.1
 release=1
 source=(https://ftp.gnu.org/gnu/bc/$name-$version.tar.gz)
+md5sum=(cda93857418655ea43590736fc3ca9fc)
 
 build() {
 	cd $name-$version
@@ -31,5 +32,5 @@ EOF
 	            --infodir=/usr/share/info
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/info
 }
-md5sum=(cda93857418655ea43590736fc3ca9fc)
