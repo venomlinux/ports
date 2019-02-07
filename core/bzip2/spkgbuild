@@ -16,8 +16,8 @@ build() {
 	sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
 
 	# use our optimization
-	[ -n ${CFLAGS} ] && sed -i "s|-O2|${CFLAGS}|g" Makefile
-	[ -n ${CFLAGS} ] && sed -i "s|-O2|${CFLAGS}|g" Makefile-libbz2_so
+	[[ -n ${CFLAGS} ]] && sed -i "s|-O2|${CFLAGS}|g" Makefile
+	[[ -n ${CFLAGS} ]] && sed -i "s|-O2|${CFLAGS}|g" Makefile-libbz2_so
 
 	make -f Makefile-libbz2_so
 	make clean
