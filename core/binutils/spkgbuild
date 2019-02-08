@@ -12,6 +12,12 @@ md5sum=(0d174cdaf85721c5723bf52355be41e6)
 build() {
 	cd $name-$version
 
+	sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
+
+	if [ -e /usr/lib32/libc.so ]; then
+		multilibopt="--enable-multilib --with-lib-path=/usr/lib:/lib:/usr/lib32"
+	fi
+
 	mkdir -v build
 	cd       build
 
@@ -22,7 +28,8 @@ build() {
 	             --enable-plugins    \
 	             --enable-shared     \
 	             --disable-werror    \
-	             --with-system-zlib
+	             --with-system-zlib  \
+		     $multilibopt
 	make tooldir=/usr
 	make tooldir=/usr DESTDIR=$PKG install
 	rm -fr $PKG/usr/share/info

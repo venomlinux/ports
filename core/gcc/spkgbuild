@@ -21,11 +21,17 @@ build() {
 	mkdir -v build
 	cd       build
 
+	if [ -e /usr/lib32/libc.so ]; then
+		multilibopt="--enable-multilib"
+	else
+		multilibopt="--disable-multilib"
+	fi
+
 	SED=sed                               \
 	../configure --prefix=/usr            \
 		     --libexecdir=/usr/lib    \
 	             --enable-languages=c,c++,fortran,go,objc,obj-c++ \
-	             --disable-multilib       \
+	             $multilibopt             \
 	             --disable-bootstrap      \
 		     --disable-libmpx         \
 	             --with-system-zlib       \
