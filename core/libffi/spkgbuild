@@ -1,7 +1,6 @@
 # description	: Portable foreign function interface library
 # homepage	: https://sourceware.org/libffi/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: glibc
 
 name=libffi
 version=3.2.1
@@ -22,4 +21,5 @@ build() {
 	./configure --prefix=/usr --disable-static --with-gcc-arch=x86-64
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/info
 }

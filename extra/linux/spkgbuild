@@ -1,15 +1,15 @@
 # description	: Linux kernel, sources and modules
-# depends	: elfutils mkinitramfs
+# depends	: elfutils mkinitramfs openssl
 
 name=linux
-version=4.19.12
+version=4.19.19
 release=1
 options=(!strip)
 source=(https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
 	config-$version
 	linux.hook)
-md5sum=(cb545cc42a5dd593bb554dd3b5adfae0
-	c7207d78994d6b8b2c110f03c4352736
+md5sum=(e6a678e1880ed366a860f537d82be247
+	0ed7af83864b75ba4d0c1f3d04d199f1
 	97890691a1f8f1f7fb58e48c3140fdaa)
 
 build() {

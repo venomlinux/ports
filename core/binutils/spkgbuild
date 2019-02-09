@@ -7,21 +7,30 @@ name=binutils
 version=2.31.1
 release=1
 source=(https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz)
-md5sum=(5b7c9d4ce96f507d95c1b9a255e52418)
+md5sum=(0d174cdaf85721c5723bf52355be41e6)
 
 build() {
 	cd $name-$version
+
+	sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
+
+	if [ -e /usr/lib32/libc.so ]; then
+		multilibopt="--enable-multilib --with-lib-path=/usr/lib:/lib:/usr/lib32"
+	fi
 
 	mkdir -v build
 	cd       build
 
 	../configure --prefix=/usr       \
 	             --enable-gold       \
+		     --disable-nls       \
 	             --enable-ld=default \
 	             --enable-plugins    \
 	             --enable-shared     \
 	             --disable-werror    \
-	             --with-system-zlib
+	             --with-system-zlib  \
+		     $multilibopt
 	make tooldir=/usr
 	make tooldir=/usr DESTDIR=$PKG install
+	rm -fr $PKG/usr/share/info
 }
