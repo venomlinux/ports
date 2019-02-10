@@ -25,6 +25,8 @@ build() {
 	# no desktop files and icons
 	rm -r $PKG/usr/share/{applications,icons}
 
+	ln -sv vim $PKG/usr/bin/vi
+
 	mkdir -pv $PKG/etc
 cat > $PKG/etc/vimrc << "EOF"
 " Begin /etc/vimrc
