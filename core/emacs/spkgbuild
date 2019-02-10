@@ -22,4 +22,6 @@ build() {
 	make DESTDIR=$PKG install
 
 	chown -v -R root:root $PKG/usr/share/emacs/$version
+
+	rm -r $PKG/usr/share/info $PKG/usr/lib/systemd
 }

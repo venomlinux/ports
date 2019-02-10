@@ -15,4 +15,5 @@ build() {
 	make DESTDIR=$PKG install
 	mkdir -p $PKG/usr/share/gdb/auto-load/usr/lib
 	mv $PKG/usr/lib/libguile-*-gdb.scm $PKG/usr/share/gdb/auto-load/usr/lib
+	rm -r $PKG/usr/share/info
 }

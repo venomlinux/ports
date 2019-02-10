@@ -14,5 +14,6 @@ build() {
 	./configure --prefix=/usr --disable-gpg-test
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/info
 }
 

@@ -11,7 +11,7 @@ md5sum=(191907870cbad8f2573442ce26e193db)
 build() {
 	cd gtksourceview-$version
 
-	./configure --prefix=/usr --disable-nls
+	./configure --prefix=/usr --disable-nls --disable-gtk-doc
 	make
 	make DESTDIR=$PKG install
 
