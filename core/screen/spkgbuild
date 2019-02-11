@@ -4,6 +4,7 @@ name=screen
 version=4.6.2
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+md5sum=(a0f529d3333b128dfaa324d978ba73a8)
 
 build() {
 	cd $name-$version
@@ -18,8 +19,8 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
+	rm -r $PKG/usr/share/info
+
 	mkdir -p $PKG/etc
 	install -m 644 etc/etcscreenrc $PKG/etc/screenrc
 }
-
-md5sum=(a0f529d3333b128dfaa324d978ba73a8)

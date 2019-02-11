@@ -4,12 +4,12 @@ name=time
 version=1.9
 release=1
 source=(https://ftp.gnu.org/gnu/time/$name-$version.tar.gz)
+md5sum=(d2356e0fe1c0b85285d83c6b2ad51b5f)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share
 }
-
-md5sum=(d2356e0fe1c0b85285d83c6b2ad51b5f)

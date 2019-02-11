@@ -7,12 +7,12 @@ name=menumaker
 version=0.99.10
 release=1
 source=(https://downloads.sourceforge.net/sourceforge/$name/$name-$version.tar.gz)
+md5sum=(7d63d39e497cb5779d598b06ff357e4d)
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr --infodir=/usr/share/info
 	make
 	make -j1 DESTDIR=$PKG install
+	rm -r $PKG/usr/share/info
 }
-
-md5sum=(7d63d39e497cb5779d598b06ff357e4d)

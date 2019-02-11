@@ -6,6 +6,7 @@ name=libcdio
 version=2.0.0
 release=1
 source=(ftp://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+md5sum=(0cb25905113b930e4539d2f4eb6574b0)
 
 build() {
 	cd $name-$version
@@ -13,6 +14,6 @@ build() {
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(0cb25905113b930e4539d2f4eb6574b0)
+	rm -r $PKG/usr/share/info
+}
