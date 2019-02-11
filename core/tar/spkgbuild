@@ -5,12 +5,15 @@
 
 name=tar
 version=1.31
-release=1
+release=2
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
 md5sum=(bc9a89da1185ceb2210de12552c43ce2)
 
 build() {
 	cd $name-$version
+
+	# Fix a bug introduced in tar-1.31
+	sed -i 's/abort.*/FALLTHROUGH;/' src/extract.c
 
 	FORCE_UNSAFE_CONFIGURE=1  \
 	./configure --prefix=/usr \
