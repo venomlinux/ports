@@ -4,19 +4,16 @@
 # depends	: glibc
 
 name=libpipeline
-version=1.5.0
+version=1.5.1
 release=1
 source=(https://download.savannah.gnu.org/releases/$name/$name-$version.tar.gz)
+md5sum=(4c8fe6cd85422baafd6e060f896c61bc)
 
 build() {
 	cd $name-$version
 
-	if [ -d /tools ]; then
-		PKG_CONFIG_PATH=/tools/lib/pkgconfig ./configure --prefix=/usr
-	else
-		./configure --prefix=/usr
-	fi
+	[ -d /tools ] && export PKG_CONFIG_PATH=/tools/lib/pkgconfig
+	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(b7437a5020190cfa84f09c412db38902)
