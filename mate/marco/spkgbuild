@@ -9,7 +9,8 @@ md5sum=(a572efabae36bbef7a52435360018d87)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --disable-update-mimedb
+	./configure --prefix=/usr --disable-update-mimedb --disable-nls
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/locale
 }

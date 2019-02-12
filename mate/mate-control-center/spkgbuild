@@ -11,8 +11,10 @@ build() {
 	cd $name-$version
 	./configure --prefix=/usr \
 		--sysconfdir=/etc \
-		--disable-update-mimedb
+		--disable-update-mimedb \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
 	rm $PKG/usr/share/applications/mimeinfo.cache
+	rm -r $PKG/usr/share/locale
 }
