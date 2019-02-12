@@ -1,0 +1,17 @@
+# description	: BSD-style init (CRUX's init inspired)
+# backup	: etc/rc.conf etc/rc.local
+# depends	: sysvinit
+
+name=rc
+version=20190212
+release=1
+options=(!strip)
+_commit=03ce4b0d25cd396a33327dcdce001909e06560f8
+source=($name-$_commit.tar.gz::https://github.com/emmett1/rc/archive/$_commit.tar.gz)
+md5sum=(58feeea0a22c38e35c31797eacb09bc2)
+
+build() {
+	cd $name-$_commit
+	make DESTDIR=$PKG install
+	
+}
