@@ -5,17 +5,14 @@
 
 name=os-prober
 version=1.77
-release=1
+release=2
 source=(http://http.debian.net/debian/pool/main/o/$name/${name}_${version}.tar.xz)
 md5sum=(cfe55c2414868fb1478a4565887b9de3)
 
 build() {
 	cd $name-$version
-	# adjust lib dir to allow detection of 64-bit distros
-	sed -i -e "s:/lib/ld\*\.so\*:/lib*/ld*.so*:g" os-probes/mounted/common/90linux-distro
-	
-	rm -f Makefile
-	make newns
+
+	make
 	install -Dm755 linux-boot-prober $PKG/usr/bin/linux-boot-prober
 	install -Dm755 os-prober $PKG/usr/bin/os-prober
 	install -Dm755 newns $PKG/usr/lib/os-prober/newns
