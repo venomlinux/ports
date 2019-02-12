@@ -1,11 +1,11 @@
 # description	: The GRand Unified Bootloader
 # homepage	: https://www.gnu.org/software/grub/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: gettext bash xz
+# depends	: gettext bash xz fuse2
 
 name=grub
 version=2.02
-release=3
+release=4
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	grub.default)
 md5sum=(8a4a2a95aac551fb0fba860ceabfa1d3
@@ -22,6 +22,7 @@ build() {
 	            --sysconfdir=/etc \
 	            --disable-efiemu \
 	            --disable-werror \
+		    --enable-grub-mount \
 		    --disable-nls
 	make
 	make DESTDIR=$PKG install
