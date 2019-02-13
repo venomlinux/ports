@@ -36,7 +36,7 @@ extended = true
 prefix = "/usr"
 
 # docdir is used even if the full awesome docs are not installed
-docdir = "share/doc/rustc-1.32.0"
+docdir = "share/doc/rustc"
 
 [rust]
 channel = "stable"
@@ -55,4 +55,5 @@ EOF
 	python3 ./x.py build --exclude src/tools/miri
 	export LIBSSH2_SYS_USE_PKG_CONFIG=1
 	DESTDIR=$PKG python3 ./x.py install
+	rm -r $PKG/usr/share/doc
 }
