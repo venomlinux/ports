@@ -9,9 +9,12 @@ md5sum=(ec2af5d76b047684ac784f6861f152f0)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr \
+	./configure \
+		--prefix=/usr \
 		--sysconfdir=/etc \
-		--libexecdir=/usr/lib/$name
+		--libexecdir=/usr/lib/$name \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/locale
 }

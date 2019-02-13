@@ -8,7 +8,8 @@ md5sum=(1064bb17bec370a774c32fca99746547)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --libexecdir=/usr/lib/$name
+	./configure --prefix=/usr --libexecdir=/usr/lib/$name --disable-nls
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/locale
 }

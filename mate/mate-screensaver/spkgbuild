@@ -13,7 +13,9 @@ build() {
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--libexecdir=/usr/lib \
-		--localstatedir=/var
+		--localstatedir=/var \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/locale
 }
