@@ -1,0 +1,19 @@
+# description	: The LXQt image viewer and screenshot tool
+# depends	: qt5 cmake libfm-qt
+
+name=lximage-qt
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/lximage-qt/$version/lximage-qt-$version.tar.xz)
+md5sum=(8de10377372c256b2f1a2ab08cbb1570)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+	..
+	make
+	make DESTDIR=$PKG install
+}

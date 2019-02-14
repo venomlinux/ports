@@ -1,0 +1,20 @@
+# description	: LXQt system configuration
+# depends	: qt5 cmake xf86-input-libinput kscreen
+
+name=lxqt-config
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/lxqt-config/$version/lxqt-config-$version.tar.xz)
+md5sum=(747a12929697818fd191cdf0b9f33c49)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+	..
+	make
+	make DESTDIR=$PKG install
+}

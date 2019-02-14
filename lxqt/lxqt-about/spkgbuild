@@ -1,0 +1,19 @@
+# description	: LXQt about dialog
+# depends	: qt5 cmake liblxqt kwindowsystem libqtxdg
+
+name=lxqt-about
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/lxqt-about/$version/lxqt-about-$version.tar.xz)
+md5sum=(6ad76554c0c5779e7d8ec45bc432ab1a)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+	..
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,20 @@
+# description	: Library to query system statistics (net, resource usage, ...)
+# depends	: qt5 cmake
+
+name=libsysstat
+version=0.4.2
+release=1
+source=(https://downloads.lxqt.org/downloads/libsysstat/$version/libsysstat-$version.tar.xz)
+md5sum=(05046d44906a48cb4b3577a0c26adad0)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+	..
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,19 @@
+# description	: Various packaging tools and scripts for LXQt applications
+# depends	: qt5 cmake
+
+name=lxqt-build-tools
+version=0.6.0
+release=1
+source=(https://downloads.lxqt.org/downloads/lxqt-build-tools/$version/lxqt-build-tools-$version.tar.xz)
+md5sum=(8b0d20811a048f14415760b13a4d492c)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+	..
+	make
+	make DESTDIR=$PKG install
+}

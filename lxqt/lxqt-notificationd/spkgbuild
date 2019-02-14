@@ -1,0 +1,19 @@
+# description	: LXQt notification daemon and library
+# depends	: qt5 cmake liblxqt kwindowsystem libqtxdg
+
+name=lxqt-notificationd
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/lxqt-notificationd/$version/lxqt-notificationd-$version.tar.xz)
+md5sum=(82d0658f45fd94e5f06c811517c0e7d0)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+	..
+	make
+	make DESTDIR=$PKG install
+}

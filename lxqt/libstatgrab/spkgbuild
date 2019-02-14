@@ -1,0 +1,15 @@
+# description	: A library that provides cross platform access to statistics about the system on which it's run
+# depends	: ncurses perl
+
+name=libstatgrab
+version=0.91
+release=1
+source=(http://www.mirrorservice.org/sites/ftp.i-scream.org/pub/i-scream/$name/$name-$version.tar.gz)
+md5sum=(b906d312076ca9be3d5188edfe07f496)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

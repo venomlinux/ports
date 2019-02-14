@@ -1,0 +1,19 @@
+# description	: The LXQt file manager, Qt port of PCManFM
+# depends	: qt5 cmake libfm-qt
+
+name=pcmanfm-qt
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/pcmanfm-qt/$version/pcmanfm-qt-$version.tar.xz)
+md5sum=(7083d93c2f6fe154c058aa970eeb29da)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+	..
+	make
+	make DESTDIR=$PKG install
+}

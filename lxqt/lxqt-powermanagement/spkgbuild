@@ -1,0 +1,20 @@
+# description	: LXQt power management daemon
+# depends	: qt5 cmake liblxqt solid kwindowsystem libqtxdg kidletime
+
+name=lxqt-powermanagement
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/lxqt-powermanagement/$version/lxqt-powermanagement-$version.tar.xz)
+md5sum=(b6f182b528a52910f6647594fbe1f93c)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+	..
+	make
+	make DESTDIR=$PKG install
+}

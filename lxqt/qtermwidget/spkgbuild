@@ -1,0 +1,20 @@
+# description	: A terminal widget for Qt, used by QTerminal
+# depends	: qt5 cmake
+
+name=qtermwidget
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/qtermwidget/$version/qtermwidget-$version.tar.xz)
+md5sum=(d44f179243cc4a90d19bbd313d65aacf)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+	..
+	make
+	make DESTDIR=$PKG install
+}

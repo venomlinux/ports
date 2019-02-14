@@ -1,0 +1,19 @@
+# description	: LXQt openssh password prompt
+# depends	: qt5 cmake liblxqt kwindowsystem libqtxdg
+
+name=lxqt-openssh-askpass
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/lxqt-openssh-askpass/$version/lxqt-openssh-askpass-$version.tar.xz)
+md5sum=(512838a68091e3d8b927ba6f08abecb8)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+	..
+	make
+	make DESTDIR=$PKG install
+}

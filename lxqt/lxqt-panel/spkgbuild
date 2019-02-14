@@ -1,0 +1,20 @@
+# description	: The LXQt desktop panel
+# depends	: qt5 cmake libstatgrab liblxqt kwindowsystem libqtxdg solid lxqt-globalkeys pulseaudio libdbusmenu-qt
+
+name=lxqt-panel
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/lxqt-panel/$version/lxqt-panel-$version.tar.xz)
+md5sum=(824c9d9ec01355976f59c81809659f33)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+	..
+	make
+	make DESTDIR=$PKG install
+}

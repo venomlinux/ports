@@ -1,0 +1,20 @@
+# description	: The LXQt session manager
+# depends	: qt5 cmake liblxqt kwindowsystem libqtxdg eudev
+
+name=lxqt-session
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/lxqt-session/$version/lxqt-session-$version.tar.xz)
+md5sum=(942bfefe375bde775dcba6df014d3726)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+	..
+	make
+	make DESTDIR=$PKG install
+}

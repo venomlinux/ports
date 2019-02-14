@@ -1,0 +1,20 @@
+# description	: Common base library for LXQt components
+# depends	: qt5 cmake kwindowsystem polkit-qt libqtxdg libxscrnsaver libx11
+
+name=liblxqt
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/liblxqt/$version/liblxqt-$version.tar.xz)
+md5sum=(f9527f746b08a97c4332636b2797288b)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+	..
+	make
+	make DESTDIR=$PKG install
+}

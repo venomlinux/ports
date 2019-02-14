@@ -1,0 +1,20 @@
+# description	: Core library of PCManFM-Qt (Qt binding for libfm)
+# depends	: qt5 cmake glib libxcb libfm
+
+name=libfm-qt
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/libfm-qt/$version/libfm-qt-$version.tar.xz)
+md5sum=(8f0364a2d96fabe4766bb6383c36ea47)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+	..
+	make
+	make DESTDIR=$PKG install
+}

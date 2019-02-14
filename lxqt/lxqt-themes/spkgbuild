@@ -1,0 +1,20 @@
+# description	: LXQt themes, graphics and icons
+# depends	: hicolor-icon-theme
+
+name=lxqt-themes
+version=0.14.0
+release=1
+source=(https://downloads.lxqt.org/downloads/lxqt-themes/$version/lxqt-themes-$version.tar.xz)
+md5sum=(185fef1d15d4f8c9c86c46a7a08ff8f7)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+	..
+	make
+	make DESTDIR=$PKG install
+}
