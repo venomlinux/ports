@@ -3,22 +3,19 @@
 # backup	: etc/lvm/lvm.conf etc/lvm/lvmlocal.conf
 
 name=lvm2
-version=2.03.01
+version=2.03.02
 release=1
 source=(https://sourceware.org/pub/lvm2/LVM2.$version.tgz)
-md5sum=(800287d3521388dcc4a601d099b47bcd)
+md5sum=(5fc07da5461a3794a751dcfc355827d5)
 
 build() {
 	cd LVM2.$version
-	SAVEPATH=$PATH
-	PATH=$PATH:/sbin:/usr/sbin
+	PATH=$PATH:/sbin:/usr/sbin      \
 	./configure --prefix=/usr       \
 	            --exec-prefix=      \
 	            --enable-cmdlib     \
 	            --enable-pkgconfig  \
 	            --enable-udev_sync
 	make
-	PATH=$SAVEPATH
-	unset SAVEPATH
 	make DESTDIR=$PKG install
 }
