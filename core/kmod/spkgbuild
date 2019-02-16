@@ -4,9 +4,10 @@
 # depends	: glibc xz zlib
 
 name=kmod
-version=25
+version=26
 release=1
 source=(https://www.kernel.org/pub/linux/utils/kernel/$name/$name-$version.tar.xz)
+md5sum=(1129c243199bdd7db01b55a61aa19601)
 
 build() {
 	cd $name-$version
@@ -27,4 +28,3 @@ build() {
 
 	ln -sfv kmod $PKG/bin/lsmod
 }
-md5sum=(34f325cab568f842fdde4f8b2182f220)
