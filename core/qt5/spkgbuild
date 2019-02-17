@@ -1,20 +1,22 @@
 # description	: Cross-platform application framework that is widely used for developing application
 # depends	: sqlite ca-certificates dbus harfbuzz glib icu jasper libjpeg-turbo libmng libpng libinput
 # depends	: libxrender libsm libxi libtiff libxkbcommon mesa mtdev openssl-1.0 pcre2 wayland
-# depends	: xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm alsa-lib python2
+# depends	: xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm alsa-lib python3
 # depends	: gst-plugins-base cups
 
 name=qt5
-version=5.12.0
+version=5.12.1
 release=1
 source=(https://download.qt.io/archive/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz)
-md5sum=(af569de3eb42da4457b0897e5759dc91)
+md5sum=(6a37466c8c40e87d4a19c3f286ec2542)
 
 build() {
 	cd qt-everywhere-src-$version
 	   
 	QT5PREFIX=/usr
 	QT5BINDIR=$QT5PREFIX/lib/qt5/bin
+
+	find . -name "*.pr[io]" | xargs sed -i 's/python/&3/'
 
 	./configure -prefix         $QT5PREFIX \
 	            -sysconfdir     /etc/xdg   \
