@@ -4,9 +4,10 @@
 # depends	: yasm which
 
 name=libvpx
-version=1.7.0
+version=1.8.0
 release=1
 source=(https://github.com/webmproject/libvpx/archive/v$version/libvpx-v$version.tar.gz)
+md5sum=(49cb591325f44a3459b040112e3b82e7)
 
 build() {
 	cd $name-$version
@@ -22,5 +23,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(193346f9aec0726145e51db732417cd2)
