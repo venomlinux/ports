@@ -4,11 +4,15 @@
 name=vlc
 version=3.0.6
 release=1
-source=(https://download.videolan.org/$name/$version/$name-$version.tar.xz)
-md5sum=(4ff71d262e070fd19f86a1c3542c7b4e)
+source=(https://download.videolan.org/$name/$version/$name-$version.tar.xz
+	fix-build-with-libvpx-1.8.0.patch)
+md5sum=(4ff71d262e070fd19f86a1c3542c7b4e
+	228eee1d2d5af5cb703a696ab90dcc92)
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i $SRC/fix-build-with-libvpx-1.8.0.patch
 
 	# This command allows building with the current version of Lua-5.3.4
 	sed -i '/vlc_demux.h/a #define LUA_COMPAT_APIINTCASTS' modules/lua/vlc.h
