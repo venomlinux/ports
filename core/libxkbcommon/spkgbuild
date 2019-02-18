@@ -4,15 +4,16 @@
 # depends	: xkeyboard-config libxcb
 
 name=libxkbcommon
-version=0.8.2
+version=0.8.3
 release=1
 source=(https://xkbcommon.org/download/$name-$version.tar.xz)
-md5sum=(5f7f8533f907ebcfb1cf8dceb9501264)
+md5sum=(8225a206e00c4146d2e06f5e688b28e7)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr \
+	./configure \
+		--prefix=/usr \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--disable-static
