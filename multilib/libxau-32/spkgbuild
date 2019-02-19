@@ -4,9 +4,10 @@
 # depends	: libxau
 
 name=libxau-32
-version=1.0.8
+version=1.0.9
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXau-$version.tar.bz2)
+md5sum=(c5f16288f2da9f071b29111d68797480)
 
 build() {
 	cd libXau-$version
@@ -26,5 +27,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(685f8abbffa6d145c0f930f00703b21b)
