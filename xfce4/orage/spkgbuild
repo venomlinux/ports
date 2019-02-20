@@ -6,6 +6,8 @@ version=4.12.1
 release=1
 source=(http://archive.xfce.org/src/apps/$name/${version%.*}/$name-$version.tar.bz2
 	libical3.patch)
+md5sum=(2b7f5d38cb5c6edbcc65d0f52a742e46
+	46a029d1007c1d9f7fb854f77cc76255)
 
 build() {
 	cd $name-$version
@@ -17,10 +19,10 @@ build() {
 		--libexecdir=/usr/lib \
 		--localstatedir=/var \
 		--enable-libical \
-		--disable-debug
+		--disable-debug \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(2b7f5d38cb5c6edbcc65d0f52a742e46
-46a029d1007c1d9f7fb854f77cc76255)
+	rm -r $PKG/usr/share/locale
+}

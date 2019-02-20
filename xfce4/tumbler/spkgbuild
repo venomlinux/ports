@@ -8,12 +8,14 @@ version=0.2.3
 release=1
 source=(http://archive.xfce.org/src/xfce/$name/${version%.*}/$name-$version.tar.bz2)
 
+md5sum=(101f0f38b86004c3811d107173fec6e5)
+
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --sysconfdir=/etc
+	./configure --prefix=/usr --sysconfdir=/etc --disable-nls
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(101f0f38b86004c3811d107173fec6e5)
+	rm -r $PKG/usr/share/{locale,gtk-doc}
+}

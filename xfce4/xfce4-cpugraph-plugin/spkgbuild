@@ -7,6 +7,7 @@ name=xfce4-cpugraph-plugin
 version=1.0.5
 release=1
 source=(http://archive.xfce.org/src/panel-plugins/$name/${version::3}/$name-$version.tar.bz2)
+md5sum=(f0ebfabb273adf69361b37a3fa4b7912)
 
 build() {
 	cd $name-$version
@@ -17,8 +18,10 @@ build() {
 		--libexecdir=/usr/lib \
 		--localstatedir=/var \
 		--disable-static \
-		--disable-debug
+		--disable-debug \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }
-md5sum=(f0ebfabb273adf69361b37a3fa4b7912)

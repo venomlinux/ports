@@ -17,7 +17,10 @@ build() {
 		--sysconfdir=/etc \
 		--libexecdir=/usr/lib/xfce4 \
 		--localstatedir=/var \
-		--disable-static
+		--disable-static \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }

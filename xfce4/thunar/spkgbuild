@@ -18,5 +18,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{locale,gtk-doc}
+	rm -r $PKG/usr/share/{locale,gtk-doc,doc} $PKG/usr/lib/systemd/
 }

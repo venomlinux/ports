@@ -10,7 +10,9 @@ md5sum=(803c9aabc2925dc97f96de125c52ba2e)
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --sysconfdir=/etc --enable-gtk3
+	./configure --prefix=/usr --sysconfdir=/etc --enable-gtk3 --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{locale,gtk-doc}
 }

@@ -22,4 +22,6 @@ build() {
 	popd
 	
 	DESTDIR=$PKG ninja -C build install
+
+	rm -r $PKG/usr/share/locale
 }

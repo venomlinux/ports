@@ -7,12 +7,14 @@ name=xfce4-power-manager
 version=1.6.1
 release=1
 source=(http://archive.xfce.org/src/xfce/xfce4-power-manager/${version::3}/$name-$version.tar.bz2)
+md5sum=(17f0e6464ad6b3bc6a657f595bf91430)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --sysconfdir=/etc
+	./configure --prefix=/usr --sysconfdir=/etc --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }
-md5sum=(17f0e6464ad6b3bc6a657f595bf91430)

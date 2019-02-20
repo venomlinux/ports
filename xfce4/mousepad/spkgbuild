@@ -12,7 +12,9 @@ md5sum=(fb85c23bcb096a46aee9ec22b4e4fdf5)
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --enable-keyfile-settings
+	./configure --prefix=/usr --enable-keyfile-settings --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }

@@ -18,7 +18,10 @@ build() {
 		--libexecdir=/usr/lib \
 		--localstatedir=/var \
 		--disable-static \
-		--disable-debug
+		--disable-debug \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }
