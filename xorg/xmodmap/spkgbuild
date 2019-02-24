@@ -4,9 +4,10 @@
 # depends	: libx11 util-macros
 
 name=xmodmap
-version=1.0.9
+version=1.0.10
 release=1
 source=(http://ftp.x.org/pub/individual/app/xmodmap-$version.tar.bz2)
+md5sum=(51f1d30a525e9903280ffeea2744b1f6)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(723f02d3a5f98450554556205f0a9497)
