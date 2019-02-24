@@ -4,9 +4,10 @@
 # depends	: libx11 libxmu util-macros
 
 name=xhost
-version=1.0.7
+version=1.0.8
 release=1
 source=(http://ftp.x.org/pub/individual/app/xhost-$version.tar.bz2)
+md5sum=(a48c72954ae6665e0616f6653636da8c)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(f5d490738b148cb7f2fe760f40f92516)
