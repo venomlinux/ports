@@ -1,18 +1,19 @@
---- Install	2016-12-13 14:48:26.230689954 +0500
-+++ Install	2016-12-13 14:50:55.988152391 +0500
-@@ -1,15 +1,8 @@
+diff -Naur vimix-gtk-themes-c6b15d0a94f9c7264e5d6d019c9296171e2ff907-ori/Install vimix-gtk-themes-c6b15d0a94f9c7264e5d6d019c9296171e2ff907/Install
+--- vimix-gtk-themes-c6b15d0a94f9c7264e5d6d019c9296171e2ff907-ori/Install	2019-02-25 01:39:27.000000000 +0800
++++ vimix-gtk-themes-c6b15d0a94f9c7264e5d6d019c9296171e2ff907/Install	2019-02-25 16:18:03.910000000 +0800
+@@ -1,15 +1,5 @@
  #!/bin/bash
-   # Copying files
  
 -ROOT_UID=0
 -DEST_DIR=
- 
- # Destination directory
+-
+-# Destination directory
 -if [ "$UID" -eq "$ROOT_UID" ]; then
 -  DEST_DIR="/usr/share/themes"
 -else
 -  DEST_DIR="$HOME/.themes"
 -fi
+-
+ REO_DIR=$(cd $(dirname $0) && pwd)
+ SRC_DIR=${REO_DIR}/src
  
- repodir=$(cd $(dirname $0) && pwd)
- srcdir=${repodir}/src
