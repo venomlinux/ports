@@ -32,4 +32,7 @@ build() {
 
 	install -d $PKG/etc/fonts/conf.avail
 	cp -r fontconfig/* $PKG/etc/fonts/conf.avail
+
+	# remove junks
+	rm -fr $PKG/opt/wps-office/office6/mui/zh_CN
 }
