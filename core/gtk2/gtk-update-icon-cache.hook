@@ -3,7 +3,12 @@
 # target	: ^usr/share/icons/[^/]*/$
 
 exechook() {
-	for theme_dir in /usr/share/icons/* ; do
-		/usr/bin/gtk-update-icon-cache -t -f ${theme_dir} 1> /dev/null 2> /dev/null &
+	for dir in /usr/share/icons/* ; do
+		if [[ -e $dir/index.theme ]]; then
+			gtk-update-icon-cache -q $dir &>/dev/null
+		else
+			rm -f $dir/icon-theme.cache
+			rmdir --ignore-fail-on-non-empty $dir
+		fi
 	done
 }
