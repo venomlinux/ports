@@ -1,22 +1,16 @@
 # description	: Fresh and simple personality icon theme
 
 name=vimix-icon-theme
-version=1.3
+version=20181214
 release=1
 options=(!strip)
-source=(https://github.com/vinceliuice/$name/archive/${name}_${version}.tar.gz)
+_commit=9665998cac6070d10d370f1c46579ad59cddb9eb
+source=($name-$_commit.tar.gz::https://github.com/vinceliuice/$name/archive/$_commit.tar.gz)
+md5sum=(ba0bf9417133336a08198da39a67abcc)
 
 build() {
-	install -d -m 755 "$PKG"/usr/share/icons/vimix
-	install -d -m 755 "$PKG"/usr/share/icons/paper-vimix
+	cd $name-$_commit
 
-	cd $SRC/${name}-${name}_${version}
-
-	cd $SRC/${name}-${name}_${version}/Vimix
-	cp -r . "$PKG"/usr/share/icons/vimix/
-	cd $SRC/${name}-${name}_${version}/Paper-Vimix
-	cp -r . "$PKG"/usr/share/icons/paper-vimix/
-
+	install -d -m 755 $PKG/usr/share/icons/
+	cp -a Vimix Paper-Vimix $PKG/usr/share/icons/
 }
-
-md5sum=(c84839060210199be3a2aa0da5092492)
