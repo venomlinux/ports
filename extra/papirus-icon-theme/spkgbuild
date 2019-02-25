@@ -2,13 +2,12 @@
 # depends	: gtk3
 
 name=papirus-icon-theme
-version=20171124
+version=20190203
 release=1
 source=($name-$version.tar.gz::https://github.com/PapirusDevelopmentTeam/$name/archive/$version.tar.gz)
+md5sum=(d3d4453a8f43a975a4e2ac40bc2e4d6c)
 
 build() {
 	cd $name-$version
 	make DESTDIR=$PKG install
 }
-
-md5sum=(725a9e62345ab91e0a9b1c35ceb8cf2a)
