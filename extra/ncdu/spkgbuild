@@ -4,9 +4,10 @@
 # depends	: ncurses
 
 name=ncdu
-version=1.13
+version=1.14
 release=1
 source=(http://dev.yorhel.nl/download/$name-$version.tar.gz)
+md5sum=(d26c0aa57728c19969c3c5036fa272a0)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(67239592ac41f42290f52ab89ff198be)
