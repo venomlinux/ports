@@ -1,0 +1,17 @@
+# description	: Linux kernel headers sanitized for use with musl libc
+# backup	: 
+# depends	: 
+# noextract	: 
+
+name=kernel-headers-musl
+version=3.12.6.6
+release=1
+options=()
+source=(https://github.com/sabotage-linux/kernel-headers/archive/v${version%.*}-${version##*.}.tar.gz)
+md5sum=(f0f6e9e440f83983ac268cf841dee6e2)
+
+build() {
+	cd kernel-headers-${version%.*}-${version##*.}
+	make ARCH=$(uname -m) prefix=/usr/lib/musl
+	make ARCH=$(uname -m) prefix=/usr/lib/musl DESTDIR=$PKG install
+}
