@@ -1,0 +1,16 @@
+# description	: Command-line JSON processor
+# depends	: oniguruma autoconf automake bison flex python2
+
+name=jq
+version=1.6
+release=1
+source=(https://github.com/stedolan/jq/releases/download/$name-$version/$name-$version.tar.gz)
+md5sum=(e68fbd6a992e36f1ac48c99bbf825d6b)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/doc
+}
