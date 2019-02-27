@@ -1,16 +1,18 @@
 # description	: GUI for managing Windows programs under linux
-# depends	: wine imagemagick7 xterm python2-wxpython3 cabextract unzip gnupg icoutils xdg-user-dirs gnu-netcat wget
+# depends	: wine imagemagick7 xterm python2-wxpython3 cabextract unzip gnupg icoutils xdg-user-dirs gnu-netcat wget jq
 
 name=playonlinux
-version=4.2.12
+version=4.3.4
 release=1
 source=(https://www.playonlinux.com/script_files/PlayOnLinux/${version/.0/}/PlayOnLinux_${version/.0/}.tar.gz)
-md5sum=(c4407d9e558a1eb6424cd024c91bd96f)
+md5sum=(8c021d54df68b4932487eb787f61d9d0)
 
 build() {
 	cd $name
 	sed -i "s/libexec/bin/g" Makefile
 	make PREFIX=/usr
 	make DESTDIR=$PKG install
-	rm -r $PKG/usr/share/locale
+	install -d $PKG/usr/share/playonlinux/lang
+	mv $PKG/usr/share/locale $PKG/usr/share/playonlinux/lang/locale
+	sed -i 's:/usr/share/locale:/usr/share/playonlinux/lang/locale:g' $PKG/usr/share/playonlinux/python/lib/lng.py
 }
