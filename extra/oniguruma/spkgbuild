@@ -1,0 +1,14 @@
+# description	: a regular expressions library
+
+name=oniguruma
+version=6.9.1
+release=1
+source=(https://github.com/kkos/oniguruma/releases/download/v$version/onig-$version.tar.gz)
+md5sum=(4e585b487dbf0b43286b3051392b088a)
+
+build() {
+	cd onig-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
