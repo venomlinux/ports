@@ -2,13 +2,13 @@
 # depends	: apr-util pcre openssl
 
 name=apache
-version=2.4.37
+version=2.4.38
 release=1
 source=(https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 	httpd-blfs_layout-1.patch
 	httpd.rc
 	$name.sysusers)
-md5sum=(6a36e742180ee74bff97b28eee90c3f7
+md5sum=(4a2b87ca55e42017d21f18724c560084
 	f24185eaa0cbcab3c0b07032584575d9
 	4aa473be24266e0d48be1143f22d02e8
 	0b1518b2d99a3486ecfba24eb5c68cda)
@@ -16,6 +16,7 @@ md5sum=(6a36e742180ee74bff97b28eee90c3f7
 build() {
 	cd httpd-$version
 
+	# Forces the apxs utility to use absolute pathnames for modules, when instructed to do so
 	patch -Np1 -i ../httpd-blfs_layout-1.patch
 
 	sed '/dir.*CFG_PREFIX/s@^@#@' -i support/apxs.in
