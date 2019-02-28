@@ -4,9 +4,10 @@
 # depends	: python2 python2-setuptools
 
 name=python2-markupsafe
-version=1.0
+version=1.1.1
 release=1
 source=(https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-$version.tar.gz)
+md5sum=(43fd756864fe42063068e092e220c57b)
 
 build() {
 	cd MarkupSafe-$version
@@ -14,5 +15,3 @@ build() {
 	python2 setup.py build
 	python2 setup.py install --root=$PKG --optimize=1
 }
-
-md5sum=(2fcedc9284d50e577b5192e8e3578355)
