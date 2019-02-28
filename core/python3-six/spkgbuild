@@ -2,14 +2,13 @@
 # depends	: python3
 
 name=python3-six
-version=1.11.0
+version=1.12.0
 release=1
 source=(https://pypi.io/packages/source/s/six/six-$version.tar.gz)
+md5sum=(9ae5d1feed8c0215f4ae4adcd9207fcb)
 
 build() {
 	cd six-$version
 	python3 setup.py build
 	python3 setup.py install --root=$PKG --optimize=1
 }
-
-md5sum=(d12789f9baf7e9fb2524c0c64f1773f8)
