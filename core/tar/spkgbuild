@@ -4,16 +4,13 @@
 # depends	: acl attr glibc
 
 name=tar
-version=1.31
-release=2
+version=1.32
+release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
-md5sum=(bc9a89da1185ceb2210de12552c43ce2)
+md5sum=(83e38700a80a26e30b2df054e69956e5)
 
 build() {
 	cd $name-$version
-
-	# Fix a bug introduced in tar-1.31
-	sed -i 's/abort.*/FALLTHROUGH;/' src/extract.c
 
 	FORCE_UNSAFE_CONFIGURE=1  \
 	./configure --prefix=/usr \
