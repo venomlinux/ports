@@ -2,10 +2,10 @@
 # depends	: elfutils
 
 name=elfutils-32
-version=0.175
+version=0.176
 release=1
 source=(https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2)
-md5sum=(9a02b0382b78cc2d515fb950275d4c02)
+md5sum=(077e4f49320cad82bf17a997068b1db9)
 
 build() {
 	cd elfutils-$version
@@ -13,12 +13,6 @@ build() {
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-
-	# fix a file to be compatible with gcc-8
-	#sed -e '/ALIGN_PRSTATUS)/{ 
-	#        s/__attribute/attribute_packed &/
-	#        s/packed, //}' \
-	#    -i backends/linux-core-note.c
 
 	./configure --prefix=/usr --libdir=/usr/lib32 --disable-textrelcheck
 	make
