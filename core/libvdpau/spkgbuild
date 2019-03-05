@@ -3,9 +3,10 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=libvdpau
-version=1.1.1
+version=1.2
 release=1
-source=(https://people.freedesktop.org/~aplattner/vdpau/$name-$version.tar.bz2)
+source=(https://gitlab.freedesktop.org/vdpau/libvdpau/uploads/14b620084c027d546fa0b3f083b800c6/libvdpau-$version.tar.bz2)
+md5sum=(7cca645c49d9cb11cba35516bfc21c1d)
 
 build() {
 	cd $name-$version
@@ -18,5 +19,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(2fa0b05a4f4d06791eec83bc9c854d14)
