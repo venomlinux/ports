@@ -4,9 +4,10 @@
 # depends	: freetype2 libfontenc util-macros xorgproto
 
 name=mkfontscale
-version=1.1.3
-release=2
+version=1.2.0
+release=1
 source=(http://ftp.x.org/pub/individual/app/mkfontscale-$version.tar.bz2)
+md5sum=(efd40fd15dc5fc97c7b50cffbc1e7663)
 
 build() {
 	cd $name-$version
@@ -18,6 +19,6 @@ build() {
 		--disable-static
 	make
 	make DESTDIR=$PKG install
-}
 
-md5sum=(987c438e79f5ddb84a9c5726a1610819)
+	rm $PKG/usr/bin/mkfontdir $PKG/usr/share/man/man1/mkfontdir.1
+}
