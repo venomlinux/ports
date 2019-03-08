@@ -4,15 +4,21 @@
 
 name=scratchpkg
 version=20190218
-release=1
+release=2
 _commit=a150749dcbd3bdd9c45e13d3fe6e0c97a4221d69
 source=($name-$_commit.tar.gz::https://github.com/emmett1/scratchpkg/archive/$_commit.tar.gz
 	repo)
 md5sum=(49935eea62505f6638a1dbc1127e55f1
-	0e983292f7cc365f63167a7fef7d1287)
+	8f7f38f6b1dbe348a510c365a2976bb2)
 
 build() {
 	cd $name-$_commit
 	DESTDIR=$PKG ./INSTALL.sh
+	if [ -f /etc/lsb-release ]; then
+		. /etc/lsb-release
+		if [ "$DISTRIB_RELEASE" != "Rolling" ]; then
+			sed -i "s:master:$DISTRIB_RELEASE:g" $SRC/repo
+		fi
+	fi
 	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
 }
