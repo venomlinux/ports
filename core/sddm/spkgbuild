@@ -1,0 +1,98 @@
+# description	: Lightweight display manager based upon Qt and QML
+# backup	: usr/share/sddm/scripts/Xsetup etc/pam.d/sddm etc/sddm.conf
+# depends	: cmake-extra-modules qt5 linux-pam upower consolekit2 libxcb
+
+name=sddm
+version=0.18.0
+release=1
+source=(https://github.com/sddm/sddm/releases/download/v$version/sddm-$version.tar.gz
+	$name.sysusers
+	rc.$name)
+md5sum=(f8656aa61020c727b6925225fa681996
+	155af66ac4faa89e9d06cb988f3eee52
+	7a6cd3c9168861bcb4073a1827c931e5)
+
+build() {
+	cd $name-$version
+
+	sed -e '/UPOWER_SERVICE)/ s:^://:' \
+	    -i src/daemon/PowerManager.cpp &&
+	
+	sed -e '/\$@$/s/exec/& ck-launch-session/' \
+	    -i data/scripts/Xsession
+
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib/sddm \
+	      -DCMAKE_BUILD_TYPE=Release \
+	      -DENABLE_JOURNALD=OFF \
+	      -DDBUS_CONFIG_FILENAME=sddm_org.freedesktop.DisplayManager.conf \
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+	install -dm755 $PKG/var/lib/sddm
+
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+
+	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
+
+	install -d $PKG/usr/lib/sddm/sddm.conf.d
+	$PKG/usr/bin/sddm --example-config > $PKG/etc/sddm.conf
+
+	# Unset InputMethod https://github.com/sddm/sddm/issues/952
+	sed -e "/^InputMethod/s/qtvirtualkeyboard//" -i $PKG/etc/sddm.conf
+
+	install -d $PKG/etc/pam.d/
+	cat > $PKG/etc/pam.d/sddm << "EOF"
+# Begin /etc/pam.d/sddm
+
+auth     requisite      pam_nologin.so
+auth     required       pam_env.so
+
+auth     required       pam_succeed_if.so uid >= 1000 quiet
+auth     include        system-auth
+
+account  include        system-account
+password include        system-password
+
+session  required       pam_limits.so
+session  include        system-session
+
+# End /etc/pam.d/sddm
+EOF
+
+cat > $PKG/etc/pam.d/sddm-autologin << "EOF"
+# Begin /etc/pam.d/sddm-autologin
+
+auth     requisite      pam_nologin.so
+auth     required       pam_env.so
+
+auth     required       pam_succeed_if.so uid >= 1000 quiet
+auth     required       pam_permit.so
+
+account  include        system-account
+
+password required       pam_deny.so
+
+session  required       pam_limits.so
+session  include        system-session
+
+# End /etc/pam.d/sddm-autologin
+EOF
+
+cat > $PKG/etc/pam.d/sddm-greeter << "EOF"
+# Begin /etc/pam.d/sddm-greeter
+
+auth     required       pam_env.so
+auth     required       pam_permit.so
+
+account  required       pam_permit.so
+password required       pam_deny.so
+session  required       pam_unix.so
+-session optional       pam_systemd.so
+
+# End /etc/pam.d/sddm-greeter
+EOF
+}
