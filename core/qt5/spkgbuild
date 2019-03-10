@@ -7,11 +7,15 @@
 name=qt5
 version=5.12.1
 release=1
-source=(https://download.qt.io/archive/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz)
-md5sum=(6a37466c8c40e87d4a19c3f286ec2542)
+source=(https://download.qt.io/archive/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz
+	fix-build-with-gcc-8.3.0.patch)
+md5sum=(6a37466c8c40e87d4a19c3f286ec2542
+	58b938f3e7c4ec617ec5e921c0abaf4a)
 
 build() {
 	cd qt-everywhere-src-$version
+
+	patch -d qtscript -p1 -i $SRC/fix-build-with-gcc-8.3.0.patch
 	   
 	QT5PREFIX=/usr
 	QT5BINDIR=$QT5PREFIX/lib/qt5/bin
