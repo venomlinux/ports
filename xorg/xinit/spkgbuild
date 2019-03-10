@@ -4,9 +4,10 @@
 # depends	: libx11 xauth xmodmap xrdb util-macros
 
 name=xinit
-version=1.4.0
-release=2
+version=1.4.1
+release=1
 source=(http://ftp.x.org/pub/individual/app/xinit-$version.tar.bz2)
+md5sum=(6d506ab2efc17a08e87778654e099d37)
 
 build() {
 	cd xinit-$version
@@ -23,5 +24,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(2da154b2f80ca9637b1a17b13af0880c)
