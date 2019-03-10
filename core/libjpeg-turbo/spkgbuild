@@ -5,7 +5,7 @@
 
 name=libjpeg-turbo
 version=2.0.2
-release=1
+release=2
 source=(https://downloads.sourceforge.net/$name/$name-$version.tar.gz)
 md5sum=(79f76fbfb0c6109631332762d10e16d2)
 
@@ -16,8 +16,9 @@ build() {
 	cd    build
 	
 	cmake -DCMAKE_INSTALL_PREFIX=/usr \
-	      -DCMAKE_BUILD_TYPE=RELEASE  \
-	      -DENABLE_STATIC=FALSE       \
+	      -DCMAKE_BUILD_TYPE=RELEASE \
+	      -DENABLE_STATIC=FALSE \
+	      -DWITH_JPEG8=1 \
 	      -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib  \
 	      ..
 	make
