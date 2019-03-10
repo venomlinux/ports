@@ -1,0 +1,15 @@
+# description	: Lightweight X11 desktop panel
+# depends	: python2 gtk2
+
+name=fbpanel
+version=7.0
+release=1
+source=($name-$version.tar.gz::https://github.com/aanatoly/fbpanel/archive/$version.tar.gz)
+md5sum=(8a15ac4e0f23a72b9d6be5151df712e5)
+
+build() {
+	cd $name-$version
+	./configure --libexecdir /usr/lib/fbpanel --prefix /usr --mandir /usr/share/man/man1
+	make
+	make DESTDIR=$PKG install
+}
