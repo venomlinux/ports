@@ -1,0 +1,20 @@
+# description	: A fast and secure web browser
+# depends	: curl desktop-file-utils gtk3 hicolor-icon-theme nss shared-mime-info alsa-lib
+
+name=opera
+version=58.0.3135.90
+release=1
+source=(https://get.geo.opera.com/pub/$name/desktop/$version/linux/$name-stable_${version}_amd64.deb)
+md5sum=(29000e4a2888826c2f5895e1bffff142)
+
+build() {
+	bsdtar -xf $name-stable_${version}_amd64.deb
+	tar xf data.tar.xz -C $PKG
+
+	rm -r $PKG/usr/share/{doc,lintian,menu}
+
+	mv $PKG/usr/lib/*-linux-gnu/opera $PKG/usr/lib
+	rm -r $PKG/usr/lib/*-linux-gnu
+
+	ln -sf /usr/lib/opera/opera $PKG/usr/bin/opera
+}
