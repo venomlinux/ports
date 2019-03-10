@@ -1,0 +1,15 @@
+# description	: Converts files between various character sets and usages
+
+name=recode
+version=3.7.1
+release=1
+source=(https://github.com/rrthomas/recode/releases/download/v$version/$name-$version.tar.gz)
+md5sum=(5a25c00b77c29c1e9912c5e7070fd38a)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-nls
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/info
+}
