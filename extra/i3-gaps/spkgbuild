@@ -1,0 +1,19 @@
+# description	: A fork of i3wm tiling window manager with more features, including gaps
+# backup	: etc/i3/config
+# depends	: 
+
+name=i3-gaps
+version=4.16.1
+release=1
+source=($name-$version.tar.gz::https://github.com/Airblader/i3/archive/$version.tar.gz)
+md5sum=(d9093a4d9c3e0856844696ffdb199b8b)
+
+build() {
+	cd i3-$version
+	autoreconf -fvi
+	mkdir build
+	cd build
+	../configure --prefix=/usr --sysconfdir=/etc --disable-docs
+	make
+	make DESTDIR=$PKG install
+}
