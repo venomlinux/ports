@@ -1,15 +1,12 @@
 # description	: Libraries for reading and writing GIFs as well as programs for converting and working with GIF files
-# noextract	: giflib-5.1.6.tar.gz
 
 name=giflib
-version=5.1.6
+version=5.1.7
 release=1
 source=(https://downloads.sourceforge.net/giflib/$name-$version.tar.gz)
-md5sum=(4ad967c8b1380d830f33dc28fd38d889)
+md5sum=(5739b3a75fff3fe7b9419f15bc040703)
 
 build() {
-	# bsdtar cant extract this tarball
-	tar -xf $name-$version.tar.gz
 	cd $name-$version
 	make
 	make PREFIX=$PKG/usr install
