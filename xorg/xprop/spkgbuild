@@ -4,9 +4,10 @@
 # depends	: libx11 util-macros
 
 name=xprop
-version=1.2.3
+version=1.2.4
 release=1
 source=(http://ftp.x.org/pub/individual/app/xprop-$version.tar.bz2)
+md5sum=(cc369c28383a5d7144e7197ee7d30bfa)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(4becb3ddc4674d741487189e4ce3d0b6)
