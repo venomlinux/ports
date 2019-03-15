@@ -4,9 +4,10 @@
 # depends	: libxfixes libxrender util-macros
 
 name=libxcursor
-version=1.1.15
+version=1.2.0
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXcursor-$version.tar.bz2)
+md5sum=(9b9be0e289130fb820aedf67705fc549)
 
 build() {
 	cd libXcursor-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(58fe3514e1e7135cf364101e714d1a14)
