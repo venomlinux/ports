@@ -4,9 +4,10 @@
 # depends	: xorgproto libxfixes pkg-config
 
 name=libxdamage
-version=1.1.4
+version=1.1.5
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXdamage-$version.tar.bz2)
+md5sum=(e3f554267a7a04b042dc1f6352bd6d99)
 
 build() {
 	cd libXdamage-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(0cf292de2a9fa2e9a939aefde68fd34f)
