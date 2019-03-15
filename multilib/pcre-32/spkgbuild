@@ -4,9 +4,10 @@
 # depends	: pcre bzip2-32 readline-32
 
 name=pcre-32
-version=8.42
+version=8.43
 release=1
 source=(ftp://ftp.pcre.org/pub/pcre/pcre-$version.tar.bz2)
+md5sum=(636222e79e392c3d95dcc545f24f98c4)
 
 build() {
 	cd pcre-$version
@@ -29,5 +30,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(085b6aa253e0f91cae70b3cdbe8c1ac2)
