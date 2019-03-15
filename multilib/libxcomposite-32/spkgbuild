@@ -4,9 +4,10 @@
 # depends	: libxcomposite
 
 name=libxcomposite-32
-version=0.4.4
+version=0.4.5
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXcomposite-$version.tar.bz2)
+md5sum=(3fa0841ea89024719b20cd702a9b54e0)
 
 build() {
 	cd libXcomposite-$version
@@ -26,5 +27,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(f7a218dcbf6f0848599c6c36fc65c51a)
