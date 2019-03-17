@@ -1,19 +1,25 @@
 # description	: Collection of GSettings schemas for settings shared by various components of a GNOME Desktop
 # homepage	: https://git.gnome.org/browse/gsettings-desktop-schemas
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: glib gobject-introspection
+# depends	: glib gobject-introspection meson
 
 name=gsettings-desktop-schemas
-version=3.28.1
+version=3.32.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
-md5sum=(83bb19d025f126fae495ab43a2f26f40)
+md5sum=(0c2d468a482c12594757442c983aa8ea)
 
 build() {
 	cd $name-$version
 
 	sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in
-	./configure --prefix=/usr --disable-nls
-	make
-	make DESTDIR=$PKG install
+
+	mkdir build
+	cd build
+
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
 }
