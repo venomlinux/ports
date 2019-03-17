@@ -2,15 +2,19 @@
 # depends	: glib pcre-32 libffi-32 util-linux-32 elfutils-32
 
 name=glib-32
-version=2.58.3
+version=2.60.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/glib/${version::4}/glib-$version.tar.xz
-	gio-querymodules-32.hook)
-md5sum=(8058c7bde846dcffe5fa453eca366d73
-	99239f1ffe9f716b8d19712fa8d7f61c)
+	gio-querymodules-32.hook
+	multilib.patch)
+md5sum=(7d36520dda58de65027abf5b4fb1241a
+	99239f1ffe9f716b8d19712fa8d7f61c
+	9d50b8009f43173571e25ca1edf0bbe6)
 
 build() {
 	cd glib-$version
+
+	patch -Np1 -i ../multilib.patch
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
@@ -22,7 +26,7 @@ build() {
 	meson --prefix=/usr   \
 	      --libdir=/usr/lib32 \
 	      -Dman=true      \
-	      -Dselinux=false \
+	      -Dselinux=disabled \
 	      ..
 	ninja
 	DESTDIR=$PWD/DESTDIR ninja install
