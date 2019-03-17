@@ -2,12 +2,12 @@
 # depends	: libffi pcre docbook-xsl meson libxslt
 
 name=glib
-version=2.58.3
+version=2.60.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz
 	gio-querymodules.hook
 	glib-compile-schemas.hook)
-md5sum=(8058c7bde846dcffe5fa453eca366d73
+md5sum=(7d36520dda58de65027abf5b4fb1241a
 	043a19def128eab5f75d7b6af44887cc
 	220a3581c34c44813fb31317523709a2)
 
@@ -19,7 +19,7 @@ build() {
 	
 	meson --prefix=/usr   \
 	      -Dman=true      \
-	      -Dselinux=false \
+	      -Dselinux=disabled \
 	      ..
 	ninja
 	DESTDIR=$PKG ninja install
