@@ -3,7 +3,7 @@
 
 name=llvm-32
 version=7.0.1
-release=1
+release=2
 source=(http://llvm.org/releases/$version/llvm-$version.src.tar.xz
 	http://llvm.org/releases/$version/cfe-$version.src.tar.xz
 	http://llvm.org/releases/$version/compiler-rt-$version.src.tar.xz)
@@ -30,6 +30,7 @@ build() {
 	      -DCMAKE_BUILD_TYPE=Release            \
 	      -DLLVM_BUILD_LLVM_DYLIB=ON            \
       	      -DLLVM_LINK_LLVM_DYLIB=ON             \
+	      -DLLVM_ENABLE_RTTI=ON                 \
 	      -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF" \
 	      -DLLVM_LIBDIR_SUFFIX=32               \
 	      -DCMAKE_C_FLAGS:STRING=-m32           \
