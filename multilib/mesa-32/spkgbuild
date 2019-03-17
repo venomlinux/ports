@@ -2,10 +2,10 @@
 # depends	: llvm-32 mesa libglvnd-32 wayland-32 libxdamage-32 libxfixes-32 libxxf86vm-32 libxv-32 libxvmc-32 libxrandr-32
 
 name=mesa-32
-version=18.3.4
+version=19.0.0
 release=1
 source=(https://mesa.freedesktop.org/archive/mesa-$version.tar.xz)
-md5sum=(6f2a5e01dd5cb91d05a9534f5a80c35d)
+md5sum=(d0d76cd8b00bc1308e37985d4a45d3c5)
 
 build() {
 	cd mesa-$version
@@ -14,23 +14,29 @@ build() {
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig:/usr/share/pkgconfig"
 	export LLVM_CONFIG="/usr/bin/llvm-config-32"
-        
-	GLL_DRV="r300,r600,svga,swrast,radeonsi,nouveau"
 
-	./configure LDFLAGS=-lLLVM                  \
-                    --prefix=/usr	            \
-		    --libdir=/usr/lib32		    \
-		    --host=i686-pc-linux-gnu	    \
-	            --sysconfdir=/etc               \
-	            --enable-texture-float          \
-        	    --enable-osmesa                 \
-        	    --enable-xa                     \
-        	    --enable-glx-tls                \
-	            --with-platforms="drm,x11,wayland"  \
-	            --with-gallium-drivers=$GLL_DRV \
-		    --enable-libglvnd
-	make
-	make DESTDIR=$PKG install
+	PLATFORMS="drm,x11,wayland"
+	GALLIUM_DRV="r300,r600,svga,swrast,radeonsi,nouveau"
+	DRI_DRIVERS="i915,i965,r100,r200,nouveau"
+
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr \
+	      --sysconfdir=/etc \
+	      --libdir=/usr/lib32 \
+	      -Dvalgrind=false \
+	      -Dglx=dri \
+	      -Dosmesa=gallium \
+	      -Dgallium-nine=true \
+	      -Ddri-drivers=$DRI_DRIVERS \
+	      -Dgallium-drivers=$GALLIUM_DRV \
+	      -Dplatforms=$PLATFORMS \
+	      -Dglvnd=true \
+	      -Dllvm=true \
+	      ..
+	ninja
+	DESTDIR=$PKG ninja install
 
 	# indirect rendering symlink
 	ln -s libGLX_mesa.so.0 $PKG/usr/lib32/libGLX_indirect.so.0
