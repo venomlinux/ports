@@ -1,0 +1,19 @@
+# description	: Python module that implements hyperfast and lightweight templating for the Python platform
+# homepage	: http://www.makotemplates.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: python3 python3-markupsafe python3-beaker
+
+name=python3-mako
+version=1.0.7
+release=1
+source=(https://files.pythonhosted.org/packages/source/M/Mako/Mako-$version.tar.gz)
+md5sum=(5836cc997b1b773ef389bf6629c30e65)
+
+build() {
+	cd Mako-$version
+
+	python3 setup.py install --root=$PKG --optimize=1
+
+	# conflict with python2-mako
+	rm $PKG/usr/bin/mako-render
+}
