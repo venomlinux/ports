@@ -2,10 +2,10 @@
 # depends	: glib gnutls gsettings-desktop-schemas ca-certificates p11-kit meson
 
 name=glib-networking
-version=2.58.0
+version=2.60.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
-md5sum=(75b14b7e73a67753be9ce307751c661d)
+md5sum=(24d8fee0b4a0bb1cbd184922a305db1b)
 
 build() {
 	cd $name-$version
@@ -19,5 +19,5 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 
-	rm -r $PKG/usr/share/locale
+	rm -r $PKG/usr/share
 }
