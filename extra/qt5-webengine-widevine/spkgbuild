@@ -2,15 +2,17 @@
 # depends	: qtwebengine
 
 name=qt5-webengine-widevine
-version=1.4.8.1008
+version=66.0.3359.181
 release=1
 options=(!strip)
-source=(https://dl.google.com/widevine-cdm/$version-linux-x64.zip
-	libwidevinecdmadapter.so)
-md5sum=(e0bb2f76efed599834e4cf52f3bdc19c
-	2d4b190600c784bf84df38ea0b3a7650)
+source=($name-$version.deb::https://www.slimjet.com/chrome/download-chrome.php?file=lnx%2Fchrome64_${version}.deb)
+md5sum=(7623fe70625e3b53b280a9a966445f23)
 
 build() {
+	bsdtar -xf $name-$version.deb
+	bsdtar -x --strip-components 4 -f data.tar.xz \
+		opt/google/chrome/libwidevinecdm.so \
+		opt/google/chrome/libwidevinecdmadapter.so
 	install -Dm644 libwidevinecdm.so -t "$PKG/usr/lib/qt5/plugins/ppapi/"
 	install -Dm644 libwidevinecdmadapter.so -t "$PKG/usr/lib/qt5/plugins/ppapi/"
 }
