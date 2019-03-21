@@ -10,7 +10,9 @@ build() {
 	cd $name-$version
 
 	./configure
-  make
+  	make
+	install -Dm 755 ccache -t "$PKG/usr/local/bin"
+
 	make DESTDIR=$PKG install
 
 
