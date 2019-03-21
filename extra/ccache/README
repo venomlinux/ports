@@ -1,0 +1,19 @@
+1- Configuration
+====================
+In order to get ccache working, you will need to prepend for each user( root, $USER...) /usr/local/bin to 
+your PATH which is declared and read through .profile or .bash_profile.
+you can achieve this by the following oneshot command( to be repeated each time you compile)
+export PATH=/usr/local/bin:$PATH.
+You can put the full PATH value in one of those files as well. This new value will be read at each connection. 
+
+2- Checking
+===================
+You may check your new setup by the following command
+which gcc # (cc, clang...)
+It should return at least this value for gcc
+/usr/local/bin/gcc
+3- Results
+====================
+The first compilation will result in a normal time duration, but if you compile the same input the next
+time, you will obtain a fairly reduced elapsed time duration.
+Tested: Full Linux kernel compiling 45 minutes. Second compilation 8 minutes. 
