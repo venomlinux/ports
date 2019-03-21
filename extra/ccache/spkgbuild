@@ -1,0 +1,25 @@
+# description	: Compiler cache that speeds up recompilation by caching previous compilations
+# depends	: zlib
+name=ccache
+version=3.6
+release=1
+source=(https://www.samba.org/ftp/ccache/ccache-$version.tar.gz)
+md5sum=(bd6fd69db28426baf22ec0acdd5c4b2a)
+
+build() {
+	cd $name-$version
+
+	./configure
+  make
+	make DESTDIR=$PKG install
+
+
+ cp ccache /usr/local/bin/
+    ln -s ccache /usr/local/bin/gcc
+    ln -s ccache /usr/local/bin/g++
+    ln -s ccache /usr/local/bin/cc
+    ln -s ccache /usr/local/bin/c++
+    ln -s ccache /usr/local/bin/clang
+    ln -s ccache /usr/local/bin/clang++
+
+}
