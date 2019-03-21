@@ -2,14 +2,13 @@
 # depends	: python2 libxml2
 
 name=python2-libxml2
-version=2.9.7
+version=2.9.9
 release=1
 source=(http://xmlsoft.org/sources/libxml2-$version.tar.gz)
+md5sum=(c04a5a0a042eaa157e8e8c9eabe76bd6)
 
 build() {
 	cd libxml2-$version/python
-	python setup.py build
-	python setup.py install --optimize=1 --root=$PKG
+	python2 setup.py build
+	python2 setup.py install --optimize=1 --root=$PKG
 }
-
-md5sum=(896608641a08b465098a40ddf51cefba)
