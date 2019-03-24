@@ -4,7 +4,7 @@
 
 name=networkmanager
 version=1.16.0
-release=1
+release=2
 source=(https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
 	$name.rc)
 md5sum=(10abacaafb162a67d2942adf03e7e9e4
@@ -22,6 +22,7 @@ build() {
 	CXXFLAGS+="-O2 -fPIC"            \
 	meson --prefix /usr              \
 	      --sysconfdir /etc          \
+	      --libexecdir lib           \
 	      --localstatedir /var       \
 	      -Djson_validation=false    \
 	      -Dlibaudit=no              \
@@ -43,7 +44,7 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 
-	rm -r $PKG/usr/share/doc
+	rm -r $PKG/usr/share/{doc,locale}
 
 mkdir -p $PKG/etc/NetworkManager
 cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"
