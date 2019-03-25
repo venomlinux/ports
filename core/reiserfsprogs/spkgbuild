@@ -1,0 +1,19 @@
+# description	: Reiserfs utilities
+# depends	: util-linux
+
+name=reiserfsprogs
+version=3.6.27
+release=1
+source=(https://www.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/v$version/$name-$version.tar.xz)
+md5sum=(90c139542725efc6da3a6b1709695395)
+
+build() {
+	cd $name-$version
+
+	sed -i '/parse_time.h/i #define _GNU_SOURCE' lib/parse_time.c
+	autoreconf -i
+
+	./configure --prefix=/usr --sbindir=/sbin
+	make
+	make DESTDIR=$PKG install
+}
