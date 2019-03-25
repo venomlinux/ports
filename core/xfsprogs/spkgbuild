@@ -1,0 +1,26 @@
+# description	: Administration and debugging tools for the XFS file system
+# depends	: util-linux readline
+
+name=xfsprogs
+version=4.20.0
+release=1
+source=(https://www.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/$name-$version.tar.xz)
+md5sum=(acd6640ecfc69a5328b61388093e9ba2)
+
+build() {
+	cd $name-$version
+
+	export OPTIMIZER=$CFLAGS
+
+	make DEBUG=-DNDEBUG     \
+	     INSTALL_USER=root  \
+	     INSTALL_GROUP=root \
+	     LOCAL_CONFIGURE_OPTIONS="--enable-readline"
+	make
+	make DIST_ROOT=$PKG install install-dev
+
+	rm $PKG/lib/libhandle.{a,so}
+	ln -sf ../../lib/libhandle.so.1 $PKG/usr/lib/libhandle.so
+
+	rm -r $PKG/usr/{share/{doc,locale},lib/xfsprogs}
+}
