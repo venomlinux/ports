@@ -2,11 +2,11 @@
 # depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent libvpx sqlite dbus-glib graphite2 harfbuzz unzip zip autoconf2.13 yasm rust gconf llvm cbindgen nodejs
 
 name=firefox
-version=65.0.2
+version=66.0.1
 release=1
 source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	firefox-system_graphite2_harfbuzz-1.patch)
-md5sum=(e4ddf50ea701995287461c2170ceca9b
+md5sum=(86d63a1460237412d787acaadf82cefe
 	81579c483fa7bfda10c55d20e5c7ca69)
 
 build() {
@@ -14,7 +14,7 @@ build() {
 
   	cat > mozconfig << "EOF"
 ac_add_options --with-mozilla-api-keyfile=$PWD/mozilla-key
-ac_add_options --with-google-api-keyfile=$PWD/google-key
+ac_add_options --with-google-location-service-api-keyfile=$PWD/google-key
 ac_add_options --disable-pulseaudio
 ac_add_options --enable-alsa
 ac_add_options --enable-system-sqlite
@@ -24,6 +24,7 @@ ac_add_options --with-system-webp
 ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
 ac_add_options --with-system-icu
+ac_add_options --disable-av1
 ac_add_options --enable-linker=gold
 ac_add_options --enable-official-branding
 ac_add_options --with-system-graphite2
