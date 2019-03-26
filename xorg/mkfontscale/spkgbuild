@@ -5,12 +5,21 @@
 
 name=mkfontscale
 version=1.2.0
-release=1
-source=(http://ftp.x.org/pub/individual/app/mkfontscale-$version.tar.bz2)
-md5sum=(efd40fd15dc5fc97c7b50cffbc1e7663)
+release=2
+source=(http://ftp.x.org/pub/individual/app/mkfontscale-$version.tar.bz2
+	mkfontdir.hook
+	29cab25240cf30f546671f265167a2eeadfd4c75.patch)
+md5sum=(efd40fd15dc5fc97c7b50cffbc1e7663
+	a4af0f2a1a0fddb83e1926ec03f6bfda
+	b63996d8ce70369aa179be183d004f02)
 
 build() {
 	cd $name-$version
+
+	# Revert "Use autoconf instead of sed to substitute @bindir@ in mkfontdir.in"
+	# https://gitlab.freedesktop.org/xorg/app/mkfontscale/issues/5
+	patch -p1 -i ../29cab25240cf30f546671f265167a2eeadfd4c75.patch
+	autoreconf -i
 
   	./configure \
 		--prefix=/usr \
@@ -20,5 +29,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm $PKG/usr/bin/mkfontdir $PKG/usr/share/man/man1/mkfontdir.1
+	install -Dm644 $SRC/mkfontdir.hook $PKG/etc/hooks/mkfontdir.hook
 }
