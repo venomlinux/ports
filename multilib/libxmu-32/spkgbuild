@@ -1,12 +1,13 @@
 # description	: X11 miscellaneous micro-utility library
 # homepage	: http://xorg.freedesktop.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: libxmu
+# depends	: libxmu libxt-32
 
 name=libxmu-32
-version=1.1.2
+version=1.1.3
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXmu-$version.tar.bz2)
+md5sum=(ac774cff8b493f566088a255dbf91201)
 
 build() {
 	cd libXmu-$version
@@ -26,5 +27,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(41d92ab627dfa06568076043f3e089e4)
