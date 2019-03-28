@@ -4,9 +4,10 @@
 # depends	: libxvmc
 
 name=libxvmc-32
-version=1.0.10
+version=1.0.11
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXvMC-$version.tar.bz2)
+md5sum=(707175185a2e0490b8173686c657324f)
 
 build() {
 	cd libXvMC-$version
@@ -26,5 +27,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(4cbe1c1def7a5e1b0ed5fce8e512f4c6)
