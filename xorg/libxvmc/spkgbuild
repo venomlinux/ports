@@ -4,9 +4,10 @@
 # depends	: libxv pkg-config
 
 name=libxvmc
-version=1.0.10
+version=1.0.11
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXvMC-$version.tar.bz2)
+md5sum=(707175185a2e0490b8173686c657324f)
 
 build() {
 	cd libXvMC-$version
@@ -20,5 +21,3 @@ build() {
 	make DESTDIR=$PKG install
 	rm -r $PKG/usr/share
 }
-
-md5sum=(4cbe1c1def7a5e1b0ed5fce8e512f4c6)
