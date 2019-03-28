@@ -4,9 +4,10 @@
 # depends	: libxft
 
 name=libxft-32
-version=2.3.2
+version=2.3.3
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXft-$version.tar.bz2)
+md5sum=(4a433c24627b4ff60a4dd403a0990796)
 
 build() {
 	cd libXft-$version
@@ -26,5 +27,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(331b3a2a3a1a78b5b44cfbd43f86fcfe)
