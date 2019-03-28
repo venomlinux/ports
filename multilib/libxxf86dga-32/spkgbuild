@@ -4,9 +4,10 @@
 # depends	: libxxf86dga
 
 name=libxxf86dga-32
-version=1.1.4
+version=1.1.5
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXxf86dga-$version.tar.bz2)
+md5sum=(0ddeafc13b33086357cfa96fae41ee8e)
 
 build() {
 	cd libXxf86dga-$version
@@ -26,5 +27,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(d7dd9b9df336b7dd4028b6b56542ff2c)
