@@ -4,9 +4,10 @@
 # depends	: libxdmcp
 
 name=libxdmcp-32
-version=1.1.2
+version=1.1.3
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXdmcp-$version.tar.bz2)
+md5sum=(115c5c12ecce0e749cd91d999a5fd160)
 
 build() {
 	cd libXdmcp-$version
@@ -26,5 +27,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(18aa5c1279b01f9d18e3299969665b2e)
