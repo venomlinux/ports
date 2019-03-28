@@ -3,9 +3,10 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=xtrans-32
-version=1.3.5
+version=1.4.0
 release=1
 source=(http://ftp.x.org/pub/individual/lib/xtrans-$version.tar.bz2)
+md5sum=(ce2fb8100c6647ee81451ebe388b17ad)
 
 build() {
 	cd xtrans-$version
@@ -27,5 +28,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(c5ba432dd1514d858053ffe9f4737dd8)
