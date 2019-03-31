@@ -1,0 +1,17 @@
+# description	: A script that automates pasting to a number of pastebin services
+# depends	: wget
+
+name=wgetpaste
+version=2.28
+release=1
+source=(http://wgetpaste.zlin.dk/$name-$version.tar.bz2
+	http://wgetpaste.zlin.dk/$name.example)
+md5sum=(97feb02d95c1e6d5aebee68aacb5ede6
+	77392c788659cc648a59df2d239ebe19)
+
+build() {
+	cd $name-$version
+	install -Dm755 $name $PKG/usr/bin/$name
+	install -Dm644 _$name $PKG/usr/share/zsh/site-functions/_$name
+	install -Dm644 $SRC/$name.example $PKG/usr/share/$name/$name.example
+}
