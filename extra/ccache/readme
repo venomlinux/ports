@@ -1,0 +1,48 @@
+1- Configuration
+====================
+In order to get ccache working, you will need to prepend for each user( root, $USER...) /usr/lib/ccache to 
+your PATH which is declared and read through .profile or .bash_profile.
+You can achieve this by the following oneshot command (to be repeated each time you compile)
+export PATH=/usr/lib/ccache:$PATH.
+You can put the full PATH value in one of those files as well. This new value will be read at each connection. 
+
+2- Checking
+===================
+You may check your new setup by the following command
+which gcc # (cc, clang...)
+It should return at least this value for gcc
+/usr/lib/ccache/gcc
+
+3- Results
+====================
+The first compilation will result in a normal time duration, but if you compile the same input the next
+time, you will obtain a fairly reduced elapsed time duration.
+Tested: Full Linux kernel compiling 45 minutes. Second compilation 8 minutes.
+
+4- Help functions
+====================
+
+Usage:
+    ccache [options]
+    ccache compiler [compiler options]
+    compiler [compiler options]          (via symbolic link)
+
+Options:
+    -c, --cleanup         delete old files and recalculate size counters
+                          (normally not needed as this is done automatically)
+    -C, --clear           clear the cache completely (except configuration)
+    -F, --max-files=N     set maximum number of files in cache to N (use 0 for
+                          no limit)
+    -k, --get-config=K    get the value of the configuration key K
+    -M, --max-size=SIZE   set maximum size of cache to SIZE (use 0 for no
+                          limit); available suffixes: k, M, G, T (decimal) and
+                          Ki, Mi, Gi, Ti (binary); default suffix: G
+    -o, --set-config=K=V  set configuration key K to value V
+    -p, --print-config    print current configuration options
+    -s, --show-stats      show statistics summary
+    -z, --zero-stats      zero statistics counters
+
+    -h, --help            print this help text
+    -V, --version         print version and copyright information
+
+See also <https://ccache.samba.org>.
