@@ -1,5 +1,5 @@
 # description	: Display graphical dialog boxes from shell scripts
-# depends	: webkitgtk libnotify itstool gnome-common
+# depends	: webkitgtk libnotify itstool gnome-common yelp-tools
 
 name=zenity
 version=3.32.0
@@ -9,8 +9,8 @@ md5sum=(f951b9e48932b0d277709cce1f92de83)
 
 build() {
 	cd $name-ZENITY_${version//./_}
-	./autogen.sh --prefix=/usr
+	NOCONFIGURE=1 ./autogen.sh
+	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-nls
 	make
 	make DESTDIR=$PKG install
-	rm -r $PKG/usr/share/locale
 }
