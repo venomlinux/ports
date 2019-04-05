@@ -23,4 +23,7 @@ build() {
 	# blacklist conflict module
 	install -d $PKG/etc/modprobe.d
 	echo "blacklist nouveau" > $PKG/etc/modprobe.d/nvidia.conf
+
+	# compress modules
+	find $PKG -name '*.ko' -exec xz -T1 {} +
 }
