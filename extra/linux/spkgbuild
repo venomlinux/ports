@@ -2,15 +2,15 @@
 # depends	: elfutils mkinitramfs openssl
 
 name=linux
-version=4.19.19
+version=4.19.33
 release=1
 options=(!strip)
 source=(https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
 	config-$version
 	linux.hook)
-md5sum=(e6a678e1880ed366a860f537d82be247
-	0ed7af83864b75ba4d0c1f3d04d199f1
-	97890691a1f8f1f7fb58e48c3140fdaa)
+md5sum=(233fa11f1e0c53ac43895d3f187fee89
+	0580f74abe3c800f77b781fba14b5df6
+	ccc64813e52134152bc7c388e995000b)
 
 build() {
 	cd linux-$version
@@ -32,6 +32,10 @@ build() {
 	mkdir -p $PKG/boot
 
 	cp  arch/x86/boot/bzImage $PKG/boot/vmlinuz-venom
+
+	mkdir -p $PKG/lib/modules/extramodules
+	ln -s ../extramodules $PKG/lib/modules/$kernver/extramodules
+	echo $kernver > $PKG/lib/modules/extramodules/kernelversion
 
 	make clean
 	make prepare
