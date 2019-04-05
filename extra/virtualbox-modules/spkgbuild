@@ -4,7 +4,7 @@
 
 name=virtualbox-modules
 version=5.2.26
-release=1
+release=2
 _name=Oracle_VM_VirtualBox_Extension_Pack
 _release=128414
 
@@ -13,12 +13,21 @@ md5sum=(26b700c0c6260828226d7ab1432b4750)
 
 build() {
 	sh VirtualBox-${version}-${_release}-Linux_amd64.run --keep --noexec --target $PWD
-	tar xf VirtualBox.tar.bz2 src/vboxhost/
+	tar xf VirtualBox.tar.bz2 src/vboxhost/	
+
+	if [ -f /lib/modules/extramodules/kernelversion ]; then
+		kernver=$(cat /lib/modules/extramodules/kernelversion)
+	else
+		kernver=$(uname -r)
+	fi
+
 	cd src/vboxhost/
-	make	
+	KERN_VER=$kernver make
+
 	for i in *.ko; do
-	    install -Dm0644 $i $PKG/lib/modules/$(uname -r)/extra/$i
+	    install -Dm0644 $i $PKG/lib/modules/extramodules/$i
 	done
+
 	install -d $PKG/etc/modules.d/
 	echo "# Load virtualbox modules at startup" > $PKG/etc/modules.d/virtualbox.conf
 	echo "vboxdrv" >> $PKG/etc/modules.d/virtualbox.conf
