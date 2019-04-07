@@ -2,9 +2,10 @@
 # depends	: curl
 
 name=httpup
-version=0.4.0m
-release=2
+version=0.5.0
+release=1
 source=(https://crux.nu/files/$name-$version.tar.xz)
+md5sum=(7722efec1a6241b194b6cd5d1fbbefe4)
 
 build() {
 	cd $name-$version
@@ -12,4 +13,3 @@ build() {
 	make
 	make DESTDIR=$PKG prefix=/usr mandir=/usr/share/man install
 }
-md5sum=(b43a58d4e1fab4f16d2ad41ace9d9285)
