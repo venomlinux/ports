@@ -2,13 +2,13 @@
 # depends	: nettle ca-certificates libtasn1 p11-kit libunistring
 
 name=gnutls
-version=3.6.7
+version=3.6.7.1
 release=1
-source=(ftp://ftp.gnutls.org/gcrypt/$name/v${version%.*}/$name-${version}.tar.xz)
-md5sum=(c4ac669c500df939d4fbfea722367929)
+source=(ftp://ftp.gnutls.org/gcrypt/$name/v${version::3}/$name-${version}.tar.xz)
+md5sum=(92a8049e618afa60e2c852da1884c457)
 
 build() {
-	cd $name-$version
+	cd $name-${version::5}
 
 	./configure --prefix=/usr \
 		    --with-default-trust-store-pkcs11="pkcs11:" \
