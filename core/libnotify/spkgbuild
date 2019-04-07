@@ -4,18 +4,20 @@
 # depends	: gtk3 gobject-introspection
 
 name=libnotify
-version=0.7.7
+version=0.7.8
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::3}/$name-$version.tar.xz)
+md5sum=(babb4b07b5f21bef42a386d3d7019599)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --disable-static
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+	cd    build
 
-	rm -r $PKG/usr/share/gtk-doc
+	meson --prefix=/usr \
+	      -Dgtk_doc=false \
+	      -Ddocbook_docs=disabled
+	ninja
+	DESTDIR=$PKG ninja install
 }
-
-md5sum=(e9d911f6a22435e0b922f2fe71212b59)
