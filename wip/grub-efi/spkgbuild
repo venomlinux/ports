@@ -1,0 +1,39 @@
+# description	: The GRand Unified Bootloader (EFI)
+# depends	: grub
+
+name=grub-efi
+version=2.02
+release=1
+source=(https://ftp.gnu.org/gnu/grub/grub-$version.tar.xz
+	https://ftp.gnu.org/gnu/unifont/unifont-11.0.03/unifont-11.0.03.bdf.gz
+	relocation.patch)
+md5sum=(8a4a2a95aac551fb0fba860ceabfa1d3
+	ba1d75adac17fd5dabac0d52fc13b3eb
+	d1ae83c2c43709535c60e5f30d7aab44)
+
+build() {
+	cd grub-$version
+	patch -Np1 -i $SRC/relocation.patch
+	gunzip $SRC/unifont-11.0.03.bdf.gz
+	cp $SRC/unifont-11.0.03.bdf unifont.bdf
+	./autogen.sh
+	./configure --prefix=/usr  \
+            --sbindir=/sbin        \
+            --sysconfdir=/etc      \
+            --disable-efiemu       \
+            --enable-grub-mkfont   \
+            --with-platform=efi    \
+            --target=x86_64        \
+            --program-prefix=""    \
+	    --program-suffix="-efi" \
+            --with-bootdir="/boot" \
+            --with-grubdir="grub-efi" \
+            --disable-werror \
+	    --disable-nls
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/info
+	rm $PKG/etc/grub.d/README
+	mv $PKG/etc/bash_completion.d/grub{,-efi}
+	mv $PKG/usr/share/grub/grub{,-efi}-mkconfig_lib
+}
