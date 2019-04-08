@@ -1,0 +1,15 @@
+# description	: Manipulate efi boot managers
+# depends	: efivar pciutils
+
+name=efibootmgr
+version=16
+release=1
+source=(https://github.com/rhboot/efibootmgr/releases/download/$version/efibootmgr-$version.tar.bz2)
+md5sum=(ab7cf46774fda951a0e8a40beb65a90e)
+
+build() {
+	cd $name-$version
+	EFIDIR=/boot/efi make
+	install -D src/efibootmgr $PKG/usr/sbin/efibootmgr
+	install -D src/efibootmgr.8 $PKG/usr/share/man/man8/efibootmgr.8
+}
