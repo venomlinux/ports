@@ -53,8 +53,9 @@ EOF
 	sed -e 's/checkImpl/checkFFImpl/g' -i js/src/vm/JSContext*.h
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
 	export MOZBUILD_STATE_PATH=${PWD}/mozbuild
-	./mach build
-	DESTDIR=$PKG ./mach install
+
+	SHELL=/bin/sh ./mach build
+	SHELL=/bin/sh DESTDIR=$PKG ./mach install
 
 	mkdir -pv    $PKG/usr/lib/mozilla/plugins
 	ln    -sfv   ../../mozilla/plugins $PKG/usr/lib/$name/browser
