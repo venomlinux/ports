@@ -2,13 +2,13 @@
 # depends	: gnutls gmp-32 nettle-32 libtasn1-32 p11-kit-32
 
 name=gnutls-32
-version=3.6.7
+version=3.6.7.1
 release=1
-source=(ftp://ftp.gnutls.org/gcrypt/gnutls/v${version%.*}/gnutls-${version}.tar.xz)
-md5sum=(c4ac669c500df939d4fbfea722367929)
+source=(ftp://ftp.gnutls.org/gcrypt/gnutls/v${version::3}/gnutls-${version}.tar.xz)
+md5sum=(92a8049e618afa60e2c852da1884c457)
 
 build() {
-	cd gnutls-$version
+	cd gnutls-${version::5}
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
