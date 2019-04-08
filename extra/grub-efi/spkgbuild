@@ -16,7 +16,7 @@ build() {
 	patch -Np1 -i $SRC/relocation.patch
 	gunzip $SRC/unifont-11.0.03.bdf.gz
 	cp $SRC/unifont-11.0.03.bdf unifont.bdf
-	./autogen.sh
+	#./autogen.sh
 	./configure --prefix=/usr  \
             --sbindir=/sbin        \
             --sysconfdir=/etc      \
