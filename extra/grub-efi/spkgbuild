@@ -3,7 +3,7 @@
 
 name=grub-efi
 version=2.02
-release=3
+release=4
 source=(https://ftp.gnu.org/gnu/grub/grub-$version.tar.xz
 	https://ftp.gnu.org/gnu/unifont/unifont-11.0.03/unifont-11.0.03.bdf.gz
 	relocation.patch)
@@ -31,6 +31,6 @@ build() {
 	    --disable-nls
 	make
 	make DESTDIR=$PKG install
-	rm -r $PKG/usr/share/info $PKG/etc/
-	mv $PKG/usr/share/grub/grub{,-efi}-mkconfig_lib
+	rm -r $PKG/usr/share/info $PKG/etc/ $PKG/usr/bin $PKG/sbin
+	rm $PKG/usr/share/grub/grub-mkconfig_lib
 }
