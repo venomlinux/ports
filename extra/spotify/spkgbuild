@@ -23,10 +23,14 @@ build() {
 			$PKG/usr/share/icons/hicolor/${size}x${size}/apps/spotify.png
 	done
 
-	chmod -R go-w $PKG/usr
+	mkdir -p $PKG/opt
+	mv $PKG/usr/share/spotify $PKG/opt
+	ln -sf /opt/spotify/spotify $PKG/usr/bin/spotify
+
+	chmod -R go-w $PKG
 
 	# Bin Script
-	rm $PKG/usr/bin/spotify
-	install -Dm755 $SRC/spotify $PKG/usr/bin/spotify
+	#rm $PKG/usr/bin/spotify
+	#install -Dm755 $SRC/spotify $PKG/usr/bin/spotify
 	rm -r $PKG/usr/share/doc
 }
