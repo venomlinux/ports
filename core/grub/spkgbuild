@@ -5,14 +5,18 @@
 
 name=grub
 version=2.02
-release=4
+release=5
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
-	grub.default)
+	grub.default
+	relocation.patch)
 md5sum=(8a4a2a95aac551fb0fba860ceabfa1d3
-	b4a4d287513091e7e66eca5853101a93)
+	b4a4d287513091e7e66eca5853101a93
+	d1ae83c2c43709535c60e5f30d7aab44)
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i $SRC/relocation.patch
 
 	# fix os name
 	sed 's|GNU/Linux|Linux|' -i "util/grub.d/10_linux.in"
