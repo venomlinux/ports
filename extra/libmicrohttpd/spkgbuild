@@ -1,0 +1,20 @@
+# description	: A library for creating an embedded HTTP server
+# backup	: 
+# depends	: 
+# noextract	: 
+
+name=libmicrohttpd
+version=0.9.63
+release=1
+options=()
+source=(ftp://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+md5sum=(1c10de049608fca46941cbc790e3ab00)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		    --disable-static 
+	make
+	make DESTDIR=$PKG install
+	rm -rf $PKG/usr/share/info
+}
