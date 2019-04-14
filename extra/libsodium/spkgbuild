@@ -1,0 +1,18 @@
+# description	: A modern, portable, easy to use crypto library
+# backup	: 
+# depends	: 
+# noextract	: 
+
+name=libsodium
+version=1.0.17
+release=1
+options=()
+source=(https://github.com/jedisct1/libsodium/releases/download/$version/$name-$version.tar.gz)
+md5sum=(0f71e2680187a1558b5461e6879342c5)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

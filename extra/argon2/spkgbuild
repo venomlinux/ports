@@ -1,0 +1,19 @@
+# description	: The password hash Argon2
+# backup	: 
+# depends	: 
+# noextract	: 
+
+name=argon2
+version=20171227
+release=1
+options=()
+source=(https://github.com/P-H-C/phc-winner-argon2/archive/$version/phc-winner-argon2-$version.tar.gz libargon2.pc)
+md5sum=(7d0a85aa3fa02a5962ff751a6e2078c8
+189772ae79eb6856ba02fe9dd52ed440)
+
+build() {
+	cd phc-winner-$name-$version
+	make
+	make DESTDIR=$PKG install
+	install -D -m0644 libargon2.pc $PKG/usr/lib/pkgconfig/libargon2.pc
+}

@@ -1,0 +1,26 @@
+# description	: KeePass Cross-Platform Community Edition
+# backup	: 
+# depends	: qt5 qrencode libgcrypt  libgpg-error llvm argon2 libsodium libmicrohttpd
+# noextract	: 
+
+name=keepassxc
+version=2.4.1
+release=1
+options=()
+source=(https://github.com/keepassxreboot/keepassxc/releases/download/$version/$name-$version-src.tar.xz)
+md5sum=(5ca1a374c3250ad8965cdbd5b2db5962)
+
+build() {
+	cd $name-$version
+	 mkdir build && cd build
+  	 cmake -DCMAKE_INSTALL_PREFIX=/usr \
+    	       -DCMAKE_INSTALL_BINDIR=/usr/bin \
+    	       -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+    	       -DCMAKE_BUILD_TYPE=Release \
+    	       -DWITH_XC_ALL=OFF \
+	       -DWITH_XC_YUBIKEY=OFF \
+	       ..
+	make
+	make DESTDIR=$PKG install
+	 rm -fr $PKG/usr/share/keepassxc/translations
+}

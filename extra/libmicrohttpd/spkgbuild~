@@ -1,0 +1,18 @@
+# description	: 
+# backup	: 
+# depends	: 
+# noextract	: 
+
+name=libmicrohttpd
+version=
+release=1
+options=()
+source=()
+md5sum=()
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
