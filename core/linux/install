@@ -1,0 +1,21 @@
+post_install() {
+	if [ $(type -p mkinitramfs) ]; then
+		if [ -f /lib/modules/extramodules/kernelversion ]; then
+			kernver=$(cat /lib/modules/extramodules/kernelversion)
+		else
+			kernver=$(file /boot/vmlinuz-venom  | cut -d ' ' -f9)
+		fi
+		mkinitramfs -a -k $kernver -o /boot/initrd-venom.img
+		mkinitramfs -k $kernver -o /boot/initrd-venom-fallback.img
+	fi
+}
+
+post_upgrade() {
+	post_install
+}
+
+post_remove() {
+	rm -f /boot/initrd-venom.img
+	rm -f /boot/initrd-venom-fallback.img
+}
+
