@@ -1,12 +1,13 @@
 # description	: Modular initramfs image creation utility
 # depends	: cpio bash
+# backup	: etc/mkinitramfs.conf
 
 name=mkinitramfs
-version=20190105
+version=20190416
 release=1
-_commit=e6ffa3b73cbe126b2e2599805b1ee251b9b249a4
+_commit=834e73e002a4f232650d3a9fb2df817692931d2a
 source=($name-$_commit.tar.gz::https://github.com/emmett1/mkinitramfs/archive/$_commit.tar.gz)
-md5sum=(03a9e338916649e007e43794b4c059e4)
+md5sum=(bfce90e38c085ac1a9f2ab1aba52319a)
 
 build() {
 	cd $name-$_commit
