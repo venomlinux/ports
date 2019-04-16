@@ -5,18 +5,21 @@
 
 name=grub
 version=2.02
-release=5
+release=6
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	grub.default
-	relocation.patch)
+	relocation.patch
+	detect-venom-fallback-initrd.patch)
 md5sum=(8a4a2a95aac551fb0fba860ceabfa1d3
 	b4a4d287513091e7e66eca5853101a93
-	d1ae83c2c43709535c60e5f30d7aab44)
+	d1ae83c2c43709535c60e5f30d7aab44
+	a1ec4bfb2ae5116db789397aa796683a)
 
 build() {
 	cd $name-$version
 
 	patch -Np1 -i $SRC/relocation.patch
+	patch -Np1 -i $SRC/detect-venom-fallback-initrd.patch
 
 	# fix os name
 	sed 's|GNU/Linux|Linux|' -i "util/grub.d/10_linux.in"
