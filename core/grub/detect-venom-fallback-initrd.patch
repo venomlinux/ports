@@ -1,0 +1,31 @@
+diff -Naur grub-2.02-orig/util/grub.d/10_linux.in grub-2.02/util/grub.d/10_linux.in
+--- grub-2.02-orig/util/grub.d/10_linux.in	2017-04-24 17:15:50.000000000 +0800
++++ grub-2.02/util/grub.d/10_linux.in	2019-04-16 16:25:52.639999817 +0800
+@@ -83,6 +83,8 @@
+       case $type in
+ 	  recovery)
+ 	      title="$(gettext_printf "%s, with Linux %s (recovery mode)" "${os}" "${version}")" ;;
++	  fallback)
++	      title="$(gettext_printf "%s, with Linux %s (fallback initramfs)" "${os}" "${version}")" ;;
+ 	  *)
+ 	      title="$(gettext_printf "%s, with Linux %s" "${os}" "${version}")" ;;
+       esac
+@@ -240,6 +242,18 @@
+ 
+   linux_entry "${OS}" "${version}" advanced \
+               "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
++              
++  if test -e "${dirname}/initrd-${version}-fallback.img" ; then
++    initrd="initrd-${version}-fallback.img"
++
++    if test -n "${initrd}" ; then
++      gettext_printf "Found fallback initrd image(s) in %s:%s\n" "${dirname}" "${initrd_extra} ${initrd}" >&2
++    fi
++
++    linux_entry "${OS}" "${version}" fallback \
++                "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
++  fi
++  
+   if [ "x${GRUB_DISABLE_RECOVERY}" != "xtrue" ]; then
+     linux_entry "${OS}" "${version}" recovery \
+                 "single ${GRUB_CMDLINE_LINUX}"

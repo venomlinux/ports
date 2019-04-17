@@ -5,7 +5,8 @@ post_install() {
 		else
 			kernver=$(file /boot/vmlinuz-venom  | cut -d ' ' -f9)
 		fi
-		mkinitramfs -k $kernver -o /boot/initrd-venom.img
+		mkinitramfs -a -k $kernver -o /boot/initrd-venom.img
+		mkinitramfs -k $kernver -o /boot/initrd-venom-fallback.img
 	fi
 }
 
@@ -15,5 +16,6 @@ post_upgrade() {
 
 post_remove() {
 	rm -f /boot/initrd-venom.img
+	rm -f /boot/initrd-venom-fallback.img
 }
 
