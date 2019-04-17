@@ -76,5 +76,6 @@ build() {
 
 	# exclude library for revdep
 	mkdir -p $PKG/etc/revdep.d/
-	echo "/opt/VirtualBox/VBoxPython2_6.so" > $PKG/etc/revdep.d/$name.conf
+	echo VBoxRT.so > $PKG/etc/revdep.d/$name.conf
+	echo libpython2.6.so.1.0 >> $PKG/etc/revdep.d/$name.conf
 }
