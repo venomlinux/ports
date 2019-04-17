@@ -84,6 +84,6 @@ EOF
 	# exclude library for revdep
 	mkdir -p $PKG/etc/revdep.d/
 	for i in libmozavutil.so liblgpllibs.so libmozgtk.so libmozsandbox.so libmozwayland.so libxul.so; do
-		echo $i > $PKG/etc/revdep.d/$name.conf
+		echo $i >> $PKG/etc/revdep.d/$name.conf
 	done
 }
