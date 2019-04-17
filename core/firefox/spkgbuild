@@ -83,8 +83,7 @@ EOF
 
 	# exclude library for revdep
 	mkdir -p $PKG/etc/revdep.d/
-	echo "/usr/lib/firefox/libmozavcodec.so" > $PKG/etc/revdep.d/$name.conf
-	echo "/usr/lib/firefox/libxul.so" >> $PKG/etc/revdep.d/$name.conf
-	echo "/usr/lib/firefox/plugin-container" >> $PKG/etc/revdep.d/$name.conf
-
+	for i in libmozavutil.so liblgpllibs.so libmozgtk.so libmozsandbox.so libmozwayland.so libxul.so; do
+		echo $i > $PKG/etc/revdep.d/$name.conf
+	done
 }
