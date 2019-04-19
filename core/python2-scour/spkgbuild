@@ -2,14 +2,13 @@
 # depends	: python2
 
 name=python2-scour
-version=0.36
+version=0.37
 release=1
 source=(https://github.com/scour-project/scour/archive/v$version/scour-$version.tar.gz)
+md5sum=(1de595a0b1627d47b01b4e5fa2976087)
 
 build() {
 	cd scour-$version
 	python2 setup.py build
 	python2 setup.py install --root=$PKG --optimize=1
 }
-
-md5sum=(f7d03395a9ce51f822e5741034783e04)
