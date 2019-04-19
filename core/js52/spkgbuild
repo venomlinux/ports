@@ -2,14 +2,12 @@
 # depends	: gcc yasm icu nspr autoconf2.13 python2
 
 name=js52
-version=52.2
+version=52.6.0
 release=1
-source=(https://ftp.gnome.org/pub/gnome/teams/releng/tarballs-needing-help/mozjs/mozjs-$version.1gnome1.tar.gz)
-md5sum=(72bd9a715ed1ab70b2aebe92969f6b63)
+source=(https://ftp.gnome.org/pub/gnome/teams/releng/tarballs-needing-help/mozjs/mozjs-${version}gnome1.tar.xz)
+md5sum=(f9e7947364f31781c40eac4dbf2a365a)
 
 build() {
-	cd mozjs-$version.1gnome1
-
 	cd js/src
 
 	export SHELL=/bin/sh
