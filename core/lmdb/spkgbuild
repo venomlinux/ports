@@ -1,9 +1,10 @@
 # description	: Fast, compact, key-value embedded data store
 
 name=lmdb
-version=0.9.22
+version=0.9.23
 release=1
 source=(https://github.com/LMDB/lmdb/archive/LMDB_${version}.tar.gz)
+md5sum=(5a57d029e6829e95d159bb6f689880d3)
 
 build() {
 	cd lmdb-LMDB_${version}/libraries/liblmdb
@@ -11,5 +12,3 @@ build() {
 	sed -i 's| liblmdb.a||' Makefile
 	make prefix=$PKG/usr install
 }
-
-md5sum=(64c6132f481281b7b2ad746ecbfb8423)
