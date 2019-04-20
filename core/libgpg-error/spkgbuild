@@ -4,12 +4,15 @@
 
 name=libgpg-error
 version=1.36
-release=1
+release=2
 source=(ftp://ftp.gnupg.org/gcrypt/$name/$name-$version.tar.bz2)
 md5sum=(eff437f397e858a9127b76c0d87fa5ed)
 
 build() {
 	cd $name-$version
+
+	# allow building with gawk-5.0
+	sed -i 's/namespace/pkg_&/' src/Makefile.{am,in} src/mkstrtable.awk
 
   	./configure --prefix=/usr --disable-nls
 	make
