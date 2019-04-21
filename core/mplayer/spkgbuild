@@ -4,17 +4,13 @@
 # depends	: yasm libvdpau-va-gl sdl
 
 name=mplayer
-version=1.3.0
+version=1.4
 release=1
-source=(http://www.mplayerhq.hu/MPlayer/releases/MPlayer-$version.tar.xz
-	http://www.linuxfromscratch.org/patches/blfs/svn/MPlayer-$version-x264_fix-1.patch)
-md5sum=(e8a4d77ad4f509e81dd5e13b51636c1d
-	69e262eef8a9817f812341cc44ecdd34)
+source=(http://www.mplayerhq.hu/MPlayer/releases/MPlayer-$version.tar.xz)
+md5sum=(58d39f72bf7f3ddaa9e019224bffcb74)
 
 build() {
 	cd MPlayer-$version
-
-	patch -Np0 -i ../MPlayer-$version-x264_fix-1.patch
 
 	./configure --prefix=/usr            \
 	            --confdir=/etc/mplayer   \
