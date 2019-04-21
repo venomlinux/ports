@@ -4,19 +4,13 @@
 # depends	: gst-plugins-base cairo flac gdk-pixbuf libjpeg-turbo libpng libsoup libvpx libxdamage
 
 name=gst-plugins-good
-version=1.14.4
+version=1.16.0
 release=1
-source=(https://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz
-	gst-plugins-good-vpx_1.8-1.patch)
-md5sum=(6e3b247097366cf2639f22abfece7113
-	fad77fe0e9739b881194bedf56ac2923)
+source=(https://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
+md5sum=(d1a7b442994d9522418de4af4330e034)
 
 build() {
 	cd $name-$version
-
-	# fix build with libvpx 1.8
-	patch -Np1 -i ../gst-plugins-good-vpx_1.8-1.patch
-	autoreconf -fi
 
 	./configure --prefix=/usr \
 		    --disable-nls \
