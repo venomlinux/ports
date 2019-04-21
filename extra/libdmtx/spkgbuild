@@ -1,0 +1,19 @@
+# description	:A software for reading and writing Data Matrix 2D barcodes
+# backup	: 
+# depends	:glibc 
+# noextract	: 
+
+name=libdmtx
+version=0.7.5
+release=1
+options=()
+source=(https://github.com/dmtx/libdmtx/archive/v$version/$name-$version.tar.gz)
+md5sum=(82edcd68e9f4fa779f5f7573baf2a9f5)
+
+build() {
+	cd $name-$version
+        ./autogen.sh
+        ./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
