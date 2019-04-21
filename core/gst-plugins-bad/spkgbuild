@@ -4,20 +4,13 @@
 # depends	: gst-plugins-base libdvdread libdvdnav llvm soundtouch
 
 name=gst-plugins-bad
-version=1.14.4
+version=1.16.0
 release=1
-source=(https://gstreamer.freedesktop.org/src/gst-plugins-bad/$name-$version.tar.xz
-	Remove-MODE_2_1.patch
-	fix-compatibility-with-libfdk-aac-2.0.0.patch)
-md5sum=(5d20a91d027708abcf924f6c1279dd25
-	8ef22e2a787567ecae6340507a767a52
-	5a82c6002b6015a6bf987054a6a949d2)
+source=(https://gstreamer.freedesktop.org/src/gst-plugins-bad/$name-$version.tar.xz)
+md5sum=(e9e562d86c1527c44d904500dd35e326)
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i $SRC/Remove-MODE_2_1.patch
-	patch -Np1 -i $SRC/fix-compatibility-with-libfdk-aac-2.0.0.patch
 
 	./configure --prefix=/usr     \
 	            --disable-wayland \
