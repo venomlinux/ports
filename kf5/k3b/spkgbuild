@@ -1,0 +1,26 @@
+# description	: Feature-rich and easy to handle CD burning application
+# backup	: 
+# depends	: kf5frameworks libdvdread libkcddb libsamplerate shared-mime-info qt5-webkit taglib
+# noextract	: 
+
+name=k3b
+version=19.04.0
+release=1
+options=()
+source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
+md5sum=()
+
+build() {
+	cd $name-$version
+
+        mkdir build
+        cd build
+
+        cmake -DCMAKE_INSTALL_PREFIX=/usr	 \
+	      -DCMAKE_BUILD_TYPE=Release         \
+	      -DBUILD_TESTING=OFF                \
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}
+md5sum=(190f4e93bec74e9485236a7ecba6107e)
