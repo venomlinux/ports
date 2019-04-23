@@ -4,11 +4,15 @@
 name=libtorrent
 version=1.1.12
 release=1
-source=(https://github.com/arvidn/libtorrent/archive/libtorrent_${version//./_}.tar.gz)
-md5sum=(c02cdcdb0f527ad4aae7182823690fd7)
+source=(https://github.com/arvidn/libtorrent/archive/libtorrent_${version//./_}.tar.gz
+	fix-build-with-boost-1.70.patch)
+md5sum=(c02cdcdb0f527ad4aae7182823690fd7
+	c25422635b4558224a0e225057a46386)
 
 build() {
 	cd libtorrent-libtorrent_${version//./_}
+
+	patch -p1 -i ../fix-build-with-boost-1.70.patch
 
 	# Avoid depending on newer processors
 	sed -i 's/-msse4.2//' configure.ac

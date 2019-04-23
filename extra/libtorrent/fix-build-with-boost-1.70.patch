@@ -1,0 +1,231 @@
+From 9b0ebc207bc58f31e8d514863109012d503ff1cb Mon Sep 17 00:00:00 2001
+From: Chocobo1 <Chocobo1@users.noreply.github.com>
+Date: Mon, 22 Apr 2019 12:44:11 +0800
+Subject: [PATCH] Fix build with boost-1.70
+
+---
+ include/libtorrent/io_service.hpp      |  3 +++
+ include/libtorrent/io_service_fwd.hpp  |  8 ++++++++
+ include/libtorrent/proxy_base.hpp      |  2 +-
+ include/libtorrent/tracker_manager.hpp |  2 +-
+ include/libtorrent/udp_socket.hpp      |  2 +-
+ src/http_connection.cpp                | 16 ++++++++--------
+ src/lsd.cpp                            |  4 ++--
+ src/natpmp.cpp                         |  2 +-
+ src/upnp.cpp                           |  2 +-
+ test/test_fast_extension.cpp           |  2 +-
+ 10 files changed, 27 insertions(+), 16 deletions(-)
+
+diff --git a/include/libtorrent/io_service.hpp b/include/libtorrent/io_service.hpp
+index 9e30060988..e0306549c6 100644
+--- a/include/libtorrent/io_service.hpp
++++ b/include/libtorrent/io_service.hpp
+@@ -47,6 +47,7 @@ POSSIBILITY OF SUCH DAMAGE.
+ #endif
+ 
+ #include <boost/asio/io_service.hpp>
++#include <boost/version.hpp>
+ 
+ #if defined TORRENT_BUILD_SIMULATOR
+ #include "simulator/simulator.hpp"
+@@ -58,6 +59,8 @@ POSSIBILITY OF SUCH DAMAGE.
+ #undef Protocol
+ #endif
+ 
++#include "libtorrent/io_service_fwd.hpp"
++
+ namespace libtorrent
+ {
+ #if defined TORRENT_BUILD_SIMULATOR
+diff --git a/include/libtorrent/io_service_fwd.hpp b/include/libtorrent/io_service_fwd.hpp
+index e1580efa4e..5c33387ed0 100644
+--- a/include/libtorrent/io_service_fwd.hpp
++++ b/include/libtorrent/io_service_fwd.hpp
+@@ -69,6 +69,14 @@ namespace libtorrent
+ #else
+ 	typedef boost::asio::io_service io_service;
+ #endif
++
++#if BOOST_VERSION >= 107000
++template <typename T>
++io_service& get_io_service(T& o) { return static_cast<io_service&>(o.get_executor().context()); }
++#else
++template <typename T>
++io_service& get_io_service(T& o) { return o.get_io_service(); }
++#endif
+ }
+ 
+ #endif
+diff --git a/include/libtorrent/proxy_base.hpp b/include/libtorrent/proxy_base.hpp
+index 4cc9a8d08c..c1c6d472c7 100644
+--- a/include/libtorrent/proxy_base.hpp
++++ b/include/libtorrent/proxy_base.hpp
+@@ -250,7 +250,7 @@ class proxy_base : boost::noncopyable
+ 
+ 	io_service& get_io_service()
+ 	{
+-		return m_sock.get_io_service();
++		return lt::get_io_service(m_sock);
+ 	}
+ 
+ 	lowest_layer_type& lowest_layer()
+diff --git a/include/libtorrent/tracker_manager.hpp b/include/libtorrent/tracker_manager.hpp
+index b54d4d0bf7..a59b373464 100644
+--- a/include/libtorrent/tracker_manager.hpp
++++ b/include/libtorrent/tracker_manager.hpp
+@@ -286,7 +286,7 @@ namespace libtorrent
+ 		virtual void on_timeout(error_code const& ec) = 0;
+ 		virtual ~timeout_handler() {}
+ 
+-		io_service& get_io_service() { return m_timeout.get_io_service(); }
++		io_service& get_io_service() { return lt::get_io_service(m_timeout); }
+ 
+ 	private:
+ 
+diff --git a/include/libtorrent/udp_socket.hpp b/include/libtorrent/udp_socket.hpp
+index aac2c3f535..5dc1252586 100644
+--- a/include/libtorrent/udp_socket.hpp
++++ b/include/libtorrent/udp_socket.hpp
+@@ -80,7 +80,7 @@ namespace libtorrent
+ 		};
+ 
+ 		bool is_open() const { return m_abort == false; }
+-		io_service& get_io_service() { return m_ipv4_sock.get_io_service(); }
++		io_service& get_io_service() { return lt::get_io_service(m_ipv4_sock); }
+ 
+ 		void subscribe(udp_socket_observer* o);
+ 		void unsubscribe(udp_socket_observer* o);
+diff --git a/src/http_connection.cpp b/src/http_connection.cpp
+index 475c29937f..15f6ef9ac5 100644
+--- a/src/http_connection.cpp
++++ b/src/http_connection.cpp
+@@ -150,7 +150,7 @@ void http_connection::get(std::string const& url, time_duration timeout, int pri
+ 
+ 	if (ec)
+ 	{
+-		m_timer.get_io_service().post(boost::bind(&http_connection::callback
++		lt::get_io_service(m_timer).post(boost::bind(&http_connection::callback
+ 			, me, ec, static_cast<char*>(NULL), 0));
+ 		return;
+ 	}
+@@ -162,7 +162,7 @@ void http_connection::get(std::string const& url, time_duration timeout, int pri
+ 		)
+ 	{
+ 		error_code err(errors::unsupported_url_protocol);
+-		m_timer.get_io_service().post(boost::bind(&http_connection::callback
++		lt::get_io_service(m_timer).post(boost::bind(&http_connection::callback
+ 			, me, err, static_cast<char*>(NULL), 0));
+ 		return;
+ 	}
+@@ -263,7 +263,7 @@ void http_connection::start(std::string const& hostname, int port
+ 
+ 	if (ec)
+ 	{
+-		m_timer.get_io_service().post(boost::bind(&http_connection::callback
++		lt::get_io_service(m_timer).post(boost::bind(&http_connection::callback
+ 			, me, ec, static_cast<char*>(NULL), 0));
+ 		return;
+ 	}
+@@ -303,7 +303,7 @@ void http_connection::start(std::string const& hostname, int port
+ 
+ 			if (i2p_conn->proxy().type != settings_pack::i2p_proxy)
+ 			{
+-				m_timer.get_io_service().post(boost::bind(&http_connection::callback
++				lt::get_io_service(m_timer).post(boost::bind(&http_connection::callback
+ 					, me, error_code(errors::no_i2p_router), static_cast<char*>(NULL), 0));
+ 				return;
+ 			}
+@@ -337,7 +337,7 @@ void http_connection::start(std::string const& hostname, int port
+ 					m_ssl_ctx->set_verify_mode(ssl::context::verify_none, ec);
+ 					if (ec)
+ 					{
+-						m_timer.get_io_service().post(boost::bind(&http_connection::callback
++						lt::get_io_service(m_timer).post(boost::bind(&http_connection::callback
+ 								, me, ec, static_cast<char*>(NULL), 0));
+ 						return;
+ 					}
+@@ -349,7 +349,7 @@ void http_connection::start(std::string const& hostname, int port
+ 		// assume this is not a tracker connection. Tracker connections that
+ 		// shouldn't be subject to the proxy should pass in NULL as the proxy
+ 		// pointer.
+-		instantiate_connection(m_timer.get_io_service()
++		instantiate_connection(lt::get_io_service(m_timer)
+ 			, proxy ? *proxy : null_proxy, m_sock, userdata, NULL, false, false);
+ 
+ 		if (m_bind_addr)
+@@ -358,7 +358,7 @@ void http_connection::start(std::string const& hostname, int port
+ 			m_sock.bind(tcp::endpoint(*m_bind_addr, 0), ec);
+ 			if (ec)
+ 			{
+-				m_timer.get_io_service().post(boost::bind(&http_connection::callback
++				lt::get_io_service(m_timer).post(boost::bind(&http_connection::callback
+ 					, me, ec, static_cast<char*>(NULL), 0));
+ 				return;
+ 			}
+@@ -367,7 +367,7 @@ void http_connection::start(std::string const& hostname, int port
+ 		setup_ssl_hostname(m_sock, hostname, ec);
+ 		if (ec)
+ 		{
+-			m_timer.get_io_service().post(boost::bind(&http_connection::callback
++			lt::get_io_service(m_timer).post(boost::bind(&http_connection::callback
+ 				, me, ec, static_cast<char*>(NULL), 0));
+ 			return;
+ 		}
+diff --git a/src/lsd.cpp b/src/lsd.cpp
+index 0775b8a263..14b45bbab3 100644
+--- a/src/lsd.cpp
++++ b/src/lsd.cpp
+@@ -112,12 +112,12 @@ void lsd::debug_log(char const* fmt, ...) const
+ void lsd::start(error_code& ec)
+ {
+ 	m_socket.open(boost::bind(&lsd::on_announce, self(), _1, _2, _3)
+-		, m_broadcast_timer.get_io_service(), ec);
++		, lt::get_io_service(m_broadcast_timer), ec);
+ 	if (ec) return;
+ 
+ #if TORRENT_USE_IPV6
+ 	m_socket6.open(boost::bind(&lsd::on_announce, self(), _1, _2, _3)
+-		, m_broadcast_timer.get_io_service(), ec);
++		, lt::get_io_service(m_broadcast_timer), ec);
+ #endif
+ }
+ 
+diff --git a/src/natpmp.cpp b/src/natpmp.cpp
+index 4634f2e91c..313b5d11a7 100644
+--- a/src/natpmp.cpp
++++ b/src/natpmp.cpp
+@@ -89,7 +89,7 @@ void natpmp::start()
+ 	mutex::scoped_lock l(m_mutex);
+ 
+ 	error_code ec;
+-	address gateway = get_default_gateway(m_socket.get_io_service(), ec);
++	address gateway = get_default_gateway(lt::get_io_service(m_socket), ec);
+ 	if (ec)
+ 	{
+ 		char msg[200];
+diff --git a/src/upnp.cpp b/src/upnp.cpp
+index 01dca01249..52a513776f 100644
+--- a/src/upnp.cpp
++++ b/src/upnp.cpp
+@@ -135,7 +135,7 @@ void upnp::start()
+ {
+ 	error_code ec;
+ 	m_socket.open(boost::bind(&upnp::on_reply, self(), _1, _2, _3)
+-		, m_refresh_timer.get_io_service(), ec);
++		, lt::get_io_service(m_refresh_timer), ec);
+ 
+ 	m_mappings.reserve(10);
+ }
+diff --git a/test/test_fast_extension.cpp b/test/test_fast_extension.cpp
+index dd3f751888..eb54b38637 100644
+--- a/test/test_fast_extension.cpp
++++ b/test/test_fast_extension.cpp
+@@ -453,7 +453,7 @@ boost::shared_ptr<torrent_info> setup_peer(tcp::socket& s, sha1_hash& ih
+ 	}
+ 	else
+ 	{
+-		tcp::acceptor l(s.get_io_service());
++		tcp::acceptor l(lt::get_io_service(s));
+ 		l.open(tcp::v4());
+ 		l.bind(tcp::endpoint(address_v4::from_string("127.0.0.1")
+ 			, 3000 + rand() % 60000));
