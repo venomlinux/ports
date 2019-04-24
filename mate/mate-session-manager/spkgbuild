@@ -15,5 +15,5 @@ build() {
 	./configure --prefix=/usr --libexecdir=/usr/lib/$name --disable-nls
 	make
 	make DESTDIR=$PKG install
-	rm -r $PKG/usr/share/locale
+	rm -r $PKG/usr/share/{locale,doc}
 }
