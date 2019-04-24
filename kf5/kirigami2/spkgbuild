@@ -2,14 +2,12 @@
 # depends	: extra-cmake-modules qt5
 
 name=kirigami2
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(66df9ccd7ad082f04aaa5d602f6c9744)
+md5sum=(c297803c1e65c9f6dbaac011e40db5ae)

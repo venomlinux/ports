@@ -2,14 +2,12 @@
 # depends	: kio extra-cmake-modules python3 qt5
 
 name=kparts
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(81379bd6d6adf476d776c74874594c09)
+md5sum=(ea1ae4cd89d10b7ec4c3ca19f2ddb5f2)

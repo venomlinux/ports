@@ -2,14 +2,12 @@
 # depends	: kinit extra-cmake-modules kdoctools
 
 name=kded
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,de,ru,it,es,pt,sv}
 }
 
-md5sum=(8edde556c89c783dbd6bd9956f52e0cf)
+md5sum=(694b8640be69230123758181d7678455)

@@ -2,7 +2,7 @@
 # depends	: libkexiv2 poppler qca kpty kactivities threadweaver kjs kparts libtiff extra-cmake-modules kdoctools khtml python3
 
 name=okular
-version=18.12.0
+version=19.04.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/okular-$version.tar.xz)
 
@@ -18,6 +18,10 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+        rm -r $PKG/usr/share/locale
+        rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,et,fr,de,ru,it,es,pt,sv}
 }
 
-md5sum=(fc356a501f08cc3c83fd685faf9a18c7)
+md5sum=(eca428778b66166a8b4edfad57bc7b36)

@@ -2,14 +2,12 @@
 # depends	: qt5 kconfigwidgets kitemviews karchive extra-cmake-modules python3 mesa
 
 name=kiconthemes
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(234017ec51e4dc3f02989af75121e8f5)
+md5sum=(a0812ab8df20b5e85cccd117378caa21)

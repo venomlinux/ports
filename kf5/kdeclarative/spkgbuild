@@ -2,14 +2,12 @@
 # depends	: kio kpackage libepoxy extra-cmake-modules python3 qt5
 
 name=kdeclarative
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(89d9a968e01ad5c5937628dfc0b107f1)
+md5sum=(a9af38c4d6f819cd71006c5e58ef7da3)

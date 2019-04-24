@@ -2,25 +2,26 @@
 # depends	: kparts syntax-highlighting extra-cmake-modules python3 qt5
 
 name=ktexteditor
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
-
 	mkdir build
 	cd    build
 
 	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
 	      -DCMAKE_PREFIX_PATH=/usr		\
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
 	      -DCMAKE_BUILD_TYPE=Release	\
 	      -DBUILD_TESTING=OFF		\
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(fec5ca67093aa83378d2b0daae131a43)
+md5sum=(6dac3a6966516714e574da4543d33f95)

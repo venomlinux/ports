@@ -2,7 +2,7 @@
 # depends	: khtml kdoctools xapian-core grantlee kinit extra-cmake-modules python3
 
 name=khelpcenter
-version=18.12.0
+version=19.04.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
@@ -13,6 +13,7 @@ build() {
 	cd    build
 	
 	cmake -DCMAKE_INSTALL_PREFIX=/usr	 \
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
 	      -DCMAKE_BUILD_TYPE=Release         \
 	      -DBUILD_TESTING=OFF                \
 	      -Wno-dev ..
@@ -22,6 +23,9 @@ build() {
 	mkdir -p $PKG/usr/share/applications/
 	mv -v $PKG/usr/share/kde4/services/khelpcenter.desktop $PKG/usr/share/applications/
 	rm -rv $PKG/usr/share/kde4
+	
+	rm -r $PKG/usr/share/doc
+        rm -r $PKG/usr/share/locale
 }
 
-md5sum=(9e6e51807c0d58b863e095cb7cb6d380)
+md5sum=(fe6b924334b3f2dfccbd966931698375)

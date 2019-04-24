@@ -2,7 +2,7 @@
 # depends	: baloo knewstuff kio-extras kcmutils kparts kinit extra-cmake-modules kdoctools python3
 
 name=dolphin
-version=18.12.0
+version=19.04.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
@@ -18,6 +18,9 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(b69d59ae2de93fe9213acca858d6a83d)
+md5sum=(25196e7b234e4fd55968cdd98c22d1e3)

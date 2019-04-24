@@ -2,14 +2,12 @@
 # depends	: qt5 kcoreaddons kwidgetsaddons extra-cmake-modules
 
 name=kjobwidgets
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(3437728b6b9a09a59720d86392c05624)
+md5sum=(be37764f55cb5deed630da21af9385a9)

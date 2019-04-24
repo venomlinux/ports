@@ -2,14 +2,12 @@
 # depends	: modemmanager qt5 extra-cmake-modules
 
 name=modemmanager-qt
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -23,4 +21,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(21d412157131d544fe2fd76e230af5e8)
+md5sum=(62dc3f38c573cfe842d6f78ce1b88e04)

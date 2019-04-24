@@ -2,14 +2,12 @@
 # depends	: kdeclarative extra-cmake-modules python3 qt5
 
 name=kcmutils
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(62046f1c778dbc0cb1d4cdf2964006c6)
+md5sum=(8863d6867d344e85295220f7fb8fc8b6)

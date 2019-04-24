@@ -2,14 +2,12 @@
 # depends	: qt5 extra-cmake-modules python3
 
 name=ki18n
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(95e67ba518ac2983e33ce8370bf0d3cd)
+md5sum=(2178c765e29675b21a044fc074a01246)

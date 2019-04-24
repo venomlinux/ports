@@ -2,25 +2,28 @@
 # depends	: solid kjobwidgets kbookmarks libxslt kwallet desktop-file-utils extra-cmake-modules kdoctools python3 qt5
 
 name=kio
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
-
 	mkdir build
 	cd    build
 
 	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
 	      -DCMAKE_PREFIX_PATH=/usr		\
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
 	      -DCMAKE_BUILD_TYPE=Release	\
 	      -DBUILD_TESTING=OFF		\
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+        rm -r $PKG/usr/share/locale
+        rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,de,it,es,pt,sv}
 }
 
-md5sum=(23e7ef2aedfca8e77907d50d5bcfcb7e)
+md5sum=(d21d5e216aabd0bc5836e5a073d7857d)

@@ -2,14 +2,12 @@
 # depends	: qt5 upower udisks2 extra-cmake-modules
 
 name=solid
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(b7ca9416caae95bb56d72e062a31023b)
+md5sum=(d3155b3f6301645173273c898bae488f)

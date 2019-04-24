@@ -2,14 +2,12 @@
 # depends	: qt5 extra-cmake-modules mesa
 
 name=kguiaddons
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -23,4 +21,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(f2dee5c934be5a795c8caae2c9ef9c2f)
+md5sum=(74b61e8ef3efdfd834caf258c223a9c9)

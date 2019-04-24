@@ -2,7 +2,7 @@
 # depends	: knewstuff kdeclarative kitemmodels qt5 hicolor-icon-theme extra-cmake-modules python3 plasma-framework
 
 name=discover
-version=5.14.4
+version=5.15.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -18,6 +18,8 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(e14211fc2b0d995d3cf142168056c144)
+md5sum=(bf168419525b322930c115b74f1d3a4b)

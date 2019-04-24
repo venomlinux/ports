@@ -2,12 +2,13 @@
 # depends	: kparts kpty libarchive kitemmodels hicolor-icon-theme extra-cmake-modules kdoctools python3
 
 name=ark
-version=18.12.0
+version=19.04.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
+	
 	mkdir build
 	cd    build
 	
@@ -17,6 +18,10 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+	rm -r $PKG/usr/share/locale
+	rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,fr,de,sr,it,es,pt,gl,sv}
 }
 
-md5sum=(54946702f3254fe1cae106f56b6ad49e)
+md5sum=(4f198738bf03b050d4d16d82cb27f5e9)

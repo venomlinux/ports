@@ -2,7 +2,7 @@
 # depends	: kio kdnssd exiv2 libmtp kpty kactivities extra-cmake-modules kdoctools gperf taglib khtml
 
 name=kio-extras
-version=18.12.0
+version=19.04.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
@@ -18,6 +18,9 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+        rm -r $PKG/usr/share/locale
 }
 
-md5sum=(3b6666cb471cbb913f9cc84a89f48b94)
+md5sum=(e7334b634fff1317dd806d3a74e7ec2a)

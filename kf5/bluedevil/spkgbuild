@@ -2,7 +2,7 @@
 # depends	: bluez-qt kio extra-cmake-modules plasma-framework kded python3
 
 name=bluedevil
-version=5.14.4
+version=5.15.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -18,6 +18,8 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(fe29af65a55d434bfb5a1806f7ca61b0)
+md5sum=(1512800d87f0537cb134ef865e4adc7a)

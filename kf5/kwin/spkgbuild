@@ -2,7 +2,7 @@
 # depends	: kscreenlocker xcb-util-cursor hicolor-icon-theme plasma-framework kcmutils breeze kinit extra-cmake-modules qt5 kdoctools python3
 
 name=kwin
-version=5.14.4
+version=5.15.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -13,11 +13,15 @@ build() {
 	cd    build
 
 	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
 		 -DCMAKE_BUILD_TYPE=Release	\
 		 -DBUILD_TESTING=OFF		\
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+        rm -r $PKG/usr/share/locale
 }
 
-md5sum=(3d9ce77dd5671b514d9943c5119fca61)
+md5sum=(577e15de4dced022534c5919432a7bd8)

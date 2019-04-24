@@ -2,14 +2,12 @@
 # depends	: karchive docbook-xsl docbook-xml libxslt extra-cmake-modules ki18n python3 perl-uri
 
 name=kdoctools
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,10 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+        rm -r $PKG/usr/share/locale
+        rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,de,ru,it,es,pt,sv}
 }
 
-md5sum=(905d494671f33de9827c9a4467c0bdc7)
+md5sum=(90a180ef293a66ccf18ee79cc7f33776)

@@ -2,16 +2,12 @@
 # depends	: qt5 extra-cmake-modules
 
 name=syntax-highlighting
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	sed -i.orig 's|w-|w\\-|' data/syntax/rest.xml
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -23,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(62d67899a9cd5cd6b93761ebafd88942)
+md5sum=(b979ea0b6b2d6fa27f61c152dada814a)

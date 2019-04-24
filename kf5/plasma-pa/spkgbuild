@@ -2,7 +2,7 @@
 # depends	: plasma-workspace pulseaudio libcanberra gconf extra-cmake-modules kdoctools python3
 
 name=plasma-pa
-version=5.14.4
+version=5.15.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -18,6 +18,9 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+        rm -r $PKG/usr/share/locale
 }
 
-md5sum=(bf60a089095cfeca423a2e1dfc7fc627)
+md5sum=(f050f53e3ebab40693e05ef93a3d156f)

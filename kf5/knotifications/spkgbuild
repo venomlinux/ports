@@ -2,14 +2,12 @@
 # depends	: phonon libdbusmenu-qt kwindowsystem kconfig kcodecs kcoreaddons extra-cmake-modules qt5 python3
 
 name=knotifications
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(ec855d38c17ab4bba8d07b5e8532d6c7)
+md5sum=(a5381274fb940b1ce06850c2c8995b5e)

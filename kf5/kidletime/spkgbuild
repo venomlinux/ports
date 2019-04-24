@@ -2,14 +2,12 @@
 # depends	: qt5 extra-cmake-modules mesa
 
 name=kidletime
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -23,4 +21,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(176fb9a35f39ff79694c2a14be20ad44)
+md5sum=(6172497628a93f42a928a02ad97299f3)

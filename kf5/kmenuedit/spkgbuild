@@ -2,7 +2,7 @@
 # depends	: khotkeys extra-cmake-modules kdoctools python3 kdesignerplugin
 
 name=kmenuedit
-version=5.14.4
+version=5.15.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -18,6 +18,9 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+        rm -r $PKG/usr/share/locale
 }
 
-md5sum=(68bb90533998367a5a207132b91b0ac3)
+md5sum=(f133835e91137a1146fdb664c326298c)

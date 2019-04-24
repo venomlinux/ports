@@ -2,20 +2,19 @@
 # depends	: kpackage knewstuff extra-cmake-modules python3 qt5
 
 name=frameworkintegration
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
-
 	mkdir build
 	cd    build
 
 	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
 	      -DCMAKE_PREFIX_PATH=/usr		\
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
 	      -DCMAKE_BUILD_TYPE=Release	\
 	      -DBUILD_TESTING=OFF		\
 	      -Wno-dev ..
@@ -23,4 +22,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(9957a52e9b75dd61a62f3ad7a61e299a)
+md5sum=(8e11e9663a33bbf8f313eb22ef70a92e)

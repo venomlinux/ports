@@ -2,14 +2,12 @@
 # depends	: qt5 kactivities kdeclarative kwayland kirigami2 extra-cmake-modules kdoctools python3
 
 name=plasma-framework
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,9 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
+        rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,de,it,es,pt,sv}
 }
 
-md5sum=(b083d295d7f2ba6236ca466b0cdaca64)
+md5sum=(e03ee53a6b5e0af40e4e2a283098d23a)

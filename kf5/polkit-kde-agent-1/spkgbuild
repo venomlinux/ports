@@ -2,7 +2,7 @@
 # depends	: kiconthemes kdbusaddons kcrash extra-cmake-modules kdoctools python3
 
 name=polkit-kde-agent-1
-version=5.14.4
+version=5.15.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -13,11 +13,14 @@ build() {
 	cd    build
 
 	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
 		 -DCMAKE_BUILD_TYPE=Release	\
 		 -DBUILD_TESTING=OFF		\
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(25e9a3d1745d0c11d8568074229671a3)
+md5sum=(8855805757c81f27e7446a6238bd37a5)

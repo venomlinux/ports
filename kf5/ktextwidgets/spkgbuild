@@ -2,14 +2,12 @@
 # depends	: kcompletion kservice kiconthemes sonnet qt5 extra-cmake-modules python3 qt5
 
 name=ktextwidgets
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(41089d37d64582213161d5ea55833afa)
+md5sum=(4d7fd58963b27fb64c80365e9e366caa)

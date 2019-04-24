@@ -2,14 +2,12 @@
 # depends	: kwidgetsaddons kconfig extra-cmake-modules qt5
 
 name=kcompletion
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(113a86c053589b02024fe2e2052968b1)
+md5sum=(f33439a380b21163c1f04c780f7c820a)

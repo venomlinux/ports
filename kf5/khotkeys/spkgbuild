@@ -2,7 +2,7 @@
 # depends	: plasma-workspace extra-cmake-modules kdoctools python3 kdesignerplugin
 
 name=khotkeys
-version=5.14.4
+version=5.15.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -18,6 +18,9 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+        rm -r $PKG/usr/share/locale
 }
 
-md5sum=(c38e8d0902ba37f5308cb7f05047072b)
+md5sum=(743dbff07f6848dfd01aa1d42d346382)

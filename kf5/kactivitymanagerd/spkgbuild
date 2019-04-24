@@ -2,7 +2,7 @@
 # depends	: kio extra-cmake-modules boost python3
 
 name=kactivitymanagerd
-version=5.14.4
+version=5.15.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -13,11 +13,14 @@ build() {
 	cd    build
 
 	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
 		 -DCMAKE_BUILD_TYPE=Release	\
 		 -DBUILD_TESTING=OFF		\
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(d2ef43f119c8afa91745092f649205ff)
+md5sum=(72e78d449f225e5895d61cfdd98c6592)

@@ -2,14 +2,12 @@
 # depends	: qt5 extra-cmake-modules qt5 gperf
 
 name=kcodecs
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -21,6 +19,8 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(968d1595082a3e167204a3b9585aa815)
+md5sum=(a4f0d3fb375fb15e108166ee68d6c7a3)

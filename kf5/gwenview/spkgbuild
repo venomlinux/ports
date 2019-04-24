@@ -2,7 +2,7 @@
 # depends	: exiv2 lcms2 kactivities baloo libkdcraw kparts kitemmodels extra-cmake-modules kdoctools python3
 
 name=gwenview
-version=18.12.0
+version=19.04.0
 release=1
 source=(http://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
 
@@ -18,6 +18,9 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(fc5d489f79e1f666ca8cadcca9657c65)
+md5sum=(d770f1f2e228c64b6a481b048e1889c0)

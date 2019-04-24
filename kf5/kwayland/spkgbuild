@@ -2,20 +2,19 @@
 # depends	: qt5 wayland extra-cmake-modules
 
 name=kwayland
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
 
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
-
 	mkdir build
 	cd    build
 
 	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
 	      -DCMAKE_PREFIX_PATH=/usr		\
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
 	      -DCMAKE_BUILD_TYPE=Release	\
 	      -DBUILD_TESTING=OFF		\
 	      -Wno-dev ..
@@ -23,4 +22,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(89674cb577a239da0c6decddb62e8e28)
+md5sum=(eb7a86ca138a5c68ff59de90695330d2)

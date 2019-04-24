@@ -2,7 +2,7 @@
 # depends	: libpwquality kio extra-cmake-modules python3 kcmutils
 
 name=user-manager
-version=5.14.4
+version=5.15.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -18,6 +18,8 @@ build() {
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/locale
 }
 
-md5sum=(fbd60bfb9e66c72311e233817b94e809)
+md5sum=(f838496b56379f9f6c11c28c9a841482)

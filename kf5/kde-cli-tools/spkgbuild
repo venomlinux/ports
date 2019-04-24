@@ -2,7 +2,7 @@
 # depends	: kdesu kcmutils kinit kactivities extra-cmake-modules plasma-workspace python3 kdoctools
 
 name=kde-cli-tools
-version=5.14.4
+version=5.15.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -13,11 +13,16 @@ build() {
 	cd    build
 
 	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+		-DCMAKE_INSTALL_LIBEXECDIR=lib  \
 		 -DCMAKE_BUILD_TYPE=Release	\
 		 -DBUILD_TESTING=OFF		\
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+        rm -r $PKG/usr/share/locale
+        rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,et,sr@latin,de,sr,ru,it,es,pt,nb,sv}
 }
 
-md5sum=(d008931a914d5748da62f6667915c7d6)
+md5sum=(faf504efa246d1b6e28133a35cfa5705)

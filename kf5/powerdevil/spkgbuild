@@ -2,7 +2,7 @@
 # depends	: plasma-workspace bluez-qt networkmanager-qt libkscreen extra-cmake-modules kdoctools python3 kdesignerplugin
 
 name=powerdevil
-version=5.14.4
+version=5.15.4
 release=1
 source=(http://download.kde.org/stable/plasma/$version/$name-$version.tar.xz)
 
@@ -13,11 +13,15 @@ build() {
 	cd    build
 
 	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
 		 -DCMAKE_BUILD_TYPE=Release	\
 		 -DBUILD_TESTING=OFF		\
 		 -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
+	
+	rm -r $PKG/usr/share/doc
+        rm -r $PKG/usr/share/locale
 }
 
-md5sum=(fdb962c816db14a40c5e455c6f25523a)
+md5sum=(358d918b3eadb6ca6987392410d1a13c)

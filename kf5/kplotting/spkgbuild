@@ -2,14 +2,12 @@
 # depends	: qt5 extra-cmake-modules mesa
 
 name=kplotting
-version=5.53.0
+version=5.57.0
 release=1
 source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
-
-	export CXXFLAGS="${CXXFLAGS} -isystem /usr/include/openssl-1.0"
 
 	mkdir build
 	cd    build
@@ -23,4 +21,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(34125fa1563feb9af831b1f7e05629ae)
+md5sum=(f7dbd04039c51560cfb70987f5535bbe)
