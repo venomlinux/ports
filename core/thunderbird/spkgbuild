@@ -1,11 +1,11 @@
 # description	: Stand-alone mail/news client based on the Mozilla codebase
-# depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent libvpx nspr sqlite dbus-glib gconf llvm startup-notification
+# depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent nspr sqlite dbus-glib gconf llvm startup-notification
 
 name=thunderbird
-version=60.5.3
+version=60.6.1
 release=1
 source=(https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz)
-md5sum=(9d30cdd3962ae6d8a606ded8b8c6b3b5)
+md5sum=(ce761c4d0f4d85c0c5ad5d1a22aa9e50)
 
 build() {
 	cd $name-$version
@@ -45,7 +45,6 @@ ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
 ac_add_options --with-system-icu
 
-# The BLFS editors recommend not changing anything below this line:
 ac_add_options --prefix=/usr
 ac_add_options --enable-application=comm/mail
 
@@ -95,7 +94,7 @@ ln -sfv /usr/lib/thunderbird/chrome/icons/default/default256.png \
 
 	# exclude library for revdep
 	mkdir -p $PKG/etc/revdep.d/
-	echo "/usr/lib/thunderbird/libprldap60.so" > $PKG/etc/revdep.d/$name.conf
-	echo "/usr/lib/thunderbird/libxul.so" >> $PKG/etc/revdep.d/$name.conf
-	echo "/usr/lib/thunderbird/plugin-container" >> $PKG/etc/revdep.d/$name.conf
+	for i in libldap60.so liblgpllibs.so libmozgtk.so libmozsandbox.so libldif60.so libxul.so libprldap60.so; do
+		echo $i >> $PKG/etc/revdep.d/$name.conf
+	done
 }
