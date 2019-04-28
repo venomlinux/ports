@@ -2,10 +2,10 @@
 # depends	: bash
 
 name=bash-completion
-version=2.8
+version=2.9
 release=1
 source=(https://github.com/scop/bash-completion/releases/download/$version/$name-$version.tar.xz)
-md5sum=(201b6ae62f7d5fb5b1b25e34427db919)
+md5sum=(60139333b25c4d54ad40323b701be130)
 
 build() {
 	cd $name-$version
@@ -14,5 +14,4 @@ build() {
 	make DESTDIR=$PKG install
 
 	rm $PKG/etc/profile.d/bash_completion.sh
-	rm $PKG/usr/share/bash-completion/completions/{u,}mount
 }
