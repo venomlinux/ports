@@ -4,7 +4,7 @@
 
 name=poppler
 version=0.76.0
-release=1
+release=2
 source=(https://poppler.freedesktop.org/$name-$version.tar.xz)
 md5sum=(d6673d210416c739783a988c5b082dd6)
 
@@ -17,7 +17,7 @@ build() {
 	cmake  -DCMAKE_BUILD_TYPE=Release   \
 	       -DCMAKE_INSTALL_PREFIX=/usr  \
 	       -DTESTDATADIR=$PWD/testfiles \
-	       -DENABLE_XPDF_HEADERS=ON     \
+	       -DENABLE_UNSTABLE_API_ABI_HEADERS=ON \
 	       .. 
 	make
 	make DESTDIR=$PKG install
