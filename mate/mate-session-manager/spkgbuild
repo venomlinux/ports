@@ -2,16 +2,13 @@
 # depends	: dbus-glib
 
 name=mate-session-manager
-version=1.22.0
+version=1.22.1
 release=1
-source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz
-	msm-no-systemd.patch)
-md5sum=(ddb14e020a97b2f04325e8db10409dc8
-	3c3bc78acc15b7dcfbff92c112ebcce8)
+source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
+md5sum=(57905f0654e4718b90c6696e03fcbd9f)
 
 build() {
 	cd $name-$version
-	patch -Np1 -i ../msm-no-systemd.patch
 	./configure --prefix=/usr --libexecdir=/usr/lib/$name --disable-nls
 	make
 	make DESTDIR=$PKG install
