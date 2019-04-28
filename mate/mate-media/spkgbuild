@@ -3,13 +3,17 @@
 
 name=mate-media
 version=1.22.1
-release=1
+release=2
 source=(http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz)
 md5sum=(d274cf297aa0566a27215299d3ab121b)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --sysconfdir=/etc --disable-nls
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
 	rm -r $PKG/usr/share/locale
