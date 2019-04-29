@@ -5,14 +5,14 @@
 # depends	: libnl openssl dbus dhcpcd
 
 name=wpa_supplicant
-version=2.7
+version=2.8
 release=1
 
 source=(https://w1.fi/releases/$name-$version.tar.gz
 	wpa_supplicant.conf
 	wpa_supplicant.rc
 	wpa.conf)
-md5sum=(a68538fb62766f40f890125026c42c10
+md5sum=(0af5998c5d924e985cab16b9a1c77904
 	dace26d9323391e9bc9f647964536f4a
 	a645164cbb9b5de514f0dd80d59843ea
 	a4c6bf306544a057838778d691d22c18)
@@ -60,9 +60,7 @@ EOF
 	install -m644 doc/docbook/wpa_supplicant.conf.5 $PKG/usr/share/man/man5/
 	install -m644 doc/docbook/wpa_{cli,passphrase,supplicant}.8 $PKG/usr/share/man/man8/
 	
-	install -d $PKG/{usr/share/dbus-1/system-services/,etc/dbus-1/system.d/}
-	install -m644 dbus/fi.{epitest.hostap.WPASupplicant,w1.wpa_supplicant1}.service \
-	                 $PKG/usr/share/dbus-1/system-services/
+	install -d $PKG/etc/dbus-1/system.d/
 	install -m644 dbus/dbus-wpa_supplicant.conf \
 	                 $PKG/etc/dbus-1/system.d/wpa_supplicant.conf
 
