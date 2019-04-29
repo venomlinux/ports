@@ -2,11 +2,11 @@
 # depends	: alsa-lib sdl2 glib python3 coreutils
 
 name=qemu
-version=3.1.0
-release=2
+version=4.0.0
+release=1
 source=(http://download.qemu-project.org/$name-$version.tar.bz2
 	$name.sysusers)
-md5sum=(8a75cfd18460143d1b352234e437ca8d
+md5sum=(4318bcc6506dfd34208b49d8198a29d1
 	a1af9e25ccde3ef12f6cf863242cf37d)
 
 build() {
@@ -21,12 +21,9 @@ build() {
 	             --target-list=x86_64-softmmu \
 		     --python=python3 \
 	             --audio-drv-list=alsa \
-	             --with-sdlabi=2.0 \
 		     --disable-gtk
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share/doc
 
 install -d $PKG/lib/udev/rules.d/
 cat > $PKG/lib/udev/rules.d/65-kvm.rules << "EOF"
