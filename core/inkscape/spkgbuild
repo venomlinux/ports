@@ -1,0 +1,31 @@
+# description	: Scalable Vector Graphics editor
+# depends	: gsl boost imagemagick6 gc lcms2 poppler popt libxslt
+
+name=inkscape
+version=0.92.4
+release=1
+source=(https://media.inkscape.org/dl/resources/file/$name-$version.tar.bz2
+	inkscape-use_versioned_ImageMagick6-1.patch
+	poppler-076.patch)
+md5sum=(ac30f6d5747fd9c620c00dad500f414f
+	a3155f618b68eb0516ff2605c6ba55fa
+	c399ceab65554fe638d7f49d89c2cff1)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../inkscape-use_versioned_ImageMagick6-1.patch
+	patch -Np0 -i ../poppler-076.patch
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DCMAKE_BUILD_TYPE=Release  \
+	      -DPOPPLER_INCLUDE_DIR=/usr/include/poppler \
+	      ..
+	make
+	make DESTDIR=$PKG install
+
+	rm $PKG/usr/lib/inkscape/lib*_LIB.a
+}

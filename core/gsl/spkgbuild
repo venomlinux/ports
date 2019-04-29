@@ -1,0 +1,15 @@
+# description	: Numerical library for C and C++ programmers
+
+name=gsl
+version=2.5
+release=1
+source=(https://ftp.gnu.org/gnu/gsl/$name-$version.tar.gz)
+md5sum=(52fcbe147ba413d78841084cb43c95fb)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/info
+}
