@@ -3,7 +3,7 @@
 
 name=qemu
 version=4.0.0
-release=1
+release=2
 source=(http://download.qemu-project.org/$name-$version.tar.bz2
 	$name.sysusers)
 md5sum=(4318bcc6506dfd34208b49d8198a29d1
@@ -21,6 +21,7 @@ build() {
 	             --target-list=x86_64-softmmu \
 		     --python=python3 \
 	             --audio-drv-list=alsa \
+		     --disable-docs \
 		     --disable-gtk
 	make
 	make DESTDIR=$PKG install
@@ -29,6 +30,11 @@ install -d $PKG/lib/udev/rules.d/
 cat > $PKG/lib/udev/rules.d/65-kvm.rules << "EOF"
 KERNEL=="kvm", GROUP="kvm", MODE="0660"
 EOF
+
+	make qemu.1 qemu-img.1 qemu-nbd.8
+	install -D -m 644 qemu.1 $PKG/usr/share/man/man1/qemu.1
+	install -D -m 644 qemu-img.1 $PKG/usr/share/man/man1/qemu-img.1
+	install -D -m 644 qemu-nbd.8 $PKG/usr/share/man/man8/qemu-nbd.8
 
 	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 }
