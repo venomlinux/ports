@@ -6,7 +6,7 @@
 
 name=wpa_supplicant
 version=2.8
-release=1
+release=2
 
 source=(https://w1.fi/releases/$name-$version.tar.gz
 	wpa_supplicant.conf
@@ -60,9 +60,9 @@ EOF
 	install -m644 doc/docbook/wpa_supplicant.conf.5 $PKG/usr/share/man/man5/
 	install -m644 doc/docbook/wpa_{cli,passphrase,supplicant}.8 $PKG/usr/share/man/man8/
 	
-	install -d $PKG/etc/dbus-1/system.d/
-	install -m644 dbus/dbus-wpa_supplicant.conf \
-	                 $PKG/etc/dbus-1/system.d/wpa_supplicant.conf
+	install -d $PKG/{etc/dbus-1/system.d/,usr/share/dbus-1/system-services/}
+	install -m644 dbus/fi.w1.wpa_supplicant1.service $PKG/usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service
+	install -m644 dbus/dbus-wpa_supplicant.conf $PKG/etc/dbus-1/system.d/wpa_supplicant.conf
 
 	# wpa_supplicant.conf
 	install -Dm 600 $SRC/wpa_supplicant.conf $PKG/etc/wpa_supplicant.conf
