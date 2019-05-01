@@ -3,15 +3,13 @@
 
 name=apache
 version=2.4.39
-release=1
+release=2
 source=(https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 	httpd-blfs_layout-1.patch
-	httpd.rc
-	$name.sysusers)
+	httpd.rc)
 md5sum=(930e217ba2d71e708a3f1521ecae7ec0
 	f24185eaa0cbcab3c0b07032584575d9
-	4aa473be24266e0d48be1143f22d02e8
-	0b1518b2d99a3486ecfba24eb5c68cda)
+	4aa473be24266e0d48be1143f22d02e8)
 
 build() {
 	cd httpd-$version
@@ -43,7 +41,4 @@ build() {
 
 	# rc service
 	install -Dm755 $SRC/httpd.rc $PKG/etc/rc.d/httpd
-
-	# sysusers file
-	install -Dm644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 }
