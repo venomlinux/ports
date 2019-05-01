@@ -5,12 +5,10 @@
 
 name=polkit
 version=0.115
-release=3
+release=4
 source=(https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz
-	$name.sysusers
 	polkit-security-patch.patch)
 md5sum=(f03b055d6ae5fc8eac76838c7d83d082
-	c39684caa22df624030a01bb50c8eadb
 	252c1b18ba86a7b05840e992321f4639)
 
 build() {
@@ -30,6 +28,4 @@ build() {
 	make DESTDIR=$PKG install
 
 	rm -r $PKG/usr/share/locale
-
-	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 }
