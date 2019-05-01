@@ -5,12 +5,10 @@
 
 name=ntp
 version=4.2.8p13
-release=1
+release=2
 source=(https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-${version::3}/$name-$version.tar.gz
-	$name.sysusers
 	ntpd.rc)
 md5sum=(ea040ab9b4ca656b5229b89d6b822f13
-	4a90e4f3f74be63a9ea702ac6e7dc6c6
 	0b371501d534ace7dab3bf6256cd8217)
 
 build() {
@@ -28,7 +26,7 @@ build() {
 	            --with-lineeditlibs=readline
 	make
 	make DESTDIR=$PKG install
-	install -v -o 87 -d $PKG/var/lib/ntp
+	install -d $PKG/var/lib/ntp
 
 	rm -r $PKG/usr/share/doc
 
@@ -61,8 +59,6 @@ restrict -6 default limited kod nomodify notrap nopeer noquery
 restrict 127.0.0.1
 restrict ::1
 EOF
-	install -Dm644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
-
 	# rc service
 	install -Dm755 $SRC/ntpd.rc $PKG/etc/rc.d/ntpd
 }
