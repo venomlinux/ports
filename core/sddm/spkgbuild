@@ -4,19 +4,17 @@
 
 name=sddm
 version=0.18.1
-release=1
+release=2
 source=(https://github.com/sddm/sddm/releases/download/v$version/sddm-$version.tar.xz
-	$name.sysusers
 	rc.$name)
 md5sum=(c1ca638a3faf76c526df3049cbc9668a
-	155af66ac4faa89e9d06cb988f3eee52
 	7a6cd3c9168861bcb4073a1827c931e5)
 
 build() {
 	cd $name-$version
 
 	sed -e '/UPOWER_SERVICE)/ s:^://:' \
-	    -i src/daemon/PowerManager.cpp &&
+	    -i src/daemon/PowerManager.cpp
 	
 	sed -e '/\$@$/s/exec/& ck-launch-session/' \
 	    -i data/scripts/Xsession
@@ -35,8 +33,6 @@ build() {
 	install -dm755 $PKG/var/lib/sddm
 
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-
-	install -Dm 644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 
 	install -d $PKG/usr/lib/sddm/sddm.conf.d
 	$PKG/usr/bin/sddm --example-config > $PKG/etc/sddm.conf
