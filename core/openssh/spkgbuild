@@ -3,13 +3,11 @@
 
 name=openssh
 version=8.0p1
-release=1
+release=2
 source=(https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
-	sshd.rc
-	$name.sysusers)
+	sshd.rc)
 md5sum=(bf050f002fe510e1daecd39044e1122d
-	b7e7193fefab7b03d54e55ca3f178fad
-	d8fd01a5cda9f81bf7454e6e774d5bf9)
+	b7e7193fefab7b03d54e55ca3f178fad)
 
 build() {
 	cd $name-$version
@@ -31,7 +29,4 @@ build() {
 
 	# rc service
 	install -Dm755 $SRC/sshd.rc $PKG/etc/rc.d/sshd
-
-	# sysusers file
-	install -Dm644 $SRC/$name.sysusers $PKG/etc/sysusers.d/$name.conf
 }
