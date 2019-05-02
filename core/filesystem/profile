@@ -1,4 +1,4 @@
-# Begin /etc/profile
+# /etc/profile
 
 # System wide environment variables and startup programs.
 
@@ -19,10 +19,6 @@ fi
 export HISTSIZE=1000
 export HISTIGNORE="&:[bf]g:exit"
 
-# Set some defaults for graphical systems
-export XDG_DATA_DIRS=/usr/share
-export XDG_CONFIG_DIRS=/etc/xdg
-
 # Setup a red prompt for root and a green one for users.
 NORMAL="\[\e[0m\]"
 RED="\[\e[1;31m\]"
@@ -40,5 +36,3 @@ for script in /etc/profile.d/*.sh ; do
 done
 
 unset script RED GREEN NORMAL
-
-# End /etc/profile
