@@ -3,11 +3,9 @@
 
 name=gdk-pixbuf
 version=2.38.1
-release=1
-source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz
-	gdk-pixbuf.hook)
-md5sum=(f6ba2195acd18c5c9555421f30c31cc1
-	b14a04a30a7f605de9c542b7198d0306)
+release=2
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
+md5sum=(f6ba2195acd18c5c9555421f30c31cc1)
 
 build() {
 	cd $name-$version
@@ -20,6 +18,4 @@ build() {
 	DESTDIR=$PKG ninja install
 
 	rm -r $PKG/usr/share/locale
-
-	install -Dm644 $SRC/gdk-pixbuf.hook $PKG/etc/hooks/gdk-pixbuf.hook
 }
