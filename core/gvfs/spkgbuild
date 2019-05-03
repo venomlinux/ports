@@ -4,11 +4,9 @@
 
 name=gvfs
 version=1.40.1
-release=1
-source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz
-	gvfsd.hook)
-md5sum=(78496947d11a330d5435d669eade70ad
-	27b998be86899b622d6a33dfba56085b)
+release=2
+source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
+md5sum=(78496947d11a330d5435d669eade70ad)
 
 build() {
 	cd $name-$version
@@ -37,8 +35,6 @@ build() {
 	DESTDIR=$PKG ninja install
 
 	rm -r $PKG/usr/share/locale
-
-	install -Dm644 $SRC/gvfsd.hook $PKG/etc/hooks/gvfsd.hook
 
 	# exclude library for revdep
 	mkdir -p $PKG/etc/revdep.d/
