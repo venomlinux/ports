@@ -5,13 +5,9 @@
 
 name=gtk2
 version=2.24.32
-release=3
-source=(https://ftp.gnome.org/pub/gnome/sources/gtk+/${version::4}/gtk+-$version.tar.xz
-	gtk-query-immodules-2.0.hook
-	gtk-update-icon-cache.hook)
-md5sum=(d5742aa42275203a499b59b4c382a784
-	3f67752892e32e193b44b13901573981
-	89f3631f289f274918cbb2631707d115)
+release=4
+source=(https://ftp.gnome.org/pub/gnome/sources/gtk+/${version::4}/gtk+-$version.tar.xz)
+md5sum=(d5742aa42275203a499b59b4c382a784)
 
 build() {
 	cd gtk+-$version
@@ -30,7 +26,4 @@ gtk-icon-theme-name = "Adwaita"
 gtk-theme-name = "Adwaita"
 gtk-font-name = "Cantarell 10"
 EOF
-
-	install -Dm644 $SRC/gtk-query-immodules-2.0.hook $PKG/etc/hooks/gtk-query-immodules-2.0.hook
-	install -Dm644 $SRC/gtk-update-icon-cache.hook $PKG/etc/hooks/gtk-update-icon-cache.hook
 }
