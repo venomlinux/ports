@@ -5,12 +5,10 @@
 
 name=shared-mime-info
 version=1.10
-release=3
+release=4
 options=(!makeflags)
-source=(https://freedesktop.org/~hadess/$name-$version.tar.xz
-	update-mime-database.hook)
-md5sum=(418c2ced9dc4dd5ca8b06a755e6d64e9
-	abfdbb8084e2792fed640fc6a8885121)
+source=(https://freedesktop.org/~hadess/$name-$version.tar.xz)
+md5sum=(418c2ced9dc4dd5ca8b06a755e6d64e9)
 
 build() {
 	cd $name-$version
@@ -23,6 +21,4 @@ build() {
 	make DESTDIR=$PKG install
 
 	rm -r $PKG/usr/share/locale
-
-	install -Dm644 $SRC/update-mime-database.hook $PKG/etc/hooks/update-mime-database.hook
 }
