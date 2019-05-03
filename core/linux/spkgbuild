@@ -2,15 +2,13 @@
 # depends	: elfutils mkinitramfs openssl
 
 name=linux
-version=4.19.33
+version=4.19.37
 release=1
 options=(!strip)
 source=(https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
-	config-$version
-	linux.hook)
-md5sum=(233fa11f1e0c53ac43895d3f187fee89
-	0580f74abe3c800f77b781fba14b5df6
-	ccc64813e52134152bc7c388e995000b)
+	config-$version)
+md5sum=(935e5fdb9f3a1a3ec293fe2bd7243b00
+	42d5fe7b0d5b0996edb3a6cfaf414946)
 
 build() {
 	cd linux-$version
@@ -32,10 +30,7 @@ build() {
 	mkdir -p $PKG/boot
 
 	cp  arch/x86/boot/bzImage $PKG/boot/vmlinuz-venom
-
-	mkdir -p $PKG/lib/modules/extramodules
-	ln -s ../extramodules $PKG/lib/modules/$kernver/extramodules
-	echo $kernver > $PKG/lib/modules/extramodules/kernelversion
+	echo $kernver > $PKG/lib/modules/KERNELVERSION
 
 	make clean
 	make prepare
@@ -75,8 +70,4 @@ build() {
 
 	# remove now broken symlinks
 	find -L $PKG/lib/modules/$kernver/build -type l -exec rm -f "{}" \;
-
-	# hook file
-	mkdir -p $PKG/etc/hooks
-	sed "s/%KERNVER%/$kernver/g" $SRC/linux.hook > $PKG/etc/hooks/$name.hook
 }
