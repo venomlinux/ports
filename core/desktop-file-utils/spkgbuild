@@ -5,11 +5,9 @@
 
 name=desktop-file-utils
 version=0.23
-release=4
-source=(https://freedesktop.org/software/$name/releases/$name-$version.tar.xz
-	update-desktop-database.hook)
-md5sum=(599133d51cc9a41bfec186414906b6f1
-	822e58f7f076a6b914f093994f3738fb)
+release=5
+source=(https://freedesktop.org/software/$name/releases/$name-$version.tar.xz)
+md5sum=(599133d51cc9a41bfec186414906b6f1)
 
 build() {
 	cd $name-$version
@@ -17,6 +15,4 @@ build() {
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
-
-	install -Dm644 $SRC/update-desktop-database.hook $PKG/etc/hooks/update-desktop-database.hook
 }
