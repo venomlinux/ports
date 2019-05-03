@@ -1,10 +1,10 @@
 post_install() {
+	if [ -f /lib/modules/KERNELVERSION ]; then
+		kernver=$(cat /lib/modules/KERNELVERSION)
+	else
+		kernver=$(file /boot/vmlinuz-venom  | cut -d ' ' -f9)
+	fi
 	if [ $(type -p mkinitramfs) ]; then
-		if [ -f /lib/modules/KERNELVERSION ]; then
-			kernver=$(cat /lib/modules/KERNELVERSION)
-		else
-			kernver=$(file /boot/vmlinuz-venom  | cut -d ' ' -f9)
-		fi
 		mkinitramfs -a -k $kernver -o /boot/initrd-venom.img
 		mkinitramfs -k $kernver -o /boot/initrd-venom-fallback.img
 	fi
