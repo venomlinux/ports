@@ -1,0 +1,12 @@
+post_install() {
+	if [ -f /lib/modules/KERNELVERSION ]; then
+		kernver=$(cat /lib/modules/KERNELVERSION)
+	else
+		kernver=$(file /boot/vmlinuz-venom  | cut -d ' ' -f9)
+	fi
+	depmod $kernver
+}
+
+post_upgrade() {
+	post_install
+}
