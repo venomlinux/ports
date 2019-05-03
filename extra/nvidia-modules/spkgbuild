@@ -1,24 +1,24 @@
 # description	: NVIDIA Linux Display Driver - modules (long lived branch)
 
 name=nvidia-modules
-version=415.27
-release=2
+version=418.56
+release=1
 source=(http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run)
-md5sum=(f4777691c4673c808d82e37695367f6d)
+md5sum=(d1cf6dc33af48b53edbae5d6f31a6f89)
 
 build() {
 	sh NVIDIA-Linux-x86_64-$version.run --extract-only
 
-	if [ -f /lib/modules/extramodules/kernelversion ]; then
-		kernver=$(cat /lib/modules/extramodules/kernelversion)
+	if [ -f /lib/modules/KERNELVERSION ]; then
+		kernver=$(cat /lib/modules/KERNELVERSION)
 	else
 		kernver=$(uname -r)
 	fi
 
 	# kernel modules
 	IGNORE_CC_MISMATCH=1 SYSSRC=/lib/modules/$kernver/source make -C NVIDIA-Linux-x86_64-$version/kernel module
-	install -d $PKG/lib/modules/extramodules
-	install -m 0644 NVIDIA-Linux-x86_64-$version/kernel/*.ko $PKG/lib/modules/extramodules/
+	install -d $PKG/lib/modules/$kernver/kernel/drivers/video/
+	install -m 0644 NVIDIA-Linux-x86_64-$version/kernel/*.ko $PKG/lib/modules/$kernver/kernel/drivers/video/
 
 	# blacklist conflict module
 	install -d $PKG/etc/modprobe.d
