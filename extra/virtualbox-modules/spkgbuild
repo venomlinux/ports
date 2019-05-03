@@ -4,7 +4,7 @@
 
 name=virtualbox-modules
 version=5.2.28
-release=1
+release=2
 _name=Oracle_VM_VirtualBox_Extension_Pack
 _release=130011
 
@@ -15,8 +15,8 @@ build() {
 	sh VirtualBox-${version}-${_release}-Linux_amd64.run --keep --noexec --target $PWD
 	tar xf VirtualBox.tar.bz2 src/vboxhost/	
 
-	if [ -f /lib/modules/extramodules/kernelversion ]; then
-		kernver=$(cat /lib/modules/extramodules/kernelversion)
+	if [ -f /lib/modules/KERNELVERSION ]; then
+		kernver=$(cat /lib/modules/KERNELVERSION)
 	else
 		kernver=$(uname -r)
 	fi
@@ -25,7 +25,7 @@ build() {
 	KERN_VER=$kernver make
 
 	for i in *.ko; do
-	    install -Dm0644 $i $PKG/lib/modules/extramodules/$i
+	    install -Dm0644 $i $PKG/lib/modules/$kernver/misc/$i
 	done
 
 	install -d $PKG/etc/modules.d/
