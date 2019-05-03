@@ -1,5 +1,17 @@
-# Begin /etc/pam.d/system-auth
+#%PAM-1.0
 
-auth      required    pam_unix.so
+auth      required  pam_unix.so     try_first_pass nullok
+auth      optional  pam_permit.so
+auth      required  pam_env.so
 
-# End /etc/pam.d/system-auth
+account   required  pam_unix.so
+account   optional  pam_permit.so
+account   required  pam_time.so
+
+password  required  pam_unix.so     try_first_pass nullok sha512 shadow
+password  optional  pam_permit.so
+
+session   optional  pam_umask.so    usergroups
+session   required  pam_limits.so
+session   required  pam_unix.so
+session   optional  pam_permit.so
