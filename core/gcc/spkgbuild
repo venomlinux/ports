@@ -5,7 +5,7 @@
 
 name=gcc
 version=8.3.0
-release=1
+release=2
 source=(https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
 	c89 c99)
 md5sum=(65b210b4bfe7e060051f799e0f994896
@@ -30,14 +30,14 @@ build() {
 	SED=sed                               \
 	../configure --prefix=/usr            \
 		     --libexecdir=/usr/lib    \
-	             --enable-languages=c,c++,fortran,go,objc,obj-c++ \
+	             --enable-languages=c,c++,objc,obj-c++ \
 	             $multilibopt             \
 	             --disable-bootstrap      \
 		     --disable-libmpx         \
 	             --with-system-zlib       \
 		     --disable-nls
 	make
-	make DESTDIR=$PKG install
+	make -j1 DESTDIR=$PKG install
 
 	mkdir $PKG/lib
 	ln -sv ../usr/bin/cpp $PKG/lib/cpp
