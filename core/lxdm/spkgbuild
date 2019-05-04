@@ -6,7 +6,7 @@
 
 name=lxdm
 version=0.5.3
-release=7
+release=8
 source=(https://downloads.sourceforge.net/$name/$name-$version.tar.xz
 	$name.rc)
 md5sum=(061caae432634e6db38bbdc84bc6ffa0
@@ -16,20 +16,16 @@ build() {
 	cd $name-$version
 
 cat > pam/lxdm << "EOF"
-# Begin /etc/pam.d/lxdm
-
-auth     requisite      pam_nologin.so
-auth     required       pam_env.so
-auth     include        system-auth
-
-account  include        system-account
-
-password include        system-password
-
-session  required       pam_limits.so
-session  include        system-session
-
-# End /etc/pam.d/lxdm
+#%PAM-1.0
+auth       requisite      pam_nologin.so
+auth       required       pam_env.so
+auth       include        system-auth
+-auth      optional       pam_gnome_keyring.so
+account    include        system-auth
+password   include        system-auth
+session    required       pam_limits.so
+session    include        system-auth
+-session   optional       pam_gnome_keyring.so auto_start
 EOF
 
 sed -i 's:sysconfig/i18n:profile.d/i18n.sh:g' data/lxdm.in
