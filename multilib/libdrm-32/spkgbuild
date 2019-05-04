@@ -19,7 +19,8 @@ build() {
 	cd build
 	meson --prefix=/usr \
 	      --libdir=/usr/lib32 \
-	      -Dudev=true
+	      -Dudev=true \
+	      -Dcairo-tests=false
 	ninja
 	DESTDIR=$PWD/DESTDIR ninja install
 	mkdir -p $PKG/usr/lib32
