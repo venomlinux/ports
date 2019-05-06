@@ -26,6 +26,7 @@ d:virtualbox
 d:awesome-font
 d:httpup
 d:python3-setuptools
+d:python2-enum34
 d:opera
 d:playerctl
 d:python2-packaging
@@ -52,6 +53,7 @@ d:streamlink
 d:python2-yaml
 d:keybinder3
 d:geany
+d:python2-sip-pyqt5
 d:python3-pip
 d:qt5-webengine-widevine
 d:cabextract
@@ -328,17 +330,18 @@ f:7e2790e8c21dd5fc7af08d1e3a3f95d9:virtualbox/virtualbox.60-vboxdrv.rules
 f:f4e018302fb309160e9da892d124e6dc:awesome-font/spkgbuild
 f:90b5f22cb6f12c352a1fae95affd057c:httpup/spkgbuild
 f:ea657bb2f674b2f8cd87cc27878c5764:python3-setuptools/spkgbuild
+f:e0e3c1368e1ad4e42860c6bd5fcecc16:python2-enum34/spkgbuild
 f:743a174774782c6a543be1f390aca021:opera/spkgbuild
 f:f334562ed4ed5c9d50eb3c45298bdb3b:playerctl/spkgbuild
 f:754a269d11c1cd0c59aa6dd8acbf6592:python2-packaging/spkgbuild
 f:4ff1b2a7aaf6f837a821a2ab4a21de07:squashfs-tools/squashfs-tools-4.3-sysmacros.patch
 f:f963f6d83ff2df9e1512361e88fded7c:squashfs-tools/spkgbuild
 f:5c1332153966ce985a5e28f0bc030cf5:geany-themes/spkgbuild
-f:d3d313e989d1bb69980b18dea6ebc433:python2-sip/spkgbuild
+f:a9d95ed3e3f876d449a0dddab8dd15f2:python2-sip/spkgbuild
 f:18bbfdb87530d7bcedd7dc930112e92c:libfakekey/spkgbuild
 f:a88b5dd4a222f7fda6bf934833b15026:youtube-dl/spkgbuild
 f:db187e06b304ac490d01cefbfa6edfca:cantarell-fonts/spkgbuild
-f:6b5f959c7b07926430e76f8a5127ada2:python3-sip/spkgbuild
+f:cf84f7aacf9db1b857eeb36cd2967ea6:python3-sip/spkgbuild
 f:9e54859ab36548fa08a7aa9b869f95f1:newsboat/spkgbuild
 f:64e09291f25e55d61d4cae973d9a1d68:firefox-esr/spkgbuild
 f:cf6971669f70b440cb6ff8df8b2722ae:firefox-esr/firefox.desktop
@@ -357,7 +360,8 @@ f:4fbbccb11c6eea741314bb39db1cf847:libreoffice/spkgbuild
 f:a846bae048ded23776aec0cb0d440843:streamlink/spkgbuild
 f:13fd4e227edbc13e0968b250b63b1139:python2-yaml/spkgbuild
 f:a2607b342da09a88395f9af4aa0480d0:keybinder3/spkgbuild
-f:b6d9c9c000855f609bb3c7e1065b99eb:geany/spkgbuild
+f:727c5ee38c8db1ad22d8f8ef146a6af1:geany/spkgbuild
+f:d5bbd3695e52a55f04be52b98fcf58ea:python2-sip-pyqt5/spkgbuild
 f:05070a7ce1b934323532b59c5a4fe269:python3-pip/spkgbuild
 f:3d17128f251736431483bab6b6e9cf0a:qt5-webengine-widevine/spkgbuild
 f:6d888d0314ade02981c787498de92772:cabextract/spkgbuild
@@ -438,10 +442,10 @@ f:78cc78a25075bb1397f748681ec879cd:python3-distutils-extra/spkgbuild
 f:b8a9b35ec1159becadb001e8945970c4:osx-arc-theme/spkgbuild
 f:5b1541248ca2b09f9c61303b61239cd3:python2-pycryptodome/spkgbuild
 f:5300631c1c7fac143d0d0298ca81fa38:i3status/spkgbuild
-f:7641af732be99a3b41264e5a813074cd:python2-urllib3/spkgbuild
+f:4be764d9691c2bb339a4219b55e8ae7e:python2-urllib3/spkgbuild
 f:8729a560d2342e849cf70437331eb1d2:sassc/spkgbuild
 f:033f39e41f466559d1a8830dcec770c3:libconfig/spkgbuild
-f:1b7ce9f9ff110f0a2ffef3aee4ba0871:inxi/spkgbuild
+f:8269056add2699ea4ea9af8b68f52ff1:inxi/spkgbuild
 f:0d7e7649b5bd250bbde8a641549f2343:python2-psutil/spkgbuild
 f:b769c194e905cee718a22ab04502ee21:neomutt/spkgbuild
 f:c3aed0e61eb53f56085f6cf66d2ae8f5:cython3/spkgbuild
@@ -495,7 +499,7 @@ f:59c3734515e5e6ccb0ea274802671e16:jack/99-audio.conf
 f:37711181adee8b1d6a7f937fd8bbb22b:python2-appdirs/spkgbuild
 f:b0a78fde90fb6ce6d6c1d143f21a4774:mps-youtube/spkgbuild
 f:e848a9b6ec96cb91598c9917a6130c8b:gnu-netcat/spkgbuild
-f:01ee1d8748d91444e22b0b0c3e08e99d:python2-pyqt5/spkgbuild
+f:4ab12825468803eb19d7581e2dbe1396:python2-pyqt5/spkgbuild
 f:69d7822b4ea2778fd9ff39218b3d54b5:python2-websocket-client/spkgbuild
 f:3de4b617386b718bdb041903f3006307:xbindkeys/spkgbuild
 f:b0e30cf1514dd51cfa094565234f9eab:gnustep-base/spkgbuild
@@ -566,7 +570,7 @@ f:b010e5221530ee13d314fe1164a31e66:python3-pafy/spkgbuild
 f:d5b13b2a8049e9af1ee832e87d21675b:gtk-engine-murrine/spkgbuild
 f:4934cdaf43ec009d5e0dcf7e9af8e668:arc-icon-theme/spkgbuild
 f:b0453bdb74a6ffbd21ee4a47c3d8c85f:python2-wxpython3/spkgbuild
-f:b5a2837931c3dc87fd6d162389176907:python3-urllib3/spkgbuild
+f:77dfecb4dc35beca038aed5d01907c36:python3-urllib3/spkgbuild
 f:95f33368af784226d8c50d79083eceae:playonlinux/spkgbuild
 f:8d8adba0ddcac952a4fa987c07d3a4a9:wine-gecko/spkgbuild
 f:af368d6793bb3401ab1d89ca431056ca:ruby-rb-fsevent/spkgbuild
