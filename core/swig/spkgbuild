@@ -4,9 +4,10 @@
 # depends	: pcre
 
 name=swig
-version=3.0.12
+version=4.0.0
 release=1
 source=(https://downloads.sourceforge.net/swig/$name-$version.tar.gz)
+md5sum=(572074323f49d9cb14460d986f87230a)
 
 build() {
 	cd $name-$version
@@ -17,5 +18,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(82133dfa7bba75ff9ad98a7046be687c)
