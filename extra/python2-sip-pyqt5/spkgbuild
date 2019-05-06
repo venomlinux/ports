@@ -1,0 +1,15 @@
+# description	: A tool that makes it easy to create Python bindings for C and C++ libraries (pyqt5)
+# depends	: python2-sip
+
+name=python2-sip-pyqt5
+version=4.19.16
+release=1
+source=(https://www.riverbankcomputing.com/static/Downloads/sip/$version/sip-$version.tar.gz)
+md5sum=(7e854b0da395ddc8fb5da82d0321994d)
+
+build() {
+	cd sip-$version
+	python2 configure.py CFLAGS="$CFLAGS" LFLAGS="$LDFLAGS" --sip-module PyQt5.sip --no-tools
+	make
+	make DESTDIR=$PKG install
+}
