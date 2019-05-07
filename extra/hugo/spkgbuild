@@ -1,0 +1,14 @@
+# description	: Fast and Flexible Static Site Generator in Go
+# depends	: go
+
+name=hugo
+version=0.55.5
+release=1
+source=($name-$version.tar.gz::https://github.com/gohugoio/$name/archive/v$version.tar.gz)
+md5sum=(095b494e77e627c51c78219c318064ab)
+
+build() {
+	cd $name-$version
+	go build -tags extended
+	install -Dm755 $name $PKG/usr/bin/$name
+}
