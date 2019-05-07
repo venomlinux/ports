@@ -1,0 +1,38 @@
+# description	: The Go Programming Language
+# noextract	: go1.4.3.linux-amd64.tar.gz
+
+name=go
+version=1.12.4
+release=1
+options=(!strip)
+source=(https://storage.googleapis.com/golang/go$version.src.tar.gz
+	https://storage.googleapis.com/golang/go1.4.3.linux-amd64.tar.gz)
+md5sum=(edb6bac6dc1ce0afc931d9e41ef3d2ef
+	814fad4ac7dedfb5e286df83cdc7fc21)
+
+unset LC_ALL
+
+build() {
+	mkdir go1.4
+	tar xf go1.4.3.linux-amd64.tar.gz -C go1.4 --strip-components 1
+
+	export GOROOT=$SRC/$name-$version
+	export GOROOT_FINAL="/usr/lib/go"
+	export GOROOT_BOOTSTRAP="$PWD/go1.4"
+	export GOARCH=amd64
+	export GOOS=linux
+	export GOCACHE=off
+
+	cd $name/src
+
+	./make.bash --no-clean -v
+
+	rm -rf $SRC/go/pkg/obj/go-build/*
+
+	install -d $PKG/usr/lib
+	cp -r $SRC/go $PKG/usr/lib/
+	
+	install -d $PKG/usr/bin
+	ln -s /usr/lib/go/bin/go $PKG/usr/bin/
+	ln -s /usr/lib/go/bin/gofmt $PKG/usr/bin/	
+}
