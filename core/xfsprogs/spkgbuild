@@ -10,14 +10,15 @@ md5sum=(b6acc4aa93a952595fc8f2e7447be6f2)
 build() {
 	cd $name-$version
 
+	make configure
+
+	export DEBUG=-DNDEBUG
 	export OPTIMIZER=$CFLAGS
 
-	make DEBUG=-DNDEBUG     \
-	     INSTALL_USER=root  \
-	     INSTALL_GROUP=root \
-	     LOCAL_CONFIGURE_OPTIONS="--enable-readline"
+	./configure --prefix=/usr \
+		    --enable-readline
 	make
-	make DIST_ROOT=$PKG install install-dev
+	make -j1 DIST_ROOT=$PKG install install-dev
 
 	rm $PKG/lib/libhandle.{a,so}
 	ln -sf ../../lib/libhandle.so.1 $PKG/usr/lib/libhandle.so
