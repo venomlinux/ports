@@ -4,10 +4,10 @@
 # depends	: acl gcc bash
 
 name=gettext
-version=0.19.8.1
+version=0.20
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
-md5sum=(df3f5690eaa30fd228537b00cb7b7590)
+md5sum=(0929ab5d952c547067b1252d13bc689f)
 
 build() {
 	cd $name-$version
@@ -19,8 +19,8 @@ build() {
 	./configure --prefix=/usr \
 	            --disable-static \
 		    --disable-nls
-	make
-	make DESTDIR=$PKG install
+	make || make -j1
+	make -j1 DESTDIR=$PKG install
 
 	rm -r $PKG/usr/share/{doc,info}
 
