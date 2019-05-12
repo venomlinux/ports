@@ -1,0 +1,17 @@
+# description	: Python 3 bindings for QtWebEngine
+# depends	: qtwebengine python3-pyqt5
+
+name=python3-pyqtwebengine
+version=5.12.1
+release=1
+source=(https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/$version/PyQtWebEngine_gpl-$version.tar.gz)
+md5sum=(3328d0ccc2649d65846524d70fd0d0c5)
+
+build() {
+	cd PyQtWebEngine_gpl-$version
+	python3 configure.py
+	make
+	make INSTALL_ROOT=$PKG install -j1
+	install -d $PKG/usr/share/sip/PyQt5
+	cp -a sip/* $PKG/usr/share/sip/PyQt5
+}
