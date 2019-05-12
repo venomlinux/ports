@@ -15,7 +15,7 @@ build() {
 	    --no-sip-files \
 	    -q /usr/bin/qmake
 	make
-	make DESTDIR="$PKG" INSTALL_ROOT="$PKG" install
+	make DESTDIR="$PKG" INSTALL_ROOT="$PKG" install -j1
 
 	mv $PKG/usr/bin/pyrcc5{,-py2}
 	mv $PKG/usr/bin/pyuic5{,-py2}
