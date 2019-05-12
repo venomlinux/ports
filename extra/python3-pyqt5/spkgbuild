@@ -13,6 +13,7 @@ build() {
 	python3 configure.py \
 	    --confirm-license \
 	    --no-sip-files \
+	    --qsci-api \
 	    -q /usr/bin/qmake
 	make
 	install -d $PKG/usr/share/sip/PyQt5
