@@ -2,37 +2,20 @@
 # depends	: fontconfig libxrender desktop-file-utils shared-mime-info xdg-utils openssl-1.0 sdl2 hicolor-icon-theme pulseaudio
 
 name=wps-office
-version=10.1.0.6634
+version=11.1.0.8392
 release=1
-source=(http://kdl.cc.ksosoft.com/wps-community/download/6634/wps-office_${version}_x86_64.tar.xz)
-md5sum=(f3f754db343928b83ef4167a8440e2b7)
+source=(http://kdl.cc.ksosoft.com/wps-community/download/8392/wps-office_${version}_amd64.deb)
+md5sum=(2c3f8a138fa0fa2a335b924d58592a95)
 
 build() {
-	cd ${name}_${version}_x86_64
+	bsdtar -xf ${name}_${version}_amd64.deb
+	bsdtar -xf data.tar.xz -C $PKG
 
-	sed -i 's|/opt/kingsoft/wps-office|/opt/wps-office|' wps wpp et
+	sed -i 's|/opt/kingsoft/wps-office|/usr/lib|' $PKG/usr/bin/{wps,wpp,et}
+	rm -fr $PKG/opt/kingsoft/wps-office/office6/mui/zh_CN
+	rm -fr $PKG/opt/kingsoft/wps-office/templates
 
-	install -d $PKG/opt/wps-office
-	cp -r office6 $PKG/opt/wps-office
-
-	install -d $PKG/usr/bin
-	install -m755 wps wpp et $PKG/usr/bin
-
-	install -d $PKG/usr/share/applications
-	cp -r resource/applications/* $PKG/usr/share/applications
-
-	install -d $PKG/usr/share/mime
-	cp -r resource/mime/* $PKG/usr/share/mime
-
-	install -d $PKG/usr/share/icons
-	cp -r resource/icons/* $PKG/usr/share/icons
-
-	install -d $PKG/usr/share/fonts/TTF
-	cp -r fonts/* $PKG/usr/share/fonts/TTF
-
-	install -d $PKG/etc/fonts/conf.avail
-	cp -r fontconfig/* $PKG/etc/fonts/conf.avail
-
-	# remove junks
-	rm -fr $PKG/opt/wps-office/office6/mui/zh_CN
+	install -d $PKG/usr/lib
+	mv $PKG/opt/kingsoft/wps-office/office6 $PKG/usr/lib
+	rm -fr $PKG/opt
 }
