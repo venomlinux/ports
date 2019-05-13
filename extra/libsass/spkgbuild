@@ -3,12 +3,11 @@
 name=libsass
 version=3.5.5
 release=1
-source=(https://github.com/sass/$name/archive/${version}/$name-$version.tar.gz)
+source=($name-$version.tar.gz::https://github.com/sass/$name/archive/$version.tar.gz)
 md5sum=(3685f6f58282e06d82f3171063797a90)
 
 build() {
 	cd $name-$version
-
 	autoreconf -vfi
 	./configure --prefix=/usr --disable-static
 	make
