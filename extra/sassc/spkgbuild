@@ -4,12 +4,11 @@
 name=sassc
 version=3.5.0
 release=1
-source=(https://github.com/sass/$name/archive/${version}/$name-$version.tar.gz)
+source=($name-$version.tar.gz::https://github.com/sass/$name/archive/$version.tar.gz)
 md5sum=(f5c6aeb4e98c96d093f20295fc490f2c)
 
 build() {
 	cd $name-$version
-
 	autoreconf -vfi
 	./configure --prefix=/usr --disable-static
 	make
