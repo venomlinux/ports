@@ -1,14 +1,13 @@
 # description	: A keyboard-driven, vim-like browser based on PyQt5
-# depends	: qt5 qt5-webkit qtwebengine python3 python3-attrs python3-yaml python3-jinja2 python3-pypeg2 python3-pygments python3-pyqt5 python3-sip-pyqt5 python3-pyqtwebengine
+# depends	: qt5 qt5-webkit qtwebengine python3 python3-attrs python3-yaml python3-jinja2 python3-pypeg2 python3-pygments python3-pyqt5 python3-sip-pyqt5 python3-pyqtwebengine asciidoc
 
 name=qutebrowser
 version=1.6.2
-release=1
+release=2
 source=(https://github.com/qutebrowser/qutebrowser/releases/download/v$version/qutebrowser-$version.tar.gz)
 md5sum=(182d9d5de76a9d47d8afbabc4fe2f063)
 
 build() {
 	cd $name-$version
-	python3 setup.py build
-	python3 setup.py install --root="$PKG" --optimize=1
+	make -f misc/Makefile DESTDIR=$PKG PREFIX=/usr install
 }
