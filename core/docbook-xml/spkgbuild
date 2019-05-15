@@ -6,12 +6,17 @@
 
 name=docbook-xml
 version=4.5
-release=3
+release=4
 source=(https://www.docbook.org/xml/4.5/docbook-xml-4.5.zip
 	https://www.docbook.org/xml/4.4/docbook-xml-4.4.zip
 	https://www.docbook.org/xml/4.3/docbook-xml-4.3.zip
 	https://www.docbook.org/xml/4.2/docbook-xml-4.2.zip
 	https://www.docbook.org/xml/4.1.2/docbkx412.zip)
+md5sum=(03083e288e87a7e829e437358da7ef9e
+	cbb04e9a700955d88c50962ef22c1634
+	ab200202b9e136a144db1e0864c45074
+	73fe50dfe74ca631c1602f558ed8961f
+	900d7609fb7e6d78901b357e4acfbc17)
 
 build() {
 	for ver in 4.5 4.4 4.3 4.2; do
@@ -84,9 +89,3 @@ build() {
 	    $PKG/etc/xml/docbook
 	done
 }
-
-md5sum=(03083e288e87a7e829e437358da7ef9e
-cbb04e9a700955d88c50962ef22c1634
-ab200202b9e136a144db1e0864c45074
-73fe50dfe74ca631c1602f558ed8961f
-900d7609fb7e6d78901b357e4acfbc17)

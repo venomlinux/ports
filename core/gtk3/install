@@ -1,7 +1,10 @@
-post_install() {
-	gtk-query-immodules-3.0 --update-cache
-}
+# package install script
 
-pre_remove() {
-    rm -f /usr/lib/gtk-3.0/3.0.0/immodules.cache
-}
+action=$1
+newversion=$2
+oldversion=$3
+
+case $action in
+	post-install) gtk-query-immodules-3.0 --update-cache ;;
+	post-remove) rm -f /usr/lib/gtk-3.0/3.0.0/immodules.cache ;;
+esac

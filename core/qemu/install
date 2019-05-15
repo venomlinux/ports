@@ -1,3 +1,9 @@
-post_install() {
-	getent group kvm >/dev/null || groupadd -g 61 kvm
-}
+# package install script
+
+action=$1
+newversion=$2
+oldversion=$3
+
+case $action in
+	post-install) getent group kvm >/dev/null || groupadd -g 61 kvm ;;
+esac

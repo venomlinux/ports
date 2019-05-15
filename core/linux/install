@@ -1,3 +1,9 @@
+# package install script
+
+action=$1
+newversion=$2
+oldversion=$3
+
 post_install() {
 	if [ -f /lib/modules/KERNELVERSION ]; then
 		kernver=$(cat /lib/modules/KERNELVERSION)
@@ -19,4 +25,9 @@ post_remove() {
 	rm -f /boot/initrd-venom.img
 	rm -f /boot/initrd-venom-fallback.img
 }
+
+case $action in
+	post-install|post-upgrade) post_install ;;
+	post-remove) post_remove ;;
+esac
 

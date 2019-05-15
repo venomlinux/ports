@@ -4,16 +4,16 @@
 
 name=sgml-common
 version=0.6.3
-release=1
+release=2
 source=(ftp://sources.redhat.com/pub/docbook-tools/new-trials/SOURCES/$name-$version.tgz
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-manpage-1.patch)
+	$name-manpage-1.patch)
 md5sum=(103c9828f24820df86e55e7862e28974
 	645f3c898abd270a9143036824ae121a)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../$name-$version-manpage-1.patch
+	patch -Np1 -i ../$name-manpage-1.patch
 	autoreconf -f -i
 
 	./configure --prefix=/usr --sysconfdir=/etc

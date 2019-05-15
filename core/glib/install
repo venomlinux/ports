@@ -1,4 +1,12 @@
-post_install() {
-	gio-querymodules /usr/lib/gio/modules
-	glib-compile-schemas /usr/share/glib-2.0/schemas
-}
+# package install script
+
+action=$1
+newversion=$2
+oldversion=$3
+
+case $action in
+	post-install) 
+		gio-querymodules /usr/lib/gio/modules
+		glib-compile-schemas /usr/share/glib-2.0/schemas
+		;;
+esac

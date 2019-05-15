@@ -1,40 +1,51 @@
-post_install() {
-	
-	newversion=$1
+# package install script
+
+action=$1
+newversion=$2
+oldversion=$3
+
+post_install() {	
+	local version=$1
 
 	if [ ! -f /etc/xml/catalog ]; then
 		xmlcatalog --noout --create /etc/xml/catalog
 	fi
 
 	xmlcatalog --noout --add "rewriteSystem" \
-			   "http://docbook.sourceforge.net/release/xsl/$newversion" \
-			   "/usr/share/xml/docbook/xsl-stylesheets-$newversion" \
+			   "http://docbook.sourceforge.net/release/xsl/$version" \
+			   "/usr/share/xml/docbook/xsl-stylesheets-$version" \
 		/etc/xml/catalog
 
 	xmlcatalog --noout --add "rewriteURI" \
-			   "http://docbook.sourceforge.net/release/xsl/$newversion" \
-			   "/usr/share/xml/docbook/xsl-stylesheets-$newversion" \
+			   "http://docbook.sourceforge.net/release/xsl/$version" \
+			   "/usr/share/xml/docbook/xsl-stylesheets-$version" \
 		/etc/xml/catalog
 
 	xmlcatalog --noout --add "rewriteSystem" \
 			   "http://docbook.sourceforge.net/release/xsl/current" \
-			   "/usr/share/xml/docbook/xsl-stylesheets-$newversion" \
+			   "/usr/share/xml/docbook/xsl-stylesheets-$version" \
 		/etc/xml/catalog
 
 	xmlcatalog --noout --add "rewriteURI" \
 			   "http://docbook.sourceforge.net/release/xsl/current" \
-			   "/usr/share/xml/docbook/xsl-stylesheets-$newversion" \
+			   "/usr/share/xml/docbook/xsl-stylesheets-$version" \
 		/etc/xml/catalog
 }
 
-post_upgrade() {
-	post_remove $2
-	post_install $1
+post_remove() {	
+	local version=$1
+	xmlcatalog --noout --del "/usr/share/xml/docbook/xsl-stylesheets-$version" /etc/xml/catalog
 }
 
-post_remove() {
-	
-	oldversion=$1
-
-	xmlcatalog --noout --del "/usr/share/xml/docbook/xsl-stylesheets-$oldversion" /etc/xml/catalog
-}
+case $action in
+	post-install)
+		post_install $newversion
+		;;
+	post-upgrade)
+		post_remove $oldversion
+		post_install $newversion
+		;;
+	post-remove)
+		post_remove $newversion
+		;;
+esac
