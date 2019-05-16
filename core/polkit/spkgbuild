@@ -1,20 +1,16 @@
 # description	: Toolkit for defining and handling authorizations
 # homepage	: https://www.freedesktop.org/wiki/Software/polkit
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: glib js52 linux-pam gobject-introspection
+# depends	: glib js60 linux-pam gobject-introspection
 
 name=polkit
-version=0.115
-release=5
-source=(https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz
-	polkit-security-patch.patch)
-md5sum=(f03b055d6ae5fc8eac76838c7d83d082
-	252c1b18ba86a7b05840e992321f4639)
+version=0.116
+release=1
+source=(https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz)
+md5sum=(4b37258583393e83069a0e2e89c0162a)
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i ../polkit-security-patch.patch
 
 	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
