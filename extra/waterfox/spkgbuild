@@ -1,0 +1,54 @@
+# description	: 64-Bit optimized Firefox fork, no data collection, allows unsigned extensions
+# depends	: alsa-lib gtk3 gtk2 llvm icu nspr nss sqlite freetype2 cairo hunspell libevent dbus-glib pixman autoconf2.13 rust
+
+name=waterfox
+version=56.2.9
+release=1
+source=($name-$version.tar.gz::https://github.com/MrAlex94/Waterfox/archive/$version.tar.gz
+	mozconfig
+	waterfox.desktop
+	firefox-install-dir.patch)
+md5sum=(383ec595f61de82db0a9889d48fe7cfb
+	a893e6a506d6cbb2685182b298fe7964
+	cd463125b53a1a25c1b559721934aa90
+	dbf14588e85812ee769bd735823a0146)
+
+build() {
+	INITDIR=$PWD
+
+	cd Waterfox-$version
+
+	patch -Np1 -i $SRC/firefox-install-dir.patch
+
+	cp $SRC/mozconfig .mozconfig
+
+	export CARGO_HOME=$INITDIR
+
+	make -j -f client.mk build
+	DESTDIR=$PKG make -f client.mk install
+
+	rm -r $PKG/usr/lib/waterfox/browser/features/
+
+	for i in 16 32 48; do
+	install -Dm644 objdir/dist/waterfox/browser/chrome/icons/default/default$i.png \
+		$PKG/usr/share/icons/hicolor/${i}x${i}/apps/waterfox.png
+	done
+	
+	install -Dm644 objdir/dist/waterfox/browser/icons/mozicon128.png \
+		$PKG/usr/share/icons/hicolor/64x64/apps/waterfox.png
+	install -Dm644 objdir/dist/waterfox/browser/icons/mozicon128.png \
+		$PKG/usr/share/icons/hicolor/128x128/apps/waterfox.png
+	install -Dm644 browser/branding/official/content/about-logo.png \
+		$PKG/usr/share/icons/hicolor/192x192/apps/waterfox.png
+	install -Dm644 browser/branding/official/content/about-logo@2x.png \
+		$PKG/usr/share/icons/hicolor/384x384/apps/waterfox.png
+	
+	install -Dm644 $SRC/waterfox.desktop \
+		$PKG/usr/share/applications/waterfox.desktop
+
+	# exclude library for revdep
+	mkdir -p $PKG/etc/revdep.d/
+	for i in libmozsandbox.so liblgpllibs.so libmozgtk.so libxul.so libmozavutil.so; do
+		echo $i >> $PKG/etc/revdep.d/$name.conf
+	done
+}
