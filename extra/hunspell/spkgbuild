@@ -1,0 +1,16 @@
+# description	: Advanced spell checker
+
+name=hunspell
+version=1.7.0
+release=1
+source=($name-$version.tar.gz::https://github.com/hunspell/hunspell/archive/v$version.tar.gz)
+md5sum=(b2399a4aa927e8b3e171d9ea6737cc02)
+
+build() {
+	cd $name-$version
+	autoreconf -vfi
+	./configure --prefix=/usr --disable-nls
+	make
+	#make prefix=$PKG/usr install
+	make DESTDIR=$PKG install
+}
