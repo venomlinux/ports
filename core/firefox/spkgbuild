@@ -2,14 +2,18 @@
 # depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent sqlite dbus-glib graphite2 harfbuzz unzip zip autoconf2.13 yasm rust gconf llvm cbindgen nodejs libwebp
 
 name=firefox
-version=66.0.3
+version=66.0.5
 release=1
 source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
-	firefox-system_graphite2_harfbuzz-1.patch)
-md5sum=(a2d6f0f3c15467c1fe02e6cf7af36d71
-	81579c483fa7bfda10c55d20e5c7ca69)
+	firefox-system_graphite2_harfbuzz-1.patch
+	$name.desktop)
+md5sum=(a3d00fb4e950558135f08a5155745d4e
+	81579c483fa7bfda10c55d20e5c7ca69
+	971c77648caea312fca2d9340c4382a6)
 
 build() {
+	INITDIR=$PWD
+
 	cd $name-$version
 
   	cat > mozconfig << "EOF"
@@ -53,6 +57,7 @@ EOF
 	sed -e 's/checkImpl/checkFFImpl/g' -i js/src/vm/JSContext*.h
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
 	export MOZBUILD_STATE_PATH=${PWD}/mozbuild
+	export CARGO_HOME=$INITDIR
 
 	SHELL=/bin/sh ./mach build
 	SHELL=/bin/sh DESTDIR=$PKG ./mach install
@@ -60,26 +65,13 @@ EOF
 	mkdir -pv    $PKG/usr/lib/mozilla/plugins
 	ln    -sfv   ../../mozilla/plugins $PKG/usr/lib/$name/browser
 
-	install -d $PKG/usr/share/applications
-	install -d $PKG/usr/share/pixmaps
+	for i in 16 22 24 32 48 64 128 256; do
+	install -Dm644 browser/branding/official/default$i.png \
+		$PKG/usr/share/icons/hicolor/${i}x${i}/apps/$name.png
+	done
 
-cat > $PKG/usr/share/applications/firefox.desktop << "EOF"
-[Desktop Entry]
-Encoding=UTF-8
-Name=Firefox
-Comment=Browse the World Wide Web
-GenericName=Web Browser
-Exec=firefox %u
-Terminal=false
-Type=Application
-Icon=firefox
-Categories=GNOME;GTK;Network;WebBrowser;
-MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;x-scheme-handler/http;x-scheme-handler/https;
-StartupNotify=true
-EOF
-
-	ln -sfv /usr/lib/$name/browser/chrome/icons/default/default128.png \
-	        $PKG/usr/share/pixmaps/firefox.png
+	install -Dm644 $SRC/$name.desktop \
+		$PKG/usr/share/applications/$name.desktop
 
 	# exclude library for revdep
 	mkdir -p $PKG/etc/revdep.d/
