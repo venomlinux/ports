@@ -1,0 +1,17 @@
+# description	: Cross linux-api-headers toolchain for x86_64 with musl
+
+_triplet=x86_64-linux-musl
+name=cross-x86_64-linux-musl-linux-api-headers
+version=4.19.19
+release=1
+options=(!buildflags)
+source=(https://www.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz)
+md5sum=(e6a678e1880ed366a860f537d82be247)
+
+build() {
+	cd linux-$version	
+	make ARCH=$(uname -m) mrproper
+	make ARCH=$(uname -m) headers_check
+	make ARCH=$(uname -m) INSTALL_HDR_PATH=$PKG/usr/$_triplet headers_install
+	find $PKG \( -name .install -o -name ..install.cmd \) -delete
+}

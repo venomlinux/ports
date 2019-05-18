@@ -1,0 +1,41 @@
+# description	: Cross gcc toolchain for x86_64 with musl
+# depends	: mpfr libmpc gmp
+
+_triplet=x86_64-linux-musl
+name=cross-x86_64-linux-musl-gcc
+version=9.1.0
+release=1
+options=(!buildflags)
+source=(https://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-$version.tar.xz)
+md5sum=(6069ae3737cf02bf2cb44a391ef0e937)
+
+build() {
+	cd gcc-$version
+
+	sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
+	sed -i 's/lib64/lib/' gcc/config/i386/linux64.h
+
+	mkdir -v build
+	cd       build
+
+	../configure \
+	  --prefix=/usr \
+	  --build=$(echo ${MACHTYPE} | sed "s/-[^-]*/-cross/") \
+	  --host=$(echo ${MACHTYPE} | sed "s/-[^-]*/-cross/") \
+	  --target=$_triplet \
+	  --with-sysroot=/usr/$_triplet \
+	  --with-build-sysroot=/usr/$_triplet \
+	  --libexecdir=/usr/lib \
+	  --disable-nls \
+	  --enable-languages=c \
+	  --enable-c99 \
+	  --enable-long-long \
+	  --disable-libmudflap \
+	  --disable-multilib
+	make
+	make DESTDIR=$PKG install
+	install -d $PKG/usr/$_triplet/usr/lib
+	mv $PKG/usr/lib/libcc1.so* $PKG/usr/$_triplet/usr/lib
+	rm -r $PKG/usr/share/man/man7
+	rm -r $PKG/usr/share/info
+}

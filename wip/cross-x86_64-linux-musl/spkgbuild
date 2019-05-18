@@ -1,0 +1,22 @@
+# description	: Cross musl toolchain for x86_64 with musl
+# backup	: 
+# depends	: 
+# noextract	: 
+
+_triplet=x86_64-linux-musl
+name=cross-x86_64-linux-musl
+version=1.1.21
+release=1
+options=(!buildflags)
+source=(https://www.musl-libc.org/releases/musl-$version.tar.gz)
+md5sum=(7fa82f223a9a10959162185fcedfcc7b)
+
+build() {
+	cd musl-$version
+	CC=${_triplet}-gcc ./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG/usr/$_triplet install
+	cd $PKG/usr/$_triplet/usr/lib
+	ln -sf libc.so ld-musl-x86_64.so.1
+	rm $PKG/usr/x86_64-linux-musl/lib/ld-musl-x86_64.so.1
+}

@@ -1,0 +1,34 @@
+# description	: Cross binutils toolchain for x86_64 with musl
+# depends	: zlib
+
+_triplet=x86_64-linux-musl
+name=cross-x86_64-linux-musl-binutils
+version=2.32
+release=1
+options=(!buildflags)
+source=(https://ftp.gnu.org/gnu/binutils/binutils-$version.tar.xz)
+md5sum=(0d174cdaf85721c5723bf52355be41e6)
+
+build() {
+	cd binutils-$version
+	
+	sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
+
+	mkdir -v build
+	cd       build
+
+	../configure --prefix=/usr \
+	             --target=$_triplet \
+	             --with-sysroot=/usr/$_triplet \
+	             --disable-multilib \
+	             --enable-gold \
+		     --disable-nls \
+	             --enable-ld=default \
+	             --enable-plugins \
+	             --disable-shared \
+	             --disable-werror
+	make configure-host
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/info
+}
