@@ -9,9 +9,13 @@ source=(https://www.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz)
 md5sum=(e6a678e1880ed366a860f537d82be247)
 
 build() {
+	for dir in include lib bin; do
+		mkdir -p $PKG/usr/$_triplet/usr/$dir
+		ln -s /usr/$_triplet/usr/$dir $PKG/usr/$_triplet/$dir
+	done
 	cd linux-$version	
 	make ARCH=$(uname -m) mrproper
 	make ARCH=$(uname -m) headers_check
-	make ARCH=$(uname -m) INSTALL_HDR_PATH=$PKG/usr/$_triplet headers_install
+	make ARCH=$(uname -m) INSTALL_HDR_PATH=$PKG/usr/$_triplet/usr headers_install
 	find $PKG \( -name .install -o -name ..install.cmd \) -delete
 }
