@@ -1,0 +1,12 @@
+# package install script
+
+action=$1
+newversion=$2
+oldversion=$3
+
+case $action in
+	post-install)
+		getent group tor >/dev/null || groupadd -g 43 tor
+		getent passwd tor >/dev/null || useradd -c "D-Bus Message Daemon User" -d /var/lib/tor -u 43 -g tor -s /bin/false tor
+		;;
+esac

@@ -1,0 +1,32 @@
+# description	: Anonymizing overlay network
+# homepage	: https://www.torproject.org/
+# depends	: libseccomp libevent openssl zlib
+
+name=tor
+version=0.3.5.8
+release=1
+source=(https://www.torproject.org/dist/$name-$version.tar.gz
+	torrc
+	$name.rc)
+md5sum=(e4b0feca80cc221ab235c9544851b146
+	c1dd4004c63edaeaa829e01be5413cfc
+	84872dce91b9d323af721d98fff6a527)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+	make
+	make DESTDIR=$PKG install
+
+	rm -fr $PKG/usr/share/doc
+
+	install -Dm0644 $SRC/torrc $PKG/etc/tor/torrc
+	mv $PKG/etc/tor/torrc.sample $PKG/etc/tor/torrc-dist
+
+	install -d $PKG/var/lib/tor
+
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+
+}
