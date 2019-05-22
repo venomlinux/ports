@@ -1,0 +1,15 @@
+# description	: Enhanced seccomp library
+# homepage	: https://github.com/seccomp/libseccomp
+
+name=libseccomp
+version=2.4.0
+release=1
+source=(https://github.com/seccomp/$name/releases/download/v$version/$name-$version.tar.gz)
+md5sum=(91625d78af26c646b03be3de58e71988)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
