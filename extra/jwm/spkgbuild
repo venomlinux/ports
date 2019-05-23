@@ -5,7 +5,7 @@
 
 name=jwm
 version=2.3.7
-release=1
+release=2
 source=(http://joewing.net/projects/jwm/releases/$name-$version.tar.xz
 	jwm.desktop)
 md5sum=(95b297a89dedf45ef037c2596ad7d699
@@ -13,6 +13,9 @@ md5sum=(95b297a89dedf45ef037c2596ad7d699
 
 build() {
 	cd $name-$version
+
+	sed -i 's|/usr/local/share/|/usr/share/|' contrib/Makefile po/Makefile* example.jwmrc
+
 	./configure \
 		--prefix=/usr \
 		--libexecdir=/usr/lib \
