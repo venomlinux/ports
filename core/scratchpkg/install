@@ -5,7 +5,7 @@ newversion=$2
 oldversion=$3
 
 case $action in
-	post-install)
+	post-install|post-upgrade)
 		for i in /var/lib/scratchpkg/index/*; do
 			for ii in $i/*;	do
 				[ -d $ii ] && rm -fr $ii
