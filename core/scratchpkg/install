@@ -8,7 +8,7 @@ case $action in
 	post-install)
 		for i in /var/lib/scratchpkg/index/*; do
 			for ii in $i/*;	do
-				[ -d $ii ] && sudo rm -fr $ii
+				[ -d $ii ] && rm -fr $ii
 			done
 		done
 		;;
