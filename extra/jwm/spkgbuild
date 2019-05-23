@@ -15,6 +15,7 @@ build() {
 	cd $name-$version
 
 	sed -i 's|/usr/local/share/|/usr/share/|' contrib/Makefile po/Makefile* example.jwmrc
+	sed "s/autohide/height=\"20\" autohide/" -i example.jwmrc
 
 	./configure \
 		--prefix=/usr \
