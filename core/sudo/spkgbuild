@@ -1,12 +1,12 @@
 # description	: allows a system administrator to give certain users (or groups of users) the ability to run some (or all) commands as root or another user while logging the commands and arguments
 # homepage	: https://www.sudo.ws
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# backup	: etc/sudoers
 # depends	: linux-pam
 
 name=sudo
 version=1.8.27
 release=2
+backup=(etc/sudoers)
 source=(https://www.sudo.ws/dist/$name-$version.tar.gz
 	sudo)
 md5sum=(b5c184b13b6b5de32af630af2fd013fd

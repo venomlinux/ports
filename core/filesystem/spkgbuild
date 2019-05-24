@@ -1,10 +1,16 @@
 # description	: Base Venom Linux files
-# backup	: etc/passwd etc/resolv.conf etc/hostname etc/group etc/fstab etc/hosts etc/shells
 # depends	: iana-etc
 
 name=filesystem
 version=1
 release=2
+backup=(etc/passwd
+	etc/resolv.conf
+	etc/hostname
+	etc/group
+	etc/fstab
+	etc/hosts
+	etc/shells)
 source=(passwd group resolv.conf hosts hostname inputrc usb.conf
 	shells fstab lsb-release bashrc profile
 	bash_completion.sh dircolors.sh readline.sh

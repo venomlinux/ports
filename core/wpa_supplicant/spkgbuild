@@ -1,13 +1,13 @@
 # description	: Implements WPA key negotiation with a WPA Authenticator and Extensible Authentication Protocol (EAP) authentication with an Authentication Server
 # homepage	: http://hostap.epitest.fi/wpa_supplicant
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# backup	: etc/wpa_supplicant.conf etc/conf.d/wpa
 # depends	: libnl openssl dbus dhcpcd
 
 name=wpa_supplicant
 version=2.8
 release=2
-
+backup=(etc/wpa_supplicant.conf
+	etc/conf.d/wpa)
 source=(https://w1.fi/releases/$name-$version.tar.gz
 	wpa_supplicant.conf
 	wpa_supplicant.rc

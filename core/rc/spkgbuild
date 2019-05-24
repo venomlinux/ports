@@ -1,10 +1,11 @@
 # description	: BSD-style init (CRUX's init inspired)
-# backup	: etc/rc.conf etc/rc.local
 # depends	: sysvinit
 
 name=rc
 version=20190501
 release=1
+backup=(etc/rc.conf
+	etc/rc.local)
 options=(!strip)
 _commit=6f73db50a2291e8658f86ed7d61ec5881fffc253
 source=($name-$_commit.tar.gz::https://github.com/venomlinux/rc/archive/$_commit.tar.gz)

@@ -1,10 +1,12 @@
 # description	: Lightweight display manager based upon GTK
-# backup	: etc/lightdm/keys.conf etc/lightdm/lightdm.conf etc/lightdm/users.conf
 # depends	: glib glibc libgcrypt linux-pam polkit pcre libxklavier itstool vala gobject-introspection
 
 name=lightdm
 version=1.30.0
 release=1
+backup=(etc/lightdm/keys.conf
+	etc/lightdm/lightdm.conf
+	etc/lightdm/users.conf)
 source=(https://github.com/CanonicalLtd/lightdm/releases/download/$version/lightdm-$version.tar.xz
 	Xsession
 	lightdm.rules

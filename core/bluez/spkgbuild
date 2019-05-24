@@ -2,11 +2,11 @@
 # homepage	: http://www.bluez.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: dbus glib libical
-# backup	: etc/conf.d/bluetooth
 
 name=bluez
 version=5.50
 release=4
+backup=(etc/conf.d/bluetooth)
 source=(https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
 	$name-obexd_without_systemd-1.patch
 	bluetooth.rc

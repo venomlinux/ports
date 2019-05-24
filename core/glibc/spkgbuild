@@ -2,11 +2,11 @@
 # homepage	: https://www.gnu.org/software/libc
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: linux-api-headers python3
-# backup	: etc/locales
 
 name=glibc
 version=2.29
 release=1
+backup=(etc/locales)
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-fhs-1.patch
 	genlocales)

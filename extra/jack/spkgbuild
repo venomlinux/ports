@@ -1,11 +1,11 @@
 # description	: A low-latency audio server
-# backup	: etc/security/limits.d/99-audio.conf
 # depends	: libsamplerate db zita-alsa-pcmi zita-resampler celt
 
 name=jack
 _longname=jack-audio-connection-kit
 version=0.125.0
 release=1
+backup=(etc/security/limits.d/99-audio.conf)
 source=(http://jackaudio.org/downloads/$_longname-$version.tar.gz
 	99-audio.conf
         40-hpet-permissions.rules)
