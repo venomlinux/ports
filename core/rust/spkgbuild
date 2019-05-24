@@ -6,11 +6,28 @@
 name=rust
 version=1.32.0
 release=1
-source=(https://static.rust-lang.org/dist/rustc-$version-src.tar.gz)
-md5sum=(366f049777e00d0d6f15d25895485efb)
+_date=2018-12-20
+_rust=1.31.1
+_cargo=0.32.0
+source=(https://static.rust-lang.org/dist/rustc-$version-src.tar.gz
+	https://static.rust-lang.org/dist/$_date/rust-std-$_rust-x86_64-unknown-linux-gnu.tar.gz
+	https://static.rust-lang.org/dist/$_date/rustc-$_rust-x86_64-unknown-linux-gnu.tar.gz
+	https://static.rust-lang.org/dist/$_date/cargo-$_cargo-x86_64-unknown-linux-gnu.tar.gz)
+md5sum=(366f049777e00d0d6f15d25895485efb
+	3115e11612a882713978279635116881
+	83f3f130e9a1c7e855a0c1eed8ac3508
+	9ae6d258781870591450ea33d3b1bed9)
+noextract=(rust-std-$_rust-x86_64-unknown-linux-gnu.tar.gz
+	rustc-$_rust-x86_64-unknown-linux-gnu.tar.gz
+	cargo-$_cargo-x86_64-unknown-linux-gnu.tar.gz)
 
 build() {
 	cd rustc-$version-src
+
+	mkdir -p build/cache/$_date
+	cp $SRC/rust-std-$_rust-x86_64-unknown-linux-gnu.tar.gz build/cache/$_date/
+	cp $SRC/rustc-$_rust-x86_64-unknown-linux-gnu.tar.gz build/cache/$_date/
+	cp $SRC/cargo-$_cargo-x86_64-unknown-linux-gnu.tar.gz build/cache/$_date/
 
 cat <<EOF > config.toml
 # see config.toml.example for more possible options
@@ -41,15 +58,15 @@ docdir = "share/doc/rustc"
 [rust]
 channel = "stable"
 rpath = false
-
-# BLFS does not install the FileCheck executable from llvm,
-# so disable codegen tests
 codegen-tests = false
 
 # get a trace if there is an Internal Compiler Exception
 backtrace-on-ice = true
 
 EOF
+
+	mkdir "$SRC/rust"
+	export CARGO_HOME="$SRC/rust"
 
 	export RUSTFLAGS="$RUSTFLAGS -C link-args=-lffi"
 	python3 ./x.py build --exclude src/tools/miri
