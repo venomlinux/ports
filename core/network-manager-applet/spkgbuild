@@ -1,5 +1,5 @@
 # description	: Panel applet used to configure wired and wireless network connections
-# depends	: gtk3 iso-codes libsecret libnotify networkmanager modemmanager gobject-introspection meson gtk-doc python2-six
+# depends	: gtk3 iso-codes libsecret libnotify networkmanager modemmanager gobject-introspection meson python2-six
 
 name=network-manager-applet
 version=1.8.20
@@ -13,13 +13,14 @@ build() {
 	mkdir build
 	cd build
 	
-	meson --prefix=/usr           \
-	      --sysconfdir=/etc       \
-	      -Dselinux=false         \
-	      -Dteam=false            \
+	meson --prefix=/usr \
+	      --sysconfdir=/etc \
+	      -Dselinux=false \
+	      -Dteam=false \
+	      -Dgtk_doc=false \
 	      -Dmobile_broadband_provider_info=false
 	ninja
 	DESTDIR=$PKG ninja install
 
-	rm -r $PKG/usr/share/{locale,gtk-doc}
+	rm -r $PKG/usr/share/locale
 }
