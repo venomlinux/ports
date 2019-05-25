@@ -16,9 +16,8 @@ build() {
 	cmake -DCMAKE_INSTALL_PREFIX=/usr \
 	      -DCMAKE_BUILD_TYPE=Release  \
 	      -DSHARED_ONLY=yes           \
+	      -DENABLE_GTK_DOC=OFF        \
 	      ..
 	make
 	make DESTDIR=$PKG install
-
-	rm -rf $PKG/usr/share/gtk-doc
 }
