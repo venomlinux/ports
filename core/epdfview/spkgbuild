@@ -1,20 +1,20 @@
 # description	: Standalone lightweight PDF document viewer using Poppler and GTK+ libraries
 # homepage	: http://freecode.com/projects/epdfview
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: gtk2 poppler hicolor-icon-theme desktop-file-utils
+# depends	: gtk2 poppler-glib hicolor-icon-theme desktop-file-utils
 
 name=epdfview
 version=0.1.8
 release=1
 source=(http://anduin.linuxfromscratch.org/BLFS/$name/$name-$version.tar.bz2
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-fixes-2.patch)
+	$name-fixes-2.patch)
 md5sum=(e50285b01612169b2594fea375f53ae4
 	f1b7c1e596c8bdd60dec43ecf38ca212)
 
 build() {
 	cd $name-$version
 
-  	patch -Np1 -i $SRC/$name-$version-fixes-2.patch
+  	patch -Np1 -i $SRC/$name-fixes-2.patch
 
 	./configure --prefix=/usr --disable-nls
 	make
