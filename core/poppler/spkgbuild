@@ -1,10 +1,9 @@
 # description	: PDF rendering library and command line tools used to manipulate PDF files
 # depends	: cmake fontconfig cairo libjpeg-turbo libpng nss openjpeg2 poppler-data
-# optdepends	: curl gdk-pixbuf gtk3 lcms2 libtiff qt5 glib
 
 name=poppler
 version=0.76.1
-release=1
+release=2
 source=(https://poppler.freedesktop.org/$name-$version.tar.xz)
 md5sum=(99f1e6ab4c96d14840e862eb027f0fc0)
 
@@ -18,6 +17,8 @@ build() {
 	       -DCMAKE_INSTALL_PREFIX=/usr  \
 	       -DTESTDATADIR=$PWD/testfiles \
 	       -DENABLE_UNSTABLE_API_ABI_HEADERS=ON \
+	       -DENABLE_GLIB=OFF \
+	       -DENABLE_QT5=OFF \
 	       .. 
 	make
 	make DESTDIR=$PKG install
