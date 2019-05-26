@@ -1,0 +1,32 @@
+# description	: glib wrapper for poppler
+# depends	: poppler glib gobject-introspection
+
+name=poppler-glib
+version=0.76.1
+release=1
+source=(https://poppler.freedesktop.org/poppler-$version.tar.xz)
+md5sum=(99f1e6ab4c96d14840e862eb027f0fc0)
+
+build() {
+	cd poppler-$version
+
+  	mkdir build
+	cd    build
+	
+	cmake  -DCMAKE_BUILD_TYPE=Release   \
+	       -DCMAKE_INSTALL_PREFIX=/usr  \
+	       -DTESTDATADIR=$PWD/testfiles \
+	       -DENABLE_UNSTABLE_API_ABI_HEADERS=OFF \
+	       -DENABLE_UTILS=OFF \
+	       -DENABLE_CPP=OFF \
+	       -DENABLE_GLIB=ON \
+	       -DENABLE_QT5=OFF \
+	       .. 
+	make
+	make DESTDIR=$PKG install
+
+	rm $PKG/usr/lib/libpoppler.so*
+	rm $PKG/usr/lib/pkgconfig/poppler.pc
+	rm $PKG/usr/lib/pkgconfig/poppler-splash.pc
+	rm $PKG/usr/lib/pkgconfig/poppler-cairo.pc
+}
