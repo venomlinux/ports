@@ -2,10 +2,10 @@
 # depends	: glib-networking libxml2 sqlite gobject-introspection vala meson libpsl
 
 name=libsoup
-version=2.66.2
+version=2.67.1
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
-md5sum=(66c2ae89d6031b01337d78a2c57c75d5)
+md5sum=(272a4bcac2985fcc15ca9a9fb70d2e61)
 
 build() {
 	cd $name-$version
@@ -13,7 +13,12 @@ build() {
 	mkdir build
 	cd build
 	
-	meson --prefix=/usr --libdir=/usr/lib -Dgssapi=false -Dvapi=true ..
+	meson --prefix=/usr \
+	      --libdir=/usr/lib \
+	      -Dgssapi=false \
+	      -Dvapi=true \
+	      -Dbrotli=false \
+	..
 	ninja
 	DESTDIR=$PKG ninja install
 
