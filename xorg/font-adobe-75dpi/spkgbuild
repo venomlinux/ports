@@ -1,0 +1,23 @@
+# description	: X.org 75dpi fonts
+# noextract	: encodings font-alias fontconfig
+
+name=font-adobe-75dpi
+version=1.0.3
+release=1
+source=(https://www.x.org/archive/individual/font/$name-$version.tar.bz2)
+md5sum=(6c9f26c92393c0756f3e8d614713495b)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+
+	find $PKG -name 'fonts.scale' -delete	
+	find $PKG -name 'fonts.dir' -delete
+}
