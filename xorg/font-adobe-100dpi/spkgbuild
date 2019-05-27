@@ -1,0 +1,23 @@
+# description	: X.org 100dpi fonts
+# noextract	: encodings font-alias fontconfig
+
+name=font-adobe-100dpi
+version=1.0.3
+release=1
+source=(https://www.x.org/archive/individual/font/$name-$version.tar.bz2)
+md5sum=(1347c3031b74c9e91dc4dfa53b12f143)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+
+	find $PKG -name 'fonts.scale' -delete	
+	find $PKG -name 'fonts.dir' -delete
+}
