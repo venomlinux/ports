@@ -3,7 +3,7 @@
 
 name=filesystem
 version=1
-release=2
+release=3
 backup=(etc/passwd
 	etc/resolv.conf
 	etc/hostname
@@ -52,6 +52,7 @@ build() {
 	mkdir -pv $PKG/usr/{,local/}share/man/man{1..8}
 	mkdir -v $PKG/lib64
 	mkdir -v $PKG/var/{log,mail,spool}
+	mkdir -p $PKG/run/lock
 	ln -sv ../run $PKG/var/run
 	ln -sv ../run/lock $PKG/var/lock
 	mkdir -pv $PKG/var/{opt,cache,lib/{color,misc,locate},local}
