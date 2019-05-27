@@ -1,0 +1,23 @@
+# description	: X.org daewoo-misc fonts
+# noextract	: encodings font-alias fontconfig
+
+name=font-daewoo-misc
+version=1.0.3
+release=1
+source=(https://www.x.org/archive/individual/font/$name-$version.tar.bz2)
+md5sum=(0571bf77f8fab465a5454569d9989506)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+
+	find $PKG -name 'fonts.scale' -delete	
+	find $PKG -name 'fonts.dir' -delete
+}
