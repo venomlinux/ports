@@ -2,14 +2,14 @@
 # depends	: sysvinit
 
 name=rc
-version=20190501
+version=20190527
 release=1
 backup=(etc/rc.conf
 	etc/rc.local)
 options=(!strip)
-_commit=6f73db50a2291e8658f86ed7d61ec5881fffc253
+_commit=aba5065bb476a8334fdbeb9433e47a323db08947
 source=($name-$_commit.tar.gz::https://github.com/venomlinux/rc/archive/$_commit.tar.gz)
-md5sum=(4f89f46bdcd015c6c26b99a61b573c8e)
+md5sum=(31007d6f86d12ee06db475ab2a75b0ab)
 
 build() {
 	cd $name-$_commit
