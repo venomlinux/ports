@@ -1,0 +1,23 @@
+# description	: X.org isas-misc fonts
+# noextract	: encodings font-alias fontconfig
+
+name=font-isas-misc
+version=1.0.3
+release=1
+source=(https://www.x.org/archive/individual/font/$name-$version.tar.bz2)
+md5sum=(a2401caccbdcf5698e001784dbd43f1a)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+
+	find $PKG -name 'fonts.scale' -delete	
+	find $PKG -name 'fonts.dir' -delete
+}
