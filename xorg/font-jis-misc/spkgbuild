@@ -1,0 +1,23 @@
+# description	: X.org jis-misc fonts
+# noextract	: encodings font-alias fontconfig
+
+name=font-jis-misc
+version=1.0.3
+release=1
+source=(https://www.x.org/archive/individual/font/$name-$version.tar.bz2)
+md5sum=(cb7b57d7800fd9e28ec35d85761ed278)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+
+	find $PKG -name 'fonts.scale' -delete	
+	find $PKG -name 'fonts.dir' -delete
+}
