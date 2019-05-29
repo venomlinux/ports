@@ -1,7 +1,7 @@
 # description	: Libraries and utilities for loading kernel modules
 # homepage	: https://git.kernel.org/?p=utils/kernel/kmod/kmod.git;a=summary
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: kmod
+# depends	: kmod xz-32
 
 name=kmod-32
 version=26
@@ -14,7 +14,7 @@ build() {
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	./configure --prefix=/usr          \
 		    --libdir=/usr/lib32    \
