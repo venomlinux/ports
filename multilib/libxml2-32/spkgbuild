@@ -1,5 +1,5 @@
 # description	: Contains libraries and utilities used for parsing XML files
-# depends	: libxml2 icu-32 xz-32
+# depends	: libxml2 icu-32
 
 name=libxml2-32
 version=2.9.9
@@ -12,7 +12,7 @@ build() {
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	patch -Np1 -i ../libxml2-python3_hack-1.patch
 
