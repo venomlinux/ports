@@ -1,0 +1,19 @@
+# description	: A simple (suckless) terminal
+# homepage	: http://dwm.suckless.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libx11 libxft libxrender fontconfig freetype2 ohsnap
+
+name=st-venom
+version=20190601
+release=1
+_commit=c0e732164593f89d033ff1d00688053c47e140a0
+source=($name-$version.tar.gz::https://github.com/venomlinux/st-venom/archive/c0e732164593f89d033ff1d00688053c47e140a0.tar.gz)
+md5sum=(64fb341a3c3895f7f9e6a6b332f8f627)
+
+build() {
+	cd $name-$_commit
+	make PREFIX=/usr DESTDIR=$PKG TERMINFO=$PKG/usr/share/terminfo install
+
+	# conflict with ncurses
+	rm $PKG/usr/share/terminfo/s/st{,-256color}
+}
