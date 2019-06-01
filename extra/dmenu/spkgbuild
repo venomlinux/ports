@@ -4,17 +4,13 @@
 # depends	: freetype2 libxft libxinerama
 
 name=dmenu
-version=4.5
+version=4.9
 release=1
-source=(http://dl.suckless.org/tools/dmenu-$version.tar.gz "${patches[@]}")
+source=(http://dl.suckless.org/tools/dmenu-$version.tar.gz)
+md5sum=(9a537ec9a3a2ce9f08963d66b56cc030)
 
 build() {
 	cd $name-$version
-	for patch in "${patches[@]}"; do
-		echo "Patching $patch"
-		patch -p1 < "../${patch}"
-	done
 	make
 	make DESTDIR=$PKG PREFIX=/usr install
 }
-md5sum=(9c46169ed703732ec52ed946c27d84b4)
