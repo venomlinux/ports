@@ -16,6 +16,9 @@ build() {
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
+	# allow building with gawk-5.0
+	sed -i 's/namespace/pkg_&/' src/Makefile.{am,in} src/mkstrtable.awk
+
   	./configure --prefix=/usr --libdir=/usr/lib32
 	make
 	make DESTDIR=$PKG install

@@ -5,11 +5,14 @@ name=i3-gaps
 version=4.16.1
 release=1
 backup=(etc/i3/config)
-source=($name-$version.tar.gz::https://github.com/Airblader/i3/archive/$version.tar.gz)
-md5sum=(d9093a4d9c3e0856844696ffdb199b8b)
+source=($name-$version.tar.gz::https://github.com/Airblader/i3/archive/$version.tar.gz
+	pango-update.patch)
+md5sum=(d9093a4d9c3e0856844696ffdb199b8b
+	975562778bc24fb411c30b0ea7eea00c)
 
 build() {
 	cd i3-$version
+	patch -Np1 -i ../pango-update.patch
 	autoreconf -fvi
 	mkdir build
 	cd build
