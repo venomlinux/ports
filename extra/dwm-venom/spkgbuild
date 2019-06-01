@@ -1,62 +1,24 @@
 # description	: A dynamic window manager for X
 # homepage	: http://dwm.suckless.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: dmenu rxvt-unicode freetype2 libx11 libxft libxinerama ohsnap siji-font
+# depends	: dmenu freetype2 libx11 libxft libxinerama ohsnap siji-font st-venom
 
 name=dwm-venom
-version=6.0
-release=3
-source=(http://dl.suckless.org/dwm/dwm-$version.tar.gz
-        config.h
+version=20190601
+release=1
+_commit=8dd6f8ce16a808d43824c1f678ff77a03c649cdb
+source=($name-$version.tar.gz::https://github.com/venomlinux/dwm-venom/archive/8dd6f8ce16a808d43824c1f678ff77a03c649cdb.tar.gz
 	dwm.desktop
-	01-tilegap.diff
-	02-centredfloating.diff
-	03-systray.diff
-	04-pertag.diff
-	05-attachabove.diff
-	06-focusadjacenttag3.diff
-	07-pushnomaster.diff
-	08-save_floats.diff
-	terminus2.bdf
-	xbmicons.bdf
-	dwm-bar
-	dwm)
-md5sum=(8bb00d4142259beb11e13473b81c0857
-	SKIP
+	dwm-bar)
+md5sum=(312e15c60b9695821c283185f772c706
 	939f403a71b6e85261d09fc3412269ee
-	471eba2b8b2fbce0a9f31d417ae652c6
-	ed11483bfccbf65ff9714c0ca4e7bb23
-	db5810f3fba70da7c2cdb76979c3e798
-	be94530c8592342bd99c7b5eeafdd176
-	ec8cb48d437ff14589d5a6d4b8d4163b
-	8114ef7b7cdd66e4c1b0d37eb23888fd
-	6805feec564612ed81a244c3e9c52e6e
-	44d0c475358e5653c302c0f5b2d12f28
-	f2324c7c9ed1102dad374b067c20d95a
-	683355025a6861644bfbb1df0467ba47
-	325df8ce24f32cce66e758018752a52d
-	7514bd3e98a9c70be5dfcddab84c7421)
+	325df8ce24f32cce66e758018752a52d)
 
 build() {
-	cd dwm-$version
-
-	cp ../config.h config.h
-
-	patch -Np1 -i ../01-tilegap.diff
-	patch -Np1 -i ../02-centredfloating.diff
-	patch -Np1 -i ../03-systray.diff
-	patch -Np1 -i ../04-pertag.diff
-	patch -Np1 -i ../05-attachabove.diff
-	patch -Np1 -i ../06-focusadjacenttag3.diff
-	patch -Np1 -i ../07-pushnomaster.diff
-	patch -Np1 -i ../08-save_floats.diff
+	cd $name-$_commit
 
 	make PREFIX=/usr DESTDIR=$PKG install
 
 	install -m644 -D $SRC/dwm.desktop $PKG/usr/share/xsessions/dwm.desktop
-	install -m644 -D $SRC/terminus2.bdf $PKG/usr/share/fonts/X11/misc/terminus2.bdf
-	install -m644 -D $SRC/xbmicons.bdf $PKG/usr/share/fonts/X11/misc/xbmicons.bdf
 	install -m755 -D $SRC/dwm-bar $PKG/usr/bin/dwm-bar
-	mv $PKG/usr/bin/dwm $PKG/usr/bin/dwm-$version
-	install -m755 -D $SRC/dwm $PKG/usr/bin/dwm
 }
