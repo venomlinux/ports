@@ -2,15 +2,14 @@
 # depends	: libunistring
 
 name=libidn2
-version=2.1.1
+version=2.2.0
 release=1
 source=(https://ftp.gnu.org/gnu/libidn/libidn2-$version.tar.gz)
-md5sum=(3d33249c75bef1a25c04063ad7f5f983)
+md5sum=(b846d4d20e22b99d6f7387bb66e00a1f)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --disable-nls
+	./configure --prefix=/usr --disable-nls --disable-doc
 	make
 	make DESTDIR=$PKG install
-	rm -r $PKG/usr/share/{info,gtk-doc}
 }
