@@ -1,0 +1,8 @@
+case $1 in
+	post-install|post-upgrade)
+		grep -qe '^/bin/tcsh$' etc/shells || echo '/bin/tcsh' >> etc/shells
+		grep -qe '^/bin/csh$' etc/shells || echo '/bin/csh' >> etc/shells ;;
+	post-remove)
+		sed -i -r '/^\/bin\/tcsh$/d' etc/shells
+		sed -i -r '/^\/bin\/csh$/d' etc/shells ;;
+esac
