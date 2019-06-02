@@ -5,13 +5,17 @@
 
 name=st-venom
 version=20190601
-release=1
+release=2
 _commit=c0e732164593f89d033ff1d00688053c47e140a0
-source=($name-$version.tar.gz::https://github.com/venomlinux/st-venom/archive/c0e732164593f89d033ff1d00688053c47e140a0.tar.gz)
-md5sum=(64fb341a3c3895f7f9e6a6b332f8f627)
+source=($name-$version.tar.gz::https://github.com/venomlinux/st-venom/archive/c0e732164593f89d033ff1d00688053c47e140a0.tar.gz
+	config.h)
+md5sum=(64fb341a3c3895f7f9e6a6b332f8f627
+	SKIP)
 
 build() {
 	cd $name-$_commit
+
+	cp $SRC/config.h .
 	make PREFIX=/usr DESTDIR=$PKG TERMINFO=$PKG/usr/share/terminfo install
 
 	# conflict with ncurses
