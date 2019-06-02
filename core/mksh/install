@@ -1,0 +1,6 @@
+case $1 in
+	post-install|post-upgrade)
+		grep -qe '^/bin/mksh$' etc/shells || echo '/bin/mksh' >> etc/shells ;;
+	post-remove)
+		sed -i -r '/^\/bin\/mksh$/d' etc/shells ;;
+esac
