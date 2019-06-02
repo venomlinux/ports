@@ -2,12 +2,13 @@
 # depends	: python3
 
 name=cython3
-version=0.29.7
+version=0.29.9
 release=1
-source=(cython-$version.tar.gz::https://github.com/cython/cython/archive/$version.tar.gz)
-md5sum=(9220c35ed0e75658ba3fcdbe77be7102)
+source=(https://files.pythonhosted.org/packages/source/C/Cython/Cython-$version.tar.gz)
+md5sum=(bc0cca4658947bf2fb3fc10e8d090182)
 
 build() {
-	cd cython-$version
-	python3 setup.py install --root=$PKG
+	cd Cython-$version
+	python3 setup.py build
+	python3 setup.py install --root=$PKG --optimize=1
 }
