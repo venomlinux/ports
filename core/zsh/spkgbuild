@@ -1,0 +1,23 @@
+# description	: A very advanced and programmable command interpreter (shell) for UNIX
+# homepage	: https://www.zsh.org/
+# depends	: gdbm ncurses
+
+name=zsh
+version=5.7.1
+release=1
+source=(http://www.zsh.org/pub/$name-$version.tar.xz)
+md5sum=(374f9fdd121b5b90e07abfcad7df0627)
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--bindir=/bin \
+		--sysconfdir=/etc/zsh \
+		--enable-etcdir=/etc/zsh \
+		--enable-zshrc=/etc/zsh/zshrc \
+		--enable-zlogin=/etc/zsh/zshlogin \
+		--enable-zshenv=/etc/zsh/zshenv
+	make
+	make DESTDIR=$PKG install
+}
