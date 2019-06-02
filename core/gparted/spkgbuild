@@ -4,10 +4,10 @@
 # depends	: gtkmm2 parted
 
 name=gparted
-version=0.33.0
+version=1.0.0
 release=1
 source=(https://sourceforge.net/projects/gparted/files/gparted/gparted-$version/gparted-$version.tar.gz)
-md5sum=(2f481ad34decb7021ca04ca305e79e7d)
+md5sum=(025160c642b64148818761a1a4f599eb)
 
 build() {
 	cd $name-$version
@@ -15,6 +15,8 @@ build() {
 	./configure --prefix=/usr \
 	            --disable-doc \
 		    --disable-nls \
+		    --enable-libparted-dmraid \
+		    --enable-xhost-root \
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
