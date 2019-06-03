@@ -4,18 +4,22 @@
 # depends	: dmenu freetype2 libx11 libxft libxinerama ohsnap siji-font st-venom
 
 name=dwm-venom
-version=20190601
+version=20190603
 release=1
-_commit=8dd6f8ce16a808d43824c1f678ff77a03c649cdb
-source=($name-$version.tar.gz::https://github.com/venomlinux/dwm-venom/archive/8dd6f8ce16a808d43824c1f678ff77a03c649cdb.tar.gz
+_commit=840dab393a0d6d8d46c29c24e57f2ebf5238d82e
+source=($name-$version.tar.gz::https://github.com/venomlinux/dwm-venom/archive/$_commit.tar.gz
 	dwm.desktop
-	dwm-bar)
-md5sum=(312e15c60b9695821c283185f772c706
+	dwm-bar
+	config.h)
+md5sum=(d4b31e3b14a50c86583976c0e695cd97
 	939f403a71b6e85261d09fc3412269ee
-	325df8ce24f32cce66e758018752a52d)
+	325df8ce24f32cce66e758018752a52d
+	SKIP)
 
 build() {
 	cd $name-$_commit
+
+	cp $SRC/config.h .
 
 	make PREFIX=/usr DESTDIR=$PKG install
 
