@@ -3,7 +3,7 @@
 
 name=qemu
 version=4.0.0
-release=3
+release=4
 source=(http://download.qemu-project.org/$name-$version.tar.bz2)
 md5sum=(4318bcc6506dfd34208b49d8198a29d1)
 
@@ -20,7 +20,8 @@ build() {
 		     --python=python3 \
 	             --audio-drv-list=alsa \
 		     --disable-docs \
-		     --disable-gtk
+		     --disable-gtk \
+		     --localstatedir=/var
 	make
 	make DESTDIR=$PKG install
 
