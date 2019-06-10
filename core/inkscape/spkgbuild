@@ -3,7 +3,7 @@
 
 name=inkscape
 version=0.92.4
-release=1
+release=2
 source=(https://media.inkscape.org/dl/resources/file/$name-$version.tar.bz2
 	inkscape-use_versioned_ImageMagick6-1.patch
 	poppler-076.patch)
@@ -27,5 +27,8 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
+	# junks!
+	rm -r $PKG/usr/share/locale
+	rm $PKG/usr/share/man/man1/inkscape.??.1 $PKG/usr/share/man/man1/inkscape.zh_TW.1
 	rm $PKG/usr/lib/inkscape/lib*_LIB.a
 }
