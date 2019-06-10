@@ -3,7 +3,7 @@
 
 name=wine
 version=4.9
-release=1
+release=2
 source=(https://dl.winehq.org/wine/source/${version::1}.x/$name-$version.tar.xz)
 md5sum=(3584bbc937e793f5e431d601001fa1e8)
 
@@ -76,4 +76,6 @@ build() {
 		--with-wine64=../build64
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/man/??.UTF-8
 }
