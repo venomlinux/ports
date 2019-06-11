@@ -1,38 +1,32 @@
+#
 # /etc/profile
-
-# System wide environment variables and startup programs.
-
-# System wide aliases and functions should go in /etc/bashrc.  Personal
-# environment variables and startup programs should go into
-# ~/.bash_profile.  Personal aliases and functions should go into
-# ~/.bashrc.
+#
 
 # Set the initial path
 export PATH=/bin:/usr/bin
 
 if [ $EUID -eq 0 ] ; then
-        export PATH=$PATH:/sbin:/usr/sbin
-        unset HISTFILE
+    export PATH=$PATH:/sbin:/usr/sbin
+    unset HISTFILE
+fi
+
+if [ "$(id -gn)" = "$(id -un)" -a $EUID -gt 99 ] ; then
+    umask 002
+else
+    umask 022
 fi
 
 # Setup some environment variables.
 export HISTSIZE=1000
 export HISTIGNORE="&:[bf]g:exit"
 
-# Setup a red prompt for root and a green one for users.
-NORMAL="\[\e[0m\]"
-RED="\[\e[1;31m\]"
-GREEN="\[\e[1;32m\]"
-if [[ $EUID == 0 ]] ; then
-  PS1="$RED\u [ $NORMAL\w$RED ]# $NORMAL"
-else
-  PS1="$GREEN\u [ $NORMAL\w$GREEN ]\$ $NORMAL"
-fi
-
 for script in /etc/profile.d/*.sh ; do
-        if [ -r $script ] ; then
-                . $script
-        fi
+    if [ -r $script ] ; then
+        . $script
+    fi
+    unset script
 done
 
-unset script RED GREEN NORMAL
+if [ -f /etc/bashrc ] ; then
+    . /etc/bashrc
+fi
