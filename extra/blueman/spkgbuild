@@ -1,21 +1,16 @@
 # description	: GTK+ Bluetooth Manager
-# depends	: bluez gtk3 libnotify python3-cairo python3-dbus python3-gobject3 cython3 intltool
+# depends	: bluez gtk3 python3-cairo python3-gobject3 cython3 intltool inetutils polkit
 
 name=blueman
-version=2.0.8
+version=2.1
 release=1
 source=(https://github.com/blueman-project/$name/releases/download/$version/$name-$version.tar.xz)
-md5sum=(51dc07d48125ee9600e7f6168d6e67f6)
+md5sum=(280aa3fe7da0f7c496d49baafadba540)
 
 build() {
 	cd $name-$version
 
-	for i in $(grep -R /usr/bin/env . | cut -d '/' -f2- | cut -d ':' -f1); do
-		sed -e 's|/usr/bin/env python|/usr/bin/env python3|' \
-		    -e 's|/usr/bin/python|/usr/bin/python3|' -i $i
-	done
-
-	PYTHON=python3 \
+	PATH=$PATH:/sbin:/usr/sbin \
 	./configure \
 	    --prefix=/usr \
 	    --sysconfdir=/etc \
