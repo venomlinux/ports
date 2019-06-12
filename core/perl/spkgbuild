@@ -4,10 +4,10 @@
 # depends	: gdbm glibc
 
 name=perl
-version=5.28.2
+version=5.30.0
 release=1
 source=(https://www.cpan.org/src/5.0/$name-$version.tar.xz)
-md5sum=(6bb75770e9ba085b32bf13e4be71e4ac)
+md5sum=(037c35000550bdcb47552ad0f6d3064d)
 
 build() {
 	cd $name-$version
@@ -27,5 +27,4 @@ build() {
                   	  -Dusethreads
 	make
 	make DESTDIR=$PKG install
-	unset BUILD_ZLIB BUILD_BZIP2
 }
