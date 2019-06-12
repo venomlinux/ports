@@ -4,14 +4,14 @@
 # depends	: glibc util-macros xorgproto
 
 name=sessreg
-version=1.1.1
+version=1.1.2
 release=1
 source=(http://ftp.x.org/pub/individual/app/sessreg-$version.tar.bz2)
+md5sum=(92be564d4be7d8aa7b5024057b715210)
 
 build() {
 	cd $name-$version
 
-	sed -e 's/\$(CPP) \$(DEFS)/$(CPP) -P $(DEFS)/' -i man/Makefile.in
   	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
@@ -20,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(e475167a892b589da23edf8edf8c942d)
