@@ -5,9 +5,10 @@
 
 name=perl
 version=5.30.0
-release=1
-source=(https://www.cpan.org/src/5.0/$name-$version.tar.xz)
-md5sum=(037c35000550bdcb47552ad0f6d3064d)
+release=2
+source=(https://www.cpan.org/src/5.0/$name-$version.tar.xz perlfix)
+md5sum=(037c35000550bdcb47552ad0f6d3064d
+	85bf2055fefb60220133caf031ecc03d)
 
 build() {
 	cd $name-$version
@@ -27,4 +28,7 @@ build() {
                   	  -Dusethreads
 	make
 	make DESTDIR=$PKG install
+
+	# script to rebuild broken perl modules when perl got major update
+	install -m755 $SRC/perlfix $PKG/usr/bin/
 }
