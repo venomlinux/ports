@@ -1,0 +1,8 @@
+# install script
+
+case $1 in
+	post-install|post-upgrade)
+		if [ -x usr/sbin/pwconv -a -x usr/sbin/grpconv ]; then
+			pwconv && grpconv
+		fi ;;
+esac
