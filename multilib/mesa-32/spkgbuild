@@ -3,10 +3,10 @@
 # depends	: zlib-32 libdrm-32 libxshmfence-32
 
 name=mesa-32
-version=19.0.6
+version=19.1.0
 release=1
 source=(https://mesa.freedesktop.org/archive/mesa-$version.tar.xz)
-md5sum=(b97159690eba564311d88a818bdbd64d)
+md5sum=(090cd351cf938fc1729dee983520216a)
 
 build() {
 	cd mesa-$version
@@ -41,8 +41,6 @@ build() {
 
 	# indirect rendering symlink
 	ln -s libGLX_mesa.so.0 $PKG/usr/lib32/libGLX_indirect.so.0
-
-	rm $PKG/usr/lib32/libGLES*
 
 	rm -r $PKG/usr/{include,share/glvnd}
 	rm $PKG/usr/share/drirc.d/00-mesa-defaults.conf
