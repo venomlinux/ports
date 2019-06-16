@@ -4,9 +4,10 @@
 # depends	: glibc ncurses
 
 name=less
-version=530
+version=551
 release=1
 source=(http://www.greenwoodsoftware.com/$name/$name-$version.tar.gz)
+md5sum=(4ad4408b06d7a6626a055cb453f36819)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(6a39bccf420c946b0fd7ffc64961315b)
