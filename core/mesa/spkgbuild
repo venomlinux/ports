@@ -2,10 +2,10 @@
 # depends	: libdrm python3 wayland libxshmfence libxdamage libxext libxfixes elfutils llvm libvdpau libglvnd python3-mako libx11 xorgproto wayland-protocols
 
 name=mesa
-version=19.0.6
+version=19.1.0
 release=1
 source=(https://mesa.freedesktop.org/archive/$name-$version.tar.xz)
-md5sum=(b97159690eba564311d88a818bdbd64d)
+md5sum=(090cd351cf938fc1729dee983520216a)
 
 build() {
 	cd $name-$version
@@ -34,6 +34,4 @@ build() {
 
 	# indirect rendering symlink
 	ln -s libGLX_mesa.so.0 $PKG/usr/lib/libGLX_indirect.so.0
-
-	rm $PKG/usr/lib/libGLES*
 }
