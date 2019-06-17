@@ -2,12 +2,12 @@
 # depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent sqlite dbus-glib graphite2 harfbuzz unzip zip autoconf2.13 yasm rust gconf llvm cbindgen nodejs libwebp
 
 name=firefox
-version=66.0.5
+version=67.0.2
 release=1
 source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	firefox-system_graphite2_harfbuzz-1.patch
 	$name.desktop)
-md5sum=(a3d00fb4e950558135f08a5155745d4e
+md5sum=(44ddd660e0d195be793a0f5d79946709
 	81579c483fa7bfda10c55d20e5c7ca69
 	971c77648caea312fca2d9340c4382a6)
 
@@ -45,6 +45,7 @@ ac_add_options --with-system-bz2
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-png
 ac_add_options --with-system-zlib
+unset MOZ_TELEMETRY_REPORTING
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
 EOF
 
@@ -54,7 +55,7 @@ EOF
 	echo "d2284a20-0505-4927-a809-7ffaf4d91e55" > mozilla-key
 
 	# Fix a problem with certain versions of ICU
-	sed -e 's/checkImpl/checkFFImpl/g' -i js/src/vm/JSContext*.h
+	#sed -e 's/checkImpl/checkFFImpl/g' -i js/src/vm/JSContext*.h
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
 	export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 	export CARGO_HOME=$INITDIR
