@@ -4,13 +4,13 @@
 # depends	: acl gawk
 
 name=vim
-version=8.1
-release=2
-source=(ftp://ftp.vim.org/pub/vim/unix/$name-$version.tar.bz2)
-md5sum=(1739a1df312305155285f0cfa6118294)
+version=8.1.1561
+release=1
+source=(https://github.com/vim/vim/archive/v$version.tar.gz)
+md5sum=(76b42ad4c2cddbc04f31cea72972038d)
 
 build() {
-	cd vim81
+	cd vim-$version
 
 	echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 
