@@ -9,14 +9,6 @@ md5sum=(ce166b3fdd910c2a4a840378f48fedaf)
 build() {
 	cd $name-$version
 
-if [ -d /tools ];then
-cat > config.cache << "EOF"
-HAVE_BLKID=1
-BLKID_LIBS="-lblkid"
-BLKID_CFLAGS="-I/tools/include"
-EOF
-fi
-
 	./configure --prefix=/usr           \
 	            --bindir=/sbin          \
 	            --sbindir=/sbin         \
@@ -26,20 +18,11 @@ fi
 	            --with-rootprefix=      \
 	            --with-rootlibdir=/lib  \
 	            --enable-manpages       \
-	            --disable-static	    \
-		    $([ -d /tools ] && echo "--config-cache")
-	if [ -d /tools ];then
-		LIBRARY_PATH=/tools/lib make
-	else
-		make
-	fi
+	            --disable-static
+	make
 
 	mkdir -pv $PKG/lib/udev/rules.d
 	mkdir -pv $PKG/etc/udev/rules.d
 
-	if [ -d /tools ];then
-		make LD_LIBRARY_PATH=/tools/lib DESTDIR=$PKG install
-	else
-		make DESTDIR=$PKG install
-	fi
+	make DESTDIR=$PKG install
 }
