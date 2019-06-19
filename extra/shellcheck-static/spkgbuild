@@ -1,0 +1,13 @@
+# description	: shellcheck, without the 130MB haskell dependencies
+# depends	: gmp
+
+name=shellcheck-static
+version=0.6.0
+release=1
+source=($name-$version.tar.xz::https://storage.googleapis.com/shellcheck/shellcheck-stable.linux.x86_64.tar.xz)
+md5sum=(27c7aaf5ad92c27fce85c706e97df8c9)
+
+build() {
+	cd shellcheck-stable
+	install -Dt $PKG/usr/bin shellcheck
+}
