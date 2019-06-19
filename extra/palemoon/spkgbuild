@@ -2,12 +2,13 @@
 # depends	: python2 autoconf2.13 gtk2 yasm gconf alsa-lib dbus-glib
 
 name=palemoon
-version=28.5.0
+version=28.5.2
 release=1
 source=(https://github.com/MoonchildProductions/UXP/archive/PM${version}_Release.tar.gz
 	mozconfig fix-build-gcc9.patch)
-md5sum=(7913939e8466ca590957872d662eb53c
-	1585d6473435077ee29af114f1a2b919 SKIP)
+md5sum=(037bb06d0f4212e9f0abd5b1844a08cc
+	1585d6473435077ee29af114f1a2b919
+	cee6622cc7bc41c1145651bc4d3ada8f)
 
 build() {
 	cd UXP-PM${version}_Release
