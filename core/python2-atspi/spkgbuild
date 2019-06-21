@@ -4,14 +4,13 @@
 # depends	: at-spi2-core python2-gobject3 python3-gobject3
 
 name=python2-atspi
-version=2.33.1
+version=2.33.2
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/pyatspi/${version::4}/pyatspi-$version.tar.xz)
-md5sum=(ac6a3a31c70b7f7e487a1a9278c4dbaa)
+md5sum=(fb41e55bf34b8a95d81fd223012dc1ed)
 
 build() {
-	cd pyatspi-$version
-	
+	cd pyatspi-$version	
 	./configure --prefix=/usr --with-python=/usr/bin/python2
 	make
 	make DESTDIR=$PKG install
