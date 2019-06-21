@@ -5,7 +5,7 @@
 
 name=glibc
 version=2.29
-release=2
+release=3
 backup=(etc/locales)
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-fhs-1.patch
@@ -74,9 +74,7 @@ rpc: files
 EOF
 
 cat > $PKG/etc/ld.so.conf << "EOF"
-# Begin /etc/ld.so.conf
-/usr/local/lib
-/opt/lib
+# Dynamic linker/loader configuration.
 
 # Add an include directory
 include /etc/ld.so.conf.d/*.conf
