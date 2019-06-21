@@ -18,4 +18,7 @@ build() {
 	install -d $PKG/usr/lib
 	mv $PKG/opt/kingsoft/wps-office/office6 $PKG/usr/lib
 	rm -fr $PKG/opt
+
+	mkdir -p $PKG/etc/revdep.d/
+	echo "/usr/lib/office6/" > $PKG/etc/revdep.d/$name.conf
 }
