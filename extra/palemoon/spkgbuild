@@ -9,6 +9,7 @@ source=(https://github.com/MoonchildProductions/UXP/archive/PM${version}_Release
 md5sum=(037bb06d0f4212e9f0abd5b1844a08cc
 	1585d6473435077ee29af114f1a2b919
 	cee6622cc7bc41c1145651bc4d3ada8f)
+rev_ex_libs="libxul.so libmozsqlite3.so libmozavutil.so liblgpllibs.so"
 
 build() {
 	cd UXP-PM${version}_Release
@@ -33,4 +34,10 @@ build() {
 
 	install -Dm644 application/palemoon/branding/official/palemoon.desktop \
 		$PKG/usr/share/applications/$name.desktop
+
+	# exclude library for revdep
+        mkdir -p $PKG/etc/revdep.d/
+        for i in $rev_ex_libs; do
+                echo $i >> $PKG/etc/revdep.d/$name.conf
+        done
 }
