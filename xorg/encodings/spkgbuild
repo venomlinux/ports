@@ -4,9 +4,10 @@
 # depends	: font-util mkfontscale util-macros
 
 name=encodings
-version=1.0.4
+version=1.0.5
 release=1
 source=(http://ftp.x.org/pub/individual/font/encodings-$version.tar.bz2)
+md5sum=(bbae4f247b88ccde0e85ed6a403da22a)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(0f2d6546d514c5cc4ecf78a60657a5c1)
