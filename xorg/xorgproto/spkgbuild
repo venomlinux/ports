@@ -2,9 +2,10 @@
 # depends	: meson util-macros
 
 name=xorgproto
-version=2018.4
+version=2019.1
 release=1
 source=(https://xorg.freedesktop.org/archive/individual/proto/$name-$version.tar.bz2)
+md5sum=(802ccb9e977ba3cf94ba798ddb2898a4)
 
 build() {
 	cd $name-$version
@@ -16,5 +17,3 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 }
-
-md5sum=(81557ca47ee66a4e54590fcdadd28114)
