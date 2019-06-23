@@ -2,20 +2,19 @@
 # depends	: elfutils mkinitramfs openssl
 
 name=linux
-version=4.19.37
-release=2
+version=4.19.55
+release=1
 options=(!strip)
 source=(https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
 	config-$version)
-md5sum=(935e5fdb9f3a1a3ec293fe2bd7243b00
-	42d5fe7b0d5b0996edb3a6cfaf414946)
+md5sum=(07efdd2f6ad90d9114af3ebdf19b7808
+	348efeef6cdb80c98b6a31f70f57ebe2)
 
 build() {
 	cd linux-$version
 
 	make mrproper
 
-	# Arch's linux-lts kernel config
 	cp $SRC/config-$version ./.config
 
 	sed '/^CONFIG_LOCALVERSION=/d' -i .config
