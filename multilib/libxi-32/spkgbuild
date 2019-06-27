@@ -4,9 +4,10 @@
 # depends	: libxi
 
 name=libxi-32
-version=1.7.9
+version=1.7.10
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXi-$version.tar.bz2)
+md5sum=(62c4af0839072024b4b1c8cbe84216c7)
 
 build() {
 	cd libXi-$version
@@ -26,5 +27,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(1f0f2719c020655a60aee334ddd26d67)
