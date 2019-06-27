@@ -2,9 +2,10 @@
 # depends	: meson
 
 name=xorgproto-32
-version=2018.4
+version=2019.1
 release=1
 source=(https://xorg.freedesktop.org/archive/individual/proto/xorgproto-$version.tar.bz2)
+md5sum=(802ccb9e977ba3cf94ba798ddb2898a4)
 
 build() {
 	cd xorgproto-$version
@@ -22,5 +23,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(81557ca47ee66a4e54590fcdadd28114)
