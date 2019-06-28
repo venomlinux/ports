@@ -1,0 +1,23 @@
+# description	: Streaming torrent client
+# homepage	: https://webtorrent.io/desktop
+# depends	: gconf
+
+name=webtorrent-desktop-bin
+_name=webtorrent-desktop
+version=0.20.0
+release=1
+source=(https://github.com/feross/webtorrent-desktop/releases/download/v$version/WebTorrent-v$version-linux.zip
+	webtorrent-desktop.desktop)
+md5sum=(8005cce93199929c84cb72330fe73fd1
+	aa18de49bc5722d70ff79518c951d1ca)
+
+build() {
+	install -dm755 $PKG/usr/share
+	install -dm755 $PKG/usr/bin
+
+	cp -a WebTorrent-linux-x64 $PKG/usr/share/$_name
+	ln -s /usr/share/$_name/WebTorrent $PKG/usr/bin/$_name
+
+	install -Dm644 $_name.desktop $PKG/usr/share/applications/$_name.desktop
+	install -Dm644 WebTorrent-linux-x64/resources/app.asar.unpacked/static/WebTorrent.png $PKG/usr/share/icons/hicolor/256x256/apps/$_name.png
+}
