@@ -4,9 +4,10 @@
 # depends	: libsm libx11 util-macros
 
 name=libxt
-version=1.1.5
+version=1.2.0
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXt-$version.tar.bz2)
+md5sum=(a9019421d3ee8b4937b6afd9025f018a)
 
 build() {
 	cd libXt-$version
@@ -21,5 +22,3 @@ build() {
 	make DESTDIR=$PKG install
 	rm -r $PKG/usr/share/doc
 }
-
-md5sum=(8f5b5576fbabba29a05f3ca2226f74d3)
