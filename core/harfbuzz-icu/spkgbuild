@@ -1,0 +1,23 @@
+# description	: OpenType text shaping engine (ICU integration)
+# depends	: harfbuzz icu
+
+name=harfbuzz-icu
+version=2.5.3
+release=2
+source=(https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-$version.tar.xz)
+md5sum=(29a310e74a90b4e4f6d62f3e74a571e5)
+
+build() {
+	cd harfbuzz-$version
+
+	./configure \
+		--prefix=/usr \
+		--with-icu=yes
+	make
+	make DESTDIR=$PWD/PKG install
+
+	mkdir -p $PKG/usr/lib/pkgconfig $PKG/usr/include/harfbuzz
+	mv PKG/usr/include/harfbuzz/hb-icu.h $PKG/usr/include/harfbuzz/
+	mv PKG/usr/lib/libharfbuzz-icu* $PKG/usr/lib/
+	mv PKG/usr/lib/pkgconfig/harfbuzz-icu.pc $PKG/usr/lib/pkgconfig/
+}
