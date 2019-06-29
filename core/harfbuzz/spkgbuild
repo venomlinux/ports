@@ -1,16 +1,20 @@
 # description	: OpenType text shaping engine
-# depends	: glib freetype2 icu graphite2
+# depends	: glib freetype2 graphite2
 
 name=harfbuzz
 version=2.5.3
-release=1
+release=2
 source=(https://www.freedesktop.org/software/$name/release/$name-$version.tar.xz)
 md5sum=(29a310e74a90b4e4f6d62f3e74a571e5)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --with-gobject --with-graphite2
+	./configure \
+		--prefix=/usr \
+		--with-gobject \
+		--with-graphite2 \
+		--with-icu=no
 	make
 	make DESTDIR=$PKG install
 
