@@ -3,15 +3,19 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=libarchive
-version=3.3.3
+version=3.4.0
 release=1
-source=(https://www.libarchive.org/downloads/$name-$version.tar.gz)
-md5sum=(4038e366ca5b659dae3efcc744e72120)
+source=(https://github.com/libarchive/libarchive/releases/download/v$version/libarchive-$version.tar.gz)
+md5sum=(6046396255bd7cf6d0f6603a9bda39ac)
 
 build() {
 	cd $name-$version
 
-  	./configure --prefix=/usr --disable-static
+  	./configure \
+		--prefix=/usr \
+		--without-xml2 \
+		--without-nettle \
+		--disable-static
 	make
 	make DESTDIR=$PKG install
 }
