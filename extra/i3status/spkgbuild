@@ -2,14 +2,20 @@
 # depends	: confuse yajl libnl
 
 name=i3status
-version=2.12
+version=2.13
 release=1
 backup=(etc/i3status.conf)
 source=(https://i3wm.org/i3status/$name-$version.tar.bz2)
-md5sum=(ed839f1626781aaca236b46693fab975)
+md5sum=(dd9001fb9ed732142d4d7194b77486cf)
 
 build() {
 	cd $name-$version
+	autoreconf -fi
+	mkdir build
+	cd build
+	../configure \
+		--prefix=/usr \
+		--sysconfdir=/etc
 	make
 	make DESTDIR=$PKG install
 }
