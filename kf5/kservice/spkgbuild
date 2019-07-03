@@ -2,9 +2,9 @@
 # depends	: ki18n kconfig kcrash kdbusaddons extra-cmake-modules kdoctools python3 qt5
 
 name=kservice
-version=5.57.0
+version=5.59.0
 release=1
-source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
+source=(https://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -24,4 +24,4 @@ build() {
         rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,de,it,es,pt,sv}
 }
 
-md5sum=(556b7cc6960cee88256acf40fd756a2b)
+md5sum=(c7c73eaffc8a6560de89f360b075dab0)
