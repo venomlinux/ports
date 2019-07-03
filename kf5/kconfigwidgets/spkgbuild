@@ -2,9 +2,9 @@
 # depends	: kauth kcodecs kconfig kguiaddons ki18n kwidgetsaddons extra-cmake-modules kdoctools python3 mesa qt5
 
 name=kconfigwidgets
-version=5.57.0
+version=5.59.0
 release=1
-source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
+source=(https://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -24,4 +24,4 @@ build() {
         rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,de,ru,it,es,pt,sv}
 }
 
-md5sum=(676fdcd53f6a5b43a729881304c3fbbd)
+md5sum=(70b60633d49d27020d26ec475d914917)
