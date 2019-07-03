@@ -2,9 +2,9 @@
 # depends	: kparts extra-cmake-modules python3
 
 name=kmediaplayer
-version=5.57.0
+version=5.59.0
 release=1
-source=(http://download.kde.org/stable/frameworks/${version::4}/portingAids/$name-$version.tar.xz)
+source=(https://download.kde.org/stable/frameworks/${version::4}/portingAids/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -21,4 +21,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(dbfed287fe4be163ec2b4a71faba9654)
+md5sum=(ec44eb90f74be247a9f557e0f44c2c10)
