@@ -2,9 +2,9 @@
 # depends	: plasma-framework threadweaver extra-cmake-modules kdoctools python3 qt5
 
 name=krunner
-version=5.57.0
+version=5.59.0
 release=1
-source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
+source=(https://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -21,4 +21,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(924b94d590a560281d787bab1f4de21e)
+md5sum=(7a6f475dddc9f60d6001ec2f4dcb857e)
