@@ -2,9 +2,9 @@
 # depends	: qt5 extra-cmake-modules
 
 name=attica
-version=5.57.0
+version=5.59.0
 release=1
-source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
+source=(https://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -21,4 +21,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(c5ceb2a436083013afd290c3e3b8ca8c)
+md5sum=(184e692bfbdee0facdda51552dfc45f7)
