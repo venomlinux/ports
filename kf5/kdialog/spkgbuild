@@ -2,10 +2,9 @@
 # depends	: kio extra-cmake-modules
 
 name=kdialog
-version=18.08.3
+version=19.04.2
 release=1
 source=(https://download.kde.org/stable/applications/$version/src/$name-$version.tar.xz)
-md5sum=(15e4222822e1774a35f24795ec5f0193)
 
 build() {
 	mkdir -p build
@@ -16,3 +15,4 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
+md5sum=(1ddaac3198f9eb625dbfbfdc942cc2ad)
