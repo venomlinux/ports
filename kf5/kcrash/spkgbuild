@@ -2,9 +2,9 @@
 # depends	: kcoreaddons kwindowsystem extra-cmake-modules mesa qt5
 
 name=kcrash
-version=5.57.0
+version=5.59.0
 release=1
-source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
+source=(https://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -21,4 +21,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(4a806db956de0a3c76612fa2156fae34)
+md5sum=(e8c2091f630990ac264b8f265340d48d)
