@@ -2,9 +2,9 @@
 # depends	: qt5 wayland extra-cmake-modules
 
 name=kwayland
-version=5.57.0
+version=5.59.0
 release=1
-source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
+source=(https://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -22,4 +22,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(eb7a86ca138a5c68ff59de90695330d2)
+md5sum=(5b65f9c90e19330d09aa58323d758e2d)
