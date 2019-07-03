@@ -1,17 +1,17 @@
 #!/bin/bash -e
 
 PORTPATH="kf5"
-FRAMEWORK="http://download.kde.org/stable/plasma"
+FRAMEWORK="https://download.kde.org/stable/plasma"
 
-[ -d "$PORTPATH" ] || exit 1
+KF5VER=5.16.2
 
-KF5VER=5.15.4
-
-PKG=$(grep -R $FRAMEWORK $PORTPATH | sed 's#'"$FRAMEWORK"'##' | sed 's#'"$PORTPATH"'##' | cut -d / -f2)
+PKG=$(grep -R $FRAMEWORK . | cut -d / -f2)
 
 for pkg in ${PKG[@]}
 do
-  pushd $PORTPATH/$pkg >/dev/null
+  [ -d $pkg ] || continue
+  pushd $pkg >/dev/null
+	echo "Update $pkg..."
     sed -i "s#version=.*#version=${KF5VER}#g" spkgbuild
     sed -i "/md5sum=(/,/)/d" spkgbuild
     pkgbuild -o
