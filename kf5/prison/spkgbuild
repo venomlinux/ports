@@ -2,9 +2,9 @@
 # depends	: qt5 libdmtx qrencode extra-cmake-modules
 
 name=prison
-version=5.57.0
+version=5.59.0
 release=1
-source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
+source=(https://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -21,4 +21,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(74276d9a4c8bf369187aa138301a71da)
+md5sum=(e6aa01e4a900a843391a79e557b874f3)
