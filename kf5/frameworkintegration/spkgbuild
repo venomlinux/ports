@@ -2,9 +2,9 @@
 # depends	: kpackage knewstuff extra-cmake-modules python3 qt5
 
 name=frameworkintegration
-version=5.57.0
+version=5.59.0
 release=1
-source=(http://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
+source=(https://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz)
 
 build() {
 	cd $name-$version
@@ -22,4 +22,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
-md5sum=(8e11e9663a33bbf8f313eb22ef70a92e)
+md5sum=(073d1b84fe1773ed6914cbc6a591ad66)
