@@ -2,10 +2,10 @@
 # depends	: libxinerama pango libnotify gtk2 libxdg-basedir
 
 name=dunst
-version=1.4.0
+version=1.4.1
 release=1
 source=($name-$version.tar.gz::https://github.com/dunst-project/dunst/archive/v$version.tar.gz)
-md5sum=(8a8095566a1b913056674f802444311a)
+md5sum=(ea22e152ae40a1fc8e0e4da5b762ad20)
 
 build() {
 	make -C "$SRC/$name-$version" X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
