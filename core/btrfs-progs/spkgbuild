@@ -1,11 +1,11 @@
 # description	: Administration and debugging tools for the B-tree file system (btrfs)
-# depends	: lzo python3-setuptools
+# depends	: lzo python3-setuptools asciidoc
 
 name=btrfs-progs
-version=5.1.1
+version=5.2
 release=1
 source=(https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v$version.tar.xz)
-md5sum=(7361746c27aece91fa79705a3964ff0c)
+md5sum=(61be9c48f088bd27480cd9ecf6121cf8)
 
 build() {
 	cd $name-v$version
@@ -15,8 +15,7 @@ build() {
 	./configure --prefix=/usr  \
 	            --bindir=/bin  \
 	            --libdir=/lib  \
-	            --disable-zstd \
-		    --disable-documentation
+	            --disable-zstd
 	make
 	make DESTDIR=$PKG install
 
