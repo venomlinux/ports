@@ -1,0 +1,17 @@
+hooks="base modules udev automod"
+
+case $1 in
+	post-install) for h in $hooks; do
+	                  install -m755 /usr/share/mkinitramfs/hooks/$h.hook /etc/mkinitramfs.d/$h.hook
+	              done ;;
+	post-upgrade) for h in $hooks; do
+	                  if [ -f /etc/mkinitramfs.d/$h.hook ]; then
+				install -m755 /usr/share/mkinitramfs/hooks/$h.hook /etc/mkinitramfs.d/$h.hook.spkgnew
+	                  else
+	                        install -m755 /usr/share/mkinitramfs/hooks/$h.hook /etc/mkinitramfs.d/$h.hook
+	                  fi
+	              done ;;
+	post-remove)  for h in $hooks; do
+	                  rm -f /etc/mkinitramfs.d/$h.hook
+	              done ;;
+esac
