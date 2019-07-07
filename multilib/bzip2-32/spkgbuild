@@ -4,28 +4,15 @@
 # depends	: bzip2
 
 name=bzip2-32
-version=1.0.6
+version=1.0.7
 release=1
-source=(http://anduin.linuxfromscratch.org/LFS/bzip2-$version.tar.gz
-	bzip2-$version-install_docs-1.patch)
-md5sum=(00b516f4704d4a7cb50a1d97e6e8e15b
-	6a5ac7e89b791aae556de0f745916f7f)
+source=(https://www.sourceware.org/pub/bzip2/bzip2-$version.tar.gz)
+md5sum=(1a6a61cc867be4f3d6549037a09bf13e)
 
 build() {
 	cd bzip2-$version
 
-	patch -Np1 -i ../bzip2-$version-install_docs-1.patch
-
-	sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile
-	sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
-
-	# use our optimization
-	[ -n ${CFLAGS} ] && sed -i "s|-O2|${CFLAGS}|g" Makefile
-	[ -n ${CFLAGS} ] && sed -i "s|-O2|${CFLAGS}|g" Makefile-libbz2_so
-
-	make CC="gcc -m32" BIGFILES="" -f Makefile-libbz2_so
-	make clean
-	make CC="gcc -m32" BIGFILES=""
+	make CC="gcc -m32 $CFLAGS $LDFLAGS" -f Makefile-libbz2_so
 	make PREFIX=$PWD/DESTDIR/usr install
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib/* $PKG/usr/lib32
