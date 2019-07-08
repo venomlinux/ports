@@ -5,16 +5,19 @@
 # depends	: gst-plugins-base cups
 
 name=qt5
-version=5.12.4
+version=5.13.0
 release=1
-source=(https://download.qt.io/archive/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz)
-md5sum=(dda95b0239d13c5276834177af3a8588)
+source=(https://download.qt.io/archive/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz
+	qt-5.13.0-upstream_fixes-1.patch)
+md5sum=(SKIP SKIP)
 
 build() {
 	cd qt-everywhere-src-$version
 
-	# fix a problem when using gcc-8.3
-	sed -i "s/volatile//" qtscript/src/3rdparty/javascriptcore/JavaScriptCore/jit/JITStubs.cpp
+	patch -Np1 -i ../qt-5.13.0-upstream_fixes-1.patch
+
+	sed -i 's/python /python3 /' qtdeclarative/qtdeclarative.pro \
+        	                     qtdeclarative/src/3rdparty/masm/masm.pri
 	   
 	QT5PREFIX=/usr
 	QT5BINDIR=$QT5PREFIX/lib/qt5/bin
