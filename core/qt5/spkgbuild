@@ -16,8 +16,8 @@ build() {
 
 	patch -Np1 -i ../qt-5.13.0-upstream_fixes-1.patch
 
-	sed -i 's/python /python3 /' qtdeclarative/qtdeclarative.pro \
-        	                     qtdeclarative/src/3rdparty/masm/masm.pri
+	#sed -i 's/python /python3 /' qtdeclarative/qtdeclarative.pro \
+        #	                     qtdeclarative/src/3rdparty/masm/masm.pri
 	   
 	QT5PREFIX=/usr
 	QT5BINDIR=$QT5PREFIX/lib/qt5/bin
