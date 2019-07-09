@@ -4,11 +4,16 @@
 name=qtwebengine
 version=5.13.0
 release=1
-source=(https://download.qt.io/archive/qt/${version::4}/$version/submodules/$name-everywhere-src-$version.tar.xz)
-md5sum=(235ecc14211ba03ae7331c175c1b7c78)
+source=(https://download.qt.io/archive/qt/${version::4}/$version/submodules/$name-everywhere-src-$version.tar.xz
+	qtwebengine-glibc-2.29.patch)
+md5sum=(235ecc14211ba03ae7331c175c1b7c78
+	b19475a807d02d7af5f0e7b170a5a7dd)
 
 build() {
 	cd $name-everywhere-src-$version
+
+	( cd src/3rdparty/chromium
+	patch -Np1 -i $SRC/qtwebengine-glibc-2.29.patch )
 
 	find -type f -name "*.pr[io]" |
 	  xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
