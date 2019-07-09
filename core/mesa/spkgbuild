@@ -3,7 +3,7 @@
 
 name=mesa
 version=19.1.1
-release=1
+release=2
 source=(https://mesa.freedesktop.org/archive/$name-$version.tar.xz)
 md5sum=(07cd8cd79de28ec1a374ee3a06e47789)
 
@@ -21,6 +21,7 @@ build() {
 	      --sysconfdir=/etc \
 	      -Dvalgrind=false \
 	      -Dglx=dri \
+	      -Degl=true \
 	      -Dosmesa=gallium \
 	      -Dgallium-nine=true \
 	      -Ddri-drivers=$DRI_DRIVERS \
