@@ -1,0 +1,35 @@
+# description	: The GRand Unified Bootloader (EFI)
+# depends	: grub efivar efibootmgr freetype2 dosfstools
+
+name=grub-efi
+version=2.04
+release=1
+source=(https://ftp.gnu.org/gnu/grub/grub-$version.tar.xz
+	https://ftp.gnu.org/gnu/unifont/unifont-12.1.02/unifont-12.1.02.bdf.gz)
+md5sum=(5aaca6713b47ca2456d8324a58755ac7
+	af8a44e7d33b66ef54b2b5b497854b5e)
+
+build() {
+	cd grub-$version
+
+	gunzip $SRC/unifont-12.1.02.bdf.gz
+	cp $SRC/unifont-12.1.02.bdf unifont.bdf
+
+	./configure --prefix=/usr  \
+            --sbindir=/sbin        \
+            --sysconfdir=/etc      \
+            --disable-efiemu       \
+            --enable-grub-mkfont   \
+            --with-platform=efi    \
+            --target=x86_64        \
+            --program-prefix=""    \
+	    --program-suffix="-efi" \
+            --with-bootdir="/boot" \
+            --disable-werror \
+	    --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info $PKG/etc/ $PKG/usr/bin $PKG/sbin
+	rm $PKG/usr/share/grub/grub-mkconfig_lib
+}
