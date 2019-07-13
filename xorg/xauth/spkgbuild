@@ -4,9 +4,10 @@
 # depends	: libxmu util-macros
 
 name=xauth
-version=1.0.10
+version=1.1
 release=1
 source=(http://ftp.x.org/pub/individual/app/xauth-$version.tar.bz2)
+md5sum=(e50587c1bb832aafd1a19d91a0890a0b)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(f3f76cb10f69b571c43893ea6a634aa4)
