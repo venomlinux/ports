@@ -2,10 +2,10 @@
 # depends	: libffi pcre docbook-xsl meson libxslt
 
 name=glib
-version=2.60.4
+version=2.60.5
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
-md5sum=(87e2c4973470811dfed3d6746c961488)
+md5sum=(7dced27cfa79419dc6cc82c02190c457)
 
 build() {
 	cd $name-$version
@@ -16,9 +16,10 @@ build() {
 	meson --prefix=/usr   \
 	      -Dman=true      \
 	      -Dselinux=disabled \
+	      -Dnls=disabled \
 	      ..
 	ninja
 	DESTDIR=$PKG ninja install
 
-	rm -r $PKG/usr/share/locale
+	#rm -r $PKG/usr/share/locale
 }
