@@ -3,10 +3,10 @@
 # depends	: zlib-32 libdrm-32 libxshmfence-32
 
 name=mesa-32
-version=19.1.1
+version=19.1.2
 release=1
 source=(https://mesa.freedesktop.org/archive/mesa-$version.tar.xz)
-md5sum=(07cd8cd79de28ec1a374ee3a06e47789)
+md5sum=(7cb3df6f46cfc08bba5245d091cd4524)
 
 build() {
 	cd mesa-$version
@@ -28,6 +28,7 @@ build() {
 	      --libdir=/usr/lib32 \
 	      -Dvalgrind=false \
 	      -Dglx=dri \
+	      -Degl=true \
 	      -Dosmesa=gallium \
 	      -Dgallium-nine=true \
 	      -Ddri-drivers=$DRI_DRIVERS \
