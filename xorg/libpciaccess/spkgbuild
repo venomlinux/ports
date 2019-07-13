@@ -2,9 +2,10 @@
 # depends	: glibc util-macros
 
 name=libpciaccess
-version=0.14
+version=0.15
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libpciaccess-$version.tar.bz2)
+md5sum=(843e92d0eef94684a4eb9a2d311bfb12)
 
 build() {
 	cd libpciaccess-$version
@@ -17,5 +18,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(8f436e151d5106a9cfaa71857a066d33)
