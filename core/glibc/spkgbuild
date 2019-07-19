@@ -5,13 +5,15 @@
 
 name=glibc
 version=2.29
-release=4
+release=5
 backup=(etc/locales)
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-fhs-1.patch
+	glibc-pure64.patch
 	genlocales)
 md5sum=(e6c279d5b2f0736f740216f152acf974
 	9a5997c3452909b1769918c759eff8a2
+	d1009809cac6819ca29c6b49b7dda7f8
 	fb58fbd47ff4aaf84e6940436cb5ce3b)
 nostrip=(lib.*/ld-.*\.so$
 	lib.*/libc-.*\.so$
@@ -31,17 +33,15 @@ build() {
 	)
 
 	patch -Np1 -i ../$name-fhs-1.patch
+	patch -Np1 -i ../glibc-pure64.patch
 
-	mkdir $PKG/lib64
-	ln -sfv ../lib/ld-linux-x86-64.so.2 $PKG/lib64
-	ln -sfv ../lib/ld-linux-x86-64.so.2 $PKG/lib64/ld-lsb-x86-64.so.3
+	ln -sv lib $PKG/lib64
 
 	mkdir -v build
 	cd       build
 
 	../configure \
 		--libexecdir=/usr/lib \
-		libc_cv_slibdir=/lib \
 		${_configure_flag[@]}
 	make
 	mkdir -p $PKG/etc
