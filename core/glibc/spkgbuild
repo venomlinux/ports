@@ -5,7 +5,7 @@
 
 name=glibc
 version=2.29
-release=3
+release=4
 backup=(etc/locales)
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-fhs-1.patch
@@ -21,6 +21,15 @@ nostrip=(lib.*/ld-.*\.so$
 build() {
 	cd $name-$version
 
+	_configure_flag=(
+		--prefix=/usr \
+		--disable-werror \
+		--enable-kernel=3.2 \
+		--enable-stack-protector=strong \
+		--enable-multi-arch \
+		--enable-obsolete-rpc
+	)
+
 	patch -Np1 -i ../$name-fhs-1.patch
 
 	mkdir $PKG/lib64
@@ -30,18 +39,10 @@ build() {
 	mkdir -v build
 	cd       build
 
-	if [ -e /usr/lib32/libc.so ]; then
-		multilibopt="--enable-multi-arch --enable-obsolete-rpc"
-	fi
-
-	../configure --prefix=/usr                          \
-	             --disable-werror                       \
-	             --enable-kernel=3.2                    \
-	             --enable-stack-protector=strong        \
-		     --libexecdir=/usr/lib                  \
-		     $multilibopt                           \
-	             libc_cv_slibdir=/lib
-	unset GCC_INCDIR
+	../configure \
+		--libexecdir=/usr/lib \
+		libc_cv_slibdir=/lib \
+		${_configure_flag[@]}
 	make
 	mkdir -p $PKG/etc
 	touch $PKG/etc/ld.so.conf
@@ -83,23 +84,17 @@ EOF
 
 mkdir -p $PKG/etc/ld.so.conf.d
 
-#### 32 bit #####
-
-if [ -e /usr/lib32/libc.so ]; then
+	# 32bit
 	mkdir -v ../build32
 	cd ../build32
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	../configure --prefix=/usr                   \
-	             --disable-werror                \
-	             --enable-kernel=3.2             \
-	             --enable-multi-arch             \
-	             --enable-obsolete-rpc           \
-	             --enable-stack-protector=strong \
-	             --libdir=/usr/lib32             \
-		     --libexecdir=/usr/lib32         \
-	             libc_cv_slibdir=/usr/lib32      \
-	             i686-pc-linux-gnu
+	../configure \
+		--libdir=/usr/lib32 \
+		--libexecdir=/usr/lib32 \
+		libc_cv_slibdir=/usr/lib32 \
+		i686-pc-linux-gnu \
+		${_configure_flag[@]}
 	make
 	make install_root=$PWD/DESTDIR install
 	install -vdm755 $PKG/usr/lib32
@@ -112,9 +107,6 @@ if [ -e /usr/lib32/libc.so ]; then
 	ln -sv ../lib/locale $PKG/usr/lib32/locale
 	mkdir -p $PKG/etc/ld.so.conf.d/
 	echo "/usr/lib32" > $PKG/etc/ld.so.conf.d/lib32.conf
-fi
-
-#### end of 32 bit ####
 
 # supported locales
 sed -e '1,3d' -e 's|/| |g' -e 's|\\| |g' -e 's|^|#|g' \
@@ -123,4 +115,7 @@ sed -e '1,3d' -e 's|/| |g' -e 's|\\| |g' -e 's|^|#|g' \
 install -Dm755 $SRC/genlocales $PKG/usr/bin/genlocales
 
 	rm -fr $PKG/usr/share/{info,locale}
+
+	# shipped with tzdata
+	rm $PKG/usr/{sbin/{zdump,zic},bin/tzselect}
 }

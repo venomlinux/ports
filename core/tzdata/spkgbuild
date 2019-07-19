@@ -1,24 +1,29 @@
 # description	: Sources for time zone and daylight saving time data
-# depends	: glibc
 
 name=tzdata
 version=2019b
-release=1
-source=(https://www.iana.org/time-zones/repository/releases/${name}${version}.tar.gz)
-md5sum=(b26b5d7d844cb96c73ed2fb6d588daaf)
-
+release=2
+source=(https://www.iana.org/time-zones/repository/releases/${name}${version}.tar.gz
+	https://www.iana.org/time-zones/repository/releases/tzcode${version}.tar.gz)
+md5sum=(b26b5d7d844cb96c73ed2fb6d588daaf
+	91e0978d947496fd6aaf46d351f9c41d)
 build() {
+	make
+	make DESTDIR=$PKG install
+
 	ZONEINFO=$PKG/usr/share/zoneinfo
 	mkdir -pv $ZONEINFO/{posix,right}
 
 	for tz in etcetera southamerica northamerica europe africa antarctica  \
 	          asia australasia backward pacificnew systemv; do
-	    /usr/sbin/zic -L /dev/null   -d $ZONEINFO       -y "sh yearistype.sh" ${tz}
-	    /usr/sbin/zic -L /dev/null   -d $ZONEINFO/posix -y "sh yearistype.sh" ${tz}
-	    /usr/sbin/zic -L leapseconds -d $ZONEINFO/right -y "sh yearistype.sh" ${tz}
+	    ./zic -L /dev/null   -d $ZONEINFO       -y "sh yearistype.sh" ${tz}
+	    ./zic -L /dev/null   -d $ZONEINFO/posix -y "sh yearistype.sh" ${tz}
+	    ./zic -L leapseconds -d $ZONEINFO/right -y "sh yearistype.sh" ${tz}
 	done
 
 	cp -v zone.tab zone1970.tab iso3166.tab $ZONEINFO
-	/usr/sbin/zic -d $ZONEINFO -p America/New_York
-	unset ZONEINFO
+	./zic -d $ZONEINFO -p America/New_York
+	
+	# conflict with glibc
+	rm $PKG/etc/localtime
 }

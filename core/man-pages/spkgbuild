@@ -4,11 +4,15 @@
 
 name=man-pages
 version=5.01
-release=1
+release=2
 source=(https://www.kernel.org/pub/linux/docs/$name/$name-$version.tar.xz)
 md5sum=(5f75f72efcbe5cd245c4d9f36005d070)
 
 build() {
 	cd $name-$version
 	make DESTDIR=$PKG install
+
+	# ship with tzdata
+	rm $PKG/usr/share/man/man5/tzfile.5
+	rm $PKG/usr/share/man/man8/{zic,tzselect,zdump}.8
 }
