@@ -1,0 +1,44 @@
+# description	: Portable web rendering engine WebKit to the GTK+ 3 and GTK+ 2 platforms
+# depends	: cairo cmake gst-plugins-base gst-plugins-bad gtk2 gtk3 harfbuzz-icu libgudev libsecret libsoup
+# depends	: libwebp mesa ruby sqlite which enchant libxslt openjpeg2
+
+name=webkitgtk
+version=2.24.2
+release=1
+source=(https://webkitgtk.org/releases/$name-$version.tar.xz
+	fix-fast-memory-disabled.patch
+	musl-fixes.patch)
+md5sum=(83012998e1b9f71abb37d8baf6f9c7e6
+	SKIP SKIP)
+
+build() {
+	cd $name-$version
+
+	patch -Np0 -i ../fix-fast-memory-disabled.patch
+	patch -Np1 -i ../musl-fixes.patch
+	
+	mkdir -vp build
+	cd        build
+
+	export CXXFLAGS="$CXXFLAGS -g1"
+	
+	#CFLAGS="$CFLAGS -Wno-expansion-to-defined"  \
+	#CXXFLAGS="$CXXFLAGS -Wno-expansion-to-defined" \
+	cmake -DCMAKE_BUILD_TYPE=Release \
+	      -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DCMAKE_SKIP_RPATH=ON \
+	      -DPORT=GTK \
+	      -DLIB_INSTALL_DIR=/usr/lib \
+	      -DCMAKE_INSTALL_LIBEXECDIR:PATH=/usr/lib \
+	      -DUSE_LIBHYPHEN=OFF \
+	      -DENABLE_MINIBROWSER=ON \
+	      -DUSE_WOFF2=OFF \
+	      -DENABLE_GEOLOCATION=OFF \
+	      -DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+	      -Wno-dev -G Ninja ..
+	ninja JavaScriptCore-4-gir
+	ninja
+	DESTDIR=$PKG ninja install
+
+	#rm -r $PKG/usr/share/locale
+}

@@ -1,0 +1,22 @@
+# description	: Provides a user space library for accessing the DRM, direct rendering manager, on operating systems that support the ioctl interface
+# depends	: libpciaccess meson
+# optdepends	: cairo docbook-xml docbook-xml libxslt valgrind cunit
+
+name=libdrm
+version=2.4.99
+release=1
+source=(https://dri.freedesktop.org/$name/$name-$version.tar.bz2
+	dont-build-noveau-tests.patch)
+md5sum=(72539626815b35159a63d45bc4c14ee6 SKIP)
+
+build() {
+	cd $name-$version
+
+	patch -Np0 -i ../dont-build-noveau-tests.patch
+
+	mkdir build
+	cd build
+	meson --prefix=/usr -Dudev=true
+	ninja
+	DESTDIR=$PKG ninja install
+}

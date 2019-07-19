@@ -1,0 +1,20 @@
+# description	: Programs for processing and formatting text
+# homepage	: https://www.gnu.org/software/groff/groff.html
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: gcc perl
+
+name=groff
+version=1.22.4
+release=1
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
+md5sum=(08fb04335e2f5e73f23ea4c3adbf0c5f)
+
+build() {
+	cd $name-$version
+
+	PAGE=A4 ./configure --prefix=/usr --docdir=/usr/share/doc/$name
+	make || make -j1
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{info,doc} $PKG/usr/lib/charset.alias
+}

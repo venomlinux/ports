@@ -1,0 +1,20 @@
+# description	: A simple package manager for Linux Distribution
+# depends	: coreutils bash wget httpup libarchive
+
+name=scratchpkg
+version=20190711
+release=2
+backup=(etc/scratchpkg.conf
+	etc/scratchpkg.repo
+	etc/revdep.conf)
+_commit=400dae7e51b19e1fa0f68daebad194d8435bd303
+source=($name-$_commit.tar.gz::https://github.com/venomlinux/scratchpkg/archive/$_commit.tar.gz
+	repo)
+md5sum=(bc7c1ee595dbf85aecce58082e0d5526
+	a4e56154de12afc5c722cb53fce8a13b)
+
+build() {
+	cd $name-$_commit
+	DESTDIR=$PKG ./INSTALL.sh
+	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
+}

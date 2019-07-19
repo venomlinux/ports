@@ -1,0 +1,40 @@
+# description	: Lightweight implementation of C standard library
+# backup	: 
+# depends	: 
+# noextract	: 
+
+name=musl
+version=1.1.21
+release=1
+options=(!buildflags)
+source=(https://www.musl-libc.org/releases/musl-$version.tar.gz
+	getconf.{c,1}
+	getent.{c,1}
+	iconv.c)
+md5sum=(7fa82f223a9a10959162185fcedfcc7b
+	SKIP
+	SKIP
+	SKIP
+	SKIP
+	SKIP)
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/usr/bin
+	ln -sf ../lib/libc.so $PKG/usr/bin/ldd
+	mkdir -p $PKG/sbin
+	ln -sv /bin/true $PKG/sbin/ldconfig
+
+	for i in getent getconf iconv; do
+		gcc $CFLAGS $LDFLAGS -fpie $SRC/$i.c -o $PKG/usr/bin/$i
+	done
+
+	mkdir -p $PKG/usr/share/man/man1
+	install -m644 $SRC/getconf.1 $PKG/usr/share/man/man1
+	#install -m644 $SRC/getent.1 $PKG/usr/share/man/man1
+}

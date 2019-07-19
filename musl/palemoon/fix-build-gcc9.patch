@@ -1,0 +1,17 @@
+diff -urpN palemoon-28.5.0.orig/js/xpconnect/src/XPCWrappedNative.cpp palemoon-28.5.0/js/xpconnect/src/XPCWrappedNative.cpp
+--- palemoon-28.5.0.orig/js/xpconnect/src/XPCWrappedNative.cpp	2019-05-08 12:15:54.907966322 -0700
++++ palemoon-28.5.0/js/xpconnect/src/XPCWrappedNative.cpp	2019-05-08 12:16:49.654748316 -0700
+@@ -2215,10 +2215,9 @@ XPCWrappedNative::ToString(XPCWrappedNat
+             name = JS_sprintf_append(name, "%s", array[1]->GetNameString());
+         } else {
+             for (uint16_t i = 0; i < count; i++) {
+-                const char* fmt = (i == 0) ?
+-                                    "(%s" : (i == count-1) ?
+-                                        ", %s)" : ", %s";
+-                name = JS_sprintf_append(name, fmt,
++                name = JS_sprintf_append(name, (i == 0) ?
++                                         "(%s" : (i == count-1) ?
++                                         ", %s)" : ", %s",
+                                          array[i]->GetNameString());
+             }
+         }

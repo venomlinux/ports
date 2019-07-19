@@ -1,0 +1,19 @@
+# description	: utilities and libraries for handling ELF files
+
+name=elfutils
+version=0.176
+release=1
+source=(https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2
+	0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch)
+md5sum=(077e4f49320cad82bf17a997068b1db9
+	SKIP)
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+
+	autoreconf -if
+	CFLAGS="$CFLAGS -Wno-error" ./configure --prefix=/usr --program-prefix="eu-" --disable-nls
+	make
+	make DESTDIR=$PKG install
+}

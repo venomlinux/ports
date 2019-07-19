@@ -1,0 +1,16 @@
+# description	: Library for manipulating Unicode strings and C strings
+
+name=libunistring
+version=0.9.10
+release=1
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(db08bb384e81968957f997ec9808926e)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr    \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share $PKG/usr/lib/charset.alias
+}

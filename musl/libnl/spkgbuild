@@ -1,0 +1,26 @@
+# description	: Collection of libraries providing APIs to netlink protocol based Linux kernel interfaces
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=libnl
+version=3.4.0
+release=1
+source=(https://github.com/thom311/libnl/releases/download/${name}${version//./_}/$name-$version.tar.gz
+	musl.patch)
+
+build() {
+	cd $name-$version
+
+	patch -Np0 -i ../musl.patch
+
+	autoreconf -fi
+	sed -i '/<linux\/if_bridge.h>/i#define _LINUX_IN6_H' lib/route/link/bridge.c
+
+  	./configure --prefix=/usr     \
+	            --sysconfdir=/etc \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+
+md5sum=(8f71910c03db363b41e2ea62057a4311
+	SKIP)

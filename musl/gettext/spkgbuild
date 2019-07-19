@@ -1,0 +1,29 @@
+# description	: Utilities for internationalization and localization
+# homepage	: https://www.gnu.org/software/gettext/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: acl gcc bash
+
+name=gettext
+version=0.20.1
+release=1
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(9ed9e26ab613b668e0026222a9c23639)
+
+build() {
+	cd $name-$version
+
+	# suppress two invocations of test-lock which on some machines can loop forever
+	sed -i '/^TESTS =/d' gettext-runtime/tests/Makefile.in
+	sed -i 's/test-lock..EXEEXT.//' gettext-tools/gnulib-tests/Makefile.in
+
+	./configure --prefix=/usr \
+	            --disable-static \
+		    --disable-nls
+	make || make -j1
+	make -j1 DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{doc,info}
+
+	#chmod -v 0755 $PKG/usr/lib/preloadable_libintl.so
+}
+

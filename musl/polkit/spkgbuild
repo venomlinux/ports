@@ -1,0 +1,31 @@
+# description	: Toolkit for defining and handling authorizations
+# homepage	: https://www.freedesktop.org/wiki/Software/polkit
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib js60 linux-pam gobject-introspection
+
+name=polkit
+version=0.116
+release=1
+source=(https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz
+	make-innetgr-optional.patch)
+md5sum=(4b37258583393e83069a0e2e89c0162a
+	SKIP)
+
+build() {
+	cd $name-$version
+
+	patch -Np0 -i ../make-innetgr-optional.patch
+
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+	            --localstatedir=/var \
+	            --disable-static \
+	            --enable-libsystemd-login=no \
+		    --with-authfw=pam \
+		    --enable-libelogind=no \
+		    --disable-man-pages
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
+}

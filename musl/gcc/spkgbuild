@@ -1,0 +1,57 @@
+# description	: The GNU compiler collection, which includes the C and C++ compilers
+# homepage	: http://gcc.gnu.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: binutils
+
+name=gcc
+version=9.1.0
+release=1
+source=(https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
+	c89 c99)
+md5sum=(6069ae3737cf02bf2cb44a391ef0e937
+	3d333df77302ed89e06a4a8539943b7d
+	da96f545b863e57c6ab2598c1ea9a740)
+
+build() {
+	cd $name-$version
+
+	sed -e '/m64=/s/lib64/lib/' \
+	    -i.orig gcc/config/i386/t-linux64
+
+	mkdir -v build
+	cd       build
+
+	if [ "$OSTYPE" = "linux-musl" ]; then
+		buildflags="--disable-multilib --disable-libsanitizer"
+	else
+		buildflags="--enable-multilib"
+	fi
+
+	SED=sed                               \
+	../configure --prefix=/usr            \
+		     --libexecdir=/usr/lib    \
+	             --enable-languages=c,c++,objc,obj-c++ \
+	             --disable-bootstrap      \
+		     --disable-libmpx         \
+	             --with-system-zlib       \
+	             $buildflags              \
+		     --disable-nls
+	make
+	make -j1 DESTDIR=$PKG install
+
+	mkdir $PKG/lib
+	ln -sv ../usr/bin/cpp $PKG/lib/cpp
+	ln -sv gcc $PKG/usr/bin/cc
+
+	install -v -dm755 $PKG/usr/lib/bfd-plugins
+	ln -sfv ../../lib/gcc/$(gcc -dumpmachine)/$version/liblto_plugin.so \
+	        $PKG/usr/lib/bfd-plugins/
+
+	mkdir -pv $PKG/usr/share/gdb/auto-load/usr/lib
+	mv -v $PKG/usr/lib/*gdb.py $PKG/usr/share/gdb/auto-load/usr/lib
+
+	install -Dm755 $SRC/c89 $PKG/usr/bin/c89
+	install -Dm755 $SRC/c99 $PKG/usr/bin/c99
+
+	rm -fr $PKG/usr/share/{info,$name-$version}
+}

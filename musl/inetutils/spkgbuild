@@ -1,0 +1,33 @@
+# description	: Programs for basic networking
+# homepage	: https://www.gnu.org/software/inetutils/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=inetutils
+version=1.9.4
+release=2
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(87fef1fa3f603aef11c41dcc097af75e)
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/sbin \
+		--localstatedir=/var \
+		--disable-logger \
+		--disable-whois \
+		--disable-rcp \
+		--disable-rexec \
+		--disable-rlogin \
+		--disable-rsh \
+		--disable-servers
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -pv $PKG/{bin,sbin}
+	mv -v $PKG/usr/bin/{hostname,ping,ping6,traceroute} $PKG/bin
+	mv -v $PKG/usr/bin/ifconfig $PKG/sbin
+
+	rm -r $PKG/usr/share/info $PKG/usr/lib/charset.alias
+}

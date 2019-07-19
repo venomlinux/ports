@@ -1,0 +1,79 @@
+# description	: The Rust programming language is designed to be a safe, concurrent, practical language
+# homepage	: https://www.rust-lang.org
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: curl cmake python3 llvm libssh2
+
+name=rust
+version=1.36.0
+release=2
+_date=2019-05-23
+_rust=1.35.0
+_cargo=0.36.0
+source=(https://static.rust-lang.org/dist/rustc-$version-src.tar.gz
+	https://static.rust-lang.org/dist/$_date/rust-std-$_rust-x86_64-unknown-linux-musl.tar.gz
+	https://static.rust-lang.org/dist/$_date/rustc-$_rust-x86_64-unknown-linux-musl.tar.gz
+	https://static.rust-lang.org/dist/$_date/cargo-$_cargo-x86_64-unknown-linux-musl.tar.gz
+	musl.patch)
+md5sum=(SKIP SKIP SKIP SKIP SKIP)
+noextract=(rust-std-$_rust-x86_64-unknown-linux-musl.tar.gz
+	rustc-$_rust-x86_64-unknown-linux-musl.tar.gz
+	cargo-$_cargo-x86_64-unknown-linux-musl.tar.gz)
+
+clear_vendor_checksums() {
+	sed -i 's/\("files":{\)[^}]*/\1/' vendor/$1/.cargo-checksum.json
+}
+
+build() {
+	cd rustc-$version-src
+
+	patch -Np1 -i ../musl.patch
+
+	mkdir -p build/cache/$_date
+	cp $SRC/rust-std-$_rust-x86_64-unknown-linux-musl.tar.gz build/cache/$_date/
+	cp $SRC/rustc-$_rust-x86_64-unknown-linux-musl.tar.gz build/cache/$_date/
+	cp $SRC/cargo-$_cargo-x86_64-unknown-linux-musl.tar.gz build/cache/$_date/
+
+	rm -rf src/llvm-project
+
+	clear_vendor_checksums libc
+	clear_vendor_checksums openssl-sys
+
+	cat > config.toml <<- EOF
+		[build]
+		build = "x86_64-unknown-linux-musl"
+		host = [ "x86_64-unknown-linux-musl" ]
+		target = [ "x86_64-unknown-linux-musl" ]
+		docs = false
+		extended = true
+		submodules = false
+		python = "python3"
+		locked-deps = true
+		vendor = true
+
+		[install]
+		prefix = "/usr"
+
+		[rust]
+		channel = "stable"
+		rpath = false
+		codegen-units = 1
+		debuginfo = false
+		debuginfo-lines = false
+		debuginfo-only-std = false
+		debuginfo-tools = false
+		backtrace = true
+		jemalloc = false
+		codegen-tests = false
+
+		[target.x86_64-unknown-linux-musl]
+		llvm-config = "/usr/bin/llvm-config"
+		crt-static = false
+		cc = "gcc"
+		cxx = "g++"
+		ar = "ar"
+		linker = "gcc"
+	EOF
+
+	RUSTFLAGS="-C link-args=-lffi" ./x.py build -v --jobs $(expr $(nproc) + 1)
+	DESTDIR="$PKG" ./x.py install -v
+}

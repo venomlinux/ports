@@ -1,0 +1,131 @@
+# description	: The Rust programming language is designed to be a safe, concurrent, practical language
+# homepage	: https://www.rust-lang.org
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: curl cmake python3 llvm libssh2
+
+name=rust
+version=1.35.0
+_bootcargover=0.35.0
+_bootver=1.34.2
+release=2
+_date=2019-05-14
+_rust=1.34.2
+_cargo=0.35.0
+patch=(0001-Don-t-pass-CFLAGS-to-the-C-compiler.patch
+	0002-Fix-LLVM-build.patch
+	0003-Allow-rustdoc-to-work-when-cross-compiling-on-musl.patch
+	0004-Require-static-native-libraries-when-linking-static-.patch
+	0005-Remove-nostdlib-and-musl_root-from-musl-targets.patch
+	0006-Prefer-libgcc_eh-over-libunwind-for-musl.patch
+	0007-runtest-Fix-proc-macro-tests-on-musl-hosts.patch
+	0008-test-use-extern-for-plugins-Don-t-assume-multilib.patch
+	0009-test-sysroot-crates-are-unstable-Fix-test-when-rpath.patch
+	0010-Ignore-broken-and-non-applicable-tests.patch
+	0011-Link-stage-2-tools-dynamically-to-libstd.patch
+	0012-Move-debugger-scripts-to-usr-share-rust.patch
+	0013-Add-foxkit-target-specs.patch
+	0030-libc-linkage.patch
+	0031-typenum-pmmx.patch
+	0040-rls-atomics.patch)
+source=(https://static.rust-lang.org/dist/rustc-$version-src.tar.gz
+	https://distfiles.adelielinux.org/source/rust/cargo-$_bootcargover-x86_64-foxkit-linux-musl.tar.xz
+	https://distfiles.adelielinux.org/source/rust/rust-std-$_bootver-x86_64-foxkit-linux-musl.tar.xz
+	https://distfiles.adelielinux.org/source/rust/rustc-$_bootver-x86_64-foxkit-linux-musl.tar.xz
+	${patch[@]})
+md5sum=(f43af67a139ce21ff5f530bbd2f486aa
+	b86a8a998a47dca5a25a9e60bad12de7
+	6ac8fe0e82a3c544665d64742678b409
+	2e82b49cd5bddd1049d9069456b1d2d1
+	23970d9e2343567aaae3ef920e351a44
+	f1d690f22a844fe6d1674cfe2b654840
+	e737a759af62f7abfa05232b2ef37efa
+	1570b1ed9b6e54e8873b71a7be360c49
+	b41d5a1480ea80e588b3043280635b06
+	d1c0492da3bae13b8e1b5da8154b8d64
+	6420a537588a0dd283307a634c45551b
+	03dece138626e6c34a386c2090b04d79
+	54b9b735f0c60c615b4d18256873b7a1
+	3fa7553e71fc9b6dc7889bb7d6d19db8
+	b78c8f8770d85dfef2a05537625f59e1
+	80cd3dc3e991c3ee7b216b963a9e7520
+	ba370a8f1f2cff64b4364d95c3239a74
+	26fdd8ef25c92e79b4f56586e3bdd1cb
+	993d63cc1477545daa34f98ebba60d4f
+	1c26c6abf0bbb2494e7ad18e72a27a76)
+#noextract=(rust-std-$_rust-x86_64-unknown-linux-gnu.tar.gz
+#	rustc-$_rust-x86_64-unknown-linux-gnu.tar.gz
+#	cargo-$_cargo-x86_64-unknown-linux-gnu.tar.gz)
+
+build() {
+	cd rustc-$version-src
+
+	for p in ${patch[@]}; do
+		patch -Np1 -i ../$p
+	done
+
+	$SRC/cargo-$_bootcargover-x86_64-foxkit-linux-musl/install.sh \
+		--destdir=$SRC/prebuilt \
+		--prefix=/ \
+		--disable-ldconfig
+	$SRC/rust-std-$_bootver-x86_64-foxkit-linux-musl/install.sh \
+		--destdir=$SRC/prebuilt \
+		--prefix=/ \
+		--disable-ldconfig
+	$SRC/rustc-$_bootver-x86_64-foxkit-linux-musl/install.sh \
+		--destdir=$SRC/prebuilt \
+		--prefix=/ \
+		--disable-ldconfig
+
+	#mkdir -p build/cache/$_date
+	#cp $SRC/rust-std-$_rust-x86_64-unknown-linux-gnu.tar.gz build/cache/$_date/
+	#cp $SRC/rustc-$_rust-x86_64-unknown-linux-gnu.tar.gz build/cache/$_date/
+	#cp $SRC/cargo-$_cargo-x86_64-unknown-linux-gnu.tar.gz build/cache/$_date/
+
+cat > config.toml <<- EOF
+	[build]
+	build = x86_64-pc-linux-musl
+	host = [ x86_64-pc-linux-musl ]
+	target = [ x86_64-pc-linux-musl ]
+	cargo = "$SRC/prebuilt/bin/cargo"
+	rustc = "$SRC/prebuilt/bin/rustc"
+	submodules = false
+	python = "python3"
+	locked-deps = true
+	vendor = true
+	extended = true
+	tools = [ "analysis", "cargo", "clippy", "rls", "rustfmt", "src" ]
+	[install]
+	prefix = "/usr"
+	[rust]
+	codegen-units = 1
+	debuginfo = true
+	debuginfo-lines = true
+	debuginfo-only-std = true
+	debuginfo-tools = true
+	backtrace = true
+	channel = "stable"
+	rpath = false
+	jemalloc = false
+	[target.x86_64-pc-linux-musl]
+	cc = "x86_64-pc-linux-musl-gcc"
+	cxx = "x86_64-pc-linux-musl-g++"
+	linker = "x86_64-pc-linux-musl-gcc"
+	llvm-config = "/usr/bin/llvm-config"
+	crt-static = false
+EOF
+
+
+	#mkdir "$SRC/rust"
+	#export CARGO_HOME="$SRC/rust"
+
+	LIBGIT2_SYS_USE_PKG_CONFIG=1 \
+	LLVM_LINK_SHARED=1 \
+	RUST_BACKTRACE=1 \
+	python3 x.py build -j$(nproc)
+
+	#export RUSTFLAGS="$RUSTFLAGS -C link-args=-lffi"
+	#python3 ./x.py build --exclude src/tools/miri
+	#export LIBSSH2_SYS_USE_PKG_CONFIG=1
+	DESTDIR=$PKG python3 ./x.py install
+	#rm -r $PKG/usr/share/doc
+}

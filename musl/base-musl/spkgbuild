@@ -1,0 +1,15 @@
+# description	: Meta port for base system
+# depends	: filesystem linux-api-headers man-pages musl tzdata zlib file readline m4 bc binutils gmp
+# depends	: mpfr libmpc gcc bzip2 pkg-config ncurses attr acl libcap sed shadow psmisc 
+# depends	: iana-etc bison flex grep bash libtool gdbm gperf expat inetutils perl perl-xml-parser
+# depends	: intltool autoconf automake xz kmod gettext elfutils procps-ng e2fsprogs coreutils
+# depends	: diffutils gawk findutils groff less gzip iproute2 kbd libpipeline make patch
+# depends	: eudev util-linux man-db tar texinfo vim scratchpkg dhcpcd rc sysklogd
+
+name=base-musl
+version=0.1
+release=3
+
+build() {
+	mkdir -pv $PKG/usr
+}

@@ -1,0 +1,19 @@
+# description	: A notepad clone for GTK+ 2.0
+# homepage	: http://tarot.freeshell.org/leafpad/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk2 intltool
+
+name=leafpad
+version=0.8.18.1
+release=1
+source=(http://savannah.nongnu.org/download/$name/$name-$version.tar.gz)
+md5sum=(254a72fc67505e3aa52884c729cd7b97)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		    --enable-chooser
+	make
+	make DESTDIR=$PKG install
+	#rm -r $PKG/usr/share/locale
+}

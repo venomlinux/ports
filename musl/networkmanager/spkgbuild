@@ -1,0 +1,71 @@
+# description	: Network connection manager and user applications
+# depends	: nss dbus-glib libgudev libndp libnl consolekit2 dhcpcd libsoup newt polkit upower wpa_supplicant gobject-introspection iptables vala docbook-xsl python2-gobject3 libxslt
+
+name=networkmanager
+version=1.18.1
+release=1
+backup=(etc/NetworkManager/NetworkManager.conf)
+source=(https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
+	$name.rc
+	musl-basic.patch
+	musl-fix-includes.patch
+	musl-has-not-secure-getenv.patch
+	musl-network-support.patch
+	musl-process-util.patch)
+md5sum=(5d4dd0d5ac86f0b616880e44420b8eb5
+	6dafed6f16ea2d29761be435cbedcae9
+	SKIP SKIP
+	SKIP SKIP SKIP)
+
+build() {
+	cd NetworkManager-$version
+
+	patch -Np0 -i ../musl-basic.patch
+	patch -Np0 -i ../musl-fix-includes.patch
+	patch -Np0 -i ../musl-has-not-secure-getenv.patch
+	patch -Np0 -i ../musl-network-support.patch
+	patch -Np0 -i ../musl-process-util.patch
+
+	# Fix a missing meson.build file for initrd hooks
+	sed '/initrd/d' -i src/meson.build
+
+	mkdir build
+	cd    build
+	
+	CXXFLAGS+="-O2 -fPIC"            \
+	meson --prefix /usr              \
+	      --sysconfdir /etc          \
+	      --libexecdir lib           \
+	      --localstatedir /var       \
+	      -Djson_validation=false    \
+	      -Dlibaudit=no              \
+	      -Dlibnm_glib=true          \
+	      -Dlibpsl=false             \
+	      -Dnmtui=true               \
+	      -Dovs=false                \
+	      -Dppp=false                \
+	      -Dselinux=false            \
+	      -Dudev_dir=/lib/udev       \
+	      -Dsession_tracking=no      \
+	      -Dmodem_manager=false      \
+	      -Dsystemdsystemunitdir=no  \
+	      -Dsystemd_journal=false    \
+	      -Dmodify_system=true       \
+	      -Ddocs=false               \
+	      -Dqt=false                 \
+	      -Dtests=no                 \
+	      ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/{doc,locale}
+
+mkdir -p $PKG/etc/NetworkManager
+cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"
+[main]
+plugins=keyfile
+EOF
+
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+}

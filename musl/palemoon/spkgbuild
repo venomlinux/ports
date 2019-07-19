@@ -1,0 +1,61 @@
+# description	: Open source web browser based on Firefox focusing on efficiency
+# depends	: python2 autoconf2.13 gtk2 yasm gconf alsa-lib dbus-glib
+
+name=palemoon
+version=28.5.2
+release=1
+source=(https://github.com/MoonchildProductions/UXP/archive/PM${version}_Release.tar.gz
+	mozconfig fix-build-gcc9.patch
+	firefox-virtualenv.patch
+	firefox-virtualenv2.patch
+	firefox38-xul-order.patch)
+md5sum=(037bb06d0f4212e9f0abd5b1844a08cc
+	1585d6473435077ee29af114f1a2b919
+	cee6622cc7bc41c1145651bc4d3ada8f
+	SKIP SKIP SKIP)
+rev_ex_libs="libxul.so libmozsqlite3.so libmozavutil.so liblgpllibs.so"
+
+build() {
+	cd UXP-PM${version}_Release
+
+	patch -Np1 -i $SRC/fix-build-gcc9.patch
+	patch -Np1 -i $SRC/firefox-virtualenv.patch
+	patch -Np1 -i $SRC/firefox-virtualenv2.patch
+	patch -Np1 -i $SRC/firefox38-xul-order.patch
+
+	sed "s,%BUILDDIR%,$SRC,g" $SRC/mozconfig > .mozconfig
+
+	mkdir -p include/sys
+cat << EOF > include/sys/cdefs.h
+#ifndef __P
+#define __P(foo) foo
+#endif
+EOF
+
+	find . -name '*.[ch]' | xargs sed -i s'@#include <sys/cdefs.h>@#define __P(x) x@g'
+
+	export SHELL=/bin/sh
+
+	./mach build
+	./mach package
+
+	install -d $PKG/usr/{bin,lib}
+	cp -r $SRC/pmbuild/dist/$name/ $PKG/usr/lib/$name
+	ln -s ../lib/$name/$name $PKG/usr/bin/$name
+
+	for i in 16 32 48; do
+		install -Dm644 $SRC/pmbuild/dist/palemoon/browser/chrome/icons/default/default${i}.png \
+			$PKG/usr/share/icons/hicolor/${i}x${i}/apps/$name.png
+	done
+	install -Dm644 $SRC/pmbuild/dist/palemoon/browser/icons/mozicon128.png \
+			$PKG/usr/share/icons/hicolor/128x128/apps/$name.png
+
+	install -Dm644 application/palemoon/branding/official/palemoon.desktop \
+		$PKG/usr/share/applications/$name.desktop
+
+	# exclude library for revdep
+        mkdir -p $PKG/etc/revdep.d/
+        for i in $rev_ex_libs; do
+                echo $i >> $PKG/etc/revdep.d/$name.conf
+        done
+}

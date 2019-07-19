@@ -1,0 +1,20 @@
+# description	: A program for modifying or creating files by applying a “patch” file typically created by the diff program
+# homepage	: https://www.gnu.org/software/patch/patch.html
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: attr
+
+name=patch
+version=2.7.6
+release=1
+source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm $PKG/usr/lib/charset.alias
+}
+md5sum=(78ad9937e4caadcba1526ef1853730d5)

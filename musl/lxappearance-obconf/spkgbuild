@@ -1,0 +1,20 @@
+# description	: Plugin for LXAppearance to configure OpenBox
+# homepage	: http://lxde.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: lxappearance openbox
+
+name=lxappearance-obconf
+version=0.2.3
+release=1
+source=(https://downloads.sourceforge.net/lxde/$name-$version.tar.xz)
+md5sum=(ae0076d489aa786f5d573f7ff592a4ab)
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	#rm -r $PKG/usr/share/locale
+}

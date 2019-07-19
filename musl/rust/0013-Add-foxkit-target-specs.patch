@@ -1,0 +1,148 @@
+From fcf56fefa4b75f24430f69477d8cca8ee758fa41 Mon Sep 17 00:00:00 2001
+From: Samuel Holland <samuel@sholland.org>
+Date: Mon, 17 Sep 2018 02:29:06 +0000
+Subject: [PATCH 13/13] Add foxkit target specs
+
+---
+ .../spec/aarch64_foxkit_linux_musl.rs               | 11 +++++++++++
+ .../spec/armv7_foxkit_linux_musleabihf.rs           | 11 +++++++++++
+ src/librustc_target/spec/i586_foxkit_linux_musl.rs  | 13 +++++++++++++
+ src/librustc_target/spec/mod.rs                     |  7 +++++++
+ .../spec/powerpc64_foxkit_linux_musl.rs             | 11 +++++++++++
+ .../spec/powerpc_foxkit_linux_musl.rs               | 13 +++++++++++++
+ .../spec/x86_64_foxkit_linux_musl.rs                | 11 +++++++++++
+ 7 files changed, 77 insertions(+)
+ create mode 100644 src/librustc_target/spec/aarch64_foxkit_linux_musl.rs
+ create mode 100644 src/librustc_target/spec/armv7_foxkit_linux_musleabihf.rs
+ create mode 100644 src/librustc_target/spec/i586_foxkit_linux_musl.rs
+ create mode 100644 src/librustc_target/spec/powerpc64_foxkit_linux_musl.rs
+ create mode 100644 src/librustc_target/spec/powerpc_foxkit_linux_musl.rs
+ create mode 100644 src/librustc_target/spec/x86_64_foxkit_linux_musl.rs
+
+diff --git a/src/librustc_target/spec/aarch64_foxkit_linux_musl.rs b/src/librustc_target/spec/aarch64_foxkit_linux_musl.rs
+new file mode 100644
+index 0000000000..9ba8bc1deb
+--- /dev/null
++++ b/src/librustc_target/spec/aarch64_foxkit_linux_musl.rs
+@@ -0,0 +1,11 @@
++use crate::spec::TargetResult;
++
++pub fn target() -> TargetResult {
++    let mut base = super::aarch64_unknown_linux_musl::target()?;
++
++    base.llvm_target = "aarch64-foxkit-linux-musl".to_string();
++    base.target_vendor = "foxkit".to_string();
++    base.options.crt_static_default = false;
++
++    Ok(base)
++}
+diff --git a/src/librustc_target/spec/armv7_foxkit_linux_musleabihf.rs b/src/librustc_target/spec/armv7_foxkit_linux_musleabihf.rs
+new file mode 100644
+index 0000000000..5a88f77896
+--- /dev/null
++++ b/src/librustc_target/spec/armv7_foxkit_linux_musleabihf.rs
+@@ -0,0 +1,11 @@
++use crate::spec::TargetResult;
++
++pub fn target() -> TargetResult {
++    let mut base = super::armv7_unknown_linux_musleabihf::target()?;
++
++    base.llvm_target = "armv7-foxkit-linux-musleabihf".to_string();
++    base.target_vendor = "foxkit".to_string();
++    base.options.crt_static_default = false;
++
++    Ok(base)
++}
+diff --git a/src/librustc_target/spec/i586_foxkit_linux_musl.rs b/src/librustc_target/spec/i586_foxkit_linux_musl.rs
+new file mode 100644
+index 0000000000..f0c4ffbf58
+--- /dev/null
++++ b/src/librustc_target/spec/i586_foxkit_linux_musl.rs
+@@ -0,0 +1,13 @@
++use crate::spec::{LinkerFlavor, TargetResult};
++
++pub fn target() -> TargetResult {
++    let mut base = super::i586_unknown_linux_musl::target()?;
++
++    base.llvm_target = "i586-foxkit-linux-musl".to_string();
++    base.target_vendor = "foxkit".to_string();
++    base.options.crt_static_default = false;
++    base.options.post_link_args.insert(LinkerFlavor::Gcc,
++        vec!["-Wl,--as-needed".to_string(), "-lssp_nonshared".to_string()]);
++
++    Ok(base)
++}
+diff --git a/src/librustc_target/spec/mod.rs b/src/librustc_target/spec/mod.rs
+index 46fefd78f4..7cdcb319c6 100644
+--- a/src/librustc_target/spec/mod.rs
++++ b/src/librustc_target/spec/mod.rs
+@@ -329,6 +329,13 @@ macro_rules! supported_targets {
+ }
+ 
+ supported_targets! {
++    ("aarch64-foxkit-linux-musl", aarch64_foxkit_linux_musl),
++    ("armv7-foxkit-linux-musleabihf", armv7_foxkit_linux_musleabihf),
++    ("i586-foxkit-linux-musl", i586_foxkit_linux_musl),
++    ("powerpc-foxkit-linux-musl", powerpc_foxkit_linux_musl),
++    ("powerpc64-foxkit-linux-musl", powerpc64_foxkit_linux_musl),
++    ("x86_64-foxkit-linux-musl", x86_64_foxkit_linux_musl),
++
+     ("x86_64-unknown-linux-gnu", x86_64_unknown_linux_gnu),
+     ("x86_64-unknown-linux-gnux32", x86_64_unknown_linux_gnux32),
+     ("i686-unknown-linux-gnu", i686_unknown_linux_gnu),
+diff --git a/src/librustc_target/spec/powerpc64_foxkit_linux_musl.rs b/src/librustc_target/spec/powerpc64_foxkit_linux_musl.rs
+new file mode 100644
+index 0000000000..b105aa247e
+--- /dev/null
++++ b/src/librustc_target/spec/powerpc64_foxkit_linux_musl.rs
+@@ -0,0 +1,11 @@
++use crate::spec::TargetResult;
++
++pub fn target() -> TargetResult {
++    let mut base = super::powerpc64_unknown_linux_musl::target()?;
++
++    base.llvm_target = "powerpc64-foxkit-linux-musl".to_string();
++    base.target_vendor = "foxkit".to_string();
++    base.options.crt_static_default = false;
++
++    Ok(base)
++}
+diff --git a/src/librustc_target/spec/powerpc_foxkit_linux_musl.rs b/src/librustc_target/spec/powerpc_foxkit_linux_musl.rs
+new file mode 100644
+index 0000000000..a425f472aa
+--- /dev/null
++++ b/src/librustc_target/spec/powerpc_foxkit_linux_musl.rs
+@@ -0,0 +1,13 @@
++use crate::spec::{LinkerFlavor, TargetResult};
++
++pub fn target() -> TargetResult {
++    let mut base = super::powerpc_unknown_linux_musl::target()?;
++
++    base.llvm_target = "powerpc-foxkit-linux-musl".to_string();
++    base.target_vendor = "foxkit".to_string();
++    base.options.crt_static_default = false;
++    base.options.post_link_args.insert(LinkerFlavor::Gcc,
++        vec!["-Wl,--as-needed".to_string(), "-lssp_nonshared".to_string()]);
++
++    Ok(base)
++}
+diff --git a/src/librustc_target/spec/x86_64_foxkit_linux_musl.rs b/src/librustc_target/spec/x86_64_foxkit_linux_musl.rs
+new file mode 100644
+index 0000000000..40adbd77b3
+--- /dev/null
++++ b/src/librustc_target/spec/x86_64_foxkit_linux_musl.rs
+@@ -0,0 +1,11 @@
++use crate::spec::TargetResult;
++
++pub fn target() -> TargetResult {
++    let mut base = super::x86_64_unknown_linux_musl::target()?;
++
++    base.llvm_target = "x86_64-foxkit-linux-musl".to_string();
++    base.target_vendor = "foxkit".to_string();
++    base.options.crt_static_default = false;
++
++    Ok(base)
++}
+-- 
+2.21.0
+

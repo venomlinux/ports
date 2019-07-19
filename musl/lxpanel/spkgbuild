@@ -1,0 +1,23 @@
+# description	: Lightweight X11 desktop panel
+# homepage	: http://lxde.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: alsa-lib libwnck2 keybinder2 lxmenu-data menu-cache libxml2 wireless_tools
+
+name=lxpanel
+version=0.10.0
+release=1
+source=(https://downloads.sourceforge.net/lxde/$name-$version.tar.xz
+	10-devproc-lxpanel.patch)
+md5sum=(e6a1f9bd5cf39812e1c5d2453a34a7c5 SKIP)
+
+build() {
+	cd $name-$version
+
+	patch -Np0 -i ../10-devproc-lxpanel.patch
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
+}

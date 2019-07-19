@@ -1,0 +1,22 @@
+# description	: Time zone and daylight-saving time utilities
+# homepage	: https://www.iana.org/time-zones
+
+name=tzutils
+version=2019b
+release=1
+source=($name-$version.tar.gz::https://github.com/eggert/tz/archive/${version}.tar.gz)
+md5sum=(8229fc291f195e0357aba8eb57ee760d)
+
+build() {
+	cd tz-$version
+
+	make TZDIR=/usr/share/zoneinfo
+
+	mkdir -p $PKG/usr/sbin $PKG/usr/share/man/man8
+	install -m755 zic $PKG/usr/sbin
+	install -m755 zdump $PKG/usr/sbin
+	install -m755 tzselect $PKG/usr/sbin
+	#install -m644 zic.8 $PKG/usr/share/man/man8
+	#install -m644 zdump.8 $PKG/usr/share/man/man8
+	#install -m644 tzselect.8 $PKG/usr/share/man/man8
+}
