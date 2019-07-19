@@ -17,21 +17,17 @@ build() {
 
 	sed -e '/m64=/s/lib64/lib/' \
 	    -i.orig gcc/config/i386/t-linux64
+	sed -e '/GLIBC_DYNAMIC_LINKER64/s/lib64/lib/' \
+	    -i.orig gcc/config/i386/linux64.h
 
 	mkdir -v build
 	cd       build
-
-	if [ -e /usr/lib32/libc.so ]; then
-		multilibopt="--enable-multilib"
-	else
-		multilibopt="--disable-multilib"
-	fi
 
 	SED=sed                               \
 	../configure --prefix=/usr            \
 		     --libexecdir=/usr/lib    \
 	             --enable-languages=c,c++,objc,obj-c++ \
-	             $multilibopt             \
+	             --enable-multilib        \
 	             --disable-bootstrap      \
 		     --disable-libmpx         \
 	             --with-system-zlib       \
