@@ -2,19 +2,24 @@
 # depends	: coreutils bash wget httpup libarchive
 
 name=scratchpkg
-version=20190711
-release=2
+version=20190720
+release=1
 backup=(etc/scratchpkg.conf
 	etc/scratchpkg.repo
 	etc/revdep.conf)
-_commit=400dae7e51b19e1fa0f68daebad194d8435bd303
+_commit=d47c41c8b3c53045c0b67212aea8bb8122d9c83c
 source=($name-$_commit.tar.gz::https://github.com/venomlinux/scratchpkg/archive/$_commit.tar.gz
-	repo)
-md5sum=(bc7c1ee595dbf85aecce58082e0d5526
-	09a2fa180e017dc94122573618b998b1)
+	repo
+	repo_musl)
+md5sum=(d4c891c432ca902cde4b9d6d886c53a1
+	04d947f818065d02f2625f4dcf2b9ba2
+	acd6ce9e882e48c04fedf00e2ca3d6b6)
 
 build() {
 	cd $name-$_commit
 	DESTDIR=$PKG ./INSTALL.sh
-	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
+	case $OSTYPE in
+		*-musl) install -m644 $SRC/repo_musl $PKG/etc/scratchpkg.repo ;;
+		*) install -m644 $SRC/repo $PKG/etc/scratchpkg.repo ;;
+	esac
 }
