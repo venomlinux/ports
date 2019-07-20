@@ -3,12 +3,13 @@
 # depends	: libwebp mesa ruby sqlite which enchant libxslt openjpeg2
 
 name=webkitgtk
-version=2.24.2
+version=2.24.3
 release=1
 source=(https://webkitgtk.org/releases/$name-$version.tar.xz
 	fix-fast-memory-disabled.patch
-	musl-fixes.patch)
-md5sum=(83012998e1b9f71abb37d8baf6f9c7e6
+	musl-fixes.patch
+	fix-openjpeg.patch)
+md5sum=(SKIP SKIP
 	SKIP SKIP)
 
 build() {
@@ -16,26 +17,26 @@ build() {
 
 	patch -Np0 -i ../fix-fast-memory-disabled.patch
 	patch -Np1 -i ../musl-fixes.patch
+	patch -Np1 -i ../fix-openjpeg.patch
 	
-	mkdir -vp build
-	cd        build
-
 	export CXXFLAGS="$CXXFLAGS -g1"
 	
-	#CFLAGS="$CFLAGS -Wno-expansion-to-defined"  \
-	#CXXFLAGS="$CXXFLAGS -Wno-expansion-to-defined" \
-	cmake -DCMAKE_BUILD_TYPE=Release \
-	      -DCMAKE_INSTALL_PREFIX=/usr \
-	      -DCMAKE_SKIP_RPATH=ON \
-	      -DPORT=GTK \
-	      -DLIB_INSTALL_DIR=/usr/lib \
-	      -DCMAKE_INSTALL_LIBEXECDIR:PATH=/usr/lib \
-	      -DUSE_LIBHYPHEN=OFF \
-	      -DENABLE_MINIBROWSER=ON \
-	      -DUSE_WOFF2=OFF \
-	      -DENABLE_GEOLOCATION=OFF \
-	      -DCMAKE_CXX_FLAGS="$CXXFLAGS" \
-	      -Wno-dev -G Ninja ..
+	mkdir build
+	cd build
+	cmake -GNinja \
+		-DPORT=GTK \
+		-DCMAKE_BUILD_TYPE=MinSizeRel \
+		-DCMAKE_SKIP_RPATH=ON \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DLIB_INSTALL_DIR=/usr/lib \
+		-DENABLE_GTKDOC=OFF \
+		-DENABLE_GEOLOCATION=OFF \
+		-DENABLE_PLUGIN_PROCESS_GTK2=OFF \
+		-DENABLE_SAMPLING_PROFILER=OFF \
+		-DENABLE_MINIBROWSER=ON \
+		-DUSE_WOFF2=OFF \
+		-DCMAKE_CXX_FLAGS="$CXXFLAGS" \
+	..
 	ninja JavaScriptCore-4-gir
 	ninja
 	DESTDIR=$PKG ninja install

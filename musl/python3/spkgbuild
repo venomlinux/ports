@@ -1,0 +1,39 @@
+# description	: Next generation of the python high-level scripting language
+# depends	: libffi
+
+name=python3
+version=3.7.4
+release=1
+source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz
+	pyconfig.h
+	fix-xattrs-glibc.patch
+	musl-find_library.patch)
+md5sum=(d33e4aae66097051c2eca45ee3604803
+	387d5f6d00d2be01ecb87216cac0f88c
+	SKIP SKIP)
+
+build() {
+	cd Python-$version
+
+	patch -Np0 -i ../fix-xattrs-glibc.patch
+	patch -Np0 -i ../musl-find_library.patch
+
+  	CXX="/usr/bin/g++"              \
+	./configure --prefix=/usr       \
+	            --enable-shared     \
+	            --with-system-expat \
+	            --with-system-ffi   \
+	            --without-ensurepip
+	make
+	make DESTDIR=$PKG install
+
+	chmod -v 755 $PKG/usr/lib/libpython${version::3}m.so
+	chmod -v 755 $PKG/usr/lib/libpython3.so
+
+	rm $PKG/usr/bin/2to3
+
+	#mv $PKG/usr/include/python3.7m/pyconfig{,-64}.h
+	#install -m 0644 $SRC/pyconfig.h $PKG/usr/include/python3.7m/
+}
+
+
