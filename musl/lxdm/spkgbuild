@@ -1,0 +1,58 @@
+# description	: Lightweight Display Manager for the LXDE desktop
+# homepage	: http://lxde.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk3 iso-codes consolekit2 linux-pam xorg-server librsvg
+
+name=lxdm
+version=0.5.3
+release=8
+backup=(etc/lxdm/lxdm.conf)
+source=(https://downloads.sourceforge.net/$name/$name-$version.tar.xz
+	$name.rc
+	execinfo.patch
+	fix-msghdr-usage.patch)
+md5sum=(061caae432634e6db38bbdc84bc6ffa0
+	8a1b4778ea38a912c024d9291090a2fb
+	SKIP SKIP)
+
+build() {
+	cd $name-$version
+
+	patch -Np0 -i ../execinfo.patch
+	patch -Np0 -i ../fix-msghdr-usage.patch
+
+cat > pam/lxdm << "EOF"
+#%PAM-1.0
+auth       requisite      pam_nologin.so
+auth       required       pam_env.so
+auth       include        system-auth
+-auth      optional       pam_gnome_keyring.so
+account    include        system-auth
+password   include        system-auth
+session    required       pam_limits.so
+session    include        system-auth
+-session   optional       pam_gnome_keyring.so auto_start
+EOF
+
+sed -i 's:sysconfig/i18n:profile.d/i18n.sh:g' data/lxdm.in
+sed -i 's:/etc/xprofile:/etc/profile:g' data/Xsession
+sed -e 's/^bg/#&/'        \
+    -e '/reset=1/ s/# //' \
+    -e 's/logou$/logout/' \
+    -e "/arg=/a arg=/usr/bin/X" \
+    -i data/lxdm.conf.in
+
+	autoreconf -fi
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+		    --libexecdir=/usr/lib/$name \
+	            --with-pam \
+		    --disable-nls \
+		    --enable-gtk3 \
+	            --with-systemdsystemunitdir=no
+	make
+	make DESTDIR=$PKG install
+
+	# rc service
+	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+}
