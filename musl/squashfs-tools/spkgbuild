@@ -1,0 +1,23 @@
+# description	: Tools for squashfs, a highly compressed read-only filesystem for Linux
+# depends	: zlib lzo xz lz4
+
+name=squashfs-tools
+version=4.3
+release=1
+source=(https://downloads.sourceforge.net/sourceforge/squashfs/squashfs$version.tar.gz
+	squashfs-tools-4.3-sysmacros.patch
+	fix-compat.patch)
+md5sum=(d92ab59aabf5173f2a59089531e30dbf
+	4ff1b2a7aaf6f837a821a2ab4a21de07
+	SKIP)
+
+build() {
+	cd squashfs${version}/${name}
+
+	patch -Np2 -i $SRC/squashfs-tools-4.3-sysmacros.patch
+	patch -Np1 -i $SRC/fix-compat.patch
+
+	make XZ_SUPPORT=1 LZO_SUPPORT=1 LZMA_XZ_SUPPORT=1 LZ4_SUPPORT=1
+	install -Dm755 mksquashfs "$PKG"/usr/bin/mksquashfs
+	install -m755 unsquashfs "$PKG"/usr/bin/unsquashfs
+}

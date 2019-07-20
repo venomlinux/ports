@@ -1,0 +1,32 @@
+# description	: Administration and debugging tools for the B-tree file system (btrfs)
+# depends	: lzo python3-setuptools asciidoc
+
+name=btrfs-progs
+version=5.2
+release=1
+source=(https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v$version.tar.xz)
+md5sum=(61be9c48f088bd27480cd9ecf6121cf8)
+
+build() {
+	cd $name-v$version
+
+	sed -i '40,107 s/\.gz//g' Documentation/Makefile.in
+
+	./configure --prefix=/usr  \
+	            --bindir=/bin  \
+	            --libdir=/lib  \
+	            --disable-zstd \
+		    --disable-backtrace \
+		    --disable-python
+	make
+	make DESTDIR=$PKG install
+
+	install -d $PKG/{sbin,usr/lib}
+	ln -sfv ../../lib/$(readlink $PKG/lib/libbtrfs.so) $PKG/usr/lib/libbtrfs.so
+	ln -sfv ../../lib/$(readlink $PKG/lib/libbtrfsutil.so) $PKG/usr/lib/libbtrfsutil.so
+	rm -v $PKG/lib/libbtrfs.{a,so} $PKG/lib/libbtrfsutil.{a,so}
+	mv -v $PKG/bin/{mkfs,fsck}.btrfs $PKG/sbin
+
+	# install bash completion (FS#44618)
+	install -Dm644 btrfs-completion $PKG/usr/share/bash-completion/completions/btrfs
+}
