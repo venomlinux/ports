@@ -4,9 +4,10 @@
 # depends	: xorgproto util-macros xtrans
 
 name=libice
-version=1.0.9
+version=1.0.10
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libICE-$version.tar.bz2)
+md5sum=(76d77499ee7120a56566891ca2c0dbcf)
 
 build() {
 	cd libICE-$version
@@ -15,11 +16,8 @@ build() {
 		--prefix=/usr \
                 --sysconfdir=/etc \
                 --localstatedir=/var \
-                --disable-static \
-		ICE_LIBS=-lpthread
+                --disable-static
 	make
 	make DESTDIR=$PKG install
 	rm -r $PKG/usr/share
 }
-
-md5sum=(addfb1e897ca8079531669c7c7711726)
