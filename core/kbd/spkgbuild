@@ -3,22 +3,21 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=kbd
-version=2.0.4
-release=2
+version=2.1.0
+release=1
 source=(https://www.kernel.org/pub/linux/utils/$name/$name-$version.tar.xz
-	$name-$version-backspace-1.patch)
-md5sum=(c1635a5a83b63aca7f97a3eab39ebaa6
+	$name-backspace-1.patch)
+md5sum=(8af96ca067ddca1a950c25a24b9ca245
 	f75cca16a38da6caa7d52151f7136895)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../$name-$version-backspace-1.patch
+	patch -Np1 -i ../$name-backspace-1.patch
 
 	sed -i 's/\(RESIZECONS_PROGS=\)yes/\1no/g' configure
 	sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
 
-	[ -d /tools ] && export PKG_CONFIG_PATH=/tools/lib/pkgconfig
 	./configure --prefix=/usr --disable-vlock --disable-nls
 	make
 	make DESTDIR=$PKG install
