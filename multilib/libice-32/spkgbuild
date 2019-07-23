@@ -4,9 +4,10 @@
 # depends	: libice
 
 name=libice-32
-version=1.0.9
+version=1.0.10
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libICE-$version.tar.bz2)
+md5sum=(76d77499ee7120a56566891ca2c0dbcf)
 
 build() {
 	cd libICE-$version
@@ -20,12 +21,9 @@ build() {
                 --sysconfdir=/etc \
 		--libdir=/usr/lib32 \
                 --localstatedir=/var \
-                --disable-static \
-		ICE_LIBS=-lpthread
+                --disable-static
 	make
 	make DESTDIR=$PWD/DESTDIR install
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(addfb1e897ca8079531669c7c7711726)
