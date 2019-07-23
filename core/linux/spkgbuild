@@ -2,13 +2,13 @@
 # depends	: elfutils mkinitramfs openssl linux-firmware
 
 name=linux
-version=4.19.55
-release=2
+version=4.19.60
+release=1
 options=(!strip)
 source=(https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
 	config-$version)
-md5sum=(07efdd2f6ad90d9114af3ebdf19b7808
-	348efeef6cdb80c98b6a31f70f57ebe2)
+md5sum=(3f8dfed50f9d9ff7247b3d6da4fd35a3
+	13ed3c6e33da9eac98a51e43abd10cfe)
 
 build() {
 	cd linux-$version

@@ -12,7 +12,6 @@ post_install() {
 	fi
 	if [ $(type -p mkinitramfs) ]; then
 		mkinitramfs -q -k $kernver -o /boot/initrd-venom.img
-		#mkinitramfs -q -k $kernver -o /boot/initrd-venom-fallback.img
 	fi
 	depmod $kernver
 }
@@ -23,7 +22,6 @@ post_upgrade() {
 
 post_remove() {
 	rm -f /boot/initrd-venom.img
-	#rm -f /boot/initrd-venom-fallback.img
 }
 
 case $action in
