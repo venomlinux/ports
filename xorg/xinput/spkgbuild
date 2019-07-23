@@ -4,9 +4,10 @@
 # depends	: libx11 libxi libxinerama xorgproto libxfixes util-macros
 
 name=xinput
-version=1.6.2
+version=1.6.3
 release=1
 source=(http://ftp.x.org/pub/individual/app/xinput-$version.tar.bz2)
+md5sum=(ac6b7432726008b2f50eba82b0e2dbe4)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(6a889412eff2e3c1c6bb19146f6fe84c)
