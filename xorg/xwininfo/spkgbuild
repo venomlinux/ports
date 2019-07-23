@@ -4,9 +4,10 @@
 # depends	: libxcb libx11 util-macros
 
 name=xwininfo
-version=1.1.4
+version=1.1.5
 release=1
 source=(http://ftp.x.org/pub/individual/app/xwininfo-$version.tar.bz2)
+md5sum=(26d46f7ef0588d3392da3ad5802be420)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(9a505b91ae7160bbdec360968d060c83)
