@@ -3,15 +3,15 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=linux-firmware
-version=20190213
+version=20190717
 release=1
 _commit=710963fe53ee3f227556d36839df3858daf6e232
 options=(!strip)
-source=($name-$version.tar.gz::https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-${_commit}.tar.gz)
-md5sum=(f339bd79495d03e4bb58934de473aeb3)
+source=(https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-20190717.tar.gz)
+md5sum=(97127cc6fb9bd7415728da3a3f5e9300)
 
 build() {
-	cd $name-${_commit}
+	cd $name-$version
 
 	make DESTDIR=$PKG install
 	rm $PKG/lib/firmware/{Makefile,README,configure,GPL-3,*.txt,check_whence.py}
