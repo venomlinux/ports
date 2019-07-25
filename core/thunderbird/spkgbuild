@@ -2,10 +2,10 @@
 # depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent nspr sqlite dbus-glib gconf llvm startup-notification
 
 name=thunderbird
-version=60.6.1
+version=60.8.0
 release=1
 source=(https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz)
-md5sum=(ce761c4d0f4d85c0c5ad5d1a22aa9e50)
+md5sum=(a8735a56f578c2690442ee26f60c488a)
 
 build() {
 	cd $name-$version
@@ -69,6 +69,10 @@ ac_add_options --with-system-jpeg
 ac_add_options --with-system-png
 ac_add_options --with-system-zlib
 EOF
+
+	# disable failure for undocumeted rust macros
+	sed -i -e '/#!\[deny(missing_docs)\]/d' servo/components/style/lib.rs
+	sed -i -e 's/#!\[deny(unsafe_code, missing_docs)\]/#!\[deny(unsafe_code)\]/g' servo/components/style_traits/lib.rs
 
 	./mach build
 	DESTDIR=$PKG ./mach install
