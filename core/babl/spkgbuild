@@ -1,15 +1,19 @@
 # description	: Dynamic, any to any, pixel format translation library
-# depends	: gobject-introspection
+# depends	: gobject-introspection meson
 
 name=babl
-version=0.1.66
+version=0.1.68
 release=1
-source=(https://download.gimp.org/pub/$name/${version::3}/$name-$version.tar.bz2)
-md5sum=(dcf1535cadfabe1b3f7c27638d7826a7)
+source=(https://download.gimp.org/pub/$name/${version::3}/$name-$version.tar.xz)
+md5sum=(77c1ff2495923332ad8e61dab4ee0c35)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
+	
+	mkdir builddir
+	cd builddir
+
+	meson --prefix=/usr
+	ninja
+	DESTDIR=$PKG ninja install
 }
