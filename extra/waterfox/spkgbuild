@@ -2,23 +2,19 @@
 # depends	: alsa-lib gtk3 gtk2 llvm icu nspr nss sqlite freetype2 cairo hunspell libevent dbus-glib pixman autoconf2.13 rust
 
 name=waterfox
-version=56.2.10.1
+version=56.2.12
 release=1
 source=($name-$version.tar.gz::https://github.com/MrAlex94/Waterfox/archive/$version.tar.gz
 	mozconfig
-	waterfox.desktop
-	firefox-install-dir.patch)
-md5sum=(28139675e5968b2bed4557e906ba46a6
+	waterfox.desktop)
+md5sum=(a2da84a4c19a1f3d7889cd4d45947bb8
 	a893e6a506d6cbb2685182b298fe7964
-	cd463125b53a1a25c1b559721934aa90
-	dbf14588e85812ee769bd735823a0146)
+	cd463125b53a1a25c1b559721934aa90)
 
 build() {
 	INITDIR=$PWD
 
 	cd Waterfox-$version
-
-	patch -Np1 -i $SRC/firefox-install-dir.patch
 
 	cp $SRC/mozconfig .mozconfig
 
@@ -30,13 +26,13 @@ build() {
 	rm -r $PKG/usr/lib/waterfox/browser/features/
 
 	for i in 16 32 48; do
-	install -Dm644 objdir/dist/waterfox/browser/chrome/icons/default/default$i.png \
+	install -Dm644 objdir/obj-x86_64-pc-linux-gnu/dist/waterfox/browser/chrome/icons/default/default$i.png \
 		$PKG/usr/share/icons/hicolor/${i}x${i}/apps/waterfox.png
 	done
 	
-	install -Dm644 objdir/dist/waterfox/browser/icons/mozicon128.png \
+	install -Dm644 objdir/obj-x86_64-pc-linux-gnu/dist/waterfox/browser/icons/mozicon128.png \
 		$PKG/usr/share/icons/hicolor/64x64/apps/waterfox.png
-	install -Dm644 objdir/dist/waterfox/browser/icons/mozicon128.png \
+	install -Dm644 objdir/obj-x86_64-pc-linux-gnu/dist/waterfox/browser/icons/mozicon128.png \
 		$PKG/usr/share/icons/hicolor/128x128/apps/waterfox.png
 	install -Dm644 browser/branding/official/content/about-logo.png \
 		$PKG/usr/share/icons/hicolor/192x192/apps/waterfox.png

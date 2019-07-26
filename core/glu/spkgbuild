@@ -2,9 +2,10 @@
 # depends	: mesa
 
 name=glu
-version=9.0.0
+version=9.0.1
 release=1
-source=(ftp://ftp.freedesktop.org/pub/mesa/glu/$name-$version.tar.bz2)
+source=(ftp://ftp.freedesktop.org/pub/mesa/glu/$name-$version.tar.xz)
+md5sum=(151aef599b8259efe9acd599c96ea2a3)
 
 build() {
 	cd $name-$version
@@ -12,5 +13,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(be9249132ff49275461cf92039083030)
