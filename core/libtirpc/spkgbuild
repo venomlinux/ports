@@ -1,0 +1,24 @@
+# description	: Libraries that support programs that use the Remote Procedure Call (RPC) API
+# homepage	: https://sourceforge.net/p/libtirpc/wiki/Home/
+
+name=libtirpc
+version=1.1.4
+release=1
+source=(https://downloads.sourceforge.net/libtirpc/$name-$version.tar.bz2)
+md5sum=(f5d2a623e9dfbd818d2f3f3a4a878e3a)
+
+build() {
+	cd $name-$version
+	
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--disable-static \
+		--disable-gssapi
+	make
+	make DESTDIR=$PKG install
+
+	install -d $PKG/lib
+	mv -v $PKG/usr/lib/libtirpc.so.* $PKG/lib
+	ln -sfv ../../lib/libtirpc.so.3.0.0 $PKG/usr/lib/libtirpc.so
+}
