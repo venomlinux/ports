@@ -1,0 +1,41 @@
+# description	: File and print services to SMB/CIFS clients and Windows networking to Linux clients
+# homepage	: https://www.samba.org/
+# depends	: fuse3 gpgme python3 jansson libtirpc
+
+name=samba
+version=4.10.6
+release=1
+source=(https://www.samba.org/ftp/samba/stable/$name-$version.tar.gz
+	samba.rc)
+md5sum=(9782cac8ef06049942be5f5c93b954be
+	11ff1dc472756885180810ff6e7c1ce3)
+
+build() {
+	cd $name-$version
+	
+	CFLAGS="-I/usr/include/tirpc"          \
+	LDFLAGS="-ltirpc"                      \
+	./configure                            \
+	    --prefix=/usr                      \
+	    --sysconfdir=/etc                  \
+	    --localstatedir=/var               \
+	    --with-piddir=/run/samba           \
+	    --with-pammodulesdir=/lib/security \
+	    --enable-fhs                       \
+	    --without-systemd                  \
+	    --enable-selftest \
+	    --without-{ad-dc,ads,ldap} \
+            --without-json
+	make
+	make DESTDIR=$PKG install
+
+	install -d $PKG/lib
+	mv -v $PKG/usr/lib/libnss_win{s,bind}.so*   $PKG/lib
+	ln -v -sf ../../lib/libnss_winbind.so.2 $PKG/usr/lib/libnss_winbind.so
+	ln -v -sf ../../lib/libnss_wins.so.2    $PKG/usr/lib/libnss_wins.so
+
+	install -v -m644 examples/smb.conf.default $PKG/etc/samba
+
+	# rc service
+        install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+}

@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# /etc/rc.d/samba: start/stop samba daemon
+#
+
+. /etc/rc.subr
+
+case $1 in
+	start)
+		mkdir -p /run/samba
+		msg "Starting nmbd..."
+		start_daemon /usr/sbin/nmbd -D
+		msg "Starting smbd..."
+		start_daemon /usr/sbin/smbd -D
+		;;
+	stop)
+		msg "Stopping smbd..."
+		stop_daemon /usr/sbin/smbd
+		msg "Stopping nmbd..."
+		stop_daemon /usr/sbin/nmbd
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		status_daemon /usr/sbin/nmbd
+		status_daemon /usr/sbin/smbd
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+# End of file
