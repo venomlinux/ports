@@ -1,0 +1,21 @@
+# description	: An attempt at creating a safer, faster, and more stable browser (Stable Channel)
+# homepage	: https://iridiumbrowser.de/
+# depends	: alsa-lib gconf gtk3 libxtst nss libarchive pipewire
+
+name=iridium
+version=2019.04.73.1
+_ver=${version%.*}
+_sion=${version##*.}
+release=1
+options=(!strip)
+source=(https://downloads.iridiumbrowser.de/fedora_30/iridium-browser-${_ver}-${_sion}.fc30.x86_64.rpm)
+md5sum=(a309421f9133b8b6e6f6684b5eadba90)
+
+build() {
+	cp -R * $PKG
+	rm -fr $PKG/usr/lib
+	mv $PKG/usr/lib64 $PKG/usr/lib
+	sed -i 's,lib64,lib,g' $PKG/usr/bin/iridium-browser
+	sed -i 's,usr/bin/sh,bin/sh,' $PKG/usr/bin/iridium-browser
+	rm -r $PKG/usr/share/{doc,licenses}
+}
