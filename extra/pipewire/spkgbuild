@@ -1,0 +1,22 @@
+# description	: Server and user space API to deal with multimedia
+# homepage	: http://pipewire.org/
+# depends	: meson alsa-lib gstreamer ffmpeg
+
+name=pipewire
+version=0.2.6
+release=1
+source=($name-$version.tar.gz::https://github.com/PipeWire/pipewire/archive/$version.tar.gz)
+md5sum=(95c5a745b56b68065d528fcf0b1aca31)
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+
+	meson --prefix=/usr \
+	      -Dsystemd=false \
+	      -Ddocs=false
+	ninja
+	DESTDIR=$PKG ninja install
+}
