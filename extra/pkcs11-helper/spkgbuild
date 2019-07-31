@@ -1,0 +1,23 @@
+# description: A library that simplifies the interaction with PKCS11 providers for end-user applications using a simple API and optional OpenSSL engine
+# homepage: https://github.com/OpenSC/pkcs11-helper
+# depends: openssl
+
+name=pkcs11-helper
+version=1.25.1
+release=1
+source=("https://github.com/OpenSC/${name}/releases/download/${name}-${version}/${name}-${version}.tar.bz2")
+md5sum=(aeddeb14c8bd504e5f312725e15c51ed)
+
+build() {
+    cd ${name}-${version}
+    libtoolize
+    aclocal
+    autoheader
+    automake --add-missing
+    autoreconf -v
+    ./configure --prefix=/usr
+    make
+    make DESTDIR=${PKG} install
+    #mkdir -p ${PKG}/usr/share/licenses/${name}/
+    #install -D -m0644 COPYING* ${PKG}/usr/share/licenses/${name}/
+}
