@@ -4,7 +4,7 @@
 
 name=samba
 version=4.10.6
-release=1
+release=2
 source=(https://www.samba.org/ftp/samba/stable/$name-$version.tar.gz
 	samba.rc)
 md5sum=(9782cac8ef06049942be5f5c93b954be
@@ -13,16 +13,17 @@ md5sum=(9782cac8ef06049942be5f5c93b954be
 build() {
 	cd $name-$version
 	
-	CFLAGS="-I/usr/include/tirpc"          \
-	LDFLAGS="-ltirpc"                      \
-	./configure                            \
-	    --prefix=/usr                      \
-	    --sysconfdir=/etc                  \
-	    --localstatedir=/var               \
-	    --with-piddir=/run/samba           \
+	CFLAGS="-I/usr/include/tirpc" \
+	LDFLAGS="-ltirpc" \
+	./configure \
+	    --prefix=/usr \
+	    --sysconfdir=/etc \
+	    --libexecdir=/usr/lib/samba \
+	    --localstatedir=/var \
+	    --with-piddir=/run/samba \
 	    --with-pammodulesdir=/lib/security \
-	    --enable-fhs                       \
-	    --without-systemd                  \
+	    --enable-fhs \
+	    --without-systemd \
 	    --enable-selftest \
 	    --without-{ad-dc,ads,ldap} \
             --without-json
