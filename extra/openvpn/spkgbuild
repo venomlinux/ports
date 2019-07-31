@@ -1,0 +1,26 @@
+# description: VPN Client
+# homepage:    http://www.openvpn.net
+# depends:     lzo iproute2 pkcs11-helper
+
+name=openvpn
+version=2.4.7
+release=1
+source=(http://swupdate.openvpn.net/community/releases/$name-$version.tar.xz)
+md5sum=(4ad8a008e1e7f261b3aa0024e79e7fb7)
+
+build() {
+  # CRUX had an openvpn init script, not sure what to integrate it to Venom
+  #install -D -m 755 openvpn $PKG/etc/rc.d/openvpn
+  cd $name-$version
+
+  ./configure --prefix=/usr \
+              --mandir=/usr/share/man \
+              --enable-iproute2 \
+              --enable-plugins \
+              --enable-pkcs11 \
+              --disable-systemd
+  make
+  make DESTDIR=$PKG install
+  rm -r $PKG/usr/share
+
+}
