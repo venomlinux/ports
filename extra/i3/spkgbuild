@@ -4,12 +4,12 @@
 # depends	: xcb-util-cursor xcb-util-keysyms xcb-util-wm xcb-util-xrm libev yajl startup-notification pango libxkbcommon bison flex
 
 name=i3
-version=4.16.1
+version=4.17
 release=1
 source=(http://i3wm.org/downloads/$name-$version.tar.bz2
 	0001-Use-OVER-operator-for-drawing-text.patch
 	pango-update.patch)
-md5sum=(bd7855745c9d3f0b0b46027609f2f033
+md5sum=(9f3305caddfa4f14f895e506bef8bf9f
 	4f8c9f6f66b17fd59254f7f472441883
 	975562778bc24fb411c30b0ea7eea00c)
 
@@ -18,7 +18,7 @@ build() {
 
 	# https://github.com/i3/i3/pull/2908
 	patch -Np1 -i ../0001-Use-OVER-operator-for-drawing-text.patch
-	patch -Np1 -i ../pango-update.patch
+	#patch -Np1 -i ../pango-update.patch
 
 	autoreconf -fvi
 
