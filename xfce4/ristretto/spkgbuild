@@ -4,10 +4,10 @@
 # depends	: libexif libxfce4ui
 
 name=ristretto
-version=0.8.5
+version=0.10.0
 release=1
-source=(http://archive.xfce.org/src/apps/ristretto/${version::3}/$name-$version.tar.bz2)
-md5sum=(66a09d4e0b7d5dbd4c9d9e403f8f97e9)
+source=(http://archive.xfce.org/src/apps/ristretto/${version%.*}/$name-$version.tar.bz2)
+md5sum=(4249e14fba78728481d89ce61a8771fc)
 
 build() {
 	cd $name-$version
