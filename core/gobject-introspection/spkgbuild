@@ -2,15 +2,18 @@
 # depends	: glib python3 which
 
 name=gobject-introspection
-version=1.60.2
+version=1.61.1
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
-md5sum=(57c1c5dcf3d0a9aa73d06c2d5e6960d7)
+md5sum=(2699887c4b4bcba6b5e52020108f630a)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --disable-static --with-python=/usr/bin/python3
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+	cd build
+
+	meson --prefix=/usr 
+	ninja
+	DESTDIR=$PKG ninja install
 }
