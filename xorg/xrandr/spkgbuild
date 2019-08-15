@@ -4,9 +4,10 @@
 # depends	: libx11 libxrandr util-macros
 
 name=xrandr
-version=1.5.0
+version=1.5.1
 release=1
-source=(http://ftp.x.org/pub/individual/app/xrandr-$version.tar.bz2)
+source=(http://ftp.x.org/pub/individual/app/xrandr-$version.tar.xz)
+md5sum=(fe40f7a4fd39dd3a02248d3e0b1972e4)
 
 build() {
 	cd $name-$version
@@ -19,5 +20,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(ebffac98021b8f1dc71da0c1918e9b57)
