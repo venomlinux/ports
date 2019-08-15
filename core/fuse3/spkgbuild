@@ -25,4 +25,6 @@ build() {
 	mv -vf $PKG/usr/sbin/mount.fuse3 $PKG/sbin
 	chmod u+s $PKG/bin/fusermount3
 	rmdir $PKG/usr/{bin,sbin}
+
+	rm -r $PKG/dev $PKG/etc/fuse.conf
 }
