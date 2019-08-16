@@ -4,13 +4,13 @@
 # depends	: linux-api-headers python3
 
 name=glibc
-version=2.29
-release=6
+version=2.30
+release=1
 backup=(etc/locales)
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-fhs-1.patch
 	genlocales)
-md5sum=(e6c279d5b2f0736f740216f152acf974
+md5sum=(2b1dbdf27b28620752956c061d62f60c
 	9a5997c3452909b1769918c759eff8a2
 	fb58fbd47ff4aaf84e6940436cb5ce3b)
 nostrip=(lib.*/ld-.*\.so$
@@ -101,7 +101,6 @@ mkdir -p $PKG/etc/ld.so.conf.d
 	install -vm644 DESTDIR/usr/include/gnu/{lib-names,stubs}-32.h \
 	               $PKG/usr/include/gnu/
 	ln -sv ../usr/lib32/ld-linux.so.2 $PKG/lib/ld-linux.so.2
-	ln -sv ../usr/lib32/ld-linux.so.2 $PKG/lib/ld-lsb.so.3
 	ln -sv ../lib/locale $PKG/usr/lib32/locale
 	mkdir -p $PKG/etc/ld.so.conf.d/
 	echo "/usr/lib32" > $PKG/etc/ld.so.conf.d/lib32.conf
