@@ -1,16 +1,23 @@
 # description	: A GObject library to create cabinet files
-# depends	: glib gobject-introspection vala
+# depends	: glib gobject-introspection vala meson
 
 name=gcab
-version=0.6
+version=1.2
 release=1
 source=(https://ftp.gnome.org/pub/GNOME/sources/gcab/$version/$name-$version.tar.xz)
-md5sum=(dd7333644cb88995693f043da9bf55d3)
+md5sum=(fa21e36cf3e50ee5a70c137d66d4dc3a)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
-	rm -r $PKG/usr/share/{locale,gtk-doc}
+
+	mkdir build
+	cd build
+
+	meson \
+		--prefix=/usr \
+		-Ddocs=false \
+		-Dtests=false
+	ninja
+	DESTDIR=$PKG ninja install
+	rm -r $PKG/usr/share/locale
 }
