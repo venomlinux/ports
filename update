@@ -1,0 +1,121 @@
+#!/bin/bash
+
+RED='\e[0;31m'      #Red
+GREEN='\e[0;32m'    #Green
+YELLOW='\e[0;33m'   #Yellow
+CRESET='\e[0m'	    #Reset color
+
+getver() {
+	$WGETCMD $url \
+	| grep -Eo $filename-[0-9.]+.tar.[bgx]z2? \
+	| sort -V \
+	| uniq \
+	| sed "s/$filename-//;s/\.tar.*//"
+}
+
+getver_gnome() {
+	$WGETCMD $url \
+	| tr ' ' '\n' \
+	| grep -Eo $filename-[0-9.]+.tar.[bgx]z2? \
+	| sed "s/$filename-//;s/\.tar.*//" \
+	| grep -Ew "^[0-9]+\.[0-9]*[02468]\.*" \
+	| grep -Ev "*.[89][0-9].*" \
+	| sort -V \
+	| uniq
+}
+
+getver_gcc() {
+	$WGETCMD $(dirname $url) \
+	| grep -Eo gcc-[0-9.]+ \
+	| sed "s/$name-//"
+}
+
+run_check() {
+	if [ "$(type -t ${1}_$name)" = "function" ]; then
+		upver=$(${1}_$name | tail -n1)
+	else
+		upver=$($1 | tail -n1)
+	fi
+	
+	upver=${upver:-404}
+	
+	if [ "$upver" = "404" ]; then
+		echo -e "$ppath: ${RED}404${CRESET}"
+	elif [ "$version" != "$upver" ]; then
+		echo -e "$ppath: $version => ${YELLOW}$upver${CRESET}"
+	else
+		echo -e "$ppath: $upver = ${GREEN}OK${CRESET}"
+	fi
+}
+
+check() {
+	ppath=$1
+	
+	if [ -f $ppath/spkgbuild ]; then
+		source $ppath/spkgbuild
+	else
+		return
+	fi
+
+	if [ ${#source[@]} = 0 ]; then
+		return
+	fi
+	
+	file=$(basename ${source[0]})
+	ext=$(echo $FILE | sed 's/.*\(\.t.*\).*/\1/')
+	filename=$(basename $file)
+	filename=${filename%-*}
+
+	if [ $(echo ${source[0]} | grep "::") ]; then
+		url=$(echo ${source[0]} | awk -F '::' '{print $2}')
+		url=$(dirname $url)/
+	else
+		url=$(dirname ${source[0]})/
+	fi
+
+	case $url in
+		*github.com*)
+			url=https://github.com/$(echo $url | cut -d / -f4,5)/tags
+			run_check getver;;
+		*downloads.sourceforge.net*)
+			url="https://sourceforge.net/projects/$(echo $url | cut -d / -f4)/rss?limit=200"
+			run_check getver;;
+		*sourceforge.net*)
+			url="https://sourceforge.net/projects/$(echo $url | cut -d / -f5)/rss?limit=200"
+			run_check getver;;
+		*gitlab.com*)
+			url=$(echo $url | cut -d/ -f1-5)/tags
+			run_check getver;;
+		*python.org*|*pypi.org*|*pythonhosted.org*|*pypi.io*)
+			url=https://pypi.org/simple/${name/python?-/}
+			run_check getver;;
+		*rubygems.org*)
+			url=https://rubygems.org/gems/${name/ruby-/}
+			run_check getver;;
+		*launchpad.net*)
+			url=https://launchpad.net/$(echo $url | cut -d/ -f4)/+download
+			run_check getver;;
+		*ftp.gnome.org*)
+			url=https://ftp.gnome.org/pub/gnome/sources/$filename/cache.json
+			run_check getver_gnome;;
+		*)
+			run_check getver;;
+	esac
+	unset name version source
+}
+
+main() {	
+	if [ ! $1 ]; then
+		for d in */*/spkgbuild; do
+			check $(dirname $d)
+		done
+	else
+		check $(find . -maxdepth 2 -mindepth 2 -name $1 -printf "%P\n" | head -n1)
+	fi
+}
+
+WGETCMD="wget -qO - -t 3 -T 10"
+
+main $@
+
+exit 0
