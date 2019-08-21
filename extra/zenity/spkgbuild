@@ -4,11 +4,11 @@
 name=zenity
 version=3.32.0
 release=1
-source=(https://github.com/GNOME/zenity/archive/ZENITY_${version//./_}.tar.gz)
-md5sum=(f951b9e48932b0d277709cce1f92de83)
+source=(https://ftp.gnome.org/pub/gnome/sources/zenity/${version%.*}/zenity-$version.tar.xz)
+md5sum=(ba2b2a13248773b4ec0fd323d95e6d5a)
 
 build() {
-	cd $name-ZENITY_${version//./_}
+	cd $name-$version
 	NOCONFIGURE=1 ./autogen.sh
 	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-nls
 	make
