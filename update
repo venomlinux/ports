@@ -13,6 +13,17 @@ getver() {
 	| sed "s/$filename-//;s/\.tar.*//"
 }
 
+### PER TYPE SECTION
+
+getver_github() {
+	$WGETCMD $url \
+	| grep archive \
+	| grep -Eo [0-9.]+\.tar\.gz \
+	| sed 's/\.tar\.gz//' \
+	| sort -V \
+	| uniq
+}
+
 getver_gnome() {
 	$WGETCMD $url \
 	| tr ' ' '\n' \
@@ -24,27 +35,75 @@ getver_gnome() {
 	| uniq
 }
 
+getver_xfce4() {	
+	url=$url/$($WGETCMD $url \
+	| grep folder \
+	| sed 's,.*href=",,;s,\/.*,,' \
+	| sort -V \
+	| uniq \
+	| tail -n1)	
+	getver
+}
+
+### PER PACKAGE SECTION
+
 getver_gcc() {
 	$WGETCMD $(dirname $url) \
 	| grep -Eo gcc-[0-9.]+ \
 	| sed "s/$name-//"
 }
 
+getver_github_linux-pam() {
+	url=https://github.com/linux-pam/linux-pam/releases
+	getver
+}
+
+getver_ntp() {
+	url=$(dirname $url)/$($WGETCMD $(dirname $url) \
+	| grep folder \
+	| sed 's,.*href=",,;s,\/.*,,' \
+	| grep -v dev \
+	| sort -V \
+	| uniq \
+	| tail -n1)
+	getver
+}
+
+getver_xterm() {
+	$WGETCMD $url \
+	| grep -Eo $filename-[0-9.]+.tgz \
+	| sort -V \
+	| uniq \
+	| sed "s/$filename-//;s/\.tgz//"
+}
+
+### MAIN SECTION
+
 run_check() {
 	if [ "$(type -t ${1}_$name)" = "function" ]; then
-		upver=$(${1}_$name | tail -n1)
+		checkver_cmd=${1}_$name
 	else
-		upver=$($1 | tail -n1)
+		checkver_cmd=${1}
+	fi
+	
+	if [ "$VERBOSE" = 1 ]; then
+		$checkver_cmd
+		return
+	else
+		upver=$($checkver_cmd | tail -n1)
 	fi
 	
 	upver=${upver:-404}
 	
 	if [ "$upver" = "404" ]; then
 		echo -e "$ppath: ${RED}404${CRESET}"
+		[ "$OUT" = 1 ] && echo "$ppath 404" >> error
 	elif [ "$version" != "$upver" ]; then
 		echo -e "$ppath: $version => ${YELLOW}$upver${CRESET}"
+		[ "$OUT" = 1 ] && echo "$ppath $version => $upver" >> outdate
 	else
 		echo -e "$ppath: $upver = ${GREEN}OK${CRESET}"
+		[ "$OUT" = 1 ] && echo "$ppath 404" >> error
 	fi
 }
 
@@ -76,7 +135,7 @@ check() {
 	case $url in
 		*github.com*)
 			url=https://github.com/$(echo $url | cut -d / -f4,5)/tags
-			run_check getver;;
+			run_check getver_github;;
 		*downloads.sourceforge.net*)
 			url="https://sourceforge.net/projects/$(echo $url | cut -d / -f4)/rss?limit=200"
 			run_check getver;;
@@ -93,24 +152,53 @@ check() {
 			url=https://rubygems.org/gems/${name/ruby-/}
 			run_check getver;;
 		*launchpad.net*)
-			url=https://launchpad.net/$(echo $url | cut -d/ -f4)/+download
+			url=https://launchpad.net/$(echo $url | cut -d / -f4)/+download
 			run_check getver;;
 		*ftp.gnome.org*)
 			url=https://ftp.gnome.org/pub/gnome/sources/$filename/cache.json
 			run_check getver_gnome;;
+		*archive.xfce.org*)
+			url=http://archive.xfce.org/src/$(echo $url | cut -d / -f5)/$name/
+			run_check getver_xfce4;;
 		*)
 			run_check getver;;
 	esac
 	unset name version source
 }
 
-main() {	
-	if [ ! $1 ]; then
+parseopt() {
+	while [ $1 ]; do
+		case $1 in
+			-r) REPO=$2
+				shift;;
+			-o)	OUT=1;;
+			-v) VERBOSE=1;;
+			*)	PKG+=($1);;
+		esac
+		shift
+	done
+}
+
+main() {
+	parseopt $@
+	
+	if [ "$REPO" ]; then
+		if [ -d "$REPO" ]; then
+			for d in $REPO/*/spkgbuild; do
+				check $(dirname $d)
+			done
+		else
+			echo "Repo '$REPO' not exist"
+			return 1
+		fi
+	elif [ ${#PKG[@]} -gt 0 ]; then
+		for p in ${PKG[@]}; do
+			check $(find . -maxdepth 2 -mindepth 2 -name $p -printf "%P\n" | head -n1)
+		done
+	else
 		for d in */*/spkgbuild; do
 			check $(dirname $d)
 		done
-	else
-		check $(find . -maxdepth 2 -mindepth 2 -name $1 -printf "%P\n" | head -n1)
 	fi
 }
 
