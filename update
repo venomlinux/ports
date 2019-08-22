@@ -58,6 +58,16 @@ getver_github_linux-pam() {
 	getver
 }
 
+getver_cmake() {
+	url=https://cmake.org/download/
+	getver
+}
+
+getver_cryptsetup() {
+	url=https://gitlab.com/cryptsetup/cryptsetup/-/tags
+	getver_github
+}
+
 getver_ntp() {
 	url=$(dirname $url)/$($WGETCMD $(dirname $url) \
 	| grep folder \
@@ -75,6 +85,15 @@ getver_xterm() {
 	| sort -V \
 	| uniq \
 	| sed "s/$filename-//;s/\.tgz//"
+}
+
+getver_boost() {
+	$WGETCMD https://www.boost.org/users/download/ \
+	| tr '_' '.' \
+	| grep -Eo boost\.[0-9.]+.tar.bz2 \
+	| sed 's/boost\.//;s/\.tar.*//' \
+	| sort -V \
+	| uniq
 }
 
 ### MAIN SECTION
@@ -96,14 +115,13 @@ run_check() {
 	upver=${upver:-404}
 	
 	if [ "$upver" = "404" ]; then
-		echo -e "$ppath: ${RED}404${CRESET}"
-		[ "$OUT" = 1 ] && echo "$ppath 404" >> error
+		echo -e "$ppath: $version => ${RED}404${CRESET}"
+		[ "$OUT" = 1 ] && echo "$ppath $version => 404" >> error
 	elif [ "$version" != "$upver" ]; then
 		echo -e "$ppath: $version => ${YELLOW}$upver${CRESET}"
 		[ "$OUT" = 1 ] && echo "$ppath $version => $upver" >> outdate
 	else
 		echo -e "$ppath: $upver = ${GREEN}OK${CRESET}"
-		[ "$OUT" = 1 ] && echo "$ppath 404" >> error
 	fi
 }
 
