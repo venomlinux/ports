@@ -4,11 +4,11 @@
 name=gnutls
 version=3.6.9
 release=1
-source=(ftp://ftp.gnutls.org/gcrypt/$name/v${version::3}/$name-${version}.tar.xz)
+source=(https://www.gnupg.org/ftp/gcrypt/gnutls/v${version%.*}/$name-${version}.tar.xz)
 md5sum=(a36cb11809d31268b6ddd17cb38b92bb)
 
 build() {
-	cd $name-${version::5}
+	cd $name-$version
 
 	./configure --prefix=/usr \
 		    --with-default-trust-store-pkcs11="pkcs11:" \
