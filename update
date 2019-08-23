@@ -6,26 +6,29 @@ YELLOW='\e[0;33m'   #Yellow
 CRESET='\e[0m'	    #Reset color
 
 getver() {
-	$WGETCMD $url \
-	| grep -Eo $filename-[0-9.]+.tar.[bgx]z2? \
+	fetch \
+	| grep -Eo $filename[_-][0-9a-z.]+.tar.[bgx]z2? \
+	| sed "s/$filename[-_]//;s/\.tar.*//" \
+	| grep -Evi '(alpha|beta|rc)' \
+	| grep [[:digit:]] \
 	| sort -V \
-	| uniq \
-	| sed "s/$filename-//;s/\.tar.*//"
+	| uniq
 }
 
 ### PER TYPE SECTION
 
 getver_github() {
-	$WGETCMD $url \
+	fetch \
 	| grep archive \
-	| grep -Eo [0-9.]+\.tar\.gz \
-	| sed 's/\.tar\.gz//' \
+	| grep -Eo [0-9a-z.]+\.tar\.gz \
+	| sed 's/\.tar\.gz//;s/^v//' \
+	| grep -Evi '(alpha|beta|rc)' \
 	| sort -V \
 	| uniq
 }
 
 getver_gnome() {
-	$WGETCMD $url \
+	fetch \
 	| tr ' ' '\n' \
 	| grep -Eo $filename-[0-9.]+.tar.[bgx]z2? \
 	| sed "s/$filename-//;s/\.tar.*//" \
@@ -36,7 +39,7 @@ getver_gnome() {
 }
 
 getver_xfce4() {	
-	url=$url/$($WGETCMD $url \
+	url=$url/$(fetch \
 	| grep folder \
 	| sed 's,.*href=",,;s,\/.*,,' \
 	| sort -V \
@@ -46,6 +49,29 @@ getver_xfce4() {
 }
 
 ### PER PACKAGE SECTION
+
+getver_gnome_gtk2() {
+	fetch \
+	| tr ' ' '\n' \
+	| grep -Eo gtk.-[0-9.]+.tar.[bgx]z2? \
+	| sed 's/gtk+-//;s/.tar.*//' \
+	| grep -Ew "^[0-9]+\.[0-9]*[02468]\.*" \
+	| grep -Ev "*.[89][0-9].*" \
+	| sort -V \
+	| grep ^2 \
+	| uniq
+}
+
+getver_gnome_gtk3() {
+	fetch \
+	| tr ' ' '\n' \
+	| grep -Eo gtk.-[0-9.]+.tar.[bgx]z2? \
+	| sed 's/gtk+-//;s/.tar.*//' \
+	| grep -Ew "^[0-9]+\.[0-9]*[02468]\.*" \
+	| grep -Ev "*.[89][0-9].*" \
+	| sort -V \
+	| uniq
+}
 
 getver_gcc() {
 	$WGETCMD $(dirname $url) \
@@ -65,7 +91,13 @@ getver_cmake() {
 
 getver_cryptsetup() {
 	url=https://gitlab.com/cryptsetup/cryptsetup/-/tags
-	getver_github
+	fetch \
+	| grep archive \
+	| tr '_' '.' \
+	| grep -Eo cryptsetup-v[0-9.]+.tar.gz \
+	| sed 's,cryptsetup-v,,;s,\.tar\.gz,,' \
+	| sort -V \
+	| uniq
 }
 
 getver_ntp() {
@@ -80,7 +112,7 @@ getver_ntp() {
 }
 
 getver_xterm() {
-	$WGETCMD $url \
+	fetch \
 	| grep -Eo $filename-[0-9.]+.tgz \
 	| sort -V \
 	| uniq \
@@ -96,7 +128,392 @@ getver_boost() {
 	| uniq
 }
 
+getver_github_cups() {
+	url=https://github.com/apple/cups/releases
+	fetch \
+	| grep archive \
+	| grep -Eo v[0-9.]+.tar.gz \
+	| sed 's/^v//;s/\.tar.*//' \
+	| sort -V \
+	| uniq
+}
+
+getver_e2fsprogs() {
+	url=http://sourceforge.net/projects/e2fsprogs/rss?limit=200
+	getver
+}
+
+getver_elfutils() {
+	url=$(dirname $url)/$($WGETCMD $(dirname $url) \
+	| grep folder \
+	| sed 's,.*href=",,;s,\/.*,,' \
+	| grep ^[[:digit:]] \
+	| sort -V \
+	| uniq \
+	| tail -n1)
+	getver
+}
+
+getver_falkon() {
+	url=$(dirname $url)/$($WGETCMD $(dirname $url) \
+	| grep -E href=\"[0-9] \
+	| sed 's,.*href=",,;s,\/.*,,' \
+	| sort -V \
+	| uniq \
+	| tail -n1)
+	getver
+}
+
+getver_firefox() {
+	url=https://archive.mozilla.org/pub/firefox/releases/
+	fetch \
+	| grep -Eo releases/[0-9.]+/ \
+	| cut -d / -f2 \
+	| sort -V \
+	| uniq
+}
+
+getver_gegl() {
+	url=$(dirname $url)/$($WGETCMD $(dirname $url) \
+	| grep folder \
+	| sed 's,.*href=",,;s,\/.*,,' \
+	| sort -V \
+	| uniq \
+	| tail -n1)
+	getver
+}
+
+getver_gimp() {
+	url=$(dirname $url)/$($WGETCMD $(dirname $url) \
+	| grep folder \
+	| grep -Eo v[0-9.]+ \
+	| sort -V \
+	| uniq \
+	| tail -n1)
+	getver
+}
+
+getver_gnutls() {
+	url=$(dirname $url)/$($WGETCMD $(dirname $url) \
+	| grep folder \
+	| grep -Eo v[0-9.]+ \
+	| sort -V \
+	| uniq \
+	| tail -n1)
+	getver
+}
+
+getver_icu() {
+	$WGETCMD $(dirname $url) \
+	| grep folder \
+	| sed 's,.*href=",,;s,\/.*,,' \
+	| sort -V \
+	| grep -v [a-z]
+}
+
+getver_krb5() {
+	$WGETCMD $(dirname $url) \
+	| grep folder \
+	| sed 's,.*HREF=",,;s,\/.*,,' \
+	| sort -V \
+	| grep -v [a-z]
+}
+
+getver_liba52() {
+	url=http://liba52.sourceforge.net/downloads.html
+	getver
+}
+
+getver_libatasmart() {
+	url=http://git.0pointer.net/libatasmart.git/refs/
+	fetch \
+	| grep tag \
+	| grep -Eo v[0-9.]+ \
+	| sed 's/^v//' \
+	| sort -V \
+	| uniq
+}
+
+getver_libdvdnav() {
+	url=$(dirname $url)/$($WGETCMD $(dirname $url)/ \
+	| cut -d '"' -f2 | grep ^[[:digit:]] | sed 's,\/,,' \
+	| sort -V \
+	| uniq \
+	| tail -n1)/
+	getver
+}
+
+getver_libdvdread() {
+	url=$(dirname $url)/$($WGETCMD $(dirname $url)/ \
+	| cut -d '"' -f2 | grep ^[[:digit:]] | sed 's,\/,,' \
+	| sort -V \
+	| uniq \
+	| tail -n1)/
+	getver
+}
+
+getver_libuv() {
+	url=https://github.com/libuv/libuv/tags
+	getver_github
+}
+
+getver_libvdpau() {
+	url=https://gitlab.freedesktop.org/vdpau/libvdpau/tags
+	getver_github
+}
+
+getver_lvm2() {
+	fetch \
+	| grep -Eo LVM2.[0-9.]+.tgz \
+	| sed 's/LVM2\.//;s/\.tgz//' \
+	| sort -V \
+	| uniq
+}
+
+getver_mpfr() {
+	url=https://www.mpfr.org/mpfr-current/#download
+	getver
+}
+
+getver_nasm() {
+	url=$(dirname $url)/$($WGETCMD $(dirname $url) \
+	| grep folder \
+	| sed 's,.*href=",,;s,\/.*,,' \
+	| grep -v [a-z] \
+	| sort -V \
+	| tail -n1)
+	getver
+}
+
+getver_nodejs() {
+	url=$(dirname $url)/$($WGETCMD $(dirname $url) \
+	| grep -Eo v[0-9.]+/ \
+	| sort -V \
+	| tail -n1)
+	fetch \
+	| grep -Eo $filename-v[0-9.]+.tar.[bgx]z2? \
+	| sort -V \
+	| uniq \
+	| sed "s/$filename-v//;s/\.tar.*//"
+}
+
+getver_nspr() {
+	url=$(dirname $(dirname $url))/
+	url=$url/$(fetch \
+	| grep releases \
+	| grep -Eo v[0-9.]+/ \
+	| sort -V \
+	| tail -n1)src/
+	getver
+}
+
+getver_nss() {
+	url=$(dirname $(dirname $url))/
+	url=$url/$(fetch \
+	| grep releases \
+	| cut -d / -f6 \
+	| grep ^N \
+	| sort -V \
+	| tail -n1)/src/
+	getver
+}
+
+getver_ntp() {
+	url=http://www.ntp.org/downloads.html
+	getver
+}
+
+getver_perl() {
+	url=https://www.perl.org/get.html
+	getver
+}
+
+getver_python2-pyqt5() {
+	url=https://www.riverbankcomputing.com/software/pyqt/download5
+	getver | grep -v dev
+}
+
+getver_python2-sip-pyqt5() {
+	url=https://www.riverbankcomputing.com/software/sip/download
+	getver | grep -v dev
+}
+
+getver_python2-sip() {
+	getver_python2-sip-pyqt5
+}
+
+getver_python3-sip() {
+	getver_python3-sip-pyqt5
+}
+
+getver_python3-pyqt5() {
+	url=https://www.riverbankcomputing.com/software/pyqt/download5
+	getver | grep -v dev
+}
+
+getver_python3-sip-pyqt5() {
+	url=https://www.riverbankcomputing.com/software/sip/download
+	getver | grep -v dev
+}
+
+getver_python3-pyqtwebengine() {
+	url=https://www.riverbankcomputing.com/software/pyqtwebengine/download
+	getver | grep -v dev
+}
+
+getver_python2() {
+	url=https://www.python.org/downloads/release
+	getver | grep ^2
+}
+
+getver_python3() {
+	url=https://www.python.org/downloads/release
+	getver | grep ^3
+}
+
+getver_upower() {
+	url=https://cgit.freedesktop.org/upower/
+	fetch \
+	| grep UPOWER \
+	| sed "s/.*\?h=//;s/'>.*//;s/UPOWER_//" \
+	| tr '_' '.' \
+	| sort -V \
+	| uniq
+}
+
+getver_x264() {
+	fetch \
+	| grep -Eo x264-snapshot-[0-9.]+-2245-stable.tar.bz2 \
+	| sed 's/x264-snapshot-//;s/-stable.tar.bz2//;s/-/\./' \
+	| sort -V \
+	| uniq
+}
+
+getver_x265() {
+	fetch \
+	| grep -Eo x265_[0-9.]+.tar.gz \
+	| sed 's/x265_//;s/\.tar.*//' \
+	| sort -V \
+	| uniq
+}
+
+getver_cdparanoia() {
+	fetch \
+	| grep -Eo cdparanoia-III-[0-9.]+.src.tgz \
+	| sed 's/cdparanoia-III-//;s/\.src\.tgz//' \
+	| sort -V \
+	| uniq
+}
+
+getver_chrpath() {
+	getver | sed 's/\.orig//'
+}
+
+getver_wireless_tools() {
+	url=https://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html
+	fetch \
+	| grep -Eo wireless_tools.[0-9.]+.tar.gz \
+	| sed 's/wireless_tools\.//;s/\.tar\.gz//' \
+	| sort -V \
+	| uniq
+}
+
+getver_webkitgtk() {
+	getver | grep -Ev *.[1-9][1359].*
+}
+
+getver_wayland() {
+	url=https://wayland.freedesktop.org/releases.html
+	getver | grep -Ev *.9[0-9]
+}
+
+getver_wayland-protocols() {
+	url=https://github.com/wayland-project/wayland-protocols/releases
+	getver_github
+}
+
+getver_unzip() {
+	fetch \
+	| grep -Eo unzip[0-9.]+.tar.gz \
+	| sed 's/unzip//;s/\.tar\.gz//' \
+	| grep -Ev [0-9][0-9][0-9] \
+	| sort -V \
+	| uniq
+}
+
+getver_tzdata() {
+	fetch \
+	| grep -Eo tzdata[0-9a-z.]+.tar.gz \
+	| sed 's/tzdata//;s/\.tar\.gz//' \
+	| grep -v beta \
+	| sort -V \
+	| uniq
+}
+
+getver_sqlite() {
+	url=https://sqlite.org/index.html
+	fetch \
+	| grep -Eo "Version [0-9.]+" \
+	| cut -d ' ' -f2
+}
+
+getver_sgml-common() {
+	fetch \
+	| grep -Eo sgml-common-[0-9.]+.tgz \
+	| sed 's/sgml-common-//;s/\.tgz//' \
+	| sort -V \
+	| uniq
+}
+
+getver_rust() {
+	url=https://www.rust-lang.org/
+	fetch \
+	| grep Version \
+	| sed 's/.*Version //;s/<.*//'
+}
+
+getver_gnome_python3-gobject2() {
+	getver_gnome | grep ^2
+}
+
+getver_gnome_python-gobject2-common() {
+	getver_gnome_python3-gobject2
+}
+
+getver_gnome_python2-gobject2() {
+	getver_gnome_python3-gobject2
+}
+
+getver_python3-pyparsing() {
+	getver | grep -v [a-z]
+}
+
+getver_python2-pyparsing() {
+	getver | grep -v [a-z]
+}
+
+getver_pulseaudio() {
+	getver | grep -Ev "*.[89][0-9].*"
+}
+
+getver_gnome_polkit-gnome() {
+	fetch \
+	| tr ' ' '\n' \
+	| grep -Eo $filename-[0-9.]+.tar.[bgx]z2? \
+	| sed "s/$filename-//;s/\.tar.*//" \
+	| sort -V \
+	| uniq
+}
+
+getver_gnome_libnotify() {
+	getver_gnome_polkit-gnome
+}	
+
 ### MAIN SECTION
+
+fetch() {
+	wget -qO - -t 3 -T 10 $url
+}
 
 run_check() {
 	if [ "$(type -t ${1}_$name)" = "function" ]; then
@@ -106,7 +523,10 @@ run_check() {
 	fi
 	
 	if [ "$VERBOSE" = 1 ]; then
-		$checkver_cmd
+		echo "file     : $file"
+		echo "filename : $filename"
+		echo "url      : $url"
+		$checkver_cmd | tail -n10
 		return
 	else
 		upver=$($checkver_cmd | tail -n1)
@@ -121,35 +541,24 @@ run_check() {
 		echo -e "$ppath: $version => ${YELLOW}$upver${CRESET}"
 		[ "$OUT" = 1 ] && echo "$ppath $version => $upver" >> outdate
 	else
-		echo -e "$ppath: $upver = ${GREEN}OK${CRESET}"
+		[ "$QUIET" = 1 ] || echo -e "$ppath: $upver = ${GREEN}OK${CRESET}"
 	fi
 }
 
-check() {
-	ppath=$1
-	
-	if [ -f $ppath/spkgbuild ]; then
-		source $ppath/spkgbuild
-	else
-		return
-	fi
+alter_per_pkg() {
+	case $name in
+		chrpath|\
+		wireless_tools) 
+			filename=$name;;
+		unrar) url=https://www.rarlab.com/rar_add.htm
+			filename=unrarsrc;;
+		transmission-*) url=https://github.com/transmission/transmission/tags;;
+		taglib) url=https://taglib.org/;;
+		pcre2) url=https://ftp.pcre.org/pub/pcre/;;
+	esac
+}
 
-	if [ ${#source[@]} = 0 ]; then
-		return
-	fi
-	
-	file=$(basename ${source[0]})
-	ext=$(echo $FILE | sed 's/.*\(\.t.*\).*/\1/')
-	filename=$(basename $file)
-	filename=${filename%-*}
-
-	if [ $(echo ${source[0]} | grep "::") ]; then
-		url=$(echo ${source[0]} | awk -F '::' '{print $2}')
-		url=$(dirname $url)/
-	else
-		url=$(dirname ${source[0]})/
-	fi
-
+alter_per_url() {
 	case $url in
 		*github.com*)
 			url=https://github.com/$(echo $url | cut -d / -f4,5)/tags
@@ -181,6 +590,36 @@ check() {
 		*)
 			run_check getver;;
 	esac
+}
+
+check() {
+	ppath=$1
+	
+	if [ -f $ppath/spkgbuild ]; then
+		source $ppath/spkgbuild
+	else
+		return
+	fi
+
+	if [ ${#source[@]} = 0 ]; then
+		return
+	fi
+	
+	file=$(basename ${source[0]})
+	ext=$(echo $FILE | sed 's/.*\(\.t.*\).*/\1/')
+	filename=$(basename $file)
+	filename=${filename%-*}
+
+	if [ $(echo ${source[0]} | grep "::") ]; then
+		url=$(echo ${source[0]} | awk -F '::' '{print $2}')
+		url=$(dirname $url)/
+	else
+		url=$(dirname ${source[0]})/
+	fi
+
+	alter_per_pkg
+	alter_per_url
+	
 	unset name version source
 }
 
@@ -188,10 +627,11 @@ parseopt() {
 	while [ $1 ]; do
 		case $1 in
 			-r) REPO=$2
-				shift;;
-			-o)	OUT=1;;
+			    shift;;
+			-o) OUT=1;;
 			-v) VERBOSE=1;;
-			*)	PKG+=($1);;
+			-q) QUIET=1;;
+			 *) PKG+=($1);;
 		esac
 		shift
 	done
