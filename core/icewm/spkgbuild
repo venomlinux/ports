@@ -2,14 +2,19 @@
 # depends	: libxrandr libxft libsm libxinerama gdk-pixbuf mkfontscale
 
 name=icewm
-version=1.5.5
+version=1.6.1
 release=1
-source=(https://github.com/ice-wm/icewm/releases/download/$version/icewm-$version.tar.xz)
-md5sum=(6eba94a7935a0531d2c14eeb1426aeef)
+source=($name-$version.tar.gz::https://github.com/ice-wm/icewm/archive/$version.tar.gz)
+md5sum=(7b4ebb3080239c649e7e9d408d075e14)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --sysconfdir=/etc --disable-nls
+
+	./autogen.sh
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
 	rm -r $PKG/usr/share/doc
