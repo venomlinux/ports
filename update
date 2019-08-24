@@ -20,9 +20,9 @@ getver() {
 getver_github() {
 	fetch \
 	| grep archive \
-	| grep -Eo [0-9a-z.]+\.tar\.gz \
-	| sed 's/\.tar\.gz//;s/^v//' \
-	| grep -Evi '(alpha|beta|rc)' \
+	| grep -Eo '(v?|"$filename"-)'[0-9a-z.]+\.tar\.gz \
+	| sed "s/\.tar\.gz//;s/^v//;s/^$filename-//" \
+	| grep -Evi '(alpha|beta|rc|example)' \
 	| sort -V \
 	| uniq
 }
@@ -507,7 +507,41 @@ getver_gnome_polkit-gnome() {
 
 getver_gnome_libnotify() {
 	getver_gnome_polkit-gnome
-}	
+}
+
+getver_btrfs-progs() {
+	getver | sed 's/^v//'
+}
+
+getver_db() {
+	url=https://www.oracle.com/technetwork/database/database-technologies/berkeleydb/downloads/index-082944.html
+	fetch \
+	| grep -Eo db-[0-9.]+.tar.gz \
+	| grep -Ev '(6.*|18.*)' \
+	| sed 's/db-//;s/\.tar\.gz//' \
+	| sort -V \
+	| uniq
+}
+
+getver_dbus() {
+	getver | grep -Ev *.[0-9][13579].*
+}
+
+getver_exiv2() {
+	fetch \
+	| grep -Eo exiv2-[0-9.]+-Source.tar.[bgx]z2? \
+	| sed 's/exiv2-//;s/-Source.*//' \
+	| sort -V \
+	| uniq
+}
+
+getver_fontconfig() {
+	getver | grep -Ev *.9[0-9]
+}
+
+getver_github_fuse2() {
+	getver_github | grep ^2
+}
 
 ### MAIN SECTION
 
@@ -555,6 +589,10 @@ alter_per_pkg() {
 		transmission-*) url=https://github.com/transmission/transmission/tags;;
 		taglib) url=https://taglib.org/;;
 		pcre2) url=https://ftp.pcre.org/pub/pcre/;;
+		c-ares) url=https://c-ares.haxx.se/;;
+		fftw) url=http://www.fftw.org/download.html;;
+		gpm) url=https://github.com/telmich/gpm/tags;;
+		grantlee) url=https://github.com/steveire/grantlee/tags;;
 	esac
 }
 
