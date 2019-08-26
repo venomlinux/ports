@@ -84,11 +84,6 @@ getver_github_linux-pam() {
 	getver
 }
 
-getver_cmake() {
-	url=https://cmake.org/download/
-	getver
-}
-
 getver_cryptsetup() {
 	url=https://gitlab.com/cryptsetup/cryptsetup/-/tags
 	fetch \
@@ -405,31 +400,8 @@ getver_cdparanoia() {
 	| uniq
 }
 
-getver_chrpath() {
-	getver | sed 's/\.orig//'
-}
-
-getver_wireless_tools() {
-	url=https://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html
-	fetch \
-	| grep -Eo wireless_tools.[0-9.]+.tar.gz \
-	| sed 's/wireless_tools\.//;s/\.tar\.gz//' \
-	| sort -V \
-	| uniq
-}
-
 getver_webkitgtk() {
 	getver | grep -Ev *.[1-9][1359].*
-}
-
-getver_wayland() {
-	url=https://wayland.freedesktop.org/releases.html
-	getver | grep -Ev *.9[0-9]
-}
-
-getver_wayland-protocols() {
-	url=https://github.com/wayland-project/wayland-protocols/releases
-	getver_github
 }
 
 getver_unzip() {
@@ -505,10 +477,6 @@ getver_gnome_polkit-gnome() {
 	| uniq
 }
 
-getver_gnome_libnotify() {
-	getver_gnome_polkit-gnome
-}
-
 getver_btrfs-progs() {
 	getver | sed 's/^v//'
 }
@@ -550,16 +518,13 @@ fetch() {
 }
 
 run_check() {
-	if [ "$(type -t ${1}_$name)" = "function" ]; then
-		checkver_cmd=${1}_$name
-	else
-		checkver_cmd=${1}
-	fi
+	checkver_cmd=${1}
 	
 	if [ "$VERBOSE" = 1 ]; then
 		echo "file     : $file"
 		echo "filename : $filename"
 		echo "url      : $url"
+		echo "cmd      : $checkver_cmd"
 		$checkver_cmd | tail -n10
 		return
 	else
@@ -579,54 +544,26 @@ run_check() {
 	fi
 }
 
-alter_per_pkg() {
-	case $name in
-		chrpath|\
-		wireless_tools) 
-			filename=$name;;
-		unrar) url=https://www.rarlab.com/rar_add.htm
-			filename=unrarsrc;;
-		transmission-*) url=https://github.com/transmission/transmission/tags;;
-		taglib) url=https://taglib.org/;;
-		pcre2) url=https://ftp.pcre.org/pub/pcre/;;
-		c-ares) url=https://c-ares.haxx.se/;;
-		fftw) url=http://www.fftw.org/download.html;;
-		gpm) url=https://github.com/telmich/gpm/tags;;
-		grantlee) url=https://github.com/steveire/grantlee/tags;;
-	esac
-}
-
 alter_per_url() {
 	case $url in
 		*github.com*)
-			url=https://github.com/$(echo $url | cut -d / -f4,5)/tags
-			run_check getver_github;;
+			url=https://github.com/$(echo $url | cut -d / -f4,5)/tags;;
 		*downloads.sourceforge.net*)
-			url="https://sourceforge.net/projects/$(echo $url | cut -d / -f4)/rss?limit=200"
-			run_check getver;;
+			url="https://sourceforge.net/projects/$(echo $url | cut -d / -f4)/rss?limit=200";;
 		*sourceforge.net*)
-			url="https://sourceforge.net/projects/$(echo $url | cut -d / -f5)/rss?limit=200"
-			run_check getver;;
+			url="https://sourceforge.net/projects/$(echo $url | cut -d / -f5)/rss?limit=200";;
 		*gitlab.com*)
-			url=$(echo $url | cut -d/ -f1-5)/tags
-			run_check getver;;
+			url=$(echo $url | cut -d/ -f1-5)/tags;;
 		*python.org*|*pypi.org*|*pythonhosted.org*|*pypi.io*)
-			url=https://pypi.org/simple/${name/python?-/}
-			run_check getver;;
+			url=https://pypi.org/simple/${name/python?-/};;
 		*rubygems.org*)
-			url=https://rubygems.org/gems/${name/ruby-/}
-			run_check getver;;
+			url=https://rubygems.org/gems/${name/ruby-/};;
 		*launchpad.net*)
-			url=https://launchpad.net/$(echo $url | cut -d / -f4)/+download
-			run_check getver;;
+			url=https://launchpad.net/$(echo $url | cut -d / -f4)/+download;;
 		*ftp.gnome.org*)
-			url=https://ftp.gnome.org/pub/gnome/sources/$filename/cache.json
-			run_check getver_gnome;;
+			url=https://ftp.gnome.org/pub/gnome/sources/$filename/cache.json;;
 		*archive.xfce.org*)
-			url=http://archive.xfce.org/src/$(echo $url | cut -d / -f5)/$name/
-			run_check getver_xfce4;;
-		*)
-			run_check getver;;
+			url=http://archive.xfce.org/src/$(echo $url | cut -d / -f5)/$name/;;
 	esac
 }
 
@@ -655,8 +592,24 @@ check() {
 		url=$(dirname ${source[0]})/
 	fi
 
-	alter_per_pkg
 	alter_per_url
+
+	[ -f $ppath/update ] && . $ppath/update
+
+	if [ "$(type -t getver_${name})" = "function" ]; then
+		run_check getver_${name}
+	else
+		case $url in
+			*github.com*|*gitlab.com*)
+				run_check getver_github;;
+			*ftp.gnome.org*)
+				run_check getver_gnome;;
+			*archive.xfce.org*)
+				run_check getver_xfce4;;
+			*)
+				run_check getver;;
+		esac
+	fi
 	
 	unset name version source
 }

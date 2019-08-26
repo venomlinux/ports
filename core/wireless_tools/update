@@ -1,0 +1,11 @@
+filename=wireless_tools
+
+getver_wireless_tools() {
+	url=https://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html
+	fetch \
+	| grep -Eo wireless_tools.[0-9.]+.tar.gz \
+	| sed 's/wireless_tools\.//;s/\.tar\.gz//' \
+	| sort -V \
+	| uniq
+}
+
