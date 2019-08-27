@@ -1,0 +1,11 @@
+url=https://gitlab.com/graphviz/graphviz/-/tags
+
+getver_graphviz() {
+	fetch \
+	| grep archive \
+	| grep -Eo stable_release_[0-9a-z.]+.tar.gz \
+	| sed 's/stable_release_//;s/\.tar.*//' \
+	| sort -V \
+	| uniq
+}
+
