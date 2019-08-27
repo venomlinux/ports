@@ -1,0 +1,10 @@
+getver_cairo() {
+	fetch \
+	| grep -Ev '(r|py|py2)'cairo \
+	| grep -Eo $filename[_-][0-9a-z.]+.tar.[bgx]z2? \
+	| sed "s/$filename[-_]//;s/\.tar.*//" \
+	| grep -Evi '(alpha|beta|rc)' \
+	| grep [[:digit:]] \
+	| sort -V \
+	| uniq
+}

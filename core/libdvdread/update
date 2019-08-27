@@ -1,5 +1,5 @@
 url=$(dirname $url)
-url=$url/$(fetch $url/ \
+url=$url/$(fetch \
 | cut -d '"' -f2 \
 | grep ^[[:digit:]] \
 | sed 's,\/,,' \
