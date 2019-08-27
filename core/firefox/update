@@ -1,0 +1,9 @@
+url=https://archive.mozilla.org/pub/firefox/releases/
+
+getver_firefox() {	
+	fetch \
+	| grep -Eo releases/[0-9.]+/ \
+	| cut -d / -f2 \
+	| sort -V \
+	| uniq
+}

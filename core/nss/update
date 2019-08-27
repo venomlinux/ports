@@ -1,0 +1,7 @@
+url=$(dirname $(dirname $url))/
+url=$url/$(fetch \
+| grep releases \
+| cut -d / -f6 \
+| grep ^N \
+| sort -V \
+| tail -n1)/src/

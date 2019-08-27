@@ -1,0 +1,8 @@
+getver_polkit-gnome() {
+	fetch \
+	| tr ' ' '\n' \
+	| grep -Eo $filename-[0-9.]+.tar.[bgx]z2? \
+	| sed "s/$filename-//;s/\.tar.*//" \
+	| sort -V \
+	| uniq
+}

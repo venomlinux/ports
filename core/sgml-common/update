@@ -1,0 +1,7 @@
+getver_sgml-common() {
+	fetch \
+	| grep -Eo sgml-common-[0-9.]+.tgz \
+	| sed 's/sgml-common-//;s/\.tgz//' \
+	| sort -V \
+	| uniq
+}

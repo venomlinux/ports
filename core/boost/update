@@ -1,0 +1,10 @@
+url=https://www.boost.org/users/download/
+
+getver_boost() {
+	fetch \
+	| tr '_' '.' \
+	| grep -Eo boost\.[0-9.]+.tar.bz2 \
+	| sed 's/boost\.//;s/\.tar.*//' \
+	| sort -V \
+	| uniq
+}

@@ -1,0 +1,10 @@
+url=https://cgit.freedesktop.org/upower/
+
+getver_upower() {	
+	fetch \
+	| grep UPOWER \
+	| sed "s/.*\?h=//;s/'>.*//;s/UPOWER_//" \
+	| tr '_' '.' \
+	| sort -V \
+	| uniq
+}
