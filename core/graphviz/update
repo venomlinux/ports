@@ -1,11 +1,6 @@
-url=https://gitlab.com/graphviz/graphviz/-/tags
+url=https://graphviz.gitlab.io/_pages/Download/Download_source.html
+filename=graphviz
 
 getver_graphviz() {
-	fetch \
-	| grep archive \
-	| grep -Eo stable_release_[0-9a-z.]+.tar.gz \
-	| sed 's/stable_release_//;s/\.tar.*//' \
-	| sort -V \
-	| uniq
+	getver | grep -v 1811
 }
-

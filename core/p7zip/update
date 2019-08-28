@@ -1,0 +1,7 @@
+getver_p7zip() {
+	fetch \
+	| grep -Eo p7zip_[0-9a-z.]+_src_all.tar.bz2 \
+	| sed 's/p7zip_//;s/_src.*//' \
+	| sort -V \
+	| uniq
+}

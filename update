@@ -10,7 +10,7 @@ getver() {
 	fetch \
 	| grep -Eo $filename[_-][0-9a-z.]+.tar.[bgx]z2? \
 	| sed "s/$filename[-_]//;s/\.tar.*//" \
-	| grep -Evi '(alpha|beta|rc)' \
+	| grep -Evi '(alpha|beta|rc|pre)' \
 	| grep [[:digit:]] \
 	| sort -V \
 	| uniq
