@@ -2,9 +2,10 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=libnl
-version=3.4.0
+version=3.5.0
 release=1
 source=(https://github.com/thom311/libnl/releases/download/${name}${version//./_}/$name-$version.tar.gz)
+md5sum=(74ba57b1b1d6f9f92268aa8141d8e8e4)
 
 build() {
 	cd $name-$version
@@ -15,5 +16,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(8f71910c03db363b41e2ea62057a4311)
