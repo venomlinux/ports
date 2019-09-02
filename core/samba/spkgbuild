@@ -3,11 +3,11 @@
 # depends	: fuse3 gpgme python3 jansson libtirpc
 
 name=samba
-version=4.10.6
-release=2
+version=4.10.7
+release=1
 source=(https://www.samba.org/ftp/samba/stable/$name-$version.tar.gz
 	samba.rc)
-md5sum=(9782cac8ef06049942be5f5c93b954be
+md5sum=(05472d0dd943b3ccbc3be5032a9eb563
 	11ff1dc472756885180810ff6e7c1ce3)
 
 build() {
@@ -39,4 +39,9 @@ build() {
 
 	# rc service
         install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+
+	# revdep exclude
+	mkdir -p $PKG/etc/revdep.d
+	echo "/usr/lib/samba/" > $PKG/etc/revdep.d/samba.conf
+	echo "/usr/lib/python3.7/site-packages/samba/" >> $PKG/etc/revdep.d/samba.conf
 }
