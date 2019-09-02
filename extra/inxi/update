@@ -1,0 +1,8 @@
+getver_inxi() {
+	fetch \
+	| grep archive \
+	| grep -Eo [0-9a-z.-]+.tar.gz \
+	| sed 's/\.tar.*//;s/-/\./g' \
+	| sort -V \
+	| uniq
+}

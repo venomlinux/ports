@@ -22,7 +22,17 @@ getver_github() {
 	| grep archive \
 	| grep -Eo '(v?|"$filename"-)'[0-9a-z.]+\.tar\.gz \
 	| sed "s/\.tar\.gz//;s/^v//;s/^$filename-//" \
-	| grep -Evi '(alpha|beta|rc|example|pre|doc*)' \
+	| grep -Evi '(alpha|beta|rc|example|pre|doc*|dev|start)' \
+	| sort -V \
+	| uniq
+}
+
+getver_ruby() {
+	fetch \
+	| grep -Eo $filename[_-][0-9a-z.]+.gem \
+	| sed "s/$filename[-_]//;s/\.gem//" \
+	| grep -Evi '(alpha|beta|rc|pre)' \
+	| grep [[:digit:]] \
 	| sort -V \
 	| uniq
 }
@@ -143,6 +153,8 @@ check() {
 				run_check getver_gnome;;
 			*archive.xfce.org*)
 				run_check getver_xfce4;;
+			*rubygems.org*)
+				run_check getver_ruby;;
 			*)
 				run_check getver;;
 		esac
