@@ -4,12 +4,12 @@
 # depends	: giblib
 
 name=scrot
-version=0.8.19
+version=1.2.1
 release=1
 source=(http://http.debian.net/debian/pool/main/s/${name}/${name}_${version%.*}.orig.tar.gz
         http://http.debian.net/debian/pool/main/s/${name}/${name}_${version%.*}-${version##*.}.debian.tar.xz)
-md5sum=(ccae904d225609571bdd3b03445c1e88
-	2bcae08f7a929b21eda91be0132c590d)
+md5sum=(130e9c9a53ab43cd997ef82978b002a9
+	a87a6eeac2de1e12b59f5c3d7bd2b663)
 
 build() {
 	for patch in $(<$SRC/debian/patches/series); do
@@ -18,12 +18,11 @@ build() {
 
 	cd $name-${version%.*}
 
+	NOCONFIGURE=1 ./autogen.sh
 	./configure \
 		--prefix=/usr \
 		--mandir=/usr/share/man \
 		--disable-doc
 	make
-	make DESTDIR=$PKG docsdir=/usr/share/doc/scrot install
-
-	rm -r $PKG/usr/share/doc
+	make DESTDIR=$PKG install
 }
