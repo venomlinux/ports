@@ -2,18 +2,14 @@
 # depends	: zlib lzo xz lz4
 
 name=squashfs-tools
-version=4.3
+version=4.4
 release=1
-source=(https://downloads.sourceforge.net/squashfs/squashfs$version.tar.gz
-	squashfs-tools-4.3-sysmacros.patch)
+source=(https://downloads.sourceforge.net/squashfs/squashfs$version.tar.gz)
+md5sum=(5033bea6cd522ef54b13755feea6c858)
 
 build() {
 	cd squashfs${version}/${name}
-	patch -p2 -i $SRC/squashfs-tools-4.3-sysmacros.patch
 	make XZ_SUPPORT=1 LZO_SUPPORT=1 LZMA_XZ_SUPPORT=1 LZ4_SUPPORT=1
 	install -Dm755 mksquashfs "$PKG"/usr/bin/mksquashfs
 	install -m755 unsquashfs "$PKG"/usr/bin/unsquashfs
 }
-
-md5sum=(d92ab59aabf5173f2a59089531e30dbf
-	4ff1b2a7aaf6f837a821a2ab4a21de07)
