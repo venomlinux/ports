@@ -1,0 +1,9 @@
+url=$(dirname $url)
+
+getver_icu-32() {
+	fetch \
+	| grep folder \
+	| sed 's,.*href=",,;s,\/.*,,' \
+	| sort -V \
+	| grep -v [a-z]
+}
