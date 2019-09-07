@@ -4,14 +4,16 @@
 # depends	: libass fdk-aac freetype2 lame gnutls libtheora libvorbis libvpx opus x264 x265 alsa-lib libva libvdpau sdl2 yasm
 
 name=ffmpeg
-version=4.2
+version=4.2.1
 release=1
 source=(https://ffmpeg.org/releases/$name-$version.tar.xz)
-md5sum=(fb33a9110251873002869664686b2a3f)
+md5sum=(67da904cf9fddeeb10a1308fc0dc39de)
 
 build() {
 	cd $name-$version
 
+	# adds the ALSA library to the Flite LDFLAGS variable and
+	# enables the discovery of Flite
 	sed -i 's/-lflite"/-lflite -lasound"/' configure
 
 	./configure --prefix=/usr        \
