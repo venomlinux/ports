@@ -2,15 +2,13 @@
 # depends	: lzo python3-setuptools asciidoc xmlto
 
 name=btrfs-progs
-version=5.2.1
+version=5.2.2
 release=1
 source=(https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v$version.tar.xz)
-md5sum=(9bacd0fec4efd449a6223f1c72ab91b3)
+md5sum=(70c55c5c403251f5260285675cf35c1a)
 
 build() {
 	cd $name-v$version
-
-	sed -i '40,107 s/\.gz//g' Documentation/Makefile.in
 
 	./configure --prefix=/usr  \
 	            --bindir=/bin  \
