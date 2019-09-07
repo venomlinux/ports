@@ -2,21 +2,24 @@
 # depends	: xcb-util-cursor xcb-util-keysyms xcb-util-wm xcb-util-xrm libev yajl startup-notification pango libxkbcommon bison flex
 
 name=i3-gaps
-version=4.16.1
+version=4.17.1
 release=1
 backup=(etc/i3/config)
-source=($name-$version.tar.gz::https://github.com/Airblader/i3/archive/$version.tar.gz
-	pango-update.patch)
-md5sum=(d9093a4d9c3e0856844696ffdb199b8b
-	975562778bc24fb411c30b0ea7eea00c)
+source=($name-$version.tar.gz::https://github.com/Airblader/i3/archive/$version.tar.gz)
+md5sum=(d58092b0c36e49f3a0bccb873dd8a2a3)
 
 build() {
 	cd i3-$version
-	patch -Np1 -i ../pango-update.patch
+
 	autoreconf -fvi
+
 	mkdir build
 	cd build
-	../configure --prefix=/usr --sysconfdir=/etc --disable-docs
+
+	../configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--disable-docs
 	make
 	make DESTDIR=$PKG install
 }
