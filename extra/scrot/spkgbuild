@@ -1,28 +1,21 @@
 # description	: Simple command-line screenshot utility for X
 # homepage	: http://scrot.sourcearchive.com/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: giblib
+# depends	: giblib imlib2 autoconf-archive
 
 name=scrot
-version=1.2.1
+version=1.2
 release=1
-source=(http://http.debian.net/debian/pool/main/s/${name}/${name}_${version%.*}.orig.tar.gz
-        http://http.debian.net/debian/pool/main/s/${name}/${name}_${version%.*}-${version##*.}.debian.tar.xz)
-md5sum=(130e9c9a53ab43cd997ef82978b002a9
-	a87a6eeac2de1e12b59f5c3d7bd2b663)
+source=(http://http.debian.net/debian/pool/main/s/${name}/${name}_${version}.orig.tar.gz)
+md5sum=(130e9c9a53ab43cd997ef82978b002a9)
 
 build() {
-	for patch in $(<$SRC/debian/patches/series); do
-		patch -p1 -d $SRC/$name-${version%.*} -i $SRC/debian/patches/$patch
-	done
-
-	cd $name-${version%.*}
+	cd $name-$version
 
 	NOCONFIGURE=1 ./autogen.sh
 	./configure \
 		--prefix=/usr \
-		--mandir=/usr/share/man \
-		--disable-doc
+		--mandir=/usr/share/man
 	make
 	make DESTDIR=$PKG install
 }
