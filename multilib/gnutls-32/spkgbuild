@@ -4,7 +4,7 @@
 name=gnutls-32
 version=3.6.9
 release=1
-source=(ftp://ftp.gnutls.org/gcrypt/gnutls/v${version::3}/gnutls-${version}.tar.xz)
+source=(https://www.gnupg.org/ftp/gcrypt/gnutls/v${version%.*}/${name/-32/}-${version}.tar.xz)
 md5sum=(a36cb11809d31268b6ddd17cb38b92bb)
 
 build() {
