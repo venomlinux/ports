@@ -5,6 +5,10 @@ GREEN='\e[0;32m'    #Green
 YELLOW='\e[0;33m'   #Yellow
 CRESET='\e[0m'	    #Reset color
 
+print_progress() {
+	echo -ne " $@\033[0K\r"
+}
+
 # default getver
 getver() {
 	fetch \
@@ -75,6 +79,7 @@ run_check() {
 		$checkver_cmd | tail -n10
 		return
 	else
+		print_progress "Checking '$name'..."
 		upver=$($checkver_cmd | tail -n1)
 	fi
 	
