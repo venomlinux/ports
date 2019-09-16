@@ -3,7 +3,7 @@
 
 name=fuse3
 version=3.6.2
-release=1
+release=2
 source=(https://github.com/libfuse/libfuse/releases/download/fuse-$version/fuse-$version.tar.xz)
 md5sum=(1798945aa69434286723b9999a141c7a)
 
@@ -17,14 +17,6 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 
-	mkdir -p $PKG/{lib,bin,sbin}
-	mv -vf $PKG/usr/lib/libfuse3.so.3* $PKG/lib
-	ln -sfvn ../../lib/libfuse3.so.3.5.0 $PKG/usr/lib/libfuse3.so
-	
-	mv -vf $PKG/usr/bin/fusermount3 $PKG/bin
-	mv -vf $PKG/usr/sbin/mount.fuse3 $PKG/sbin
-	chmod u+s $PKG/bin/fusermount3
-	rmdir $PKG/usr/{bin,sbin}
-
 	rm -r $PKG/dev $PKG/etc/fuse.conf
+	rm -fr $PKG/etc/init.d
 }
