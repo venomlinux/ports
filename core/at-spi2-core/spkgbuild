@@ -4,16 +4,13 @@
 # depends	: dbus glib libxtst gobject-introspection meson
 
 name=at-spi2-core
-version=2.32.1
+version=2.34.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz)
-md5sum=(998fd9d858f8fa22c4c8c15567bf6254)
+md5sum=(53c21565507105fb68031cd9c21a559b)
 
 build() {
 	cd $name-$version
-
-	# fix an issue with Meson-0.50.0
-	sed -i 's/subdir:/install_dir:/' atspi/meson.build
 
 	mkdir build
 	cd    build
