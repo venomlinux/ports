@@ -18,8 +18,5 @@ build() {
 	-Ddemo=false
 	ninja
 	DESTDIR=$PKG ninja install
-	#./configure --prefix=/usr --disable-nls
-	#make
-	#make DESTDIR=$PKG install
 	rm -r $PKG/usr/share/locale
 }
