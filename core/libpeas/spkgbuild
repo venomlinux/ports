@@ -1,16 +1,25 @@
 # description	: GObject based plugins engine
-# depends	: gobject-introspection gtk3 python2-gobject3 python3-gobject3
+# depends	: gobject-introspection gtk3 python2-gobject3 python3-gobject3 meson
 
 name=libpeas
-version=1.22.0
+version=1.24.0
 release=1
 source=(http://ftp.gnome.org/pub/gnome/sources/libpeas/${version::4}/$name-$version.tar.xz)
-md5sum=(a20dc55c3f88ad06da9491cfd7de7558)
+md5sum=(7a136eea60930012deff2f7bfa3673be)
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --disable-nls
-	make
-	make DESTDIR=$PKG install
-	rm -r $PKG/usr/share/gtk-doc
+
+	mkdir build
+	cd build
+
+	meson --prefix=/usr \
+	-Dgtk_doc=false \
+	-Ddemo=false
+	ninja
+	DESTDIR=$PKG ninja install
+	#./configure --prefix=/usr --disable-nls
+	#make
+	#make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/locale
 }
