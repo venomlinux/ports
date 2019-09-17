@@ -4,9 +4,10 @@
 # depends	: xorgproto freetype2 libfontenc util-macros xtrans
 
 name=libxfont2
-version=2.0.3
+version=2.0.4
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXfont2-$version.tar.bz2)
+md5sum=(00516bed7ec1453d56974560379fff2f)
 
 build() {
 	cd libXfont2-$version
@@ -20,5 +21,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(b7ca87dfafeb5205b28a1e91ac3efe85)
