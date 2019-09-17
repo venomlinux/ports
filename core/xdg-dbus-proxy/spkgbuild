@@ -1,0 +1,16 @@
+# description	: D-Bus proxy
+# homepage	: https://github.com/flatpak/xdg-dbus-proxy
+# depends	: glib
+
+name=xdg-dbus-proxy
+version=0.1.1
+release=1
+source=(https://github.com/flatpak/xdg-dbus-proxy/releases/download/$version/xdg-dbus-proxy-$version.tar.xz)
+md5sum=(e889380bb8c07dce97b118cda11d09d5)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
