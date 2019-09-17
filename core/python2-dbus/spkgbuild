@@ -4,21 +4,18 @@
 # depends	: dbus python2 python-dbus-common dbus-glib
 
 name=python2-dbus
-version=1.2.10
+version=1.2.12
 release=1
 source=(http://dbus.freedesktop.org/releases/dbus-python/dbus-python-$version.tar.gz)
-md5sum=(5d21d5ae6423f0e41caa3400af44edac)
+md5sum=(428b7a9e7e2d154a7ceb3e13536283e4)
 
 build() {
 	cd dbus-python-$version
 
-	mkdir python2
-	pushd python2
 	PYTHON=/usr/bin/python2    \
-	../configure --prefix=/usr
+	./configure --prefix=/usr
 	make
-	popd
-	make -C python2 DESTDIR=$PKG install
+	make DESTDIR=$PKG install
 
 	rm -rf $PKG/usr/share
 	rm -rf $PKG/usr/include
