@@ -2,9 +2,10 @@
 # depends	: libxi libxrandr mesa
 
 name=freeglut
-version=3.0.0
+version=3.2.0
 release=1
 source=(https://downloads.sourceforge.net/freeglut/$name-$version.tar.gz)
+md5sum=(2abbb255b10ee669faf6b26ba27c050b)
 
 build() {
 	mkdir build
@@ -13,5 +14,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(90c3ca4dd9d51cf32276bc5344ec9754)
