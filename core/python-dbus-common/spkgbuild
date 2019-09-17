@@ -4,20 +4,17 @@
 # depends	: dbus python3 dbus-glib
 
 name=python-dbus-common
-version=1.2.10
+version=1.2.12
 release=1
 source=(http://dbus.freedesktop.org/releases/dbus-python/dbus-python-$version.tar.gz)
-md5sum=(5d21d5ae6423f0e41caa3400af44edac)
+md5sum=(428b7a9e7e2d154a7ceb3e13536283e4)
 
 build() {
 	cd dbus-python-$version
 
-	mkdir python3
-	pushd python3
 	PYTHON=/usr/bin/python3    \
-	../configure --prefix=/usr
+	./configure --prefix=/usr
 	make
-	popd
-	make -C python3 DESTDIR=$PKG install-data
+	make DESTDIR=$PKG install-data
 	rm -rf $PKG/usr/lib/python*
 }
