@@ -4,22 +4,18 @@
 # depends	: dbus glib libical
 
 name=bluez
-version=5.50
-release=4
+version=5.51
+release=1
 backup=(etc/conf.d/bluetooth)
 source=(https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
-	$name-obexd_without_systemd-1.patch
 	bluetooth.rc
 	bluetooth.conf)
-md5sum=(8e35c67c81a55d3ad4c9f22280dae178
-	ed5071c4a89231f23cbb341f533ac1b6
+md5sum=(a2f269c9f9a943394043ac1de69eb5b0
 	16baf2462c222b819504f9a9ce05300f
 	2d517e7805e7f9c4932d1ac4f6b481fd)
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i ../$name-obexd_without_systemd-1.patch
 
 	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
