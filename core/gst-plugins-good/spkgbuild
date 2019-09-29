@@ -6,15 +6,11 @@
 name=gst-plugins-good
 version=1.16.1
 release=1
-source=(https://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz
-	gst-plugins-good-1.16.0-v4l2_fix-1.patch)
-md5sum=(515987ee763256840a11bd8ea098f2bf
-	a28d1279690c8d42c113426c80bc3988)
+source=(https://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
+md5sum=(515987ee763256840a11bd8ea098f2bf)
 
 build() {
 	cd $name-$version
-
-	#patch -Np1 -i $SRC/gst-plugins-good-1.16.0-v4l2_fix-1.patch
 
 	./configure --prefix=/usr \
 		    --disable-nls \
