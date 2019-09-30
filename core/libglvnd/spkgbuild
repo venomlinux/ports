@@ -10,7 +10,9 @@ build() {
 	cd libglvnd-$version
 
 	./autogen.sh
-	./configure --prefix=/usr
+	./configure --prefix=/usr --disable-headers
 	make
 	make DESTDIR=$PKG install
+
+	rm $PKG/usr/lib/pkgconfig/{,e}gl.pc
 }
