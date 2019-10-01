@@ -2,13 +2,17 @@
 # depends	: libdrm python3 wayland libxshmfence libxdamage libxext libxfixes elfutils llvm libvdpau libglvnd python3-mako libx11 xorgproto wayland-protocols
 
 name=mesa
-version=19.1.7
+version=19.2.0
 release=1
-source=(https://mesa.freedesktop.org/archive/$name-$version.tar.xz)
-md5sum=(cd1345c9b0d5121b860a0bdb20abc347)
+source=(https://mesa.freedesktop.org/archive/$name-$version.tar.xz
+	glvnd.patch)
+md5sum=(4346581ded5d554cc873e2efbb8ce9c3
+	3b35aaa1bb4c674450ac2e46b2104638)
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i ../glvnd.patch
 
 	PLATFORMS="drm,x11,wayland"
 	GALLIUM_DRV="r300,r600,svga,swrast,radeonsi,nouveau"
