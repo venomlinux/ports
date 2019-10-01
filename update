@@ -196,8 +196,8 @@ main() {
 	
 	if [ "$REPO" ]; then
 		for r in ${REPO[@]}; do
-			if [ -d "$REPO" ]; then
-				for d in $REPO/*/spkgbuild; do
+			if [ -d "$r" ]; then
+				for d in $r/*/spkgbuild; do
 					check $(dirname $d)
 				done
 			fi
