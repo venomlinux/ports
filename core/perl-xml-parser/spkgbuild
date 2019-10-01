@@ -4,9 +4,10 @@
 # depends	: expat perl
 
 name=perl-xml-parser
-version=2.44
+version=2.46
 release=1
 source=(http://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-$version.tar.gz)
+md5sum=(80bb18a8e6240fcf7ec2f7b57601c170)
 
 build() {
 	cd XML-Parser-$version
@@ -15,4 +16,4 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-md5sum=(af4813fe3952362451201ced6fbce379)
+
