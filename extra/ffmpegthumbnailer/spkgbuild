@@ -4,9 +4,10 @@
 # depends	: ffmpeg libjpeg-turbo libpng cmake
 
 name=ffmpegthumbnailer
-version=2.2.0
+version=2.2.1
 release=1
 source=($name-$version.tar.gz::https://github.com/dirkvdb/$name/archive/$version.tar.gz)
+md5sum=(c21fc2204fcef8c2aee69e4ed058c5e0)
 
 build() {
 	cd $name-$version
@@ -22,5 +23,3 @@ build() {
 	make
 	make DESTDIR=$PKG install
 }
-
-md5sum=(2832537a6793593b464c3b8f8d252a62)
