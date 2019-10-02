@@ -86,13 +86,13 @@ run_check() {
 	upver=${upver:-404}
 	
 	if [ "$upver" = "404" ]; then
-		echo -e "$ppath: $version => ${RED}404${CRESET}"
+		echo -e " $ppath: $version => ${RED}404${CRESET}"
 		[ "$OUT" = 1 ] && echo "$ppath $version => 404" >> error
 	elif [ "$version" != "$upver" ]; then
-		echo -e "$ppath: $version => ${YELLOW}$upver${CRESET}"
+		echo -e " $ppath: $version => ${YELLOW}$upver${CRESET}"
 		[ "$OUT" = 1 ] && echo "$ppath $version => $upver" >> outdate
 	else
-		[ "$QUIET" = 1 ] || echo -e "$ppath: $upver = ${GREEN}OK${CRESET}"
+		[ "$QUIET" = 1 ] || echo -e " $ppath: $upver = ${GREEN}OK${CRESET}"
 	fi
 }
 
