@@ -62,6 +62,14 @@ getver_xfce4() {
 	getver
 }
 
+getver_aur() {
+	url=https://aur.archlinux.org/packages/$name
+	fetch \
+	| grep "Package Details:" \
+	| cut -d ' ' -f4 \
+	| sed 's/-.*//'
+}
+
 # main
 fetch() {
 	wget -qO - -t 3 -T 10 $url
@@ -79,7 +87,7 @@ run_check() {
 		$checkver_cmd | tail -n10
 		return
 	else
-		print_progress "Checking '$ppath'..."
+		print_progress "Checking '$ppath'"
 		upver=$($checkver_cmd | tail -n1)
 	fi
 	
@@ -91,8 +99,6 @@ run_check() {
 	elif [ "$version" != "$upver" ]; then
 		echo -e " $ppath: $version => ${YELLOW}$upver${CRESET}"
 		[ "$OUT" = 1 ] && echo "$ppath $version => $upver" >> outdate
-	else
-		[ "$QUIET" = 1 ] || echo -e " $ppath: $upver = ${GREEN}OK${CRESET}"
 	fi
 }
 
@@ -182,7 +188,6 @@ parseopt() {
 				done;;
 			-o) OUT=1;;
 			-v) VERBOSE=1;;
-			-q) QUIET=1;;
 			 *) PKG+=($1);;
 		esac
 		shift
