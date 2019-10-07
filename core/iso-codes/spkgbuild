@@ -4,17 +4,17 @@
 # depends	: python3
 
 name=iso-codes
-version=4.3
+version=4.4
 release=1
-source=(http://anduin.linuxfromscratch.org/BLFS/iso-codes/$name-$version.tar.xz)
-md5sum=(47a8ff8512a4132d9f6f70f662a36aaa)
+source=(https://salsa.debian.org/iso-codes-team/iso-codes/-/archive/iso-codes-$version/iso-codes-iso-codes-$version.tar.gz)
+md5sum=(c49ad8bccf07d786b07e44034eb65a9b)
 
 build() {
-	cd $name-$version
+	cd $name-$name-$version
 
 	./configure --prefix=/usr
 	make
-	make DESTDIR=$PKG install
+	make pkgconfigdir=/usr/lib/pkgconfig DESTDIR=$PKG install
 
 	rm -r $PKG/usr/share/locale
 }
