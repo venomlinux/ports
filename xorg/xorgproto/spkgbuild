@@ -3,7 +3,7 @@
 
 name=xorgproto
 version=2019.1
-release=2
+release=3
 source=(https://xorg.freedesktop.org/archive/individual/proto/$name-$version.tar.bz2)
 md5sum=(802ccb9e977ba3cf94ba798ddb2898a4)
 
@@ -19,4 +19,7 @@ build() {
 
 	# part of libxvmc
 	rm $PKG/usr/include/X11/extensions/vldXvMC.h
+
+	# part of libx11
+	rm $PKG/usr/include/X11/extensions/XKBgeom.h
 }
