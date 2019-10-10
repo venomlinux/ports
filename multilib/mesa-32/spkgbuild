@@ -3,17 +3,13 @@
 # depends	: zlib-32 libdrm-32 libxshmfence-32
 
 name=mesa-32
-version=19.2.0
+version=19.2.1
 release=1
-source=(https://mesa.freedesktop.org/archive/mesa-$version.tar.xz
-	glvnd.patch)
-md5sum=(4346581ded5d554cc873e2efbb8ce9c3
-	3b35aaa1bb4c674450ac2e46b2104638)
+source=(https://mesa.freedesktop.org/archive/mesa-$version.tar.xz)
+md5sum=(8f9c05cfbf7b357c60a5345bb87a92c7)
 
 build() {
 	cd mesa-$version
-
-	patch -Np1 -i ../glvnd.patch
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
