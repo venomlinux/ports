@@ -4,15 +4,11 @@
 name=mesa
 version=19.2.1
 release=1
-source=(https://mesa.freedesktop.org/archive/$name-$version.tar.xz
-	glvnd.patch)
-md5sum=(8f9c05cfbf7b357c60a5345bb87a92c7
-	3b35aaa1bb4c674450ac2e46b2104638)
+source=(https://mesa.freedesktop.org/archive/$name-$version.tar.xz)
+md5sum=(8f9c05cfbf7b357c60a5345bb87a92c7)
 
 build() {
 	cd $name-$version
-
-	#patch -Np1 -i ../glvnd.patch
 
 	PLATFORMS="drm,x11,wayland"
 	GALLIUM_DRV="r300,r600,svga,swrast,radeonsi,nouveau"
