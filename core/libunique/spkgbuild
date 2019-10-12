@@ -1,5 +1,5 @@
 # description	: Library for writing single instance applications
-# homepage	: https://live.gnome.org/LibUnique
+# homepage	: https://wiki.gnome.org/Attic/LibUnique
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: gtk2 gobject-introspection
 
@@ -7,12 +7,14 @@ name=libunique
 version=1.1.6
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/libunique/${version::3}/$name-$version.tar.bz2
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-upstream_fixes-1.patch)
+	libunique-upstream_fixes.patch)
+md5sum=(7955769ef31f1bc4f83446dbb3625e6d
+	4ce1bf51879a679b55be831f31bf3a2f)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../$name-$version-upstream_fixes-1.patch
+	patch -Np1 -i ../libunique-upstream_fixes.patch
 	autoreconf -fi
 	
 	./configure --prefix=/usr  \
@@ -23,6 +25,3 @@ build() {
 
 	rm -r $PKG/usr/share/gtk-doc
 }
-
-md5sum=(7955769ef31f1bc4f83446dbb3625e6d
-4ce1bf51879a679b55be831f31bf3a2f)
