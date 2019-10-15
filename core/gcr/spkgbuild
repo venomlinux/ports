@@ -4,10 +4,10 @@
 # depends	: glib libgcrypt p11-kit libtasn1 gtk3 gnupg gobject-introspection libxslt vala
 
 name=gcr
-version=3.28.1
+version=3.34.0
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz)
-md5sum=(afd88cacfd54c1ac5b3e0eb35e3aa674)
+md5sum=(4af28919fb1dd36d93603e8230283b6f)
 
 build() {
 	cd $name-$version
@@ -23,5 +23,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{locale,gtk-doc}
+	rm -r $PKG/usr/share/gtk-doc
 }
