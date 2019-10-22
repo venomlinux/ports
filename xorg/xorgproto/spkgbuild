@@ -2,10 +2,10 @@
 # depends	: meson util-macros
 
 name=xorgproto
-version=2019.1
-release=3
+version=2019.2
+release=1
 source=(https://xorg.freedesktop.org/archive/individual/proto/$name-$version.tar.bz2)
-md5sum=(802ccb9e977ba3cf94ba798ddb2898a4)
+md5sum=(a02dcaff48b4141b949ac99dfc344d86)
 
 build() {
 	cd $name-$version
@@ -16,10 +16,4 @@ build() {
 	meson --prefix=/usr
 	ninja
 	DESTDIR=$PKG ninja install
-
-	# part of libxvmc
-	rm $PKG/usr/include/X11/extensions/vldXvMC.h
-
-	# part of libx11
-	rm $PKG/usr/include/X11/extensions/XKBgeom.h
 }
