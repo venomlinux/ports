@@ -2,13 +2,16 @@
 # depends	: libevdev mtdev meson
 
 name=libinput
-version=1.14.1
+version=1.14.2
 release=1
 source=(https://www.freedesktop.org/software/libinput/libinput-$version.tar.xz)
-md5sum=(da29a704dc6f7ea2d5aac754db046340)
+md5sum=(c282990973140e3fa2dd274c69ab3a57)
 
 build() {
 	cd libinput-$version
+
+	mkdir build
+	cd build
 
   	meson --prefix /usr \
 	      --libexecdir=/usr/lib \
@@ -16,9 +19,7 @@ build() {
 	      -Ddebug-gui=false \
 	      -Dtests=false \
 	      -Ddocumentation=false \
-	      -Dlibwacom=false \
-	      build
-	cd build
+	      -Dlibwacom=false
 	ninja
 	DESTDIR=$PKG ninja install
 }
