@@ -5,7 +5,7 @@
 
 name=glibc
 version=2.30
-release=1
+release=2
 backup=(etc/locales)
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-fhs-1.patch
@@ -23,11 +23,11 @@ build() {
 
 	_configure_flag=(
 		--prefix=/usr \
+		--with-headers=/usr/include \
 		--disable-werror \
 		--enable-kernel=3.2 \
 		--enable-stack-protector=strong \
-		--enable-multi-arch \
-		--enable-obsolete-rpc
+		--enable-multi-arch
 	)
 
 	patch -Np1 -i ../$name-fhs-1.patch
