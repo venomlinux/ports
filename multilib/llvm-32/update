@@ -1,0 +1,7 @@
+url=http://llvm.org/
+
+getver_llvm-32() {
+	fetch \
+	| grep "releases/download" \
+	| sed 's/.*\#//;s/\".*//'
+}

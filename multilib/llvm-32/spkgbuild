@@ -2,14 +2,14 @@
 # depends	: libffi-32 python2-32 libxml2-32 llvm
 
 name=llvm-32
-version=8.0.1
+version=9.0.0
 release=1
-source=(https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
-	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/cfe-$version.src.tar.xz
-	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/compiler-rt-$version.src.tar.xz)
-md5sum=(9a3b63df01c52556f7afb5617934e79e
-	28db72b57ca99307259773e4ac74a6d3
-	c251e582862f9fcc880802f8f2920096)
+source=(https://releases.llvm.org/$version/llvm-$version.src.tar.xz
+	https://releases.llvm.org/$version/cfe-$version.src.tar.xz
+	https://releases.llvm.org/$version/compiler-rt-$version.src.tar.xz)
+md5sum=(0fd4283ff485dffb71a4f1cc8fd3fc72
+	0df6971e2f99b1e99e7bfb533e4067af
+	c92b8a1aed654463962d77445ebee10b)
 
 build() {
 	cd llvm-$version.src
