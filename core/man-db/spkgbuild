@@ -4,10 +4,10 @@
 # depends	: bash gdbm groff less libpipeline zlib
 
 name=man-db
-version=2.8.7
+version=2.9.0
 release=1
 source=(https://savannah.nongnu.org/download/man-db/$name-$version.tar.xz)
-md5sum=(ec0b23c8314a1654c4d059b2c18ce43d)
+md5sum=(897576a19ecbef376a916485608cd790)
 
 build() {
 	cd $name-$version
@@ -20,10 +20,11 @@ build() {
 	            --with-browser=/usr/bin/lynx \
 	            --with-vgrind=/usr/bin/vgrind \
 	            --with-grap=/usr/bin/grap \
-	            --with-systemdtmpfilesdir= \
+	            --with-systemdtmpfilesdir=no \
+		    --with-systemdsystemunitdir=no \
 		    --disable-nls
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/doc $PKG/lib/systemd/
+	rm -r $PKG/usr/share/doc
 }
