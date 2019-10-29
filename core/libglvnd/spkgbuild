@@ -2,15 +2,26 @@
 
 name=libglvnd
 version=1.2.0
-release=2
-source=($name-$version.tar.gz::https://github.com/NVIDIA/libglvnd/archive/v$version.tar.gz)
-md5sum=(8182fa21dd2e2d1110ec303477094564)
+release=3
+source=($name-$version.tar.gz::https://github.com/NVIDIA/libglvnd/archive/v$version.tar.gz
+	sync_with_khronos.patch
+	set_egl_no_x11_macro.patch
+	update-gl_h-to-match-mesa.patch)
+md5sum=(8182fa21dd2e2d1110ec303477094564
+	522e612b38d857836a56cfa1eebe3eee
+	2f10db915e096f0bb4fff207aefb3e83
+	83b73d3c5018b9a3d06198eb79042d17)
 
 build() {
 	cd libglvnd-$version
 
+	for p in $SRC/*.patch
+		do patch -Np1 -i $p
+	done
+
+	autoreconf -fi
 	./autogen.sh
-	./configure --prefix=/usr --disable-headers
+	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
 }
