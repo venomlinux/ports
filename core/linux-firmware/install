@@ -8,7 +8,7 @@ post_upgrade() {
 	if [ -f /lib/modules/KERNELVERSION ]; then
 		kernver=$(cat /lib/modules/KERNELVERSION)
 	else
-		kernver=$(file /boot/vmlinuz-venom  | cut -d ' ' -f9)
+		kernver=$(uname -r)
 	fi
 	if [ $(type -p mkinitramfs) ]; then
 		mkinitramfs -q -k $kernver -o /boot/initrd-venom.img
