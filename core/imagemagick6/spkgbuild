@@ -1,13 +1,16 @@
 # description	: An image viewing/manipulation program (version 6)
+# homepage	: https://www.imagemagick.org
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: fontconfig lcms2 libtool libxext libxt perl libxml2 librsvg
 
 name=imagemagick6
-version=6.9.10.68
+version=6.9.10.71
 _version=${version%.*}-${version##*.}
 release=1
 options=(libtool)
 source=(https://www.imagemagick.org/download/releases/ImageMagick-$_version.tar.xz
 	ImageMagick-libs_only-1.patch)
-md5sum=(97da375554b58968a19c31628bf1fbf4
+md5sum=(6e0062ea92ec66dc0a026c73602535bb
 	1f1d8a6a27b292d083a61231bb4099c4)
 
 build() {
