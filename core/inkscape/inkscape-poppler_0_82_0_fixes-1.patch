@@ -1,0 +1,63 @@
+Submitted By:            Douglas R. Reno <renodr at linuxfromscratch dot org>
+Date:                    2019-10-28
+Initial Package Version: 0.92.4
+Origin:                  Upstream (https://gitlab.com/inkscape/inkscape/merge_requests/986)
+Upstream Status:         Applied
+Description:             Adjusts the usage of the poppler-glib API to use a
+                         const int instead of a standard int, since the 
+                         data types are incompatible and causes a build failure.
+                         This required modification to the SVG Builder and
+                         PDF Parser.
+
+diff -Naurp inkscape-0.92.4.orig/src/extension/internal/pdfinput/pdf-parser.cpp inkscape-0.92.4/src/extension/internal/pdfinput/pdf-parser.cpp
+--- inkscape-0.92.4.orig/src/extension/internal/pdfinput/pdf-parser.cpp	2019-01-14 22:29:27.000000000 -0600
++++ inkscape-0.92.4/src/extension/internal/pdfinput/pdf-parser.cpp	2019-10-28 09:54:48.488255747 -0500
+@@ -2414,7 +2414,7 @@ void PdfParser::doShowText(GooString *s)
+   int wMode;
+   double riseX, riseY;
+   CharCode code;
+-  Unicode *u = NULL;
++  Unicode _POPPLER_CONST_82 *u = NULL;
+   double x, y, dx, dy, tdx, tdy;
+   double originX, originY, tOriginX, tOriginY;
+   double oldCTM[6], newCTM[6];
+diff -Naurp inkscape-0.92.4.orig/src/extension/internal/pdfinput/poppler-transition-api.h inkscape-0.92.4/src/extension/internal/pdfinput/poppler-transition-api.h
+--- inkscape-0.92.4.orig/src/extension/internal/pdfinput/poppler-transition-api.h	2019-01-14 22:29:27.000000000 -0600
++++ inkscape-0.92.4/src/extension/internal/pdfinput/poppler-transition-api.h	2019-10-28 09:55:37.586507369 -0500
+@@ -3,6 +3,12 @@
+ 
+ #include <glib/poppler-features.h>
+ 
++#if POPPLER_CHECK_VERSION(0, 82, 0)
++#define _POPPLER_CONST_82 const
++#else
++#define _POPPLER_CONST_82
++#endif
++
+ #if POPPLER_CHECK_VERSION(0, 72, 0)
+ #define getCString c_str
+ #endif
+diff -Naurp inkscape-0.92.4.orig/src/extension/internal/pdfinput/svg-builder.cpp inkscape-0.92.4/src/extension/internal/pdfinput/svg-builder.cpp
+--- inkscape-0.92.4.orig/src/extension/internal/pdfinput/svg-builder.cpp	2019-01-14 22:29:27.000000000 -0600
++++ inkscape-0.92.4/src/extension/internal/pdfinput/svg-builder.cpp	2019-10-28 09:56:03.815112158 -0500
+@@ -1379,7 +1379,7 @@ void SvgBuilder::beginString(GfxState *s
+ void SvgBuilder::addChar(GfxState *state, double x, double y,
+                          double dx, double dy,
+                          double originX, double originY,
+-                         CharCode /*code*/, int /*nBytes*/, Unicode *u, int uLen) {
++                         CharCode /*code*/, int /*nBytes*/, Unicode const *u, int uLen) {
+ 
+ 
+     bool is_space = ( uLen == 1 && u[0] == 32 );
+diff -Naurp inkscape-0.92.4.orig/src/extension/internal/pdfinput/svg-builder.h inkscape-0.92.4/src/extension/internal/pdfinput/svg-builder.h
+--- inkscape-0.92.4.orig/src/extension/internal/pdfinput/svg-builder.h	2019-01-14 22:29:27.000000000 -0600
++++ inkscape-0.92.4/src/extension/internal/pdfinput/svg-builder.h	2019-10-28 09:56:25.743784036 -0500
+@@ -141,7 +141,7 @@ public:
+     void addChar(GfxState *state, double x, double y,
+                  double dx, double dy,
+                  double originX, double originY,
+-                 CharCode code, int nBytes, Unicode *u, int uLen);
++                 CharCode code, int nBytes, Unicode const *u, int uLen);
+     void beginTextObject(GfxState *state);
+     void endTextObject(GfxState *state);
+ 

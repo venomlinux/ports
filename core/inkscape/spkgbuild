@@ -6,16 +6,19 @@ version=0.92.4
 release=2
 source=(https://media.inkscape.org/dl/resources/file/$name-$version.tar.bz2
 	inkscape-use_versioned_ImageMagick6-1.patch
-	poppler-076.patch)
+	poppler-076.patch
+	inkscape-poppler_0_82_0_fixes-1.patch)
 md5sum=(ac30f6d5747fd9c620c00dad500f414f
 	a3155f618b68eb0516ff2605c6ba55fa
-	c399ceab65554fe638d7f49d89c2cff1)
+	c399ceab65554fe638d7f49d89c2cff1
+	c02aeda8aea49b33d3f2a60656efebe2)
 
 build() {
 	cd $name-$version
 
 	patch -Np1 -i ../inkscape-use_versioned_ImageMagick6-1.patch
 	patch -Np0 -i ../poppler-076.patch
+	patch -Np1 -i ../inkscape-poppler_0_82_0_fixes-1.patch
 
 	mkdir build
 	cd    build
