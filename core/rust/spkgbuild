@@ -4,19 +4,19 @@
 # depends	: curl cmake python3 llvm libssh2
 
 name=rust
-version=1.37.0
+version=1.38.0
 release=1
-_date=2019-07-04
-_rust=1.36.0
-_cargo=0.37.0
+_date=2019-08-15
+_rust=1.37.0
+_cargo=0.38.0
 source=(https://static.rust-lang.org/dist/rustc-$version-src.tar.gz
 	https://static.rust-lang.org/dist/$_date/rust-std-$_rust-x86_64-unknown-linux-gnu.tar.gz
 	https://static.rust-lang.org/dist/$_date/rustc-$_rust-x86_64-unknown-linux-gnu.tar.gz
 	https://static.rust-lang.org/dist/$_date/cargo-$_cargo-x86_64-unknown-linux-gnu.tar.gz)
-md5sum=(e67432b37150f13e186ebfb67e5192fb
-	8f31c0b84017cb87aa0363b482636711
-	d54ba3383260cc26234a7190c9ac538c
-	b42dcea3eb8000ae953b10140fbbc2c3)
+md5sum=(604cc1abc4c0d2ff42ef453cd7a34bf5
+	00b3a799835e24ab594f6aec434bb53f
+	8f51831a43c2876fa2cb05d759984769
+	4e9b773b0b6ee21213b39cbc23f7e99b)
 noextract=(rust-std-$_rust-x86_64-unknown-linux-gnu.tar.gz
 	rustc-$_rust-x86_64-unknown-linux-gnu.tar.gz
 	cargo-$_cargo-x86_64-unknown-linux-gnu.tar.gz)
@@ -29,39 +29,51 @@ build() {
 	cp $SRC/rustc-$_rust-x86_64-unknown-linux-gnu.tar.gz build/cache/$_date/
 	cp $SRC/cargo-$_cargo-x86_64-unknown-linux-gnu.tar.gz build/cache/$_date/
 
-cat <<EOF > config.toml
+cat << EOF > config.toml
 # see config.toml.example for more possible options
+# See the 8.4 book for an example using shipped LLVM
+# e.g. if not installing clang, or using a version before 8.0.
 [llvm]
-
-# use ninja
-ninja = true
-
+# by default, rust will build for a myriad of architectures
 targets = "X86"
 
 # When using system llvm prefer shared libraries
 link-shared = true
 
 [build]
-# omit HTML docs to save time and space (comment this to build them)
+# omit docs to save time and space (default is to build them)
 docs = false
 
 # install cargo as well as rust
 extended = true
 
 [install]
-# Adjust the prefix for the desired destination
 prefix = "/usr"
-
-# docdir is used even if the full awesome docs are not installed
 docdir = "share/doc/rustc"
 
 [rust]
+# LLVM crashes when passing an object through ThinLTO twice.  This is triggered when using rust
+# code in cross-language LTO if libstd was built using ThinLTO.
+# http://blog.llvm.org/2019/09/closing-gap-cross-language-lto-between.html
+# https://github.com/rust-lang/rust/issues/54872
+codegen-units-std = 1
+debuginfo-level = 2
 channel = "stable"
 rpath = false
+
+# disable codegen tests
 codegen-tests = false
 
 [target.x86_64-unknown-linux-gnu]
+# NB the output of llvm-config (i.e. help options) may be
+# dumped to the screen when config.toml is parsed.
 llvm-config = "/usr/bin/llvm-config"
+
+[target.i686-unknown-linux-gnu]
+# NB the output of llvm-config (i.e. help options) may be
+# dumped to the screen when config.toml is parsed.
+llvm-config = "/usr/bin/llvm-config"
+
 
 EOF
 
