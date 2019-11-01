@@ -2,17 +2,17 @@
 # depends	: coreutils bash wget httpup libarchive
 
 name=scratchpkg
-version=20190819
+version=20191101
 release=1
 backup=(etc/scratchpkg.conf
 	etc/scratchpkg.repo
 	etc/revdep.conf)
-_commit=84537f77d2eda898f9bf9e849327d9ac025c840c
+_commit=a70d936c1d812e8d1dec685c897de3ad43e28080
 source=($name-$_commit.tar.gz::https://github.com/venomlinux/scratchpkg/archive/$_commit.tar.gz
 	repo
 	repo_musl)
-md5sum=(524a3b8934074fb5c62aa26421683e7c
-	5902b2c7684130fb61df98f8f67e5973
+md5sum=(e70b54d0e0cb8d19ae3e072eb0330196
+	4ecdd0accc13781370e4facd960807b2
 	a4e56154de12afc5c722cb53fce8a13b)
 
 build() {
