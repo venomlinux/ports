@@ -1,14 +1,14 @@
 # description	: Stand-alone browser based on the Mozilla codebase
-# depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent sqlite dbus-glib graphite2 harfbuzz unzip zip autoconf2.13 yasm rust gconf llvm cbindgen nodejs libwebp
+# homepage	: https://www.mozilla.com/firefox/
+# maintainer	: emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent sqlite dbus-glib unzip zip autoconf2.13 yasm rust gconf cbindgen nodejs libwebp
 
 name=firefox
-version=69.0
+version=70.0.1
 release=1
 source=(https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
-	firefox-system_graphite2_harfbuzz-1.patch
 	$name.desktop)
-md5sum=(22e8ec79442d04cfc63c5822b321cd9c
-	81579c483fa7bfda10c55d20e5c7ca69
+md5sum=(ea45d1295d8f207b09ccdacff9d876c9
 	971c77648caea312fca2d9340c4382a6)
 
 build() {
@@ -17,8 +17,8 @@ build() {
 	cd $name-$version
 
   	cat > mozconfig << "EOF"
-ac_add_options --with-mozilla-api-keyfile=$PWD/mozilla-key
-ac_add_options --with-google-location-service-api-keyfile=$PWD/google-key
+#ac_add_options --with-mozilla-api-keyfile=$PWD/mozilla-key
+#ac_add_options --with-google-location-service-api-keyfile=$PWD/google-key
 ac_add_options --disable-pulseaudio
 ac_add_options --enable-alsa
 ac_add_options --enable-system-sqlite
@@ -31,8 +31,8 @@ ac_add_options --with-system-icu
 ac_add_options --disable-av1
 ac_add_options --enable-linker=gold
 ac_add_options --enable-official-branding
-ac_add_options --with-system-graphite2
-ac_add_options --with-system-harfbuzz
+#ac_add_options --with-system-graphite2
+#ac_add_options --with-system-harfbuzz
 ac_add_options --prefix=/usr
 ac_add_options --enable-application=browser
 ac_add_options --disable-crashreporter
@@ -49,13 +49,8 @@ unset MOZ_TELEMETRY_REPORTING
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
 EOF
 
-	patch -Np1 -i $SRC/firefox-system_graphite2_harfbuzz-1.patch
-
-	echo "AIzaSyDxKL42zsPjbke5O8_rPVpVrLrJ8aeE9rQ" > google-key
-	echo "d2284a20-0505-4927-a809-7ffaf4d91e55" > mozilla-key
-
 	# Fix a problem with certain versions of ICU
-	#sed -e 's/checkImpl/checkFFImpl/g' -i js/src/vm/JSContext*.h
+	sed -e 's/checkImpl/checkFFImpl/g' -i js/src/vm/JSContext*.h
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
 	export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 	export CARGO_HOME=$INITDIR
