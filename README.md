@@ -1,17 +1,13 @@
 # ports
-Contain all ports used by [scratchpkg](https://github.com/emmett1/scratchpkg)
+Contain all ports used by [scratchpkg](https://github.com/venomlinux/scratchpkg)
 
 All ports are separated into several repositories. This repositories will get sync by `scratchpkg` using a tool called `httpup`.
 These are repository exist (for now):
 
-* `core`:  Ports in this repository is follows BLFS SVN books.
-* `extra`:  All ports outside of BLFS SVN book is in here.
-* `git`:  Ports for package from git.
-* `xorg`:  All ports for Xorg.
-* `wip`:  Contain ports for testing package.
-* `kf5`:  All ports for kde plasma 5 desktop.
-* `lxde`:  All ports for lxde desktop.
-* `xfce4`:  All ports for xfce4 desktop.
+* `core`:  Ports needed for core system.
+* `extra`:  All other ports.
+* `xorg`:  Ports for Xorg.
+* `multilib`: Multilib ports.
 
 ### rep-gen
 
@@ -20,6 +16,10 @@ These are repository exist (for now):
 #### how to use:
 
     ./rep-gen <repo name>
+    
+or, for all exist repository
+
+    ./rep-gen
     
 Example:
 
