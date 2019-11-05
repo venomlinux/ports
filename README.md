@@ -1,5 +1,5 @@
 # ports
-Contain all ports used by [scratchpkg](https://github.com/venomlinux/scratchpkg)
+Contain all ports for [Venom Linux](http://venomlinux.org/) used by [scratchpkg](https://github.com/venomlinux/scratchpkg)
 
 All ports are separated into several repositories. This repositories will get sync by `scratchpkg` using a tool called `httpup`.
 These are repository exist (for now):
