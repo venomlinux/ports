@@ -17,7 +17,7 @@ These are repository exist (for now):
 
     ./rep-gen <repo name>
     
-or, for all exist repository
+or, for all exist repositories
 
     ./rep-gen
     
