@@ -1,15 +1,15 @@
 # description	: Terminal emulator for the X Window System
 # homepage	: http://invisible-island.net/xterm/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# maintainer	: emmett1, emmett1 dot 2miligrams at gmail dot com
 # depends	: libxaw libxft libxkbfile xbitmaps luit dejavu-fonts
 
 name=xterm
-version=349
+version=350
 release=1
 source=(http://invisible-mirror.net/archives/$name/$name-$version.tgz
 	${name}_remove_list)
-md5sum=(194012229738f74bc44e7c0f5f6bf0c8
-	5a56799b56cfddf95ff57910c2d1dcb5)
+md5sum=(189b593841189da66bc1cea92df602a5
+	21b31fdc6cacd5bb24aed82c06f37913)
 	
 build() {
 	cd $name-$version
@@ -43,9 +43,9 @@ EOF
 
 ## conflicted files with ncurses package
 ## dont remove this unless theres no more conflict!
-for i in $(cat $SRC/${name}_remove_list); do
-	rm $PKG/$i
-done
+pushd $PKG
+rm $(cat $SRC/${name}_remove_list)
+popd
 
 install -m755 -d $PKG/usr/share/applications
 install -m644 {xterm,uxterm}.desktop $PKG/usr/share/applications
