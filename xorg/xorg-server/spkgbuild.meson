@@ -1,0 +1,47 @@
+# description	: The core of the X Window system
+# depends	: pixman libepoxy xkeyboard-config openssl nettle libxfont2 libinput libgcrypt mesa xorgproto libtirpc
+
+name=xorg-server
+version=1.20.5
+release=3
+source=(http://ftp.x.org/pub/individual/xserver/$name-$version.tar.bz2
+	glvnd.patch
+	0001-v2-FS-58644.patch
+	0002-fix-libshadow-2.patch)
+md5sum=(c9fc7e21e11286dbedd22c00df652130
+	295fc2a9cf201d13b9d69044211b99ba
+	5e263e1c42bc24fbdc1f9da4b7a62ee9
+	bf9ad45b6fe50b9776b38c4125b3a6fb)
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/glvnd.patch
+
+	# Fix rootless xorg - FS#58644
+	# https://bugs.freedesktop.org/show_bug.cgi?id=106588
+	patch -Np1 -i $SRC/0001-v2-FS-58644.patch
+
+	# Fix libshadow.so: libfb.so => not found - FS#58731
+	# https://bugs.freedesktop.org/show_bug.cgi?id=106656
+	patch -Np1 -i $SRC/0002-fix-libshadow-2.patch
+
+	mkdir build
+	cd build
+
+	meson \
+		--prefix=/usr \
+        	--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name \
+		--localstatedir=/var \
+	 	-Dglamor=true \
+		-Dsuid_wrapper=true \
+		-Dsystemd_logind=false \
+		-Dxkb_output_dir=/var/lib/xkb
+	ninja
+	DESTDIR=$PKG ninja install
+
+	install -d $PKG/etc/X11/xorg.conf.d
+
+	ln -s /usr/bin/Xorg $PKG/usr/bin/X
+}
