@@ -1,7 +1,7 @@
 # description	: Python bindings for the GTK widget set
 # homepage	: http://www.pygtk.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: python2-gobject2 atk pango python2-cairo libglade gtk2
+# depends	: python2-gobject2 atk pango-compat python2-cairo libglade gtk2
 
 name=python2-gtk
 version=2.24.0
@@ -11,6 +11,7 @@ source=(https://ftp.gnome.org/pub/gnome/sources/pygtk/${version::4}/pygtk-$versi
 build() {
 	cd pygtk-$version
 
+	PKG_CONFIG_PATH+="/usr/lib/pango-compat/pkgconfig:/usr/lib/libcairo-compat/pkgconfig" \
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
