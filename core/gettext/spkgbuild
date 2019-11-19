@@ -24,6 +24,6 @@ build() {
 
 	rm -r $PKG/usr/share/{doc,info}
 
-	chmod -v 0755 $PKG/usr/lib/preloadable_libintl.so
+	[ -e $PKG/usr/lib/preloadable_libintl.so ] && chmod -v 0755 $PKG/usr/lib/preloadable_libintl.so
 }
 
