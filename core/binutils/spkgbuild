@@ -12,6 +12,12 @@ md5sum=(9406231b7d9dd93731c2d06cefe8aaf1)
 build() {
 	cd $name-$version
 
+	if [ "$OSTYPE" = "linux-musl" ]; then
+		buildflags="--disable-multilib --with-lib-path=/usr/lib:/lib"
+	else
+		buildflags="--enable-multilib --with-lib-path=/usr/lib:/lib:/usr/lib32"
+	fi
+
 	sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
 
 	mkdir -v build
@@ -25,8 +31,7 @@ build() {
 	             --enable-shared     \
 	             --disable-werror    \
 	             --with-system-zlib  \
-		     --enable-multilib   \
-		     --with-lib-path=/usr/lib:/lib:/usr/lib32
+		     $buildflags
 	make tooldir=/usr
 	make tooldir=/usr DESTDIR=$PKG install
 	rm -fr $PKG/usr/share/info
