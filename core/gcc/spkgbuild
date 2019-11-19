@@ -15,6 +15,12 @@ md5sum=(3818ad8600447f05349098232c2ddc78
 build() {
 	cd $name-$version
 
+	if [ "$OSTYPE" = "linux-musl" ]; then
+		buildflags="--disable-multilib --disable-libsanitizer"
+	else
+		buildflags="--enable-multilib"
+	fi
+
 	sed -e '/m64=/s/lib64/lib/' \
 	    -i.orig gcc/config/i386/t-linux64
 
@@ -28,11 +34,11 @@ build() {
 	../configure --prefix=/usr            \
 		     --libexecdir=/usr/lib    \
 	             --enable-languages=c,c++,objc,obj-c++ \
-	             --enable-multilib        \
 	             --disable-bootstrap      \
 		     --disable-libmpx         \
 	             --with-system-zlib       \
-		     --disable-nls
+		     --disable-nls	      \
+		     $buildflags
 	make
 	make -j1 DESTDIR=$PKG install
 
