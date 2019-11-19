@@ -24,6 +24,7 @@ build() {
 
 	rm -r $PKG/usr/share/{doc,info}
 
-	[ -e $PKG/usr/lib/preloadable_libintl.so ] && chmod -v 0755 $PKG/usr/lib/preloadable_libintl.so
+	# musl system does not have this library
+	chmod -v 0755 $PKG/usr/lib/preloadable_libintl.so || true
 }
 
