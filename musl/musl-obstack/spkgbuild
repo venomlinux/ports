@@ -1,0 +1,17 @@
+# description	: Implementation of obstack for musl libc
+# homepage	: https://github.com/pullmoll/musl-obstack
+# depends	: musl
+
+name=musl-obstack
+version=1.1
+release=1
+source=($name-$version.tar.gz::https://github.com/pullmoll/musl-obstack/archive/v$version.tar.gz)
+md5sum=(185975cc117dba8e6158cce847ba44d5)
+
+build() {
+	cd $name-$version
+	./bootstrap.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
