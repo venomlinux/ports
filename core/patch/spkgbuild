@@ -7,6 +7,7 @@ name=patch
 version=2.7.6
 release=1
 source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
+md5sum=(78ad9937e4caadcba1526ef1853730d5)
 
 build() {
 	cd $name-$version
@@ -14,5 +15,7 @@ build() {
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
+
+	# musl
+	rm -f $PKG/usr/lib/charset.alias
 }
-md5sum=(78ad9937e4caadcba1526ef1853730d5)
