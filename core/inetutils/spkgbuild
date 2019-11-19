@@ -30,4 +30,7 @@ build() {
 	mv -v $PKG/usr/bin/ifconfig $PKG/sbin
 
 	rm -r $PKG/usr/share/info
+
+	# musl
+	rm -f $PKG/usr/lib/charset.alias
 }
