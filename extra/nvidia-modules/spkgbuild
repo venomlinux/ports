@@ -2,7 +2,7 @@
 
 name=nvidia-modules
 version=440.31
-release=1
+release=2
 source=(http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run)
 md5sum=(dc33e07e1b3ba11a14daf226f5d8cf7b)
 
@@ -17,8 +17,8 @@ build() {
 
 	# kernel modules
 	IGNORE_CC_MISMATCH=1 SYSSRC=/lib/modules/$kernver/source make -C NVIDIA-Linux-x86_64-$version/kernel module
-	install -d $PKG/lib/modules/$kernver/kernel/drivers/video/
-	install -m 0644 NVIDIA-Linux-x86_64-$version/kernel/*.ko $PKG/lib/modules/$kernver/kernel/drivers/video/
+	install -d $PKG/lib/modules/$kernver/misc/
+	install -m 0644 NVIDIA-Linux-x86_64-$version/kernel/*.ko $PKG/lib/modules/$kernver/misc/
 
 	# blacklist conflict module
 	install -d $PKG/etc/modprobe.d
