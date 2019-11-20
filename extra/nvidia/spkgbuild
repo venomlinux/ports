@@ -2,11 +2,11 @@
 # depends	: gtk2 gtk3 nvidia-modules
 
 name=nvidia
-version=430.50
+version=440.31
 release=1
 source=(http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
 	nvidia-drm-outputclass.conf)
-md5sum=(f10833a9522b4c35ea3439dd17b11b28
+md5sum=(dc33e07e1b3ba11a14daf226f5d8cf7b
 	768a64259f7e8d8a46a13b876d6c443c)
 
 build() {
@@ -41,9 +41,9 @@ build() {
 	ln -s libEGL_nvidia.so.$version $PKG/usr/lib/libEGL_nvidia.so.0
 
 	# vulkan ICD config
-	install -d $PKG/etc/vulkan/icd.d
-	sed -i -e 's,__NV_VK_ICD__,libGLX_nvidia.so.0,g' nvidia_icd.json.template
-	install -m 0644 nvidia_icd.json.template $PKG/etc/vulkan/icd.d/nvidia_icd.json
+	#install -d $PKG/etc/vulkan/icd.d
+	#sed -i -e 's,__NV_VK_ICD__,libGLX_nvidia.so.0,g' nvidia_icd.json.template
+	#install -m 0644 nvidia_icd.json.template $PKG/etc/vulkan/icd.d/nvidia_icd.json
 
 	# driver component libraries
 	install -m 0755 libnvidia-cfg.so.$version $PKG/usr/lib/
