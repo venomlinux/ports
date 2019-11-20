@@ -12,7 +12,7 @@ print_progress() {
 # default getver
 getver() {
 	fetch \
-	| grep -Eo $filename[_-][0-9a-z.]+.tar.[bgx]z2? \
+	| grep -Eio $filename[_-][0-9a-z.]+.tar.[bgx]z2? \
 	| sed "s/$filename[-_]//;s/\.tar.*//" \
 	| grep -Evi '(alpha|beta|rc|pre)' \
 	| grep [[:digit:]] \
@@ -54,8 +54,8 @@ getver_gnome() {
 
 getver_xfce4() {	
 	url=$url/$(fetch \
-	| grep folder \
 	| sed 's,.*href=",,;s,\/.*,,' \
+	| grep ^[0-9a-z] \
 	| sort -V \
 	| uniq \
 	| tail -n1)	
