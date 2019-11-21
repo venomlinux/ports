@@ -89,6 +89,7 @@ run_check() {
 	else
 		print_progress "Checking '$ppath'"
 		upver=$($checkver_cmd | tail -n1)
+		echo -ne "\033[0K"
 	fi
 	
 	upver=${upver:-404}
