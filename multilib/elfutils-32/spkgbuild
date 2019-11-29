@@ -2,10 +2,10 @@
 # depends	: elfutils
 
 name=elfutils-32
-version=0.177
+version=0.178
 release=1
 source=(https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2)
-md5sum=(0b583722f911e1632544718d502aab87)
+md5sum=(5480d0b7174446aba13a6adde107287f)
 
 build() {
 	cd elfutils-$version
@@ -14,7 +14,7 @@ build() {
 	export CXX="g++ -m32"
 	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
-	./configure --prefix=/usr --libdir=/usr/lib32 --disable-textrelcheck
+	./configure --prefix=/usr --libdir=/usr/lib32 --disable-textrelcheck --disable-debuginfod
 	make
 	make DESTDIR=$PWD/DESTDIR install
 	mkdir -p $PKG/usr/lib32
