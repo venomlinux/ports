@@ -6,11 +6,17 @@
 name=ninja
 version=1.9.0
 release=1
-source=(https://github.com/ninja-build/ninja/archive/v$version/ninja-$version.tar.gz)
-md5sum=(f340be768a76724b83e6daab69009902)
+source=(https://github.com/ninja-build/ninja/archive/v$version/ninja-$version.tar.gz
+	fix-musl.patch)
+md5sum=(f340be768a76724b83e6daab69009902
+	a74dcaadc585dacf2fda54f4da7fd379)
 
 build() {
 	cd $name-$version
+
+	if [ "$OSTYPE" = "linux-musl" ]; then
+		patch -Np1 -i $SRC/fix-musl.patch
+	fi
 
 	python3 ./configure.py --bootstrap
 	mkdir -p $PKG/usr/bin
