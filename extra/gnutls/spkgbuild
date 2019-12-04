@@ -2,10 +2,10 @@
 # depends	: nettle ca-certificates libtasn1 p11-kit libunistring
 
 name=gnutls
-version=3.6.10
+version=3.6.11.1
 release=1
-source=(https://www.gnupg.org/ftp/gcrypt/gnutls/v${version%.*}/$name-${version}.tar.xz)
-md5sum=(254e756d882a38ce9ad6f47589330d87)
+source=(https://www.gnupg.org/ftp/gcrypt/gnutls/v${version::3}/$name-${version}.tar.xz)
+md5sum=(3670ee0b0d95b3dee185eff2dc910ee7)
 
 build() {
 	cd $name-$version
