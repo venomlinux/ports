@@ -4,11 +4,11 @@
 # depends	: acl bash
 
 name=shadow
-version=4.7
+version=4.8
 release=1
 source=(https://github.com/shadow-maint/shadow/releases/download/$version/$name-$version.tar.xz
 	pwck)
-md5sum=(f7ce18c8dfd05f1a009266cb604d58b7
+md5sum=(723ebb19b06e2f52d9ed7f0653483851
 	11f5b3140ca4cef4dee8034091af88cc)
 
 build() {
@@ -33,7 +33,5 @@ build() {
 	make DESTDIR=$PKG install
 
 	mkdir -p $PKG/bin $PKG/etc/cron/daily
-	mv -v $PKG/usr/bin/passwd $PKG/bin
-
 	install -m 755 $SRC/pwck $PKG/etc/cron/daily
 }
