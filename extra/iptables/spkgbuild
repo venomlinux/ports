@@ -3,10 +3,10 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=iptables
-version=1.8.3
+version=1.8.4
 release=1
 source=(https://www.netfilter.org/projects/iptables/files/$name-$version.tar.bz2)
-md5sum=(29de711d15c040c402cf3038c69ff513)
+md5sum=(9b201107957fbf62709c3d8226239b0d)
 
 build() {
 	cd $name-$version
@@ -14,16 +14,7 @@ build() {
 	./configure --prefix=/usr      \
 	            --sbindir=/sbin    \
 	            --disable-nftables \
-	            --enable-libipq    \
-	            --with-xtlibdir=/lib/xtables
+	            --enable-libipq
 	make
 	make DESTDIR=$PKG install
-
-	ln -sfv ../../sbin/xtables-legacy-multi $PKG/usr/bin/iptables-xml
-
-	for file in ip4tc ip6tc ipq iptc xtables
-	do
-	  mv -v $PKG/usr/lib/lib${file}.so.* $PKG/lib
-	  ln -sfv ../../lib/$(readlink $PKG/usr/lib/lib${file}.so) $PKG/usr/lib/lib${file}.so
-	done
 }
