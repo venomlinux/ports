@@ -17,6 +17,9 @@ build() {
 	find -type f -name "*.pr[io]" |
 	  xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
 
+	# fix build with icu-65.1
+	sed -i '5713s/.*/&;/' src/3rdparty/chromium/third_party/blink/renderer/core/dom/document.cc
+
 	mkdir build
 	cd    build
 
