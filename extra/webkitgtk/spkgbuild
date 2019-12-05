@@ -5,11 +5,15 @@
 name=webkitgtk
 version=2.26.1
 release=1
-source=(https://webkitgtk.org/releases/$name-$version.tar.xz)
-md5sum=(08145bd6c1587230f135921c142bc150)
+source=(https://webkitgtk.org/releases/$name-$version.tar.xz
+	icu65.patch)
+md5sum=(08145bd6c1587230f135921c142bc150
+	b79d54ef7bddba43243d44316e34fa69)
 
 build() {
 	cd $name-$version
+
+	patch  -Np1 -i $SRC/icu65.patch
 	
 	mkdir -vp build
 	cd        build
