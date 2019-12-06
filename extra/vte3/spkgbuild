@@ -2,20 +2,18 @@
 # depends	: gtk3 pcre2 gnutls gobject-introspection libxml2 vala
 
 name=vte3
-version=0.56.3
+version=0.58.3
 release=1
 source=(https://ftp.gnome.org/pub/gnome/sources/vte/${version::4}/vte-$version.tar.xz)
-md5sum=(adf341807861a5dad9f98e5c701c0769)
+md5sum=(f59eb0784a361c0939c03d4566255916)
 
 build() {
 	cd vte-$version
 
-	./configure --prefix=/usr          \
-	            --sysconfdir=/etc      \
-	            --disable-static       \
-	            --enable-introspection
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+        cd    build
 
-	rm -r $PKG/usr/share/{locale,gtk-doc}
+        meson --prefix=/usr
+        ninja
+        DESTDIR=$PKG ninja install
 }
