@@ -1,13 +1,13 @@
 # description	: File and print services to SMB/CIFS clients and Windows networking to Linux clients
 # homepage	: https://www.samba.org/
-# depends	: fuse3 gpgme python3 jansson libtirpc
+# depends	: fuse3 gpgme python3 jansson libtirpc rpcsvc-proto
 
 name=samba
-version=4.10.8
+version=4.11.2
 release=1
 source=(https://www.samba.org/ftp/samba/stable/$name-$version.tar.gz
 	samba.rc)
-md5sum=(f3c722bbcd903479008fa1b529f56365
+md5sum=(8f4fb25c13be88f23b4eebe8715ba3c1
 	11ff1dc472756885180810ff6e7c1ce3)
 
 build() {
@@ -43,5 +43,5 @@ build() {
 	# revdep exclude
 	mkdir -p $PKG/etc/revdep.d
 	echo "/usr/lib/samba/" > $PKG/etc/revdep.d/samba.conf
-	echo "/usr/lib/python3.7/site-packages/samba/" >> $PKG/etc/revdep.d/samba.conf
+	echo "/usr/lib/python3.8/site-packages/samba/" >> $PKG/etc/revdep.d/samba.conf
 }
