@@ -2,10 +2,10 @@
 # depends	: libffi-32 python3
 
 name=python3-32
-version=3.7.4
+version=3.8.0
 release=1
 source=(https://www.python.org/ftp/python/$version/Python-$version.tar.xz)
-md5sum=(d33e4aae66097051c2eca45ee3604803)
+md5sum=(dbac8df9d8b9edc678d0f4cacdb7dbb0)
 
 build() {
 	cd Python-$version
@@ -24,13 +24,13 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	chmod -v 755 $PKG/usr/lib32/libpython${version::3}m.so
+	chmod -v 755 $PKG/usr/lib32/libpython${version::3}.so
 	chmod -v 755 $PKG/usr/lib32/libpython3.so
 
-	mv $PKG/usr/include/python3.7m/pyconfig.h $PKG/
+	mv $PKG/usr/include/python3.8/pyconfig.h $PKG/
 	rm -r $PKG/usr/{bin,include,lib,share/man}
-	install -d $PKG/usr/include/python3.7m
-	mv $PKG/pyconfig.h $PKG/usr/include/python3.7m/pyconfig-32.h
+	install -d $PKG/usr/include/python3.8
+	mv $PKG/pyconfig.h $PKG/usr/include/python3.8/pyconfig-32.h
 }
 
 
