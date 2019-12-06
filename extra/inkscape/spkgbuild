@@ -5,20 +5,26 @@ name=inkscape
 version=0.92.4
 release=2
 source=(https://media.inkscape.org/dl/resources/file/$name-$version.tar.bz2
-	inkscape-use_versioned_ImageMagick6-1.patch
-	poppler-076.patch
-	inkscape-poppler_0_82_0_fixes-1.patch)
+	inkscape-0.92.4-poppler_0_83_0_fixes-1.patch
+	inkscape-0.92.4-use_versioned_ImageMagick6-1.patch
+	inkscape-0.92.4-upstream_fixes-1.patch)
 md5sum=(ac30f6d5747fd9c620c00dad500f414f
+	1b7c7d885e7b1214cc9642a5852c6193
 	a3155f618b68eb0516ff2605c6ba55fa
-	c399ceab65554fe638d7f49d89c2cff1
-	c02aeda8aea49b33d3f2a60656efebe2)
+	26f855f29811701756ee11e510747dab)
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../inkscape-use_versioned_ImageMagick6-1.patch
-	patch -Np0 -i ../poppler-076.patch
-	patch -Np1 -i ../inkscape-poppler_0_82_0_fixes-1.patch
+	# fix a problem introduced by Poppler-0.76.1
+	sed -e 's|new Lexer(xref, obj)|obj|g' -i src/extension/internal/pdfinput/pdf-parser.cpp
+
+	# fix Inkscape to be able to build with poppler-0.82.0 and higher
+	sed -e 's|Unicode \*u|Unicode const *u|g' -i src/extension/internal/pdfinput/*
+
+	for i in $SRC/*.patch; do
+		patch -Np1 -i $i
+	done
 
 	mkdir build
 	cd    build
