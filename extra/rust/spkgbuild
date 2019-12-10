@@ -5,7 +5,7 @@
 
 name=rust
 version=1.39.0
-release=1
+release=2
 _date=2019-09-26
 _rust=1.38.0
 _cargo=0.39.0
@@ -30,59 +30,39 @@ build() {
 	cp $SRC/cargo-$_cargo-x86_64-unknown-linux-gnu.tar.gz build/cache/$_date/
 
 cat << EOF > config.toml
-# see config.toml.example for more possible options
-# See the 8.4 book for an example using shipped LLVM
-# e.g. if not installing clang, or using a version before 8.0.
 [llvm]
-# by default, rust will build for a myriad of architectures
 targets = "X86"
-
-# When using system llvm prefer shared libraries
 link-shared = true
 
 [build]
-# omit docs to save time and space (default is to build them)
+target = ["x86_64-unknown-linux-gnu", "i686-unknown-linux-gnu"]
 docs = false
-
-# install cargo as well as rust
 extended = true
+vendor = true
 
 [install]
 prefix = "/usr"
-docdir = "share/doc/rustc"
 
 [rust]
-# LLVM crashes when passing an object through ThinLTO twice.  This is triggered when using rust
-# code in cross-language LTO if libstd was built using ThinLTO.
-# http://blog.llvm.org/2019/09/closing-gap-cross-language-lto-between.html
-# https://github.com/rust-lang/rust/issues/54872
 codegen-units-std = 1
 debuginfo-level = 2
 channel = "stable"
 rpath = false
-
-# disable codegen tests
 codegen-tests = false
 
 [target.x86_64-unknown-linux-gnu]
-# NB the output of llvm-config (i.e. help options) may be
-# dumped to the screen when config.toml is parsed.
 llvm-config = "/usr/bin/llvm-config"
-
-[target.i686-unknown-linux-gnu]
-# NB the output of llvm-config (i.e. help options) may be
-# dumped to the screen when config.toml is parsed.
-llvm-config = "/usr/bin/llvm-config"
-
-
 EOF
 
 	mkdir "$SRC/rust"
 	export CARGO_HOME="$SRC/rust"
-
+	export RUST_BACKTRACE=1
 	export RUSTFLAGS="$RUSTFLAGS -C link-args=-lffi"
-	python3 ./x.py build --exclude src/tools/miri
+	python3 ./x.py build --exclude src/tools/miri $MAKEFLAGS
 	export LIBSSH2_SYS_USE_PKG_CONFIG=1
 	DESTDIR=$PKG python3 ./x.py install
-	rm -r $PKG/usr/share/doc
+
+	rm -rf $PKG/usr/share/doc
+	rm -rf $PKG/usr/lib/rustlib/{components,manifest-rustc,rust-installer-version}
+	rm -rf $PKG/etc
 }
