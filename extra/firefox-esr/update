@@ -1,0 +1,10 @@
+url=https://archive.mozilla.org/pub/firefox/releases/
+
+getver_firefox-esr() {	
+	fetch \
+	| grep -Eo releases/[0-9.]+esr/ \
+	| cut -d / -f2 \
+	| sed 's/esr//' \
+	| sort -V \
+	| uniq
+}
