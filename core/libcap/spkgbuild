@@ -4,18 +4,19 @@
 # depends	: attr linux-api-headers
 
 name=libcap
-version=2.27
+version=2.28
 release=1
 source=(https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/$name-$version.tar.xz)
-md5sum=(2e8f9fab32eb5ccb37969fe317fd17aa)
+md5sum=(4066ddca53fb7e146f98372c8e43afc4)
 
 build() {
 	cd $name-$version
 
-	sed -i '/install.*STALIBNAME/d' libcap/Makefile
+	# use our buildflags
+	sed -i "s/CFLAGS :=/CFLAGS += \$(CPPFLAGS) /" Make.Rules
+	sed -i "s/LDFLAGS :=/LDFLAGS +=/" Make.Rules
 
-	make
-	make RAISE_SETFCAP=no lib=lib prefix=/usr DESTDIR=$PKG install
+	make GOLANG=no RAISE_SETFCAP=no lib=lib prefix=/usr DESTDIR=$PKG install
 	chmod -v 755 $PKG/usr/lib/libcap.so
 
 	mkdir -p $PKG/lib
