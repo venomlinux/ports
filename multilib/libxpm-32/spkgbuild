@@ -4,9 +4,10 @@
 # depends	: libxpm
 
 name=libxpm-32
-version=3.5.12
+version=3.5.13
 release=1
 source=(http://ftp.x.org/pub/individual/lib/libXpm-$version.tar.bz2)
+md5sum=(6f0ecf8d103d528cfc803aa475137afa)
 
 build() {
 	cd libXpm-$version
@@ -26,5 +27,3 @@ build() {
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
-
-md5sum=(20f4627672edb2bd06a749f11aa97302)
