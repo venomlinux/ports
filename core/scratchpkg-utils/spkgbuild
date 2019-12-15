@@ -1,0 +1,14 @@
+# description	: Extra utilities for scratchpkg
+# depends	: scratchpkg
+
+name=scratchpkg-utils
+version=20191215
+release=1
+_commit=6cf0b7e4042e7b474aef0ed2dfb3a2bc126cd69b
+source=($name-$_commit.tar.gz::https://github.com/venomlinux/$name/archive/$_commit.tar.gz)
+md5sum=(c13d34ffc22e86b32e92f4d8f7c48e33)
+
+build() {
+	cd $name-$_commit
+	DESTDIR=$PKG ./INSTALL.sh
+}
