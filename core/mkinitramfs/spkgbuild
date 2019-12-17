@@ -2,14 +2,14 @@
 # depends	: libarchive bash
 
 name=mkinitramfs
-version=20191212
+version=20191217
 release=1
 backup=(etc/mkinitramfs.conf)
-_commit=632d39b362062a443ef0ab45535fa35afba4ba9f
+_commit=43507426fba4d2579bdb4795654a093908bcfb41
 source=($name-$_commit.tar.gz::https://github.com/emmett1/mkinitramfs/archive/$_commit.tar.gz
 	mkinitramfs.conf)
-md5sum=(276bdfe0c5d189189e41bb356d5b2c89
-	ed76926ed9e0c03f6791745abf59de06)
+md5sum=(0f3d87ad9906814a2eac45e4046c6762
+	7c00772e588363ceec9a1098f318d909)
 
 build() {
 	cd $name-$_commit
