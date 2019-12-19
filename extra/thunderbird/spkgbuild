@@ -2,80 +2,58 @@
 # depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent nspr sqlite dbus-glib gconf llvm startup-notification
 
 name=thunderbird
-version=60.8.0
+version=68.3.0
 release=1
-source=(https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz)
-md5sum=(a8735a56f578c2690442ee26f60c488a)
+source=(https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz
+	thunderbird-68.2.2-rust-1.39+.patch)
+md5sum=(ae99c0e5a7b4068557f8bcca6adf1fde
+	cddb173360f5930dcaa5a75bf62efba9)
 
 build() {
+	INITDIR=$PWD
+
 	cd $name-$version
 	
 	cat > mozconfig << "EOF"
-# If you have a multicore machine, the build may be faster if using parallel
-# jobs. The build system automatically adds -jN to the "make" flags, where N
-# is the number of CPU cores. The option below is therefore useless, unless
-# you want to use a smaller number of jobs:
-#mk_add_options MOZ_MAKE_FLAGS="-j1"
-
-# If you have installed dbus-glib, comment out this line:
 #ac_add_options --disable-dbus
-
-# If you have installed wireless-tools comment out this line:
 ac_add_options --disable-necko-wifi
-
-# Uncomment these lines if you have installed optional dependencies:
 #ac_add_options --enable-system-hunspell
 ac_add_options --enable-startup-notification
-
-# Comment out following option if you have PulseAudio installed
 ac_add_options --disable-pulseaudio
-
-# Comment out following option if you have gconf installed
 #ac_add_options --disable-gconf
-
-# If you want to compile the Mozilla Calendar, uncomment this line:
 #ac_add_options --enable-calendar
-
-# Comment out following options if you have not installed
-# recommended dependencies:
 ac_add_options --enable-system-sqlite
 ac_add_options --with-system-libevent
 #ac_add_options --with-system-libvpx
 ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
 ac_add_options --with-system-icu
-
 ac_add_options --prefix=/usr
 ac_add_options --enable-application=comm/mail
-
 ac_add_options --disable-crashreporter
 ac_add_options --disable-updater
 ac_add_options --disable-debug
 ac_add_options --disable-tests
-
 ac_add_options --enable-optimize=-O2
 ac_add_options --enable-strip
 ac_add_options --enable-install-strip
-
 ac_add_options --enable-official-branding
-
 ac_add_options --enable-system-ffi
 ac_add_options --enable-system-pixman
-
-ac_add_options --with-pthreads
-
 ac_add_options --with-system-bz2
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-png
 ac_add_options --with-system-zlib
 EOF
 
-	# disable failure for undocumeted rust macros
-	sed -i -e '/#!\[deny(missing_docs)\]/d' servo/components/style/lib.rs
-	sed -i -e 's/#!\[deny(unsafe_code, missing_docs)\]/#!\[deny(unsafe_code)\]/g' servo/components/style_traits/lib.rs
+	patch -Np1 -i $SRC/thunderbird-68.2.2-rust-1.39+.patch
 
-	./mach build
-	DESTDIR=$PKG ./mach install
+	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
+        export MOZBUILD_STATE_PATH=${PWD}/mozbuild
+        export CARGO_HOME=$INITDIR
+
+        SHELL=/bin/sh ./mach build
+        SHELL=/bin/sh DESTDIR=$PKG ./mach install
 
 	mkdir -pv $PKG/usr/share/{applications,pixmaps}
 
