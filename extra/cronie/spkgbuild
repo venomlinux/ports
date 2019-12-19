@@ -1,0 +1,41 @@
+# description	: Daemon that runs specified programs at scheduled times and related tools
+# homepage	: https://github.com/cronie-crond/cronie/
+# depends	: bash
+
+name=cronie
+version=1.5.5
+release=1
+source=(https://github.com/cronie-crond/cronie/releases/download/$name-$version/$name-$version.tar.gz
+	$name.{deny,pam,rc})
+md5sum=(351a37d0b5bd0144816724b4482747ad
+	2962d9812fbbbdee1bd7f1c1ccb5e372
+	0e150d97845e078efd599951c389b83a
+	df51a7b15007ee80a0461cc363e38d73)
+
+build() {
+	cd $name-$version
+	
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--sbindir=/usr/bin \
+		--enable-anacron \
+		--with-inotify \
+		--with-pam
+	make
+	make DESTDIR=$PKG install
+
+        install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+
+	chmod u+s $PKG/usr/bin/crontab
+	install -d $PKG/var/spool/{ana,}cron
+	install -d $PKG/etc/cron.{d,hourly,daily,weekly,monthly}
+
+	install -Dm0644 ../cronie.deny $PKG/etc/cron.deny
+	install -Dm0644 ../cronie.pam $PKG/etc/pam.d/crond
+
+	install -Dm0644 contrib/anacrontab $PKG/etc/anacrontab
+	install -Dm0644 contrib/0hourly $PKG/etc/cron.d/0hourly
+	install -Dm0755 contrib/0anacron $PKG/etc/cron.hourly/0anacron
+}
