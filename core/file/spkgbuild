@@ -4,15 +4,19 @@
 # depends	: zlib
 
 name=file
-version=5.37
+version=5.38
 release=1
 source=(ftp://ftp.astron.com/pub/$name/$name-$version.tar.gz)
-md5sum=(80c29aca745466c6c24d11f059329075)
+md5sum=(3217633ed09c7cd35ed8d04191675574)
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure \
+		--prefix=/usr \
+		--enable-fsect-man5 \
+                --enable-static \
+                --disable-libseccomp
 	make
 	make DESTDIR=$PKG install
 }
