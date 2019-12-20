@@ -12,7 +12,7 @@ print_progress() {
 # default getver
 getver() {
 	fetch \
-	| grep -Eio $filename[_-][0-9a-z.]+.tar.[bgx]z2? \
+	| grep -Eo $filename[_-][0-9a-z.]+.tar.[bgx]z2? \
 	| sed "s/$filename[-_]//;s/\.tar.*//" \
 	| grep -Evi '(alpha|beta|rc|pre)' \
 	| grep [[:digit:]] \
@@ -138,6 +138,12 @@ check() {
 	if [ -f $ppath/spkgbuild ]; then
 		source $ppath/spkgbuild
 	else
+		return
+	fi
+	
+	# ignore
+	if grep -x $ppath ignoreupdate >/dev/null; then
+		echo -e " $ppath: $version => ${YELLOW}SKIP${CRESET}"
 		return
 	fi
 
