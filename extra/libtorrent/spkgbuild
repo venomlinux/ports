@@ -2,18 +2,13 @@
 # depends	: boost python2 python3
 
 name=libtorrent
-version=1.1.13
+version=1.1.14
 release=1
-source=(https://github.com/arvidn/libtorrent/archive/libtorrent-${version//./_}.tar.gz
-	fix-build-with-boost-1.72.0.patch)
-md5sum=(ddb7e9119d25b6fc6bb6b93044d5b43d
-	e4ea060a5287b6dc181f43ab2f69d503)
+source=(https://github.com/arvidn/libtorrent/archive/libtorrent-${version//./_}.tar.gz)
+md5sum=(0cdf2fbb60425447f6fa473f07a078bf)
 
 build() {
 	cd libtorrent-libtorrent-${version//./_}
-
-	# support building with new boost version
-	patch -Np1 -i $SRC/fix-build-with-boost-1.72.0.patch
 
 	# Avoid depending on newer processors
 	sed -i 's/-msse4.2//' configure.ac
