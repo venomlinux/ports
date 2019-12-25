@@ -72,7 +72,8 @@ getver_aur() {
 
 # main
 fetch() {
-	wget -qO - -t 3 -T 10 $url
+	#wget -qO - -t 3 -T 10 $url
+	curl --max-time 10 -Lsk $url
 }
 
 run_check() {
@@ -143,7 +144,7 @@ check() {
 	
 	# ignore
 	if grep -x $ppath ignoreupdate >/dev/null; then
-		echo -e " $ppath: $version => ${YELLOW}SKIP${CRESET}"
+		echo -e " $ppath: $version => ${GREEN}SKIP${CRESET}"
 		return
 	fi
 
