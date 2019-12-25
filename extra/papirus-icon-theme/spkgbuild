@@ -2,12 +2,13 @@
 # depends	: gtk3
 
 name=papirus-icon-theme
-version=20190919
+version=20191201
 release=1
 source=($name-$version.tar.gz::https://github.com/PapirusDevelopmentTeam/$name/archive/$version.tar.gz)
-md5sum=(e3449717a511456af458e9f8540746f1)
+md5sum=(8dac0dd213c64de82b2ab99713562a50)
 
 build() {
 	cd $name-$version
-	make DESTDIR=$PKG install
+	mkdir -p $PKG/usr/share/icons
+	cp -R Papirus $PKG/usr/share/icons
 }
