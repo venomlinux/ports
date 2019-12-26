@@ -4,15 +4,13 @@
 # depends	: yasm which
 
 name=libvpx
-version=1.8.1
+version=1.8.2
 release=1
 source=(https://github.com/webmproject/libvpx/archive/v$version/libvpx-v$version.tar.gz)
-md5sum=(17b1b9278b5066ecd1a76e82266ecdf9)
+md5sum=(6dbccca688886c66a216d7e445525bce)
 
 build() {
 	cd $name-$version
-
-  	sed -i 's/cp -p/cp/' build/make/Makefile
 
 	mkdir libvpx-build
 	cd    libvpx-build
