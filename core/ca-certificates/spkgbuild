@@ -8,8 +8,6 @@ source=(certdata.txt-$version::https://hg.mozilla.org/releases/mozilla-release/r
 	http://www.cacert.org/certs/root.crt
 	http://www.cacert.org/certs/class3.crt
 	make-ca.sh)
-md5sum=(SKIP SKIP SKIP
-	a21a04d6ff5c4645c748220dbaa9f221)
 
 build() {	
 	install -d $PKG/{usr/sbin,etc/ssl/local}

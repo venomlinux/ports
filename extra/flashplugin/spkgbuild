@@ -6,8 +6,6 @@ version=32.0.0.142
 release=1
 source=(flash_player_npapi_linux_$version.x86_64.tar.gz::https://fpdownload.adobe.com/get/flashplayer/pdc/$version/flash_player_npapi_linux.x86_64.tar.gz
         flash_player_ppapi_linux_$version.x86_64.tar.gz::https://fpdownload.adobe.com/get/flashplayer/pdc/$version/flash_player_ppapi_linux.x86_64.tar.gz)
-md5sum=(b78f6b439657da46ae3a89f04fe650be
-	61a1025af6049c5bbf92f44324336f03)
 
 build() {
 	install -Dm644 libflashplayer.so $PKG/usr/lib/mozilla/plugins/libflashplayer.so
