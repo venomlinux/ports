@@ -74,6 +74,10 @@ repgen_repo() {
 }
 
 push_repo() {
+	if git status | grep "Your branch is up to date"; then
+		return 0
+	fi
+	
 	if git diff --name-only | grep -v REPO; then
 		echo
 		echo "Please commit above changes first."
@@ -97,8 +101,7 @@ diff_repo() {
 }
 
 show_status() {
-	git status | grep "Your branch is ahead of"
-	echo
+	git status | grep "Your branch is ahead of" && echo
 	git status | grep -v REPO | grep modified | sed 's/.*modified:/modified:/g'
 }
 
