@@ -1,0 +1,182 @@
+#!/bin/bash
+
+get_portpath() {
+	local r
+	
+	if [ -z "$portname" ]; then
+		echo "Please define port name."
+		exit 2
+	fi
+	
+	for r in ${PORTREPO[@]}; do
+		if [ -f $r/$portname/spkgbuild ]; then
+			portpath=$r/$portname
+			break
+		fi
+	done
+	
+	if [ -z "$portpath" ]; then
+		echo "Port '$portname' not exist."
+		exit 1
+	fi
+}
+
+reset_changes() {
+	git checkout spkgbuild
+	git checkout .checksums
+	git checkout .pkgfiles
+}
+
+update_port() {
+	get_portpath
+	
+	if [ -z "$upversion" ]; then
+		echo "Please define version to update."
+		exit 2
+	fi
+	
+	pushd $portpath >/dev/null
+	
+	sed -i "/^version=/s/=.*/=$upversion/" spkgbuild
+	
+	fakeroot pkgbuild -o || reset_changes
+	fakeroot pkgbuild -g || reset_changes
+	fakeroot pkgbuild    || reset_changes
+	fakeroot pkgbuild -p || reset_changes
+	sudo pkgbuild -uv
+	
+	popd >/dev/null
+}
+
+commit_port() {
+	get_portpath
+	
+	pushd $portpath >/dev/null
+	
+	. spkgbuild
+	commitmsg="$name: updated to $version"
+	
+	git add .
+	git commit -m "$commitmsg"
+	
+	popd >/dev/null
+}
+
+repgen_repo() {
+	if [ ! $(type -pa httpup-repgen) ]; then
+		echo "httpup not installed, aborting"
+		exit 1
+	fi
+	
+	for r in ${PORTREPO[@]}; do
+		httpup-repgen $r
+	done
+}
+
+push_repo() {
+	if git diff --name-only | grep -v REPO; then
+		echo
+		echo "Please commit above changes first."
+		return 2
+	fi
+	
+	repgen_repo
+	git add .
+	git commit -m "REPO updated"
+	git push
+}
+
+diff_repo() {
+	get_portpath
+	
+	pushd $portpath >/dev/null
+
+	git diff .
+	
+	popd >/dev/null
+}
+
+show_status() {
+	git status | grep "Your branch is ahead of"
+	echo
+	git status | grep -v REPO | grep modified | sed 's/.*modified:/modified:/g'
+}
+
+showhelp() {
+	cat << EOF
+Usage:
+  $(basename $0) <options> [ arg ]
+  
+Options:
+  -u <portname> <newversion>   update ports to <newversion>
+  -c <portname>                commit port's update changes
+  -d <portname>                show diff of ports
+  -r                           update REPO file
+  -p                           push all updates
+  -s                           show current status
+  -h                           show this help message
+      
+EOF
+}
+
+parseopt() {
+	while [ "$1" ]; do
+		case $1 in
+			-u) updateport=1
+				portname=$2
+				upversion=$3
+				shift 2;;
+			-c) commitchanges=1
+				portname=$2
+				shift ;;
+			-r) repgenrepo=1;;
+			-p) pushrepo=1;;
+			-d) diffrepo=1
+				portname=$2
+				shift;;
+			-s) showstatus=1;;
+			-h) showhelp;;
+		esac
+		shift
+	done
+}
+
+main() {
+	parseopt $@
+	
+	if [ "$updateport" ]; then
+		update_port
+		return 0
+	fi
+	
+	if [ "$commitchanges" ]; then
+		commit_port
+		return 0
+	fi
+	
+	if [ "$repgenrepo" ]; then
+		repgen_repo
+		return 0
+	fi
+	
+	if [ "$diffrepo" ]; then
+		diff_repo
+		return 0
+	fi
+	
+	if [ "$pushrepo" ]; then
+		push_repo
+		return 0
+	fi
+	
+	if [ "$showstatus" ]; then
+		show_status
+		return 0
+	fi
+}
+
+PORTREPO=(core extra multilib xorg community)
+
+main $@
+
+exit $?
