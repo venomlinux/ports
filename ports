@@ -22,9 +22,17 @@ get_portpath() {
 }
 
 reset_changes() {
-	git checkout spkgbuild
-	git checkout .checksums
-	git checkout .pkgfiles
+	echo -n "Error occurs. Do you want to revert changes? Y/n "
+	read -n1 input
+	
+	case $input in
+		N|n) echo "Changes is kept.";;
+		*)   echo "Revert changes..."
+		     echo -n '> spkgbuild  : '; git checkout spkgbuild
+		     echo -n '> .checksums : '; git checkout .checksums
+		     echo -n '> .pkgfiles  : '; git checkout .pkgfiles;;
+	esac
+	exit 4
 }
 
 update_port() {
@@ -37,7 +45,28 @@ update_port() {
 	
 	pushd $portpath >/dev/null
 	
+	# update version
 	sed -i "/^version=/s/=.*/=$upversion/" spkgbuild
+	
+	# change release to 1
+	sed -i "/^release=/s/=.*/=1/" spkgbuild
+	
+	while true; do
+	cat spkgbuild | more
+	echo
+	
+		while true; do
+			echo -n "[E]dit [A]bort [C]ontinue ? "
+			read -n1 input
+			echo
+			case $input in
+				E|e) vim spkgbuild
+				     break 1;;
+				A|a) exit 1;;
+				*)   break 2;;
+			esac
+		done
+	done			
 	
 	fakeroot pkgbuild -o || reset_changes
 	fakeroot pkgbuild -g || reset_changes
@@ -49,6 +78,17 @@ update_port() {
 }
 
 commit_port() {
+	if [ -z "$portname" ]; then
+		for port in $(git diff --name-only ${PORTREPO[@]} | awk -F / '{print $2}' | uniq); do
+			portname=$port
+			commit_port2
+		done
+	else
+		commit_port2
+	fi	
+}
+
+commit_port2() {
 	get_portpath
 	
 	pushd $portpath >/dev/null
@@ -78,14 +118,18 @@ push_repo() {
 		return 0
 	fi
 	
-	if git diff --name-only | grep -v REPO; then
+	if git diff --name-only ${PORTREPO[@]} | grep -v REPO; then
 		echo
 		echo "Please commit above changes first."
 		return 2
 	fi
 	
 	repgen_repo
-	git add .
+	
+	for r in ${PORTREPO[@]}; do
+		git add $r
+	done
+	
 	git commit -m "REPO updated"
 	git push
 }
@@ -126,19 +170,20 @@ parseopt() {
 	while [ "$1" ]; do
 		case $1 in
 			-u) updateport=1
-				portname=$2
-				upversion=$3
-				shift 2;;
+			    portname=$2
+			    upversion=$3
+			    shift 2;;
 			-c) commitchanges=1
-				portname=$2
-				shift ;;
+			    portname=$2
+			    shift ;;
 			-r) repgenrepo=1;;
 			-p) pushrepo=1;;
 			-d) diffrepo=1
-				portname=$2
-				shift;;
+			    portname=$2
+			    shift;;
 			-s) showstatus=1;;
 			-h) showhelp;;
+			*)  echo "Run '$(basename $0) -h' to see available options."; exit 1;;
 		esac
 		shift
 	done
