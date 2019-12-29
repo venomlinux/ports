@@ -5,11 +5,15 @@
 
 name=libcap
 version=2.29
-release=1
-source=(https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/$name-$version.tar.xz)
+release=2
+source=(https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/$name-$version.tar.xz
+	pkgconfig.patch)
 
 build() {
 	cd $name-$version
+
+	# split pkgconfig file, taken from void
+	patch -Np0 -i $SRC/pkgconfig.patch
 
 	# use our buildflags
 	sed -i "s/CFLAGS :=/CFLAGS += \$(CPPFLAGS) /" Make.Rules
