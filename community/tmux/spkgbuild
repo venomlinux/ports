@@ -2,14 +2,14 @@
 # homepage	: https://tmux.github.io/
 # depends	: libevent ncurses
 # maintainer    : Debdut Chakraborty
+
 name=tmux
 version=3.0a
 release=1
 source=(https://github.com/tmux/tmux/releases/download/${version}/${name}-${version}.tar.gz)
 
 build() {
-	tar xf ${name}-${version}.tar.gz /tmp
-	cd /tmp
+	cd ${name}-${version}
 	./configure --prefix=/usr 
 	make
 	make DESTDIR=$PKG install
