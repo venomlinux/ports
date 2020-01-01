@@ -8,6 +8,7 @@ These are repository exist (for now):
 * `extra`:  All other ports.
 * `xorg`:  Ports for Xorg.
 * `multilib`: Multilib ports.
+* `community`: Community ports
 
 ### rep-gen
 
