@@ -1,22 +1,30 @@
 # description	: Powerful x86 virtualization for enterprise as well as home use
 # homepage	: http://virtualbox.org/
-# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com, Debdut Chakraborty
 # depends	: sdl qt5 virtualbox-modules
 
 name=virtualbox
-version=5.2.32
-release=1
+version=5.2.34
+release=2
 _name=Oracle_VM_VirtualBox_Extension_Pack
-_release=132073
+_release=133893
 
-source=(http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_amd64.run
+if [ "`uname -m`" == "x86_64" ]; then
+	arch=amd64
+	sed -i '/x86/d' .checksums
+else
+	arch=x86
+	sed -i 'amd64/d' .checksums
+fi
+
+source=(http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_${arch}.run
 	virtualbox.60-vboxdrv.rules)
 
 build() {
 	local _installdir=/opt/VirtualBox
 
 	# extract source file
-	sh VirtualBox-${version}-${_release}-Linux_amd64.run --keep --noexec --target $SRC/
+	sh VirtualBox-${version}-${_release}-Linux_${arch}.run --keep --noexec --target $SRC/
 	
 	# creating directories
 	mkdir -p $PKG/opt/VirtualBox $PKG/etc/vbox $PKG/usr/bin $PKG/lib/udev/rules.d/ \

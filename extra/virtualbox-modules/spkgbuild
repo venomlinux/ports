@@ -1,17 +1,18 @@
 # description	: Virtualbox host kernel modules
 # homepage	: http://virtualbox.org/
-# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com, Debdut Chakraborty
 
 name=virtualbox-modules
-version=5.2.32
-release=1
+version=5.2.34
+release=2
 _name=Oracle_VM_VirtualBox_Extension_Pack
-_release=132073
+_release=133893
+[ "`uname -m`" == "x86_64" ] && arch=amd64 || arch=x86
 
-source=(http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_amd64.run)
+source=(http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_${arch}.run)
 
 build() {
-	sh VirtualBox-${version}-${_release}-Linux_amd64.run --keep --noexec --target $PWD
+	sh VirtualBox-${version}-${_release}-Linux_${arch}.run --keep --noexec --target $PWD
 	tar xf VirtualBox.tar.bz2 src/vboxhost/	
 
 	if [ -f /lib/modules/KERNELVERSION ]; then
