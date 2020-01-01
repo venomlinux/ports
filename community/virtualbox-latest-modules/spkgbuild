@@ -1,0 +1,30 @@
+# description	: Virtualbox(latest) host kernel modules
+# homepage	: http://virtualbox.org/
+# maintainer	: Debdut Chakraborty
+
+name=virtualbox-latest-modules
+version=6.1.0
+release=1
+_release=135406
+
+source=(http://download.virtualbox.org/virtualbox/${version}/VirtualBox-${version}-${_release}-Linux_amd64.run)
+
+build() {
+	sh VirtualBox-${version}-${_release}-Linux_amd64.run --keep --noexec --target $PWD
+	tar xf VirtualBox.tar.bz2 src/vboxhost/	
+
+	[ -f /lib/modules/KERNELVERSION ] && kernver="`cat /lib/modules/KERNELVERSION`" || kernver="`uname -r`"	
+
+	cd src/vboxhost/
+	KERN_VER=$kernver make
+
+	for i in *.ko; do
+	    install -Dm0644 $i $PKG/lib/modules/$kernver/misc/$i
+	done
+
+	install -d $PKG/etc/modules.d/
+	echo "# Load virtualbox modules at startup\nvboxdrv\nvboxnetadp\nvboxnetflt\nvboxpci" > $PKG/etc/modules.d/virtualbox.conf
+
+	# compress modules
+	find $PKG -name '*.ko' -exec xz -T1 {} +
+}
