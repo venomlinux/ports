@@ -7,7 +7,14 @@ version=5.2.34
 release=2
 _name=Oracle_VM_VirtualBox_Extension_Pack
 _release=133893
-[ "`uname -m`" == "x86_64" ] && arch=amd64 || arch=x86
+
+if [ "`uname -m`" == "x86_64" ]; then
+	arch=amd64
+	sed '/x86/d' checksums > .checksums
+else
+	arch=x86
+	sed '/amd64/d' checksums > .checksums
+fi
 
 source=(http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_${arch}.run)
 

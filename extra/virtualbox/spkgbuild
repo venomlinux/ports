@@ -11,10 +11,10 @@ _release=133893
 
 if [ "`uname -m`" == "x86_64" ]; then
 	arch=amd64
-	sed -i '/x86/d' .checksums
+	sed '/x86/d' checksums > .checksums
 else
 	arch=x86
-	sed -i 'amd64/d' .checksums
+	sed 'amd64/d' checksums > .checksums
 fi
 
 source=(http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_${arch}.run
