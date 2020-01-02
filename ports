@@ -35,6 +35,22 @@ reset_changes() {
 	exit 4
 }
 
+isinstalled() {
+	if [ -s $INDEX_DIR/$1/.pkginfo ] && [[ $(grep $1 $INDEX_DIR/$1/.pkginfo) ]]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+get_depends() {	
+	grep "^# depends[[:blank:]]*:" $portpath/spkgbuild \
+	| sed 's/^# depends[[:blank:]]*:[[:blank:]]*//' \
+	| tr ' ' '\n' \
+	| awk '!a[$0]++' \
+	| sed 's/,//'
+}
+
 update_port() {
 	get_portpath
 	
@@ -42,6 +58,24 @@ update_port() {
 		echo "Please define version to update."
 		exit 2
 	fi
+	
+	deps=$(get_depends)
+	for d in $deps; do
+		found=0
+		if ! isinstalled $d; then
+			echo "Dependency not installed: $d"
+			for r in ${PORTREPO[@]}; do
+				if [ -f "$r/$d/spkgbuild" ]; then
+					found=1
+					break
+				fi
+			done
+			if [ "$found" != 1 ]; then
+				echo "Missing dependency port: $d"
+			fi
+			exit 1
+		fi
+	done
 	
 	pushd $portpath >/dev/null
 	
@@ -93,8 +127,30 @@ commit_port2() {
 	
 	pushd $portpath >/dev/null
 	
+	deps=$(get_depends)
+	for d in $deps; do
+		found=0
+		for r in ${PORTREPO[@]}; do
+			if [ -f "$r/$d/spkgbuild" ]; then
+				found=1
+				break
+			fi
+		done
+		if [ "$found" != 1 ]; then
+			echo "Missing dependency port: $d"
+			missing=1
+		fi
+	done
+	
+	[ "$missing" = 1 ] && exit 1
+	
 	. spkgbuild
 	commitmsg="$name: updated to $version"
+	
+	echo "Generate .checksums for $name..."
+	fakeroot pkgbuild -g
+	echo "Generate .pkgfiles for $name..."
+	fakeroot pkgbuild -p
 	
 	git add .
 	git commit -m "$commitmsg"
@@ -114,9 +170,9 @@ repgen_repo() {
 }
 
 push_repo() {
-	if git status | grep "Your branch is up to date"; then
-		return 0
-	fi
+	#if git status | grep "Your branch is up to date"; then
+	#	return 0
+	#fi
 	
 	if git diff --name-only ${PORTREPO[@]} | grep -v REPO; then
 		echo
@@ -224,6 +280,7 @@ main() {
 }
 
 PORTREPO=(core extra multilib xorg community)
+INDEX_DIR="/var/lib/scratchpkg/index"
 
 main $@
 
