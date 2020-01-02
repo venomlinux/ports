@@ -2,11 +2,11 @@
 # depends	: libffi-32 python2-32 libxml2-32 llvm
 
 name=llvm-32
-version=9.0.0
+version=9.0.1
 release=1
-source=(https://releases.llvm.org/$version/llvm-$version.src.tar.xz
-	https://releases.llvm.org/$version/cfe-$version.src.tar.xz
-	https://releases.llvm.org/$version/compiler-rt-$version.src.tar.xz)
+source=(https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/compiler-rt-$version.src.tar.xz)
 
 build() {
 	cd llvm-$version.src
@@ -15,7 +15,7 @@ build() {
 	export CXX="g++ -m32"
 	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
-	mv ../cfe-$version.src tools/clang
+	mv ../clang-$version.src tools/clang
 	mv ../compiler-rt-$version.src projects/compiler-rt
 
 	mkdir -v build
