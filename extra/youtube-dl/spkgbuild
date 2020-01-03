@@ -2,14 +2,12 @@
 # depends	: python3
 
 name=youtube-dl
-version=2018.04.25
+version=2020.01.01
 release=1
-source=(https://yt-dl.org/downloads/$version/$name-$version.tar.gz)
+source=(https://github.com/ytdl-org/youtube-dl/archive/$version/$name-$version.tar.gz)
 
 build() {
-	cd $name
-	sed -i 's|etc/bash_completion.d|share/bash-completion/completions|' setup.py
-	sed -i 's|etc/fish/completions|share/fish/completions|' setup.py
+	cd $name-$version
 	python3 setup.py install --root=$PKG --optimize=1
 	rm -r $PKG/usr/share/doc
 }
