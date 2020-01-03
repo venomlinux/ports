@@ -1,0 +1,20 @@
+# description	: GUI configuration tool for compton X composite manager 
+# homepage	: https://lxqt.org/
+# maintainer	: Shreyesh Chaudhary, sacviper at gmail dot com
+# depends	: qt5 cmake libconfig liblxqt
+
+name=compton-conf
+version=0.14.1
+release=1
+source=(https://downloads.lxqt.org/downloads/$name/$version/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DMAKE_INSTALL_PREFIX=/usr \
+	..
+	make
+	make DESTDIR=$PKG install
+}
