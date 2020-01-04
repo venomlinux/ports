@@ -84,7 +84,7 @@ port_update() {
 	pushd $portpath >/dev/null
 	
 	# update version
-	sed -i "/^version=/s/=.*/=$upversion/" spkgbuild
+	sed -i "/^version=/s/=.*/=$vers/" spkgbuild
 	
 	# change release to 1
 	sed -i "/^release=/s/=.*/=1/" spkgbuild
@@ -94,14 +94,14 @@ port_update() {
 	echo
 	
 		while true; do
-			echo -n "[E]dit [A]bort [C]ontinue ? "
+			echo -n "[C]ontinue [E]dit [A]bort ? "
 			read -n1 input
 			echo
 			case $input in
 				E|e) vim spkgbuild
 				     break 1;;
 				A|a) exit 1;;
-				*)   break 2;;
+				C|c)   break 2;;
 			esac
 		done
 	done			
