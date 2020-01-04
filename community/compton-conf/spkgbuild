@@ -13,7 +13,7 @@ build() {
 	mkdir -p build
 	cd build
 	cmake \
-		-DMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_PREFIX=/usr \
 	..
 	make
 	make DESTDIR=$PKG install
