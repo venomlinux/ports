@@ -5,10 +5,10 @@
 name=dhcpcd
 version=8.1.5
 release=1
-backup=(etc/conf.d/network)
-source=(http://roy.marples.name/downloads/$name/$name-$version.tar.xz
+backup="etc/conf.d/network"
+source="http://roy.marples.name/downloads/$name/$name-$version.tar.xz
 	network.rc
-	network.conf)
+	network.conf"
 
 build() {
 	cd $name-$version

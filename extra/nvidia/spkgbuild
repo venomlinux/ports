@@ -4,8 +4,8 @@
 name=nvidia
 version=440.44
 release=1
-source=(http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
-	nvidia-drm-outputclass.conf)
+source="http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
+	nvidia-drm-outputclass.conf"
 
 build() {
 	sh NVIDIA-Linux-x86_64-$version.run --extract-only

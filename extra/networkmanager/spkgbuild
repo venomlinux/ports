@@ -6,9 +6,9 @@
 name=networkmanager
 version=1.22.2
 release=1
-backup=(etc/NetworkManager/NetworkManager.conf)
-source=(https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
-	$name.rc)
+backup="etc/NetworkManager/NetworkManager.conf"
+source="https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
+	$name.rc"
 
 build() {
 	cd NetworkManager-$version

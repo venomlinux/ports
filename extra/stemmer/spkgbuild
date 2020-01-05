@@ -4,8 +4,8 @@
 name=stemmer
 version=2.0.0
 release=1
-source=($name-$version.tar.gz::https://github.com/snowballstem/snowball/archive/v$version.tar.gz
-	dynamiclib.patch)
+source="$name-$version.tar.gz::https://github.com/snowballstem/snowball/archive/v$version.tar.gz
+	dynamiclib.patch"
 
 build() {
 	cd snowball-$version

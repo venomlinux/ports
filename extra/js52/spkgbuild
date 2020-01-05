@@ -5,11 +5,11 @@ name=js52
 version=52.9.0
 release=1
 _relver=${version}esr
-source=(https://archive.mozilla.org/pub/firefox/releases/$_relver/source/firefox-$_relver.source.tar.xz
+source="https://archive.mozilla.org/pub/firefox/releases/$_relver/source/firefox-$_relver.source.tar.xz
 	mozjs52-copy-headers.patch
 	mozjs52-disable-mozglue.patch
 	mozjs52-fix-soname.patch
-	no-error.diff)
+	no-error.diff"
 
 build() {
 	cd firefox-$_relver

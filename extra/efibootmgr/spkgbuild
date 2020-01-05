@@ -4,8 +4,8 @@
 name=efibootmgr
 version=17
 release=1
-source=($name-$version.tar.gz::https://github.com/rhboot/efibootmgr/archive/$version.tar.gz
-	efivar.patch)
+source="$name-$version.tar.gz::https://github.com/rhboot/efibootmgr/archive/$version.tar.gz
+	efivar.patch"
 
 build() {
 	cd $name-$version

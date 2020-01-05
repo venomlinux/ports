@@ -4,10 +4,10 @@
 name=google-chrome
 version=79.0.3945.88
 release=1
-options=(!strip)
+options="!strip"
 _channel=stable
-source=($name-${_channel}_${version}_amd64.deb::https://dl.google.com/linux/direct/$name-${_channel}_current_amd64.deb
-	$name-$_channel.sh)
+source="$name-${_channel}_${version}_amd64.deb::https://dl.google.com/linux/direct/$name-${_channel}_current_amd64.deb
+	$name-$_channel.sh"
 
 build() {
 	bsdtar -xf $name-${_channel}_${version}_amd64.deb

@@ -4,11 +4,11 @@
 name=rc
 version=20190527
 release=1
-backup=(etc/rc.conf
-	etc/rc.local)
-options=(!strip)
+backup="etc/rc.conf
+	etc/rc.local"
+options="!strip"
 _commit=aba5065bb476a8334fdbeb9433e47a323db08947
-source=($name-$_commit.tar.gz::https://github.com/venomlinux/rc/archive/$_commit.tar.gz)
+source="$name-$_commit.tar.gz::https://github.com/venomlinux/rc/archive/$_commit.tar.gz"
 
 build() {
 	cd $name-$_commit

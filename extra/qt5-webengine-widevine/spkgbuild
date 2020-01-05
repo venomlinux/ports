@@ -4,8 +4,8 @@
 name=qt5-webengine-widevine
 version=66.0.3359.181
 release=1
-options=(!strip)
-source=($name-$version.deb::https://www.slimjet.com/chrome/download-chrome.php?file=lnx%2Fchrome64_${version}.deb)
+options="!strip"
+source="$name-$version.deb::https://www.slimjet.com/chrome/download-chrome.php?file=lnx%2Fchrome64_${version}.deb"
 
 build() {
 	bsdtar -xf $name-$version.deb

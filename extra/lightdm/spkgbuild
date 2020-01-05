@@ -4,15 +4,15 @@
 name=lightdm
 version=1.30.0
 release=1
-backup=(etc/lightdm/keys.conf
+backup="etc/lightdm/keys.conf
 	etc/lightdm/lightdm.conf
-	etc/lightdm/users.conf)
-source=(https://github.com/CanonicalLtd/lightdm/releases/download/$version/lightdm-$version.tar.xz
+	etc/lightdm/users.conf"
+source="https://github.com/CanonicalLtd/lightdm/releases/download/$version/lightdm-$version.tar.xz
 	Xsession
 	lightdm.rules
 	$name.pam
 	$name-autologin.pam
-	rc.lightdm)
+	rc.lightdm"
 
 build() {
 	cd $name-$version

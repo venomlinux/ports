@@ -6,7 +6,7 @@ version=3.0.37.1
 _ver=${version::6}
 _sion=${version:7:1}
 release=1
-source=($name-$version.tar.gz::https://github.com/smxi/inxi/archive/${_ver}-${_sion}.tar.gz)
+source="$name-$version.tar.gz::https://github.com/smxi/inxi/archive/${_ver}-${_sion}.tar.gz"
 
 build() {
 	cd $name-${_ver}-${_sion}

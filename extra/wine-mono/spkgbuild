@@ -4,8 +4,8 @@
 name=wine-mono
 version=4.9.0
 release=1
-options=(!strip)
-source=(http://dl.winehq.org/wine/wine-mono/$version/wine-mono-$version.msi)
+options="!strip"
+source="http://dl.winehq.org/wine/wine-mono/$version/wine-mono-$version.msi"
 
 build() {
 	install -Dm644 wine-mono-$version.msi $PKG/usr/share/wine/mono/wine-mono-$version.msi

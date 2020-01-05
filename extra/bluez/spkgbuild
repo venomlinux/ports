@@ -6,10 +6,10 @@
 name=bluez
 version=5.52
 release=1
-backup=(etc/conf.d/bluetooth)
-source=(https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
+backup="etc/conf.d/bluetooth"
+source="https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
 	bluetooth.rc
-	bluetooth.conf)
+	bluetooth.conf"
 
 build() {
 	cd $name-$version

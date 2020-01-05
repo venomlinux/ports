@@ -4,9 +4,9 @@
 name=linux
 version=4.19.66
 release=1
-options=(!strip)
-source=(https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
-	config-$version)
+options="!strip"
+source="https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
+	config-$version"
 
 build() {
 	cd linux-$version

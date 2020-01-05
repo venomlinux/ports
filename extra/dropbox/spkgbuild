@@ -6,10 +6,10 @@
 name=dropbox
 version=87.4.138
 release=1
-options=(!strip)
-source=(https://clientupdates.dropboxstatic.com/dbx-releng/client/dropbox-lnx.x86_64-$version.tar.gz
+options="!strip"
+source="https://clientupdates.dropboxstatic.com/dbx-releng/client/dropbox-lnx.x86_64-$version.tar.gz
 	dropbox.desktop
-	dropbox.png)
+	dropbox.png"
 
 build() {
 	install -d $PKG/opt

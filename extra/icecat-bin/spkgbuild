@@ -10,11 +10,11 @@ release=1
 _name=icecat
 _version=$version-gnu1
 
-source=(https://ftp.gnu.org/gnu/gnuzilla/$version/$_name-$version.en-US.linux-x86_64.tar.bz2
+source="https://ftp.gnu.org/gnu/gnuzilla/$version/$_name-$version.en-US.linux-x86_64.tar.bz2
 	$_name.desktop
 	$_name-safe.desktop
 	$_name.sh
-	$_name-launcher.sh)
+	$_name-launcher.sh"
 
 build() {
 	install -d $PKG/usr/lib/$_name

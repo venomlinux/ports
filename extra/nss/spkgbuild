@@ -6,8 +6,8 @@
 name=nss
 version=3.48
 release=1
-source=(https://archive.mozilla.org/pub/security/nss/releases/NSS_${version//./_}_RTM/src/$name-$version.tar.gz
-	nss-standalone.patch)
+source="https://archive.mozilla.org/pub/security/nss/releases/NSS_${version//./_}_RTM/src/$name-$version.tar.gz
+	nss-standalone.patch"
 
 build() {
 	cd $name-$version

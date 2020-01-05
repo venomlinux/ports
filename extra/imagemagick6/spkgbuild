@@ -7,9 +7,9 @@ name=imagemagick6
 version=6.9.10.83
 _version=${version%.*}-${version##*.}
 release=1
-options=(libtool)
-source=(https://www.imagemagick.org/download/releases/ImageMagick-$_version.tar.xz
-	ImageMagick-libs_only-1.patch)
+options="libtool"
+source="https://www.imagemagick.org/download/releases/ImageMagick-$_version.tar.xz
+	ImageMagick-libs_only-1.patch"
 
 build() {
 	cd ImageMagick-$_version

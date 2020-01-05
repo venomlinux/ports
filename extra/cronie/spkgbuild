@@ -5,8 +5,8 @@
 name=cronie
 version=1.5.5
 release=1
-source=(https://github.com/cronie-crond/cronie/releases/download/$name-$version/$name-$version.tar.gz
-	$name.{deny,pam,rc})
+source="https://github.com/cronie-crond/cronie/releases/download/$name-$version/$name-$version.tar.gz
+	$name.{deny,pam,rc}"
 
 build() {
 	cd $name-$version

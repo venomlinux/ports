@@ -5,9 +5,9 @@ name=spotify
 version=1.1.10.546.ge08ef575.19
 _version=${version%.*}-${version##*.}
 release=1
-options=(!strip)
-source=(http://repository.spotify.com/pool/non-free/s/spotify-client/spotify-client_${_version}_amd64.deb
-	spotify)
+options="!strip"
+source="http://repository.spotify.com/pool/non-free/s/spotify-client/spotify-client_${_version}_amd64.deb
+	spotify"
 
 build() {
 	bsdtar -xf spotify-client_${_version}_amd64.deb

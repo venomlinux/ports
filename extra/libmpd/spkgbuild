@@ -5,10 +5,10 @@
 name=libmpd
 version=11.8.17
 release=1
-source=(https://download.sarine.nl/Programs/gmpc/${version%.*}/$name-$version.tar.gz
+source="https://download.sarine.nl/Programs/gmpc/${version%.*}/$name-$version.tar.gz
 	0001-fix-return-value.patch
 	0002-include-config.h.patch
-	0003-fix-comparison.patch)
+	0003-fix-comparison.patch"
 
 build() {
 	cd $name-$version

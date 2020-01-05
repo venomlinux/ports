@@ -4,11 +4,11 @@
 name=ca-certificates
 version=20191213
 release=1
-options=(!checksum)
-source=(certdata.txt-$version::https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
+options="!checksum"
+source="certdata.txt-$version::https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
 	http://www.cacert.org/certs/root.crt
 	http://www.cacert.org/certs/class3.crt
-	make-ca.sh)
+	make-ca.sh"
 
 build() {	
 	install -d $PKG/{usr/sbin,etc/ssl/local}

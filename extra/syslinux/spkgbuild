@@ -4,9 +4,9 @@
 name=syslinux
 version=6.03
 release=1
-option=(!makeflags)
-source=(http://www.kernel.org/pub/linux/utils/boot/$name/$name-$version.tar.xz
-        $name-$version-sysmacros.patch)
+options="!makeflags"
+source="http://www.kernel.org/pub/linux/utils/boot/$name/$name-$version.tar.xz
+        $name-$version-sysmacros.patch"
 
 build() {
 	cd $name-$version

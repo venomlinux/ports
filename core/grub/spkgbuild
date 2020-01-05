@@ -6,10 +6,10 @@
 name=grub
 version=2.04
 release=1
-backup=(etc/default/grub)
-source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
+backup="etc/default/grub"
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	grub.default
-	detect-venom-fallback-initrd.patch)
+	detect-venom-fallback-initrd.patch"
 
 build() {
 	cd $name-$version

@@ -4,8 +4,8 @@
 name=python3-requests
 version=2.22.0
 release=1
-source=(https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-$version.tar.gz
-	certs.patch)
+source="https://files.pythonhosted.org/packages/source/${name:8:1}/${name#*-}/${name#*-}-$version.tar.gz
+	certs.patch"
 
 build() {
 	cd ${name#*-}-$version
