@@ -4,12 +4,13 @@
 # depends	: libx11 libxrandr cairo pango librsvg libxml2 glib 
 
 name=jgmenu
-version=3.5
+version=4.0
 release=1
 source="https://github.com/johanmalm/jgmenu/archive/v$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
+	./configure --prefix=/usr
 	make
-	make prefix=/usr DESTDIR=$PKG install
+	make DESTDIR=$PKG install
 }
