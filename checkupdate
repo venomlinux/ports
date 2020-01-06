@@ -148,20 +148,21 @@ check() {
 		return
 	fi
 
-	if [ ${#source[@]} = 0 ]; then
+	if [ -z "$source" ]; then
+		echo -e " $ppath: $version => ${GREEN}SKIP${CRESET}"
 		return
 	fi
 	
-	file=$(basename ${source[0]})
+	file=$(basename $(echo $source | awk '{print $1}'))
 	ext=$(echo $FILE | sed 's/.*\(\.t.*\).*/\1/')
 	filename=$(basename $file)
 	filename=${filename%-*}
 
-	if [ $(echo ${source[0]} | grep "::") ]; then
-		url=$(echo ${source[0]} | awk -F '::' '{print $2}')
+	if echo $source | awk '{print $1}' | grep -q "::"; then
+		url=$(echo $source | awk '{print $1}' | awk -F '::' '{print $2}')
 		url=$(dirname $url)/
 	else
-		url=$(dirname ${source[0]})/
+		url=$(dirname $(echo $source | awk '{print $1}'))/
 	fi
 
 	alter_per_url
