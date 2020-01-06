@@ -4,12 +4,12 @@
 name=scratchpkg
 version=20200105
 release=1
-backup="etc/scratchpkg.conf
+backup=(etc/scratchpkg.conf
 	etc/scratchpkg.repo
-	etc/revdep.conf"
+	etc/revdep.conf)
 _commit=9c41d50f45cdbb7a03a78f6640467b8bf60a428a
-source="$name-$_commit.tar.gz::https://github.com/venomlinux/scratchpkg/archive/$_commit.tar.gz
-	repo"
+source=($name-$_commit.tar.gz::https://github.com/venomlinux/scratchpkg/archive/$_commit.tar.gz
+	repo)
 
 build() {
 	cd $name-$_commit
