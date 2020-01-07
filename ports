@@ -110,14 +110,14 @@ port_update() {
 	fakeroot pkgbuild -g || revert_changes
 	fakeroot pkgbuild    || revert_changes
 	fakeroot pkgbuild -p || revert_changes
-	sudo pkgbuild -uv
+	sudo pkgbuild -u -v
 	
 	popd >/dev/null
 }
 
 port_build() {
 	local port=$1; shift
-	opt=$(extract_opt $@)
+	opt=$@
 	
 	for i in $opt; do
 		if [[ $i =~ -(i|u|r) ]]; then
@@ -179,9 +179,9 @@ port_commit() {
 		for p in $(git diff --name-only ${PORTREPO[@]} | awk -F / '{print $2}' | uniq); do
 			commit_port $p
 		done
-	elif ! git diff --name-only ${PORTREPO[@]} | awk -F / '{print $2}' | grep -qx $port; then
-		echo "Nothing to commit about '$port'"
-		exit 4
+	#elif ! git diff --name-only ${PORTREPO[@]} | awk -F / '{print $2}' | grep -qx $port; then
+	#	echo "Nothing to commit about '$port'"
+	#	exit 4
 	else
 		commit_port $port
 	fi	
@@ -216,10 +216,10 @@ commit_port() {
 		cmsg="updated to $version"
 	fi
 	
-	echo "Generate .checksums for $port..."
-	fakeroot pkgbuild -g
-	echo "Generate .pkgfiles for $port..."
-	fakeroot pkgbuild -p
+	#echo "Generate .checksums for $port..."
+	#fakeroot pkgbuild -g
+	#echo "Generate .pkgfiles for $port..."
+	#fakeroot pkgbuild -p
 	
 	git add .
 	git commit -m "$port: $cmsg"
@@ -278,17 +278,6 @@ port_status() {
 	git status | grep -v REPO | grep modified | sed 's/.*modified:/modified:/g'
 }
 
-extract_opt() {
-	for opt in $@; do
-		case $opt in
-			  --*) BOPTS+=($opt) ;;
-			   -*) for (( i=1; i<${#opt}; i++ )); do BOPTS+=(-${opt:$i:1}); done ;;
-			    *) BOPTS+=($opt) ;;
-		esac
-	done
-	echo ${BOPTS[@]}
-}
-
 port_help() {
 	cat << EOF
 Usage:
@@ -297,6 +286,7 @@ Usage:
 Options:
   update <portname> <newversion>   update ports to <newversion>
   commit <portname> <commit msg>   commit port's update changes
+  build  <portname> <opts>         build port
   diff   <portname>                show diff of ports
   repgen                           update REPO file
   push                             push all updates
