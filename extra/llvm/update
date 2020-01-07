@@ -1,7 +1,3 @@
-url=http://llvm.org/
-
 getver_llvm() {
-	fetch \
-	| grep "releases/download" \
-	| sed 's/.*\#//;s/\".*//'
+	getver_github | grep -v init
 }
