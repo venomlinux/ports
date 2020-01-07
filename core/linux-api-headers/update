@@ -1,0 +1,13 @@
+url=https://www.kernel.org
+
+getver_linux-api-headers() {
+	fetch \
+	| grep "Download complete tarball" \
+	| grep -Eo $filename[_-][0-9a-z.]+.tar.[bgx]z2? \
+	| sed "s/$filename[-_]//;s/\.tar.*//" \
+	| grep "^4" \
+	| grep -Evi '(alpha|beta|rc|pre)' \
+	| grep [[:digit:]] \
+	| sort -V \
+	| uniq
+}
