@@ -2,18 +2,13 @@
 # depends	: qt5 cmake
 
 name=grantlee
-version=5.1.0
+version=5.2.0
 release=1
-source="http://downloads.grantlee.org/$name-$version.tar.gz
-	3a5fc7662da3261be6496611900c095844e56ab1.patch"
+source="http://downloads.grantlee.org/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
 
-	# fix compile with newer Qt/cmake combination
-	# https://github.com/steveire/grantlee/pull/54/commits/3a5fc7662da3261be6496611900c095844e56ab1
-	patch -Np1 -i ../3a5fc7662da3261be6496611900c095844e56ab1.patch
-	
 	mkdir build
 	cd    build
 	
