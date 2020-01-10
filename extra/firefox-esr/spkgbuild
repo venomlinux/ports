@@ -4,7 +4,7 @@
 # depends	: gtk3 gtk2 libxt dbus-glib alsa-lib libvpx libevent nss sqlite icu unzip zip diffutils gconf python2 yasm mesa inetutils autoconf2.13
 
 name=firefox-esr
-version=68.3.0
+version=68.4.1
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/firefox-${version}esr.source.tar.xz
         firefox-install-dir.patch firefox.desktop"
@@ -49,5 +49,5 @@ EOF
 	ln -s /usr/lib/firefox/browser/chrome/icons/default/default48.png $PKG/usr/share/pixmaps/firefox_default48.png
 	install -D -m 0644 $SRC/firefox.desktop $PKG/usr/share/applications/firefox.desktop
 	# Remove crap
-	rm $PKG/usr/lib/firefox/browser/features/{firefox@getpocket.com.xpi,webcompat@mozilla.org.xpi}
+	#rm $PKG/usr/lib/firefox/browser/features/{firefox@getpocket.com.xpi,webcompat@mozilla.org.xpi}
 }
