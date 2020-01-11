@@ -20,7 +20,7 @@ build() {
 	install -d $PKG/lib
 	mv -v   $PKG/usr/lib/libfuse.so.* $PKG/lib
 	ln -sfv ../../lib/libfuse.so.2.9.9 $PKG/usr/lib/libfuse.so
-	rm -rf  $PKG/{tmp,dev}
+	rm -rf $PKG/tmp $PKG/dev
 
 	install -Dm 644 $SRC/fuse.conf $PKG/etc/fuse.conf
 }

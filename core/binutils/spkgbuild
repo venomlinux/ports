@@ -11,27 +11,23 @@ source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz"
 build() {
 	cd $name-$version
 
-	if [ "$OSTYPE" = "linux-musl" ]; then
-		buildflags="--disable-multilib --with-lib-path=/usr/lib:/lib"
-	else
-		buildflags="--enable-multilib --with-lib-path=/usr/lib:/lib:/usr/lib32"
-	fi
-
 	sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
 
 	mkdir -v build
 	cd       build
 
-	../configure --prefix=/usr       \
-	             --enable-gold       \
-		     --disable-nls       \
-	             --enable-ld=default \
-	             --enable-plugins    \
-	             --enable-shared     \
-	             --disable-werror    \
-	             --with-system-zlib  \
-		     $buildflags
+	../configure \
+		--prefix=/usr \
+		--enable-gold \
+		--disable-nls \
+		--enable-ld=default \
+		--enable-plugins \
+		--enable-shared \
+		--disable-werror \
+		--with-system-zlib \
+		--enable-multilib \
+		--with-lib-path=/usr/lib:/lib:/usr/lib32
 	make tooldir=/usr
 	make tooldir=/usr DESTDIR=$PKG install
-	rm -fr $PKG/usr/share/info
+	rm -r $PKG/usr/share/info
 }

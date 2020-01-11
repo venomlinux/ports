@@ -13,12 +13,12 @@ build() {
 
 	sed -i "/math.h/a #include <malloc.h>" src/flexdef.h
 
-	[ -d /tools ] && export HELP2MAN=/tools/bin/true
 	./configure --prefix=/usr --disable-nls
 	make
 	make DESTDIR=$PKG install
 
 	ln -sv flex $PKG/usr/bin/lex
 
-	rm -r $PKG/usr/share/{info,doc}
+	rm -r $PKG/usr/share/info \
+	      $PKG/usr/share/doc
 }

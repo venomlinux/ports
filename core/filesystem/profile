@@ -5,16 +5,13 @@
 # Set the initial path
 export PATH=/bin:/usr/bin
 
-if [ $EUID -eq 0 ] ; then
+if [ "$(id -u)" -eq 0 ] ; then
     export PATH=$PATH:/sbin:/usr/sbin
     unset HISTFILE
 fi
 
-if [ "$(id -gn)" = "$(id -un)" -a $EUID -gt 99 ] ; then
-    umask 002
-else
-    umask 022
-fi
+# Set umask
+umask 022
 
 # Setup some environment variables.
 export HISTSIZE=1000
@@ -26,7 +23,3 @@ for script in /etc/profile.d/*.sh ; do
     fi
     unset script
 done
-
-if [ -f /etc/bashrc ] ; then
-    . /etc/bashrc
-fi

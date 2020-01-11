@@ -26,7 +26,9 @@ build() {
 	make DESTDIR=$PKG install
 	make DESTDIR=$PKG install-libs
 
-	chmod -v u+w $PKG/usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
+	for i in libcom_err libe2p libext2fs libss; do
+		chmod -v u+w $PKG/usr/lib/${i}.a
+	done
 
 	rm -r $PKG/usr/share/info
 }

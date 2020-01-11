@@ -12,12 +12,6 @@ source="https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
 build() {
 	cd $name-$version
 
-	if [ "$OSTYPE" = "linux-musl" ]; then
-		buildflags="--disable-multilib --disable-libsanitizer"
-	else
-		buildflags="--enable-multilib"
-	fi
-
 	sed -e '/m64=/s/lib64/lib/' \
 	    -i.orig gcc/config/i386/t-linux64
 
@@ -35,7 +29,7 @@ build() {
 		     --disable-libmpx         \
 	             --with-system-zlib       \
 		     --disable-nls	      \
-		     $buildflags
+		     --enable-multilib
 	make
 	make -j1 DESTDIR=$PKG install
 
@@ -53,5 +47,6 @@ build() {
 	install -Dm755 $SRC/c89 $PKG/usr/bin/c89
 	install -Dm755 $SRC/c99 $PKG/usr/bin/c99
 
-	rm -fr $PKG/usr/share/{info,$name-$version}
+	rm -r $PKG/usr/share/info \
+	      $PKG/usr/share/$name-$version
 }
