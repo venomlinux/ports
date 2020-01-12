@@ -41,10 +41,10 @@ EOF
 
 ## conflicted files with ncurses package
 ## dont remove this unless theres no more conflict!
-pushd $PKG
+cd $PKG
 rm $(cat $SRC/${name}_remove_list)
-popd
+cd -
 
 install -m755 -d $PKG/usr/share/applications
-install -m644 {xterm,uxterm}.desktop $PKG/usr/share/applications
+install -m644 xterm.desktop uxterm.desktop $PKG/usr/share/applications
 }

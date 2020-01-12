@@ -12,7 +12,4 @@ build() {
 	make
 	make DESTDIR=$PKG install
 	rm -r $PKG/usr/share
-
-	# musl
-	rm -f $PKG/usr/lib/charset.alias
 }

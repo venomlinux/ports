@@ -15,5 +15,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{info,doc}
+	rm -r $PKG/usr/share/info \
+	      $PKG/usr/share/doc
 }

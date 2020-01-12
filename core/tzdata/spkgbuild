@@ -11,7 +11,8 @@ build() {
 	make DESTDIR=$PKG install
 
 	ZONEINFO=$PKG/usr/share/zoneinfo
-	mkdir -pv $ZONEINFO/{posix,right}
+	mkdir -pv $ZONEINFO/posix \
+	          $ZONEINFO/right
 
 	for tz in etcetera southamerica northamerica europe africa antarctica  \
 	          asia australasia backward pacificnew systemv; do

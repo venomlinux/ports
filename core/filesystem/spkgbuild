@@ -35,9 +35,11 @@ source="passwd
 build() {
 	#  root dirs
 	for d in dev proc sys run bin boot etc/opt home lib mnt \
-		opt sbin srv var; do
+		opt sbin srv var run; do
 		mkdir -p $PKG/$d
 	done
+	install -d -m 555 proc
+	install -d -m 555 sys
 	install -d -m 0750 $PKG/root
 	install -d -m 1777 $PKG/tmp $PKG/var/tmp
 	
