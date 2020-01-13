@@ -16,7 +16,7 @@ build() {
 	install -d $PKG/usr/bin
 	ln -s /usr/share/$name/Discord $PKG/usr/bin/$name
 
-	install -d $PKG/usr/share/{pixmaps,applications}
+	install -d $PKG/usr/share/pixmaps $PKG/usr/share/applications
 	ln -s /usr/share/$name/$name.png $PKG/usr/share/pixmaps/$name.png
 	ln -s /usr/share/$name/$name.desktop $PKG/usr/share/applications/$name.desktop	
 }
