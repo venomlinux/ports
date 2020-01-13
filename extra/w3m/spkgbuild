@@ -11,7 +11,8 @@ build() {
 	cd $name-$version
 
 	patch -Np1 -i ../fix-compile.patch
-	sed -i 's/file_handle/file_foo/' istream.{c,h}
+	sed -i 's/file_handle/file_foo/' istream.c
+	sed -i 's/file_handle/file_foo/' istream.h
 	sed -i 's#gdk-pixbuf-xlib-2.0#& x11#' configure
 	sed -i '/USE_EGD/s/define/undef/' config.h.in
 	
