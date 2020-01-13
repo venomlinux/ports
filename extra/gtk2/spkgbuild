@@ -12,13 +12,16 @@ build() {
 	cd gtk+-$version
 
 	sed -e 's#l \(gtk-.*\).sgml#& -o \1#' \
-	    -i docs/{faq,tutorial}/Makefile.in
+	    -i docs/faq/Makefile.in
+
+	sed -e 's#l \(gtk-.*\).sgml#& -o \1#' \
+	    -i docs/tutorial/Makefile.in
 
 	./configure --prefix=/usr --sysconfdir=/etc
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{locale,gtk-doc,gtk-2.0}
+	rm -r $PKG/usr/share/locale $PKG/usr/share/gtk-doc $PKG/usr/share/gtk-2.0
 
 	cat > $PKG/etc/gtk-2.0/gtkrc << "EOF"
 gtk-icon-theme-name = "Adwaita"
