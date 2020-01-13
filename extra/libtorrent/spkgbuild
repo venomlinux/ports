@@ -14,7 +14,7 @@ build() {
 
 	./autotool.sh
 
-	mkdir ../py{2,3}
+	mkdir ../py2 ../py3
 
 	cd ../py2
 
@@ -43,5 +43,5 @@ build() {
 	    --with-boost-python=boost_python3
 	make DESTDIR=$PKG install
 
-	rm $PKG/usr/bin/{*_test,*_tester,simple_client,stats_counters}
+	rm $PKG/usr/bin/*_test $PKG/usr/bin/*_tester $PKG/usr/bin/simple_client $PKG/usr/bin/stats_counters
 }
