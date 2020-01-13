@@ -25,20 +25,22 @@ build() {
 	
 	cd $PKG/opt/VirtualBox
 	tar xfj $SRC/VirtualBox.tar.bz2
-	rm -Rf $PKG/opt/VirtualBox/{sdk,src}
-	for i in VirtualBox VBox{Manage,SDL,Headless}; do
+	rm -Rf $PKG/opt/VirtualBox/sdk  $PKG/opt/VirtualBox/src
+	for i in VirtualBox VBoxManage VBoxSDl VBoxHeadless; do
 	    ln -s /opt/VirtualBox/VBox.sh $PKG/usr/bin/$i
 	done
 
 	pushd components
-	for i in VBox{DDU,REM,RT,VMM,XPCOM}.so; do
+	for i in VBoxDDU.so VBoxREM.so VBoxRT.so VBoxVMM.so VBoxXPCOM.so; do
 	    ln -s ../$i .
 	done
 	popd
 
 	ln -s /opt/VirtualBox/rdesktop-vrdp $PKG/usr/bin/rdesktop-vrdp
 	mv $PKG/opt/VirtualBox/virtualbox.desktop $PKG/usr/share/applications/virtualbox.desktop
-	chmod +s $PKG/opt/VirtualBox/{VirtualBox,VBoxSDL,VBoxHeadless}
+	for xx in VirtualBox VBoxSDL VBoxHeadless; do
+		chmod +s $PKG/opt/VirtualBox/$xx
+	done
 
 	cp $SRC/virtualbox.60-vboxdrv.rules $PKG/lib/udev/rules.d/60-vboxdrv.rules
 
@@ -55,7 +57,8 @@ build() {
 	pushd icons
 	for _dir in *; do
             cd "$_dir"
-            install -d -m0755 $PKG/usr/share/icons/hicolor/${_dir}/{apps,mimetypes}
+            install -d -m0755 $PKG/usr/share/icons/hicolor/${_dir}/apps
+            install -d -m0755 $PKG/usr/share/icons/hicolor/${_dir}/mimetypes
 	        for _icon in *; do
 	            if [ "$_icon" = 'virtualbox.png' ]; then
 	                mv $PKG/${_installdir}/icons/${_dir}/${_icon} $PKG/usr/share/icons/hicolor/${_dir}/apps/${_icon}
