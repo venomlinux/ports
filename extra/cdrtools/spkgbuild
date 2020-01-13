@@ -18,7 +18,7 @@ build() {
 
 	# remove unneeded files that may cause conflicts
 	rm -rf $PKG/usr/include
-	rm -rf $PKG/usr/lib/{*.a,profiled}
+	rm -rf $PKG/usr/lib/*.a $PKG/usr/lib/profiled
 	rm -rf $PKG/usr/share/man/man3
 
 	# create symlinks for cdrkit compatibility
