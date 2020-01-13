@@ -18,11 +18,12 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	install -d $PKG/{sbin,usr/lib}
+	install -d $PKG/sbin $PKG/usr/lib 
 	ln -sfv ../../lib/$(readlink $PKG/lib/libbtrfs.so) $PKG/usr/lib/libbtrfs.so
 	ln -sfv ../../lib/$(readlink $PKG/lib/libbtrfsutil.so) $PKG/usr/lib/libbtrfsutil.so
-	rm -v $PKG/lib/libbtrfs.{a,so} $PKG/lib/libbtrfsutil.{a,so}
-	mv -v $PKG/bin/{mkfs,fsck}.btrfs $PKG/sbin
+	rm -v $PKG/lib/libbtrfs.a $PKG/lib/libbtrfs.so $PKG/lib/libbtrfsutil.a $PKG/lib/libbtrfsutil.so
+	mv -v $PKG/bin/mkfs.btrfs $PKG/sbin
+	mv -v $PKG/bin/fsck.btrfs $PKG/sbin
 
 	# install bash completion (FS#44618)
 	install -Dm644 btrfs-completion $PKG/usr/share/bash-completion/completions/btrfs
