@@ -11,7 +11,7 @@ build() {
 	cd $name-$version
 
 	# allow building with gawk-5.0
-	sed -i 's/namespace/pkg_&/' src/Makefile.{am,in} src/mkstrtable.awk
+	sed -i 's/namespace/pkg_&/' src/Makefile.am src/Makefile.in src/mkstrtable.awk
 
   	./configure --prefix=/usr --disable-nls
 	make
