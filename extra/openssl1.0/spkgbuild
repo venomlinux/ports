@@ -24,7 +24,8 @@ build() {
 	install -vdm755                   $PKG/usr/lib/openssl-1.0
 	cp -Rv Dest/usr/lib/openssl-1.0/* $PKG/usr/lib/openssl-1.0
 	
-	mv -v  $PKG/usr/lib/openssl-1.0/lib{crypto,ssl}.so.1.0.0 $PKG/usr/lib
+	mv -v  $PKG/usr/lib/openssl-1.0/libcrypto.so.1.0.0 $PKG/usr/lib
+	mv -v  $PKG/usr/lib/openssl-1.0/libssl.so.1.0.0 $PKG/usr/lib
 	ln -sv ../libssl.so.1.0.0         $PKG/usr/lib/openssl-1.0
 	ln -sv ../libcrypto.so.1.0.0      $PKG/usr/lib/openssl-1.0
 	
