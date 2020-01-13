@@ -14,7 +14,8 @@ build() {
 	            --with-socket-dir=/run/screen     \
 	            --with-pty-group=5                \
 	            --with-sys-screenrc=/etc/screenrc
-	sed -i -e "s%/usr/local/etc/screenrc%/etc/screenrc%" {etc,doc}/*
+	sed -i -e "s%/usr/local/etc/screenrc%/etc/screenrc%" etc/*
+	sed -i -e "s%/usr/local/etc/screenrc%/etc/screenrc%" doc/*
 	make
 	make DESTDIR=$PKG install
 
