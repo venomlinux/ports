@@ -4,7 +4,7 @@
 name=wine
 version=4.21
 release=1
-source="https://dl.winehq.org/wine/source/${version::1}.x/$name-$version.tar.xz"
+source="https://dl.winehq.org/wine/source/${version%%.*}.x/$name-$version.tar.xz"
 
 ### NOTE ###
 #
@@ -48,10 +48,10 @@ build() {
 	cd $name-$version
 
 	# https://bugs.winehq.org/show_bug.cgi?id=43530
-	export CFLAGS="${CFLAGS/-fno-plt/}"
-	export LDFLAGS="${LDFLAGS/,-z,now/}"
+	#export CFLAGS="${CFLAGS/-fno-plt/}"
+	#export LDFLAGS="${LDFLAGS/,-z,now/}"
 
-	export CPPFLAGS="${CPPFLAGS/-D_FORTIFY_SOURCE=2/} -D_FORTIFY_SOURCE=0"
+	#export CPPFLAGS="${CPPFLAGS/-D_FORTIFY_SOURCE=2/} -D_FORTIFY_SOURCE=0"
 
 	mkdir build64 build32
 	cd build64

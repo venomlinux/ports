@@ -21,9 +21,9 @@ build() {
 	make || make -j1
 	make -j1 DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{doc,info}
+	rm -r $PKG/usr/share/doc \
+	      $PKG/usr/share/info
 
-	# musl system does not have this library
-	chmod -v 0755 $PKG/usr/lib/preloadable_libintl.so || true
+	chmod -v 0755 $PKG/usr/lib/preloadable_libintl.so
 }
 

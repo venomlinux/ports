@@ -10,8 +10,10 @@ source="certdata.txt-$version::https://hg.mozilla.org/releases/mozilla-release/r
 	http://www.cacert.org/certs/class3.crt
 	make-ca.sh"
 
-build() {	
-	install -d $PKG/{usr/sbin,etc/ssl/local}
+build() {
+	install -d $PKG/usr/sbin \
+	           $PKG/etc/ssl/local
+
 	cp certdata.txt-$version $PKG/etc/ssl/certdata.txt
 	openssl x509 -in root.crt -text -fingerprint -setalias "CAcert Class 1 root" \
 	        -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \

@@ -27,16 +27,19 @@ build() {
 	FORCE_UNSAFE_CONFIGURE=1 make
 	make DESTDIR=$PKG install
 
-	mkdir -pv $PKG/{bin,usr/sbin}
-	mv -v $PKG/usr/bin/{cat,chgrp,chmod,chown,cp,date,dd,df,echo} $PKG/bin
-	mv -v $PKG/usr/bin/{false,ln,ls,mkdir,mknod,mv,pwd,rm} $PKG/bin
-	mv -v $PKG/usr/bin/{rmdir,stty,sync,true,uname} $PKG/bin
+	mkdir -pv $PKG/bin \
+	          $PKG/usr/sbin
+
+	for i in cat chgrp chmod chown cp date dd df echo \
+		false ln ls mkdir mknod mv pwd rm rmdir \
+		stty sync true uname head sleep nice; do
+		mv -v $PKG/usr/bin/$i $PKG/bin
+	done
+
 	mv -v $PKG/usr/bin/chroot $PKG/usr/sbin
 	mkdir -pv $PKG/usr/share/man/man8
 	mv -v $PKG/usr/share/man/man1/chroot.1 $PKG/usr/share/man/man8/chroot.8
 	sed -i s/\"1\"/\"8\"/1 $PKG/usr/share/man/man8/chroot.8
 
-	mv -v $PKG/usr/bin/{head,sleep,nice} $PKG/bin
-
-	rm -r $PKG/usr/share/info/
+	rm -r $PKG/usr/share/info
 }

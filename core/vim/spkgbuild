@@ -5,7 +5,7 @@
 
 name=vim
 version=8.2.0051
-release=1
+release=2
 source="https://github.com/vim/vim/archive/v$version/vim-v$version.tar.gz"
 
 build() {
@@ -13,7 +13,12 @@ build() {
 
 	echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 
-	./configure --prefix=/usr --enable-multibyte --disable-gui
+	./configure \
+		--prefix=/usr \
+		--enable-multibyte \
+		--disable-gui \
+		--with-tlib=ncursesw \
+		--without-x
 	make
 	make DESTDIR=$PKG install
 
@@ -22,9 +27,8 @@ build() {
 	mv $SRC/man1 $PKG/usr/share/man/man1
 
 	# no desktop files and icons
-	rm -r $PKG/usr/share/{applications,icons}
-
-	ln -sv vim $PKG/usr/bin/vi
+	rm -r $PKG/usr/share/applications \
+	      $PKG/usr/share/icons
 
 	mkdir -pv $PKG/etc
 cat > $PKG/etc/vimrc << "EOF"
@@ -44,4 +48,8 @@ endif
 
 " End /etc/vimrc
 EOF
+
+	# remove conflict with vi
+	rm -f $PKG/usr/bin/view \
+	      $PKG/usr/bin/ex
 }

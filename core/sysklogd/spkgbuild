@@ -6,20 +6,17 @@ name=sysklogd
 version=1.5.1
 release=2
 source="http://www.infodrom.org/projects/$name/download/$name-$version.tar.gz
-	$name.rc
-	fix-includes.patch"
+	$name.rc"
 
 build() {
 	cd $name-$version
 
-	if [ "$OSTYPE" = "linux-musl" ]; then
-		patch -Np1 -i ../fix-includes.patch
-	fi
-
 	sed -i '/Error loading kernel symbols/{n;n;d}' ksym_mod.c
 	sed -i 's/union wait/int/' syslogd.c
 
-	mkdir -p $PKG/{sbin,etc,usr/share/man/man{5,8}}
+	mkdir -p $PKG/usr/share/man/man8 \
+	         $PKG/usr/share/man/man5 \
+	         $PKG/sbin $PKG/etc
 
 	make
 	make BINDIR=$PKG/sbin MANDIR=$PKG/usr/share/man install

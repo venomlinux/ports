@@ -21,5 +21,9 @@ build() {
 	make DESTDIR=$PKG install
 
 	mkdir -p $PKG/bin
-	mv -v $PKG/usr/bin/{dumpkeys,kbd_mode,loadkeys,setfont} $PKG/bin
+	mv -v $PKG/usr/bin/dumpkeys \
+	      $PKG/usr/bin/kbd_mode \
+	      $PKG/usr/bin/loadkeys \
+	      $PKG/usr/bin/setfont \
+	      $PKG/bin
 }
