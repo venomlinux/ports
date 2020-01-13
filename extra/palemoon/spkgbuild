@@ -20,7 +20,8 @@ build() {
 	./mach build
 	./mach package
 
-	install -d $PKG/usr/{bin,lib}
+	install -d $PKG/usr/bin
+	install -d $PKG/usr/lib
 	cp -r $SRC/pmbuild/dist/$name/ $PKG/usr/lib/$name
 	ln -s ../lib/$name/$name $PKG/usr/bin/$name
 
