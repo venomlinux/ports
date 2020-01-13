@@ -11,7 +11,7 @@ source="http://xmlsoft.org/sources/$name-$version.tar.gz"
 build() {
 	cd $name-$version
 
-	sed -i s/3000/5000/ libxslt/transform.c doc/xsltproc.{1,xml}
+	sed -i s/3000/5000/ libxslt/transform.c doc/xsltproc.1 doc/xsltproc.xml
 	
 	./configure --prefix=/usr --disable-static
 	make
