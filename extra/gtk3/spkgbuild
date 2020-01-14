@@ -5,7 +5,7 @@
 name=gtk3
 version=3.24.13
 release=1
-source="https://ftp.gnome.org/pub/gnome/sources/gtk+/${version::4}/gtk+-$version.tar.xz"
+source="https://ftp.gnome.org/pub/gnome/sources/gtk+/${version%.*}/gtk+-$version.tar.xz"
 
 build() {
 	cd gtk+-$version
@@ -19,7 +19,9 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{locale,gtk-doc,gtk-3.0}
+	rm -r $PKG/usr/share/locale \
+	      $PKG/usr/share/gtk-doc \
+	      $PKG/usr/share/locale
 
 	rm $PKG/usr/bin/gtk-update-icon-cache
 

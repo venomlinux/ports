@@ -19,9 +19,9 @@ build() {
 	install -m644 ttf/*.ttf $PKG/usr/share/fonts/X11/TTF/
 	install -m644 fontconfig/*.conf $PKG/etc/fonts/conf.avail/
 
-	pushd $PKG/etc/fonts/conf.avail
+	cd $PKG/etc/fonts/conf.avail
 	for config in *; do
 	  ln -sf ../conf.avail/${config} ../conf.d/${config}
 	done
-	popd
+	cd -
 }

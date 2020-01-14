@@ -26,5 +26,6 @@ build() {
 	..
 	make
 	make DESTDIR=$PKG install
-	rm $PKG/usr/share/fortune/{,off/}*.u8
+	rm $PKG/usr/share/fortune/*.u8 \
+	   $PKG/usr/share/fortune/off/*.u8
 }

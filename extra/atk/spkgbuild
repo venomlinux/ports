@@ -4,7 +4,7 @@
 name=atk
 version=2.34.1
 release=1
-source="https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz"
+source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
@@ -15,5 +15,5 @@ build() {
 	meson --prefix=/usr --libdir=/usr/lib
 	ninja
 	DESTDIR=$PKG ninja install
-	rm -fr $PKG/usr/share/locale
+	rm -r $PKG/usr/share/locale
 }

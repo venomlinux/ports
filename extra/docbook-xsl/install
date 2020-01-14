@@ -5,7 +5,7 @@ newversion=$2
 oldversion=$3
 
 post_install() {	
-	local version=$1
+	version=$1
 
 	if [ ! -f /etc/xml/catalog ]; then
 		xmlcatalog --noout --create /etc/xml/catalog
@@ -30,11 +30,14 @@ post_install() {
 			   "http://docbook.sourceforge.net/release/xsl/current" \
 			   "/usr/share/xml/docbook/xsl-stylesheets-$version" \
 		/etc/xml/catalog
+
+	unset version
 }
 
 post_remove() {	
-	local version=$1
+	version=$1
 	xmlcatalog --noout --del "/usr/share/xml/docbook/xsl-stylesheets-$version" /etc/xml/catalog
+	unset version
 }
 
 case $action in

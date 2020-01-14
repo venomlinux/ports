@@ -20,23 +20,23 @@ source="https://www.docbook.org/xml/4.5/docbook-xml-4.5.zip
 build() {
 	for ver in 4.5 4.4 4.3 4.2; do
 		mkdir docbook-xml-$ver
-		pushd docbook-xml-$ver
+		cd docbook-xml-$ver
 		bsdtar -xf $SRC/docbook-xml-$ver.zip
 		install -v -d -m755 $PKG/usr/share/xml/docbook/xml-dtd-$ver
 		chown -R root:root .
 		cp -v -af docbook.cat *.dtd ent/ *.mod \
 			$PKG/usr/share/xml/docbook/xml-dtd-$ver/
-		popd
+		cd -
 	done
 
 	mkdir docbook-xml-4.1.2
-	pushd docbook-xml-4.1.2
+	cd docbook-xml-4.1.2
 	bsdtar -xf $SRC/docbkx412.zip
 	install -v -d -m755 $PKG/usr/share/xml/docbook/xml-dtd-4.1.2
 	chown -R root:root .
 	cp -v -af docbook.cat *.dtd ent/ *.mod \
 		$PKG/usr/share/xml/docbook/xml-dtd-4.1.2/
-	popd
+	cd -
 
 	install -v -d -m755 $PKG/etc/xml
 	xmlcatalog --noout --create $PKG/etc/xml/docbook

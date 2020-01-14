@@ -21,6 +21,9 @@ build() {
 	
 	rm -r $PKG/usr/share/doc
 	rm -r $PKG/usr/share/locale
-	rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,fr,de,sr,it,es,pt,gl,sv}
+
+	for i in ca uk nl pt_BR fr de sr it es pt gl sv; do
+		rm -r $PKG/usr/share/man/$i
+	done
 }
 

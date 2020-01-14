@@ -13,7 +13,10 @@ source="https://www.nico.schottelius.org/software/gpm/archives/$name-$version.ta
 build() {
 	cd $name-$version
 
-	sed -i -e 's:<gpm.h>:"headers/gpm.h":' src/prog/{display-buttons,display-coords,get-versions}.c
+	for i in display-buttons display-coords get-versions; do
+		sed -i -e 's:<gpm.h>:"headers/gpm.h":' src/prog/$i.c
+	done
+
 	patch -Np1 -i ../$name-$version-glibc_2.26-1.patch
 
 	./autogen.sh

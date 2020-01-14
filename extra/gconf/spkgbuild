@@ -6,7 +6,7 @@
 name=gconf
 version=3.2.6
 release=2
-source="https://ftp.gnome.org/pub/gnome/sources/GConf/${version::3}/GConf-$version.tar.xz"
+source="https://ftp.gnome.org/pub/gnome/sources/GConf/${version.*}/GConf-$version.tar.xz"
 
 build() {
 	cd GConf-$version
@@ -18,7 +18,9 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{locale,gtk-doc}
+	rm -r $PKG/usr/share/locale \
+	      $PKG/usr/share/gtk-doc
 
-	ln -s gconf.xml.defaults $PKG/etc/gconf/gconf.xml.system
+	ln -s gconf.xml.defaults \
+	      $PKG/etc/gconf/gconf.xml.system
 }

@@ -3,11 +3,13 @@
 
 name=appstream-glib
 version=0.7.16
+_version=$(echo $version | sed 's/\./_/g')
 release=1
-source="https://github.com/hughsie/appstream-glib/archive/appstream_glib_${version//./_}.tar.gz"
+source="https://github.com/hughsie/appstream-glib/archive/appstream_glib_${_version}.tar.gz"
 
 build() {
-	cd appstream-glib-appstream_glib_${version//./_}
+	cd appstream-glib-appstream_glib_${_version}
+
 	meson \
 	  --prefix=/usr \
 	  --sysconfdir=/etc \

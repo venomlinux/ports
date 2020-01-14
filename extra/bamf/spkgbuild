@@ -4,7 +4,7 @@
 name=bamf
 version=0.5.4
 release=3
-source="https://launchpad.net/bamf/${version::3}/$version/+download/$name-$version.tar.gz"
+source="https://launchpad.net/bamf/${version%.*}/$version/+download/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version

@@ -6,7 +6,7 @@
 name=gtk2
 version=2.24.32
 release=5
-source="https://ftp.gnome.org/pub/gnome/sources/gtk+/${version::4}/gtk+-$version.tar.xz"
+source="https://ftp.gnome.org/pub/gnome/sources/gtk+/${version%.*}/gtk+-$version.tar.xz"
 
 build() {
 	cd gtk+-$version
@@ -21,7 +21,9 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/locale $PKG/usr/share/gtk-doc $PKG/usr/share/gtk-2.0
+	rm -r $PKG/usr/share/locale \
+	      $PKG/usr/share/gtk-doc \
+	      $PKG/usr/share/gtk-2.0
 
 	cat > $PKG/etc/gtk-2.0/gtkrc << "EOF"
 gtk-icon-theme-name = "Adwaita"
