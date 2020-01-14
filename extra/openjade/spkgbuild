@@ -36,6 +36,8 @@ build() {
 
 	install -v -m644 dsssl/catalog $PKG/usr/share/sgml/$name-$version/
 
-	install -v -m644 dsssl/*.{dtd,dsl,sgm}              \
-	    $PKG/usr/share/sgml/$name-$version
+	for xx in dtd dsl sgm; do
+		install -v -m644 dsssl/*.$xx             \
+			$PKG/usr/share/sgml/$name-$version
+	done
 }

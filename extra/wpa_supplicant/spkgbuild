@@ -50,13 +50,18 @@ EOF
 	cd $name
 	make BINDIR=/sbin LIBDIR=/lib
 
-	install -d $PKG/{sbin,usr/share/man/man{5,8}}
+	for xx in sbin usr/share/man/man5 usr/share/man/man8; do
+		install -d $PKG/$xx
+	done
 
-	install -m755 wpa_{cli,passphrase,supplicant} $PKG/sbin/
+	for xx in cli passphrase supplicant; do
+		install -m755 wpa_$xx $PKG/sbin/
+		install -m644 doc/docbook/wpa_$xx.8 $PKG/usr/share/man/man8/
+	done
 	install -m644 doc/docbook/wpa_supplicant.conf.5 $PKG/usr/share/man/man5/
-	install -m644 doc/docbook/wpa_{cli,passphrase,supplicant}.8 $PKG/usr/share/man/man8/
 	
-	install -d $PKG/{etc/dbus-1/system.d/,usr/share/dbus-1/system-services/}
+	install -d $PKG/etc/dbus-1/system.d/
+	install -d $PKG/usr/share/dbus-1/system-services/
 	install -m644 dbus/fi.w1.wpa_supplicant1.service $PKG/usr/share/dbus-1/system-services/fi.w1.wpa_supplicant1.service
 	install -m644 dbus/dbus-wpa_supplicant.conf $PKG/etc/dbus-1/system.d/wpa_supplicant.conf
 

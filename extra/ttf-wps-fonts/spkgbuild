@@ -10,5 +10,6 @@ source="$name-$_commit.tar.gz::https://github.com/iamdh4/ttf-wps-fonts/archive/$
 build() {
 	cd $name-$_commit
 	install -d $PKG/usr/share/fonts/X11/TTF
-	install -m644 *.{ttf,TTF} $PKG/usr/share/fonts/X11/TTF
+	install -m644 *.ttf $PKG/usr/share/fonts/X11/TTF
+	install -m644 *.TTF $PKG/usr/share/fonts/X11/TTF
 }

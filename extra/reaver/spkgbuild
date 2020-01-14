@@ -17,7 +17,8 @@ build() {
 	./configure --prefix=/usr --sysconfdir=/etc
 	make CONFDIR=/etc/reaver
 
-	install -Dm 755 {reaver,wash} -t $PKG/usr/bin
+	install -Dm 755 reaver -t $PKG/usr/bin
+	install -Dm 755 wash -t $PKG/usr/bin
 	install -dm 755 $PKG/etc/reaver
 	install -Dm 644 ../docs/reaver.1 -t $PKG/usr/share/man/man1
 }

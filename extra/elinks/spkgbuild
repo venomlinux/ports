@@ -19,7 +19,9 @@ build() {
                 --enable-html-highlight \
                 --disable-nls \
                 --with-zlib \
-                --without-{x,bzlib,lua}
+                --without-x
+                --without-bzlib
+                --without-lua
 	make CFLAGS="$CFLAGS -Wno-all"
 	make DESTDIR=$PKG install
 }

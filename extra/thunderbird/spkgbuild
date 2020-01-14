@@ -53,7 +53,7 @@ EOF
         SHELL=/bin/sh ./mach build
         SHELL=/bin/sh DESTDIR=$PKG ./mach install
 
-	mkdir -pv $PKG/usr/share/{applications,pixmaps}
+	mkdir -pv $PKG/usr/share/applications  $PKG/usr/share/pixmaps
 
 cat > $PKG/usr/share/applications/thunderbird.desktop << "EOF"
 [Desktop Entry]

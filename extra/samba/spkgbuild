@@ -23,13 +23,16 @@ build() {
 	    --enable-fhs \
 	    --without-systemd \
 	    --enable-selftest \
-	    --without-{ad-dc,ads,ldap} \
+	    --without-ad-dc \
+	    --without-ads \
+	    --without-ldap \
             --without-json
 	make
 	make DESTDIR=$PKG install
 
 	install -d $PKG/lib
-	mv -v $PKG/usr/lib/libnss_win{s,bind}.so*   $PKG/lib
+	mv -v $PKG/usr/lib/libnss_wins.so*   $PKG/lib
+	mv -v $PKG/usr/lib/libnss_winbind.so*   $PKG/lib
 	ln -v -sf ../../lib/libnss_winbind.so.2 $PKG/usr/lib/libnss_winbind.so
 	ln -v -sf ../../lib/libnss_wins.so.2    $PKG/usr/lib/libnss_wins.so
 

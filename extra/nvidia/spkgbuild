@@ -12,7 +12,8 @@ build() {
 	cd NVIDIA-Linux-x86_64-$version
 
 	# X driver and GLX extension
-	install -d $PKG/usr/lib/xorg/modules/{drivers,extensions}
+	install -d $PKG/usr/lib/xorg/modules/drivers
+	install -d $PKG/usr/lib/xorg/modules/extensions
 	install -m 0755 nvidia_drv.so $PKG/usr/lib/xorg/modules/drivers/
 	install -d -m 0755 $PKG/usr/lib/nvidia/xorg
 	install -m 0755 libglxserver_nvidia.so.$version $PKG/usr/lib/nvidia/xorg/
@@ -89,12 +90,16 @@ build() {
 
 	# applications
 	install -m 4755 nvidia-modprobe $PKG/usr/bin/
-	install -m 0755 nvidia-{xconfig,settings,smi,debugdump,persistenced} \
-		$PKG/usr/bin/
+	for xx in xconfig settings smi debugdump persistenced; do
+		install -m 0755 nvidia-$xx \
+			$PKG/usr/bin/
+	done
 
 	# nvidia-settings UI libraries
-	install -m 0755 libnvidia-gtk{2,3}.so.$version $PKG/usr/lib/
-
+	for xx in 2 3; do
+		install -m 0755 libnvidia-gtk$xx.so.$version $PKG/usr/lib/
+	done
+	
 	# encoding/decoding libraries
 	install -m 0755 libnvcuvid.so.$version $PKG/usr/lib/
 	install -m 0755 libnvidia-encode.so.$version $PKG/usr/lib/
@@ -116,7 +121,8 @@ build() {
 	install -m 0644 nvidia-application-profiles-$version-key-documentation $PKG/usr/share/nvidia/
 
 	# desktop file and icon
-	install -d $PKG/usr/share/{applications,pixmaps}
+	install -d $PKG/usr/share/applications
+	install -d $PKG/usr/share/pixmaps
 	sed -i -e 's,__UTILS_PATH__,/usr/bin,' -e 's,__PIXMAP_PATH__,/usr/share/pixmaps,' nvidia-settings.desktop
 	install -m 0644 nvidia-settings.desktop $PKG/usr/share/applications/
 	install -m 0644 nvidia-settings.png $PKG/usr/share/pixmaps/

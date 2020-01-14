@@ -13,9 +13,16 @@ build() {
 	make -C src
 	make -C src ROOT=$PKG install
 
-	rm $PKG/usr/bin/{last,lastb,readbootlog,mesg,utmpdump,wall}
+	for xx in last lastb readbootlog mesg utmpdump wall; do
+		rm $PKG/usr/bin/$xx
+	done
 	rm $PKG/bin/pidof
-	rm $PKG/sbin/{sulogin,logsave}
-	rm $PKG/usr/share/man/man1/{last,lastb,readbootlog,mesg,utmpdump,wall}.1
-	rm $PKG/usr/share/man/man8/{pidof,logsave,sulogin}.8
+	rm $PKG/sbin/sulogin
+	rm $PKG/sbin/logsave
+	for xx in last lastb readbootlog mesg utmpdump wall; do
+		rm $PKG/usr/share/man/man1/$xx.1
+	done
+	for xx in pidof logsave sulogin; do
+		rm $PKG/usr/share/man/man8/$xx.8
+	done
 }

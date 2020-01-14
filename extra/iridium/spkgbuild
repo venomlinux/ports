@@ -16,5 +16,5 @@ build() {
 	mv $PKG/usr/lib64 $PKG/usr/lib
 	sed -i 's,lib64,lib,g' $PKG/usr/bin/iridium-browser
 	sed -i 's,usr/bin/sh,bin/sh,' $PKG/usr/bin/iridium-browser
-	rm -r $PKG/usr/share/{doc,licenses}
+	rm -r $PKG/usr/share/doc $PKG/usr/share/licenses
 }

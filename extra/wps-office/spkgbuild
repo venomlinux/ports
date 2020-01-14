@@ -10,7 +10,9 @@ build() {
 	bsdtar -xf ${name}_${version}_amd64.deb
 	bsdtar -xf data.tar.xz -C $PKG
 
-	sed -i 's|/opt/kingsoft/wps-office|/usr/lib|' $PKG/usr/bin/{wps,wpp,et}
+	for xx in wps wpp et; do
+		sed -i 's|/opt/kingsoft/wps-office|/usr/lib|' $PKG/usr/bin/$xx
+	done
 	rm -fr $PKG/opt/kingsoft/wps-office/office6/mui/zh_CN
 	rm -fr $PKG/opt/kingsoft/wps-office/templates
 
