@@ -4,16 +4,12 @@
 # depends	: attr linux-api-headers
 
 name=libcap
-version=2.30
+version=2.31
 release=1
-source="https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/$name-$version.tar.xz
-	pkgconfig.patch"
+source="https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
-	# split pkgconfig file, taken from void
-	patch -Np0 -i $SRC/pkgconfig.patch
 
 	# use our buildflags
 	sed -i "s/CFLAGS :=/CFLAGS += \$(CPPFLAGS) /" Make.Rules
