@@ -3,17 +3,19 @@
 
 name=scratchpkg
 version=0.1
-release=1
+release=2
 options="!checksum"
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.repo
 	etc/revdep.conf"
 _commit=9c41d50f45cdbb7a03a78f6640467b8bf60a428a
 source="https://github.com/venomlinux/scratchpkg/archive/0.1/$name-$version.tar.gz
+	3b7a73c0d813c18cd21e13ab2e2d8876c1b6d62d.patch
 	repo"
 
 build() {
 	cd $name-$version
+	patch -Np1 -i $SRC/3b7a73c0d813c18cd21e13ab2e2d8876c1b6d62d.patch
 	DESTDIR=$PKG ./INSTALL.sh
 	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
 }
