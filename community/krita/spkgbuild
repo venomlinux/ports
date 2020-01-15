@@ -15,8 +15,9 @@ build() {
 	cd build
 	cmake \
 		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DBUILD_TESTING=OFF \
 	..
 	make
 	make DESTDIR=$PKG install
-	rm -rf $PKG/usr/share/color/icc/krita/README $PKG/usr/share/krita/bundles/README $PKG/usr/share/locale/
+	rm -rf $PKG/usr/share/color/icc/krita/README $PKG/usr/share/krita/bundles/README $PKG/usr/share/locale/ $PKG/usr/share/doc
 }
