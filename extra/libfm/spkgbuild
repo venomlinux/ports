@@ -17,7 +17,9 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm $PKG/usr/include/libfm-1.0/fm-{version.h,extra.h,xml-file.h}
+	rm $PKG/usr/include/libfm-1.0/fm-version.h \
+	   $PKG/usr/include/libfm-1.0/fm-extra.h \
+	   $PKG/usr/include/libfm-1.0/fm-xml-file.h
 	rm $PKG/usr/include/libfm
 	rm $PKG/usr/lib/libfm-extra.*
 	rm $PKG/usr/lib/pkgconfig/libfm-extra.pc

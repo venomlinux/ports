@@ -5,8 +5,9 @@
 
 name=nss
 version=3.49
+_version=$(echo $version | sed 's/\./_/')
 release=1
-source="https://archive.mozilla.org/pub/security/nss/releases/NSS_${version//./_}_RTM/src/$name-$version.tar.gz
+source="https://archive.mozilla.org/pub/security/nss/releases/NSS_${_version}_RTM/src/$name-$version.tar.gz
 	nss-standalone.patch"
 
 build() {
@@ -22,7 +23,7 @@ build() {
 	ZLIB_LIBS=-lz                       \
 	NSS_ENABLE_WERROR=0                 \
 	USE_64=1			    \
-	$([ -f /usr/include/sqlite3.h ] && echo NSS_USE_SYSTEM_SQLITE=1)
+	NSS_USE_SYSTEM_SQLITE=1
 
 	cd ../dist
 
@@ -33,8 +34,8 @@ build() {
 	done
 
 	install -v -m755 -d                           $PKG/usr/include/nss
-	cp -v -RL public/nss/*			              $PKG/usr/include/nss
-	cp -v -RL private/nss/*			              $PKG/usr/include/nss
+	cp -v -RL public/nss/*			      $PKG/usr/include/nss
+	cp -v -RL private/nss/*			      $PKG/usr/include/nss
 	chmod -v 644                                  $PKG/usr/include/nss/*
 
 	install -d $PKG/usr/bin

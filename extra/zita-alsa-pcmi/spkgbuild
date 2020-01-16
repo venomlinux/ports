@@ -27,8 +27,8 @@ build() {
 	ln -sv lib$name.so.$version lib$name.so
 
 	cd ../apps
-	CXXFLAGS+=" -I../source" \
-	LDFLAGS+=" -L../source" \
+	CXXFLAGS="$CXXFLAGS -I../source" \
+	LDFLAGS="$LDFLAGS -L../source" \
 	make
 
 	rm -v ../source/lib$name.so

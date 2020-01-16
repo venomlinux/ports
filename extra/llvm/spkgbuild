@@ -33,11 +33,14 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 
-	mv $PKG/usr/include/llvm/Config/llvm-config{,-64}.h
+	mv $PKG/usr/include/llvm/Config/llvm-config.h \
+	   $PKG/usr/include/llvm/Config/llvm-config-64.h
 	cp $SRC/llvm-config.h $PKG/usr/include/llvm/Config/llvm-config.h
 
 	mkdir -p $PKG/usr/lib/llvm
-	mv $PKG/usr/libexec/{c++-analyzer,ccc-analyzer} $PKG/usr/lib/llvm
+	mv $PKG/usr/libexec/c++-analyzer \
+	   $PKG/usr/libexec/ccc-analyzer \
+	   $PKG/usr/lib/llvm
 	rmdir $PKG/usr/libexec
 	sed -i 's|libexec|lib/llvm|' $PKG/usr/bin/scan-build
 }

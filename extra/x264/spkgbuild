@@ -5,11 +5,12 @@
 
 name=x264
 version=20191217.2245
+_version=$(echo $version | tr '.' '-')
 release=1
-source="http://download.videolan.org/pub/videolan/$name/snapshots/$name-snapshot-${version/./-}-stable.tar.bz2"
+source="http://download.videolan.org/pub/videolan/$name/snapshots/$name-snapshot-${_version}-stable.tar.bz2"
 
 build() {
-	cd $name-snapshot-${version/./-}-stable
+	cd $name-snapshot-${_version}-stable
 
 	./configure --prefix=/usr \
 	            --enable-shared \

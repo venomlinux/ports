@@ -5,7 +5,7 @@ newversion=$2
 oldversion=$3
 
 post_install() {
-	local version=$1
+	version=$1
 	/usr/bin/install-catalog --add \
                       /etc/sgml/openjade-$version.cat \
                       /usr/share/sgml/openjade-$version/catalog > /dev/null 2>&1
@@ -16,7 +16,7 @@ post_install() {
 }
 
 post_remove() {
-	local version=$1
+	version=$1
 	/usr/bin/install-catalog --remove \
                       /etc/sgml/openjade-$version.cat \
                       /usr/share/sgml/openjade-$version/catalog > /dev/null 2>&1

@@ -35,7 +35,6 @@ build() {
 	install -Dm644 "$SRC/$name.desktop" "$PKG/usr/share/applications/telegramdesktop.desktop"
 
 	# Icons
-	local icon_size icon_dir
 	for icon_size in 16 32 48 64 128 256 512; do
 		icon_dir="$PKG/usr/share/icons/hicolor/${icon_size}x${icon_size}/apps"
 		install -d "$icon_dir"

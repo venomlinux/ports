@@ -7,7 +7,7 @@ name=nano
 version=4.7
 release=1
 backup="etc/nanorc"
-source="https://www.nano-editor.org/dist/v${version::1}/$name-$version.tar.xz"
+source="https://www.nano-editor.org/dist/v${version%%.*}/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version

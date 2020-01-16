@@ -14,7 +14,7 @@ build() {
 		    --mandir=/usr/share/man \
 		    --enable-shared \
 		    --disable-static \
-		    CFLAGS="-g -O2 $([ $(uname -m) = x86_64 ] && echo -fPIC)"
+		    CFLAGS="-g -O2 -fPIC"
 	make
 	make DESTDIR=$PKG install
 

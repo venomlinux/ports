@@ -11,7 +11,8 @@ build() {
 
 	sed -i 's|/games/|/|' CMakeLists.txt
 	sed -i 's|"games"|"bin"|' CMakeLists.txt
-	sed -i 's|/games/fortunes|/fortune|' datfiles/{,off/}CMakeLists.txt
+	sed -i 's|/games/fortunes|/fortune|' datfiles/CMakeLists.txt
+	sed -i 's|/games/fortunes|/fortune|' datfiles/off/CMakeLists.txt
 
 	mkdir build
 	cd build

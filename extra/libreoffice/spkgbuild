@@ -10,5 +10,7 @@ build() {
 	for rpm in $SRC/LibreOffice_${version}*/RPMS/*; do
 		bsdtar -xf $rpm -p -o -C $PKG
 	done
-	rm $PKG/opt/libreoffice*/{CREDITS*,LICENSE*,NOTICE}
+	rm $PKG/opt/libreoffice*/CREDITS* \
+	   $PKG/opt/libreoffice*/LICENSE* \
+	   $PKG/opt/libreoffice*/NOTICE
 }

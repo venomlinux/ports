@@ -5,15 +5,10 @@
 name=libdrm
 version=2.4.100
 release=1
-source="https://dri.freedesktop.org/$name/$name-$version.tar.bz2
-	ioctl.patch"
+source="https://dri.freedesktop.org/$name/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
-
-	if [ "$OSTYPE" = "linux-musl" ]; then
-		patch -Np1 -i $SRC/ioctl.patch
-	fi
 
 	mkdir build
 	cd build

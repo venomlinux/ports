@@ -6,7 +6,7 @@
 name=vte2
 version=0.28.2
 release=1
-source="https://ftp.gnome.org/pub/gnome/sources/vte/${version::4}/vte-$version.tar.xz"
+source="https://ftp.gnome.org/pub/gnome/sources/vte/${version%.*}/vte-$version.tar.xz"
 
 build() {
 	cd vte-$version
@@ -17,5 +17,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{locale,gtk-doc}
+	rm -r $PKG/usr/share/locale \
+	      $PKG/usr/share/gtk-doc
 }

@@ -9,18 +9,18 @@ release=1
 source="http://archive.be.xfce.org/src/panel-plugins/xfce4-whiskermenu-plugin/${version%.*}/xfce4-whiskermenu-plugin-$version.tar.bz2"
 
 build() {
-	mkdir -p build
-	pushd build
+	cd $name-$version
 
-	  cmake $SRC/$name-$version \
-	    -DCMAKE_BUILD_TYPE=Release \
-	    -DCMAKE_INSTALL_PREFIX=/usr \
-	    -DCMAKE_INSTALL_LIBDIR=lib \
-	    -GNinja
-	  ninja
-	popd
-	
-	DESTDIR=$PKG ninja -C build install
+	mkdir -p build
+	cd build
+
+	cmake .. \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-GNinja
+	ninja
+	DESTDIR=$PKG ninja install
 
 	rm -r $PKG/usr/share/locale
 }

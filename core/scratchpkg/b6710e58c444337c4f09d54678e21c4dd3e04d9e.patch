@@ -1,0 +1,51 @@
+From b6710e58c444337c4f09d54678e21c4dd3e04d9e Mon Sep 17 00:00:00 2001
+From: emmett1 <emmett1.2miligrams@gmail.com>
+Date: Thu, 16 Jan 2020 10:05:32 +0800
+Subject: [PATCH] fix scratch search and pkgquery search
+
+---
+ pkgquery | 6 ++----
+ scratch  | 6 ++----
+ 2 files changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/pkgquery b/pkgquery
+index 54f4711..2230b56 100755
+--- a/pkgquery
++++ b/pkgquery
+@@ -150,11 +150,9 @@ pkg_search() {
+ 		for line in $out; do
+ 			repo=$(echo $line | rev | awk -F / '{print $3}' | rev)
+ 			desc=$(grep "^# description[[:blank:]]*:" $line | sed 's/^# description[[:blank:]]*:[[:blank:]]*//')
+-			name=$(grep "^name=" $line | awk -F = '{print $2}')
+-			version=$(grep "^version=" $line | awk -F = '{print $2}')
+-			release=$(grep "^release=" $line | awk -F = '{print $2}')
++			. $line
+ 			echo "($repo) $name $version-$release: $desc"
+-			unset repo desc name version release
++			unset repo desc name version release build
+ 		done
+ 		unset out
+ 	done
+diff --git a/scratch b/scratch
+index 206a05b..86d9fda 100755
+--- a/scratch
++++ b/scratch
+@@ -907,16 +907,14 @@ scratch_search() {
+ 		for line in $out; do
+ 			repo=$(echo $line | rev | awk -F / '{print $3}' | rev)
+ 			desc=$(grep "^# description[[:blank:]]*:" $line | sed 's/^# description[[:blank:]]*:[[:blank:]]*//')
+-			name=$(grep "^name=" $line | awk -F = '{print $2}')
+-			version=$(grep "^version=" $line | awk -F = '{print $2}')
+-			release=$(grep "^release=" $line | awk -F = '{print $2}')
++			. $line
+ 			if isinstalled $name; then
+ 				ins="[${GREEN}*${CRESET}]"
+ 			else
+ 				ins="[ ]"
+ 			fi
+ 			printf "$ins ${PURPLE}($repo)${CRESET} $name ${CYAN}$version-$release${CRESET}: $desc\n"
+-			unset repo desc name version release
++			unset repo desc name version release build
+ 		done
+ 		unset out
+ 	done

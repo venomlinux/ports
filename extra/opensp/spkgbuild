@@ -12,8 +12,10 @@ build() {
 	cd OpenSP-$version
 
 	sed -i 's/32,/253,/' lib/Syntax.cxx
+	for i in gensyntax.pl unicode.syn; do
 	sed -i 's/LITLEN          240 /LITLEN          8092/' \
-	    unicode/{gensyntax.pl,unicode.syn}
+	    unicode/$i
+	done
 
 	./configure --prefix=/usr \
 		    --disable-static \

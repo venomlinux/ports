@@ -3,7 +3,7 @@
 
 name=qt5-webkit
 _qtver=5.212.0-alpha3
-version=${_qtver/-/}
+version=$(echo $_qtver | sed 's/-//')
 release=1
 source="https://github.com/annulen/webkit/releases/download/qtwebkit-$_qtver/qtwebkit-$_qtver.tar.xz
 	icu65.patch"
