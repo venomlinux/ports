@@ -4,15 +4,15 @@
 name=iucode-tool
 version=2.3.1
 release=1
-source=(https://gitlab.com/iucode-tool/releases/raw/master/${name}_${version}.tar.xz)
+source="https://gitlab.com/iucode-tool/releases/raw/master/${name}_${version}.tar.xz"
 
 build() {
-	cd $name-$version		&&
+	cd $name-$version
 
         ./configure \
                 --prefix=/usr   \
-                --sbindir=/usr/sbin	&&
+                --sbindir=/usr/sbin
 
-        make				&&
+        make
         make DESTDIR=$PKG install 
 }
