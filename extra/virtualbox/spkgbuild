@@ -13,7 +13,7 @@ source="http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}
 	virtualbox.60-vboxdrv.rules"
 
 build() {
-	local _installdir=/opt/VirtualBox
+	_installdir=/opt/VirtualBox
 
 	# extract source file
 	sh VirtualBox-${version}-${_release}-Linux_amd64.run --keep --noexec --target $SRC/
@@ -30,11 +30,11 @@ build() {
 	    ln -s /opt/VirtualBox/VBox.sh $PKG/usr/bin/$i
 	done
 
-	pushd components
+	cd components
 	for i in VBoxDDU.so VBoxREM.so VBoxRT.so VBoxVMM.so VBoxXPCOM.so; do
 	    ln -s ../$i .
 	done
-	popd
+	cd -
 
 	ln -s /opt/VirtualBox/rdesktop-vrdp $PKG/usr/bin/rdesktop-vrdp
 	mv $PKG/opt/VirtualBox/virtualbox.desktop $PKG/usr/share/applications/virtualbox.desktop
@@ -54,7 +54,7 @@ build() {
 	# Icon
 	mv $PKG/opt/VirtualBox/VBox.png $PKG/usr/share/pixmaps/VBox.png
 	ln -s VBox.png $PKG/usr/share/pixmaps/virtualbox.png
-	pushd icons
+	cd icons
 	for _dir in *; do
             cd "$_dir"
             install -d -m0755 $PKG/usr/share/icons/hicolor/${_dir}/apps
@@ -66,9 +66,9 @@ build() {
 	                mv $PKG/${_installdir}/icons/${_dir}/${_icon} $PKG/usr/share/icons/hicolor/${_dir}/mimetypes/${_icon}
 	            fi
 	        done
-	    cd - >/dev/null
+	    cd -
 	done
-	popd
+	cd -
 	rm -fr icons
 
 	# fix permission

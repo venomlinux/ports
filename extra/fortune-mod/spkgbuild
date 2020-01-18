@@ -11,7 +11,8 @@ build() {
 
 	sed -i 's|/games/|/|' CMakeLists.txt
 	sed -i 's|"games"|"bin"|' CMakeLists.txt
-	sed -i 's|/games/fortunes|/fortune|' datfiles/{,off/}CMakeLists.txt
+	sed -i 's|/games/fortunes|/fortune|' datfiles/CMakeLists.txt
+	sed -i 's|/games/fortunes|/fortune|' datfiles/off/CMakeLists.txt
 
 	mkdir build
 	cd build
@@ -26,5 +27,6 @@ build() {
 	..
 	make
 	make DESTDIR=$PKG install
-	rm $PKG/usr/share/fortune/{,off/}*.u8
+	rm $PKG/usr/share/fortune/*.u8 \
+	   $PKG/usr/share/fortune/off/*.u8
 }

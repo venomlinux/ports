@@ -11,7 +11,7 @@ source="https://github.com/neomutt/neomutt/archive/$version/$name-$version.tar.g
 build() {
 	cd $name-$version
 
-	`type -p notmuch` && MUTT_OPTS+=' --notmuch'
+	`type -p notmuch` && MUTT_OPTS="$MUTT_OPTS --notmuch"
 
 	./configure \
 	        --prefix=/usr \

@@ -17,5 +17,6 @@ build() {
 	make PREFIX=/usr DESTDIR=$PKG TERMINFO=$PKG/usr/share/terminfo install
 
 	# conflict with ncurses
-	rm $PKG/usr/share/terminfo/s/st{,-256color}
+	rm $PKG/usr/share/terminfo/s/st
+	rm $PKG/usr/share/terminfo/s/st-256color
 }

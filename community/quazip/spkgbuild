@@ -1,0 +1,20 @@
+# description	: Qt/C++ wrapper over minizip 
+# homepage	: https://github.com/stachenov/quazip
+# maintainer	: Shreyesh Chaudhary, sacviper at gmail dot com
+# depends	: cmake icu qt5
+
+name=quazip
+version=0.8.1
+release=1
+source="https://github.com/stachenov/$name/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+	..
+	make
+	make DESTDIR=$PKG install
+}

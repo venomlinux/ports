@@ -6,7 +6,7 @@
 name=thunar
 version=1.8.11
 release=1
-source="http://archive.xfce.org/src/xfce/$name/${version::3}/thunar-$version.tar.bz2"
+source="http://archive.xfce.org/src/xfce/$name/${version%.*}/thunar-$version.tar.bz2"
 
 build() {
 	cd thunar-$version
@@ -17,5 +17,8 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{locale,gtk-doc,doc} $PKG/usr/lib/systemd/
+	rm -r $PKG/usr/share/locale \
+	      $PKG/usr/share/gtk-doc \
+	      $PKG/usr/share/doc \
+	      $PKG/usr/lib/systemd/
 }

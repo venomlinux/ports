@@ -59,6 +59,8 @@ EOF
 	DESTDIR=$PKG python3 ./x.py install
 
 	rm -rf $PKG/usr/share/doc
-	rm -rf $PKG/usr/lib/rustlib/{components,manifest-rustc,rust-installer-version}
+	rm -rf $PKG/usr/lib/rustlib/components
+	rm -rf $PKG/usr/lib/rustlib/manifest-rustc
+	rm -rf $PKG/usr/lib/rustlib/rust-installer-version
 	rm -rf $PKG/etc
 }

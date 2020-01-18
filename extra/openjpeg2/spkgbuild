@@ -19,9 +19,9 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	pushd ../doc
+	cd ../doc
 	  for man in man/man?/* ; do
 	      install -v -D -m 644 $man $PKG/usr/share/$man
 	  done 
-	popd
+	cd -
 }

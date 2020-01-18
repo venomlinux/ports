@@ -10,8 +10,8 @@ source="https://github.com/MaartenBaert/ssr/archive/$version/ssr-$version.tar.gz
 build() {
 	cd ssr-$version
 
-	[ -e /usr/lib/pkgconfig/libpulse.pc ] || SSRCONF+=' -DWITH_PULSEAUDIO=FALSE'
-	[ -e /usr/lib/pkgconfig/jack.pc ] || SSRCONF+=' -DWITH_JACK=FALSE'
+	[ -e /usr/lib/pkgconfig/libpulse.pc ] || SSRCONF="$SSRCONF -DWITH_PULSEAUDIO=FALSE"
+	[ -e /usr/lib/pkgconfig/jack.pc ] || SSRCONF="$SSRCONF -DWITH_JACK=FALSE"
 
 	mkdir build
 	cd build

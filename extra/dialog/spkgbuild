@@ -3,7 +3,7 @@
 
 name=dialog
 version=1.3_20191210
-_version=${version/_/-}
+_version=$(echo $version | sed 's/_/-/')
 release=1
 source="https://invisible-mirror.net/archives/$name/$name-$_version.tgz"
 

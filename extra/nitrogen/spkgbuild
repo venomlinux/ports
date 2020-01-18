@@ -11,7 +11,7 @@ source="https://github.com/l3ib/nitrogen/releases/download/$version/nitrogen-$ve
 build() {
 	cd $name-$version
 
-	CXXFLAGS+=' -std=c++11'
+	CXXFLAGS="$CXXFLAGS -std=c++11"
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install

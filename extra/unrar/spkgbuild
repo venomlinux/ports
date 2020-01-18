@@ -11,7 +11,7 @@ build() {
 	cp -a unrar libunrar
 
 	sed -e '/CXXFLAGS=/d' -e '/LDFLAGS=/d' -i unrar/makefile
-	export LDFLAGS+=' -pthread'
+	export LDFLAGS="$LDFLAGS -pthread"
 
 	make -C libunrar lib
 	make -C unrar STRIP="true"

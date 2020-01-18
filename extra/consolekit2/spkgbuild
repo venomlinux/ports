@@ -26,9 +26,11 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	mv -v $PKG/etc/X11/app-defaults/xinitrc.d/90-consolekit{,.sh}
+	mv -v $PKG/etc/X11/app-defaults/xinitrc.d/90-consolekit \
+	      $PKG/etc/X11/app-defaults/xinitrc.d/90-consolekit.sh
 
-	install -Dm 755 $SRC/pam-foreground-compat.ck $PKG/usr/lib/ConsoleKit/run-session.d/pam-foreground-compat.ck
+	install -Dm 755 $SRC/pam-foreground-compat.ck \
+	                $PKG/usr/lib/ConsoleKit/run-session.d/pam-foreground-compat.ck
 
 	rm -r $PKG/usr/share/gtk-doc/
 }

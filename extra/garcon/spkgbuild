@@ -6,7 +6,7 @@
 name=garcon
 version=0.6.4
 release=1
-source="http://archive.xfce.org/src/xfce/$name/${version::3}/$name-$version.tar.bz2"
+source="http://archive.xfce.org/src/xfce/$name/${version%.*}/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
@@ -15,5 +15,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{locale,gtk-doc}
+	rm -r $PKG/usr/share/locale \
+	      $PKG/usr/share/gtk-doc
 }

@@ -2,10 +2,9 @@
 # depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent nspr sqlite dbus-glib gconf llvm startup-notification
 
 name=thunderbird
-version=68.3.1
+version=68.4.1
 release=1
-source="https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz
-	thunderbird-68.2.2-rust-1.39+.patch"
+source="https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz"
 
 build() {
 	INITDIR=$PWD
@@ -43,8 +42,6 @@ ac_add_options --with-system-jpeg
 ac_add_options --with-system-png
 ac_add_options --with-system-zlib
 EOF
-
-	patch -Np1 -i $SRC/thunderbird-68.2.2-rust-1.39+.patch
 
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
         export MOZBUILD_STATE_PATH=${PWD}/mozbuild

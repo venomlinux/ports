@@ -6,7 +6,7 @@
 name=notification-daemon
 version=3.20.0
 release=2
-source="https://ftp.gnome.org/pub/gnome/sources/$name/${version::4}/$name-$version.tar.xz"
+source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version

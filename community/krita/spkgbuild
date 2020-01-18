@@ -1,0 +1,23 @@
+# description	: The full-featured free digital painting studio.
+# homepage	: https://krita.org/
+# maintainer	: Shreyesh Chaudhary, sacviper at gmail dot com
+# depends	: cmake boost exiv2 fftw graphite2 gsl icu openexr qt5 quazip zstd python3-pyqt5 python3-sip-pyqt5 eigen 
+
+name=krita
+version=4.2.8
+_version=4.2.8.2
+release=1
+source="https://download.kde.org/stable/$name/$version/$name-$_version.tar.xz"
+
+build() {
+	cd $name-$_version
+	mkdir build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DBUILD_TESTING=OFF \
+	..
+	make
+	make DESTDIR=$PKG install
+	rm -rf $PKG/usr/share/color/icc/krita/README $PKG/usr/share/krita/bundles/README $PKG/usr/share/locale/ $PKG/usr/share/doc
+}

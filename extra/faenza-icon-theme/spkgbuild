@@ -8,15 +8,16 @@ release=1
 source="http://ppa.launchpad.net/tiheum/equinox/ubuntu/pool/main/f/$name/${name}_${version}.tar.gz"
 
 build() {
-	cd $name-${version::3}
+	cd $name-${version%.*}
 
   	mkdir -p $PKG/usr/share/icons $PKG/usr/lib $PKG/usr/share
 
-	cp -rf Faenza{,-Dark,-Darkest,-Darker,-Ambiance,-Radiance} $PKG/usr/share/icons/
+	cp -rf Faenza Faenza-Dark Faenza-Darkest Faenza-Darker Faenza-Ambiance Faenza-Radiance \
+	       $PKG/usr/share/icons/
 	cp -rf rhythmbox $PKG/usr/lib/
 	cp -rf emesene $PKG/usr/share/
 
-	for theme in Faenza{,-Dark}; do
+	for theme in  Faenza Faenza-Dark; do
 	    cd $PKG/usr/share/icons/$theme/apps/scalable/
 	    ln -sf gnome-session-reboot.svg system-reboot.svg
 	    for size in 16 22 24 32 48 64 96; do

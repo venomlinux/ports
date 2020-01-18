@@ -4,7 +4,7 @@
 name=qtwebengine
 version=5.13.2
 release=1
-source="https://download.qt.io/archive/qt/${version::4}/$version/submodules/$name-everywhere-src-$version.tar.xz
+source="https://download.qt.io/archive/qt/${version%.*}/$version/submodules/$name-everywhere-src-$version.tar.xz
 	qtbug-77037-workaround.patch"
 
 build() {
@@ -21,7 +21,7 @@ build() {
 	mkdir build
 	cd    build
 
-	test -n $MAKEFLAGS && export NINJAFLAGS+=" $MAKEFLAGS"
+	test -n $MAKEFLAGS && export NINJAFLAGS="$NINJAFLAGS $MAKEFLAGS"
 	
 	qmake .. -- -proprietary-codecs -system-ffmpeg -webengine-icu
 	make

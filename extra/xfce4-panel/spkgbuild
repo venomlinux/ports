@@ -2,9 +2,9 @@
 # depends	: exo garcon libwnck3 libxfce4ui xfconf
 
 name=xfce4-panel
-version=4.14.1
+version=4.14.3
 release=1
-source="http://archive.xfce.org/src/xfce/xfce4-panel/${version::4}/$name-$version.tar.bz2"
+source="https://archive.xfce.org/src/xfce/xfce4-panel/${version%.*}/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
@@ -13,5 +13,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{locale,gtk-doc}
+	rm -r $PKG/usr/share/locale \
+	      $PKG/usr/share/gtk-doc
 }

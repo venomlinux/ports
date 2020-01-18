@@ -15,5 +15,5 @@ build() {
 	make
 	make -j1 DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{gtk-,}doc
+	rm -r $PKG/usr/share/gtk-doc $PKG/usr/share/doc
 }

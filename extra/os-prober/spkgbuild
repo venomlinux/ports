@@ -20,7 +20,7 @@ build() {
 	for dir in os-probes os-probes/mounted os-probes/init linux-boot-probes linux-boot-probes/mounted; do
 		install -dm755 "$PKG/usr/lib/$dir"
 		install -m755 -t "$PKG/usr/lib/$dir" "$dir"/common/*
-		[[ -d "$dir"/x86 ]] && cp -r "$dir"/x86/* "$PKG/usr/lib/$dir"
+		[ -d "$dir"/x86 ] && cp -r "$dir"/x86/* "$PKG/usr/lib/$dir"
 	done
 	
 	install -Dm755 os-probes/mounted/powerpc/20macosx $PKG/usr/lib/os-probes/mounted/20macosx

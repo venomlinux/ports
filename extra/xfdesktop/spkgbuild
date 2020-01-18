@@ -4,9 +4,9 @@
 # depends	: exo libwnck3 libxfce4ui libnotify startup-notification thunar
 
 name=xfdesktop
-version=4.14.1
+version=4.14.2
 release=1
-source="http://archive.xfce.org/src/xfce/xfdesktop/${version::4}/$name-$version.tar.bz2"
+source="https://archive.xfce.org/src/xfce/xfdesktop/${version%.*}/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version

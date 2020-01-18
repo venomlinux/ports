@@ -16,10 +16,10 @@ build() {
 
 	./configure --prefix=/usr
 	make
-	pushd qt
+	cd qt
 	  qmake qtr.pro
 	  make
-	popd
+	cd -
 	make -C qt INSTALL_ROOT=$PKG/usr install
 
 	install -Dm644 qt/icons/transmission.png \

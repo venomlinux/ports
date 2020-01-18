@@ -3,8 +3,9 @@
 
 name=libnl
 version=3.5.0
+_version=$(echo $version | tr '.' '_')
 release=1
-source="https://github.com/thom311/libnl/releases/download/${name}${version//./_}/$name-$version.tar.gz"
+source="https://github.com/thom311/libnl/releases/download/${name}${_version}/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version

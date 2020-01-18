@@ -4,7 +4,7 @@
 name=librsvg
 version=2.46.4
 release=1
-source="https://ftp.gnome.org/pub/gnome/sources/$name/${version:0:4}/$name-$version.tar.xz"
+source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
@@ -16,5 +16,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{gtk-,}doc
+	rm -r $PKG/usr/share/doc \
+	      $PKG/usr/share/gtk-doc
 }
