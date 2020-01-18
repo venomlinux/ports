@@ -6,9 +6,9 @@
 name=unclemez-venom-wallpapers
 version=1.0
 release=1
-source="${name}_{version}.ziphttps://github.com/dbdtchkrbrty/unclemez-venom-wallpapers/archive/master.zip"
+source="${name}_{version}.zip::https://github.com/dbdtchkrbrty/unclemez-venom-wallpapers/archive/master.zip"
 
 build() {
-	unzip ${name}_${version}.zip
+	mkdir -p $PKG/usr/share/backgrounds
 	cp -a ${name}-master $PKG/usr/share/backgrounds/${name}
 }
