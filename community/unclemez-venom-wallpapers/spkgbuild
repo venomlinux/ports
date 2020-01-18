@@ -1,0 +1,14 @@
+# description	: Art works i.e. wallpapers created by UncleMEZ (primarily for venom linux)
+# homepage	: 
+# depends	: unzip
+# maintainer    : Debdut Chakraborty
+
+name=unclemez-venom-wallpapers
+version=1.0
+release=1
+source="${name}_{version}.ziphttps://github.com/dbdtchkrbrty/unclemez-venom-wallpapers/archive/master.zip"
+
+build() {
+	unzip ${name}_${version}.zip
+	cp -a ${name}-master $PKG/usr/share/backgrounds/${name}
+}
