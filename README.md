@@ -4,11 +4,12 @@ Contain all ports for [Venom Linux](https://venomlinux.org/) used by [scratchpkg
 All ports are separated into several repositories. This repositories will get sync by `scratchpkg` using a tool called `httpup`.
 These are repository exist (for now):
 
-* `core`:  Ports needed for core system.
-* `extra`:  All other ports.
-* `xorg`:  Ports for Xorg.
-* `multilib`: Multilib ports.
-* `community`: Community ports
+* `core`     :    Ports needed for core system.
+* `extra`    :    All other ports.
+* `xorg`     :    Ports for Xorg.
+* `multilib` :    Multilib ports.
+* `community`:    Community ports.
+* `testing'  :    Testing ports.
 
 ### rep-gen
 
