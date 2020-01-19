@@ -3,11 +3,15 @@
 
 name=youtube-dl
 version=2020.01.15
-release=1
+release=2
 source="https://github.com/ytdl-org/youtube-dl/archive/$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
+
+	sed -i 's|etc/bash_completion.d|share/bash-completion/completions|' setup.py
+	sed -i 's|etc/fish/completions|share/fish/completions|' setup.py
+
 	python3 setup.py install --root=$PKG --optimize=1
 	rm -r $PKG/usr/share/doc
 }
