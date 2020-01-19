@@ -1,0 +1,28 @@
+# description	: Integrated mail, calendar and address book suite designed for the GNOME environment
+# homepage	: 
+# depends	: adwaita-icon-theme gnome-autoar itstool libgdata webkitgtk
+
+name=evolution
+version=3.34.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/evolution/${version%.*}/evolution-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DSYSCONF_INSTALL_DIR=/etc  \
+	      -DENABLE_INSTALLED_TESTS=ON \
+	      -DENABLE_PST_IMPORT=OFF     \
+	      -DENABLE_GTKSPELL=OFF       \
+	      -DENABLE_YTNEF=OFF          \
+	      -DENABLE_CONTACT_MAPS=OFF   \
+	      -DWITH_OPENLDAP=OFF         \
+	      -DENABLE_TEXT_HIGHLIGHT=OFF \
+	      -G Ninja ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

@@ -1,0 +1,19 @@
+# description	: Document viewer for multiple document formats
+# homepage	: 
+# depends	: adwaita-icon-theme gtk3 itstool libxml2 openjpeg2 gspell
+
+name=evince
+version=3.34.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/evince/${version%.*}/evince-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--enable-introspection \
+		--disable-static \
+		--with-systemduserunitdir=no
+	make
+	make DESTDIR=$PKG install
+}

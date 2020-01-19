@@ -1,0 +1,19 @@
+# description	: Tool used to report on power management on the system
+# homepage	: 
+# depends	: gtk3 upower
+
+name=gnome-power-manager
+version=3.32.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-power-manager/${version%.*}/gnome-power-manager-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr -Denable-tests=false ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

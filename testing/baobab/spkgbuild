@@ -1,0 +1,19 @@
+# description	: Graphical directory tree analyzer
+# homepage	: 
+# depends	: adwaita-icon-theme gtk3 itstool vala
+
+name=baobab
+version=3.34.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/baobab/${version%.*}/baobab-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

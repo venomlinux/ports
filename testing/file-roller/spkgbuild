@@ -1,0 +1,20 @@
+# description	: Archive manager for GNOME
+# homepage	: 
+# depends	: gtk3 itstool
+
+name=file-roller
+version=3.32.2
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/file-roller/${version%.*}/file-roller-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr -Dpackagekit=false ..
+	ninja
+	DESTDIR=$PKG ninja install
+	chmod -v 0755 $PKG/usr/libexec/file-roller/isoinfo.sh
+}

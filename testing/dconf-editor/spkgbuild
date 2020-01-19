@@ -1,0 +1,19 @@
+# description	: Low-level configuration system
+# homepage	: 
+# depends	: dconf
+
+name=dconf-editor
+version=3.34.2
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/dconf-editor/${version%.*}/dconf-editor-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr --sysconfdir=/etc ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

@@ -1,0 +1,19 @@
+# description	: Lightweight UTF-8 text editor for the GNOME Desktop
+# homepage	: 
+# depends	: gsettings-desktop-schemas gspell gtksourceview4 libpeas itstool
+
+name=gedit
+version=3.34.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gedit/${version%.*}/gedit-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr -Dbuildtype=release ..
+	ninja
+	DESTDIR=$PKG ninja install
+}
