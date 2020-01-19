@@ -9,7 +9,7 @@ These are repository exist (for now):
 * `xorg`     :    Ports for Xorg.
 * `multilib` :    Multilib ports.
 * `community`:    Community ports.
-* `testing'  :    Testing ports.
+* `testing`  :    Testing ports.
 
 ### rep-gen
 
