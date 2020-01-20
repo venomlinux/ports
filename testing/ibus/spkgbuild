@@ -19,10 +19,13 @@ build() {
 
 	./configure \
 		--prefix=/usr \
-		--sysconfdir=/etc         \
-		--disable-unicode-dict    \
+		--libexecdir=/usr/lib \
+		--sysconfdir=/etc \
+		--disable-unicode-dict \
 		--disable-emoji-dict
 	rm -f tools/main.c
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale $PKG/usr/share/gtk-doc
 }

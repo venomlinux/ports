@@ -3,7 +3,7 @@
 # depends	: gtk3 itstool
 
 name=file-roller
-version=3.32.2
+version=3.32.3
 release=1
 source="http://ftp.gnome.org/pub/gnome/sources/file-roller/${version%.*}/file-roller-$version.tar.xz"
 
@@ -13,8 +13,11 @@ build() {
 	mkdir build
 	cd    build
 
-	meson --prefix=/usr -Dpackagekit=false ..
+	meson --prefix=/usr --libexecdir=lib -Dpackagekit=false ..
 	ninja
 	DESTDIR=$PKG ninja install
-	chmod -v 0755 $PKG/usr/libexec/file-roller/isoinfo.sh
+
+	chmod -v 0755 $PKG/usr/lib/file-roller/isoinfo.sh
+
+	rm -r $PKG/usr/share/locale
 }

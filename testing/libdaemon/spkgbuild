@@ -9,7 +9,10 @@ source="http://0pointer.de/lennart/projects/libdaemon/libdaemon-$version.tar.gz"
 
 build() {
 	cd $name-$version
+
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 }

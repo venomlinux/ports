@@ -3,17 +3,23 @@
 # depends	: adwaita-icon-theme gtk3 itstool libxml2 openjpeg2 gspell
 
 name=evince
-version=3.34.1
+version=3.34.2
 release=1
 source="http://ftp.gnome.org/pub/gnome/sources/evince/${version%.*}/evince-$version.tar.xz"
 
 build() {
 	cd $name-$version
-	./configure \
+
+	mkdir build
+	cd build
+
+	meson \
 		--prefix=/usr \
-		--enable-introspection \
-		--disable-static \
-		--with-systemduserunitdir=no
-	make
-	make DESTDIR=$PKG install
+		--libexecdir=lib \
+		-Dgtk_doc=false \
+		-Dsystemduserunitdir=no
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
 }

@@ -11,9 +11,12 @@ build() {
 	cd $name-$version
 	
 	./configure --prefix=/usr \
+		    --libexecdir=/usr/lib \
 	            --disable-static \
 		    --disable-search-provider \
 	            --without-nautilus-extension
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }

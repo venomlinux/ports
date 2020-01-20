@@ -16,7 +16,8 @@ build() {
 	cd    build
 	
 	meson \
-		--prefix=/usr           \
+		--prefix=/usr \
+		--libexecdir=lib \
 		-Dconsolekit=true \
 		-Dsystemd_journal=false \
 		-Dsystemd=false \
@@ -25,4 +26,6 @@ build() {
 	      ..
 	ninja
 	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale $PKG/usr/share/doc
 }

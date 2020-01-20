@@ -9,9 +9,12 @@ source="https://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib
 
 build() {
 	cd $name-$version
+
 	./configure --prefix=/usr \
 		--enable-vala-bindings \
 	        --disable-static
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
 }

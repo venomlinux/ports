@@ -16,6 +16,7 @@ build() {
 	autoreconf -vif
 	./configure \
 		--prefix=/usr \
+		--libexecdir=/usr/lib \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--without-plymouth \
@@ -29,7 +30,8 @@ build() {
 		--without-systemd \
 		--disable-user-display-server \
 		--disable-schemas-compile \
-		--disable-systemd-journal
+		--disable-systemd-journal \
+		--disable-nls
 	make
 	make DESTDIR=$PKG install
 }

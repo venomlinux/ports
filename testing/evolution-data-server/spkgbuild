@@ -3,7 +3,7 @@
 # depends	: db libical gcr libsecret nss sqlite gnome-online-accounts gtk3 icu libgdata libgweather blocaled
 
 name=evolution-data-server
-version=3.34.2
+version=3.34.3
 release=1
 source="http://ftp.gnome.org/pub/gnome/sources/evolution-data-server/${version%.*}/evolution-data-server-$version.tar.xz"
 
@@ -14,9 +14,9 @@ build() {
 	cd    build
 	
 	cmake -DCMAKE_INSTALL_PREFIX=/usr   \
+	      -DLIBEXEC_INSTALL_DIR=/usr/lib \
 	      -DSYSCONF_INSTALL_DIR=/etc    \
 	      -DENABLE_VALA_BINDINGS=ON     \
-	      -DENABLE_INSTALLED_TESTS=ON   \
 	      -DENABLE_GOOGLE=ON            \
 	      -DWITH_OPENLDAP=OFF           \
 	      -DWITH_KRB5=OFF               \
@@ -26,4 +26,6 @@ build() {
 	      ..
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }

@@ -13,7 +13,9 @@ build() {
 	mkdir build
 	cd    build
 	
-	meson --prefix=/usr -Dgtk_doc=false ..
+	meson --prefix=/usr --libexecdir=lib -Dgtk_doc=false ..
 	ninja
 	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
 }
