@@ -32,7 +32,7 @@ build() {
 	echo "vboxdrv" >> $PKG/etc/modules.d/virtualbox.conf
 	echo "vboxnetadp" >> $PKG/etc/modules.d/virtualbox.conf
 	echo "vboxnetflt" >> $PKG/etc/modules.d/virtualbox.conf
-	echo "vboxpci" >> $PKG/etc/modules.d/virtualbox.conf
+	#echo "vboxpci" >> $PKG/etc/modules.d/virtualbox.conf
 
 	# compress modules
 	find $PKG -name '*.ko' -exec xz -T1 {} +
