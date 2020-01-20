@@ -1,13 +1,13 @@
 # description	: Powerful x86 virtualization for enterprise as well as home use
 # homepage	: http://virtualbox.org/
-# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com, Debdut Chakraborty
 # depends	: sdl qt5 virtualbox-modules
 
 name=virtualbox
-version=5.2.32
+version=6.1.2
 release=1
 _name=Oracle_VM_VirtualBox_Extension_Pack
-_release=132073
+_release=135662
 
 source="http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_amd64.run
 	virtualbox.60-vboxdrv.rules"
@@ -38,8 +38,8 @@ build() {
 
 	ln -s /opt/VirtualBox/rdesktop-vrdp $PKG/usr/bin/rdesktop-vrdp
 	mv $PKG/opt/VirtualBox/virtualbox.desktop $PKG/usr/share/applications/virtualbox.desktop
-	for xx in VirtualBox VBoxSDL VBoxHeadless; do
-		chmod +s $PKG/opt/VirtualBox/$xx
+	for xx in VirtualBox VBoxSDL VBoxHeadless VBoxNetAdpCtl VBoxNetDHCP VBoxNetNAT VBoxVolInfo VirtualBoxVM; do
+		[ "$xx" == "VirtualBox" ] && chmod 0755 $PKG/opt/VirtualBox/$xx || chmod 4755 $PKG/opt/VirtualBox/$xx
 	done
 
 	cp $SRC/virtualbox.60-vboxdrv.rules $PKG/lib/udev/rules.d/60-vboxdrv.rules

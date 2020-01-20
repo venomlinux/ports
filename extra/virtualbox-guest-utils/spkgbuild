@@ -1,8 +1,9 @@
 # description	: Guest utilities for virtualbox
 # depends	: libglvnd linux-pam p7zip fltk
+# maintainer	: Debdut Chakraborty
 
 name=virtualbox-guest-utils
-version=5.2.32
+version=6.1.2
 release=1
 source="http://download.virtualbox.org/virtualbox/$version/VBoxGuestAdditions_${version}.iso
 	60-vboxguest.rules"
@@ -20,9 +21,6 @@ build() {
 
 	install -d $PKG/usr/sbin
 	install -m755 sbin/* $PKG/usr/sbin
-
-	install -d $PKG/usr/lib
-	install -m755 lib/* $PKG/usr/lib
 
 	install -d $PKG/sbin
 	install -m755 other/mount.vboxsf $PKG/sbin
