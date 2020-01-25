@@ -101,12 +101,6 @@ run_check() {
 	elif [ "$version" != "$upver" ]; then
 		echo -e " $ppath: $version => ${YELLOW}$upver${CRESET}"
 		[ "$OUT" = 1 ] && echo "$ppath $version => $upver" >> outdate
-		if [ "$UPDATE" = 1 ]; then
-			sed "s/^version=.*/version=$upver/" -i $ppath/spkgbuild
-			pushd $ppath
-				fakeroot pkgbuild -m && sudo pkgbuild -u
-			popd
-		fi
 	fi
 }
 
@@ -171,6 +165,8 @@ check() {
 
 	if [ "$(type -t getver_${name})" = "function" ]; then
 		run_check getver_${name}
+	elif  [ "$(type -t port_getver)" = "function" ]; then
+		run_check port_getver
 	else
 		case $url in
 			*github.com*|*gitlab.com*)
@@ -203,7 +199,6 @@ parseopt() {
 				done;;
 			-o) OUT=1;;
 			-v) VERBOSE=1;;
-			-u) UPDATE=1;;
 			 *) PKG+=($1);;
 		esac
 		shift

@@ -274,8 +274,9 @@ port_diff() {
 }
 
 port_status() {
-	git status | grep "Your branch is ahead of" && echo
-	git status | grep -v REPO | grep modified | sed 's/.*modified:/modified:/g'
+	git status
+	#git status | grep "Your branch is ahead of" && echo
+	#git status | grep -v REPO | grep modified | sed 's/.*modified:/modified:/g'
 }
 
 port_help() {
