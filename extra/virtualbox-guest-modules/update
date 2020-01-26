@@ -1,11 +1,10 @@
 url=http://download.virtualbox.org/virtualbox/
 
-getver_virtualbox-guest-modules() {
+port_getver() {
 	fetch \
 	| grep -Eo href=\"[0-9a-z.]+ \
 	| sed 's/href=\"//' \
 	| grep ^[[:digit:]] \
-	| grep ^5 \
 	| sort -V \
 	| uniq
 }
