@@ -98,7 +98,7 @@ port_update() {
 			read -n1 input
 			echo
 			case $input in
-				E|e) vim spkgbuild
+				E|e) $EDITOR spkgbuild
 				     break 1;;
 				A|a) exit 1;;
 				C|c)   break 2;;
@@ -158,7 +158,7 @@ port_build() {
 			read -n1 input
 			echo
 			case $input in
-				E|e) vim spkgbuild
+				E|e) $EDITOR spkgbuild
 				     break 1;;
 				A|a) exit 1;;
 				*)   break 2;;
@@ -299,6 +299,7 @@ EOF
 
 PORTREPO=(core extra multilib xorg community testing)
 INDEX_DIR="/var/lib/scratchpkg/index"
+EDITOR=${EDITOR:-vim}
 
 OP=$1
 shift
