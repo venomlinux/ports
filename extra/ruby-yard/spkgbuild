@@ -4,12 +4,19 @@
 _name=yard
 name=ruby-$_name
 version=0.9.24
-release=1
+release=2
 options="!emptydirs"
 source="https://rubygems.org/downloads/$_name-$version.gem"
 
 build() {
 	_gemdir="$(gem env gemdir)"
-	gem install --ignore-dependencies --no-user-install -i "$PKG/$_gemdir" -n "$PKG/usr/bin" $_name-$version.gem
+
+	gem install \
+		--ignore-dependencies \
+		--no-user-install \
+		--no-document \
+		-i "$PKG/$_gemdir" \
+		$_name-$version.gem
+
 	rm "$PKG/$_gemdir/cache/$_name-$version.gem"
 }
