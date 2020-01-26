@@ -52,6 +52,15 @@ getver_gnome() {
 	| uniq
 }
 
+getver_gnome2() {
+	fetch \
+	| tr ' ' '\n' \
+	| grep -Eo $filename-[0-9.]+.tar.[bgx]z2? \
+	| sed "s/$filename-//;s/\.tar.*//" \
+	| sort -V \
+	| uniq
+}
+
 getver_xfce4() {	
 	url=$url/$(fetch \
 	| sed 's,.*href=",,;s,\/.*,,' \

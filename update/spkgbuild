@@ -1,0 +1,19 @@
+# description	: 
+# homepage	: 
+# maintainer	:
+# depends	: 
+
+name=update
+version=
+release=1
+options=""
+noextract=""
+backup=""
+source=""
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
