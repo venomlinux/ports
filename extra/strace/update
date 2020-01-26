@@ -1,0 +1,8 @@
+url=https://strace.io/files/
+
+port_getver() {
+	fetch \
+	| sed 's/.*href=\"//;s/\/.*//' \
+	| grep ^[0-9] \
+	| sort -V
+}
