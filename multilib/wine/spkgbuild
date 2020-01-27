@@ -2,9 +2,9 @@
 # depends	: alsa-lib-32 dbus-32 gnutls-32 opencl-headers glu-32 libxslt-32 v4l-utils-32 libjpeg-turbo-32 libtiff-32 lcms2-32
 
 name=wine
-version=4.21
+version=5.0
 release=1
-source="https://dl.winehq.org/wine/source/${version%%.*}.x/$name-$version.tar.xz"
+source="https://dl.winehq.org/wine/source/${version%%.*}.0/$name-$version.tar.xz"
 
 ### NOTE ###
 #
@@ -46,12 +46,6 @@ source="https://dl.winehq.org/wine/source/${version%%.*}.x/$name-$version.tar.xz
 
 build() {
 	cd $name-$version
-
-	# https://bugs.winehq.org/show_bug.cgi?id=43530
-	#export CFLAGS="${CFLAGS/-fno-plt/}"
-	#export LDFLAGS="${LDFLAGS/,-z,now/}"
-
-	#export CPPFLAGS="${CPPFLAGS/-D_FORTIFY_SOURCE=2/} -D_FORTIFY_SOURCE=0"
 
 	mkdir build64 build32
 	cd build64
