@@ -2,7 +2,5 @@ port_getver() {
 	fetch \
 	| grep archive \
 	| grep -Eo [0-9a-z.]+-1.tar.gz \
-	| sed 's/-1.*//' \
-	| sort -V \
-	| uniq
+	| sed 's/-1.*//'
 }

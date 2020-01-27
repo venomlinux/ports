@@ -4,7 +4,5 @@ port_getver() {
 	fetch \
 	| grep UPOWER \
 	| sed "s/.*\?h=//;s/'>.*//;s/UPOWER_//" \
-	| tr '_' '.' \
-	| sort -V \
-	| uniq
+	| tr '_' '.'
 }

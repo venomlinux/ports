@@ -4,7 +4,5 @@ port_getver() {
 	fetch \
 	| grep -Eo href=\"[0-9a-z.]+ \
 	| sed 's/href=\"//' \
-	| grep ^[[:digit:]] \
-	| sort -V \
-	| uniq
+	| grep ^[[:digit:]]
 }

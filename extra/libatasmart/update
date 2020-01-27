@@ -4,7 +4,5 @@ port_getver() {
 	fetch \
 	| grep tag \
 	| grep -Eo v[0-9.]+ \
-	| sed 's/^v//' \
-	| sort -V \
-	| uniq
+	| sed 's/^v//'
 }

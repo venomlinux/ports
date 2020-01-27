@@ -4,7 +4,5 @@ port_getver() {
 	fetch \
 	| tr '_' '.' \
 	| grep -Eo boost\.[0-9.]+.tar.bz2 \
-	| sed 's/boost\.//;s/\.tar.*//' \
-	| sort -V \
-	| uniq
+	| sed 's/boost\.//;s/\.tar.*//'
 }

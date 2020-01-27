@@ -4,7 +4,5 @@ port_getver() {
 	fetch \
 	| grep -Eo go[0-9a-z.]+.src.tar.gz \
 	| sed "s/^go//;s/\.src.*//" \
-	| grep -Ev '(beta|rc)' \
-	| sort -V \
-	| uniq
+	| grep -Ev '(beta|rc)'
 }

@@ -4,7 +4,5 @@ port_getver() {
 	fetch \
 	| grep -Eo [0-9.]+/ \
 	| sed 's/\///' \
-	| grep -v 1999 \
-	| sort -V \
-	| uniq
+	| grep -v 1999
 }

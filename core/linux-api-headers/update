@@ -7,7 +7,5 @@ port_getver() {
 	| sed "s/$filename[-_]//;s/\.tar.*//" \
 	| grep "^4" \
 	| grep -Evi '(alpha|beta|rc|pre)' \
-	| grep [[:digit:]] \
-	| sort -V \
-	| uniq
+	| grep [[:digit:]]
 }

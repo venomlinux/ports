@@ -7,7 +7,5 @@ port_getver() {
 	| grep -Evi '(alpha|beta|rc)' \
 	| grep ^6 \
 	| grep [[:digit:]] \
-	| tr '-' '.' \
-	| sort -V \
-	| uniq
+	| tr '-' '.'
 }

@@ -3,7 +3,5 @@ port_getver() {
 	| grep archive \
 	| grep -Eo qtwebkit-[0-9a-z.-]+.tar.gz \
 	| sed 's/qtwebkit-//;s/\.tar.*//;s/-//' \
-	| grep -v tp.* \
-	| sort -V \
-	| uniq
+	| grep -v tp.*
 }

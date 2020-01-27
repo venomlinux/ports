@@ -7,7 +7,5 @@ url=$url/$(fetch $url \
 port_getver() {
 	fetch \
 	| grep -Eo $filename-v[0-9.]+.tar.[bgx]z2? \
-	| sort -V \
-	| uniq \
 	| sed "s/$filename-v//;s/\.tar.*//"
 }

@@ -4,7 +4,5 @@ port_getver() {
 	| sed "s/$filename[-_]//;s/\.tgz//" \
 	| grep -Evi '(alpha|beta|rc|pre)' \
 	| grep -Ev 20.* \
-	| grep [[:digit:]] \
-	| sort -V \
-	| uniq
+	| grep [[:digit:]]
 }

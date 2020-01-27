@@ -1,7 +1,5 @@
 port_getver() {
 	fetch \
 	| grep -Eo $filename-[0-9.]+.tgz \
-	| sort -V \
-	| uniq \
 	| sed "s/$filename-//;s/\.tgz//"
 }
