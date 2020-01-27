@@ -2,15 +2,16 @@
 # depends	: fontconfig noto-fonts
 
 name=noto-fonts-extra
-version=20171025
-_commit=8ef14e6c606a7a0ef3943b9ca01fd49445620d79
+version=20200123
+_commit=f4726a2ec36169abd02a6d8abe67c8ff0236f6d8
 release=1
 source="noto-fonts-$version.tar.gz::https://github.com/googlei18n/noto-fonts/archive/$_commit.tar.gz"
 
 build() {
 	cd noto-fonts-*
 	mkdir -p $PKG/usr/share/fonts/noto
-	for xx in hinted/Noto*Condensed*.ttf hinted/Noto*Condensed*.ttc hinted/Noto*SemiBold*.ttf hinted/Noto*SemiBold*.ttc hinted/Noto*Extra*.ttf hinted/Noto*Extra*.ttc; do
-		cp $xx $PKG/usr/share/fonts/noto
-	done
+	cp hinted/Noto*/*Condensed*.ttf \
+	   hinted/Noto*/*SemiBold*.ttf \
+	   hinted/Noto*/*Extra*.ttf \
+	   $PKG/usr/share/fonts/noto
 }
