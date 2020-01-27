@@ -4,7 +4,7 @@ url=$url/$(fetch $url \
 | sort -V \
 | tail -n1)
 
-getver_nodejs() {
+port_getver() {
 	fetch \
 	| grep -Eo $filename-v[0-9.]+.tar.[bgx]z2? \
 	| sort -V \

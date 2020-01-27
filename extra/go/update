@@ -1,6 +1,6 @@
 url=https://golang.org/dl/
 
-getver_go() {
+port_getver() {
 	fetch \
 	| grep -Eo go[0-9a-z.]+.src.tar.gz \
 	| sed "s/^go//;s/\.src.*//" \

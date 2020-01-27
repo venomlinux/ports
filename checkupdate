@@ -162,9 +162,7 @@ check() {
 
 	[ -f $ppath/update ] && . $ppath/update
 
-	if [ "$(type -t getver_${name})" = "function" ]; then
-		run_check getver_${name}
-	elif  [ "$(type -t port_getver)" = "function" ]; then
+	if [ "$(type -t port_getver)" = "function" ]; then
 		run_check port_getver
 	else
 		case $url in

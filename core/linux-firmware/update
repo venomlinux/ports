@@ -1,6 +1,6 @@
 url=https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
 
-getver_linux-firmware() {
+port_getver() {
 	fetch \
 	| grep -Eo h=[0-9.]+ \
 	| sed 's/h=//' \

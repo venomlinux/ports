@@ -1,6 +1,6 @@
 url=http://site.icu-project.org/download
 
-getver_icu-32() {
+port_getver() {
 	fetch \
 	| grep -Eo 'ICU4C-Download">[0-9.]+' \
 	| sed 's/ICU4C-Download">//' \

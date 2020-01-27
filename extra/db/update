@@ -1,6 +1,6 @@
 url=https://www.oracle.com/technetwork/database/database-technologies/berkeleydb/downloads/index-082944.html
 
-getver_db() {	
+port_getver() {	
 	fetch \
 	| grep -Eo db-[0-9.]+.tar.gz \
 	| grep -Ev '(6.*|18.*)' \

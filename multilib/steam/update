@@ -1,4 +1,4 @@
-getver_steam() {
+port_getver() {
 	fetch \
 	| grep -Eo steam_[0-9a-z.]+.tar.[bgx]z2? \
 	| sed 's/steam_//;s/\.tar.*//' \
