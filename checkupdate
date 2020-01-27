@@ -15,9 +15,7 @@ getver() {
 	| grep -Eo $filename[_-][0-9a-z.]+.tar.[bgx]z2? \
 	| sed "s/$filename[-_]//;s/\.tar.*//" \
 	| grep -Evi '(alpha|beta|rc|pre)' \
-	| grep [[:digit:]] \
-	| sort -V \
-	| uniq
+	| grep [[:digit:]]
 }
 
 # per-type getver
@@ -26,9 +24,7 @@ getver_github() {
 	| grep archive \
 	| grep -Eo '(v?|"$filename"-)'[0-9a-z.]+\.tar\.gz \
 	| sed "s/\.tar\.gz//;s/^v//;s/^$filename-//" \
-	| grep -Evi '(alpha|beta|rc|example|pre|doc*|dev|start|cpp)' \
-	| sort -V \
-	| uniq
+	| grep -Evi '(alpha|beta|rc|example|pre|doc*|dev|start|cpp)'
 }
 
 getver_ruby() {
@@ -36,9 +32,7 @@ getver_ruby() {
 	| grep -Eo $filename[_-][0-9a-z.]+.gem \
 	| sed "s/$filename[-_]//;s/\.gem//" \
 	| grep -Evi '(alpha|beta|rc|pre)' \
-	| grep [[:digit:]] \
-	| sort -V \
-	| uniq
+	| grep [[:digit:]]
 }
 
 getver_gnome() {
@@ -47,18 +41,14 @@ getver_gnome() {
 	| grep -Eo $filename-[0-9.]+.tar.[bgx]z2? \
 	| sed "s/$filename-//;s/\.tar.*//" \
 	| grep -Ew "^[0-9]+\.[0-9]*[02468]\.*" \
-	| grep -Ev "*.[89][0-9].*" \
-	| sort -V \
-	| uniq
+	| grep -Ev "*.[89][0-9].*"
 }
 
 getver_gnome2() {
 	fetch \
 	| tr ' ' '\n' \
 	| grep -Eo $filename-[0-9.]+.tar.[bgx]z2? \
-	| sed "s/$filename-//;s/\.tar.*//" \
-	| sort -V \
-	| uniq
+	| sed "s/$filename-//;s/\.tar.*//"
 }
 
 getver_xfce4() {	
@@ -94,11 +84,11 @@ run_check() {
 		echo "version  : $version"
 		echo "url      : $url"
 		echo "cmd      : $checkver_cmd"
-		$checkver_cmd | tail -n10
+		$checkver_cmd | sort -V | uniq | tail -n10
 		return
 	else
 		print_progress "Checking '$ppath'"
-		upver=$($checkver_cmd | tail -n1)
+		upver=$($checkver_cmd | sort -V | uniq | tail -n1)
 		echo -ne "\033[0K"
 	fi
 	
