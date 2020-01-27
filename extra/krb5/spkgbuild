@@ -1,9 +1,9 @@
 # description	: MIT Kerberos V5 is a network authentication protocol
 
 name=krb5
-version=1.17
+version=1.17.1
 release=1
-source="https://web.mit.edu/kerberos/dist/krb5/${version::4}/krb5-$version.tar.gz"
+source="https://web.mit.edu/kerberos/dist/krb5/${version%.*}/krb5-$version.tar.gz"
 
 build() {
 	cd $name-$version
