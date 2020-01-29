@@ -4,7 +4,7 @@
 # depends	: python2 autoconf2.13 gtk2 yasm gconf alsa-lib dbus-glib
 
 name=palemoon
-version=28.8.1
+version=28.8.2
 release=1
 source="https://github.com/MoonchildProductions/UXP/archive/PM${version}_Release.tar.gz
 	mozconfig fix-build-gcc9.patch"
@@ -13,7 +13,7 @@ rev_ex_libs="libxul.so libmozsqlite3.so libmozavutil.so liblgpllibs.so"
 build() {
 	cd UXP-PM${version}_Release
 
-	patch -Np1 -i $SRC/fix-build-gcc9.patch
+	#patch -Np1 -i $SRC/fix-build-gcc9.patch
 
 	sed "s,%BUILDDIR%,$SRC,g" $SRC/mozconfig > .mozconfig
 
