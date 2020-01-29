@@ -25,7 +25,6 @@ getver_github() {
 	| grep -Eo '(v?|"$filename"-)'[0-9a-z.]+\.tar\.gz \
 	| sed "s/\.tar\.gz//;s/^v//;s/^$filename-//" \
 	| $grepexclude
-	#| grep -Evi '(alpha|beta|rc|example|pre|doc*|dev|start|cpp|migration)'
 }
 
 getver_ruby() {
@@ -78,6 +77,7 @@ fetch() {
 
 run_check() {
 	checkver_cmd=${1}
+	pname=${ppath#*/}
 	
 	if [ "$VERBOSE" = 1 ]; then
 		echo "file     : $file"
@@ -92,13 +92,18 @@ run_check() {
 		echo -ne "\033[0K"
 
 		upver=${upver:-404}
+		
+		touch error outdate
+		
+		sed "\,^$pname ,d" -i error
+		sed "\,^$pname ,d" -i outdate
 
 		if [ "$upver" = "404" ]; then
 			echo -e " $ppath: $version => ${RED}404${CRESET}"
-			[ "$OUT" = 1 ] && echo "$ppath $version => 404" >> error
+			echo "$pname $version" >> error
 		elif [ "$version" != "$upver" ]; then
 			echo -e " $ppath: $version => ${YELLOW}$upver${CRESET}"
-			[ "$OUT" = 1 ] && echo "$ppath $version => $upver" >> outdate
+			echo "$pname $upver" >> outdate
 		fi
 	fi
 }
@@ -198,7 +203,6 @@ parseopt() {
 					esac
 					shift
 				done;;
-			-o) OUT=1;;
 			-n) NOOVERRIDE=1;;
 			-v) VERBOSE=1;;
 			 *) PKG+=($1);;
@@ -209,8 +213,6 @@ parseopt() {
 
 main() {
 	parseopt $@
-	
-	[ "$OUT" = 1 ] && rm -f outdate error
 	
 	if [ "$exclude" ]; then
 		grepexclude="grep -i -v"
