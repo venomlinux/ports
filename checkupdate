@@ -10,12 +10,12 @@ print_progress() {
 }
 
 # default getver
-getver() {
+getver_default() {
 	fetch \
 	| grep -Eo $filename[_-][0-9a-z.]+.tar.[bgx]z2? \
 	| sed "s/$filename[-_]//;s/\.tar.*//" \
-	| grep -Evi '(alpha|beta|rc|pre)' \
-	| grep [[:digit:]]
+	| grep [[:digit:]] \
+	| $grepexclude
 }
 
 # per-type getver
@@ -24,15 +24,16 @@ getver_github() {
 	| grep archive \
 	| grep -Eo '(v?|"$filename"-)'[0-9a-z.]+\.tar\.gz \
 	| sed "s/\.tar\.gz//;s/^v//;s/^$filename-//" \
-	| grep -Evi '(alpha|beta|rc|example|pre|doc*|dev|start|cpp)'
+	| $grepexclude
+	#| grep -Evi '(alpha|beta|rc|example|pre|doc*|dev|start|cpp|migration)'
 }
 
 getver_ruby() {
 	fetch \
 	| grep -Eo $filename[_-][0-9a-z.]+.gem \
 	| sed "s/$filename[-_]//;s/\.gem//" \
-	| grep -Evi '(alpha|beta|rc|pre)' \
-	| grep [[:digit:]]
+	| grep [[:digit:]] \
+	| $grepexclude
 }
 
 getver_gnome() {
@@ -58,7 +59,7 @@ getver_xfce4() {
 	| sort -V \
 	| uniq \
 	| tail -n1)	
-	getver
+	getver_default
 }
 
 getver_aur() {
@@ -85,21 +86,20 @@ run_check() {
 		echo "url      : $url"
 		echo "cmd      : $checkver_cmd"
 		$checkver_cmd | sort -V | uniq | tail -n10
-		return
 	else
 		print_progress "Checking '$ppath'"
 		upver=$($checkver_cmd | sort -V | uniq | tail -n1)
 		echo -ne "\033[0K"
-	fi
-	
-	upver=${upver:-404}
-	
-	if [ "$upver" = "404" ]; then
-		echo -e " $ppath: $version => ${RED}404${CRESET}"
-		[ "$OUT" = 1 ] && echo "$ppath $version => 404" >> error
-	elif [ "$version" != "$upver" ]; then
-		echo -e " $ppath: $version => ${YELLOW}$upver${CRESET}"
-		[ "$OUT" = 1 ] && echo "$ppath $version => $upver" >> outdate
+
+		upver=${upver:-404}
+
+		if [ "$upver" = "404" ]; then
+			echo -e " $ppath: $version => ${RED}404${CRESET}"
+			[ "$OUT" = 1 ] && echo "$ppath $version => 404" >> error
+		elif [ "$version" != "$upver" ]; then
+			echo -e " $ppath: $version => ${YELLOW}$upver${CRESET}"
+			[ "$OUT" = 1 ] && echo "$ppath $version => $upver" >> outdate
+		fi
 	fi
 }
 
@@ -148,8 +148,10 @@ check() {
 	
 	file=$(basename $(echo $source | awk '{print $1}'))
 	ext=$(echo $FILE | sed 's/.*\(\.t.*\).*/\1/')
-	filename=$(basename $file)
-	filename=${filename%-*}
+	#filename=$(basename $file)
+	filename=$(echo $file | sed "s/[-_]$version.*//")
+	#filename=${filename/-/_}
+	#filename=${filename%_*}
 
 	if echo $source | awk '{print $1}' | grep -q "::"; then
 		url=$(echo $source | awk '{print $1}' | awk -F '::' '{print $2}')
@@ -160,7 +162,9 @@ check() {
 
 	alter_per_url
 
-	[ -f $ppath/update ] && . $ppath/update
+	[ "$NOOVERRIDE" ] || {
+		[ -f $ppath/update ] && . $ppath/update
+	}
 
 	if [ "$(type -t port_getver)" = "function" ]; then
 		run_check port_getver
@@ -177,7 +181,7 @@ check() {
 			*kde.org/stable/plasma*|*kde.org/stable/frameworks*|*kde.org/stable/applications*)
 				;;
 			*)
-				run_check getver;;
+				run_check getver_default;;
 		esac
 	fi
 	
@@ -195,6 +199,7 @@ parseopt() {
 					shift
 				done;;
 			-o) OUT=1;;
+			-n) NOOVERRIDE=1;;
 			-v) VERBOSE=1;;
 			 *) PKG+=($1);;
 		esac
@@ -206,6 +211,15 @@ main() {
 	parseopt $@
 	
 	[ "$OUT" = 1 ] && rm -f outdate error
+	
+	if [ "$exclude" ]; then
+		grepexclude="grep -i -v"
+		for i in $exclude; do
+			grepexclude="$grepexclude -e $i"
+		done
+	else
+		grepexclude=cat
+	fi
 	
 	if [ "$REPO" ]; then
 		for r in ${REPO[@]}; do
@@ -225,6 +239,8 @@ main() {
 		done
 	fi
 }
+
+exclude="alpha beta doc rc migration example pre dev start cpp data"
 
 main $@
 
