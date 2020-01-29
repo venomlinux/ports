@@ -4,6 +4,8 @@ url=$url/$(fetch $url \
 | sort -V \
 | tail -n1)
 
+filename=node
+
 port_getver() {
 	fetch \
 	| grep -Eo $filename-v[0-9.]+.tar.[bgx]z2? \
