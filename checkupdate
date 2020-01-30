@@ -199,16 +199,33 @@ parseopt() {
 			-r) while [ $2 ]; do
 					case $2 in
 						-*) break;;
-						*) REPO+=($2)
+						*) REPO="$REPO $2"
 					esac
 					shift
 				done;;
 			-n) NOOVERRIDE=1;;
 			-v) VERBOSE=1;;
-			 *) PKG+=($1);;
+			-h) print_help; exit 0;;
+			 *) PKG="$PKG $1";;
 		esac
 		shift
 	done
+}
+
+print_help() {
+	cat << EOF
+Script to check port's upstream update
+
+Usage:
+  ./$(basename $0) [ options ] [ <pkg1> <pkg2> <pkgN> ]
+  
+Options:
+  -r <repo>     check for certain repo
+  -n            dont use update file overrride
+  -v            print port's details
+  -h            show this help message
+      
+EOF
 }
 
 main() {
@@ -224,24 +241,37 @@ main() {
 	fi
 	
 	if [ "$REPO" ]; then
-		for r in ${REPO[@]}; do
-			if [ -d "$r" ]; then
-				for d in $r/*/spkgbuild; do
+		for repo in $REPO; do
+			if [ -d "$repo" ]; then
+				for d in $repo/*/spkgbuild; do
 					check $(dirname $d)
 				done
+			else
+				echo "Repo not exist: $repo"
 			fi
 		done
-	elif [ ${#PKG[@]} -gt 0 ]; then
-		for p in ${PKG[@]}; do
-			check $(find . -maxdepth 2 -mindepth 2 -name $p -printf "%P\n" | head -n1)
+	elif [ "$PKG" ]; then
+		for pkg in $PKG; do
+			found=0
+			for repo in $PORTREPO; do
+				if [ -f $repo/$pkg/spkgbuild ]; then
+					check $repo/$pkg
+					found=1
+					break
+				fi
+			done
+			[ "$found" = 0 ] && echo "Port not found: $pkg"
 		done
 	else
-		for d in */*/spkgbuild; do
-			check $(dirname $d)
+		for repo in $PORTREPO; do
+			for pkg in $repo/*/spkgbuild; do
+				check $(dirname $pkg)
+			done
 		done
 	fi
 }
 
+PORTREPO="core extra multilib xorg community testing"
 exclude="alpha beta doc rc migration example pre dev start cpp data"
 
 main $@
