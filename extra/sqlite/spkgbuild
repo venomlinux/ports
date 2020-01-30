@@ -3,10 +3,14 @@
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=sqlite
-version=3.30.1
-_version=3300100
+version=3.31.1
+_maj=${version%%.*}
+_mid=${version#*.}
+_mid=${_mid%%.*}
+_min=${version##*.}
+_version=${_maj}${_mid}0${_min}00
 release=1
-source="https://sqlite.org/2019/$name-autoconf-$_version.tar.gz"
+source="https://sqlite.org/2020/$name-autoconf-$_version.tar.gz"
 
 build() {
 	cd $name-autoconf-$_version
