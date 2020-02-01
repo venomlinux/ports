@@ -52,6 +52,28 @@ get_depends() {
 	| sed 's/,//'
 }
 
+check_dep() {
+	deps=$(get_depends)
+	for d in $deps; do
+		found=0
+		if ! isinstalled $d; then
+			echo "Dependency not installed: $d"
+			msdep=1
+			for r in ${PORTREPO[@]}; do
+				if [ -f "$r/$d/spkgbuild" ]; then
+					found=1
+					break
+				fi
+			done
+			if [ "$found" != 1 ]; then
+				echo "Missing dependency port: $d"
+			fi
+		fi
+	done
+	
+	[ "$msdep" = 1 ] && exit 1
+}
+
 port_update() {
 	local port=$1
 	local vers=$2
@@ -63,23 +85,7 @@ port_update() {
 		exit 2
 	fi
 	
-	deps=$(get_depends)
-	for d in $deps; do
-		found=0
-		if ! isinstalled $d; then
-			echo "Dependency not installed: $d"
-			for r in ${PORTREPO[@]}; do
-				if [ -f "$r/$d/spkgbuild" ]; then
-					found=1
-					break
-				fi
-			done
-			if [ "$found" != 1 ]; then
-				echo "Missing dependency port: $d"
-			fi
-			exit 1
-		fi
-	done
+	check_dep
 	
 	pushd $portpath >/dev/null
 	
@@ -129,23 +135,7 @@ port_build() {
 	
 	get_portpath $port
 	
-	deps=$(get_depends)
-	for d in $deps; do
-		found=0
-		if ! isinstalled $d; then
-			echo "Dependency not installed: $d"
-			for r in ${PORTREPO[@]}; do
-				if [ -f "$r/$d/spkgbuild" ]; then
-					found=1
-					break
-				fi
-			done
-			if [ "$found" != 1 ]; then
-				echo "Missing dependency port: $d"
-			fi
-			exit 1
-		fi
-	done
+	check_dep
 	
 	pushd $portpath >/dev/null
 	
