@@ -3,15 +3,11 @@
 # depends	: libwpe
 
 name=wpebackend-fdo
-version=1.4.0
+version=1.4.1
 release=1
-source="https://wpewebkit.org/releases/$name-$version.tar.xz
-	glvnd.patch"
+source="https://wpewebkit.org/releases/$name-$version.tar.xz"
 
 build() {
-	# Fix build with headers from libglvnd
-	patch -Np1 -i $SRC/glvnd.patch -d $name-$version
-
 	cmake -H$name-$version -Bbuild \
 	    -DCMAKE_BUILD_TYPE=Plain \
 	    -DCMAKE_INSTALL_PREFIX=/usr \
