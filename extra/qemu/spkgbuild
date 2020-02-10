@@ -3,7 +3,7 @@
 
 name=qemu
 version=4.2.0
-release=1
+release=2
 source="http://download.qemu-project.org/$name-$version.tar.bz2"
 
 build() {
@@ -15,7 +15,6 @@ build() {
 	../configure --prefix=/usr \
 	             --sysconfdir=/etc \
 	             --libexecdir=/usr/lib/$name \
-	             --target-list=x86_64-softmmu \
 		     --python=python3 \
 	             --audio-drv-list=alsa \
 		     --disable-docs \
