@@ -19,10 +19,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/locale \
-	      $PKG/usr/share/gtk-doc \
-	      $PKG/usr/share/locale
-
 	rm $PKG/usr/bin/gtk-update-icon-cache
 
 	cat > $PKG/etc/gtk-3.0/settings.ini << "EOF"
