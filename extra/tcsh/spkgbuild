@@ -21,8 +21,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/locale
-
 	ln -v -sf tcsh $PKG/bin/csh
 	ln -v -sf tcsh.1 $PKG/usr/share/man/man1/csh.1
 

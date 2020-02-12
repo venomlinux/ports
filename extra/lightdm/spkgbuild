@@ -31,7 +31,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -rf $PKG/etc/init $PKG/usr/share/gtk-doc
+	rm -rf $PKG/etc/init
 
 	install -Dm755 $SRC/rc.lightdm $PKG/etc/rc.d/lightdm
 	install -Dm755 $SRC/Xsession $PKG/etc/lightdm/Xsession

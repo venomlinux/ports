@@ -13,8 +13,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/doc
-
 	install -d $PKG/usr/share/man/man1
 	install -d $PKG/usr/share/man/man8
 	install -v -m644 man/*.1 $PKG/usr/share/man/man1

@@ -22,8 +22,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/doc
-
 	chmod -v 4755 $PKG/sbin/unix_chkpwd
 
 	for file in pam pam_misc pamc

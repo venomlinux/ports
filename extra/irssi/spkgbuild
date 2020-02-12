@@ -19,6 +19,4 @@ build() {
 		--with-perl-lib=vendor
 	make
 	make DESTDIR=$PKG install
-	find $PKG -name perllocal.pod -delete
-	rm -r $PKG/usr/share/doc
 }

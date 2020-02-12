@@ -22,7 +22,5 @@ build() {
 	rm $PKG/lib/libhandle.a $PKG/lib/libhandle.so
 	ln -sf ../../lib/libhandle.so.1 $PKG/usr/lib/libhandle.so
 
-	for xx in share/doc share/locale lib/xfsprogs; do
-		rm -r $PKG/usr/$xx
-	done
+	rm -r $PKG/usr/lib/xfsprogs
 }

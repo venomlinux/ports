@@ -41,7 +41,7 @@ account include system-auth
 session include system-auth
 EOF
 
-	rm -fr $PKG/var/run $PKG/usr/share/locale
+	rm -fr $PKG/var/run
 
 	# rc service
 	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name

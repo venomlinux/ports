@@ -42,9 +42,6 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 
-	rm -r $PKG/usr/share/doc \
-	      $PKG/usr/share/locale
-
 mkdir -p $PKG/etc/NetworkManager
 cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"
 [main]

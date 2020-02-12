@@ -20,7 +20,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 	
-	rm -r $PKG/usr/share/locale
 	for i in ca uk nl pt_BR de it es pt sv; do
 		rm -r $PKG/usr/share/man/$i
 	done

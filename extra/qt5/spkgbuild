@@ -42,8 +42,6 @@ build() {
 	make
 	make -j1 INSTALL_ROOT=$PKG install
 
-	rm -r $PKG/usr/share/doc
-
 	find $PKG/usr -name \*.prl \
 	   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 

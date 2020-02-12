@@ -18,5 +18,4 @@ build() {
 	iucode_tool --write-earlyfw=intel-ucode.img intel-ucode/ intel-ucode-with-caveats/
 
 	install -D -m0644 intel-ucode.img "${PKG}"/boot/intel-ucode.img
-	install -D -m0644 license "${PKG}"/usr/share/doc/${name}-$version/LICENSE 
 }

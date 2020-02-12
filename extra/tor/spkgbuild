@@ -16,8 +16,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -fr $PKG/usr/share/doc
-
 	install -Dm0644 $SRC/torrc $PKG/etc/tor/torrc
 	mv $PKG/etc/tor/torrc.sample $PKG/etc/tor/torrc-dist
 

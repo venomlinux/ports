@@ -16,5 +16,8 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/doc $PKG/usr/share/locale $PKG/usr/share/man/fr $PKG/usr/share/man/nl $PKG/etc/xdg/dfc/fr $PKG/etc/xdg/dfc/nl 
+	rm -r $PKG/usr/share/man/fr \
+	      $PKG/usr/share/man/nl \
+	      $PKG/etc/xdg/dfc/fr \
+	      $PKG/etc/xdg/dfc/nl 
 }

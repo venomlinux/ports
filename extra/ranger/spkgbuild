@@ -11,5 +11,4 @@ source="http://ranger.github.io/$name-$version.tar.gz"
 build() {
 	cd $name-$version
 	python3 setup.py -q install --root=$PKG --optimize=1
-	rm -r $PKG/usr/share/doc
 }

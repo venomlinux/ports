@@ -15,6 +15,4 @@ build() {
 	meson --prefix=/usr --libexecdir=/usr/lib/$name -Djasper=true ..
 	ninja
 	DESTDIR=$PKG ninja install
-
-	rm -r $PKG/usr/share/locale
 }

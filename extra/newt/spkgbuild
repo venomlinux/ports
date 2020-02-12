@@ -19,6 +19,4 @@ build() {
 	./configure --prefix=/usr --with-gpm-support
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share/locale
 }

@@ -33,8 +33,6 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 
-	rm -r $PKG/usr/share/locale
-
 	# exclude library for revdep
 	mkdir -p $PKG/etc/revdep.d/
 	echo libgvfscommon.so > $PKG/etc/revdep.d/$name.conf

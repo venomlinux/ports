@@ -17,8 +17,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/doc
-
 	# rc service
 	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
 }
