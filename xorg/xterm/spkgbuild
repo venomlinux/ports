@@ -4,7 +4,7 @@
 # depends	: libxaw libxft libxkbfile xbitmaps luit dejavu-fonts
 
 name=xterm
-version=352
+version=353
 release=1
 source="http://invisible-mirror.net/archives/$name/$name-$version.tgz
 	${name}_remove_list"
@@ -12,26 +12,19 @@ source="http://invisible-mirror.net/archives/$name/$name-$version.tgz
 build() {
 	cd $name-$version
 
-	# modify the terminal description so that the Backspace
-	# key is expected to send the character with ASCII code 127.
-	# This is done for consistency with the Linux console.
-	sed -i '/v0/{n;s/new:/new:kb=^?:/}' termcap
-	printf '\tkbs=\\177,\n' >> terminfo
-
 	TERMINFO=/usr/share/terminfo \
 	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--disable-static \
+		--enable-256-color \
+                --enable-wide-chars \
 		--with-app-defaults=/etc/X11/app-defaults
 	make
 	make DESTDIR=$PKG install
-	make DESTDIR=$PKG install-ti
 
-mkdir -p $PKG/etc/X11/app-defaults/
-
-cat >> $PKG/etc/X11/app-defaults/XTerm << "EOF"
+	cat >> $PKG/etc/X11/app-defaults/XTerm << "EOF"
 *VT100*locale: true
 *VT100*faceName: Monospace
 *VT100*faceSize: 10
@@ -39,12 +32,6 @@ cat >> $PKG/etc/X11/app-defaults/XTerm << "EOF"
 *ptyInitialErase: true
 EOF
 
-## conflicted files with ncurses package
-## dont remove this unless theres no more conflict!
-cd $PKG
-rm $(cat $SRC/${name}_remove_list)
-cd -
-
-install -m755 -d $PKG/usr/share/applications
-install -m644 xterm.desktop uxterm.desktop $PKG/usr/share/applications
+	install -m755 -d $PKG/usr/share/applications
+	install -m644 xterm.desktop uxterm.desktop $PKG/usr/share/applications
 }
