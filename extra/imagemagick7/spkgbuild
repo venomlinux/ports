@@ -17,7 +17,8 @@ build() {
 	            --enable-hdri     \
 	            --with-modules    \
 	            --with-perl       \
-	            --disable-static
+	            --disable-static  \
+		    --without-openexr
 	make
 	make DESTDIR=$PKG install
 }
