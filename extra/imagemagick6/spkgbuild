@@ -21,7 +21,8 @@ build() {
 	            --sysconfdir=/etc \
 	            --enable-hdri     \
 	            --with-modules    \
-	            --disable-static
+	            --disable-static  \
+		    --without-openexr
 	make
 	make DESTDIR=$PKG install-libs-only
 
