@@ -128,6 +128,8 @@ alter_per_url() {
 			url=https://ftp.gnome.org/pub/gnome/sources/$filename/cache.json;;
 		*archive.xfce.org*)
 			url=http://archive.xfce.org/src/$(echo $url | cut -d / -f5)/$name/;;
+		*pub.mate-desktop.org*)
+			url=http://pub.mate-desktop.org/releases/1.24/;;
 	esac
 }
 
@@ -141,9 +143,11 @@ check() {
 	fi
 	
 	# ignore
-	if grep -x $ppath ignoreupdate >/dev/null; then
-		echo -e " $ppath: $version => ${GREEN}SKIP${CRESET}"
-		return
+	if [ -f ignoreupdate ]; then
+		if grep -qx $ppath ignoreupdate; then
+			echo -e " $ppath: $version => ${GREEN}SKIP${CRESET}"
+			return
+		fi
 	fi
 
 	if [ -z "$source" ]; then
