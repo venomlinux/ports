@@ -2,7 +2,7 @@
 # depends	: coreutils bash wget httpup libarchive
 
 name=scratchpkg
-version=0.2
+version=0.3
 release=1
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
@@ -11,9 +11,7 @@ backup="etc/scratchpkg.conf
 _commit=9c41d50f45cdbb7a03a78f6640467b8bf60a428a
 scratchpkg_url=https://github.com/venomlinux/scratchpkg
 source="$scratchpkg_url/archive/$version/$name-$version.tar.gz
-	001-scratchpkg.patch::$scratchpkg_url/commit/2e26f7c2f06c6397266c9f112c49c93003cc4b7b.patch
-	002-scratchpkg.patch::$scratchpkg_url/commit/5eeb974b1748976f942d526c4402de57b734b4a6.patch
-	003-scratchpkg.patch::$scratchpkg_url/commit/0a9cfce26a1167a89b426a542734b95ed7b3a5c0.patch
+	001-scratchpkg-424c56f.patch::$scratchpkg_url/commit/424c56f0752ae2609782fd38ceb53deed27dfd2f.patch
 	repo"
 
 build() {
