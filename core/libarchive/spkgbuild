@@ -5,7 +5,7 @@
 
 name=libarchive
 version=3.4.2
-release=1
+release=2
 source="https://github.com/libarchive/libarchive/releases/download/v$version/libarchive-$version.tar.gz"
 
 build() {
@@ -15,6 +15,8 @@ build() {
 		--prefix=/usr \
 		--without-xml2 \
 		--without-nettle \
+		--without-lz4 \
+		--without-zstd \
 		--disable-static
 	make
 	make DESTDIR=$PKG install
