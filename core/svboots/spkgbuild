@@ -1,0 +1,20 @@
+# description	: Bootscripts for SysV init
+# homepage	: https://github.com/venomlinux/svboots
+# maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: sysvinit
+
+name=svboots
+version=20200219
+release=1
+backup="etc/rc.conf
+	etc/rc.local
+	etc/rc.order"
+commit=698e84ae6c1b12a45b346eaebc1f06f124c4fa95
+source="$name-$commit.tar.gz::https://github.com/venomlinux/svboots/archive/$commit.tar.gz
+	rc.order"
+
+build() {
+	cd $name-$commit
+	make DESTDIR=$PKG install
+	install -Dm0644 $SRC/rc.order $PKG/etc/rc.order
+}
