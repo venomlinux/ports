@@ -44,7 +44,7 @@ build() {
 	install -m0755 -D pam_vbox.so "$PKG/lib/security/pam_vbox.so"
 	install -Dm0644 $SRC/60-vboxguest.rules "$PKG/lib/udev/rules.d/60-vboxguest.rules"
 	install -Dm0644 $SRC/vboxclient.desktop "$PKG/etc/xdg/autostart/vboxclient.desktop"
-	install -Dm0644 $SRC/VBoxClient-all "$PKG/usr/bin/VBoxClient-all"
+	install -Dm0755 $SRC/VBoxClient-all "$PKG/usr/bin/VBoxClient-all"
 
 	# modules
 	cd src
@@ -74,5 +74,5 @@ build() {
 	find $PKG -name '*.ko' -exec xz -T1 {} +
 
 	# rc service
-        install -Dm755 $SRC/vboxservice.rc $PKG/etc/rc.d/vboxservice
+        install -Dm644 $SRC/vboxservice.rc $PKG/etc/rc.d/vboxservice
 }
