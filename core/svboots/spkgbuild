@@ -5,16 +5,13 @@
 
 name=svboots
 version=20200219
-release=1
+release=2
 backup="etc/rc.conf
-	etc/rc.local
-	etc/rc.order"
-commit=698e84ae6c1b12a45b346eaebc1f06f124c4fa95
-source="$name-$commit.tar.gz::https://github.com/venomlinux/svboots/archive/$commit.tar.gz
-	rc.order"
+	etc/rc.local"
+commit=492de112bb3eaf16d25d2a6e7978442ede640c76
+source="$name-$commit.tar.gz::https://github.com/venomlinux/svboots/archive/$commit.tar.gz"
 
 build() {
 	cd $name-$commit
 	make DESTDIR=$PKG install
-	install -Dm0644 $SRC/rc.order $PKG/etc/rc.order
 }
