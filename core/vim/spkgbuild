@@ -4,7 +4,7 @@
 # depends	: acl gawk
 
 name=vim
-version=8.2.0260
+version=8.2.0285
 release=1
 source="https://github.com/vim/vim/archive/v$version/vim-v$version.tar.gz"
 
@@ -49,7 +49,9 @@ endif
 " End /etc/vimrc
 EOF
 
+	ln -sv vim $PKG/usr/bin/vi
+
 	# remove conflict with vi
-	rm -f $PKG/usr/bin/view \
-	      $PKG/usr/bin/ex
+	#rm -f $PKG/usr/bin/view \
+	#      $PKG/usr/bin/ex
 }
