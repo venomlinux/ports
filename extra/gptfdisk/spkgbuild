@@ -4,12 +4,15 @@
 # depends	: popt
 
 name=gptfdisk
-version=1.0.4
+version=1.0.5
 release=1
 source="https://downloads.sourceforge.net/$name/$name/$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
+
+	# https://sourceforge.net/p/gptfdisk/discussion/939590/thread/bc29ca06f8/
+	sed -i '/^#include /s|ncursesw/||' gptcurses.cc
 
 	make
 	install -d $PKG/usr/bin $PKG/usr/share/man/man8
