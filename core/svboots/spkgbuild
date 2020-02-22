@@ -5,12 +5,14 @@
 
 name=svboots
 version=20200222
-release=1
+release=2
 backup="etc/rc.conf
 	etc/rc.local"
-source="https://github.com/venomlinux/svboots/archive/$version/$name-$version.tar.gz"
+source="https://github.com/venomlinux/svboots/archive/$version/$name-$version.tar.gz
+	https://github.com/venomlinux/svboots/commit/9657ecc77839d551443762f81f783a845e7b0979.patch"
 
 build() {
 	cd $name-$version
+	patch -Np1 -i $SRC/9657ecc77839d551443762f81f783a845e7b0979.patch
 	make DESTDIR=$PKG install
 }
