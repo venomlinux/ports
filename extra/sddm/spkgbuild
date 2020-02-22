@@ -3,7 +3,7 @@
 
 name=sddm
 version=0.18.1
-release=4
+release=5
 backup="usr/share/sddm/scripts/Xsetup
 	etc/sddm.conf"
 source="https://github.com/sddm/sddm/releases/download/v$version/sddm-$version.tar.xz
@@ -31,7 +31,7 @@ build() {
 	make DESTDIR=$PKG install
 	install -dm755 $PKG/var/lib/sddm
 
-	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	install -Dm644 $SRC/rc.$name $PKG/etc/rc.d/$name
 
 	install -d $PKG/usr/lib/sddm/sddm.conf.d
 	$PKG/usr/bin/sddm --example-config > $PKG/etc/sddm.conf

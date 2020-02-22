@@ -5,7 +5,7 @@
 
 name=bluez
 version=5.53
-release=1
+release=2
 backup="etc/conf.d/bluetooth"
 source="https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
 	bluetooth.rc
@@ -49,6 +49,6 @@ cat > $PKG/etc/bluetooth/uart.conf << "EOF"
 EOF
 
 	# rc service
-	install -Dm755 $SRC/bluetooth.rc $PKG/etc/rc.d/bluetooth
+	install -Dm644 $SRC/bluetooth.rc $PKG/etc/rc.d/bluetooth
 	install -Dm644 $SRC/bluetooth.conf $PKG/etc/conf.d/bluetooth
 }

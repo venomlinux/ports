@@ -3,7 +3,7 @@
 
 name=openssh
 version=8.2p1
-release=1
+release=2
 source="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
 	sshd.rc"
 
@@ -26,5 +26,5 @@ build() {
 	    -i $PKG/etc/ssh/sshd_config
 
 	# rc service
-	install -Dm755 $SRC/sshd.rc $PKG/etc/rc.d/sshd
+	install -Dm644 $SRC/sshd.rc $PKG/etc/rc.d/sshd
 }

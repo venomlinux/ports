@@ -3,7 +3,7 @@
 
 name=dbus
 version=1.12.16
-release=1
+release=2
 source="https://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz
 	$name.rc"
 
@@ -41,5 +41,5 @@ build() {
 EOF
 
 	# rc service
-	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

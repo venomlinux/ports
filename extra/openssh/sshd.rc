@@ -1,37 +1,36 @@
-#!/bin/sh
 #
 # /etc/rc.d/sshd: start/stop SSH server
 #
-
-. /etc/rc.subr
 
 NAME="SSH server"
 PROG=/usr/sbin/sshd
 PIDFILE=/run/sshd.pid
 
-case $1 in
-	start)
-		msg "Starting $NAME..."
-		start_daemon -f $PROG
-		sleep 1
-		pid=`cat $PIDFILE 2>/dev/null`
-		[ $pid ] && echo "-16" >/proc/$pid/oom_score_adj
-		;;
-	stop)
-		msg "Stopping $NAME..."
-		stop_daemon $PROG
-		;;
-	restart)
-		$0 stop
-		sleep 1
-		$0 start
-		;;
-	status)
-		status_daemon $PROG
-		;;
-	*)
-		echo "usage: $0 [start|stop|restart|status]"
-		;;
-esac
+sv_start() {
+	msg "Starting $NAME..."
+	start_service -f $PROG
+	sleep 1
+	pid=`cat $PIDFILE 2>/dev/null`
+	[ "$pid" ] && echo "-16" >/proc/$pid/oom_score_adj
+}
+
+sv_stop() {
+	msg "Stopping $NAME..."
+	stop_service $PROG
+}
+
+sv_status() {
+	status_service $PROG
+}
+
+sv_restart() {
+	sv_stop
+	sleep 1
+	sv_start
+}
+
+sv_usage() {
+	echo "usage: [start|stop|restart|status]"
+}
 
 # End of file

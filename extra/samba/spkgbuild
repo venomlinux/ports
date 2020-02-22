@@ -4,7 +4,7 @@
 
 name=samba
 version=4.11.6
-release=1
+release=2
 source="https://www.samba.org/ftp/samba/stable/$name-$version.tar.gz
 	samba.rc"
 
@@ -39,7 +39,7 @@ build() {
 	install -v -m644 examples/smb.conf.default $PKG/etc/samba
 
 	# rc service
-        install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+        install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
 
 	# revdep exclude
 	mkdir -p $PKG/etc/revdep.d

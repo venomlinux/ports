@@ -5,7 +5,7 @@
 
 name=lxdm
 version=0.5.3
-release=8
+release=9
 backup="etc/lxdm/lxdm.conf"
 source="https://downloads.sourceforge.net/$name/$name-$version.tar.xz
 	$name.rc"
@@ -45,5 +45,5 @@ sed -e 's/^bg/#&/'        \
 	make DESTDIR=$PKG install
 
 	# rc service
-	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

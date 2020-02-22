@@ -3,7 +3,7 @@
 
 name=lightdm
 version=1.30.0
-release=1
+release=2
 backup="etc/lightdm/keys.conf
 	etc/lightdm/lightdm.conf
 	etc/lightdm/users.conf"
@@ -33,7 +33,7 @@ build() {
 
 	rm -rf $PKG/etc/init
 
-	install -Dm755 $SRC/rc.lightdm $PKG/etc/rc.d/lightdm
+	install -Dm644 $SRC/rc.lightdm $PKG/etc/rc.d/lightdm
 	install -Dm755 $SRC/Xsession $PKG/etc/lightdm/Xsession
 
 	install -Dm 644 $SRC/$name.rules $PKG/usr/share/polkit-1/rules.d/$name.rules

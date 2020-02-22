@@ -4,7 +4,7 @@
 
 name=gpm
 version=1.20.7
-release=2
+release=3
 source="https://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
 	$name-$version-glibc_2.26-1.patch
 	$name.rc
@@ -28,6 +28,6 @@ build() {
 	install -v -m644 conf/gpm-root.conf $PKG/etc
 
 	# rc service
-	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
 	install -Dm644 $SRC/$name.conf $PKG/etc/conf.d/$name
 }

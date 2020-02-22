@@ -5,7 +5,7 @@
 
 name=cups
 version=2.3.1
-release=1
+release=2
 source="https://github.com/apple/cups/releases/download/v$version/$name-$version-source.tar.gz
 	$name.rc"
 
@@ -44,5 +44,5 @@ EOF
 	rm -fr $PKG/var/run
 
 	# rc service
-	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

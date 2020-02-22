@@ -1,34 +1,33 @@
-#!/bin/sh
 #
-# /etc/rc.d/lxdm: start/stop lxdm daemon
+# /etc/rc.d/lxdm: start/stop lxdm service
 #
-
-. /etc/rc.subr
 
 NAME="LXDM"
 PROG=/usr/sbin/lxdm-binary
 PIDFILE=/var/run/lxdm.pid
 
-case $1 in
-	start)
-		msg "Starting $NAME..."
-		start_daemon -p $PIDFILE /usr/sbin/lxdm -d
-		;;
-	stop)
-		msg "Stopping $NAME..."
-		stop_daemon -p $PIDFILE /usr/sbin/lxdm
-		;;
-	restart)
-		$0 stop
-		sleep 1
-		$0 start
-		;;
-	status)
-		status_daemon $PROG
-		;;
-	*)
-		echo "usage: $0 [start|stop|restart|status]"
-		;;
-esac
+sv_start() {
+	msg "Starting $NAME..."
+	start_service -p $PIDFILE /usr/sbin/lxdm -d
+}
+
+sv_stop() {
+	msg "Stopping $NAME..."
+	stop_service -p $PIDFILE /usr/sbin/lxdm
+}
+
+sv_status() {
+	status_service $PROG
+}
+
+sv_restart() {
+	sv_stop
+	sleep 1
+	sv_start
+}
+
+sv_usage() {
+	echo "usage: [start|stop|restart|status]"
+}
 
 # End of file

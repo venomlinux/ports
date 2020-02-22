@@ -1,48 +1,42 @@
-#!/bin/sh
 #
 # /etc/rc.d/wpa_supplicant: start/stop wireless interface
 #
 
-. /etc/conf.d/wpa
-. /etc/rc.subr
-
 NAME=wpa_supplicant
 PROG=/sbin/wpa_supplicant
 PIDFILE_WPA=/var/run/$NAME.pid
+OPTS="-B -P $PIDFILE_WPA -D nl80211,wext -c ${CONF:-/etc/wpa_supplicant.conf} -i ${DEV:-wlan0}"
 
 PROG_DHCP=/sbin/dhcpcd
-PIDFILE__DHCP=/var/run/$NAME.pid
+OPTS_DHCP="--waitip -h ${HOSTNAME:-localhost} -z ${DEV:-wlan0}"
 
-OPTS="-B -P $PIDFILE_WPA -D nl80211,wext -c /etc/wpa_supplicant.conf -i $DEV"
-OPTS_DHCP="--waitip -h $(/bin/hostname) -z $DEV"
+sv_start() {
+	msg "Starting $NAME..."
+	start_service $PROG $OPTS		
+	msg "Starting dhcpcd..."
+	start_service $PROG_DHCP $OPTS_DHCP
+}
 
-case $1 in
-	start)
-		msg "Starting $NAME..."
-		start_daemon $PROG $OPTS
-		
-		msg "Start dhcpcd..."
-		start_daemon $PROG_DHCP $OPTS_DHCP
-		;;
-	stop)
-		msg "Stopping $NAME..."
-		stop_daemon $PROG
-		
-		msg "Stopping dhcpcd..."
-		stop_daemon $PROG_DHCP
-		;;
-	restart)
-		$0 stop
-		sleep 1
-		$0 start
-		;;
-	status)
-		status_daemon $PROG
-		status_daemon $PROG_DHCP
-		;;
-	*)
-		echo "Usage: $0 [start|stop|restart|status]"
-		;;
-esac
+sv_stop() {
+	msg "Stopping $NAME..."
+	stop_service $PROG	
+	msg "Stopping dhcpcd..."
+	stop_service $PROG_DHCP
+}
+
+sv_status() {
+	status_service $PROG
+	status_service $PROG_DHCP
+}
+
+sv_restart() {
+	sv_stop
+	sleep 1
+	sv_start
+}
+
+sv_usage() {
+	echo "usage: [start|stop|restart|status]"
+}
 
 # End of file

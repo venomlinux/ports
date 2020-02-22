@@ -3,7 +3,7 @@
 
 name=slim
 version=1.3.6
-release=1
+release=2
 backup="etc/slim.conf"
 source="https://sourceforge.net/projects/${name}.berlios/files/$name-$version.tar.gz
 	$name.rc"
@@ -25,5 +25,5 @@ build() {
 	rm -r $PKG/lib $PKG/usr/share/man/man1/slimlock.1
 
 	# rc service
-	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

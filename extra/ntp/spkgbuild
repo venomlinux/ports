@@ -5,7 +5,7 @@
 
 name=ntp
 version=4.2.8p13
-release=3
+release=4
 source="https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-${version%.*}/$name-$version.tar.gz
 	ntpd.rc"
 
@@ -56,5 +56,5 @@ restrict 127.0.0.1
 restrict ::1
 EOF
 	# rc service
-	install -Dm755 $SRC/ntpd.rc $PKG/etc/rc.d/ntpd
+	install -Dm644 $SRC/ntpd.rc $PKG/etc/rc.d/ntpd
 }

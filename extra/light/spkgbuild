@@ -5,7 +5,7 @@
 
 name=light
 version=1.2.1
-release=1
+release=2
 source="$name-$version.tar.gz::https://github.com/haikarainen/light/archive/v$version.tar.gz
 	$name.rc"
 
@@ -18,5 +18,5 @@ build() {
 	make DESTDIR=$PKG install
 
 	# rc service
-	install -Dm755 $SRC/$name.rc $PKG/etc/rc.d/$name
+	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
 }

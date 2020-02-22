@@ -3,7 +3,7 @@
 
 name=apache
 version=2.4.41
-release=3
+release=4
 source="https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 	httpd-blfs_layout-1.patch
 	httpd.rc"
@@ -37,5 +37,5 @@ build() {
 	rm -fr $PKG/var/run
 
 	# rc service
-	install -Dm755 $SRC/httpd.rc $PKG/etc/rc.d/httpd
+	install -Dm644 $SRC/httpd.rc $PKG/etc/rc.d/httpd
 }

@@ -4,7 +4,7 @@
 
 name=dhcpcd
 version=8.1.6
-release=1
+release=2
 backup="etc/conf.d/network"
 source="http://roy.marples.name/downloads/$name/$name-$version.tar.xz
 	network.rc
@@ -19,6 +19,6 @@ build() {
 	make DESTDIR=$PKG install
 
 	# rc service
-	install -Dm755 $SRC/network.rc $PKG/etc/rc.d/network
+	install -Dm644 $SRC/network.rc $PKG/etc/rc.d/network
 	install -Dm644 $SRC/network.conf $PKG/etc/conf.d/network
 }
