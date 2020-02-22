@@ -4,14 +4,13 @@
 # depends	: sysvinit
 
 name=svboots
-version=20200219
-release=2
+version=20200222
+release=1
 backup="etc/rc.conf
 	etc/rc.local"
-commit=492de112bb3eaf16d25d2a6e7978442ede640c76
-source="$name-$commit.tar.gz::https://github.com/venomlinux/svboots/archive/$commit.tar.gz"
+source="https://github.com/venomlinux/svboots/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$commit
+	cd $name-$version
 	make DESTDIR=$PKG install
 }
