@@ -2,18 +2,19 @@
 # depends	: elfutils mkinitramfs openssl linux-firmware
 
 name=linux
-version=4.19.66
+version=5.4.22
 release=1
 options="!strip"
-source="https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-$version.tar.xz
-	config-$version"
+source="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$version.tar.xz
+	config"
 
 build() {
 	cd linux-$version
 
 	make mrproper
 
-	cp $SRC/config-$version ./.config
+	cp $SRC/config ./.config
+	make olddefconfig
 
 	sed '/^CONFIG_LOCALVERSION=/d' -i .config
 	echo 'CONFIG_LOCALVERSION="-Venom"' >> .config
