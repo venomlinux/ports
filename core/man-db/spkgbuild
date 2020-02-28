@@ -4,7 +4,7 @@
 # depends	: bash gdbm groff less libpipeline zlib
 
 name=man-db
-version=2.9.0
+version=2.9.1
 release=1
 source="https://savannah.nongnu.org/download/man-db/$name-$version.tar.xz"
 
@@ -24,6 +24,4 @@ build() {
 		    --disable-nls
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share/doc
 }
