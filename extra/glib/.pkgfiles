@@ -4,7 +4,6 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/gdbus
 -rwxr-xr-x root/root    usr/bin/gdbus-codegen
 -rwxr-xr-x root/root    usr/bin/gio
--rwxr-xr-x root/root    usr/bin/gio-launch-desktop
 -rwxr-xr-x root/root    usr/bin/gio-querymodules
 -rwxr-xr-x root/root    usr/bin/glib-compile-resources
 -rwxr-xr-x root/root    usr/bin/glib-compile-schemas
@@ -112,6 +111,7 @@ drwxr-xr-x root/root    usr/include/glib-2.0/gio/
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gliststore.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gloadableicon.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gmemoryinputstream.h
+-rw-r--r-- root/root    usr/include/glib-2.0/gio/gmemorymonitor.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gmemoryoutputstream.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gmenu.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gmenuexporter.h
@@ -296,20 +296,20 @@ drwxr-xr-x root/root    usr/lib/glib-2.0/
 drwxr-xr-x root/root    usr/lib/glib-2.0/include/
 -rw-r--r-- root/root    usr/lib/glib-2.0/include/glibconfig.h
 lrwxrwxrwx root/root    usr/lib/libgio-2.0.so -> libgio-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libgio-2.0.so.0 -> libgio-2.0.so.0.6200.5
--rwxr-xr-x root/root    usr/lib/libgio-2.0.so.0.6200.5
+lrwxrwxrwx root/root    usr/lib/libgio-2.0.so.0 -> libgio-2.0.so.0.6400.0
+-rwxr-xr-x root/root    usr/lib/libgio-2.0.so.0.6400.0
 lrwxrwxrwx root/root    usr/lib/libglib-2.0.so -> libglib-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libglib-2.0.so.0 -> libglib-2.0.so.0.6200.5
--rwxr-xr-x root/root    usr/lib/libglib-2.0.so.0.6200.5
+lrwxrwxrwx root/root    usr/lib/libglib-2.0.so.0 -> libglib-2.0.so.0.6400.0
+-rwxr-xr-x root/root    usr/lib/libglib-2.0.so.0.6400.0
 lrwxrwxrwx root/root    usr/lib/libgmodule-2.0.so -> libgmodule-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libgmodule-2.0.so.0 -> libgmodule-2.0.so.0.6200.5
--rwxr-xr-x root/root    usr/lib/libgmodule-2.0.so.0.6200.5
+lrwxrwxrwx root/root    usr/lib/libgmodule-2.0.so.0 -> libgmodule-2.0.so.0.6400.0
+-rwxr-xr-x root/root    usr/lib/libgmodule-2.0.so.0.6400.0
 lrwxrwxrwx root/root    usr/lib/libgobject-2.0.so -> libgobject-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libgobject-2.0.so.0 -> libgobject-2.0.so.0.6200.5
--rwxr-xr-x root/root    usr/lib/libgobject-2.0.so.0.6200.5
+lrwxrwxrwx root/root    usr/lib/libgobject-2.0.so.0 -> libgobject-2.0.so.0.6400.0
+-rwxr-xr-x root/root    usr/lib/libgobject-2.0.so.0.6400.0
 lrwxrwxrwx root/root    usr/lib/libgthread-2.0.so -> libgthread-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libgthread-2.0.so.0 -> libgthread-2.0.so.0.6200.5
--rwxr-xr-x root/root    usr/lib/libgthread-2.0.so.0.6200.5
+lrwxrwxrwx root/root    usr/lib/libgthread-2.0.so.0 -> libgthread-2.0.so.0.6400.0
+-rwxr-xr-x root/root    usr/lib/libgthread-2.0.so.0.6400.0
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/gio-2.0.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gio-unix-2.0.pc
@@ -319,6 +319,11 @@ drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/gmodule-no-export-2.0.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gobject-2.0.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gthread-2.0.pc
+drwxr-xr-x root/root    usr/libexec/
+drwxr-xr-x root/root    usr/libexec/installed-tests/
+drwxr-xr-x root/root    usr/libexec/installed-tests/glib/
+-rwxr-xr-x root/root    usr/libexec/installed-tests/glib/memory-monitor-dbus.py
+-rwxr-xr-x root/root    usr/libexec/installed-tests/glib/memory-monitor-portal.py
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/aclocal/
 -rw-r--r-- root/root    usr/share/aclocal/glib-2.0.m4
@@ -335,8 +340,8 @@ drwxr-xr-x root/root    usr/share/gdb/
 drwxr-xr-x root/root    usr/share/gdb/auto-load/
 drwxr-xr-x root/root    usr/share/gdb/auto-load/usr/
 drwxr-xr-x root/root    usr/share/gdb/auto-load/usr/lib/
--rw-r--r-- root/root    usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.6200.5-gdb.py
--rw-r--r-- root/root    usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.6200.5-gdb.py
+-rw-r--r-- root/root    usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.6400.0-gdb.py
+-rw-r--r-- root/root    usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.6400.0-gdb.py
 drwxr-xr-x root/root    usr/share/gettext/
 drwxr-xr-x root/root    usr/share/gettext/its/
 -rw-r--r-- root/root    usr/share/gettext/its/gschema.its
@@ -361,6 +366,10 @@ drwxr-xr-x root/root    usr/share/glib-2.0/schemas/
 -rw-r--r-- root/root    usr/share/glib-2.0/schemas/gschema.dtd
 drwxr-xr-x root/root    usr/share/glib-2.0/valgrind/
 -rw-r--r-- root/root    usr/share/glib-2.0/valgrind/glib.supp
+drwxr-xr-x root/root    usr/share/installed-tests/
+drwxr-xr-x root/root    usr/share/installed-tests/glib/
+-rw-r--r-- root/root    usr/share/installed-tests/glib/memory-monitor-dbus.test
+-rw-r--r-- root/root    usr/share/installed-tests/glib/memory-monitor-portal.test
 drwxr-xr-x root/root    usr/share/man/
 drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/gapplication.1.gz
