@@ -2,14 +2,13 @@
 # depends	: glib alsa-lib
 
 name=libmatemixer
-version=1.22.0
+version=1.24.0
 release=1
-source="http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz"
+source="https://pub.mate-desktop.org/releases/${version%.*}/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr --disable-nls
 	make
 	make DESTDIR=$PKG install
-	rm -r $PKG/usr/share
 }
