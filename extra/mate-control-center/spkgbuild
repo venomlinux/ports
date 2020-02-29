@@ -1,10 +1,10 @@
 # description	: The MATE control center
-# depends	: desktop-file-utils
+# depends	: desktop-file-utils mate-settings-daemon
 
 name=mate-control-center
-version=1.22.2
+version=1.24.0
 release=1
-source="http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.xz"
+source="https://pub.mate-desktop.org/releases/${version%.*}/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
