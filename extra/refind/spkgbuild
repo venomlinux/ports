@@ -3,7 +3,7 @@
 # depends	: gnu-efi
 
 name=refind
-version=0.11.4
+version=0.11.5
 release=1
 source="https://downloads.sourceforge.net/$name/$version/$name-src-$version.tar.gz"
 
@@ -28,7 +28,7 @@ build() {
         for xx in bmp png svg; do
 			install -m 0644 images/*.$xx $PKG/usr/share/$name/images/
 		done
-		for xx in cer crt der; do
+		for xx in cer crt; do
 			install -m 0644 keys/*.$xx $PKG/usr/share/$name/keys/
 		done
         install -m 0644 $name.conf-sample $PKG/usr/share/$name/$name.conf-sample
