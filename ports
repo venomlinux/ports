@@ -269,6 +269,25 @@ port_status() {
 	#git status | grep -v REPO | grep modified | sed 's/.*modified:/modified:/g'
 }
 
+port_checkdep() {
+	for r in ${PORTREPO[@]}; do
+		tmprepo="$tmprepo $r"
+		for p in $r/*/spkgbuild; do
+			portpath=$(dirname $p)
+			for d in $(get_depends); do
+				found=0
+				for tp in $tmprepo; do
+					if [ -f $tp/$d/spkgbuild ]; then
+						found=1
+						break
+					fi
+				done
+				[ "$found" = 0 ] && echo "$portpath: $d"
+			done
+		done
+	done
+}
+
 port_help() {
 	cat << EOF
 Usage:
@@ -287,7 +306,7 @@ Options:
 EOF
 }
 
-PORTREPO=(core extra multilib xorg community testing)
+PORTREPO=(core xorg extra multilib community testing)
 INDEX_DIR="/var/lib/scratchpkg/index"
 EDITOR=${EDITOR:-vim}
 
