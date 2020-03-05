@@ -3,7 +3,7 @@
 
 name=glib
 version=2.64.0
-release=1
+release=2
 source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
@@ -12,8 +12,9 @@ build() {
 	mkdir build-glib
 	cd    build-glib
 	
-	meson --prefix=/usr   \
-	      -Dman=true      \
+	meson --prefix=/usr \
+	      --libexecdir=lib \
+	      -Dman=true \
 	      -Dselinux=disabled \
 	      ..
 	ninja
