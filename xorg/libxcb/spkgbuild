@@ -4,9 +4,9 @@
 # depends	: libxau libxdmcp xcb-proto python3 util-macros
 
 name=libxcb
-version=1.13.1
+version=1.14
 release=1
-source="http://xcb.freedesktop.org/dist/libxcb-$version.tar.bz2"
+source="http://xcb.freedesktop.org/dist/libxcb-$version.tar.xz"
 
 build() {
 	cd $name-$version
@@ -23,6 +23,4 @@ build() {
 		--docdir='${datadir}'/doc/libxcb
 	make
 	make DESTDIR=$PKG install
-	rm -r $PKG/usr/share/doc
-
 }
