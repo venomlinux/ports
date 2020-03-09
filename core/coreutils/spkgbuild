@@ -4,7 +4,7 @@
 # depends	: acl attr gmp
 
 name=coreutils
-version=8.31
+version=8.32
 release=1
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-i18n-1.patch"
@@ -14,7 +14,7 @@ build() {
 
 	# fixes POSIX requires that programs from Coreutils recognize
 	# character boundaries correctly even in multibyte locales
-	patch -Np1 -i ../$name-i18n-1.patch
+	#patch -Np1 -i ../$name-i18n-1.patch
 	sed -i '/test.lock/s/^/#/' gnulib-tests/gnulib.mk
 
 	autoreconf -fiv
