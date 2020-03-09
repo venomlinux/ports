@@ -4,39 +4,35 @@ action=$1
 newversion=$2
 oldversion=$3
 
+_xmlcatalog() {
+	xmlcatalog --noout "$@" /etc/xml/catalog
+}
+
 post_install() {	
 	version=$1
 
-	if [ ! -f /etc/xml/catalog ]; then
-		xmlcatalog --noout --create /etc/xml/catalog
-	fi
+	[ -f /etc/xml/catalog ] || _xmlcatalog --create
 
-	xmlcatalog --noout --add "rewriteSystem" \
-			   "http://docbook.sourceforge.net/release/xsl/$version" \
-			   "/usr/share/xml/docbook/xsl-stylesheets-$version" \
-		/etc/xml/catalog
+	for ver in $version current; do
+		for x in rewriteSystem rewriteURI; do
+			_xmlcatalog --add $x http://cdn.docbook.org/release/xsl/$ver \
+			/usr/share/xml/docbook/xsl-stylesheets-$version
 
-	xmlcatalog --noout --add "rewriteURI" \
-			   "http://docbook.sourceforge.net/release/xsl/$version" \
-			   "/usr/share/xml/docbook/xsl-stylesheets-$version" \
-		/etc/xml/catalog
+			_xmlcatalog --add $x http://docbook.sourceforge.net/release/xsl-ns/$ver \
+			/usr/share/xml/docbook/xsl-stylesheets-$version
 
-	xmlcatalog --noout --add "rewriteSystem" \
-			   "http://docbook.sourceforge.net/release/xsl/current" \
-			   "/usr/share/xml/docbook/xsl-stylesheets-$version" \
-		/etc/xml/catalog
-
-	xmlcatalog --noout --add "rewriteURI" \
-			   "http://docbook.sourceforge.net/release/xsl/current" \
-			   "/usr/share/xml/docbook/xsl-stylesheets-$version" \
-		/etc/xml/catalog
+			_xmlcatalog --add $x http://docbook.sourceforge.net/release/xsl/$ver \
+			/usr/share/xml/docbook/xsl-stylesheets-nons-$version
+		done
+	done
 
 	unset version
 }
 
 post_remove() {	
 	version=$1
-	xmlcatalog --noout --del "/usr/share/xml/docbook/xsl-stylesheets-$version" /etc/xml/catalog
+	_xmlcatalog --del "/usr/share/xml/docbook/xsl-stylesheets-$version"
+	_xmlcatalog --del "/usr/share/xml/docbook/xsl-stylesheets-nons-$version"
 	unset version
 }
 
