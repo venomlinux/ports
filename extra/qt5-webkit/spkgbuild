@@ -2,16 +2,13 @@
 # depends	: qt5 libwebp libxslt libxcomposite gst-plugins-base hyphen cmake ruby gperf python2
 
 name=qt5-webkit
-_qtver=5.212.0-alpha3
+_qtver=5.212.0-alpha4
 version=$(echo $_qtver | sed 's/-//')
 release=1
-source="https://github.com/annulen/webkit/releases/download/qtwebkit-$_qtver/qtwebkit-$_qtver.tar.xz
-	icu65.patch"
+source="https://github.com/annulen/webkit/releases/download/qtwebkit-$_qtver/qtwebkit-$_qtver.tar.xz"
 
 build() {
 	cd qtwebkit-$_qtver
-
-	patch -Np1 -i $SRC/icu65.patch
 
 	mkdir -p build
 	cd build
