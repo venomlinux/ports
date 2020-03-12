@@ -1,10 +1,10 @@
 # description	: Daemon that keeps passwords and other secrets for users
 # homepage	: https://wiki.gnome.org/Projects/GnomeKeyring
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: dbus gcr linux-pam libxslt openssh
+# depends	: gcr linux-pam openssh glib
 
 name=gnome-keyring
-version=3.34.0
+version=3.36.0
 release=1
 source="https://ftp.gnome.org/pub/gnome/sources/gnome-keyring/${version%.*}/$name-$version.tar.xz"
 
@@ -16,6 +16,8 @@ build() {
 	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
 	            --with-pam-dir=/lib/security \
+		    --disable-doc \
+		    --disable-schemas-compile \
 		    --disable-nls
 	make
 	make DESTDIR=$PKG install
