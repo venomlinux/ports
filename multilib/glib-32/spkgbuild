@@ -2,9 +2,9 @@
 # depends	: glib pcre-32 libffi-32 util-linux-32 elfutils-32
 
 name=glib-32
-version=2.64.0
+version=2.64.1
 release=1
-source="https://ftp.gnome.org/pub/gnome/sources/glib/${version::4}/glib-$version.tar.xz
+source="https://ftp.gnome.org/pub/gnome/sources/glib/${version%.*}/glib-$version.tar.xz
 	multilib.patch"
 
 build() {
@@ -21,7 +21,8 @@ build() {
 	
 	meson --prefix=/usr   \
 	      --libdir=/usr/lib32 \
-	      -Dman=true      \
+	      -Dgtk_doc=false \
+	      -Dnls=disabled \
 	      -Dselinux=disabled \
 	      ..
 	ninja
