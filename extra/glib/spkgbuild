@@ -1,9 +1,9 @@
 # description	: Low-level libraries useful for providing data structure handling for C, portability wrappers and interfaces
-# depends	: libffi pcre docbook-xsl meson libxslt gettext
+# depends	: libffi pcre elfutils docbook-xsl meson gettext
 
 name=glib
-version=2.64.0
-release=2
+version=2.64.1
+release=1
 source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
@@ -14,7 +14,8 @@ build() {
 	
 	meson --prefix=/usr \
 	      --libexecdir=lib \
-	      -Dman=true \
+	      -Dgtk_doc=false \
+	      -Dnls=disabled \
 	      -Dselinux=disabled \
 	      ..
 	ninja
