@@ -4,15 +4,12 @@
 # depends	: meson vala bash-completion
 
 name=dconf
-version=0.34.0
+version=0.36.0
 release=1
 source="http://ftp.gnome.org/pub/gnome/sources/dconf/${version%.*}/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
-	# fix a bug introduced by meson-0.52.0
-	sed -i 's|link_whole|link_with|' common/meson.build
 
 	mkdir build
 	cd    build
