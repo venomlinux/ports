@@ -2,25 +2,22 @@
 # depends	: coreutils bash httpup libarchive
 
 name=scratchpkg
-version=0.4
-release=4
+version=0.5
+release=1
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
 	etc/scratchpkg.repo
 	etc/revdep.conf"
-_commit=9c41d50f45cdbb7a03a78f6640467b8bf60a428a
+#_commit=9c41d50f45cdbb7a03a78f6640467b8bf60a428a
 scratchpkg_url=https://github.com/venomlinux/scratchpkg
 source="$scratchpkg_url/archive/$version/$name-$version.tar.gz
-	repo
-	https://github.com/venomlinux/scratchpkg/commit/a23a22c659773764fee733656038700789ad9d42.patch
-	https://github.com/venomlinux/scratchpkg/commit/c8b2eca5ba1b18ee4983f7047cc81eb34a9036ae.patch
-	https://github.com/venomlinux/scratchpkg/commit/8e8c62d338bc2054b45dad5e57bc43767141ff74.patch"
+	repo"
 
 build() {
 	cd $name-$version
-	for p in $SRC/*.patch; do
-		patch -Np1 -i $p
-	done
+	#for p in $SRC/*.patch; do
+	#	patch -Np1 -i $p
+	#done
 	DESTDIR=$PKG ./INSTALL.sh
 	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
 }
