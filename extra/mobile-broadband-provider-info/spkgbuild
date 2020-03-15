@@ -1,0 +1,17 @@
+# description	: Mobile broadband settings for various service providers
+# homepage	: https://gitlab.gnome.org/GNOME/mobile-broadband-provider-info
+# maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: libxslt
+
+name=mobile-broadband-provider-info
+version=20190618
+release=1
+source="https://github.com/GNOME/mobile-broadband-provider-info/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	NOCONFIGURE=1 ./autogen.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
