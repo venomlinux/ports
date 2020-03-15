@@ -1,7 +1,7 @@
 # description	: X11 client-side library
 # homepage	: http://xorg.freedesktop.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: xorgproto libxcb util-macros xtrans
+# depends	: libxcb xtrans
 
 name=libx11
 version=1.6.9
@@ -18,5 +18,4 @@ build() {
                 --disable-static
 	make
 	make DESTDIR=$PKG install
-	rm -r $PKG/usr/share/doc
 }

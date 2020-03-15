@@ -1,7 +1,7 @@
 # description	: X Rendering Extension client library
 # homepage	: http://xorg.freedesktop.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: libx11 xorgproto pkg-config
+# depends	: libx11 
 
 name=libxrender
 version=0.9.10
@@ -18,6 +18,5 @@ build() {
                 --disable-static
 	make
 	make DESTDIR=$PKG install
-	rm -r $PKG/usr/share
 }
 

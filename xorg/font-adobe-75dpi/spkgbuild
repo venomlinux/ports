@@ -1,5 +1,5 @@
 # description	: X.org 75dpi fonts
-# depends	: encodings font-alias fontconfig bdftopcf
+# depends	: util-macros mkfontscale font-util bdftopcf
 
 name=font-adobe-75dpi
 version=1.0.3
@@ -16,7 +16,4 @@ build() {
 		--disable-static
 	make
 	make DESTDIR=$PKG install
-
-	find $PKG -name 'fonts.scale' -delete	
-	find $PKG -name 'fonts.dir' -delete
 }
