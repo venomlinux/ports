@@ -4,14 +4,12 @@
 # depends	: lua libidn krb5
 
 name=neomutt
-version=20191207
+version=20200313
 release=1
 source="https://github.com/neomutt/neomutt/archive/$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-
-	`type -p notmuch` && MUTT_OPTS="$MUTT_OPTS --notmuch"
 
 	./configure \
 	        --prefix=/usr \
@@ -25,7 +23,7 @@ build() {
 	        --with-idn=/usr \
         	--gdbm \
 		--disable-nls \
-		${MUTT_OPTS}
+		--disable-doc
 	make
 	make DESTDIR=$PKG install
 }
