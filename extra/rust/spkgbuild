@@ -4,11 +4,11 @@
 # depends	: curl cmake python3 llvm libssh2
 
 name=rust
-version=1.41.1
+version=1.42.0
 release=1
-_date=2019-12-19
-_rust=1.40.0
-_cargo=0.41.0
+_date=2020-02-27
+_rust=1.41.1
+_cargo=0.42.0
 source="https://static.rust-lang.org/dist/rustc-$version-src.tar.xz
 	https://static.rust-lang.org/dist/$_date/rust-std-$_rust-x86_64-unknown-linux-gnu.tar.xz
 	https://static.rust-lang.org/dist/$_date/rustc-$_rust-x86_64-unknown-linux-gnu.tar.xz
@@ -19,6 +19,29 @@ noextract="rust-std-$_rust-x86_64-unknown-linux-gnu.tar.xz
 
 build() {
 	cd rustc-$version-src
+
+	set +x
+	DATE="$(awk '/^date: / { print $2 }' src/stage0.txt)"
+	RUSTC="$(awk '/^rustc: / { print $2 }' src/stage0.txt)"
+	CARGO="$(awk '/^cargo: / { print $2 }' src/stage0.txt)"
+
+	rb_error=0
+	[ "$DATE" = "$_date" ] || {
+		echo "date error: $_date => $DATE"
+		rb_error=1
+	}
+	[ "$RUSTC" = "$_rust" ] || {
+		
+		echo "rust error: $_rust => $RUSTC"
+		rb_error=1
+	}
+	[ "$CARGO" = "$_cargo" ] || {
+		
+		echo "cargo error: $_cargo => $CARGO"
+		rb_error=1
+	}
+	[ "$rb_error" = 0 ] || return 1
+	set -x
 
 	mkdir -p build/cache/$_date
 	cp $SRC/rust-std-$_rust-x86_64-unknown-linux-gnu.tar.xz build/cache/$_date/
