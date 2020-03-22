@@ -257,6 +257,17 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/raven_sdma.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/raven_ta.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/raven_vcn.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/renoir_asd.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/renoir_ce.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/renoir_dmcub.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/renoir_gpu_info.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/renoir_me.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/renoir_mec.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/renoir_mec2.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/renoir_pfp.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/renoir_rlc.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/renoir_sdma.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/renoir_vcn.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/si58_mc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/stoney_ce.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/stoney_me.bin
@@ -845,7 +856,9 @@ lrwxrwxrwx root/root    lib/firmware/i915/skl_guc_ver6.bin -> skl_guc_ver6_1.bin
 -rw-r--r-- root/root    lib/firmware/i915/skl_huc_2.0.0.bin
 -rw-r--r-- root/root    lib/firmware/i915/skl_huc_ver01_07_1398.bin
 -rw-r--r-- root/root    lib/firmware/i915/tgl_dmc_ver2_04.bin
+-rw-r--r-- root/root    lib/firmware/i915/tgl_dmc_ver2_06.bin
 -rw-r--r-- root/root    lib/firmware/i915/tgl_guc_35.2.0.bin
+-rw-r--r-- root/root    lib/firmware/i915/tgl_huc_7.0.12.bin
 -rw-r--r-- root/root    lib/firmware/i915/tgl_huc_7.0.3.bin
 drwxr-xr-x root/root    lib/firmware/imx/
 drwxr-xr-x root/root    lib/firmware/imx/sdma/
@@ -1104,11 +1117,16 @@ drwxr-xr-x root/root    lib/firmware/mediatek/
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7615_cr4.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7615_n9.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7615_rom_patch.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7622_n9.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7622_rom_patch.bin
 -rwxr-xr-x root/root    lib/firmware/mediatek/mt7622pr2h.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7650e.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7662u.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7662u_rom_patch.bin
 -rwxr-xr-x root/root    lib/firmware/mediatek/mt7668pr2h.bin
+drwxr-xr-x root/root    lib/firmware/mediatek/mt8173/
+-rw-r--r-- root/root    lib/firmware/mediatek/mt8173/vpu_d.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt8173/vpu_p.bin
 drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.1420.122.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.1530.152.mfa2
@@ -1125,6 +1143,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 drwxr-xr-x root/root    lib/firmware/meson/
 drwxr-xr-x root/root    lib/firmware/meson/vdec/
 -rw-r--r-- root/root    lib/firmware/meson/vdec/g12a_h264.bin
+-rw-r--r-- root/root    lib/firmware/meson/vdec/g12a_hevc_mmu.bin
 -rw-r--r-- root/root    lib/firmware/meson/vdec/g12a_vp9.bin
 -rw-r--r-- root/root    lib/firmware/meson/vdec/gxbb_h264.bin
 -rw-r--r-- root/root    lib/firmware/meson/vdec/gxl_h263.bin
@@ -1134,7 +1153,10 @@ drwxr-xr-x root/root    lib/firmware/meson/vdec/
 -rw-r--r-- root/root    lib/firmware/meson/vdec/gxl_mjpeg.bin
 -rw-r--r-- root/root    lib/firmware/meson/vdec/gxl_mpeg12.bin
 -rw-r--r-- root/root    lib/firmware/meson/vdec/gxl_mpeg4_5.bin
+-rw-r--r-- root/root    lib/firmware/meson/vdec/gxl_vp9.bin
 -rw-r--r-- root/root    lib/firmware/meson/vdec/gxm_h264.bin
+-rw-r--r-- root/root    lib/firmware/meson/vdec/sm1_hevc_mmu.bin
+-rw-r--r-- root/root    lib/firmware/meson/vdec/sm1_vp9_mmu.bin
 drwxr-xr-x root/root    lib/firmware/microchip/
 -rw-r--r-- root/root    lib/firmware/microchip/mscc_vsc8574_revb_int8051_29e8.bin
 -rw-r--r-- root/root    lib/firmware/microchip/mscc_vsc8584_revb_int8051_fb48.bin
@@ -1670,6 +1692,60 @@ drwxr-xr-x root/root    lib/firmware/nvidia/tu10x/typec/
 -rw-r--r-- root/root    lib/firmware/nvidia/tu10x/typec/ccg_boot.cyacd
 -rw-r--r-- root/root    lib/firmware/nvidia/tu10x/typec/ccg_primary.cyacd
 -rw-r--r-- root/root    lib/firmware/nvidia/tu10x/typec/ccg_secondary.cyacd
+drwxr-xr-x root/root    lib/firmware/nvidia/tu116/
+drwxr-xr-x root/root    lib/firmware/nvidia/tu116/acr/
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/acr/bl.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/acr/ucode_ahesasc.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/acr/ucode_asb.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/acr/ucode_unload.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/acr/unload_bl.bin
+drwxr-xr-x root/root    lib/firmware/nvidia/tu116/gr/
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/fecs_bl.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/fecs_data.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/fecs_inst.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/fecs_sig.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/gpccs_bl.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/gpccs_data.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/gpccs_inst.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/gpccs_sig.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/sw_bundle_init.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/sw_ctx.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/sw_method_init.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/sw_nonctx.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/gr/sw_veid_bundle_init.bin
+drwxr-xr-x root/root    lib/firmware/nvidia/tu116/nvdec/
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/nvdec/scrubber.bin
+drwxr-xr-x root/root    lib/firmware/nvidia/tu116/sec2/
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/sec2/desc.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/sec2/image.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu116/sec2/sig.bin
+drwxr-xr-x root/root    lib/firmware/nvidia/tu117/
+drwxr-xr-x root/root    lib/firmware/nvidia/tu117/acr/
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/acr/bl.bin -> ../../tu116/acr/bl.bin
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/acr/ucode_ahesasc.bin -> ../../tu116/acr/ucode_ahesasc.bin
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/acr/ucode_asb.bin -> ../../tu116/acr/ucode_asb.bin
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/acr/ucode_unload.bin -> ../../tu116/acr/ucode_unload.bin
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/acr/unload_bl.bin -> ../../tu116/acr/unload_bl.bin
+drwxr-xr-x root/root    lib/firmware/nvidia/tu117/gr/
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/gr/fecs_bl.bin -> ../../tu116/gr/fecs_bl.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu117/gr/fecs_data.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu117/gr/fecs_inst.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu117/gr/fecs_sig.bin
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/gr/gpccs_bl.bin -> ../../tu116/gr/gpccs_bl.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu117/gr/gpccs_data.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu117/gr/gpccs_inst.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu117/gr/gpccs_sig.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu117/gr/sw_bundle_init.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu117/gr/sw_ctx.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu117/gr/sw_method_init.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu117/gr/sw_nonctx.bin
+-rw-r--r-- root/root    lib/firmware/nvidia/tu117/gr/sw_veid_bundle_init.bin
+drwxr-xr-x root/root    lib/firmware/nvidia/tu117/nvdec/
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/nvdec/scrubber.bin -> ../../tu116/nvdec/scrubber.bin
+drwxr-xr-x root/root    lib/firmware/nvidia/tu117/sec2/
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/sec2/desc.bin -> ../../tu116/sec2/desc.bin
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/sec2/image.bin -> ../../tu116/sec2/image.bin
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/sec2/sig.bin -> ../../tu116/sec2/sig.bin
 drwxr-xr-x root/root    lib/firmware/ositech/
 -rw-r--r-- root/root    lib/firmware/ositech/Xilinx7OD.bin
 -rw-r--r-- root/root    lib/firmware/phanfw.bin
@@ -1682,14 +1758,19 @@ drwxr-xr-x root/root    lib/firmware/ositech/
 lrwxrwxrwx root/root    lib/firmware/qat_mmp.bin -> qat_895xcc_mmp.bin
 drwxr-xr-x root/root    lib/firmware/qca/
 -rw-r--r-- root/root    lib/firmware/qca/crbtfw21.tlv
+-rw-r--r-- root/root    lib/firmware/qca/crbtfw32.tlv
 -rw-r--r-- root/root    lib/firmware/qca/crnv21.bin
+-rw-r--r-- root/root    lib/firmware/qca/crnv32.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_00130300.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_00130302.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_00440302.bin
+-rw-r--r-- root/root    lib/firmware/qca/nvm_00440302_eu.bin
+-rw-r--r-- root/root    lib/firmware/qca/nvm_00440302_i2s_eu.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_usb_00000200.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_usb_00000201.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_usb_00000300.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_usb_00000302.bin
+-rw-r--r-- root/root    lib/firmware/qca/nvm_usb_00000302_eu.bin
 -rw-r--r-- root/root    lib/firmware/qca/rampatch_00130300.bin
 -rw-r--r-- root/root    lib/firmware/qca/rampatch_00130302.bin
 -rw-r--r-- root/root    lib/firmware/qca/rampatch_00440302.bin
@@ -2070,7 +2151,9 @@ drwxr-xr-x root/root    lib/firmware/rtl_bt/
 -rw-r--r-- root/root    lib/firmware/rtl_bt/rtl8821c_fw.bin
 -rw-r--r-- root/root    lib/firmware/rtl_bt/rtl8822b_config.bin
 -rw-r--r-- root/root    lib/firmware/rtl_bt/rtl8822b_fw.bin
--rwxr-xr-x root/root    lib/firmware/rtl_bt/rtl8822cu_config.bin
+-rw-r--r-- root/root    lib/firmware/rtl_bt/rtl8822cs_config.bin
+-rw-r--r-- root/root    lib/firmware/rtl_bt/rtl8822cs_fw.bin
+-rw-r--r-- root/root    lib/firmware/rtl_bt/rtl8822cu_config.bin
 -rw-r--r-- root/root    lib/firmware/rtl_bt/rtl8822cu_fw.bin
 drwxr-xr-x root/root    lib/firmware/rtl_nic/
 -rw-r--r-- root/root    lib/firmware/rtl_nic/rtl8105e-1.fw
@@ -2261,8 +2344,8 @@ drwxr-xr-x root/root    lib/firmware/ueagle-atm/
 drwxr-xr-x root/root    lib/firmware/vicam/
 -rw-r--r-- root/root    lib/firmware/vicam/firmware.fw
 -rw-r--r-- root/root    lib/firmware/vntwusb.fw
--rw-r--r-- root/root    lib/firmware/vpu_d.bin
--rw-r--r-- root/root    lib/firmware/vpu_p.bin
+lrwxrwxrwx root/root    lib/firmware/vpu_d.bin -> mediatek/mt8173/vpu_d.bin
+lrwxrwxrwx root/root    lib/firmware/vpu_p.bin -> mediatek/mt8173/vpu_p.bin
 drwxr-xr-x root/root    lib/firmware/vxge/
 -rw-r--r-- root/root    lib/firmware/vxge/X3fw-pxe.ncf
 -rw-r--r-- root/root    lib/firmware/vxge/X3fw.ncf
