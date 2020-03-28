@@ -5,10 +5,10 @@
 
 name=networkmanager
 version=1.22.10
-release=1
+release=2
 backup="etc/NetworkManager/NetworkManager.conf"
 source="https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
-	$name.rc"
+	run"
 
 build() {
 	cd NetworkManager-$version
@@ -48,6 +48,7 @@ cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"
 plugins=keyfile
 EOF
 
-	# rc service
-	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

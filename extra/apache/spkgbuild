@@ -3,10 +3,10 @@
 
 name=apache
 version=2.4.41
-release=4
+release=5
 source="https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 	httpd-blfs_layout-1.patch
-	httpd.rc"
+	run"
 
 build() {
 	cd httpd-$version
@@ -36,6 +36,7 @@ build() {
 
 	rm -fr $PKG/var/run
 
-	# rc service
-	install -Dm644 $SRC/httpd.rc $PKG/etc/rc.d/httpd
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/httpd/run
+        ln -s /run/runit/supervise.httpd $PKG/etc/sv/httpd/supervise
 }

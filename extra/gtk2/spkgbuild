@@ -1,7 +1,7 @@
 # description	: GObject-based multi-platform GUI toolkit (legacy)
 # homepage	: http://www.gtk.org/
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: atk gdk-pixbuf pango hicolor-icon-theme adwaita-icon-theme
+# depends	: atk gdk-pixbuf pango hicolor-icon-theme adwaita-icon-theme libx11 libxrender libxinerama libxrandr libxcursor libxext
 
 name=gtk2
 version=2.24.32
@@ -21,6 +21,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
+	rm $PKG/usr/bin/gtk-update-icon-cache
 	rm -r $PKG/usr/share/gtk-2.0
 
 	cat > $PKG/etc/gtk-2.0/gtkrc << "EOF"

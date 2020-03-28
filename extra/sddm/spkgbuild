@@ -3,11 +3,11 @@
 
 name=sddm
 version=0.18.1
-release=5
+release=6
 backup="usr/share/sddm/scripts/Xsetup
 	etc/sddm.conf"
 source="https://github.com/sddm/sddm/releases/download/v$version/sddm-$version.tar.xz
-	rc.$name"
+	run"
 
 build() {
 	cd $name-$version
@@ -30,8 +30,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 	install -dm755 $PKG/var/lib/sddm
-
-	install -Dm644 $SRC/rc.$name $PKG/etc/rc.d/$name
 
 	install -d $PKG/usr/lib/sddm/sddm.conf.d
 	$PKG/usr/bin/sddm --example-config > $PKG/etc/sddm.conf
@@ -93,4 +91,8 @@ password	required pam_deny.so
 session		required pam_unix.so
 session		optional pam_ck_connector.so
 EOF
+
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

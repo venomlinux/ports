@@ -5,11 +5,9 @@
 
 name=bluez
 version=5.54
-release=1
-backup="etc/conf.d/bluetooth"
+release=2
 source="https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
-	bluetooth.rc
-	bluetooth.conf"
+	run"
 
 build() {
 	cd $name-$version
@@ -48,7 +46,7 @@ cat > $PKG/etc/bluetooth/uart.conf << "EOF"
 # End of uart.conf
 EOF
 
-	# rc service
-	install -Dm644 $SRC/bluetooth.rc $PKG/etc/rc.d/bluetooth
-	install -Dm644 $SRC/bluetooth.conf $PKG/etc/conf.d/bluetooth
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/bluetoothd/run
+        ln -s /run/runit/supervise.bluetoothd $PKG/etc/sv/bluetoothd/supervise
 }

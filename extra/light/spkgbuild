@@ -5,9 +5,10 @@
 
 name=light
 version=1.2.2
-release=1
+release=2
 source="$name-$version.tar.gz::https://github.com/haikarainen/light/archive/v$version.tar.gz
-	$name.rc"
+	run
+	finish"
 
 build() {
 	cd $name-$version
@@ -17,6 +18,8 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# rc service
-	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        install -Dm755 $SRC/finish $PKG/etc/sv/$name/finish
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

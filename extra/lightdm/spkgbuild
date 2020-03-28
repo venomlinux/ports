@@ -3,7 +3,7 @@
 
 name=lightdm
 version=1.30.0
-release=2
+release=3
 backup="etc/lightdm/keys.conf
 	etc/lightdm/lightdm.conf
 	etc/lightdm/users.conf"
@@ -12,7 +12,7 @@ source="https://github.com/CanonicalLtd/lightdm/releases/download/$version/light
 	lightdm.rules
 	$name.pam
 	$name-autologin.pam
-	rc.lightdm"
+	run"
 
 build() {
 	cd $name-$version
@@ -33,7 +33,6 @@ build() {
 
 	rm -rf $PKG/etc/init
 
-	install -Dm644 $SRC/rc.lightdm $PKG/etc/rc.d/lightdm
 	install -Dm755 $SRC/Xsession $PKG/etc/lightdm/Xsession
 
 	install -Dm 644 $SRC/$name.rules $PKG/usr/share/polkit-1/rules.d/$name.rules
@@ -47,5 +46,9 @@ build() {
 		$PKG/var/lib/lightdm-data \
 		$PKG/var/cache/lightdm \
 		$PKG/var/log/lightdm
+
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }
 

@@ -1,10 +1,15 @@
 drwxr-xr-x root/root    etc/
-drwxr-xr-x root/root    etc/rc.d/
--rw-r--r-- root/root    etc/rc.d/samba
 drwxr-xr-x root/root    etc/revdep.d/
 -rw-r--r-- root/root    etc/revdep.d/samba.conf
 drwxr-xr-x root/root    etc/samba/
 -rw-r--r-- root/root    etc/samba/smb.conf.default
+drwxr-xr-x root/root    etc/sv/
+drwxr-xr-x root/root    etc/sv/nmbd/
+-rwxr-xr-x root/root    etc/sv/nmbd/run
+lrwxrwxrwx root/root    etc/sv/nmbd/supervise -> /run/runit/supervise.nmbd
+drwxr-xr-x root/root    etc/sv/smbd/
+-rwxr-xr-x root/root    etc/sv/smbd/run
+lrwxrwxrwx root/root    etc/sv/smbd/supervise -> /run/runit/supervise.smbd
 drwxr-xr-x root/root    lib/
 lrwxrwxrwx root/root    lib/libnss_winbind.so -> libnss_winbind.so.2
 -rwxr-xr-x root/root    lib/libnss_winbind.so.2

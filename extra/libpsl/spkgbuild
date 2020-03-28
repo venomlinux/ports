@@ -1,5 +1,5 @@
 # description	: Library for accessing and resolving information from the Public Suffix List
-# depends	: libidn2 libunistring python2
+# depends	: libidn2 libunistring python3
 
 name=libpsl
 version=0.21.0
@@ -8,6 +8,7 @@ source="https://github.com/rockdaboot/libpsl/releases/download/libpsl-$version/l
 
 build() {
 	cd $name-$version
+	sed -i 's/env python/&3/' src/psl-make-dafsa
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install

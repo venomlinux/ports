@@ -3,9 +3,9 @@
 
 name=openssh
 version=8.2p1
-release=2
+release=3
 source="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
-	sshd.rc"
+	run"
 
 build() {
 	cd $name-$version
@@ -25,6 +25,7 @@ build() {
 	sed '/^#ChallengeResponseAuthentication yes$/c ChallengeResponseAuthentication no' \
 	    -i $PKG/etc/ssh/sshd_config
 
-	# rc service
-	install -Dm644 $SRC/sshd.rc $PKG/etc/rc.d/sshd
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/sshd/run
+        ln -s /run/runit/supervise.sshd $PKG/etc/sv/sshd/supervise
 }

@@ -3,10 +3,10 @@
 
 name=slim
 version=1.3.6
-release=2
+release=3
 backup="etc/slim.conf"
 source="https://sourceforge.net/projects/${name}.berlios/files/$name-$version.tar.gz
-	$name.rc"
+	run"
 
 build() {
 	cd $name-$version
@@ -24,6 +24,7 @@ build() {
 	# no systemd support
 	rm -r $PKG/lib $PKG/usr/share/man/man1/slimlock.1
 
-	# rc service
-	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

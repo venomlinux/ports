@@ -6,13 +6,13 @@
 name=virtualbox-ose-guest
 _name=VirtualBox
 version=6.1.4
-release=2
+release=3
 source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.tar.bz2
 	60-vboxguest.rules
 	vboxguest.hook
 	VBoxClient-all
 	vboxclient.desktop
-	vboxservice.rc"
+	run"
 
 build() {
 	cd $_name-$version
@@ -73,6 +73,7 @@ build() {
 	# compress modules
 	find $PKG -name '*.ko' -exec xz -T1 {} +
 
-	# rc service
-        install -Dm644 $SRC/vboxservice.rc $PKG/etc/rc.d/vboxservice
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/vboxservice/run
+        ln -s /run/runit/supervise.vboxservice $PKG/etc/sv/vboxservice/supervise
 }

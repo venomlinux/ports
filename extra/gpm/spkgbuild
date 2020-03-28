@@ -4,11 +4,11 @@
 
 name=gpm
 version=1.20.7
-release=3
+release=4
 source="https://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
 	$name-$version-glibc_2.26-1.patch
-	$name.rc
-	$name.conf"
+	run
+	conf"
 
 build() {
 	cd $name-$version
@@ -27,7 +27,8 @@ build() {
 	ln -sfv libgpm.so.2.1.0 $PKG/usr/lib/libgpm.so
 	install -v -m644 conf/gpm-root.conf $PKG/etc
 
-	# rc service
-	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
-	install -Dm644 $SRC/$name.conf $PKG/etc/conf.d/$name
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        install -Dm644 $SRC/conf $PKG/etc/sv/$name/conf
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

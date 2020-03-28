@@ -12,6 +12,8 @@ build() {
 	mkdir mozjs-build
 	cd    mozjs-build
 
+	export SHELL=/bin/sh
+
 	../js/src/configure \
 		--prefix=/usr \
 		--with-intl-api \

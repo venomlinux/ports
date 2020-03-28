@@ -5,9 +5,9 @@
 
 name=cups
 version=2.3.1
-release=2
+release=3
 source="https://github.com/apple/cups/releases/download/v$version/$name-$version-source.tar.gz
-	$name.rc"
+	run"
 
 build() {
 	cd $name-$version
@@ -43,6 +43,7 @@ EOF
 
 	rm -fr $PKG/var/run
 
-	# rc service
-	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/cupsd/run
+        ln -s /run/runit/supervise.cupsd $PKG/etc/sv/cupsd/supervise
 }

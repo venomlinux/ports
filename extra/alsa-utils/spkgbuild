@@ -5,9 +5,10 @@
 
 name=alsa-utils
 version=1.2.2
-release=2
+release=3
 source="ftp://ftp.alsa-project.org/pub/utils/$name-$version.tar.bz2
-	alsa.rc"
+	run
+	finish"
 
 build() {
 	cd $name-$version
@@ -20,6 +21,8 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# rc service
-	install -Dm644 $SRC/alsa.rc $PKG/etc/rc.d/alsa
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/alsa/run
+        install -Dm755 $SRC/finish $PKG/etc/sv/alsa/finish
+        ln -s /run/runit/supervise.alsa $PKG/etc/sv/alsa/supervise
 }

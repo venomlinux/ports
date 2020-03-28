@@ -3,9 +3,9 @@
 
 name=acpid
 version=2.0.32
-release=2
+release=3
 source="https://downloads.sourceforge.net/acpid2/$name-$version.tar.xz
-	$name.rc"
+	run"
 
 build() {
 	cd $name-$version
@@ -27,6 +27,8 @@ cat > $PKG/etc/acpi/lid.sh << "EOF"
 EOF
 	chmod +x $PKG/etc/acpi/lid.sh
 
-	# rc service
-	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        install -Dm644 $SRC/conf $PKG/etc/sv/$name/conf
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

@@ -3,9 +3,9 @@
 
 name=dbus
 version=1.12.16
-release=2
+release=3
 source="https://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz
-	$name.rc"
+	run"
 
 build() {
 	cd $name-$version
@@ -40,6 +40,7 @@ build() {
 </busconfig>
 EOF
 
-	# rc service
-	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

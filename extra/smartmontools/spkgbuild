@@ -4,9 +4,9 @@
 
 name=smartmontools
 version=7.1
-release=2
+release=3
 source="https://sourceforge.net/projects/$name/files/$name/$version/$name-$version.tar.gz
-	smartd.rc"
+	run"
 
 build() {
 	cd $name-$version
@@ -17,6 +17,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# rc service
-	install -Dm644 $SRC/smartd.rc $PKG/etc/rc.d/smartd
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/smartd/run
+        ln -s /run/runit/supervise.smartd $PKG/etc/sv/smartd/supervise
 }

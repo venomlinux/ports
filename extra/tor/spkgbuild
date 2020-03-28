@@ -4,10 +4,10 @@
 
 name=tor
 version=0.4.2.7
-release=1
+release=2
 source="https://www.torproject.org/dist/$name-$version.tar.gz
 	torrc
-	$name.rc"
+	run"
 
 build() {
 	cd $name-$version
@@ -21,7 +21,7 @@ build() {
 
 	install -d $PKG/var/lib/tor
 
-	# rc service
-	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
-
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

@@ -4,9 +4,9 @@
 
 name=sysklogd
 version=1.5.1
-release=3
+release=4
 source="http://www.infodrom.org/projects/$name/download/$name-$version.tar.gz
-	$name.rc"
+	run"
 
 build() {
 	cd $name-$version
@@ -35,6 +35,7 @@ user.* -/var/log/user.log
 # End /etc/syslog.conf
 EOF
 
-	# rc service
-	install -Dm644 $SRC/$name.rc $PKG/etc/rc.d/$name
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

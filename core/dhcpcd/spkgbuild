@@ -4,11 +4,10 @@
 
 name=dhcpcd
 version=8.1.6
-release=2
-backup="etc/conf.d/network"
+release=3
 source="http://roy.marples.name/downloads/$name/$name-$version.tar.xz
-	network.rc
-	network.conf"
+	run
+	conf"
 
 build() {
 	cd $name-$version
@@ -18,7 +17,8 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# rc service
-	install -Dm644 $SRC/network.rc $PKG/etc/rc.d/network
-	install -Dm644 $SRC/network.conf $PKG/etc/conf.d/network
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        install -Dm644 $SRC/conf $PKG/etc/sv/$name/conf
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }
