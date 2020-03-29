@@ -2,7 +2,7 @@
 # depends	: adwaita-icon-theme at-spi2-atk gdk-pixbuf libepoxy pango wayland wayland-protocols libxkbcommon gobject-introspection
 
 name=gtk3
-version=3.24.14
+version=3.24.16
 release=1
 source="https://ftp.gnome.org/pub/gnome/sources/gtk+/${version%.*}/gtk+-$version.tar.xz"
 
@@ -14,7 +14,6 @@ build() {
 	            --enable-broadway-backend \
 	            --enable-x11-backend      \
 	            --enable-wayland-backend
-
 	make
 	make DESTDIR=$PKG install
 
