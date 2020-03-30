@@ -4,9 +4,15 @@
 # depends	: libxfce4ui vte3
 
 name=xfce4-terminal
-version=0.8.9.1
+version=0.8.9.2
 release=1
-source="http://archive.xfce.org/src/apps/xfce4-terminal/${version%.*}/$name-$version.tar.bz2"
+
+case $version in
+	*.*.*.*) _ver=${version%.*}; _ver=${_ver%.*};;
+	*.*.*) _ver=${version%.*};;
+esac
+
+source="http://archive.xfce.org/src/apps/xfce4-terminal/${_ver}/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
