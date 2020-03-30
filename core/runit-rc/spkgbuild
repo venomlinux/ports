@@ -2,15 +2,16 @@
 # depends	: runit
 
 name=runit-rc
-version=20200328
+version=20200331
 release=1
 backup="etc/runit/rc.startup.local
 	etc/runit/rc.shutdown.local
 	etc/runit/runit.conf"
-source="https://github.com/venomlinux/runit-rc/archive/f7c1903b631587d8ea8d444e7c9b6cd2432441f4.tar.gz"
+source="https://github.com/venomlinux/runit-rc/archive/851de99cd6813a20094c3cee3259677ea8e4a969.tar.gz"
 
 build() {
-	cd $name-f7c1903b631587d8ea8d444e7c9b6cd2432441f4
+	ls
+	cd $name-851de99cd6813a20094c3cee3259677ea8e4a969
 	make CC=${CC:-gcc}
 	make CC=${CC:-gcc} DESTDIR=$PKG install
 	ln -s runit-init $PKG/sbin/init
