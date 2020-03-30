@@ -3,21 +3,22 @@
 
 name=scratchpkg
 version=0.6
-release=1
+release=2
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
 	etc/scratchpkg.repo
 	etc/revdep.conf"
-#_commit=9c41d50f45cdbb7a03a78f6640467b8bf60a428a
+_commit=32b7462
 scratchpkg_url=https://github.com/venomlinux/scratchpkg
 source="$scratchpkg_url/archive/$version/$name-$version.tar.gz
+	https://github.com/venomlinux/scratchpkg/commit/$_commit.patch
 	repo"
 
 build() {
 	cd $name-$version
-	#for p in $SRC/*.patch; do
-	#	patch -Np1 -i $p
-	#done
+	for p in $SRC/*.patch; do
+		patch -Np1 -i $p
+	done
 	DESTDIR=$PKG ./INSTALL.sh
 	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
 }
