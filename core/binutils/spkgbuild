@@ -4,7 +4,7 @@
 # depends	: zlib
 
 name=binutils
-version=2.33.1
+version=2.34
 release=1
 source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz"
 
@@ -29,5 +29,4 @@ build() {
 		--with-lib-path=/usr/lib:/lib:/usr/lib32
 	make tooldir=/usr
 	make tooldir=/usr DESTDIR=$PKG install
-	rm -r $PKG/usr/share/info
 }
