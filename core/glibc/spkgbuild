@@ -4,8 +4,8 @@
 # depends	: linux-api-headers python3
 
 name=glibc
-version=2.30
-release=2
+version=2.31
+release=1
 backup="etc/locales"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-fhs-1.patch
@@ -21,6 +21,7 @@ build() {
 	_configure_flag="
 		--prefix=/usr \
 		--with-headers=/usr/include \
+		--disable-profile \
 		--disable-werror \
 		--enable-kernel=3.2 \
 		--enable-stack-protector=strong \
@@ -107,9 +108,6 @@ sed -e '1,3d' -e 's|/| |g' -e 's|\\| |g' -e 's|^|#|g' \
 	$SRC/glibc-$version/localedata/SUPPORTED >> $PKG/etc/locales
 
 install -Dm755 $SRC/genlocales $PKG/usr/bin/genlocales
-
-	rm -r $PKG/usr/share/info \
-	      $PKG/usr/share/locale
 
 	# shipped with tzdata
 	rm $PKG/usr/sbin/zdump
