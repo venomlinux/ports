@@ -1,11 +1,8 @@
 #!/bin/bash -e
 
-PORTPATH="kf5"
-FRAMEWORK="https://download.kde.org/stable/frameworks"
+KF5VER=5.68.0
 
-KF5VER=5.64.0
-
-PKG=$(grep -R $FRAMEWORK . | cut -d / -f2)
+PKG=$(grep -R download.kde.org/stable/frameworks . | cut -d / -f2)
 
 for pkg in ${PKG[@]}
 do
@@ -13,8 +10,9 @@ do
   pushd $pkg >/dev/null
 	echo "Update $pkg..."
     sed -i "s#version=.*#version=${KF5VER}#g" spkgbuild
-    sed -i "/md5sum=(/,/)/d" spkgbuild
-    pkgbuild -o
-    pkgbuild -g >> spkgbuild
+    sed -i "s#release=.*#release=1#g" spkgbuild
+    fakeroot pkgbuild -o
+    fakeroot pkgbuild -g
+    fakeroot pkgbuild -p
   popd >/dev/null
 done
