@@ -2,9 +2,15 @@
 # depends	: pcre2 ncurses zlib readline eudev
 
 name=util-linux
-version=2.35
+version=2.35.1
 release=1
-source="https://www.kernel.org/pub/linux/utils/$name/v$version/$name-$version.tar.xz"
+
+case $version in
+	*.*.*) _ver=${version%.*};;
+	*.*) _ver=$version;;
+esac
+
+source="https://www.kernel.org/pub/linux/utils/$name/v$_ver/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
