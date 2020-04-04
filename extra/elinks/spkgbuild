@@ -13,14 +13,15 @@ build() {
 
 	 autoreconf -i
 
-	./configure --prefix=/usr \
-                --sysconfdir=/usr/etc \
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
                 --enable-256-colors \
                 --enable-html-highlight \
                 --disable-nls \
                 --with-zlib \
-                --without-x
-                --without-bzlib
+                --without-x \
+                --without-bzlib \
                 --without-lua
 	make CFLAGS="$CFLAGS -Wno-all"
 	make DESTDIR=$PKG install
