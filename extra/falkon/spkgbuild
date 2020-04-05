@@ -4,10 +4,15 @@
 name=falkon
 version=3.1.0
 release=1
-source="https://download.kde.org/stable/falkon/${version%.*}/falkon-$version.tar.xz"
+source="https://download.kde.org/stable/falkon/${version%.*}/falkon-$version.tar.xz
+	falkon-pyside-5.12.2.patch
+	falkon-qt-5.14.patch"
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i $SRC/falkon-pyside-5.12.2.patch
+	patch -Np1 -i $SRC/falkon-qt-5.14.patch
 
 	rm -rf po/
 	
