@@ -3,10 +3,10 @@
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com, Debdut Chakraborty
 
 name=virtualbox-modules
-version=6.1.2
+version=6.1.4
 release=1
 _name=Oracle_VM_VirtualBox_Extension_Pack
-_release=135662
+_release=136177
 
 source="http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_amd64.run"
 
@@ -27,12 +27,12 @@ build() {
 	    install -Dm0644 $i $PKG/lib/modules/$kernver/misc/$i
 	done
 
-	install -d $PKG/etc/modules.d/
-	echo "# Load virtualbox modules at startup" > $PKG/etc/modules.d/virtualbox.conf
-	echo "vboxdrv" >> $PKG/etc/modules.d/virtualbox.conf
-	echo "vboxnetadp" >> $PKG/etc/modules.d/virtualbox.conf
-	echo "vboxnetflt" >> $PKG/etc/modules.d/virtualbox.conf
-	#echo "vboxpci" >> $PKG/etc/modules.d/virtualbox.conf
+	install -d $PKG/etc/modules-load.d/
+	echo "# Load virtualbox modules at startup" > $PKG/etc/modules-load.d/virtualbox.conf
+	echo "vboxdrv" >> $PKG/etc/modules-load.d/virtualbox.conf
+	echo "vboxnetadp" >> $PKG/etc/modules-load.d/virtualbox.conf
+	echo "vboxnetflt" >> $PKG/etc/modules-load.d/virtualbox.conf
+	#echo "vboxpci" >> $PKG/etc/modules-load.d/virtualbox.conf
 
 	# compress modules
 	find $PKG -name '*.ko' -exec xz -T1 {} +
