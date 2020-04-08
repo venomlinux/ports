@@ -6,7 +6,7 @@
 name=virtualbox-ose-guest
 _name=VirtualBox
 version=6.1.4
-release=3
+release=4
 source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.tar.bz2
 	60-vboxguest.rules
 	vboxguest.hook
@@ -60,11 +60,11 @@ build() {
 	done
 
 	# load modules at boot time
-	install -d $PKG/etc/modules.d/
-	echo "# Load virtualbox guest modules at startup" > $PKG/etc/modules.d/virtualbox-guest.conf
-	echo "vboxguest" >> $PKG/etc/modules.d/virtualbox-guest.conf
-	echo "vboxsf" >> $PKG/etc/modules.d/virtualbox-guest.conf
-	echo "vboxvideo" >> $PKG/etc/modules.d/virtualbox-guest.conf
+	install -d $PKG/etc/modules-load.d/
+	echo "# Load virtualbox guest modules at startup" > $PKG/etc/modules-load.d/virtualbox-guest.conf
+	echo "vboxguest" >> $PKG/etc/modules-load.d/virtualbox-guest.conf
+	echo "vboxsf" >> $PKG/etc/modules-load.d/virtualbox-guest.conf
+	echo "vboxvideo" >> $PKG/etc/modules-load.d/virtualbox-guest.conf
 
 	# mkinitramfs hook to include vbox guest modules into initramfs
 	install -d $PKG/etc/mkinitramfs.d
