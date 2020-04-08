@@ -2,7 +2,7 @@
 # depends	: virtualbox-guest-utils p7zip
 
 name=virtualbox-guest-modules
-version=6.1.2
+version=6.1.4
 release=1
 source="http://download.virtualbox.org/virtualbox/$version/VBoxGuestAdditions_${version}.iso
 	vboxvideo-upstream.conf
@@ -29,11 +29,11 @@ build() {
 	done
 
 	# load modules at boot time
-	install -d $PKG/etc/modules.d/
-	echo "# Load virtualbox guest modules at startup" > $PKG/etc/modules.d/virtualbox-guest.conf
-	echo "vboxguest" >> $PKG/etc/modules.d/virtualbox-guest.conf
-	echo "vboxsf" >> $PKG/etc/modules.d/virtualbox-guest.conf
-	echo "vboxvideo" >> $PKG/etc/modules.d/virtualbox-guest.conf
+	install -d $PKG/etc/modules-load.d/
+	echo "# Load virtualbox guest modules at startup" > $PKG/etc/modules-load.d/virtualbox-guest.conf
+	echo "vboxguest" >> $PKG/etc/modules-load.d/virtualbox-guest.conf
+	echo "vboxsf" >> $PKG/etc/modules-load.d/virtualbox-guest.conf
+	echo "vboxvideo" >> $PKG/etc/modules-load.d/virtualbox-guest.conf
 
 	# override modules path
 	install -d $PKG/etc/depmod.d/
