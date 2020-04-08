@@ -6,7 +6,7 @@
 name=virtualbox-ose
 _name=VirtualBox
 version=6.1.4
-release=1
+release=2
 source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.tar.bz2
 	LocalConfig.kmk
 	virtualbox.60-vboxdrv.rules
@@ -109,11 +109,11 @@ build() {
 	done
 
 	# load modules at boot time
-	install -d $PKG/etc/modules.d/
-	echo "# Load virtualbox modules at startup" > $PKG/etc/modules.d/virtualbox.conf
-	echo "vboxdrv" >> $PKG/etc/modules.d/virtualbox.conf
-	echo "vboxnetadp" >> $PKG/etc/modules.d/virtualbox.conf
-	echo "vboxnetflt" >> $PKG/etc/modules.d/virtualbox.conf
+	install -d $PKG/etc/modules-load.d/
+	echo "# Load virtualbox modules at startup" > $PKG/etc/modules-load.d/virtualbox.conf
+	echo "vboxdrv" >> $PKG/etc/modules-load.d/virtualbox.conf
+	echo "vboxnetadp" >> $PKG/etc/modules-load.d/virtualbox.conf
+	echo "vboxnetflt" >> $PKG/etc/modules-load.d/virtualbox.conf
 
 	# compress modules
 	find $PKG -name '*.ko' -exec xz -T1 {} +
