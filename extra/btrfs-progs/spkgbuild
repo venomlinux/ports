@@ -1,20 +1,23 @@
 # description	: Administration and debugging tools for the B-tree file system (btrfs)
 # homepage	: https://btrfs.wiki.kernel.org/
 # maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
-# depends	: lzo python3-setuptools asciidoc xmlto
+# depends	: lzo asciidoc xmlto
 
 name=btrfs-progs
 version=5.6
-release=1
+release=2
 source="https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v$version.tar.xz"
 
 build() {
 	cd $name-v$version
 
-	./configure --prefix=/usr  \
-	            --bindir=/bin  \
-	            --libdir=/lib  \
-	            --disable-zstd
+	./configure \
+		--prefix=/usr \
+		--bindir=/bin \
+		--libdir=/lib \
+		--disable-zstd \
+		--disable-backtrace \
+		--disable-python
 	make
 	make DESTDIR=$PKG install
 
