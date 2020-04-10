@@ -1,26 +1,25 @@
 # description	: Logging system messages, such as those given by the kernel
-# homepage	: http://www.infodrom.org/projects/sysklogd/
+# homepage	: https://troglobit.com/sysklogd.html
 # maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=sysklogd
-version=1.5.1
-release=4
-source="http://www.infodrom.org/projects/$name/download/$name-$version.tar.gz
+version=2.1.2
+release=1
+source="https://github.com/troglobit/sysklogd/releases/download/v$version/sysklogd-$version.tar.gz
 	run"
 
 build() {
 	cd $name-$version
 
-	sed -i '/Error loading kernel symbols/{n;n;d}' ksym_mod.c
-	sed -i 's/union wait/int/' syslogd.c
-
-	mkdir -p $PKG/usr/share/man/man8 \
-	         $PKG/usr/share/man/man5 \
-	         $PKG/sbin $PKG/etc
-
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--without-logger
 	make
-	make BINDIR=$PKG/sbin MANDIR=$PKG/usr/share/man install
+	make DESTDIR=$PKG install
 
+	mkdir -p $PKG/etc
 	cat > $PKG/etc/syslog.conf << "EOF"
 # Begin /etc/syslog.conf
 
