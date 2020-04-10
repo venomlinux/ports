@@ -1,0 +1,30 @@
+# description	: Certificate Authority certificates
+# depends	: p11-kit openssl
+
+name=ca-certificates
+version=20200409
+release=1
+options="!checksum"
+source="certdata.txt-$version::https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
+	http://www.cacert.org/certs/root.crt
+	http://www.cacert.org/certs/class3.crt
+	make-ca.sh"
+
+build() {
+	install -d $PKG/usr/sbin \
+	           $PKG/etc/ssl/local
+
+	cp certdata.txt-$version $PKG/etc/ssl/certdata.txt
+	openssl x509 -in root.crt -text -fingerprint -setalias "CAcert Class 1 root" \
+	        -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
+	        > $PKG/etc/ssl/local/CAcert_Class_1_root.pem
+	openssl x509 -in class3.crt -text -fingerprint -setalias "CAcert Class 3 root" \
+	        -addtrust serverAuth -addtrust emailProtection -addtrust codeSigning \
+	        > $PKG/etc/ssl/local/CAcert_Class_3_root.pem
+
+	install -vm755 make-ca.sh $PKG/usr/sbin/make-ca
+	cp certdata.txt-$version certdata.txt
+        $PKG/usr/sbin/make-ca -D $PKG
+
+	ln -sv /etc/ssl/ca-bundle.crt $PKG/etc/ssl/certs/ca-certificates.crt
+}

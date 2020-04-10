@@ -1,0 +1,35 @@
+# description	: utilities and libraries for handling ELF files
+# depends	: musl-fts libuargp musl-obstack
+
+name=elfutils
+version=0.179
+release=1
+source="https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2
+	musl-cdefs.patch
+	musl-fts-obstack.patch
+	musl-macros.patch
+	musl-strerror_r.patch
+	musl-strndupa.patch
+	musl-qsort_r.patch
+	error.h"
+
+build() {
+	cd $name-$version
+
+	cp $SRC/error.h lib
+	cp $SRC/error.h src
+
+	for i in $SRC/*.patch; do
+		patch -Np0 -i $i
+	done
+
+	autoreconf -if
+	CFLAGS="$CFLAGS -Wno-error -Wno-error=null-dereference" \
+	./configure \
+		--prefix=/usr \
+		--program-prefix="eu-" \
+		--disable-debuginfod \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+}

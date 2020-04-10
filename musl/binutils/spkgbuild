@@ -1,0 +1,32 @@
+# description	: A linker, an assembler, and other tools for handling object files
+# homepage	: https://www.gnu.org/software/binutils/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: zlib
+
+name=binutils
+version=2.34
+release=1
+source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
+
+	mkdir -v build
+	cd       build
+
+	../configure \
+		--prefix=/usr       \
+		--enable-gold       \
+		--disable-nls       \
+		--enable-ld=default \
+		--enable-plugins    \
+		--enable-shared     \
+		--disable-werror    \
+		--with-system-zlib  \
+		--disable-multilib  \
+		--with-lib-path=/usr/lib:/lib
+	make tooldir=/usr
+	make tooldir=/usr DESTDIR=$PKG install
+}
