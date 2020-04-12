@@ -3,7 +3,7 @@
 
 name=vte3
 version=0.60.1
-release=1
+release=2
 source="https://ftp.gnome.org/pub/gnome/sources/vte/${version%.*}/vte-$version.tar.xz"
 
 build() {
@@ -13,6 +13,7 @@ build() {
         cd    build
 
         meson --prefix=/usr \
+	      --libexecdir=lib \
 	      -D_systemd=false
         ninja
         DESTDIR=$PKG ninja install
