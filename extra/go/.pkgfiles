@@ -329,6 +329,8 @@ drwxr-xr-x root/root    usr/lib/go/misc/cgo/testgodefs/
 drwxr-xr-x root/root    usr/lib/go/misc/cgo/testgodefs/testdata/
 -rw-r--r-- root/root    usr/lib/go/misc/cgo/testgodefs/testdata/anonunion.go
 -rw-r--r-- root/root    usr/lib/go/misc/cgo/testgodefs/testdata/fieldtypedef.go
+-rw-r--r-- root/root    usr/lib/go/misc/cgo/testgodefs/testdata/issue37479.go
+-rw-r--r-- root/root    usr/lib/go/misc/cgo/testgodefs/testdata/issue37621.go
 -rw-r--r-- root/root    usr/lib/go/misc/cgo/testgodefs/testdata/issue8478.go
 -rw-r--r-- root/root    usr/lib/go/misc/cgo/testgodefs/testdata/main.go
 -rw-r--r-- root/root    usr/lib/go/misc/cgo/testgodefs/testgodefs_test.go
@@ -832,7 +834,7 @@ drwxr-xr-x root/root    usr/lib/go/pkg/linux_amd64/cmd/vendor/golang.org/x/crypt
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/cmd/vendor/golang.org/x/crypto/ssh/terminal.a
 drwxr-xr-x root/root    usr/lib/go/pkg/linux_amd64/cmd/vendor/golang.org/x/mod/
 drwxr-xr-x root/root    usr/lib/go/pkg/linux_amd64/cmd/vendor/golang.org/x/mod/internal/
--rwxr-xr-x root/root    usr/lib/go/pkg/linux_amd64/cmd/vendor/golang.org/x/mod/internal/lazyregexp.a
+-rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/cmd/vendor/golang.org/x/mod/internal/lazyregexp.a
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/cmd/vendor/golang.org/x/mod/modfile.a
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/cmd/vendor/golang.org/x/mod/module.a
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/cmd/vendor/golang.org/x/mod/semver.a
@@ -925,7 +927,7 @@ drwxr-xr-x root/root    usr/lib/go/pkg/linux_amd64/crypto/internal/
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/crypto/sha256.a
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/crypto/sha512.a
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/crypto/subtle.a
--rwxr-xr-x root/root    usr/lib/go/pkg/linux_amd64/crypto/tls.a
+-rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/crypto/tls.a
 drwxr-xr-x root/root    usr/lib/go/pkg/linux_amd64/crypto/x509/
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/crypto/x509.a
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/crypto/x509/pkix.a
@@ -1013,8 +1015,9 @@ drwxr-xr-x root/root    usr/lib/go/pkg/linux_amd64/internal/
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/internal/reflectlite.a
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/internal/singleflight.a
 drwxr-xr-x root/root    usr/lib/go/pkg/linux_amd64/internal/syscall/
+-rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/internal/syscall/execenv.a
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/internal/syscall/unix.a
--rwxr-xr-x root/root    usr/lib/go/pkg/linux_amd64/internal/testenv.a
+-rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/internal/testenv.a
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/internal/testlog.a
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/internal/trace.a
 -rw-r--r-- root/root    usr/lib/go/pkg/linux_amd64/internal/xcoff.a
@@ -2464,6 +2467,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/testdata/script/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_dot.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_download_hash.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_download_json.txt
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_download_partial.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_download_replace_file.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_download.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_edit_go.txt
@@ -2625,6 +2629,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/testdata/script/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/test_import_error_stack.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/test_json_panic_exit.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/test_main_archive.txt
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/test_main_panic.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/test_main_twice.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/test_match_no_tests_build_failure.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/test_minus_n.txt
@@ -5423,6 +5428,9 @@ drwxr-xr-x root/root    usr/lib/go/src/internal/singleflight/
 -rw-r--r-- root/root    usr/lib/go/src/internal/singleflight/singleflight.go
 -rw-r--r-- root/root    usr/lib/go/src/internal/singleflight/singleflight_test.go
 drwxr-xr-x root/root    usr/lib/go/src/internal/syscall/
+drwxr-xr-x root/root    usr/lib/go/src/internal/syscall/execenv/
+-rw-r--r-- root/root    usr/lib/go/src/internal/syscall/execenv/execenv_default.go
+-rw-r--r-- root/root    usr/lib/go/src/internal/syscall/execenv/execenv_windows.go
 drwxr-xr-x root/root    usr/lib/go/src/internal/syscall/unix/
 -rw-r--r-- root/root    usr/lib/go/src/internal/syscall/unix/asm_aix_ppc64.s
 -rw-r--r-- root/root    usr/lib/go/src/internal/syscall/unix/asm_solaris.s
@@ -6164,11 +6172,9 @@ drwxr-xr-x root/root    usr/lib/go/src/os/
 -rw-r--r-- root/root    usr/lib/go/src/os/dir_plan9.go
 -rw-r--r-- root/root    usr/lib/go/src/os/dir_unix.go
 -rw-r--r-- root/root    usr/lib/go/src/os/dir_windows.go
--rw-r--r-- root/root    usr/lib/go/src/os/env_default.go
 -rw-r--r-- root/root    usr/lib/go/src/os/env.go
 -rw-r--r-- root/root    usr/lib/go/src/os/env_test.go
 -rw-r--r-- root/root    usr/lib/go/src/os/env_unix_test.go
--rw-r--r-- root/root    usr/lib/go/src/os/env_windows.go
 -rw-r--r-- root/root    usr/lib/go/src/os/error_errno.go
 -rw-r--r-- root/root    usr/lib/go/src/os/error.go
 -rw-r--r-- root/root    usr/lib/go/src/os/error_plan9.go
