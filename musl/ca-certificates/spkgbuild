@@ -3,7 +3,7 @@
 
 name=ca-certificates
 version=20200409
-release=1
+release=2
 options="!checksum"
 source="certdata.txt-$version::https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt
 	http://www.cacert.org/certs/root.crt
@@ -26,5 +26,6 @@ build() {
 	cp certdata.txt-$version certdata.txt
         $PKG/usr/sbin/make-ca -D $PKG
 
-	ln -sv /etc/ssl/ca-bundle.crt $PKG/etc/ssl/certs/ca-certificates.crt
+	ln -s /etc/ssl/ca-bundle.crt $PKG/etc/ssl/certs/ca-certificates.crt
+	ln -s /etc/ssl/ca-bundle.crt $PKG/etc/ssl/cert.pem
 }

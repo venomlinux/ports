@@ -1,9 +1,9 @@
 # description	: Termcap file implementation for terminal emulators
-# depends	: gobject-introspection vala glib pango fribidi gnutls pcre2 zlib gtk3 atk cairo gdk-pixbuf libxft libxcomposite
+# depends	: gobject-introspection vala glib pango fribidi gnutls pcre2 zlib gtk3 atk cairo gdk-pixbuf
 
 name=vte3
 version=0.60.1
-release=1
+release=2
 source="https://ftp.gnome.org/pub/gnome/sources/vte/${version%.*}/vte-$version.tar.xz
 	fix-W_EXITCODE.patch"
 
@@ -16,6 +16,7 @@ build() {
         cd    build
 
         meson --prefix=/usr \
+	      --libexecdir=lib \
 	      -D_systemd=false
         ninja
         DESTDIR=$PKG ninja install

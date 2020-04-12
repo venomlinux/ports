@@ -1,9 +1,9 @@
 # description	: A simple package manager for Linux Distribution
-# depends	: coreutils bash httpup libarchive
+# depends	: coreutils httpup libarchive
 
 name=scratchpkg
 version=0.8
-release=1
+release=2
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
 	etc/scratchpkg.repo
@@ -12,7 +12,8 @@ backup="etc/scratchpkg.conf
 scratchpkg_url=https://github.com/venomlinux/scratchpkg
 source="$scratchpkg_url/archive/$version/$name-$version.tar.gz
 	repo
-	$name.alias"
+	$name.alias
+	revdep"
 
 build() {
 	cd $name-$version
@@ -22,4 +23,6 @@ build() {
 	DESTDIR=$PKG ./INSTALL.sh
 	install -m644 $SRC/scratchpkg.alias $PKG/etc/scratchpkg.alias
 	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
+	rm $PKG/usr/bin/revdep
+	install -m755 $SRC/revdep $PKG/usr/bin/revdep
 }
