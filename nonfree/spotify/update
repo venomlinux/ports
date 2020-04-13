@@ -1,0 +1,9 @@
+url=http://repository.spotify.com/dists/stable/non-free/binary-amd64/Packages
+
+port_getver() {
+	fetch \
+	| grep Version \
+	| head -n1 \
+	| cut -d ':' -f3 \
+	| tr '-' '.'
+}

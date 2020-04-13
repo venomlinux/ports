@@ -1,0 +1,10 @@
+# package install script
+
+action=$1
+newversion=$2
+oldversion=$3
+
+case $action in
+	post-install) getent group vboxsf >/dev/null || groupadd -r vboxsf
+	              getent passwd vboxadd >/dev/null || useradd -d /var/run/vboxadd -g 1 -r -s /bin/false vboxadd ;;
+esac
