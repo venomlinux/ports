@@ -1,9 +1,0 @@
-url=https://www.nvidia.com/object/unix.html
-
-port_getver() {
-	fetch \
-	| grep "Latest Long Lived Branch" \
-	| head -n1 \
-	|  sed "s/.*\(>[0-9].*[0-9]<\).*/\1/" \
-	| sed 's/>//;s/<//'
-}

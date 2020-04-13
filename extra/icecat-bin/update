@@ -1,7 +1,0 @@
-url=https://ftp.gnu.org/gnu/gnuzilla/
-
-port_getver() {
-	fetch \
-	| sed 's/.*href="//;s/\/.*//' \
-	| grep ^[0-9]
-}

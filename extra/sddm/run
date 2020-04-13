@@ -1,8 +1,0 @@
-#!/bin/sh
-
-sv check dbus >/dev/null || exit 1
-
-# respect system locale
-[ -r /etc/locale.conf ] && . /etc/locale.conf && export LANG
-
-exec sddm 2>&1

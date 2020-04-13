@@ -277,7 +277,7 @@ main() {
 	fi
 }
 
-PORTREPO="core extra multilib xorg community testing"
+PORTREPO="core multilib nonfree community testing"
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 

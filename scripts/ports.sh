@@ -22,13 +22,20 @@ get_portpath() {
 }
 
 revert_changes() {
-	echo -n "Error occurs. Do you want to revert changes? Y/n "
-	read -n1 input
-	echo
+	local revert
+	local opt=$1
+	
+	if [ "$opt" != "-y" ]; then
+		echo -n "Error occurs. Do you want to revert changes? Y/n "
+		read -n1 input
+		echo
+	else
+		input=y
+	fi
 	
 	case $input in
-		N|n) echo "Changes is kept.";;
-		*)   echo "Revert changes..."
+		N|n) echo "Keep changes.";;
+		  *) echo "Revert changes..."
 		     echo -n '> spkgbuild  : '; git checkout spkgbuild
 		     echo -n '> .checksums : '; git checkout .checksums
 		     echo -n '> .pkgfiles  : '; git checkout .pkgfiles;;
@@ -77,6 +84,7 @@ check_dep() {
 port_update() {
 	local port=$1
 	local vers=$2
+	local opt=$3
 	
 	get_portpath $port
 	
@@ -95,27 +103,29 @@ port_update() {
 	# change release to 1
 	sed -i "/^release=/s/=.*/=1/" spkgbuild
 	
-	while true; do
-	cat spkgbuild | more
-	echo
-	
+	if [ "$opt" != "-y" ]; then
 		while true; do
-			echo -n "[C]ontinue [E]dit [A]bort ? "
-			read -n1 input
-			echo
-			case $input in
-				E|e) $EDITOR spkgbuild
-				     break 1;;
-				A|a) exit 1;;
-				C|c)   break 2;;
-			esac
+		cat spkgbuild | more
+		echo
+		
+			while true; do
+				echo -n "[C]ontinue [E]dit [A]bort ? "
+				read -n1 input
+				echo
+				case $input in
+					E|e) $EDITOR spkgbuild
+						 break 1;;
+					A|a) exit 1;;
+					C|c) break 2;;
+				esac
+			done
 		done
-	done			
+	fi		
 	
-	fakeroot pkgbuild -o || revert_changes
-	fakeroot pkgbuild -g || revert_changes
-	fakeroot pkgbuild    || revert_changes
-	fakeroot pkgbuild -p || revert_changes
+	fakeroot pkgbuild -o || revert_changes "$opt"
+	fakeroot pkgbuild -g || revert_changes "$opt"
+	fakeroot pkgbuild    || revert_changes "$opt"
+	fakeroot pkgbuild -p || revert_changes "$opt"
 	sudo pkgbuild -u -v  && sudo scratch trigger $port
 	
 	popd >/dev/null
@@ -306,7 +316,7 @@ Options:
 EOF
 }
 
-PORTREPO=(musl core xorg extra multilib community testing)
+PORTREPO=(core multilib nonfree community testing)
 INDEX_DIR="/var/lib/scratchpkg/index"
 EDITOR=${EDITOR:-vim}
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
