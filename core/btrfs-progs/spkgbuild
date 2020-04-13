@@ -1,0 +1,29 @@
+# description	: Administration and debugging tools for the B-tree file system (btrfs)
+# homepage	: https://btrfs.wiki.kernel.org/
+# maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: lzo zstd
+
+name=btrfs-progs
+version=5.6
+release=3
+source="https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v$version.tar.xz"
+
+build() {
+	cd $name-v$version
+
+	./configure \
+		--prefix=/usr \
+		--bindir=/sbin \
+		--disable-documentation \
+		--disable-backtrace \
+		--disable-python
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/usr/share/man/{man5,man8}
+	install -m644 Documentation/*.5 $PKG/usr/share/man/man5/
+	install -m644 Documentation/*.8 $PKG/usr/share/man/man8/
+
+	# install bash completion (FS#44618)
+	install -Dm644 btrfs-completion $PKG/usr/share/bash-completion/completions/btrfs
+}

@@ -1,0 +1,26 @@
+# description	: QtWebEngine integrates chromium's web capabilities into Qt
+# depends	: qt5 nss python2 libwebp libxslt opus ninja ffmpeg alsa-lib
+
+name=qtwebengine
+version=5.14.2
+release=1
+source="https://download.qt.io/archive/qt/${version%.*}/$version/submodules/$name-everywhere-src-$version.tar.xz"
+
+build() {
+	cd $name-everywhere-src-$version
+
+	find -type f -name "*.pr[io]" |
+	  xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
+
+	mkdir build
+	cd    build
+
+	test -n $MAKEFLAGS && export NINJAFLAGS="$NINJAFLAGS $MAKEFLAGS"
+	
+	qmake .. -- -proprietary-codecs -system-ffmpeg -webengine-icu
+	make
+	make INSTALL_ROOT=$PKG install
+
+	find $PKG/usr/ -name \*.prl \
+	   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+}

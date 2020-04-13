@@ -1,0 +1,57 @@
+# description	: Meta package for KDE Plasma
+# depends	: kde-cli-tools kdecoration libkscreen libksysguard breeze breeze-gtk kscreenlocker oxygen
+# depends	: kinfocenter ksysguard kwin systemsettings plasma-workspace bluedevil kde-gtk-config
+# depends	: khotkeys kmenuedit kscreen kwallet-pam kwayland-integration kwrited milou plasma-nm
+# depends	: plasma-pa plasma-workspace-wallpapers polkit-kde-agent-1 powerdevil plasma-desktop
+# depends	: kdeplasma-addons kgamma5 ksshaskpass sddm-kcm user-manager discover kactivitymanagerd
+# depends	: plasma-integration xdg-desktop-portal-kde ark khelpcenter konsole dolphin okular gwenview
+# depends	: kate plasma-vault
+
+name=plasma
+version=5.13.4
+release=1
+
+build() {
+
+mkdir -pv $PKG/etc/pam.d
+cat >> $PKG/etc/pam.d/kde << "EOF" 
+# Begin /etc/pam.d/kde
+
+auth     requisite      pam_nologin.so
+auth     required       pam_env.so
+
+auth     required       pam_succeed_if.so uid >= 1000 quiet
+auth     include        system-auth
+
+account  include        system-account
+password include        system-password
+session  include        system-session
+
+# End /etc/pam.d/kde
+EOF
+
+cat > $PKG/etc/pam.d/kde-np << "EOF" 
+# Begin /etc/pam.d/kde-np
+
+auth     requisite      pam_nologin.so
+auth     required       pam_env.so
+
+auth     required       pam_succeed_if.so uid >= 1000 quiet
+auth     required       pam_permit.so
+
+account  include        system-account
+password include        system-password
+session  include        system-session
+
+# End $PKG/etc/pam.d/kde-np
+EOF
+
+cat > $PKG/etc/pam.d/kscreensaver << "EOF"
+# Begin /etc/pam.d/kscreensaver
+
+auth    include system-auth
+account include system-account
+
+# End /etc/pam.d/kscreensaver
+EOF
+} 

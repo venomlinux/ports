@@ -1,0 +1,16 @@
+# description	: Small build system with a focus on speed
+# homepage	: https://ninja-build.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: python3
+
+name=ninja
+version=1.10.0
+release=1
+source="https://github.com/ninja-build/ninja/archive/v$version/ninja-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	python3 ./configure.py --bootstrap
+	install -Dm755 ninja $PKG/usr/bin/ninja
+}

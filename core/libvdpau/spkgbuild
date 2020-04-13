@@ -1,0 +1,20 @@
+# description	: Contains a library which implements the VDPAU library
+# homepage	: http://cgit.freedesktop.org/~aplattner/libvdpau
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: meson
+
+name=libvdpau
+version=1.4
+release=1
+source="https://gitlab.freedesktop.org/vdpau/libvdpau/-/archive/$version/libvdpau-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+  	mkdir build
+	cd build
+
+	meson --prefix=/usr
+	ninja
+	DESTDIR=$PKG ninja install
+}

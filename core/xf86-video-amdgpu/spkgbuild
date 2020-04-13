@@ -1,0 +1,18 @@
+# description	: X.Org Video Driver for newer AMD Radeon video cards starting from Volcanic Islands
+# depends	: libdrm mesa eudev xorg-server
+
+name=xf86-video-amdgpu
+version=19.1.0
+release=1
+source="https://www.x.org/pub/individual/driver/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

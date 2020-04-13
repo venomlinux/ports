@@ -1,0 +1,24 @@
+# description	: A fork of i3wm tiling window manager with more features, including gaps
+# depends	: xcb-util-cursor xcb-util-keysyms xcb-util-wm xcb-util-xrm libev yajl startup-notification pango libxkbcommon bison flex
+
+name=i3-gaps
+version=4.18
+release=1
+backup="etc/i3/config"
+source="$name-$version.tar.gz::https://github.com/Airblader/i3/archive/$version.tar.gz"
+
+build() {
+	cd i3-$version
+
+	autoreconf -fvi
+
+	mkdir build
+	cd build
+
+	../configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--disable-docs
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,25 @@
+Config Files:
+
+The default and individual user gpm-root configuration files:
+	/etc/gpm-root.conf
+	~/.gpm-root
+
+Edit this file as the root user and modify the name of your mouse
+device and the protocol it uses:
+
+   /etc/conf.d/gpm
+
+
+Configuration Information:
+
+Examples of values to set MDEVICE, PROTOCOL, and GPMOPTS to are:
+
+MDEVICE="/dev/input/mice"
+PROTOCOL="imps2"
+GPMOPTS=""
+
+A list of which protocol values are known can be found by running
+gpm -m [device] -t -help. The MDEVICE setting depends on which type of mouse you
+have. For example, /dev/ttyS0 for a serial mouse (on Windows this is COM1),
+/dev/input/mice is often used for USB mice and /dev/psaux for PS2 mice. GPMOPTS is
+the 'catch all' for any additional options that are needed for your hardware.

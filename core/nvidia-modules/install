@@ -1,0 +1,18 @@
+# package install script
+
+action=$1
+newversion=$2
+oldversion=$3
+
+post_install() {
+	if [ -f /lib/modules/KERNELVERSION ]; then
+		kernver=$(cat /lib/modules/KERNELVERSION)
+	else
+		kernver=$(uname -r)
+	fi
+	depmod $kernver
+}
+
+case $action in
+	post-install|post-upgrade) post_install ;;
+esac

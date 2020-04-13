@@ -1,0 +1,41 @@
+# description	: Daemon that runs specified programs at scheduled times and related tools
+# homepage	: https://github.com/cronie-crond/cronie/
+# depends	: bash
+
+name=cronie
+version=1.5.5
+release=3
+source="https://github.com/cronie-crond/cronie/releases/download/$name-$version/$name-$version.tar.gz
+	$name.deny
+	$name.pam
+	run"
+
+build() {
+	cd $name-$version
+	
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--sbindir=/usr/bin \
+		--enable-anacron \
+		--with-inotify \
+		--with-pam
+	make
+	make DESTDIR=$PKG install
+
+	chmod u+s $PKG/usr/bin/crontab
+	install -d $PKG/var/spool/anacron  $PKG/var/spool/cron
+	install -d $PKG/etc/cron.d $PKG/etc/cron.hourly $PKG/etc/cron.daily $PKG/etc/cron.weekly $PKG/etc/cron.monthly
+
+	install -Dm0644 ../cronie.deny $PKG/etc/cron.deny
+	install -Dm0644 ../cronie.pam $PKG/etc/pam.d/crond
+
+	install -Dm0644 contrib/anacrontab $PKG/etc/anacrontab
+	install -Dm0644 contrib/0hourly $PKG/etc/cron.d/0hourly
+	install -Dm0755 contrib/0anacron $PKG/etc/cron.hourly/0anacron
+
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+}

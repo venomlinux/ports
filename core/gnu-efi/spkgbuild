@@ -1,0 +1,13 @@
+# description	: GNU EFI library
+# homepage	: https://sourceforge.net/projects/gnu-efi/
+
+name=gnu-efi
+version=3.0.11
+release=1
+source="http://downloads.sourceforge.net/$name/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	make
+	make INSTALLROOT=$PKG PREFIX=/usr install
+}

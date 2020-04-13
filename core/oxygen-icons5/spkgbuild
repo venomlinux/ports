@@ -1,0 +1,21 @@
+# description	: The Oxygen Icon Theme
+# depends	: extra-cmake-modules qt5
+
+name=oxygen-icons5
+version=5.68.0
+release=1
+source="https://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	sed -i '/( oxygen/ s/)/scalable )/' CMakeLists.txt
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}
+

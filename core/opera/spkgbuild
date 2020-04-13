@@ -1,0 +1,21 @@
+# description	: A fast and secure web browser
+# homepage	: https://www.opera.com/
+# depends	: curl desktop-file-utils gtk3 hicolor-icon-theme nss shared-mime-info alsa-lib cups
+# maintainer	: Debdut Chakraborty
+
+name=opera
+version=66.0.3515.36
+release=1
+source="https://download3.operacdn.com/pub/opera/desktop/${version}/linux/${name}-stable_${version}_amd64.deb"
+
+build() {
+	bsdtar -xf ${name}-stable_${version}_amd64.deb
+	tar xf data.tar.xz -C $PKG
+
+	rm -r $PKG/usr/share/doc $PKG/usr/share/lintian $PKG/usr/share/menu
+
+	mv $PKG/usr/lib/*-linux-gnu/opera $PKG/usr/lib
+	rm -r $PKG/usr/lib/*-linux-gnu
+
+	ln -sf /usr/lib/opera/opera $PKG/usr/bin/opera
+}

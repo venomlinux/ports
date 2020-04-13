@@ -1,0 +1,27 @@
+# description	: A lightweight window manager for the X11 Window System
+# homepage	: http://joewing.net/projects/jwm/
+# depends	: libxext libxmu libxinerama libxpm libjpeg-turbo libpng librsvg cairo libxft 
+
+name=jwm
+version=2.3.7
+release=2
+backup="etc/system.jwmrc"
+source="http://joewing.net/projects/jwm/releases/$name-$version.tar.xz
+	jwm.desktop"
+
+build() {
+	cd $name-$version
+
+	sed -i 's|/usr/local/share/|/usr/share/|' contrib/Makefile po/Makefile* example.jwmrc
+	sed "s/autohide/height=\"20\" autohide/" -i example.jwmrc
+
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+		--sysconfdir=/etc \
+		--disable-fribidi \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+	install -Dm644 $SRC/jwm.desktop $PKG/usr/share/xsessions/jwm.desktop
+}

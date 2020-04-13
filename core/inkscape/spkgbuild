@@ -1,0 +1,38 @@
+# description	: Scalable Vector Graphics editor
+# depends	: gsl boost imagemagick6 gc lcms2 poppler-glib popt libxslt gtkmm2
+
+name=inkscape
+version=0.92.4
+release=2
+source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.bz2
+	inkscape-0.92.4-poppler_0_83_0_fixes-1.patch
+	inkscape-0.92.4-use_versioned_ImageMagick6-1.patch
+	inkscape-0.92.4-upstream_fixes-1.patch"
+
+build() {
+	cd $name-$version
+
+	# fix a problem introduced by Poppler-0.76.1
+	sed -e 's|new Lexer(xref, obj)|obj|g' -i src/extension/internal/pdfinput/pdf-parser.cpp
+
+	# fix Inkscape to be able to build with poppler-0.82.0 and higher
+	sed -e 's|Unicode \*u|Unicode const *u|g' -i src/extension/internal/pdfinput/*
+
+	for i in $SRC/*.patch; do
+		patch -Np1 -i $i
+	done
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DCMAKE_BUILD_TYPE=Release  \
+	      -DPOPPLER_INCLUDE_DIR=/usr/include/poppler \
+	      ..
+	make
+	make DESTDIR=$PKG install
+
+	# junks!
+	rm $PKG/usr/share/man/man1/inkscape.??.1 $PKG/usr/share/man/man1/inkscape.zh_TW.1
+	rm $PKG/usr/lib/inkscape/lib*_LIB.a
+}

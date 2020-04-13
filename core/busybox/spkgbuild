@@ -1,0 +1,16 @@
+# description	: Utilities for rescue and embedded systems
+# depends	: ncurses
+
+name=busybox
+version=1.31.1
+release=1
+source="https://www.busybox.net/downloads/$name-$version.tar.bz2
+	config"
+
+build() {
+	cd $name-$version
+	#cp $SRC/config .config
+	make defconfig
+	make
+	install -Dm0755 busybox $PKG/bin/busybox
+}

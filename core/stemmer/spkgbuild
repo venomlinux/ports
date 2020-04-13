@@ -1,0 +1,21 @@
+# description	: Stemming library supporting several languages
+# homepage	: https://snowballstem.org/
+
+name=stemmer
+version=2.0.0
+release=1
+source="$name-$version.tar.gz::https://github.com/snowballstem/snowball/archive/v$version.tar.gz
+	dynamiclib.patch"
+
+build() {
+	cd snowball-$version
+
+	patch -Np1 -i ../dynamiclib.patch
+
+	make
+
+	install -Dm644 ./include/libstemmer.h $PKG/usr/include/libstemmer.h
+	install -D ./libstemmer.so.0.0.0 $PKG/usr/lib/libstemmer.so.0.0.0
+	ln -s libstemmer.so.0.0.0 $PKG/usr/lib/libstemmer.so.0
+	ln -s libstemmer.so.0 $PKG/usr/lib/libstemmer.so
+}

@@ -1,0 +1,33 @@
+Submitted By: Ken Moffat <ken at linuxfromscratch dot org>
+Date: 2017-01-09
+Initial Package Version: 0.92.0
+Upstream Status: N/A
+Origin: Self
+Description: Look for verisioned ImageMagick-6 pkgconfig files so that
+ImageMagick-6 libraries and be installed alongside a full ImageMagick-7.
+This requires a patched build of ImageMagick-6.
+
+diff -Naur inkscape-0.92.0.orig/CMakeScripts/DefineDependsandFlags.cmake inkscape-0.92.0/CMakeScripts/DefineDependsandFlags.cmake
+--- inkscape-0.92.0.orig/CMakeScripts/DefineDependsandFlags.cmake	2017-01-02 09:44:59.000000000 +0000
++++ inkscape-0.92.0/CMakeScripts/DefineDependsandFlags.cmake	2017-01-08 03:03:50.171286138 +0000
+@@ -373,14 +373,14 @@
+ list(APPEND INKSCAPE_LIBS ${ZLIB_LIBRARIES})
+ 
+ if(WITH_IMAGE_MAGICK)
+-    pkg_check_modules(ImageMagick ImageMagick MagickCore Magick++ )
+-    if(ImageMagick_FOUND)
++    pkg_check_modules(ImageMagick-6 ImageMagick-6 MagickCore-6 Magick++-6 )
++    if(ImageMagick-6_FOUND)
+ 
+-        list(APPEND INKSCAPE_LIBS ${ImageMagick_LDFLAGS})
+-        add_definitions(${ImageMagick_CFLAGS_OTHER})
++        list(APPEND INKSCAPE_LIBS ${ImageMagick-6_LDFLAGS})
++        add_definitions(${ImageMagick-6_CFLAGS_OTHER})
+ 
+-        list(APPEND INKSCAPE_INCS_SYS ${ImageMagick_INCLUDE_DIRS})
+-        list(APPEND INKSCAPE_LIBS ${ImageMagick_LIBRARIES})
++        list(APPEND INKSCAPE_INCS_SYS ${ImageMagick-6_INCLUDE_DIRS})
++        list(APPEND INKSCAPE_LIBS ${ImageMagick-6_LIBRARIES})
+         else()
+ 	set(WITH_IMAGE_MAGICK OFF)  # enable 'Extensions > Raster'
+     endif()

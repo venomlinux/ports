@@ -1,0 +1,20 @@
+# description	: Simple command-line screenshot utility for X
+# homepage	: http://scrot.sourcearchive.com/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: giblib imlib2 autoconf-archive
+
+name=scrot
+version=1.2
+release=1
+source="http://http.debian.net/debian/pool/main/s/${name}/${name}_${version}.orig.tar.gz"
+
+build() {
+	cd $name-$version
+
+	NOCONFIGURE=1 ./autogen.sh
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/share/man
+	make
+	make DESTDIR=$PKG install
+}

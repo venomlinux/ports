@@ -1,0 +1,18 @@
+# description	: Extracts messages from XML files and outputs PO template files and vice versa
+# depends	: docbook-xml python2 libxml2 python2-libxml2
+
+name=itstool
+version=2.0.6
+release=1
+source="http://files.itstool.org/$name/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	# python3 segfault building doc on mate-applet
+	# so, let it use default, python2
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

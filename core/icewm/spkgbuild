@@ -1,0 +1,19 @@
+# description	: Window manager with the goals of speed, simplicity, and not getting in the user's way
+# depends	: libxrandr libxft libsm libxinerama gdk-pixbuf mkfontscale libxcomposite libxfixes libxdamage libxpm asciidoc
+
+name=icewm
+version=1.6.5
+release=1
+source="https://github.com/ice-wm/icewm/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./autogen.sh
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+}

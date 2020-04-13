@@ -1,0 +1,12 @@
+# description	: Python syntax highlighter
+# depends	: python3
+
+name=python3-pygments
+version=2.6.1
+release=1
+source="https://pypi.org/packages/source/P/Pygments/Pygments-$version.tar.gz"
+
+build() {
+	cd Pygments-$version
+	python3 setup.py install --root="$PKG" -O1
+}

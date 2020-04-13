@@ -1,0 +1,88 @@
+# description	: The Rust programming language is designed to be a safe, concurrent, practical language
+# homepage	: https://www.rust-lang.org
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: curl cmake python3 llvm libssh2
+
+name=rust
+version=1.42.0
+release=1
+_date=2020-02-27
+_rust=1.41.1
+_cargo=0.42.0
+source="https://static.rust-lang.org/dist/rustc-$version-src.tar.xz
+	https://static.rust-lang.org/dist/$_date/rust-std-$_rust-x86_64-unknown-linux-gnu.tar.xz
+	https://static.rust-lang.org/dist/$_date/rustc-$_rust-x86_64-unknown-linux-gnu.tar.xz
+	https://static.rust-lang.org/dist/$_date/cargo-$_cargo-x86_64-unknown-linux-gnu.tar.xz"
+noextract="rust-std-$_rust-x86_64-unknown-linux-gnu.tar.xz
+	rustc-$_rust-x86_64-unknown-linux-gnu.tar.xz
+	cargo-$_cargo-x86_64-unknown-linux-gnu.tar.xz"
+
+build() {
+	cd rustc-$version-src
+
+	set +x
+	DATE="$(awk '/^date: / { print $2 }' src/stage0.txt)"
+	RUSTC="$(awk '/^rustc: / { print $2 }' src/stage0.txt)"
+	CARGO="$(awk '/^cargo: / { print $2 }' src/stage0.txt)"
+
+	rb_error=0
+	[ "$DATE" = "$_date" ] || {
+		echo "date error: $_date => $DATE"
+		rb_error=1
+	}
+	[ "$RUSTC" = "$_rust" ] || {
+		
+		echo "rust error: $_rust => $RUSTC"
+		rb_error=1
+	}
+	[ "$CARGO" = "$_cargo" ] || {
+		
+		echo "cargo error: $_cargo => $CARGO"
+		rb_error=1
+	}
+	[ "$rb_error" = 0 ] || return 1
+	set -x
+
+	mkdir -p build/cache/$_date
+	cp $SRC/rust-std-$_rust-x86_64-unknown-linux-gnu.tar.xz build/cache/$_date/
+	cp $SRC/rustc-$_rust-x86_64-unknown-linux-gnu.tar.xz build/cache/$_date/
+	cp $SRC/cargo-$_cargo-x86_64-unknown-linux-gnu.tar.xz build/cache/$_date/
+
+cat << EOF > config.toml
+[llvm]
+targets = "X86"
+link-shared = true
+
+[build]
+target = ["x86_64-unknown-linux-gnu"]
+docs = false
+extended = true
+vendor = true
+
+[install]
+prefix = "/usr"
+
+[rust]
+codegen-units-std = 1
+debuginfo-level = 2
+channel = "stable"
+rpath = false
+codegen-tests = false
+
+[target.x86_64-unknown-linux-gnu]
+llvm-config = "/usr/bin/llvm-config"
+EOF
+
+	mkdir "$SRC/rust"
+	export CARGO_HOME="$SRC/rust"
+	export RUST_BACKTRACE=1
+	export RUSTFLAGS="$RUSTFLAGS -C link-args=-lffi"
+	python3 ./x.py build --exclude src/tools/miri $MAKEFLAGS
+	export LIBSSH2_SYS_USE_PKG_CONFIG=1
+	DESTDIR=$PKG python3 ./x.py install
+
+	rm -rf $PKG/usr/lib/rustlib/components
+	rm -rf $PKG/usr/lib/rustlib/manifest-rustc
+	rm -rf $PKG/usr/lib/rustlib/rust-installer-version
+	rm -rf $PKG/etc
+}

@@ -1,0 +1,13 @@
+# description	: Converts files between various character sets and usages
+
+name=recode
+version=3.7.6
+release=1
+source="https://github.com/rrthomas/recode/releases/download/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-nls
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,6 @@
+port_getver() {
+	fetch \
+	| grep archive \
+	| grep -Eo appstream_glib_[0-9_]+.tar.gz \
+	| sed 's/appstream_glib_//;s/\.tar.*//;s/_/\./g'
+}

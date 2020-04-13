@@ -1,0 +1,22 @@
+# description	: Font rasterization library
+# homepage	: https://www.freetype.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: libpng which
+
+name=freetype2
+version=2.10.1
+release=1
+source="https://downloads.sourceforge.net/freetype/freetype-$version.tar.xz"
+
+build() {
+	cd freetype-$version
+
+	sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg
+
+	sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" \
+	    -i include/freetype/config/ftoption.h
+
+	./configure --prefix=/usr --enable-freetype-config --disable-static
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,7 @@
+url=https://sqlite.org/index.html
+
+port_getver() {
+	fetch \
+	| grep -Eo "Version [0-9.]+" \
+	| cut -d ' ' -f2
+}

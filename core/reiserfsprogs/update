@@ -1,0 +1,8 @@
+url=$(dirname $url)
+
+port_getver() {
+	fetch \
+	| grep -Eo v[0-9.]+/ \
+	| sed 's/v//;s/\///' \
+	| sort -V
+}

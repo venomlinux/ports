@@ -1,0 +1,14 @@
+# description	: The official VirtualBox Guest Additions ISO image
+# homepage	: https://www.virtualbox.org/
+# maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: virtualbox-ose
+
+name=virtualbox-ose-additions
+version=6.1.2
+release=1
+source="https://download.virtualbox.org/virtualbox/$version/VBoxGuestAdditions_$version.iso"
+
+build() {
+	install -D -m 0644 VBoxGuestAdditions_$version.iso \
+	    "$PKG/usr/lib/virtualbox/additions/VBoxGuestAdditions.iso"
+}

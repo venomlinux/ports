@@ -1,0 +1,23 @@
+# description	: Framework for providing different actions given a string query
+# depends	: plasma-framework threadweaver extra-cmake-modules kdoctools python3 qt5
+
+name=krunner
+version=5.68.0
+release=1
+source="https://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+	      -DCMAKE_PREFIX_PATH=/usr		\
+	      -DCMAKE_BUILD_TYPE=Release	\
+	      -DBUILD_TESTING=OFF		\
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}
+

@@ -1,0 +1,26 @@
+# description	: A set of plug-ins considered by the GStreamer developers to have good quality and correct functionality, but distributing them might pose problems
+# homepage	: https://gstreamer.freedesktop.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gst-plugins-base lame liba52 libdvdread x264 meson
+
+name=gst-plugins-ugly
+version=1.16.2
+release=2
+source="https://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+        cd build
+
+        meson \
+		--prefix=/usr \
+		--libexecdir=lib \
+		-Dgst_debug=false \
+		-Dgtk_doc=disabled \
+		-Dnls=disabled \
+		-Dpackage-name="GStreamer Ugly Plugins $version (Venom Linux)"
+	ninja
+	DESTDIR=$PKG ninja install
+}

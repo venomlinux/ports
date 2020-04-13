@@ -1,0 +1,17 @@
+# description	: WebSocket client library for Python (python2)
+# depends	: python2-six python2
+
+name=python2-websocket-client
+version=0.57.0
+release=1
+source="https://pypi.io/packages/source/w/websocket-client/websocket_client-$version.tar.gz"
+
+build() {
+	cd websocket_client-$version
+
+	sed -i "s/'backports.ssl_match_hostname'//" setup.py
+	
+	python2 setup.py build
+	python2 setup.py install --root=$PKG --optimize=1
+	mv $PKG/usr/bin/wsdump.py $PKG/usr/bin/wsdump2.py
+}

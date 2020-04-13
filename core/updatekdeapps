@@ -1,0 +1,19 @@
+#!/bin/bash -e
+
+KF5VER=19.12.3
+
+PKG=$(grep -R download.kde.org/stable/release-service . | cut -d / -f2)
+
+for pkg in ${PKG[@]}
+do
+  [ -d $pkg ] || continue
+  pushd $pkg >/dev/null
+	echo "Update $pkg..."
+    sed -i "s#version=.*#version=${KF5VER}#g" spkgbuild
+    sed -i "s#release=.*#release=1#g" spkgbuild
+    #sed -i "s#download.kde.org/stable/applications#download.kde.org/stable/release-service#g" spkgbuild
+    fakeroot pkgbuild -o
+    fakeroot pkgbuild -g
+    fakeroot pkgbuild -p
+  popd >/dev/null
+done

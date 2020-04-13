@@ -1,0 +1,27 @@
+# description	: KDE web browser using the QtWebEngine rendering engine
+# depends	: extra-cmake-modules qtwebengine gnome-keyring
+
+name=falkon
+version=3.1.0
+release=1
+source="https://download.kde.org/stable/falkon/${version%.*}/falkon-$version.tar.xz
+	falkon-pyside-5.12.2.patch
+	falkon-qt-5.14.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/falkon-pyside-5.12.2.patch
+	patch -Np1 -i $SRC/falkon-qt-5.14.patch
+
+	rm -rf po/
+	
+	mkdir -p build
+	cd build
+	cmake .. \
+	 -DCMAKE_INSTALL_PREFIX=/usr \
+	 -DCMAKE_INSTALL_LIBDIR=lib \
+	 -DBUILD_TESTING=OFF
+	make
+	make DESTDIR=$PKG install
+}

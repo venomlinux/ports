@@ -1,0 +1,20 @@
+# description	: Termcap file implementation for terminal emulators
+# depends	: gtk3 pcre2 gnutls gobject-introspection libxml2 vala meson
+
+name=vte3
+version=0.60.1
+release=2
+source="https://ftp.gnome.org/pub/gnome/sources/vte/${version%.*}/vte-$version.tar.xz"
+
+build() {
+	cd vte-$version
+
+	mkdir build
+        cd    build
+
+        meson --prefix=/usr \
+	      --libexecdir=lib \
+	      -D_systemd=false
+        ninja
+        DESTDIR=$PKG ninja install
+}

@@ -1,0 +1,54 @@
+# description	: Network connection manager and user applications
+# homepage	: https://wiki.gnome.org/Projects/NetworkManager
+# maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: nss dbus-glib libgudev libndp libnl consolekit2 dhcpcd libsoup newt polkit upower wpa_supplicant gobject-introspection iptables vala docbook-xsl libxslt python3-gobject3
+
+name=networkmanager
+version=1.22.10
+release=2
+backup="etc/NetworkManager/NetworkManager.conf"
+source="https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
+	run"
+
+build() {
+	cd NetworkManager-$version
+
+	# Fix a missing meson.build file for initrd hooks
+	sed '/initrd/d' -i src/meson.build
+
+	mkdir build
+	cd    build
+	
+	meson --prefix /usr              \
+	      --sysconfdir /etc          \
+	      --libexecdir lib           \
+	      --localstatedir /var       \
+	      -Djson_validation=false    \
+	      -Dlibaudit=no              \
+	      -Dlibpsl=false             \
+	      -Dnmtui=true               \
+	      -Dovs=false                \
+	      -Dppp=false                \
+	      -Dselinux=false            \
+	      -Dudev_dir=/lib/udev       \
+	      -Dsession_tracking=no      \
+	      -Dmodem_manager=false      \
+	      -Dsystemdsystemunitdir=no  \
+	      -Dsystemd_journal=false    \
+	      -Dmodify_system=true       \
+	      -Ddocs=false               \
+	      -Dqt=false                 \
+	      ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+mkdir -p $PKG/etc/NetworkManager
+cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"
+[main]
+plugins=keyfile
+EOF
+
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+}

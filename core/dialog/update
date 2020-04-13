@@ -1,0 +1,6 @@
+port_getver() {
+	fetch \
+	| grep -Eo dialog-[0-9a-z.]+-[0-9.]+.tgz \
+	| sed 's/dialog-//;s/\.tgz//' \
+	| tr '-' '_'
+}

@@ -1,0 +1,7 @@
+url=https://wiki.gnome.org/Attic/LibUnique
+
+port_getver() {
+	fetch \
+	| grep -Eo "Latest release: <strong>[0-9.]+" \
+	| sed 's/.*>//'
+}

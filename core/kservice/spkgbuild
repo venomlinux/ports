@@ -1,0 +1,25 @@
+# description	: Advanced plugin and service introspection
+# depends	: ki18n kconfig kcrash kdbusaddons extra-cmake-modules kdoctools python3 qt5
+
+name=kservice
+version=5.68.0
+release=1
+source="https://download.kde.org/stable/frameworks/${version::4}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+	      -DCMAKE_PREFIX_PATH=/usr		\
+	      -DCMAKE_BUILD_TYPE=Release	\
+	      -DBUILD_TESTING=OFF		\
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+	
+        rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,de,it,es,pt,sv}
+}
+

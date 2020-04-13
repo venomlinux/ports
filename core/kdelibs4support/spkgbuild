@@ -1,0 +1,26 @@
+# description	: Porting aid from KDELibs4
+# depends	: kunitconversion kitemmodels kemoticons kded kparts extra-cmake-modules kdoctools qt5 networkmanager perl-uri python3 kdesignerplugin
+
+name=kdelibs4support
+version=5.68.0
+release=1
+source="https://download.kde.org/stable/frameworks/${version::4}/portingAids/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+	      -DCMAKE_PREFIX_PATH=/usr		\
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
+	      -DCMAKE_BUILD_TYPE=Release	\
+	      -DBUILD_TESTING=OFF		\
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+	
+        rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,de,it,es,pt,sv}
+}
+

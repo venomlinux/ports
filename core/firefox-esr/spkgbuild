@@ -1,0 +1,48 @@
+# description	: Standalone web browser from mozilla.org, Extended Support Release
+# homepage	: https://www.mozilla.org/en-US/firefox/organizations/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gtk3 gtk2 libxt dbus-glib alsa-lib libvpx libevent nss sqlite icu unzip zip diffutils gconf python2 yasm mesa inetutils autoconf2.13
+
+name=firefox-esr
+version=68.7.0
+release=1
+source="https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/firefox-${version}esr.source.tar.xz
+        firefox.desktop"
+
+build() {
+	cd firefox-$version
+
+cat <<- EOF > .mozconfig
+	mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-shared
+	ac_add_options --prefix=/usr
+	ac_add_options --enable-default-toolkit=cairo-gtk3
+	ac_add_options --with-system-jpeg
+	ac_add_options --with-system-zlib
+	ac_add_options --with-system-png
+	ac_add_options --with-system-nspr
+	ac_add_options --with-system-nss
+	ac_add_options --enable-system-ffi
+	ac_add_options --enable-system-pixman
+	ac_add_options --enable-system-sqlite
+	ac_add_options --enable-alsa
+	ac_add_options --enable-official-branding
+	ac_add_options --with-distribution-id=venomlinux
+	ac_add_options --enable-extensions=default,-gnomevfs
+	ac_add_options --disable-tests
+	ac_add_options --disable-debug
+	ac_add_options --disable-updater
+	ac_add_options --disable-crashreporter
+	ac_add_options --disable-necko-wifi
+	ac_add_options --disable-pulseaudio
+	ac_add_options --disable-gconf
+EOF
+
+	./mach build
+	DESTDIR=$PKG ./mach install
+
+	mkdir -p $PKG/usr/share/pixmaps
+	ln -s /usr/lib/firefox/browser/chrome/icons/default/default48.png $PKG/usr/share/pixmaps/firefox_default48.png
+	install -D -m 0644 $SRC/firefox.desktop $PKG/usr/share/applications/firefox.desktop
+	# Remove crap
+	#rm $PKG/usr/lib/firefox/browser/features/{firefox@getpocket.com.xpi,webcompat@mozilla.org.xpi}
+}

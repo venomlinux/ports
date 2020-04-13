@@ -1,0 +1,26 @@
+# description	: Set of plug-ins that aren't up to par compared to the rest
+# homepage	: https://gstreamer.freedesktop.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: gst-plugins-base libdvdread libdvdnav llvm soundtouch meson
+
+name=gst-plugins-bad
+version=1.16.2
+release=2
+source="https://gstreamer.freedesktop.org/src/gst-plugins-bad/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+        cd build
+
+        meson \
+		--prefix=/usr \
+		--libexecdir=lib \
+		-Dgst_debug=false \
+		-Dgtk_doc=disabled \
+		-Dnls=disabled \
+		-Dpackage-name="GStreamer Bad Plugins $version (Venom Linux)"
+	ninja
+	DESTDIR=$PKG ninja install
+}

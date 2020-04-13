@@ -1,0 +1,21 @@
+# description	: Phonon backend which utilizes the GStreamer media framework
+# depends	: gstreamer libxml2 phonon gst-plugins-base extra-cmake-modules
+
+name=phonon-backend-gstreamer
+version=4.9.0
+release=1
+source="https://download.kde.org/stable/phonon/phonon-backend-gstreamer/$version/$name-$version.tar.xz"
+
+build() {
+	cd phonon-gstreamer-$version
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr    \
+	      -DCMAKE_BUILD_TYPE=Release     \
+	      -DPHONON_BUILD_PHONON4QT5=ON   \
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}
+

@@ -1,0 +1,22 @@
+# description	: Collection of GSettings schemas for settings shared by various components of a GNOME Desktop
+# homepage	: https://git.gnome.org/browse/gsettings-desktop-schemas
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib gobject-introspection meson
+
+name=gsettings-desktop-schemas
+version=3.36.0
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in
+
+	mkdir build
+	cd build
+
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

@@ -1,0 +1,23 @@
+Kernel Configuration:
+
+A firewall in Linux is accomplished through a portion of the kernel called netfilter.
+The interface to netfilter is Iptables. To use it, the appropriate kernel
+configuration parameters are found in:
+
+[*] Networking support  --->                                    [CONFIG_NET]
+      Networking Options  --->
+        [*] Network packet filtering framework (Netfilter) ---> [CONFIG_NETFILTER]
+
+
+Installation of Iptables:
+
+The installation below does not include building some specialized extension libraries
+which require the raw headers in the Linux source code. If you wish to build the
+additional extensions (if you aren't sure, then you probably don't), you can look at
+the INSTALL file to see an example of how to change the KERNEL_DIR= parameter to
+point at the Linux source code. Note that if you upgrade the kernel version, you may
+also need to recompile Iptables and that the BLFS team has not tested using the raw
+kernel headers.
+
+For some non-x86 architectures, the raw kernel headers may be required. In that case,
+modify the KERNEL_DIR= parameter to point at the Linux source code.

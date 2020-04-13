@@ -1,0 +1,17 @@
+# description	: Unprivileged sandboxing tool
+# homepage	: https://github.com/projectatomic/bubblewrap
+# depends	: libcap
+
+name=bubblewrap
+version=0.4.1
+release=1
+source="https://github.com/containers/bubblewrap/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	NOCONFIGURE=1 ./autogen.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

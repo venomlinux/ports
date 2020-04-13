@@ -1,0 +1,18 @@
+# description	: A Pulseaudio mixer in Qt (port of pavucontrol)
+# depends	: qt5 cmake pulseaudio
+
+name=pavucontrol-qt
+version=0.14.1
+release=1
+source="https://downloads.lxqt.org/downloads/pavucontrol-qt/$version/pavucontrol-qt-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+	..
+	make
+	make DESTDIR=$PKG install
+}

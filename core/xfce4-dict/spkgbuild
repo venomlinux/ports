@@ -1,0 +1,22 @@
+# description	: A dictionary plugin for the Xfce panel
+# homepage	: https://goodies.xfce.org/projects/applications/xfce4-dict
+# depends	: xfce4-panel intltool
+
+name=xfce4-dict
+version=0.8.3
+release=1
+source="http://archive.xfce.org/src/apps/xfce4-dict/${version%.*}/xfce4-dict-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib \
+		--localstatedir=/var \
+		--disable-static \
+		--disable-debug \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+}

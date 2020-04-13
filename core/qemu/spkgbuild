@@ -1,0 +1,36 @@
+# description	: Virtualization for Linux on x86 hardware containing virtualization extensions (Intel VT or AMD-V)
+# depends	: alsa-lib sdl2 glib python3 coreutils
+
+name=qemu
+version=4.2.0
+release=2
+source="http://download.qemu-project.org/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	mkdir -vp build
+	cd        build
+	
+	../configure --prefix=/usr \
+	             --sysconfdir=/etc \
+	             --libexecdir=/usr/lib/$name \
+		     --python=python3 \
+	             --audio-drv-list=alsa \
+		     --disable-docs \
+		     --disable-gtk \
+		     --localstatedir=/var
+	make
+	make DESTDIR=$PKG install
+
+install -d $PKG/lib/udev/rules.d/
+cat > $PKG/lib/udev/rules.d/65-kvm.rules << "EOF"
+KERNEL=="kvm", GROUP="kvm", MODE="0660"
+EOF
+
+	make qemu.1 qemu-img.1 qemu-nbd.8
+	install -D -m 644 qemu.1 $PKG/usr/share/man/man1/qemu.1
+	install -D -m 644 qemu-img.1 $PKG/usr/share/man/man1/qemu-img.1
+	install -D -m 644 qemu-nbd.8 $PKG/usr/share/man/man8/qemu-nbd.8
+}
+

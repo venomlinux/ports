@@ -1,0 +1,22 @@
+# description	: All-in-one voice and text chat for gamers that's free and secure
+# homepage	: https://discordapp.com
+# depends	: 
+
+name=discord
+version=0.0.9
+release=1
+source="https://dl.discordapp.net/apps/linux/$version/$name-$version.tar.gz"
+
+build() {
+	install -d $PKG/usr/share/$name
+	cp -a Discord/* $PKG/usr/share/$name
+	chmod 755 $PKG/usr/share/$name/Discord
+	rm $PKG/usr/share/$name/postinst.sh
+
+	install -d $PKG/usr/bin
+	ln -s /usr/share/$name/Discord $PKG/usr/bin/$name
+
+	install -d $PKG/usr/share/pixmaps $PKG/usr/share/applications
+	ln -s /usr/share/$name/$name.png $PKG/usr/share/pixmaps/$name.png
+	ln -s /usr/share/$name/$name.desktop $PKG/usr/share/applications/$name.desktop	
+}

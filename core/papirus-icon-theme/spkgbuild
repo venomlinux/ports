@@ -1,0 +1,13 @@
+# description	: Papirus icon theme
+# depends	: gtk3
+
+name=papirus-icon-theme
+version=20200102
+release=1
+source="$name-$version.tar.gz::https://github.com/PapirusDevelopmentTeam/$name/archive/$version.tar.gz"
+
+build() {
+	cd $name-$version
+	mkdir -p $PKG/usr/share/icons
+	cp -R Papirus $PKG/usr/share/icons
+}

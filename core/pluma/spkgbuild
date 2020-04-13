@@ -1,0 +1,14 @@
+# description	: The MATE text editor
+# depends	: enchant libpeas gtksourceview3
+
+name=pluma
+version=1.24.0
+release=1
+source="https://pub.mate-desktop.org/releases/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --libexecdir=/usr/lib/$name --disable-nls
+	make
+	make DESTDIR=$PKG install
+}

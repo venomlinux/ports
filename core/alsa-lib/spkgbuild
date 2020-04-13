@@ -1,0 +1,16 @@
+# description	: ALSA library used by programs (including ALSA Utilities) requiring access to the ALSA sound interface
+# homepage	: https://www.alsa-project.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=alsa-lib
+version=1.2.2
+release=1
+source="ftp://ftp.alsa-project.org/pub/lib/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+  	./configure
+	make
+	make DESTDIR=$PKG install
+}

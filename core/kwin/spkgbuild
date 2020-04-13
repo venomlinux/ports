@@ -1,0 +1,23 @@
+# description	: An easy to use, but flexible, composited Window Manager
+# depends	: kscreenlocker xcb-util-cursor hicolor-icon-theme plasma-framework kcmutils breeze kinit extra-cmake-modules qt5 kdoctools python3
+
+name=kwin
+version=5.18.4
+release=1
+source="https://download.kde.org/stable/plasma/$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
+		 -DCMAKE_BUILD_TYPE=Release	\
+		 -DBUILD_TESTING=OFF		\
+		 -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}
+

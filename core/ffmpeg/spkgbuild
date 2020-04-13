@@ -1,0 +1,42 @@
+# description	: FFmpeg is a solution to record, convert and stream audio and video
+# homepage	: https://ffmpeg.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: libass fdk-aac freetype2 lame gnutls libtheora libvorbis libvpx opus x264 x265 alsa-lib libva libvdpau sdl2 yasm
+
+name=ffmpeg
+version=4.2.2
+release=1
+source="https://ffmpeg.org/releases/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	# adds the ALSA library to the Flite LDFLAGS variable and
+	# enables the discovery of Flite
+	sed -i 's/-lflite"/-lflite -lasound"/' configure
+
+	./configure --prefix=/usr        \
+	            --enable-gpl         \
+		    --enable-gnutls      \
+	            --enable-version3    \
+	            --enable-nonfree     \
+	            --disable-static     \
+	            --enable-shared      \
+	            --disable-debug      \
+	            --enable-libass      \
+	            --enable-libfdk-aac  \
+	            --enable-libfreetype \
+	            --enable-libmp3lame  \
+	            --enable-libopus     \
+	            --enable-libtheora   \
+	            --enable-libvorbis   \
+	            --enable-libvpx      \
+	            --enable-libx264     \
+	            --enable-libx265
+	make
+	gcc tools/qt-faststart.c -o tools/qt-faststart
+	make DESTDIR=$PKG install
+
+	install -m755 tools/qt-faststart $PKG/usr/bin
+}
+

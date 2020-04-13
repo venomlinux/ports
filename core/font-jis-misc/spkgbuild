@@ -1,0 +1,19 @@
+# description	: X.org jis-misc fonts
+# depends	: util-macros mkfontscale font-util bdftopcf
+
+name=font-jis-misc
+version=1.0.3
+release=1
+source="https://www.x.org/archive/individual/font/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

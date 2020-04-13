@@ -1,0 +1,16 @@
+# description	: Zstandard is a real-time compression algorithm, providing high compression ratios.
+# homepage	: https://facebook.github.io/zstd/
+# maintainer	: Shreyesh Chaudhary, sacviper at gmail dot com
+# depends	: zlib xz lz4
+
+name=zstd
+version=1.4.4
+release=2
+source="https://github.com/facebook/zstd/releases/download/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	make
+	make PREFIX=/usr DESTDIR=$PKG install
+}

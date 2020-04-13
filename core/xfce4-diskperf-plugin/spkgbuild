@@ -1,0 +1,22 @@
+# description	: Plugin for the Xfce4 panel displaying instant disk/partition performance
+# homepage	: https://goodies.xfce.org/projects/panel-plugins/xfce4-diskperf-plugin
+# depends	: xfce4-panel intltool
+
+name=xfce4-diskperf-plugin
+version=2.6.2
+release=1
+source="http://archive.xfce.org/src/panel-plugins/xfce4-diskperf-plugin/${version%.*}/xfce4-diskperf-plugin-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib \
+		--localstatedir=/var \
+		--disable-static \
+		--disable-debug \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+}

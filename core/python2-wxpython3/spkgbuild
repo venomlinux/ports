@@ -1,0 +1,31 @@
+# description	: Classic wxWidgets GUI toolkit for Python
+# depends	: wxgtk3 python2 mesa glu
+
+name=python2-wxpython3
+version=3.0.2.0
+release=1
+source="https://downloads.sourceforge.net/wxpython/wxPython-src-$version.tar.bz2"
+
+build() {
+	cd wxPython-src-$version
+	./configure \
+	        --prefix=/usr \
+	        --libdir=/usr/lib \
+	        --includedir=/usr/include \
+	        --with-gtk=3 \
+	        --with-opengl \
+	        --enable-unicode \
+	        --enable-graphics_ctx \
+	        --disable-precomp-headers \
+	        --with-regex=sys \
+	        --with-libpng=sys \
+	        --with-libxpm=sys \
+	        --with-libjpeg=sys \
+	        --with-libtiff=sys
+	cd wxPython
+	python2 setup.py WXPORT=gtk3 UNICODE=1 build
+	python2 setup.py WXPORT=gtk3 UNICODE=1 install --root=$PKG --optimize=1
+
+# --with-wx-config=/usr/bin/wx-config-gtk3
+# WX_CONFIG=/usr/bin/wx-config-gtk3
+}

@@ -1,0 +1,14 @@
+# description	: Utility for controlling ATA/IDE controllers and hard drives
+# homepage	: https://sourceforge.net/projects/hdparm/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+
+name=hdparm
+version=9.58
+release=1
+source="https://downloads.sourceforge.net/hdparm/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make
+	make DESTDIR=$PKG install
+}

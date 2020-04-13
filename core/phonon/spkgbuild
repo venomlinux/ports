@@ -1,0 +1,21 @@
+# description	: Multimedia API for KDE
+# depends	: glib qt5 extra-cmake-modules
+
+name=phonon
+version=4.10.1
+release=1
+source="https://download.kde.org/stable/phonon/$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr    \
+	      -DCMAKE_BUILD_TYPE=Release     \
+	      -DPHONON_BUILD_PHONON4QT5=ON   \
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}

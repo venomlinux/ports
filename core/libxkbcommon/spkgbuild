@@ -1,0 +1,21 @@
+# description	: keymap compiler and support library
+# homepage	: https://xkbcommon.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: xkeyboard-config libxcb meson
+
+name=libxkbcommon
+version=0.10.0
+release=1
+source="https://xkbcommon.org/download/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+
+	meson --prefix=/usr \
+	      -Denable-docs=false
+	ninja
+	DESTDIR=$PKG ninja install
+}

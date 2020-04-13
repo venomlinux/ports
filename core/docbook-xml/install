@@ -1,0 +1,36 @@
+# package install script
+
+action=$1
+newversion=$2
+oldversion=$3
+
+post_install() {
+	if [ ! -e /etc/xml/catalog ]; then
+		xmlcatalog --noout --create /etc/xml/catalog
+	fi
+	xmlcatalog --noout --add "delegatePublic" \
+		"-//OASIS//ENTITIES DocBook XML" \
+		"file:///etc/xml/docbook" \
+		/etc/xml/catalog
+	xmlcatalog --noout --add "delegatePublic" \
+		"-//OASIS//DTD DocBook XML" \
+		"file:///etc/xml/docbook" \
+		/etc/xml/catalog
+	xmlcatalog --noout --add "delegateSystem" \
+		"http://www.oasis-open.org/docbook/" \
+		"file:///etc/xml/docbook" \
+		/etc/xml/catalog
+	xmlcatalog --noout --add "delegateURI" \
+		"http://www.oasis-open.org/docbook/" \
+		"file:///etc/xml/docbook" \
+		/etc/xml/catalog
+}
+
+post_remove() {
+	xmlcatalog --noout --del file:///etc/xml/docbook /etc/xml/catalog
+}
+
+case $action in
+	post-install) post_install ;;
+	post-remove) post_remove ;;
+esac

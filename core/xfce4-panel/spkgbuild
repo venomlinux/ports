@@ -1,0 +1,15 @@
+# description	: Xfce4 Panel
+# depends	: exo garcon libwnck3 libxfce4ui xfconf
+
+name=xfce4-panel
+version=4.14.3
+release=1
+source="https://archive.xfce.org/src/xfce/xfce4-panel/${version%.*}/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --sysconfdir=/etc --enable-gtk3 --disable-nls
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,19 @@
+# description	: Library that defines common error values for all GnuPG components
+# homepage	: https://www.gnupg.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=libgpg-error
+version=1.37
+release=1
+source="ftp://ftp.gnupg.org/gcrypt/$name/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	# allow building with gawk-5.0
+	sed -i 's/namespace/pkg_&/' src/Makefile.am src/Makefile.in src/mkstrtable.awk
+
+  	./configure --prefix=/usr --disable-nls
+	make
+	make DESTDIR=$PKG install
+}

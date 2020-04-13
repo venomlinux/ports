@@ -1,0 +1,14 @@
+# description	: rcpsvc protocol.x files and headers
+# homepage	: https://github.com/thkukuk/rpcsvc-proto
+
+name=rpcsvc-proto
+version=1.4.1
+release=1
+source="https://github.com/thkukuk/rpcsvc-proto/releases/download/v$version/rpcsvc-proto-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

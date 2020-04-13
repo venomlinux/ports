@@ -1,0 +1,19 @@
+# description	: Generate scripting interfaces to C/C++ code
+# homepage	: http://www.swig.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: pcre
+
+name=swig
+version=4.0.1
+release=1
+source="https://downloads.sourceforge.net/swig/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr                      \
+		--without-clisp                    \
+ 		--without-maximum-compile-warnings
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,23 @@
+# description	: The extensible chat client
+# homepage	: https://weechat.org/
+# depends	: cmake ncurses curl zlib libgcrypt
+
+name=weechat
+version=2.8
+release=1
+source="https://weechat.org/files/src/weechat-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd build 
+
+	cmake .. -DCMAKE_INSTALL_PREFIX=/usr \
+		-DENABLE_PHP=OFF \
+		-DENABLE_SPELL=OFF \
+		-DENABLE_JAVASCRIPT=OFF \
+		-DENABLE_NLS=OFF
+	make
+	make DESTDIR=$PKG install
+}

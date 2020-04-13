@@ -1,0 +1,52 @@
+# description	: File and print services to SMB/CIFS clients and Windows networking to Linux clients
+# homepage	: https://www.samba.org/
+# depends	: fuse3 gpgme python3 jansson libtirpc rpcsvc-proto
+
+name=samba
+version=4.11.6
+release=3
+source="https://www.samba.org/ftp/samba/stable/$name-$version.tar.gz
+	run.smbd
+	run.nmbd"
+
+build() {
+	cd $name-$version
+	
+	CFLAGS="-I/usr/include/tirpc" \
+	LDFLAGS="-ltirpc" \
+	./configure \
+	    --prefix=/usr \
+	    --sysconfdir=/etc \
+	    --libexecdir=/usr/lib/samba \
+	    --localstatedir=/var \
+	    --with-piddir=/run/samba \
+	    --with-pammodulesdir=/lib/security \
+	    --enable-fhs \
+	    --without-systemd \
+	    --enable-selftest \
+	    --without-ad-dc \
+	    --without-ads \
+	    --without-ldap \
+            --without-json
+	make
+	make DESTDIR=$PKG install
+
+	install -d $PKG/lib
+	mv -v $PKG/usr/lib/libnss_wins.so*   $PKG/lib
+	mv -v $PKG/usr/lib/libnss_winbind.so*   $PKG/lib
+	ln -v -sf ../../lib/libnss_winbind.so.2 $PKG/usr/lib/libnss_winbind.so
+	ln -v -sf ../../lib/libnss_wins.so.2    $PKG/usr/lib/libnss_wins.so
+
+	install -v -m644 examples/smb.conf.default $PKG/etc/samba
+
+	# revdep exclude
+	mkdir -p $PKG/etc/revdep.d
+	echo "/usr/lib/samba/" > $PKG/etc/revdep.d/samba.conf
+	echo "/usr/lib/python3.8/site-packages/samba/" >> $PKG/etc/revdep.d/samba.conf
+
+	# runit service
+        install -Dm755 $SRC/run.nmbd $PKG/etc/sv/nmbd/run
+        ln -s /run/runit/supervise.nmbd $PKG/etc/sv/nmbd/supervise
+        install -Dm755 $SRC/run.smbd $PKG/etc/sv/smbd/run
+        ln -s /run/runit/supervise.smbd $PKG/etc/sv/smbd/supervise
+}

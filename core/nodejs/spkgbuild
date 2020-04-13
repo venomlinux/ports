@@ -1,0 +1,21 @@
+# description	: JavaScript runtime built on Chrome's V8 JavaScript engine
+# depends	: c-ares icu python2 libuv zlib
+
+name=nodejs
+version=13.12.0
+release=2
+source="https://nodejs.org/dist/v$version/node-v$version.tar.xz"
+
+build() {
+	cd node-v$version
+
+	./configure \
+		--prefix=/usr \
+		--shared-cares \
+		--shared-zlib \
+		--shared-libuv \
+		--with-intl=system-icu
+	make
+	make DESTDIR=$PKG install
+}
+

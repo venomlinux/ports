@@ -1,0 +1,8 @@
+port_getver() {
+	fetch \
+	| grep -Eo $filename[_-][0-9a-z.]+.tgz \
+	| sed "s/$filename[-_]//;s/\.tgz//" \
+	| grep -Evi '(alpha|beta|rc|pre)' \
+	| grep -Ev 20.* \
+	| grep [[:digit:]]
+}

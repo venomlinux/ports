@@ -1,0 +1,46 @@
+# description	: Collection of modular and reusable compiler and toolchain technologies
+# depends	: cmake libffi python2 ninja
+
+name=llvm
+version=10.0.0
+release=1
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/compiler-rt-$version.src.tar.xz
+	llvm-config.h"
+
+build() {
+	cd $name-$version.src
+
+	export CC=gcc
+	export CXX=g++
+
+	mv ../clang-$version.src tools/clang
+	mv ../compiler-rt-$version.src projects/compiler-rt
+
+	mkdir -v build
+	cd       build
+	
+	cmake .. -G Ninja \
+	      -DCMAKE_INSTALL_PREFIX=/usr           \
+	      -DLLVM_ENABLE_FFI=ON                  \
+	      -DCMAKE_BUILD_TYPE=Release            \
+	      -DLLVM_BUILD_LLVM_DYLIB=ON            \
+      	      -DLLVM_LINK_LLVM_DYLIB=ON             \
+	      -DLLVM_ENABLE_RTTI=ON                 \
+	      -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF" \
+	      -Wno-dev
+	ninja
+	DESTDIR=$PKG ninja install
+
+	mv $PKG/usr/include/llvm/Config/llvm-config.h \
+	   $PKG/usr/include/llvm/Config/llvm-config-64.h
+	cp $SRC/llvm-config.h $PKG/usr/include/llvm/Config/llvm-config.h
+
+	mkdir -p $PKG/usr/lib/llvm
+	mv $PKG/usr/libexec/c++-analyzer \
+	   $PKG/usr/libexec/ccc-analyzer \
+	   $PKG/usr/lib/llvm
+	rmdir $PKG/usr/libexec
+	sed -i 's|libexec|lib/llvm|' $PKG/usr/bin/scan-build
+}

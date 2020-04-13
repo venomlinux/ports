@@ -1,0 +1,23 @@
+# description	: GEneric Graphics Library, a graph based image processing format
+# homepage	: http://www.gegl.org/
+# maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: babl json-glib poppler-glib meson
+
+name=gegl
+version=0.4.22
+release=1
+source="https://download.gimp.org/pub/gegl/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+
+	meson \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		-Ddocs=false
+	ninja
+	DESTDIR=$PKG ninja install
+}

@@ -1,0 +1,23 @@
+# description	: A free, open source, and cross-platform media player
+# homepage	: https://mpv.io/
+# maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: mesa lcms2 ffmpeg libass libarchive luajit
+
+name=mpv
+version=0.32.0
+release=1
+source="https://github.com/mpv-player/mpv/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./bootstrap.py
+	./waf configure \
+	    --prefix=/usr \
+	    --confdir=/etc/mpv \
+	    --enable-cdda \
+	    --enable-dvb \
+	    --enable-libarchive \
+	    --enable-lua
+	./waf build
+	./waf install --destdir=$PKG
+}

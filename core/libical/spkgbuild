@@ -1,0 +1,24 @@
+# description	: Implementation of the iCalendar protocols and data formats
+# depends	: cmake gobject-introspection vala
+
+name=libical
+version=3.0.8
+release=1
+source="https://github.com/libical/$name/releases/download/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DCMAKE_BUILD_TYPE=Release  \
+	      -DSHARED_ONLY=yes           \
+	      -DENABLE_GTK_DOC=OFF        \
+	      -DGOBJECT_INTROSPECTION=true \
+	      -DICAL_GLIB_VAPI=true \
+	      ..
+	make
+	make DESTDIR=$PKG install
+}

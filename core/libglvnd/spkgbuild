@@ -1,0 +1,16 @@
+# description	: The GL Vendor-Neutral Dispatch library
+# depends	: libxext libx11
+
+name=libglvnd
+version=1.3.1
+release=1
+source="https://github.com/NVIDIA/libglvnd/archive/v$version/$name-v$version.tar.gz"
+
+build() {
+	cd libglvnd-$version
+
+	./autogen.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

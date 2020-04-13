@@ -1,0 +1,16 @@
+# description	: A C/C++ implementation of a Sass compiler
+# homepage	: http://libsass.org/
+# maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
+
+name=libsass
+version=3.6.3
+release=1
+source="https://github.com/sass/$name/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	autoreconf -vfi
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

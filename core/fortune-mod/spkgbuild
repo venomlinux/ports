@@ -1,0 +1,32 @@
+# description	: Display random text quotes on the command line
+# depends	: cmake recode rinutils
+
+name=fortune-mod
+version=2.20.0
+release=1
+source="https://www.shlomifish.org/open-source/projects/fortune-mod/arcs/fortune-mod-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	sed -i 's|/games/|/|' CMakeLists.txt
+	sed -i 's|"games"|"bin"|' CMakeLists.txt
+	sed -i 's|/games/fortunes|/fortune|' datfiles/CMakeLists.txt
+	sed -i 's|/games/fortunes|/fortune|' datfiles/off/CMakeLists.txt
+
+	mkdir build
+	cd build
+
+	cmake \
+	-DCMAKE_INSTALL_PREFIX=/usr \
+        -DNO_OFFENSIVE=OFF \
+	-DLOCALDIR=/usr/share/fortune/ \
+        -DLOCALODIR=/usr/share/fortune/off/ \
+        -DCOOKIEDIR=/usr/share/fortune/ \
+        -DOCOOKIEDIR=/usr/share/fortune/off/ \
+	..
+	make
+	make DESTDIR=$PKG install
+	rm $PKG/usr/share/fortune/*.u8 \
+	   $PKG/usr/share/fortune/off/*.u8
+}

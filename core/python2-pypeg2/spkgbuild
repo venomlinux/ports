@@ -1,0 +1,12 @@
+# description	: An intrinsic PEG Parser-Interpreter for Python (python2)
+# depends	: python2
+
+name=python2-pypeg2
+version=2.15.2
+release=1
+source="https://pypi.python.org/packages/source/p/pyPEG2/pyPEG2-$version.tar.gz"
+
+build() {
+	cd pyPEG2-$version
+	python2 setup.py install --root="$PKG" --prefix=/usr --optimize=1
+}

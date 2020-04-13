@@ -1,0 +1,24 @@
+# description	: Toolkit for defining and handling authorizations
+# homepage	: https://www.freedesktop.org/wiki/Software/polkit
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+# depends	: glib js60 linux-pam gobject-introspection
+
+name=polkit
+version=0.116
+release=1
+source="https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+	            --localstatedir=/var \
+	            --disable-static \
+	            --enable-libsystemd-login=no \
+		    --with-authfw=pam \
+		    --enable-libelogind=no \
+		    --disable-man-pages
+	make
+	make DESTDIR=$PKG install
+}

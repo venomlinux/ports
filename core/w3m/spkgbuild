@@ -1,0 +1,30 @@
+# description	: Text-mode WWW browser
+# depends	: gc openssl ncurses imlib2
+
+name=w3m
+version=0.5.3
+release=3
+source="https://downloads.sourceforge.net/w3m/$name-$version.tar.gz
+	fix-compile.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../fix-compile.patch
+	sed -i 's/file_handle/file_foo/' istream.c
+	sed -i 's/file_handle/file_foo/' istream.h
+	sed -i 's#gdk-pixbuf-xlib-2.0#& x11#' configure
+	sed -i '/USE_EGD/s/define/undef/' config.h.in
+	
+	./configure --prefix=/usr \
+		    --sysconfdir=/etc \
+		    --libexecdir=/usr/lib \
+		    --disable-nls
+	make || make -j1
+	make DESTDIR=$PKG install
+
+	install -v -m644 -D doc/keymap.default $PKG/etc/w3m/keymap
+	install -v -m644    doc/menu.default $PKG/etc/w3m/menu
+
+	rm -r $PKG/usr/share/man/ja
+}

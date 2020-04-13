@@ -1,0 +1,31 @@
+# description	: Free version of the SSH connectivity tools
+# depends	: openssl xauth
+
+name=openssh
+version=8.2p1
+release=3
+source="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
+	run"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr                     \
+	            --sysconfdir=/etc/ssh             \
+		    --libexecdir=/usr/lib/$name       \
+	            --with-md5-passwords              \
+	            --with-privsep-path=/var/lib/sshd
+	make
+	make DESTDIR=$PKG install
+
+	install -v -m755    contrib/ssh-copy-id $PKG/usr/bin
+	install -v -m644    contrib/ssh-copy-id.1 \
+	                    $PKG/usr/share/man/man1
+
+	sed '/^#ChallengeResponseAuthentication yes$/c ChallengeResponseAuthentication no' \
+	    -i $PKG/etc/ssh/sshd_config
+
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/sshd/run
+        ln -s /run/runit/supervise.sshd $PKG/etc/sv/sshd/supervise
+}

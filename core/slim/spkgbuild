@@ -1,0 +1,34 @@
+# description	: Simple Login Manager
+# depends	: libx11 libxft libxrender libxrandr libxmu freetype2 libjpeg-turbo libpng zlib consolekit2 linux-pam
+
+name=slim
+version=1.3.6
+release=4
+backup="etc/slim.conf"
+source="https://sourceforge.net/projects/${name}.berlios/files/$name-$version.tar.gz
+	run
+	$name.pam"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DUSE_CONSOLEKIT=yes \
+		-DUSE_PAM=yes \
+		..
+	make
+	make DESTDIR=$PKG install
+
+	install -Dm644 $SRC/$name.pam $PKG/etc/pam.d/$name
+
+	# remove systemd crap
+	rm -r $PKG/lib
+
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+}

@@ -1,0 +1,22 @@
+# description	: Menu with quick access to folders, documents, and removable media
+# homepage	: https://goodies.xfce.org/projects/panel-plugins/xfce4-places-plugin
+# depends	: xfce4-panel intltool thunar
+
+name=xfce4-places-plugin
+version=1.8.1
+release=1
+source="http://archive.xfce.org/src/panel-plugins/xfce4-places-plugin/${version%.*}/xfce4-places-plugin-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib \
+		--localstatedir=/var \
+		--disable-static \
+		--disable-debug \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,17 @@
+# description	: Interactive process viewer
+# homepage	: http://hisham.hm/htop/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: ncurses python3
+
+name=htop
+version=2.2.0
+release=1
+source="http://hisham.hm/htop/releases/$version/htop-$version.tar.gz"
+
+build() {
+    cd $name-$version
+    ./configure --prefix=/usr --disable-nls --mandir=/usr/share/man
+    make
+    make DESTDIR=$PKG install
+}
+

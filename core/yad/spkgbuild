@@ -1,0 +1,17 @@
+# description	: A fork of zenity - display graphical dialogs from shell scripts or command line
+# homepage	: https://github.com/v1cont/yad
+# depends	: webkitgtk gtk3
+
+name=yad
+version=6.0
+release=1
+source="https://github.com/v1cont/yad/releases/download/v$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	autoreconf -fi
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

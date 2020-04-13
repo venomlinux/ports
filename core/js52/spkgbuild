@@ -1,0 +1,51 @@
+# description	: Mozilla's JavaScript engine written in C
+# depends	: gcc yasm icu nspr autoconf2.13 python2
+
+name=js52
+version=52.9.0
+release=1
+_relver=${version}esr
+source="https://archive.mozilla.org/pub/firefox/releases/$_relver/source/firefox-$_relver.source.tar.xz
+	mozjs52-copy-headers.patch
+	mozjs52-disable-mozglue.patch
+	mozjs52-fix-soname.patch
+	no-error.diff"
+
+build() {
+	cd firefox-$_relver
+
+	for i in $SRC/*.patch $SRC/*.diff; do
+		patch -Np1 -i $i
+	done
+
+	mkdir obj
+	cd obj
+
+	export SHELL=/bin/sh
+
+	CFLAGS="$CFLAGS -fno-delete-null-pointer-checks -fno-strict-aliasing -fno-tree-vrp"
+	CXXFLASGS="$CFLAGS"
+
+	touch ../js/src/configure
+	sh ../js/src/configure \
+		    --prefix=/usr       \
+		    --disable-debug \
+		    --disable-debug-symbols \
+		    --disable-strip \
+		    --enable-gold \
+		    --enable-optimize="-O2" \
+		    --enable-pie \
+		    --enable-posix-nspr-emulation \
+		    --enable-readline \
+		    --enable-release \
+		    --enable-shared-js \
+		    --enable-tests \
+		    --with-intl-api \
+		    --with-system-zlib \
+		    --with-system-icu
+	make
+	make DESTDIR=$PKG install
+
+	# conflicted file with js38
+	rm $PKG/usr/lib/*.ajs
+}

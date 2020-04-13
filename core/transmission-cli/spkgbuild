@@ -1,0 +1,21 @@
+# description	: Fast, easy, and free BitTorrent client (CLI tools, daemon and web client)
+# homepage	: http://www.transmissionbt.com/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: curl libevent openssl intltool
+
+name=transmission-cli
+version=2.94
+release=3
+source="https://github.com/transmission/transmission-releases/raw/master/transmission-$version.tar.xz"
+
+build() {
+	cd transmission-$version
+
+	./configure --prefix=/usr
+	make
+	for dir in daemon cli web utils; do
+	    make -C "$dir" DESTDIR=$PKG install
+	done
+
+	install -d $PKG/var/lib/transmission
+}

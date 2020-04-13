@@ -1,0 +1,54 @@
+# description	: Lightweight display manager based upon GTK
+# depends	: glib libgcrypt linux-pam polkit pcre libxklavier itstool vala gobject-introspection
+
+name=lightdm
+version=1.30.0
+release=3
+backup="etc/lightdm/keys.conf
+	etc/lightdm/lightdm.conf
+	etc/lightdm/users.conf"
+source="https://github.com/CanonicalLtd/lightdm/releases/download/$version/lightdm-$version.tar.xz
+	Xsession
+	lightdm.rules
+	$name.pam
+	$name-autologin.pam
+	run"
+
+build() {
+	cd $name-$version
+
+	./configure                          \
+	       --prefix=/usr                 \
+	       --libexecdir=/usr/lib/lightdm \
+	       --localstatedir=/var          \
+	       --sbindir=/usr/bin            \
+	       --sysconfdir=/etc             \
+	       --disable-static              \
+	       --disable-tests               \
+	       --disable-nls                 \
+	       --with-greeter-user=lightdm   \
+	       --with-greeter-session=lightdm-gtk-greeter
+	make
+	make DESTDIR=$PKG install
+
+	rm -rf $PKG/etc/init
+
+	install -Dm755 $SRC/Xsession $PKG/etc/lightdm/Xsession
+
+	install -Dm 644 $SRC/$name.rules $PKG/usr/share/polkit-1/rules.d/$name.rules
+	install -Dm 644 $SRC/$name.pam $PKG/etc/pam.d/$name
+	install -Dm 644 $SRC/$name-autologin.pam $PKG/etc/pam.d/$name-autologin
+
+	sed -i 's:#session-wrapper=lightdm-session:session-wrapper=/etc/lightdm/Xsession:' $PKG/etc/lightdm/lightdm.conf
+	sed -i 's:minimum-uid=500:minimum-uid=1000:' $PKG/etc/lightdm/users.conf
+
+	mkdir -p $PKG/var/lib/lightdm \
+		$PKG/var/lib/lightdm-data \
+		$PKG/var/cache/lightdm \
+		$PKG/var/log/lightdm
+
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+}
+

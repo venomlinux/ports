@@ -1,0 +1,22 @@
+# description	: adds special features for media files to the Thunar File Manager
+# homepage	: https://goodies.xfce.org/projects/thunar-plugins/start
+# depends	: thunar taglib
+
+name=thunar-media-tags-plugin
+version=0.3.0
+release=1
+source="http://archive.xfce.org/src/thunar-plugins/thunar-media-tags-plugin/${version%.*}/thunar-media-tags-plugin-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib \
+		--localstatedir=/var \
+		--disable-static \
+		--disable-debug \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+}

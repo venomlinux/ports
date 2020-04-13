@@ -1,0 +1,23 @@
+# description	: A set of free peer-reviewed portable C++ source libraries
+# depends	: gcc zlib bzip2 which icu python2 python3
+
+name=boost
+version=1.72.0
+_version=$(echo $version | sed 's/\./_/g')
+release=1
+source="https://dl.bintray.com/boostorg/release/$version/source/boost_${_version}.tar.bz2"
+
+build() {
+	cd boost_${version//./_}
+
+	./bootstrap.sh --prefix=/usr
+	./b2 ${MAKEFLAGS} stage --stagedir=$PKG/usr threading=multi link=shared
+	./b2 ${MAKEFLAGS} install --prefix=$PKG/usr threading=multi link=shared
+
+	./bootstrap.sh --prefix=/usr --with-python=/usr/bin/python3
+	./b2 clean
+	./b2 ${MAKEFLAGS} install --prefix=$SRC/py3 threading=multi link=shared
+	cp -a $SRC/py3/lib/libboost_* $PKG/usr/lib
+
+	ln -sv detail/sha1.hpp $PKG/usr/include/boost/uuid/sha1.hpp
+}

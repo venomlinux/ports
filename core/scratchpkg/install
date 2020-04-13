@@ -1,0 +1,9 @@
+post_install() {
+	sed -i '\,/usr/ports/xorg,d' /etc/scratchpkg.repo
+	sed -i '\,/usr/ports/extra,d' /etc/scratchpkg.repo
+	echo "#/usr/ports/nonfree    https://raw.githubusercontent.com/venomlinux/ports/master/nonfree" >> /etc/scratchpkg.repo
+}
+
+case $1 in
+	post-install) post_install;;
+esac

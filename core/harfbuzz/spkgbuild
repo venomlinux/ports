@@ -1,0 +1,21 @@
+# description	: OpenType text shaping engine
+# homepage	: https://www.freedesktop.org/wiki/Software/HarfBuzz/
+# maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: glib freetype2 graphite2
+
+name=harfbuzz
+version=2.6.4
+release=1
+source="https://www.freedesktop.org/software/$name/release/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--with-gobject \
+		--with-graphite2 \
+		--with-icu=no
+	make
+	make DESTDIR=$PKG install
+}

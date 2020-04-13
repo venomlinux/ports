@@ -1,0 +1,17 @@
+# description	: A system-independent interface for user-level packet capture
+# homepage	: http://www.tcpdump.org/
+# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
+# depends	: dbus libnl libusb bash flex
+
+name=libpcap
+version=1.9.1
+release=1
+source="http://www.tcpdump.org/release/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install install-shared
+}

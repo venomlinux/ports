@@ -1,0 +1,22 @@
+# description	: Shows information about local weather in the xfce4 panel
+# homepage	: https://goodies.xfce.org/projects/panel-plugins/xfce4-weather-plugin
+# depends	: xfce4-panel intltool
+
+name=xfce4-weather-plugin
+version=0.10.1
+release=1
+source="http://archive.xfce.org/src/panel-plugins/xfce4-weather-plugin/${version%.*}/xfce4-weather-plugin-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib \
+		--localstatedir=/var \
+		--disable-static \
+		--disable-debug \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+}

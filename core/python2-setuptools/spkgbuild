@@ -1,0 +1,19 @@
+# description	: Easily download, build, install, upgrade, and uninstall Python packages
+# homepage	: https://pypi.org/project/setuptools/
+# maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: python2
+
+name=python2-setuptools
+version=44.1.0
+release=1
+source="python-setuptools-$version.tar.gz::https://github.com/pypa/setuptools/archive/v$version.tar.gz"
+
+build() {
+	cd setuptools-$version
+
+	export SETUPTOOLS_INSTALL_WINDOWS_SPECIFIC_FILES=0
+	python2 bootstrap.py
+	python2 setup.py build
+	python2 setup.py install --prefix=/usr --root="$PKG" --optimize=1 --skip-build
+	rm $PKG/usr/bin/easy_install
+}

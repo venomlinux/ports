@@ -1,0 +1,17 @@
+# description	: General-purpose library for WPE WebKit
+# homepage	: https://wpewebkit.org/
+# depends	: cmake mesa
+
+name=libwpe
+version=1.6.0
+release=1
+source="https://wpewebkit.org/releases/$name-$version.tar.xz"
+
+build() {
+	cmake -H$name-$version -Bbuild \
+	    -DCMAKE_BUILD_TYPE=Plain \
+	    -DCMAKE_INSTALL_PREFIX=/usr \
+	    -DCMAKE_INSTALL_LIBDIR=/usr/lib
+	cmake --build build
+	DESTDIR=$PKG cmake --build build --target install
+}

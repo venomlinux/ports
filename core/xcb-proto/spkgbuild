@@ -1,0 +1,20 @@
+# description	: XML-XCB protocol descriptions
+# homepage	: http://xcb.freedesktop.org/
+# maintainer	: emmett1, emmett1.2miligrams at gmail.com
+
+name=xcb-proto
+version=1.14
+release=1
+source="http://xcb.freedesktop.org/dist/xcb-proto-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+  	PYTHON=python3 ./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make DESTDIR=$PKG install
+}
+

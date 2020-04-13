@@ -1,0 +1,13 @@
+# description	: A fully functional X client library for Python programs
+# depends	: python2-pip python2-six python2-setuptools
+
+name=python2-xlib
+version=0.26
+release=1
+source="https://github.com/python-xlib/python-xlib/archive/$version/python-$version.tar.gz"
+
+build() {
+	cd python-xlib-$version
+	python2 setup.py build
+	python2 setup.py install --root="$PKG" --optimize=1 --skip-build
+}

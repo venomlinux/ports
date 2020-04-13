@@ -1,0 +1,19 @@
+# description	: XSLT libraries used for extending libxml2 libraries to support XSLT files
+# homepage	: http://xmlsoft.org/libxslt/
+# maintainer	: Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: libxml2 libgcrypt python2
+
+name=libxslt
+version=1.1.34
+release=1
+source="http://xmlsoft.org/sources/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	sed -i s/3000/5000/ libxslt/transform.c doc/xsltproc.1 doc/xsltproc.xml
+	
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

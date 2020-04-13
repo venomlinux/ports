@@ -1,0 +1,11 @@
+Kernel Configuration:
+
+Enable the following options in the kernel configuration and recompile the kernel if
+necessary:
+
+Device Drivers  --->
+  Graphics support  --->
+   <*> Direct Rendering Manager (XFree86 ... support) --->  [CONFIG_DRM]
+   <*> DRM driver for VMware Virtual GPU                    [CONFIG_DRM_VMWGFX]
+      [*]   Enable framebuffer console under vmwgfx by default [CONFIG_DRM_VMWGFX_FBCON]
+

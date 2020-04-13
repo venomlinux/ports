@@ -1,0 +1,6 @@
+case $1 in
+	post-install|post-upgrade)
+		grep -qe '^/bin/zsh$' etc/shells || echo '/bin/zsh' >> etc/shells ;;
+	post-remove)
+		sed -i -r '/^\/bin\/zsh$/d' etc/shells ;;
+esac

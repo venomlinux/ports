@@ -1,0 +1,6 @@
+port_getver() {
+	fetch \
+	| grep -Eo dcfldd-[0-9a-z.-]+.tar.[bgx]z2? \
+	| sed 's/dcfldd-//;s/\.tar.*//' \
+	| tr '-' '.'
+}

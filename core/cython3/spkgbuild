@@ -1,0 +1,15 @@
+# description	: C-Extensions for Python3
+# homepage	: https://cython.org/
+# maintainer    : Emmett1, emmett1 dot 2miligrams at gmail dot com
+# depends	: python3
+
+name=cython3
+version=0.29.16
+release=1
+source="https://files.pythonhosted.org/packages/source/C/Cython/Cython-$version.tar.gz"
+
+build() {
+	cd Cython-$version
+	python3 setup.py build
+	python3 setup.py install --root=$PKG --optimize=1
+}

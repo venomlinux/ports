@@ -1,0 +1,17 @@
+# description	: Cantarell font family
+# depends	: meson appstream-glib
+
+name=cantarell-fonts
+version=0.201
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/$name/$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+	meson --prefix /usr
+	ninja
+	DESTDIR=$PKG ninja install
+}
