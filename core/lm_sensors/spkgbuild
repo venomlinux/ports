@@ -1,15 +1,16 @@
 # description	: User-space support for the hardware monitoring drivers in the Linux kernel
-# homepage	: http://www.lm-sensors.org/
+# homepage	: https://hwmon.wiki.kernel.org/
 # maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 # depends	: which
 
 name=lm_sensors
-version=3.4.0
+version=3.6.0
 release=1
-source="https://ftp.gwdg.de/pub/linux/misc/lm-sensors/lm_sensors-$version.tar.bz2"
+source="https://github.com/lm-sensors/lm-sensors/archive/V${version//./-}/$name-$version.tar.gz
+	run"
 
 build() {
-	cd $name-$version
+	cd ${name/_/-}-${version//./-}
 	make PREFIX=/usr        \
 	     BUILD_STATIC_LIB=0 \
 	     MANDIR=/usr/share/man
@@ -18,4 +19,8 @@ build() {
 	     BUILD_STATIC_LIB=0 \
 	     MANDIR=/usr/share/man \
 	     DESTDIR=$PKG install
+
+	# runit service
+        install -Dm755 $SRC/run $PKG/etc/sv/fancontrol/run
+        ln -s /run/runit/supervise.fancontrol $PKG/etc/sv/fancontrol/supervise
 }
