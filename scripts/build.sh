@@ -88,8 +88,28 @@ mount_repo() {
 	done
 }
 
+fetch_rootfs() {
+	[ "$MUSL" ] && musl="musl-"
+	tarballname="venom-${musl}rootfs-$TARBALLVERSION.tar.xz"
+	url="https://github.com/venomlinux/ports/releases/download/$TARBALLVERSION/$tarballname"
+		
+	[ -f "$TARBALLIMG".part ] && resume="-C"
+	msg "Fetching rootfs tarball: $url"
+	wget -c --passive-ftp --no-directories --tries=3 --waitretry=3 --output-document=$TARBALLIMG.part $url
+	if [ "$?" = 0 ]; then
+		rm -f "$TARBALLIMG"
+		mv "$TARBALLIMG".part "$TARBALLIMG"
+	else
+		die "Error fetching rootfs tarball"
+	fi
+}
+
 zap_rootfs() {
 	unmount_any_mounted
+	
+	# make sure new extracted rootfs is uptodate and clean from broken pkgs
+	SYSUP=1
+	REVDEP=1
 	
 	[ -f "$TARBALLIMG" ] || {
 		msgerr "Tarball img not exist: $TARBALLIMG"
@@ -99,7 +119,7 @@ zap_rootfs() {
 	rm -fr $ROOTFS
 	mkdir -p $ROOTFS
 	msg "Extracting tarball image: $TARBALLIMG"
-	tar -xf $TARBALLIMG -C $ROOTFS
+	tar -xf $TARBALLIMG -C $ROOTFS || die "Error extracting tarball image"
 	cp $FILESDIR/$REPOFILE $ROOTFS/etc/scratchpkg.repo
 	unset ZAP
 }
@@ -112,10 +132,6 @@ install_pkg() {
 }
 
 compress_rootfs() {
-	# fix broken packages before compress rootfs
-	msg "Running revdep..."
-	chrootrun revdep -y -r || exit 1
-
 	pushd $ROOTFS >/dev/null
 	
 	[ -f "$TARBALLIMG" ] && {
@@ -175,6 +191,8 @@ check_rootfs() {
 }
 
 copy_ports() {
+	rm -fr $ROOTFS/usr/ports
+	mkdir -p $ROOTFS/usr/ports
 	for repo in $REPO; do
 		[ -d $PORTSDIR/$repo ] || msg "Repo not exist: $repo"
 		msg "Copying repo: $repo"
@@ -281,7 +299,7 @@ msgerr() {
 }
 
 die() {
-	[ "$@" ] && msg $@
+	[ "$@" ] && msgerr $@
 	exit 1
 }
 
@@ -302,6 +320,7 @@ parse_opts() {
 			     -zap) ZAP=1;;
 			     -iso) ISO=1;;
 			    -musl) MUSL=1;;
+			   -fetch) FETCH=1;;
 			        *) msgerr "invalid options: $1"; exit 1;;
 		esac
 		shift
@@ -309,6 +328,8 @@ parse_opts() {
 }
 
 main() {
+	[ "$FETCH" ] && fetch_rootfs
+	
 	# check if rootfs already exist, else zap
 	check_rootfs
 	
@@ -328,7 +349,7 @@ main() {
 	}
 	
 	[ "$REVDEP" ] && {
-		msg "Running revdep (1st)..."
+		msg "Running revdep (main, after sysup, before make rootfs)..."
 		chrootrun revdep -y -r || exit 1
 	}
 	
@@ -339,7 +360,7 @@ main() {
 	[ "$PKG" ] && {
 		install_pkg || exit 1
 		[ "$REVDEP" ] && {
-			msg "Running revdep (2nd)..."
+			msg "Running revdep (after pkg installed)..."
 			chrootrun revdep -y -r || exit 1
 		}
 	}
@@ -355,7 +376,7 @@ main() {
 		PKG=$ISO_PKG
 		install_pkg
 		[ "$REVDEP" ] && {
-			msg "Running revdep (3rd)..."
+			msg "Running revdep (for iso)..."
 			chrootrun revdep -y -r || exit 1
 		}
 		make_iso
@@ -375,6 +396,7 @@ ISODIR="${ISODIR:-$WORKDIR/iso}"
 FILESDIR="$PORTSDIR/files"
 ISOLABEL="VENOMLIVE_$(date +"%Y%m%d")"
 ISO_PKG="linux,dialog,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,$PKG"
+TARBALLVERSION="20200414"
 
 if [ "$MUSL" ]; then
 	REPO="musl core"
