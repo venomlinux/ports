@@ -21,8 +21,10 @@ drwxr-xr-x root/root    run/
 drwxr-xr-x root/root    run/samba/
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
+-rwxr-xr-x root/root    usr/bin/async_connect_send_test
 -rwxr-xr-x root/root    usr/bin/cifsdd
 -rwxr-xr-x root/root    usr/bin/dbwrap_tool
+-rwxr-xr-x root/root    usr/bin/dns_lookuptest
 -rwxr-xr-x root/root    usr/bin/dumpmscat
 -rwxr-xr-x root/root    usr/bin/findsmb
 -rwxr-xr-x root/root    usr/bin/gentest
@@ -33,38 +35,71 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/ldbrename
 -rwxr-xr-x root/root    usr/bin/ldbsearch
 -rwxr-xr-x root/root    usr/bin/locktest
+-rwxr-xr-x root/root    usr/bin/locktest2
 -rwxr-xr-x root/root    usr/bin/masktest
+-rwxr-xr-x root/root    usr/bin/mdfind
 -rwxr-xr-x root/root    usr/bin/mvxattr
 -rwxr-xr-x root/root    usr/bin/ndrdump
 -rwxr-xr-x root/root    usr/bin/net
 -rwxr-xr-x root/root    usr/bin/nmblookup
+-rwxr-xr-x root/root    usr/bin/nsstest
 -rwxr-xr-x root/root    usr/bin/ntlm_auth
 -rwxr-xr-x root/root    usr/bin/oLschema2ldif
 -rwxr-xr-x root/root    usr/bin/pdbedit
+-rwxr-xr-x root/root    usr/bin/pdbtest
 -rwxr-xr-x root/root    usr/bin/profiles
+-rwxr-xr-x root/root    usr/bin/pthreadpooltest
+-rwxr-xr-x root/root    usr/bin/pthreadpooltest_cmocka
 -rwxr-xr-x root/root    usr/bin/regdiff
 -rwxr-xr-x root/root    usr/bin/regpatch
 -rwxr-xr-x root/root    usr/bin/regshell
 -rwxr-xr-x root/root    usr/bin/regtree
+-rwxr-xr-x root/root    usr/bin/resolvconftest
+-rwxr-xr-x root/root    usr/bin/rpc_open_tcp
 -rwxr-xr-x root/root    usr/bin/rpcclient
 -rwxr-xr-x root/root    usr/bin/samba-regedit
 -rwxr-xr-x root/root    usr/bin/sharesec
 -rwxr-xr-x root/root    usr/bin/smbcacls
 -rwxr-xr-x root/root    usr/bin/smbclient
+-rwxr-xr-x root/root    usr/bin/smbconftort
 -rwxr-xr-x root/root    usr/bin/smbcontrol
 -rwxr-xr-x root/root    usr/bin/smbcquotas
 -rwxr-xr-x root/root    usr/bin/smbget
 -rwxr-xr-x root/root    usr/bin/smbpasswd
 -rwxr-xr-x root/root    usr/bin/smbspool
+-rwxr-xr-x root/root    usr/bin/smbspool_argv_wrapper
 -rwxr-xr-x root/root    usr/bin/smbstatus
 -rwxr-xr-x root/root    usr/bin/smbtar
 -rwxr-xr-x root/root    usr/bin/smbtorture
+-rwxr-xr-x root/root    usr/bin/smbtorture3
 -rwxr-xr-x root/root    usr/bin/smbtree
+-rwxr-xr-x root/root    usr/bin/stress-nss-libwbclient
 -rwxr-xr-x root/root    usr/bin/tdbbackup
 -rwxr-xr-x root/root    usr/bin/tdbdump
 -rwxr-xr-x root/root    usr/bin/tdbrestore
 -rwxr-xr-x root/root    usr/bin/tdbtool
+-rwxr-xr-x root/root    usr/bin/test_byteorder
+-rwxr-xr-x root/root    usr/bin/test_encrypted_secrets_tdb
+-rwxr-xr-x root/root    usr/bin/test_gnutls
+-rwxr-xr-x root/root    usr/bin/test_kerberos
+-rwxr-xr-x root/root    usr/bin/test_ms_fnmatch
+-rwxr-xr-x root/root    usr/bin/test_ndr_string
+-rwxr-xr-x root/root    usr/bin/test_nfs4_acls
+-rwxr-xr-x root/root    usr/bin/test_ntlm_check
+-rwxr-xr-x root/root    usr/bin/test_rc4_passwd_buffer
+-rwxr-xr-x root/root    usr/bin/test_registry_regfio
+-rwxr-xr-x root/root    usr/bin/test_rfc1738
+-rwxr-xr-x root/root    usr/bin/test_schannel
+-rwxr-xr-x root/root    usr/bin/test_smb1cli_session
+-rwxr-xr-x root/root    usr/bin/test_talloc_keep_secret
+-rwxr-xr-x root/root    usr/bin/test_tldap
+-rwxr-xr-x root/root    usr/bin/test_unique_object_sids
 -rwxr-xr-x root/root    usr/bin/testparm
+-rwxr-xr-x root/root    usr/bin/tevent_glib_glue_test
+-rwxr-xr-x root/root    usr/bin/texpect
+-rwxr-xr-x root/root    usr/bin/timelimit
+-rwxr-xr-x root/root    usr/bin/vfstest
+-rwxr-xr-x root/root    usr/bin/vlp
 -rwxr-xr-x root/root    usr/bin/wbinfo
 drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/include/samba-4.0/
@@ -79,6 +114,7 @@ drwxr-xr-x root/root    usr/include/samba-4.0/core/
 -rw-r--r-- root/root    usr/include/samba-4.0/core/werror_gen.h
 -rw-r--r-- root/root    usr/include/samba-4.0/credentials.h
 -rw-r--r-- root/root    usr/include/samba-4.0/dcerpc.h
+-rw-r--r-- root/root    usr/include/samba-4.0/dcesrv_core.h
 -rw-r--r-- root/root    usr/include/samba-4.0/domain_credentials.h
 drwxr-xr-x root/root    usr/include/samba-4.0/gen_ndr/
 -rw-r--r-- root/root    usr/include/samba-4.0/gen_ndr/atsvc.h
@@ -160,6 +196,9 @@ lrwxrwxrwx root/root    usr/lib/libdcerpc-binding.so.0 -> libdcerpc-binding.so.0
 lrwxrwxrwx root/root    usr/lib/libdcerpc-samr.so -> libdcerpc-samr.so.0.0.1
 lrwxrwxrwx root/root    usr/lib/libdcerpc-samr.so.0 -> libdcerpc-samr.so.0.0.1
 -rwxr-xr-x root/root    usr/lib/libdcerpc-samr.so.0.0.1
+lrwxrwxrwx root/root    usr/lib/libdcerpc-server-core.so -> libdcerpc-server-core.so.0.0.1
+lrwxrwxrwx root/root    usr/lib/libdcerpc-server-core.so.0 -> libdcerpc-server-core.so.0.0.1
+-rwxr-xr-x root/root    usr/lib/libdcerpc-server-core.so.0.0.1
 lrwxrwxrwx root/root    usr/lib/libdcerpc.so -> libdcerpc.so.0.0.1
 lrwxrwxrwx root/root    usr/lib/libdcerpc.so.0 -> libdcerpc.so.0.0.1
 -rwxr-xr-x root/root    usr/lib/libdcerpc.so.0.0.1
@@ -172,9 +211,9 @@ lrwxrwxrwx root/root    usr/lib/libndr-nbt.so.0 -> libndr-nbt.so.0.0.1
 lrwxrwxrwx root/root    usr/lib/libndr-standard.so -> libndr-standard.so.0.0.1
 lrwxrwxrwx root/root    usr/lib/libndr-standard.so.0 -> libndr-standard.so.0.0.1
 -rwxr-xr-x root/root    usr/lib/libndr-standard.so.0.0.1
-lrwxrwxrwx root/root    usr/lib/libndr.so -> libndr.so.0.2.0
-lrwxrwxrwx root/root    usr/lib/libndr.so.0 -> libndr.so.0.2.0
--rwxr-xr-x root/root    usr/lib/libndr.so.0.2.0
+lrwxrwxrwx root/root    usr/lib/libndr.so -> libndr.so.1.0.0
+lrwxrwxrwx root/root    usr/lib/libndr.so.1 -> libndr.so.1.0.0
+-rwxr-xr-x root/root    usr/lib/libndr.so.1.0.0
 lrwxrwxrwx root/root    usr/lib/libnetapi.so -> libnetapi.so.0
 -rwxr-xr-x root/root    usr/lib/libnetapi.so.0
 lrwxrwxrwx root/root    usr/lib/libnss_winbind.so -> ../../lib/libnss_winbind.so.2
@@ -199,9 +238,9 @@ lrwxrwxrwx root/root    usr/lib/libsamba-util.so.0 -> libsamba-util.so.0.0.1
 lrwxrwxrwx root/root    usr/lib/libsamdb.so -> libsamdb.so.0.0.1
 lrwxrwxrwx root/root    usr/lib/libsamdb.so.0 -> libsamdb.so.0.0.1
 -rwxr-xr-x root/root    usr/lib/libsamdb.so.0.0.1
-lrwxrwxrwx root/root    usr/lib/libsmbclient.so -> libsmbclient.so.0.5.0
-lrwxrwxrwx root/root    usr/lib/libsmbclient.so.0 -> libsmbclient.so.0.5.0
--rwxr-xr-x root/root    usr/lib/libsmbclient.so.0.5.0
+lrwxrwxrwx root/root    usr/lib/libsmbclient.so -> libsmbclient.so.0.6.0
+lrwxrwxrwx root/root    usr/lib/libsmbclient.so.0 -> libsmbclient.so.0.6.0
+-rwxr-xr-x root/root    usr/lib/libsmbclient.so.0.6.0
 lrwxrwxrwx root/root    usr/lib/libsmbconf.so -> libsmbconf.so.0
 -rwxr-xr-x root/root    usr/lib/libsmbconf.so.0
 lrwxrwxrwx root/root    usr/lib/libtevent-util.so -> libtevent-util.so.0.0.1
@@ -236,6 +275,7 @@ drwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/_glue.cpython-38-x86_64-linux-gnu.so
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/_ldb.cpython-38-x86_64-linux-gnu.so
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/auth.cpython-38-x86_64-linux-gnu.so
+-rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/auth_util.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/colour.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/common.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/compat.py
@@ -261,6 +301,7 @@ drwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/dcerpc/
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/dcerpc/irpc.cpython-38-x86_64-linux-gnu.so
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/dcerpc/krb5pac.cpython-38-x86_64-linux-gnu.so
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/dcerpc/lsa.cpython-38-x86_64-linux-gnu.so
+-rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/dcerpc/mdssvc.cpython-38-x86_64-linux-gnu.so
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/dcerpc/messaging.cpython-38-x86_64-linux-gnu.so
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/dcerpc/mgmt.cpython-38-x86_64-linux-gnu.so
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/dcerpc/misc.cpython-38-x86_64-linux-gnu.so
@@ -373,6 +414,7 @@ drwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/provision/
 drwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/samba3/
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/samba3/__init__.py
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/samba3/libsmb_samba_internal.cpython-38-x86_64-linux-gnu.so
+-rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/samba3/mdscli.cpython-38-x86_64-linux-gnu.so
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/samba3/param.cpython-38-x86_64-linux-gnu.so
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/samba3/passdb.cpython-38-x86_64-linux-gnu.so
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/samba3/smbd.cpython-38-x86_64-linux-gnu.so
@@ -405,6 +447,7 @@ drwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/tests/blackbox/
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/blackbox/bug13653.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/blackbox/check_output.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/blackbox/downgradedatabase.py
+-rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/blackbox/mdfind.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/blackbox/ndrdump.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/blackbox/netads_json.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/blackbox/samba_dnsupdate.py
@@ -423,6 +466,7 @@ drwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/tests/dcerpc/
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/dcerpc/bare.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/dcerpc/dnsserver.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/dcerpc/integer.py
+-rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/dcerpc/mdssvc.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/dcerpc/misc.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/dcerpc/raw_protocol.py
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/samba/tests/dcerpc/raw_testcase.py
@@ -578,8 +622,6 @@ drwxr-xr-x root/root    usr/lib/python3.8/site-packages/samba/third_party/iso860
 -rwxr-xr-x root/root    usr/lib/python3.8/site-packages/tdb.cpython-38-x86_64-linux-gnu.so
 -rw-r--r-- root/root    usr/lib/python3.8/site-packages/tevent.py
 drwxr-xr-x root/root    usr/lib/samba/
-drwxr-xr-x root/root    usr/lib/samba/auth/
--rwxr-xr-x root/root    usr/lib/samba/auth/script.so
 drwxr-xr-x root/root    usr/lib/samba/idmap/
 -rwxr-xr-x root/root    usr/lib/samba/idmap/autorid.so
 -rwxr-xr-x root/root    usr/lib/samba/idmap/hash.so
@@ -663,8 +705,8 @@ lrwxrwxrwx root/root    usr/lib/samba/libkrb5-samba4.so.26 -> libkrb5-samba4.so.
 -rwxr-xr-x root/root    usr/lib/samba/libldb-key-value-samba4.so
 -rwxr-xr-x root/root    usr/lib/samba/libldb-tdb-err-map-samba4.so
 -rwxr-xr-x root/root    usr/lib/samba/libldb-tdb-int-samba4.so
-lrwxrwxrwx root/root    usr/lib/samba/libldb.so.2 -> libldb.so.2.0.8
--rwxr-xr-x root/root    usr/lib/samba/libldb.so.2.0.8
+lrwxrwxrwx root/root    usr/lib/samba/libldb.so.2 -> libldb.so.2.1.1
+-rwxr-xr-x root/root    usr/lib/samba/libldb.so.2.1.1
 -rwxr-xr-x root/root    usr/lib/samba/libldbsamba-samba4.so
 -rwxr-xr-x root/root    usr/lib/samba/liblibcli-lsa3-samba4.so
 -rwxr-xr-x root/root    usr/lib/samba/liblibcli-netlogon3-samba4.so
@@ -685,10 +727,10 @@ lrwxrwxrwx root/root    usr/lib/samba/libldb.so.2 -> libldb.so.2.0.8
 -rwxr-xr-x root/root    usr/lib/samba/libposix-eadb-samba4.so
 -rwxr-xr-x root/root    usr/lib/samba/libprinter-driver-samba4.so
 -rwxr-xr-x root/root    usr/lib/samba/libprinting-migrate-samba4.so
-lrwxrwxrwx root/root    usr/lib/samba/libpyldb-util.cpython-38-x86-64-linux-gnu.so.2 -> libpyldb-util.cpython-38-x86-64-linux-gnu.so.2.0.8
--rwxr-xr-x root/root    usr/lib/samba/libpyldb-util.cpython-38-x86-64-linux-gnu.so.2.0.8
-lrwxrwxrwx root/root    usr/lib/samba/libpytalloc-util.cpython-38-x86-64-linux-gnu.so.2 -> libpytalloc-util.cpython-38-x86-64-linux-gnu.so.2.2.0
--rwxr-xr-x root/root    usr/lib/samba/libpytalloc-util.cpython-38-x86-64-linux-gnu.so.2.2.0
+lrwxrwxrwx root/root    usr/lib/samba/libpyldb-util.cpython-38-x86-64-linux-gnu.so.2 -> libpyldb-util.cpython-38-x86-64-linux-gnu.so.2.1.1
+-rwxr-xr-x root/root    usr/lib/samba/libpyldb-util.cpython-38-x86-64-linux-gnu.so.2.1.1
+lrwxrwxrwx root/root    usr/lib/samba/libpytalloc-util.cpython-38-x86-64-linux-gnu.so.2 -> libpytalloc-util.cpython-38-x86-64-linux-gnu.so.2.3.1
+-rwxr-xr-x root/root    usr/lib/samba/libpytalloc-util.cpython-38-x86-64-linux-gnu.so.2.3.1
 -rwxr-xr-x root/root    usr/lib/samba/libregistry-samba4.so
 -rwxr-xr-x root/root    usr/lib/samba/libreplace-samba4.so
 lrwxrwxrwx root/root    usr/lib/samba/libroken-samba4.so.19 -> libroken-samba4.so.19.0.1
@@ -714,14 +756,15 @@ lrwxrwxrwx root/root    usr/lib/samba/libroken-samba4.so.19 -> libroken-samba4.s
 -rwxr-xr-x root/root    usr/lib/samba/libsmbpasswdparser-samba4.so
 -rwxr-xr-x root/root    usr/lib/samba/libsocket-blocking-samba4.so
 -rwxr-xr-x root/root    usr/lib/samba/libsys-rw-samba4.so
+-rwxr-xr-x root/root    usr/lib/samba/libtalloc-report-printf-samba4.so
 -rwxr-xr-x root/root    usr/lib/samba/libtalloc-report-samba4.so
-lrwxrwxrwx root/root    usr/lib/samba/libtalloc.so.2 -> libtalloc.so.2.2.0
--rwxr-xr-x root/root    usr/lib/samba/libtalloc.so.2.2.0
+lrwxrwxrwx root/root    usr/lib/samba/libtalloc.so.2 -> libtalloc.so.2.3.1
+-rwxr-xr-x root/root    usr/lib/samba/libtalloc.so.2.3.1
 -rwxr-xr-x root/root    usr/lib/samba/libtdb-wrap-samba4.so
-lrwxrwxrwx root/root    usr/lib/samba/libtdb.so.1 -> libtdb.so.1.4.2
--rwxr-xr-x root/root    usr/lib/samba/libtdb.so.1.4.2
-lrwxrwxrwx root/root    usr/lib/samba/libtevent.so.0 -> libtevent.so.0.10.0
--rwxr-xr-x root/root    usr/lib/samba/libtevent.so.0.10.0
+lrwxrwxrwx root/root    usr/lib/samba/libtdb.so.1 -> libtdb.so.1.4.3
+-rwxr-xr-x root/root    usr/lib/samba/libtdb.so.1.4.3
+lrwxrwxrwx root/root    usr/lib/samba/libtevent.so.0 -> libtevent.so.0.10.2
+-rwxr-xr-x root/root    usr/lib/samba/libtevent.so.0.10.2
 -rwxr-xr-x root/root    usr/lib/samba/libtime-basic-samba4.so
 -rwxr-xr-x root/root    usr/lib/samba/libtorture-samba4.so
 -rwxr-xr-x root/root    usr/lib/samba/libtrusts-util-samba4.so
@@ -763,7 +806,6 @@ drwxr-xr-x root/root    usr/lib/samba/vfs/
 -rwxr-xr-x root/root    usr/lib/samba/vfs/gpfs.so
 -rwxr-xr-x root/root    usr/lib/samba/vfs/linux_xfs_sgid.so
 -rwxr-xr-x root/root    usr/lib/samba/vfs/media_harmony.so
--rwxr-xr-x root/root    usr/lib/samba/vfs/netatalk.so
 -rwxr-xr-x root/root    usr/lib/samba/vfs/nfs4acl_xattr.so
 -rwxr-xr-x root/root    usr/lib/samba/vfs/offline.so
 -rwxr-xr-x root/root    usr/lib/samba/vfs/preopen.so
@@ -803,6 +845,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/locktest.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/log2pcap.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/masktest.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/mdfind.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/mvxattr.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/ndrdump.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/nmblookup.1.gz
@@ -892,7 +935,6 @@ drwxr-xr-x root/root    usr/share/man/man8/
 -rw-r--r-- root/root    usr/share/man/man8/vfs_gpfs.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/vfs_linux_xfs_sgid.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/vfs_media_harmony.8.gz
--rw-r--r-- root/root    usr/share/man/man8/vfs_netatalk.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/vfs_nfs4acl_xattr.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/vfs_offline.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/vfs_preopen.8.gz
