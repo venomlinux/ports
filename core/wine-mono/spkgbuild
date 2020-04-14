@@ -2,11 +2,11 @@
 # depends	: wine
 
 name=wine-mono
-version=4.9.4
+version=5.0.0
 release=1
 options="!strip"
-source="http://dl.winehq.org/wine/wine-mono/$version/wine-mono-$version.msi"
+source="http://dl.winehq.org/wine/wine-mono/$version/wine-mono-$version-x86.msi"
 
 build() {
-	install -Dm644 wine-mono-$version.msi $PKG/usr/share/wine/mono/wine-mono-$version.msi
+	install -Dm644 wine-mono-$version-x86.msi $PKG/usr/share/wine/mono/wine-mono-$version.msi
 }
