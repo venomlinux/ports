@@ -1,0 +1,15 @@
+# description	: Bluetooth Subband Codec (SBC) library
+# homepage	: http://www.bluez.org/
+# maintainer	: Emmett1 <emmett1.2miligrams@gmail.com>
+
+name=sbc
+version=1.4
+release=1
+source="https://mirrors.edge.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-static --disable-tester
+	make
+	make DESTDIR=$PKG install
+}

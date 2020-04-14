@@ -8,8 +8,8 @@ source="http://www.mirrorservice.org/sites/ftp.i-scream.org/pub/i-scream/$name/$
 
 build() {
 	cd $name-$version
-	CFLAGS="$CFLAGS -DLINUX -DHAVE_PROCFS"
-	./configure --prefix=/usr
+	export CFLAGS="$CFLAGS -D_LINUX_SYSINFO_H"
+	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
 }
