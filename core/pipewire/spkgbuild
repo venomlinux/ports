@@ -3,9 +3,9 @@
 # depends	: meson alsa-lib gstreamer ffmpeg
 
 name=pipewire
-version=0.2.7
+version=0.3.2
 release=1
-source="$name-$version.tar.gz::https://github.com/PipeWire/pipewire/archive/$version.tar.gz"
+source="https://github.com/PipeWire/pipewire/archive/$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
@@ -15,7 +15,9 @@ build() {
 
 	meson --prefix=/usr \
 	      -Dsystemd=false \
-	      -Ddocs=false
+	      -Ddocs=false \
+              -Dvulkan=false \
+              -Dexamples=false
 	ninja
 	DESTDIR=$PKG ninja install
 }
