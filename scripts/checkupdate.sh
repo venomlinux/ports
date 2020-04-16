@@ -77,11 +77,11 @@ fetch() {
 
 run_check() {
 	checkver_cmd=${1}
-	pname=${ppath#*/}
 	
 	if [ "$VERBOSE" = 1 ]; then
 		echo "file     : $file"
 		echo "filename : $filename"
+		echo "port     : $ppath"
 		echo "version  : $version"
 		echo "url      : $url"
 		echo "cmd      : $checkver_cmd"
@@ -95,15 +95,15 @@ run_check() {
 		
 		touch $SCRIPTDIR/error $SCRIPTDIR/outdate
 		
-		sed "\,^$pname ,d" -i $SCRIPTDIR/error
-		sed "\,^$pname ,d" -i $SCRIPTDIR/outdate
+		sed "\,^$ppath ,d" -i $SCRIPTDIR/error
+		sed "\,^$ppath ,d" -i $SCRIPTDIR/outdate
 
 		if [ "$upver" = "404" ]; then
-			echo -e " $ppath: $version => ${RED}404${CRESET}"
-			echo "$pname $version" >> $SCRIPTDIR/error
+			echo -e " $ppath ${RED}404${CRESET} ($version)"
+			echo "$ppath $version" >> $SCRIPTDIR/error
 		elif [ "$version" != "$upver" ]; then
-			echo -e " $ppath: $version => ${YELLOW}$upver${CRESET}"
-			echo "$pname $upver" >> $SCRIPTDIR/outdate
+			echo -e " $ppath ${YELLOW}$upver${CRESET} ($version)"
+			echo "$ppath $upver" >> $SCRIPTDIR/outdate
 		fi
 	fi
 }
@@ -145,13 +145,13 @@ check() {
 	# ignore
 	if [ -f "$SCRIPTDIR/ignoreupdate" ]; then
 		if grep -qx $ppath "$SCRIPTDIR/ignoreupdate"; then
-			echo -e " $ppath: $version => ${GREEN}SKIP${CRESET}"
+			echo -e " $ppath ${GREEN}SKIP${CRESET} ($version)"
 			return
 		fi
 	fi
 
 	if [ -z "$source" ]; then
-		echo -e " $ppath: $version => ${GREEN}SKIP${CRESET}"
+		echo -e " $ppath ${GREEN}SKIP${CRESET} ($version)"
 		return
 	fi
 	
@@ -258,15 +258,11 @@ main() {
 		done
 	elif [ "$PKG" ]; then
 		for pkg in $PKG; do
-			found=0
-			for repo in $PORTREPO; do
-				if [ -f $repo/$pkg/spkgbuild ]; then
-					check $repo/$pkg
-					found=1
-					break
-				fi
-			done
-			[ "$found" = 0 ] && echo "Port not found: $pkg"
+			if [ -f "$pkg"/spkgbuild ]; then
+				check $pkg
+			else
+				echo "Port not found: $pkg"
+			fi
 		done
 	else
 		for repo in $PORTREPO; do
@@ -277,7 +273,7 @@ main() {
 	fi
 }
 
-PORTREPO="core multilib nonfree community testing"
+PORTREPO="musl core multilib nonfree community testing"
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 

@@ -286,8 +286,9 @@ setup_other_partition() {
 	local donepart="$partition_var"
 	local donemountpoint="/"
 	
+	unset allotherpartitions
+	
 	while true; do
-		_dialog --yesno "Do you want to setup another partition?" $YESNOSIZE || break
 		unset partmenu mountpoint otherpart otherpartfs
 		otherpartformat=0
 		for p in $(showpartition); do
@@ -295,10 +296,8 @@ setup_other_partition() {
 				partmenu="$partmenu $p size:$(get_partition_size $p),fstype:$(get_partition_fstype $p)"
 			fi
 		done
-		[ "$partmenu" ] || {
-			print_msg "No more available partitions."
-			break
-		}
+		[ "$partmenu" ] || break
+		_dialog --yesno "Do you want to setup another partition?" $YESNOSIZE || break
 		otherpart=$(_dialog --menu "Choose partition" 0 60 0 ${partmenu}) || return 1
 		
 		while true; do
@@ -311,12 +310,12 @@ setup_other_partition() {
 		done
 		
 		if [ "$(get_partition_fstype $otherpart)" != "none" ]; then
-			_dialog --yesno "Do you want to format $otherpart?" $YESNOSIZE && otherpartformat=1
+			_dialog --yesno "Do you want to format $otherpart?" $YESNOSIZE && otherpartformat=yes
 		else
-			otherpartformat=1
+			otherpartformat=yes
 		fi
 		
-		if [ "$otherpartformat" = 1 ]; then
+		if [ "$otherpartformat" = "yes" ]; then
 			otherpartfs=$(_dialog_choose_fs) || return 1
 		else
 			otherpartfs=$(get_partition_fstype $otherpart)
@@ -364,7 +363,7 @@ menu_partition() {
 
 	setup_root_partition || return 1
 	setup_swap_partition || return 1
-	setup_other_partition || return 1	
+	setup_other_partition || return 1
 	return 0
 }
 
@@ -491,7 +490,7 @@ install_now() {
 	if [ "$allotherpartitions" ]; then
 		for p in $allotherpartitions; do
 			echo $p | while IFS=: read -r vdev vmount vfs vformat; do
-				if [ "$vformat" = 1 ]; then
+				if [ "$vformat" = yes ]; then
 					print_info "Formatting partition $vdev to $vfs"
 					case $vfs in
 						ext4|ext3|ext2) mkfs.$vfs -F $vdev &>/dev/null
@@ -602,6 +601,7 @@ install_now() {
 	if [ "$locale_var" != "SKIP" ]; then
 		print_info "Generating locales (${locale_var}.UTF-8)..."
 		sed "s/#$locale_var/$locale_var/" -i $VENOMROOT/etc/locales
+		echo $locale_var.UTF-8 > $VENOMROOT/etc/locale.conf
 		run_chroot genlocales &>/dev/null
 	fi
 	
@@ -637,7 +637,7 @@ install_now() {
 	
 	print_info "Resolve temporary packages..."
 	scratch deplist $(cat $LISTPKG) $PKGKEEP | awk '{print $2}' >> $PKGSTRIP
-	pkgquery installed | awk '{print $1}' >> $PKGINISO
+	scratch installed | awk '{print $1}' >> $PKGINISO
 	
 	for i in $(grep -Fxv -f $PKGSTRIP $PKGINISO); do
 		[ "$i" ] || continue

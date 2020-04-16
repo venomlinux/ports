@@ -52,6 +52,7 @@ isinstalled() {
 }
 
 get_depends() {	
+	[ -f $portpath/spkgbuild ] || return 0
 	grep "^# depends[[:blank:]]*:" $portpath/spkgbuild \
 	| sed 's/^# depends[[:blank:]]*:[[:blank:]]*//' \
 	| tr ' ' '\n' \
@@ -82,16 +83,19 @@ check_dep() {
 }
 
 port_update() {
-	local port=$1
+	local portpath=$1
 	local vers=$2
 	local opt=$3
 	
-	get_portpath $port
+	[ -f "$portpath/spkgbuild" ] || {
+		echo "Port '$portpath' not exist"
+		exit 2
+	}
 	
-	if [ -z "$vers" ]; then
+	[ "$vers" ] || {
 		echo "Please define version to update."
 		exit 2
-	fi
+	}
 	
 	check_dep
 	
@@ -176,21 +180,32 @@ port_commit() {
 	cmsg=$@
 	
 	if [ -z "$port" ]; then
-		for p in $(git diff --name-only ${PORTREPO[@]} | awk -F / '{print $2}' | uniq); do
+		for p in $(git status -s ${PORTREPO[@]} | awk '{print $2}' | cut -d / -f -2 | uniq); do
+			case $p in
+				*/REPO) continue;;
+			esac
+			git diff --name-only ${PORTREPO[@]} | grep -q ^$p/ || cmsg="new port"
 			commit_port $p
 		done
-	#elif ! git diff --name-only ${PORTREPO[@]} | awk -F / '{print $2}' | grep -qx $port; then
-	#	echo "Nothing to commit about '$port'"
-	#	exit 4
 	else
+		[ -f "$port/spkgbuild" ] || {
+			echo "Port '$port' not exist"
+			exit 1
+		}
+		
+		git status -s ${PORTREPO[@]} | awk '{print $2}' | cut -d / -f -2 | uniq | grep -qx $port || {
+			echo "Nothing to commit for '$port'"
+			exit 1
+		}
+		git diff --name-only ${PORTREPO[@]} | grep -q ^$port/ || cmsg="new port"
 		commit_port $port
 	fi	
 }
 
 commit_port() {
-	local port=$1; shift
+	local portpath=$1
 	
-	get_portpath $port
+	#get_portpath $port
 	
 	deps=$(get_depends)
 	for d in $deps; do
@@ -209,24 +224,19 @@ commit_port() {
 	
 	[ "$missing" = 1 ] && exit 1
 	
-	pushd $portpath >/dev/null
-	
 	if [ -z "$cmsg" ]; then
-		. spkgbuild
-		cmsg="updated to $version"
+		if [ -f $portpath/spkgbuild ]; then
+			. $portpath/spkgbuild
+			cmsg="updated to $version"
+		else
+			cmsg="port removed"
+		fi
 	fi
 	
-	#echo "Generate .checksums for $port..."
-	#fakeroot pkgbuild -g
-	#echo "Generate .pkgfiles for $port..."
-	#fakeroot pkgbuild -p
-	
-	git add .
+	git add $portpath
 	git commit -m "$port: $cmsg"
 	
 	unset cmsg
-	
-	popd >/dev/null
 }
 
 port_repgen() {
@@ -274,7 +284,7 @@ port_diff() {
 }
 
 port_status() {
-	git status
+	git status -s
 	#git status | grep "Your branch is ahead of" && echo
 	#git status | grep -v REPO | grep modified | sed 's/.*modified:/modified:/g'
 }
@@ -316,7 +326,7 @@ Options:
 EOF
 }
 
-PORTREPO=(core multilib nonfree community testing)
+PORTREPO=(musl core multilib nonfree community testing)
 INDEX_DIR="/var/lib/scratchpkg/index"
 EDITOR=${EDITOR:-vim}
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"

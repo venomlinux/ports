@@ -174,18 +174,18 @@ check_rootfs() {
 	fi
 	# musl and glibc packages must separated
 	if [ "$MUSL" ]; then
-		if [ -f "$PKGDIR/packages.glibc" ]; then
+		if [ -f "$PKGDIR/.packages.glibc" ]; then
 			msg "Looks like PKGDIR is pointed to non-musl packages directory"
 			exit 1
 		elif [ ! -f "$PKGDIR/packages.musl" ]; then
-			echo "musl packages" > "$PKGDIR/packages.musl"
+			echo "musl packages" > "$PKGDIR/.packages.musl"
 		fi
 	else
-		if [ -f "$PKGDIR/packages.musl" ]; then
+		if [ -f "$PKGDIR/.packages.musl" ]; then
 			msg "Looks like PKGDIR is pointed to musl packages directory"
 			exit 1
 		elif [ ! -f "$PKGDIR/packages.glibc" ]; then
-			echo "glibc packages" > "$PKGDIR/packages.glibc"
+			echo "glibc packages" > "$PKGDIR/.packages.glibc"
 		fi
 	fi
 }
@@ -269,7 +269,7 @@ make_iso() {
 	rm -fr "$ISODIR/boot/efiboot"
 
 	# save list packages to iso
-	for pkg in base $ADD_PKGS; do
+	for pkg in base linux $(echo $PKG | tr ',' ' '); do
 		echo "$pkg" >> "$ISODIR/venom/pkglist"
 	done
 
@@ -288,6 +288,36 @@ make_iso() {
 		  -isohybrid-gpt-basdat \
 		  -volid $ISOLABEL \
 		-o "$OUTPUTISO" "$ISODIR" || die "Failed creating iso: $OUTPUTISO"
+	
+	msg "Cleaning iso directory: $ISODIR"
+	rm -fr "$ISODIR"
+}
+
+usage() {
+	cat << EOF
+Usage:
+  $0 [options]
+  
+Options:
+  -root=<path>          use custom root location (default: $ROOTFS)
+  -pkgdir=<path>        use custom packages directory (default: $PKGDIR)
+  -srcdir=<path>        use custom sources directory (default: $SRCDIR)
+  -outputiso=<*.iso>    use custom name for iso (default: $OUTPUTISO)
+  -jobs=<N>             define total cpu want to use (default: $JOBS)
+  -pkg=<pkg1,pkg2,...>  define packages to install into rootfs (comma separated)
+  -rootfs               create updated rootfs tarball
+  -rebase               remove all installed packages in rootfs except 'base'
+  -chroot               enter chroot into rootfs
+  -sysup                full upgrade rootfs
+  -revdep               fix any broken packages in rootfs
+  -zap                  remove and re-extract rootfs
+  -iso                  make iso from rootfs
+  -musl                 work on musl edition
+  -fetch                fetch latest rootfs tarball
+  -h|-help              show this help message
+      
+EOF
+exit 0
 }
 
 msg() {
@@ -311,23 +341,32 @@ parse_opts() {
 			-srcdir=*) SRCDIR=${1#*=};;
 			   -pkg=*) PKG=${1#*=};;
 		 -outputiso=*) OUTPUTISO=${1#*=};;
+			  -jobs=*) JOBS=${1#*=};;
 			  -rootfs) RFS=1;;
 			  -rebase) REBASE=1;;
 			  -chroot) CHROOT=1;;
-			  -umount) UMOUNT=1;;
 			   -sysup) SYSUP=1;;
 			  -revdep) REVDEP=1;;
 			     -zap) ZAP=1;;
 			     -iso) ISO=1;;
 			    -musl) MUSL=1;;
 			   -fetch) FETCH=1;;
-			        *) msgerr "invalid options: $1"; exit 1;;
+			 -h|-help) HELP=1;;
+			        *) die "invalid options: $1";;
 		esac
 		shift
 	done
 }
 
 main() {
+	[ "$HELP" ] && usage
+
+	[ "$(id -u)" = 0 ] || {
+		die "$0 need root access!"
+	}
+
+	mkdir -p $PKGDIR $SRCDIR $WORKDIR
+	
 	[ "$FETCH" ] && fetch_rootfs
 	
 	# check if rootfs already exist, else zap
@@ -337,47 +376,45 @@ main() {
 	
 	[ "$REBASE" ] && {
 		msg "Running pkgbase..."
-		chrootrun pkgbase -y || exit 1
+		chrootrun pkgbase -y || die
 	}
 	
 	[ "$SYSUP" ] && {
 		msg "Upgrading scratchpkg..."
-		chrootrun scratch upgrade scratchpkg -y || exit 1
+		chrootrun scratch upgrade scratchpkg -y --no-backup || die
 		cp $FILESDIR/$REPOFILE $ROOTFS/etc/scratchpkg.repo
+		sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j$JOBS\"/" -i "$ROOTFS"/etc/scratchpkg.conf
 		msg "Full upgrading..."
-		chrootrun scratch sysup -y || exit 1
+		chrootrun scratch sysup -y --no-backup || die
 	}
 	
 	[ "$REVDEP" ] && {
 		msg "Running revdep (main, after sysup, before make rootfs)..."
-		chrootrun revdep -y -r || exit 1
+		chrootrun revdep -y -r || die
 	}
 	
 	[ "$RFS" ] && {
-		compress_rootfs || exit 1
+		compress_rootfs || die
 	}
 	
 	[ "$PKG" ] && {
-		install_pkg || exit 1
+		chrootrun scratch install -y $(echo $PKG | tr ',' ' ') || die
 		[ "$REVDEP" ] && {
 			msg "Running revdep (after pkg installed)..."
-			chrootrun revdep -y -r || exit 1
+			chrootrun revdep -y -r || die
 		}
 	}
 	
 	[ "$CHROOT" ] && {
-		mount_cache_and_portsrepo
 		msg "Entering chroot..."
-		chrootrun /bin/sh || exit 1
-		umount_cache_and_portsrepo
+		chrootrun /bin/sh || die
 	}
 	
 	[ "$ISO" ] && {
-		PKG=$ISO_PKG
-		install_pkg
+		chrootrun scratch install -y $(echo $ISO_PKG | tr ',' ' ') || die
 		[ "$REVDEP" ] && {
 			msg "Running revdep (for iso)..."
-			chrootrun revdep -y -r || exit 1
+			chrootrun revdep -y -r || die
 		}
 		make_iso
 	}
@@ -395,8 +432,9 @@ SRCDIR="${SRCDIR:-$WORKDIR/sources}"
 ISODIR="${ISODIR:-$WORKDIR/iso}"
 FILESDIR="$PORTSDIR/files"
 ISOLABEL="VENOMLIVE_$(date +"%Y%m%d")"
-ISO_PKG="linux,dialog,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,$PKG"
+ISO_PKG="linux,dialog,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs"
 TARBALLVERSION="20200414"
+JOBS="${JOBS:-$(nproc)}"
 
 if [ "$MUSL" ]; then
 	REPO="musl core"
@@ -415,8 +453,6 @@ else
 fi
 
 trap "interrupted" 1 2 3 15
-
-mkdir -p $PKGDIR $SRCDIR $WORKDIR
 
 main
 
