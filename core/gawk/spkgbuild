@@ -2,7 +2,7 @@
 # depends	: mpfr bash
 
 name=gawk
-version=5.0.1
+version=5.1.0
 release=1
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
 
@@ -15,6 +15,4 @@ build() {
 	./configure --prefix=/usr --libexecdir=/usr/lib --sysconfdir=/etc --disable-nls
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share/info
 }
