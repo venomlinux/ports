@@ -86,12 +86,15 @@ scan_files() {
 			*application/x-sharedlib* | *application/x-executable* | *application/x-pie-executable*)
 				printf " $i\033[0K\r"
 				for f in $(ldd $i 2>&1 | grep "Error loading shared library" | sed "s/.*needed by //;s/)//" | sort | uniq); do
+					[ "$f" ] || continue
 					case "$(file $f)" in
 						*symbolic\ link*) continue;;
 					esac
 					if ! echo $done | grep -wq $f; then
 						pkg=$(scratch provide $f$ | awk '{print $1}' | head -n1)
-						echo " $pkg -> $f"
+						[ "$pkg" ] || continue
+						req=$(ldd $f 2>&1 | grep "needed by $f" | awk '{print $5}' | sed 's/://')
+						echo " $pkg -> $f (required $req)"
 						if ! echo $pkgdone | grep -wq $pkg; then
 							pkgdone="$pkgdone $pkg"
 							unset pkg
