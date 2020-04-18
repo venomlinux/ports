@@ -2,18 +2,12 @@
 # depends	: openssl
 
 name=neon
-version=0.31.0
+version=0.31.1
 release=1
 source="https://fossies.org/linux/www/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-
-	# fix some code when building with gnutls-3.4 and later
-	sed -e 's/client_set/set/'  \
-	    -e 's/gnutls_retr/&2/'  \
-	    -e 's/type = t/cert_&/' \
-	    -i src/ne_gnutls.c
 
 	./configure --prefix=/usr \
 	            --with-ssl \
