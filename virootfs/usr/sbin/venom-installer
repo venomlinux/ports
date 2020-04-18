@@ -695,13 +695,13 @@ Set necessary options before start the installation \n"
 	fi
 }
 
-if [ -f "/run/initramfs/ram/venomrootfs.sfs" ]; then
-	ROOTSFS="/run/initramfs/ram/venomrootfs.sfs"
+if [ -f "/run/initramfs/ram/filesystem.sfs" ]; then
+	ROOTSFS="/run/initramfs/ram/filesystem.sfs"
 	LISTPKG="/run/initramfs/ram/pkglist"
 	CUSTOMDIR="/run/initramfs/ram/customize"
 else
-	ROOTSFS="/run/initramfs/medium/venom/venomrootfs.sfs"
-	LISTPKG="/run/initramfs/medium/venom/pkglist"
+	ROOTSFS="/run/initramfs/medium/rootfs/filesystem.sfs"
+	LISTPKG="/run/initramfs/medium/rootfs/pkglist"
 	CUSTOMIZEDIR="/run/initramfs/medium/customize"
 fi
 

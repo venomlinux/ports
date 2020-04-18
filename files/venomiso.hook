@@ -31,8 +31,8 @@ mount_venomiso() {
 	SYSTEM=/run/initramfs/system
 	WRITEDIR=/run/initramfs/overlayfs/write
 	WORKDIR=/run/initramfs/overlayfs/work
-	sfsimg=/run/initramfs/medium/venom/venomrootfs.sfs
-	listpkg=/run/initramfs/medium/venom/pkglist
+	sfsimg=/run/initramfs/medium/rootfs/filesystem.sfs
+	listpkg=/run/initramfs/medium/rootfs/pkglist
 	wait=${wait:-5}
 	count=0
 	
@@ -61,7 +61,7 @@ mount_venomiso() {
 		msg "copying squashfs img to /run/initramfs/ram..."
 		cp $sfsimg /run/initramfs/ram/ || problem
 		cp $listpkg /run/initramfs/ram/ || problem
-		sfsimg=/run/initramfs/ram/venomrootfs.sfs
+		sfsimg=/run/initramfs/ram/filesystem.sfs
 		listpkg=/run/initramfs/ram/listpkg
 		if [ -d /run/initramfs/medium/customize ]; then
 			cp -Ra /run/initramfs/medium/customize /run/initramfs/ram/

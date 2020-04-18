@@ -205,8 +205,6 @@ port_commit() {
 commit_port() {
 	local portpath=$1
 	
-	#get_portpath $port
-	
 	deps=$(get_depends)
 	for d in $deps; do
 		found=0
@@ -234,7 +232,7 @@ commit_port() {
 	fi
 	
 	git add $portpath
-	git commit -m "$port: $cmsg"
+	git commit -m "$portpath: $cmsg"
 	
 	unset cmsg
 }

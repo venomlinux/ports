@@ -92,8 +92,7 @@ fetch_rootfs() {
 	[ "$MUSL" ] && musl="musl-"
 	tarballname="venom-${musl}rootfs-$TARBALLVERSION.tar.xz"
 	url="https://github.com/venomlinux/ports/releases/download/$TARBALLVERSION/$tarballname"
-		
-	[ -f "$TARBALLIMG".part ] && resume="-C"
+
 	msg "Fetching rootfs tarball: $url"
 	wget -c --passive-ftp --no-directories --tries=3 --waitretry=3 --output-document=$TARBALLIMG.part $url
 	if [ "$?" = 0 ]; then
@@ -177,14 +176,14 @@ check_rootfs() {
 		if [ -f "$PKGDIR/.packages.glibc" ]; then
 			msg "Looks like PKGDIR is pointed to non-musl packages directory"
 			exit 1
-		elif [ ! -f "$PKGDIR/packages.musl" ]; then
+		elif [ ! -f "$PKGDIR/.packages.musl" ]; then
 			echo "musl packages" > "$PKGDIR/.packages.musl"
 		fi
 	else
 		if [ -f "$PKGDIR/.packages.musl" ]; then
 			msg "Looks like PKGDIR is pointed to musl packages directory"
 			exit 1
-		elif [ ! -f "$PKGDIR/packages.glibc" ]; then
+		elif [ ! -f "$PKGDIR/.packages.glibc" ]; then
 			echo "glibc packages" > "$PKGDIR/.packages.glibc"
 		fi
 	fi
@@ -209,7 +208,7 @@ make_iso() {
 	# prepare isolinux files
 	msg "Preparing isolinux..."
 	rm -fr "$ISODIR"
-	mkdir -p "$ISODIR"/{venom,isolinux,boot}
+	mkdir -p "$ISODIR"/{rootfs,isolinux,boot}
 	for file in $ISOLINUX_FILES; do
 		cp "/usr/share/syslinux/$file" "$ISODIR/isolinux" || die "Failed copying isolinux file: $file"
 	done
@@ -228,8 +227,8 @@ make_iso() {
 	copy_ports
 	
 	# make sfs
-	msg "Squashing root filesystem: $ISODIR/venom/venomrootfs.sfs ..."
-	mksquashfs "$ROOTFS" "$ISODIR/venom/venomrootfs.sfs" \
+	msg "Squashing root filesystem: $ISODIR/rootfs/filesystem.sfs ..."
+	mksquashfs "$ROOTFS" "$ISODIR/rootfs/filesystem.sfs" \
 			-b 1048576 -comp zstd \
 			-e "$ROOTFS"/var/cache/scratchpkg/sources/* \
 			-e "$ROOTFS"/var/cache/scratchpkg/packages/* \
@@ -270,7 +269,7 @@ make_iso() {
 
 	# save list packages to iso
 	for pkg in base linux $(echo $PKG | tr ',' ' '); do
-		echo "$pkg" >> "$ISODIR/venom/pkglist"
+		echo "$pkg" >> "$ISODIR/rootfs/pkglist"
 	done
 
 	msg "Making iso: $OUTPUTISO ..."
