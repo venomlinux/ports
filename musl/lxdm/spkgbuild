@@ -1,9 +1,9 @@
 # description	: Lightweight Display Manager for the LXDE desktop
-# depends	: glib libxcb consolekit2 dbus linux-pam libx11 gtk3 pango harfbuzz atk cairo gdk-pixbuf
+# depends	: gtk2 iso-codes consolekit2 linux-pam xorg-server librsvg
 
 name=lxdm
 version=0.5.3
-release=8
+release=2
 backup="etc/lxdm/lxdm.conf"
 source="https://downloads.sourceforge.net/$name/$name-$version.tar.xz
 	run
@@ -44,7 +44,6 @@ sed -e 's/^bg/#&/'        \
 		    --libexecdir=/usr/lib/$name \
 	            --with-pam \
 		    --disable-nls \
-		    --enable-gtk3 \
 	            --with-systemdsystemunitdir=no
 	make
 	make DESTDIR=$PKG install

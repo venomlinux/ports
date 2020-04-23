@@ -130,7 +130,7 @@ port_update() {
 	fakeroot pkgbuild -g || revert_changes "$opt"
 	fakeroot pkgbuild    || revert_changes "$opt"
 	fakeroot pkgbuild -p || revert_changes "$opt"
-	sudo pkgbuild -u -v  && sudo scratch trigger $port
+	sudo pkgbuild -u -v  && sudo scratch trigger ${portpath#*/}
 	
 	popd >/dev/null
 }
