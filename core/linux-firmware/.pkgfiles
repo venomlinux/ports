@@ -145,6 +145,7 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/navi14_sdma1.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/navi14_smc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/navi14_sos.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/navi14_ta.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/navi14_vcn.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/oland_ce.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/oland_k_smc.bin
@@ -608,6 +609,7 @@ drwxr-xr-x root/root    lib/firmware/bnx2x/
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e2-7.8.19.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e2-7.8.2.0.fw
 drwxr-xr-x root/root    lib/firmware/brcm/
+lrwxrwxrwx root/root    lib/firmware/brcm/BCM-0a5c-6410.hcd -> BCM-0bb4-0306.hcd
 -rw-r--r-- root/root    lib/firmware/brcm/BCM-0bb4-0306.hcd
 -rw-r--r-- root/root    lib/firmware/brcm/bcm4329-fullmac-4.bin
 -rw-r--r-- root/root    lib/firmware/brcm/bcm43xx-0.fw
@@ -720,16 +722,16 @@ drwxr-xr-x root/root    lib/firmware/cxgb4/configs/
 lrwxrwxrwx root/root    lib/firmware/cxgb4/t4-config.txt -> configs/t4-config-default.txt
 -rw-r--r-- root/root    lib/firmware/cxgb4/t4fw-1.14.4.0.bin
 -rw-r--r-- root/root    lib/firmware/cxgb4/t4fw-1.15.37.0.bin
--rw-r--r-- root/root    lib/firmware/cxgb4/t4fw-1.24.11.0.bin
-lrwxrwxrwx root/root    lib/firmware/cxgb4/t4fw.bin -> t4fw-1.24.11.0.bin
+-rw-r--r-- root/root    lib/firmware/cxgb4/t4fw-1.24.14.0.bin
+lrwxrwxrwx root/root    lib/firmware/cxgb4/t4fw.bin -> t4fw-1.24.14.0.bin
 lrwxrwxrwx root/root    lib/firmware/cxgb4/t5-config.txt -> configs/t5-config-default.txt
 -rw-r--r-- root/root    lib/firmware/cxgb4/t5fw-1.14.4.0.bin
 -rw-r--r-- root/root    lib/firmware/cxgb4/t5fw-1.15.37.0.bin
--rw-r--r-- root/root    lib/firmware/cxgb4/t5fw-1.24.11.0.bin
-lrwxrwxrwx root/root    lib/firmware/cxgb4/t5fw.bin -> t5fw-1.24.11.0.bin
+-rw-r--r-- root/root    lib/firmware/cxgb4/t5fw-1.24.14.0.bin
+lrwxrwxrwx root/root    lib/firmware/cxgb4/t5fw.bin -> t5fw-1.24.14.0.bin
 lrwxrwxrwx root/root    lib/firmware/cxgb4/t6-config.txt -> configs/t6-config-default.txt
--rw-r--r-- root/root    lib/firmware/cxgb4/t6fw-1.24.11.0.bin
-lrwxrwxrwx root/root    lib/firmware/cxgb4/t6fw.bin -> t6fw-1.24.11.0.bin
+-rw-r--r-- root/root    lib/firmware/cxgb4/t6fw-1.24.14.0.bin
+lrwxrwxrwx root/root    lib/firmware/cxgb4/t6fw.bin -> t6fw-1.24.14.0.bin
 drwxr-xr-x root/root    lib/firmware/dabusb/
 -rw-r--r-- root/root    lib/firmware/dabusb/bitstream.bin
 -rw-r--r-- root/root    lib/firmware/dabusb/firmware.fw
@@ -1123,10 +1125,14 @@ drwxr-xr-x root/root    lib/firmware/mediatek/
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7650e.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7662u.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7662u_rom_patch.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7663_n9_v3.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7663pr2h.bin
 -rwxr-xr-x root/root    lib/firmware/mediatek/mt7668pr2h.bin
 drwxr-xr-x root/root    lib/firmware/mediatek/mt8173/
 -rw-r--r-- root/root    lib/firmware/mediatek/mt8173/vpu_d.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/mt8173/vpu_p.bin
+drwxr-xr-x root/root    lib/firmware/mediatek/mt8183/
+-rw-r--r-- root/root    lib/firmware/mediatek/mt8183/scp.img
 drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.1420.122.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.1530.152.mfa2
@@ -1761,6 +1767,8 @@ drwxr-xr-x root/root    lib/firmware/qca/
 -rw-r--r-- root/root    lib/firmware/qca/crbtfw32.tlv
 -rw-r--r-- root/root    lib/firmware/qca/crnv21.bin
 -rw-r--r-- root/root    lib/firmware/qca/crnv32.bin
+-rw-r--r-- root/root    lib/firmware/qca/htbtfw20.tlv
+-rw-r--r-- root/root    lib/firmware/qca/htnv20.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_00130300.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_00130302.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_00440302.bin
@@ -1791,6 +1799,7 @@ drwxr-xr-x root/root    lib/firmware/qcom/
 -rw-r--r-- root/root    lib/firmware/qcom/a630_gmu.bin
 -rw-r--r-- root/root    lib/firmware/qcom/a630_sqe.fw
 drwxr-xr-x root/root    lib/firmware/qcom/sdm845/
+-rw-r--r-- root/root    lib/firmware/qcom/sdm845/a630_zap.mbn
 -rw-r--r-- root/root    lib/firmware/qcom/sdm845/adsp.mbn
 -rw-r--r-- root/root    lib/firmware/qcom/sdm845/adspr.jsn
 -rw-r--r-- root/root    lib/firmware/qcom/sdm845/adspua.jsn
