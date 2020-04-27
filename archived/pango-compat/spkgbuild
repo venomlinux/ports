@@ -1,0 +1,22 @@
+# description	: Library for laying out and rendering of text, with an emphasis on internationalization
+# depends	: fribidi glib harfbuzz fontconfig freetype2 cairo
+
+name=pango-compat
+version=1.42.4
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/pango/${version::4}/pango-$version.tar.xz"
+
+build() {
+	cd pango-$version
+
+	./configure \
+		--prefix=/usr \
+		--includedir='/usr/include/pango-compat' \
+		--libdir='/usr/lib/pango-compat' \
+		--disable-introspection
+
+	make
+	make DESTDIR=$PKG install
+
+	rm $PKG/usr/bin/pango-view $PKG/usr/bin/pango-list
+}
