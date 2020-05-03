@@ -4,10 +4,13 @@
 name=polkit
 version=0.116
 release=1
-source="https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz"
+source="https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz
+	make-innetgr-optional.patch"
 
 build() {
 	cd $name-$version
+
+	patch -Np0 -i $SRC/make-innetgr-optional.patch
 
 	./configure --prefix=/usr \
 	            --sysconfdir=/etc \

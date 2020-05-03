@@ -4,10 +4,13 @@
 name=xterm
 version=354
 release=1
-source="http://invisible-mirror.net/archives/$name/$name-$version.tgz"
+source="http://invisible-mirror.net/archives/$name/$name-$version.tgz
+	musl.patch"
 	
 build() {
 	cd $name-$version
+
+	patch -Np0 -i $SRC/musl.patch
 
 	TERMINFO=/usr/share/terminfo \
 	./configure \

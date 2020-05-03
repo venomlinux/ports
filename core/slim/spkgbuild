@@ -12,6 +12,10 @@ source="https://sourceforge.net/projects/${name}.berlios/files/$name-$version.ta
 build() {
 	cd $name-$version
 
+	case $XHOST in
+		*-musl) export CXXFLAGS="$CXXFLAGS -DNEEDS_BASENAME";;
+	esac
+
 	mkdir build
 	cd build
 

@@ -4,13 +4,29 @@
 name=reiserfsprogs
 version=3.6.27
 release=1
-source="https://www.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/v$version/$name-$version.tar.xz"
+source="https://www.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/v$version/$name-$version.tar.xz
+	musl-loff_t.patch
+	musl-__compar_fn_t.patch
+	musl-long_long_min_max.patch
+	reiserfsprogs-3.6.27-loff_t.patch
+	musl-prints.patch"
 
 build() {
 	cd $name-$version
 
-	sed -i '/parse_time.h/i #define _GNU_SOURCE' lib/parse_time.c
-	autoreconf -i
+	case $XHOST in
+		*-musl)
+		        for p in $SRC/*.patch; do
+		        	patch -Np0 -i $p
+		        done
+
+		        export LDFLAGS="$LDFLAGS -lobstack"
+		        export CFLAGS="$CFLAGS -fgnu89-inline"
+
+		        sed -i '/parse_time.h/i #define _GNU_SOURCE' lib/parse_time.c
+		        autoreconf -i
+		;;
+	esac
 
 	./configure --prefix=/usr --sbindir=/sbin
 	make

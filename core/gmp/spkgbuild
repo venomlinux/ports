@@ -9,12 +9,10 @@ source="https://ftp.gnu.org/gnu/gmp/$name-$version.tar.xz"
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr    \
-	            --enable-cxx     \
-	            --build=x86_64-unknown-linux-gnu \
+	./configure --prefix=/usr \
+	            --enable-cxx \
+	            --build=${XHOST:-x86_64-unknown-linux-gnu} \
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share
 }

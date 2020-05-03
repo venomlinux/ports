@@ -22,7 +22,12 @@ build() {
 	chmod -v 755 $PKG/usr/lib/libpython${version%.*}.so
 	chmod -v 755 $PKG/usr/lib/libpython3.so
 
-	mv $PKG/usr/include/python${version%.*}/pyconfig.h \
-	   $PKG/usr/include/python${version%.*}/pyconfig-64.h
-	install -m 0644 $SRC/pyconfig.h $PKG/usr/include/python${version%.*}/
+	case $XHOST in
+		*-musl) continue;;
+		*)
+		   mv $PKG/usr/include/python${version%.*}/pyconfig.h \
+		      $PKG/usr/include/python${version%.*}/pyconfig-64.h
+		   install -m 0644 $SRC/pyconfig.h $PKG/usr/include/python${version%.*}/
+		;;
+	esac
 }

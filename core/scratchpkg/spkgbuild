@@ -3,23 +3,49 @@
 
 name=scratchpkg
 version=0.9
-release=2
+release=3
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
 	etc/scratchpkg.repo
 	etc/revdep.conf"
 scratchpkg_url=https://github.com/venomlinux/scratchpkg
 source="$scratchpkg_url/archive/$version/$name-$version.tar.gz
-	repo
+	$name.repo
+	$name.conf
+	$name.alias
+	revdep
 	$scratchpkg_url/commit/f74b026a13c69275675fb0fa8310693269988da8.patch
 	$scratchpkg_url/commit/ab23dbde6751bfec2cc2a220de92c16fb18237c2.patch
 	$scratchpkg_url/commit/eee0a24f613633d1d118f112e3a30aeb2365c744.patch"
 
 build() {
 	cd $name-$version
-	for p in $SRC/*.patch; do
-		patch -Np1 -i $p
+
+	for s in $SRC/*; do
+		case $s in
+			*.patch) patch -Np1 -i $s;;
+		esac
 	done
+
 	DESTDIR=$PKG ./INSTALL.sh
-	install -m644 $SRC/repo $PKG/etc/scratchpkg.repo
+	install -m644 $SRC/$name.repo $PKG/etc/$name.repo
+	install -m644 $SRC/$name.conf $PKG/etc/$name.conf
+	install -m644 $SRC/$name.alias $PKG/etc/$name.alias
+
+	case $XHOST in
+		*-musl) 
+		        install -m755 $SRC/revdep $PKG/usr/bin/revdep
+		        sed -i 's/glibc/musl/g' $PKG/usr/bin/pkgrebuild
+		        sed -i "s/^XHOST=.*/XHOST=\"$XHOST\"/" $PKG/etc/$name.conf
+		        sed -i '\;/usr/ports/nonfree;d' $PKG/etc/scratchpkg.repo
+		        sed -i '\;/usr/ports/multilib;d' $PKG/etc/scratchpkg.repo
+		        echo "openssl libressl" >> $PKG/etc/scratchpkg.alias
+		        echo "glibc musl" >> $PKG/etc/scratchpkg.alias
+		;;
+		*)
+		        echo libuargp >> $PKG/etc/scratchpkg.alias
+		        echo musl-fts >> $PKG/etc/scratchpkg.alias
+		        echo musl-obstack >> $PKG/etc/scratchpkg.alias
+		;;
+	esac
 }

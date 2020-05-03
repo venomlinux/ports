@@ -4,10 +4,15 @@
 name=lxpanel
 version=0.10.0
 release=1
-source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz"
+source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz
+	10-devproc-lxpanel.patch"
 
 build() {
 	cd $name-$version
+
+	case $XHOST in
+		*-musl) patch -Np0 -i $SRC/10-devproc-lxpanel.patch;;
+	esac
 
 	./configure --prefix=/usr
 	make

@@ -1,5 +1,5 @@
 # description	: Collection of modular and reusable compiler and toolchain technologies
-# depends	: cmake libffi python2 ninja
+# depends	: cmake libffi python2 ninja libxml2
 
 name=llvm
 version=10.0.0
@@ -7,7 +7,8 @@ release=1
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
 	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz
 	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/compiler-rt-$version.src.tar.xz
-	llvm-config.h"
+	llvm-config.h
+	0001-add-musl-triplets.patch"
 
 build() {
 	cd $name-$version.src
@@ -17,6 +18,17 @@ build() {
 
 	mv ../clang-$version.src tools/clang
 	mv ../compiler-rt-$version.src projects/compiler-rt
+
+	case $XHOST in
+		*-musl)
+		        patch -Np1 -i $SRC/0001-add-musl-triplets.patch -d tools/clang
+
+		        # Disable sanitizers
+		        sed -i 's/set(COMPILER_RT_HAS_SANITIZER_COMMON TRUE)/set(COMPILER_RT_HAS_SANITIZER_COMMON FALSE)/' projects/compiler-rt/cmake/config-ix.cmake
+		;;
+	esac
+
+	
 
 	mkdir -v build
 	cd       build
@@ -33,9 +45,14 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 
-	mv $PKG/usr/include/llvm/Config/llvm-config.h \
-	   $PKG/usr/include/llvm/Config/llvm-config-64.h
-	cp $SRC/llvm-config.h $PKG/usr/include/llvm/Config/llvm-config.h
+	case $XHOST in
+		*-musl) continue;;
+		*)
+		   mv $PKG/usr/include/llvm/Config/llvm-config.h \
+		      $PKG/usr/include/llvm/Config/llvm-config-64.h
+		   cp $SRC/llvm-config.h $PKG/usr/include/llvm/Config/llvm-config.h
+		;;
+	esac		        
 
 	mkdir -p $PKG/usr/lib/llvm
 	mv $PKG/usr/libexec/c++-analyzer \

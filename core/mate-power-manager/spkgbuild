@@ -4,10 +4,14 @@
 name=mate-power-manager
 version=1.24.1
 release=1
-source="https://pub.mate-desktop.org/releases/${version%.*}/$name-$version.tar.xz"
+source="https://pub.mate-desktop.org/releases/${version%.*}/$name-$version.tar.xz
+	musl.patch"
 
 build() {
 	cd $name-$version
+
+	patch -Np0 -i $SRC/musl.patch
+
 	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \

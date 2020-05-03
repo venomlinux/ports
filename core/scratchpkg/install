@@ -1,9 +1,26 @@
-post_install() {
-	sed -i '\,/usr/ports/xorg,d' /etc/scratchpkg.repo
-	sed -i '\,/usr/ports/extra,d' /etc/scratchpkg.repo
-	echo "#/usr/ports/nonfree    https://raw.githubusercontent.com/venomlinux/ports/master/nonfree" >> /etc/scratchpkg.repo
+. /etc/scratchpkg.conf
+
+post_upgrade() {
+	grep -q "/usr/ports/xorg" /etc/scratchpkg.repo && \
+		sed -i '\,/usr/ports/xorg,d' /etc/scratchpkg.repo
+	grep -q "/usr/ports/extra" /etc/scratchpkg.repo && \
+		sed -i '\,/usr/ports/extra,d' /etc/scratchpkg.repo
+	grep -q "/usr/ports/nonfree" /etc/scratchpkg.repo || \
+		echo "#/usr/ports/nonfree    https://raw.githubusercontent.com/venomlinux/ports/master/nonfree" >> /etc/scratchpkg.repo
+	case $XHOST in
+		*-musl) continue;;
+		*)
+			grep -qx libuargp /etc/scratchpkg.alias || {
+				echo "# avoid musl stuff on glibc" >> /etc/scratchpkg.alias
+				echo musl-fts >> /etc/scratchpkg.alias
+			}
+			grep -qx musl-fts /etc/scratchpkg.alias || \
+				echo musl-fts >> /etc/scratchpkg.alias
+			grep -qx musl-obstack /etc/scratchpkg.alias || \
+				echo musl-fts >> /etc/scratchpkg.alias ;;
+	esac
 }
 
 case $1 in
-	post-install) post_install;;
+	post-upgrade) post_upgrade;;
 esac

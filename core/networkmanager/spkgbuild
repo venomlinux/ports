@@ -1,18 +1,40 @@
 # description	: Network connection manager and user applications
-# depends	: nss dbus-glib libgudev libndp libnl consolekit2 dhcpcd libsoup newt polkit upower wpa_supplicant gobject-introspection iptables vala docbook-xsl libxslt python3-gobject3
+# depends	: gobject-introspection vala glib libndp eudev curl util-linux nss nspr readline newt intltool libxslt dbus polkit python3-gobject3
 
 name=networkmanager
 version=1.22.10
-release=2
+release=1
 backup="etc/NetworkManager/NetworkManager.conf"
 source="https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
-	run"
+	run
+	musl.patch
+	musl-basic.patch
+	musl-fix-includes.patch
+	musl-use-srand48.patch
+	fix-musl-qsort_r.patch
+	musl-process-util.patch
+	musl-network-support.patch
+	fix-musl-linux-header.diff"
 
 build() {
 	cd NetworkManager-$version
 
+	case $XHOST in
+		*-musl)
+		        patch -Np0 -i $SRC/musl-basic.patch
+		        patch -Np0 -i $SRC/musl-fix-includes.patch
+		        patch -Np0 -i $SRC/musl-use-srand48.patch
+		        patch -Np0 -i $SRC/fix-musl-qsort_r.patch
+		        patch -Np0 -i $SRC/musl-process-util.patch
+		        patch -Np0 -i $SRC/musl-network-support.patch
+		        patch -Np0 -i $SRC/fix-musl-linux-header.diff
+		;;
+	esac
+
 	# Fix a missing meson.build file for initrd hooks
 	sed '/initrd/d' -i src/meson.build
+
+	export CFLAGS="$CFLAGS -DRTLD_DEEPBIND=0"
 
 	mkdir build
 	cd    build
@@ -36,6 +58,7 @@ build() {
 	      -Dmodify_system=true       \
 	      -Ddocs=false               \
 	      -Dqt=false                 \
+	      -Dtests=no                 \
 	      ..
 	ninja
 	DESTDIR=$PKG ninja install
@@ -47,6 +70,6 @@ plugins=keyfile
 EOF
 
 	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
-        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+	install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+	ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

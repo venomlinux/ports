@@ -23,6 +23,11 @@ build() {
 	        > $PKG/etc/ssl/local/CAcert_Class_3_root.pem
 
 	install -vm755 make-ca.sh $PKG/usr/sbin/make-ca
+
+	case $XHOST in
+		*-musl) sed -i 's/c_rehash/openssl certhash/' $PKG/usr/sbin/make-ca;;
+	esac
+
 	cp certdata.txt-$version certdata.txt
         $PKG/usr/sbin/make-ca -D $PKG
 

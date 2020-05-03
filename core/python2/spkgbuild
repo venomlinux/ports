@@ -25,6 +25,11 @@ build() {
 
 	chmod -v 755 $PKG/usr/lib/libpython2.7.so.1.0
 
-	mv $PKG/usr/include/python2.7/pyconfig{,-64}.h
-	install -m 0644 $SRC/pyconfig.h $PKG/usr/include/python2.7/
+	case $XHOST in
+		*-musl) continue;;
+		*)
+		   mv $PKG/usr/include/python2.7/pyconfig{,-64}.h
+		   install -m 0644 $SRC/pyconfig.h $PKG/usr/include/python2.7/
+		;;
+	esac
 }

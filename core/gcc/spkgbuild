@@ -10,6 +10,13 @@ source="https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
 build() {
 	cd $name-$version
 
+	case $XHOST in
+		*-musl) _config="--disable-multilib --disable-libsanitizer"
+		        _pkgversion="Venom Linux (musl) $version-$release";;
+		*)      _config="--enable-multilib"
+		        _pkgversion="Venom Linux $version-$release";;
+	esac
+
 	# /lib is 64bit libraries directory
 	sed -e '/m64=/s/lib64/lib/' \
 	    -i.orig gcc/config/i386/t-linux64
@@ -29,12 +36,12 @@ build() {
 		--disable-libmpx \
 		--with-system-zlib \
 		--disable-nls \
-		--with-pkgversion="Venom Linux $version-$release" \
+		--with-pkgversion="$_pkgversion" \
 		--enable-threads=posix \
 		--enable-__cxa_atexit \
 		--enable-default-pie \
 		--enable-default-ssp \
-		--enable-multilib
+		$_config
 	make
 	make -j1 DESTDIR=$PKG install
 

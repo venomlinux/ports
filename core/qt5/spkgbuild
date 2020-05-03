@@ -7,10 +7,19 @@
 name=qt5
 version=5.14.2
 release=1
-source="https://download.qt.io/archive/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz"
+source="https://download.qt.io/archive/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz
+	main.patch
+	webengine.patch"
 
 build() {
 	cd qt-everywhere-src-$version
+
+	case $XHOST in
+		*-musl)
+		        patch -Np1 -i $SRC/main.patch
+		        patch -Np1 -i $SRC/webengine.patch
+		;;
+	esac
 
 	# Build qmake using Venom {C,LD}FLAGS
 	# This also sets default {C,CXX,LD}FLAGS for projects built using qmake
