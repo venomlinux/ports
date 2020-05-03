@@ -324,7 +324,7 @@ Options:
 EOF
 }
 
-PORTREPO=(musl core multilib nonfree community testing)
+PORTREPO=(core multilib nonfree community testing)
 INDEX_DIR="/var/lib/scratchpkg/index"
 EDITOR=${EDITOR:-vim}
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"

@@ -436,7 +436,7 @@ TARBALLVERSION="20200414"
 JOBS="${JOBS:-$(nproc)}"
 
 if [ "$MUSL" ]; then
-	REPO="musl core"
+	REPO="core"
 	ROOTFS="${ROOTFS:-$WORKDIR/rootfs-musl}"
 	PKGDIR="${PKGDIR:-$WORKDIR/packages-musl}"
 	TARBALLIMG="$PORTSDIR/venom-musl-rootfs.tar.xz"
