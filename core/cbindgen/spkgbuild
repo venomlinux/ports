@@ -2,7 +2,7 @@
 # depends	: rust
 
 name=cbindgen
-version=0.14.1
+version=0.14.2
 release=1
 source="https://github.com/eqrion/cbindgen/archive/v$version/cbindgen-$version.tar.gz"
 
@@ -10,8 +10,13 @@ build() {
 	export CARGO_HOME="$PWD/cargo"
 	mkdir -p $CARGO_HOME
 
+	case $XHOST in
+		*-musl) _target="$XARCH-unknown-linux-musl";;
+		*)      _target="$XARCH-unknown-linux-gnu";;
+	esac
+
 	cd $name-$version
-	cargo fetch --locked --target x86_64-unknown-linux-gnu
+	cargo fetch --locked --target $_target
 	cargo build --release --frozen --all-targets
 	mkdir -p $PKG/usr/bin/
 	install -Dm755 target/release/cbindgen $PKG/usr/bin/
