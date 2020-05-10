@@ -1,9 +1,9 @@
 # description	: Utility and a library used for transferring files
-# depends	: ca-certificates openssl libidn2 zlib
+# depends	: ca-certificates openssl zlib
 
 name=curl
-version=7.69.1
-release=2
+version=7.70.0
+release=1
 source="https://curl.haxx.se/download/$name-$version.tar.xz"
 
 build() {
@@ -12,6 +12,7 @@ build() {
   	./configure --prefix=/usr              \
 	            --disable-static           \
 	            --enable-threaded-resolver \
+		    --without-libidn2 \
 		    --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt
 	make
 	make DESTDIR=$PKG install
