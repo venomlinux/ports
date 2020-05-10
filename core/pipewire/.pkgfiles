@@ -7,6 +7,7 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/pw-cat
 -rwxr-xr-x root/root    usr/bin/pw-cli
 -rwxr-xr-x root/root    usr/bin/pw-dot
+-rwxr-xr-x root/root    usr/bin/pw-jack
 -rwxr-xr-x root/root    usr/bin/pw-mon
 lrwxrwxrwx root/root    usr/bin/pw-play -> pw-cat
 -rwxr-xr-x root/root    usr/bin/pw-profiler
@@ -33,6 +34,7 @@ drwxr-xr-x root/root    usr/include/pipewire-0.3/pipewire/extensions/
 drwxr-xr-x root/root    usr/include/pipewire-0.3/pipewire/extensions/session-manager/
 -rw-r--r-- root/root    usr/include/pipewire-0.3/pipewire/extensions/session-manager/impl-interfaces.h
 -rw-r--r-- root/root    usr/include/pipewire-0.3/pipewire/extensions/session-manager/interfaces.h
+-rw-r--r-- root/root    usr/include/pipewire-0.3/pipewire/extensions/session-manager/introspect-funcs.h
 -rw-r--r-- root/root    usr/include/pipewire-0.3/pipewire/extensions/session-manager/introspect.h
 -rw-r--r-- root/root    usr/include/pipewire-0.3/pipewire/extensions/session-manager/keys.h
 -rw-r--r-- root/root    usr/include/pipewire-0.3/pipewire/factory.h
@@ -156,18 +158,20 @@ drwxr-xr-x root/root    usr/lib/alsa-lib/
 -rwxr-xr-x root/root    usr/lib/alsa-lib/libasound_module_pcm_pipewire.so
 drwxr-xr-x root/root    usr/lib/gstreamer-1.0/
 -rwxr-xr-x root/root    usr/lib/gstreamer-1.0/libgstpipewire.so
-lrwxrwxrwx root/root    usr/lib/libjack-pw.so -> libjack-pw.so.0.3.2
--rwxr-xr-x root/root    usr/lib/libjack-pw.so.0.3.2
 lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so -> libpipewire-0.3.so.0
-lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.302.0
--rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.302.0
-lrwxrwxrwx root/root    usr/lib/libpulse-mainloop-glib-pw.so -> libpulse-mainloop-glib-pw.so.0.3.2
--rwxr-xr-x root/root    usr/lib/libpulse-mainloop-glib-pw.so.0.3.2
-lrwxrwxrwx root/root    usr/lib/libpulse-pw.so -> libpulse-pw.so.0.3.2
--rwxr-xr-x root/root    usr/lib/libpulse-pw.so.0.3.2
-lrwxrwxrwx root/root    usr/lib/libpulse-simple-pw.so -> libpulse-simple-pw.so.0.3.2
--rwxr-xr-x root/root    usr/lib/libpulse-simple-pw.so.0.3.2
+lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.304.0
+-rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.304.0
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/
+drwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so -> libjack.so.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.304.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.304.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so -> libjacknet.so.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.304.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.304.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so -> libjackserver.so.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.304.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.304.0
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-access.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-adapter.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-client-device.so

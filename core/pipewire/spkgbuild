@@ -1,8 +1,8 @@
 # description	: Server and user space API to deal with multimedia
-# depends	: meson alsa-lib gstreamer ffmpeg
+# depends	: meson alsa-lib gstreamer ffmpeg dbus gst-plugins-base bluez sbc jack
 
 name=pipewire
-version=0.3.2
+version=0.3.4
 release=1
 source="https://github.com/PipeWire/pipewire/archive/$version/$name-$version.tar.gz"
 
@@ -16,7 +16,8 @@ build() {
 	      -Dsystemd=false \
 	      -Ddocs=false \
               -Dvulkan=false \
-              -Dexamples=false
+              -Dexamples=false \
+	      -Dpipewire-pulseaudio=false
 	ninja
 	DESTDIR=$PKG ninja install
 }
