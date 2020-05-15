@@ -39,7 +39,7 @@ outputiso="$PORTSDIR/venom-$1-$(date +"%Y%m%d").iso"
 
 rm -f $outputiso
 
-sudo ./ports.sh \
+sudo ./build.sh \
 	-zap \
 	-outputiso="$outputiso" \
 	$opt $mode

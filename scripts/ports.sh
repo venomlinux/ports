@@ -1,426 +1,344 @@
 #!/bin/bash
-#
-# script to operate Venom Linux through chroot environment
-#
 
-interrupted() {
-	unmount_any_mounted
-	exit 1
-}
-
-mount_pseudofs() {
-	mount --bind /dev $ROOTFS/dev
-	mount -t devpts devpts $ROOTFS/dev/pts -o gid=5,mode=620
-	mount -t proc proc $ROOTFS/proc
-	mount -t sysfs sysfs $ROOTFS/sys
-	mount -t tmpfs tmpfs $ROOTFS/run
-}
-
-umount_pseudofs() {
-	for d in run sys proc dev/pts dev; do
-		unmount $ROOTFS/$d
-	done
-}
-
-bindmount() {
-	mount --bind $1 $2
-}
-
-unmount() {
-	while true; do
-		mountpoint -q $1 || break
-		umount $1 2>/dev/null
-	done
-}
-
-chrootrun() {
-	mount_cache_and_portsrepo
-	mount_pseudofs
-	cp -L /etc/resolv.conf $ROOTFS/etc/
-	chroot $ROOTFS $@
-	retval=$?
-	umount_pseudofs
-	umount_cache_and_portsrepo
-	return $retval
-}
-
-umount_cache_and_portsrepo() {
-	# unmount packages and source cache
-	unmount $ROOTFS/var/cache/scratchpkg/packages
-	unmount $ROOTFS/var/cache/scratchpkg/sources
+get_portpath() {
+	local port=$1
 	
-	# mount ports dir
-	umount_repo
-}
-
-umount_repo() {
-	for repo in $REPO; do
-		unmount $ROOTFS/usr/ports/$repo
-		rm -rf $ROOTFS/usr/ports/$repo
+	if [ -z "$port" ]; then
+		echo "Please define port name."
+		exit 2
+	fi
+	
+	for r in ${PORTREPO[@]}; do
+		if [ -f $r/$port/spkgbuild ]; then
+			portpath=$r/$port
+			break
+		fi
 	done
-}
-
-unmount_any_mounted() {
-	for m in $(findmnt --list | grep $ROOTFS | awk '{print $1}' | sort | tac); do
-		unmount $m
-	done
-}
-
-mount_cache_and_portsrepo() {
-	# umount all mounted first
-	unmount_any_mounted
-
-	# mount pkgs and srcs dir
-	bindmount $SRCDIR $ROOTFS/var/cache/scratchpkg/sources
-	bindmount $PKGDIR $ROOTFS/var/cache/scratchpkg/packages
-
-	# mount ports dir
-	mount_repo
-}
-
-mount_repo() {
-	for repo in $REPO; do
-		[ -d "$PORTSDIR/$repo" ] || {
-			msgerr "repo not exist: $repo"
-		}
-		mkdir -p "$ROOTFS/usr/ports/$repo"
-		bindmount "$PORTSDIR/$repo" "$ROOTFS/usr/ports/$repo"
-	done
-}
-
-fetch_rootfs() {
-	tarballname="venom-$rootfs-$TARBALLVERSION.tar.xz"
-	url="https://github.com/venomlinux/ports/releases/download/$TARBALLVERSION/$tarballname"
-
-	msg "Fetching rootfs tarball: $url"
-	wget -c --passive-ftp --no-directories --tries=3 --waitretry=3 --output-document=$TARBALLIMG.part $url
-	if [ "$?" = 0 ]; then
-		rm -f "$TARBALLIMG"
-		mv "$TARBALLIMG".part "$TARBALLIMG"
-	else
-		die "Error fetching rootfs tarball"
+	
+	if [ -z "$portpath" ]; then
+		echo "Port '$port' not exist."
+		exit 1
 	fi
 }
 
-zap_rootfs() {
-	unmount_any_mounted
+revert_changes() {
+	local revert
+	local opt=$1
 	
-	# make sure new extracted rootfs is uptodate and clean from broken pkgs
-	SYSUP=1
-	REVDEP=1
+	if [ "$opt" != "-y" ]; then
+		echo -n "Error occurs. Do you want to revert changes? Y/n "
+		read -n1 input
+		echo
+	else
+		input=y
+	fi
 	
-	[ -f "$TARBALLIMG" ] || {
-		msgerr "Tarball img not exist: $TARBALLIMG"
-		exit 1
-	}
-	msg "Removing existing rootfs: $ROOTFS"
-	rm -fr $ROOTFS
-	mkdir -p $ROOTFS
-	msg "Extracting tarball image: $TARBALLIMG"
-	tar -xf $TARBALLIMG -C $ROOTFS || die "Error extracting tarball image"
-	cp $REPOFILE $ROOTFS/etc/scratchpkg.repo
-	unset ZAP
+	case $input in
+		N|n) echo "Keep changes.";;
+		  *) echo "Revert changes..."
+		     echo -n '> spkgbuild  : '; git checkout spkgbuild
+		     echo -n '> .checksums : '; git checkout .checksums
+		     echo -n '> .pkgfiles  : '; git checkout .pkgfiles;;
+	esac
+	exit 4
 }
 
-install_pkg() {
-	local estatus=0
-	PKG="$(echo $PKG | tr ',' ' ')"
-	chrootrun scratch install -y $PKG || estatus=1
-	return $estatus
+isinstalled() {
+	if [ -s $INDEX_DIR/$1/.pkginfo ] && [[ $(grep $1 $INDEX_DIR/$1/.pkginfo) ]]; then
+		return 0
+	else
+		return 1
+	fi
 }
 
-compress_rootfs() {
-	pushd $ROOTFS >/dev/null
-	
-	[ -f "$TARBALLIMG" ] && {
-		msg "Backup current rootfs..."
-		mv "$TARBALLIMG" "$TARBALLIMG".bak
-	}
-	
-	msg "Copying ports..."
-	copy_ports
-	
-	msg "Compressing rootfs: $ROOTFS ..."
-	tar --exclude="var/cache/scratchpkg/packages/*" \
-		--exclude="var/cache/scratchpkg/sources/*" \
-		--exclude="var/cache/scratchpkg/work/*" \
-		--exclude="*.spkgnew" \
-		--exclude="tmp/*" \
-		--exclude="root/*" \
-		-cvJpf "$TARBALLIMG" * | while read -r line; do
-			echo -ne " $line\033[0K\r"
-		done
-		if [ "$?" != 0 ]; then
-			msgerr "Failed compressing rootfs..."
-			rm -f "$TARBALLIMG"
-			[ -f "$TARBALLIMG".bak ] && {
-				msg "Restore backup rootfs..."
-				mv "$TARBALLIMG".bak "$TARBALLIMG"
-			}
-		else
-			msg "Rootfs compressed: $TARBALLIMG"
-			rm -f "$TARBALLIMG".bak
+get_depends() {	
+	[ -f $portpath/spkgbuild ] || return 0
+	grep "^# depends[[:blank:]]*:" $portpath/spkgbuild \
+	| sed 's/^# depends[[:blank:]]*:[[:blank:]]*//' \
+	| tr ' ' '\n' \
+	| awk '!a[$0]++' \
+	| sed 's/,//'
+}
+
+check_dep() {
+	deps=$(get_depends)
+	for d in $deps; do
+		found=0
+		if ! isinstalled $d; then
+			echo "Dependency not installed: $d"
+			msdep=1
+			for r in ${PORTREPO[@]}; do
+				if [ -f "$r/$d/spkgbuild" ]; then
+					found=1
+					break
+				fi
+			done
+			if [ "$found" != 1 ]; then
+				echo "Missing dependency port: $d"
+			fi
 		fi
+	done
+	
+	[ "$msdep" = 1 ] && exit 1
+}
+
+port_update() {
+	local portpath=$1
+	local vers=$2
+	local opt=$3
+	
+	[ -f "$portpath/spkgbuild" ] || {
+		echo "Port '$portpath' not exist"
+		exit 2
+	}
+	
+	[ "$vers" ] || {
+		echo "Please define version to update."
+		exit 2
+	}
+	
+	check_dep
+	
+	pushd $portpath >/dev/null
+	
+	# update version
+	sed -i "/^version=/s/=.*/=$vers/" spkgbuild
+	
+	# change release to 1
+	sed -i "/^release=/s/=.*/=1/" spkgbuild
+	
+	if [ "$opt" != "-y" ]; then
+		while true; do
+		cat spkgbuild | more
+		echo
+		
+			while true; do
+				echo -n "[C]ontinue [E]dit [A]bort ? "
+				read -n1 input
+				echo
+				case $input in
+					E|e) $EDITOR spkgbuild
+						 break 1;;
+					A|a) exit 1;;
+					C|c) break 2;;
+				esac
+			done
+		done
+	fi		
+	
+	fakeroot pkgbuild -o || revert_changes "$opt"
+	fakeroot pkgbuild -g || revert_changes "$opt"
+	fakeroot pkgbuild    || revert_changes "$opt"
+	fakeroot pkgbuild -p || revert_changes "$opt"
+	sudo pkgbuild -u -v  && sudo scratch trigger ${portpath#*/}
+	
 	popd >/dev/null
 }
 
-check_rootfs() {
-	[ -d $ROOTFS/dev ] || zap_rootfs
+port_build() {
+	local port=$1; shift
+	opt=$@
+	
+	for i in $opt; do
+		if [[ $i =~ -(i|u|r) ]]; then
+			continue # filter out install/upgrade/reinstall
+		else
+			opts+=" $i"
+		fi
+	done
+	
+	get_portpath $port
+	
+	check_dep
+	
+	pushd $portpath >/dev/null
+	
+	while true; do
+	cat spkgbuild | more
+	echo
+	
+		while true; do
+			echo -n "[E]dit [A]bort [C]ontinue ? "
+			read -n1 input
+			echo
+			case $input in
+				E|e) $EDITOR spkgbuild
+				     break 1;;
+				A|a) exit 1;;
+				C|c) break 2;;
+			esac
+		done
+	done			
+	
+	fakeroot pkgbuild $opts || return $?
+	
+	popd >/dev/null
 }
 
-copy_ports() {
-	rm -fr $ROOTFS/usr/ports
-	mkdir -p $ROOTFS/usr/ports
-	for repo in $REPO; do
-		[ -d $PORTSDIR/$repo ] || msg "Repo not exist: $repo"
-		msg "Copying repo: $repo"
-		cp -Ra $PORTSDIR/$repo $ROOTFS/usr/ports || exit 1
-		rm -f $ROOTFS/usr/ports/$repo/REPO
-		rm -f $ROOTFS/usr/ports/$repo/.httpup-repgen-ignore
-		rm -f $ROOTFS/usr/ports/$repo/*/update
-		chown -R 0:0 $ROOTFS/usr/ports/$repo
-	done
+port_commit() {
+	local port=$1; shift
+	cmsg=$@
+	
+	if [ -z "$port" ]; then
+		for p in $(git status -s ${PORTREPO[@]} | awk '{print $2}' | cut -d / -f -2 | uniq); do
+			case $p in
+				*/REPO) continue;;
+			esac
+			git diff --name-only ${PORTREPO[@]} | grep -q ^$p/ || cmsg="new port"
+			commit_port $p
+		done
+	else
+		[ -f "$port/spkgbuild" ] || {
+			echo "Port '$port' not exist"
+			exit 1
+		}
+		
+		git status -s ${PORTREPO[@]} | awk '{print $2}' | cut -d / -f -2 | uniq | grep -qx $port || {
+			echo "Nothing to commit for '$port'"
+			exit 1
+		}
+		git diff --name-only ${PORTREPO[@]} | grep -q ^$port/ || cmsg="new port"
+		commit_port $port
+	fi	
 }
 
-make_iso() {
-	ISOLINUX_FILES="chain.c32 isolinux.bin ldlinux.c32 libutil.c32 reboot.c32 vesamenu.c32 libcom32.c32 poweroff.c32"
-	# prepare isolinux files
-	msg "Preparing isolinux..."
-	rm -fr "$ISODIR"
-	mkdir -p "$ISODIR"/{rootfs,isolinux,boot}
-	for file in $ISOLINUX_FILES; do
-		cp "/usr/share/syslinux/$file" "$ISODIR/isolinux" || die "Failed copying isolinux file: $file"
+commit_port() {
+	local portpath=$1
+	
+	deps=$(get_depends)
+	for d in $deps; do
+		found=0
+		for r in ${PORTREPO[@]}; do
+			if [ -f "$r/$d/spkgbuild" ]; then
+				found=1
+				break
+			fi
+		done
+		if [ "$found" != 1 ]; then
+			echo "Missing dependency port: $d"
+			missing=1
+		fi
 	done
-	cp "$FILESDIR/splash.png" "$ISODIR/isolinux"
-	cp "$FILESDIR/isolinux.cfg" "$ISODIR/isolinux"
 	
-	[ -d "$PORTSDIR/virootfs" ] && {
-		cp -aR "$PORTSDIR/virootfs" "$ISODIR"
-		chown -R 0:0 "$ISODIR/virootfs"
-	}
-	[ -d "$PORTSDIR/customize" ] && {
-		cp -aR "$PORTSDIR/customize" "$ISODIR"
-		chown -R 0:0 "$ISODIR/customize"
-	}
+	[ "$missing" = 1 ] && exit 1
 	
-	copy_ports
-	
-	# make sfs
-	msg "Squashing root filesystem: $ISODIR/rootfs/filesystem.sfs ..."
-	mksquashfs "$ROOTFS" "$ISODIR/rootfs/filesystem.sfs" \
-			-b 1048576 -comp zstd \
-			-e "$ROOTFS"/var/cache/scratchpkg/sources/* \
-			-e "$ROOTFS"/var/cache/scratchpkg/packages/* \
-			-e "$ROOTFS"/var/cache/scratchpkg/work/* \
-			-e "$ROOTFS"/root/* \
-			-e "$ROOTFS"/tmp/* \
-			-e "*.spkgnew" 2>/dev/null || die "Failed create sfs root filesystem"
-			
-	cp "$ROOTFS/boot/vmlinuz-venom" "$ISODIR/boot/vmlinuz" || die "Failed copying kernel"
-	
-	sed "s/@ISOLABEL@/$ISOLABEL/g" "$FILESDIR/venomiso.hook" > "$ROOTFS/etc/mkinitramfs.d/venomiso.hook" || die "Failed preparing venomiso.hook"
-	kernver=$(file $ROOTFS/boot/vmlinuz-venom | cut -d ' ' -f9)
-	chrootrun mkinitramfs -k $kernver -a venomiso || die "Failed create initramfs"
-	cp "$ROOTFS/boot/initrd-venom.img" "$ISODIR/boot/initrd" || die "Failed copying initrd"
-	
-	msg "Setup UEFI mode..."
-	mkdir -p "$ISODIR"/boot/{grub/{fonts,x86_64-efi},EFI}
-	if [ -f /usr/share/grub/unicode.pf2 ];then
-		cp "/usr/share/grub/unicode.pf2" "$ISODIR/boot/grub/fonts"
+	if [ -z "$cmsg" ]; then
+		if [ -f $portpath/spkgbuild ]; then
+			. $portpath/spkgbuild
+			cmsg="updated to $version"
+		else
+			cmsg="port removed"
+		fi
 	fi
-	if [ -f "$ISODIR/isolinux/splash.png" ]; then
-		cp "$ISODIR/isolinux/splash.png" "$ISODIR/boot/grub/"
-	fi
-	echo "set prefix=/boot/grub" > "$ISODIR/boot/grub-early.cfg"
-	cp -a /usr/lib/grub/x86_64-efi/*.{mod,lst} "$ISODIR/boot/grub/x86_64-efi" || die "Failed copying efi files"
-	cp "$FILESDIR/grub.cfg" "$ISODIR/boot/grub/"
-
-	grub-mkimage -c "$ISODIR/boot/grub-early.cfg" -o "$ISODIR/boot/EFI/bootx64.efi" -O x86_64-efi -p "" iso9660 normal search search_fs_file
-	modprobe loop
-	dd if=/dev/zero of=$ISODIR/boot/efiboot.img count=4096
-	mkdosfs -n VENOM-UEFI "$ISODIR/boot/efiboot.img" || die "Failed create mkdosfs image"
-	mkdir -p "$ISODIR/boot/efiboot"
-	mount -o loop "$ISODIR/boot/efiboot.img" "$ISODIR/boot/efiboot" || die "Failed mount efiboot.img"
-	mkdir -p "$ISODIR/boot/efiboot/EFI/boot"
-	cp "$ISODIR/boot/EFI/bootx64.efi" "$ISODIR/boot/efiboot/EFI/boot"
-	unmount "$ISODIR/boot/efiboot"
-	rm -fr "$ISODIR/boot/efiboot"
-
-	# save list packages to iso
-	for pkg in base linux $(echo $PKG | tr ',' ' '); do
-		echo "$pkg" >> "$ISODIR/rootfs/pkglist"
-	done
-
-	msg "Making iso: $OUTPUTISO ..."
-	rm -f "$OUTPUTISO" "$OUTPUTISO.md5"
-	xorriso -as mkisofs \
-		-isohybrid-mbr /usr/share/syslinux/isohdpfx.bin \
-		-c isolinux/boot.cat \
-		-b isolinux/isolinux.bin \
-		  -no-emul-boot \
-		  -boot-load-size 4 \
-		  -boot-info-table \
-		-eltorito-alt-boot \
-		-e boot/efiboot.img \
-		  -no-emul-boot \
-		  -isohybrid-gpt-basdat \
-		  -volid $ISOLABEL \
-		-o "$OUTPUTISO" "$ISODIR" || die "Failed creating iso: $OUTPUTISO"
 	
-	msg "Cleaning iso directory: $ISODIR"
-	rm -fr "$ISODIR"
+	git add $portpath
+	git commit -m "$portpath: $cmsg"
+	
+	unset cmsg
 }
 
-usage() {
+port_repgen() {
+	if [ ! $(type -pa httpup-repgen) ]; then
+		echo "httpup not installed, aborting"
+		exit 1
+	fi
+	
+	for r in ${PORTREPO[@]}; do
+		httpup-repgen $r
+	done
+}
+
+port_push() {
+	#if git status | grep "Your branch is up to date"; then
+	#	return 0
+	#fi
+	
+	if git diff --name-only ${PORTREPO[@]} | grep -v REPO; then
+		echo
+		echo "Please commit above changes first."
+		return 2
+	fi
+	
+	port_repgen
+	
+	for r in ${PORTREPO[@]}; do
+		git add $r
+	done
+	
+	git commit -m "REPO updated"
+	git push
+}
+
+port_diff() {
+	local port=$1
+	
+	get_portpath $port
+	
+	pushd $portpath >/dev/null
+
+	git diff .
+	
+	popd >/dev/null
+}
+
+port_status() {
+	git status -s
+	#git status | grep "Your branch is ahead of" && echo
+	#git status | grep -v REPO | grep modified | sed 's/.*modified:/modified:/g'
+}
+
+port_checkdep() {
+	for r in ${PORTREPO[@]}; do
+		tmprepo="$tmprepo $r"
+		for p in $r/*/spkgbuild; do
+			portpath=$(dirname $p)
+			for d in $(get_depends); do
+				found=0
+				for tp in $tmprepo; do
+					if [ -f $tp/$d/spkgbuild ]; then
+						found=1
+						break
+					fi
+				done
+				[ "$found" = 0 ] && echo "$portpath: $d"
+			done
+		done
+	done
+}
+
+port_help() {
 	cat << EOF
 Usage:
-  $0 [options]
+  ./$(basename $0) <options> [ arg ]
   
 Options:
-  -root=<path>          use custom root location (default: $ROOTFS)
-  -pkgdir=<path>        use custom packages directory (default: $PKGDIR)
-  -srcdir=<path>        use custom sources directory (default: $SRCDIR)
-  -outputiso=<*.iso>    use custom name for iso (default: $OUTPUTISO)
-  -jobs=<N>             define total cpu want to use (default: $JOBS)
-  -pkg=<pkg1,pkg2,...>  define packages to install into rootfs (comma separated)
-  -rootfs               create updated rootfs tarball
-  -rebase               remove all installed packages in rootfs except 'base'
-  -chroot               enter chroot into rootfs
-  -sysup                full upgrade rootfs
-  -revdep               fix any broken packages in rootfs
-  -zap                  remove and re-extract rootfs
-  -iso                  make iso from rootfs
-  -fetch                fetch latest rootfs tarball
-  -h|-help              show this help message
+  update <portname> <newversion>   update ports to <newversion>
+  commit <portname> <commit msg>   commit port's update changes
+  build  <portname> <opts>         build port
+  diff   <portname>                show diff of ports
+  repgen                           update REPO file
+  push                             push all updates
+  status                           show current status
+  help                             show this help message
       
 EOF
-exit 0
 }
 
-msg() {
-	echo "-> $*"
-}
-
-msgerr() {
-	echo "!> $*"
-}
-
-die() {
-	[ "$@" ] && msgerr $@
-	exit 1
-}
-
-parse_opts() {
-	while [ "$1" ]; do
-		case $1 in
-			  -root=*) ROOTFS=${1#*=};;
-			-pkgdir=*) PKGDIR=${1#*=};;
-			-srcdir=*) SRCDIR=${1#*=};;
-			   -pkg=*) PKG=${1#*=};;
-		 -outputiso=*) OUTPUTISO=${1#*=};;
-			  -jobs=*) JOBS=${1#*=};;
-			  -rootfs) RFS=1;;
-			  -rebase) REBASE=1;;
-			  -chroot) CHROOT=1;;
-			   -sysup) SYSUP=1;;
-			  -revdep) REVDEP=1;;
-			     -zap) ZAP=1;;
-			     -iso) ISO=1;;
-			   -fetch) FETCH=1;;
-			 -h|-help) HELP=1;;
-			        *) die "invalid options: $1";;
-		esac
-		shift
-	done
-}
-
-main() {
-	[ "$HELP" ] && usage
-
-	[ "$(id -u)" = 0 ] || {
-		die "$0 need root access!"
-	}
-
-	mkdir -p $PKGDIR $SRCDIR
-	
-	[ "$FETCH" ] && fetch_rootfs
-	
-	# check if rootfs already exist, else zap
-	check_rootfs
-	
-	[ "$ZAP" ] && zap_rootfs
-	
-	[ "$REBASE" ] && {
-		msg "Running pkgbase..."
-		chrootrun pkgbase -y || die
-	}
-	
-	[ "$SYSUP" ] && {
-		msg "Upgrading scratchpkg..."
-		chrootrun scratch upgrade scratchpkg -y --no-backup || die
-		cp $REPOFILE $ROOTFS/etc/scratchpkg.repo
-		sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j$JOBS\"/" -i "$ROOTFS"/etc/scratchpkg.conf
-		msg "Full upgrading..."
-		chrootrun scratch sysup -y --no-backup || die
-	}
-	
-	[ "$REVDEP" ] && {
-		msg "Running revdep (after sysup)..."
-		chrootrun revdep -y -r || die
-	}
-	
-	[ "$RFS" ] && {
-		compress_rootfs || die
-	}
-	
-	[ "$PKG" ] && {
-		chrootrun scratch install -y $(echo $PKG | tr ',' ' ') || die
-	}
-	
-	[ "$CHROOT" ] && {
-		msg "Entering chroot..."
-		chrootrun /bin/sh || die
-	}
-	
-	[ "$ISO" ] && {
-		chrootrun scratch install -y $(echo $ISO_PKG | tr ',' ' ') || die
-		[ "$REVDEP" ] && {
-			msg "Running revdep (for iso)..."
-			chrootrun revdep -y -r || die
-		}
-		make_iso
-	}
-	
-	return 0
-}
-
+PORTREPO=(core multilib nonfree community testing)
+INDEX_DIR="/var/lib/scratchpkg/index"
+EDITOR=${EDITOR:-vim}
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 
-[ -f $SCRIPTDIR/config ] && . $SCRIPTDIR/config
+OP=$1
+shift
 
-parse_opts "$@"
+if [ $(type -t port_$OP) ]; then
+	cd $PORTSDIR
+	port_$OP $@
+else
+	port_help
+	exit 1
+fi
 
-TARBALLVERSION="20200414"
-TARBALLIMG="$PORTSDIR/venom-rootfs.tar.xz"
-
-SRCDIR="${SRCDIR:-/var/cache/scratchpkg/sources}"
-PKGDIR="${PKGDIR:-/var/cache/scratchpkg/packages}"
-ROOTFS="${ROOTFS:-$PORTSDIR/rootfs}"
-FILESDIR="$PORTSDIR/files"
-JOBS="${JOBS:-$(nproc)}"
-
-REPO="${REPO:-core}"
-REPOFILE="$FILESDIR/scratchpkg.repo"
-
-# iso
-ISODIR="${ISODIR:-/tmp/venomiso}"
-ISOLABEL="VENOMLIVE_$(date +"%Y%m%d")"
-ISO_PKG="linux,dialog,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs"
-OUTPUTISO="${OUTPUTISO:-$PORTSDIR/venom-$(date +"%Y%m%d").iso}"
-
-trap "interrupted" 1 2 3 15
-
-main
-
-exit 0
+exit $?

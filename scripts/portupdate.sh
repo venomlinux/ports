@@ -43,8 +43,7 @@ while true; do
 	done
 done
 
-rm -f $PORTSDIR/$1/.pkgfiles
-sudo $SCRIPTDIR/ports.sh \
+sudo $SCRIPTDIR/build.sh \
 	-pkg=${1##*/} \
 	-zap || {
 		echo -n "Error occurs. Do you want to revert changes? Y/n "
