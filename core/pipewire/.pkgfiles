@@ -8,6 +8,10 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/pw-cli
 -rwxr-xr-x root/root    usr/bin/pw-dot
 -rwxr-xr-x root/root    usr/bin/pw-jack
+-rwxr-xr-x root/root    usr/bin/pw-metadata
+-rwxr-xr-x root/root    usr/bin/pw-mididump
+lrwxrwxrwx root/root    usr/bin/pw-midiplay -> pw-cat
+lrwxrwxrwx root/root    usr/bin/pw-midirecord -> pw-cat
 -rwxr-xr-x root/root    usr/bin/pw-mon
 lrwxrwxrwx root/root    usr/bin/pw-play -> pw-cat
 -rwxr-xr-x root/root    usr/bin/pw-profiler
@@ -159,19 +163,19 @@ drwxr-xr-x root/root    usr/lib/alsa-lib/
 drwxr-xr-x root/root    usr/lib/gstreamer-1.0/
 -rwxr-xr-x root/root    usr/lib/gstreamer-1.0/libgstpipewire.so
 lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so -> libpipewire-0.3.so.0
-lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.304.0
--rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.304.0
+lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.305.0
+-rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.305.0
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so -> libjack.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.304.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.304.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.305.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.305.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so -> libjacknet.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.304.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.304.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.305.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.305.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so -> libjackserver.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.304.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.304.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.305.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.305.0
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-access.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-adapter.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-client-device.so
@@ -209,3 +213,8 @@ drwxr-xr-x root/root    usr/lib/spa-0.2/v4l2/
 -rwxr-xr-x root/root    usr/lib/spa-0.2/v4l2/libspa-v4l2.so
 drwxr-xr-x root/root    usr/lib/spa-0.2/videoconvert/
 -rwxr-xr-x root/root    usr/lib/spa-0.2/videoconvert/libspa-videoconvert.so
+drwxr-xr-x root/root    usr/share/
+drwxr-xr-x root/root    usr/share/alsa/
+drwxr-xr-x root/root    usr/share/alsa/alsa.conf.d/
+-rw-r--r-- root/root    usr/share/alsa/alsa.conf.d/50-pipewire.conf
+-rw-r--r-- root/root    usr/share/alsa/alsa.conf.d/99-pipewire-default.conf
