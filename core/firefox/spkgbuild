@@ -1,10 +1,12 @@
 # description	: Stand-alone browser based on the Mozilla codebase
-# depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent sqlite dbus-glib unzip zip autoconf2.13 yasm rust gconf cbindgen nodejs libwebp
+# depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent dbus-glib unzip zip autoconf2.13 yasm rust cbindgen nodejs
 
 name=firefox
-version=74.0
+version=76.0.1
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
+	0001-Use-remoting-name-for-GDK-application-names.patch
+	fix-unicode-errors.patch
 	$name.desktop"
 
 build() {
@@ -12,37 +14,41 @@ build() {
 
 	cd $name-$version
 
-  	cat > mozconfig << "EOF"
-#ac_add_options --with-mozilla-api-keyfile=$PWD/mozilla-key
-#ac_add_options --with-google-location-service-api-keyfile=$PWD/google-key
-ac_add_options --disable-pulseaudio
-ac_add_options --enable-alsa
-ac_add_options --enable-system-sqlite
-ac_add_options --with-system-libevent
-#ac_add_options --with-system-libvpx
-ac_add_options --with-system-webp
-ac_add_options --with-system-nspr
-ac_add_options --with-system-nss
-ac_add_options --with-system-icu
-ac_add_options --disable-av1
-ac_add_options --enable-linker=gold
-ac_add_options --enable-official-branding
-#ac_add_options --with-system-graphite2
-#ac_add_options --with-system-harfbuzz
-ac_add_options --prefix=/usr
-ac_add_options --enable-application=browser
-ac_add_options --disable-crashreporter
-ac_add_options --disable-updater
-ac_add_options --disable-tests
-ac_add_options --enable-optimize
-ac_add_options --enable-system-ffi
-ac_add_options --enable-system-pixman
-ac_add_options --with-system-bz2
-ac_add_options --with-system-jpeg
-ac_add_options --with-system-png
-ac_add_options --with-system-zlib
-unset MOZ_TELEMETRY_REPORTING
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=1530052
+	patch -p1 -i $SRC/0001-Use-remoting-name-for-GDK-application-names.patch
+
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=1532169
+	patch -p1 -i $SRC/fix-unicode-errors.patch	
+
+cat <<- EOF > .mozconfig
+	mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-shared
+	unset MOZ_TELEMETRY_REPORTING
+	ac_add_options --prefix=/usr
+	ac_add_options --enable-default-toolkit=cairo-gtk3
+	ac_add_options --enable-application=browser
+	ac_add_options --with-system-jpeg
+	ac_add_options --with-system-zlib
+	ac_add_options --with-system-bz2
+	ac_add_options --with-system-png
+	ac_add_options --with-system-nspr
+	ac_add_options --with-system-nss
+	ac_add_options --enable-av1
+	ac_add_options --enable-system-ffi
+	ac_add_options --enable-system-pixman
+	ac_add_options --enable-alsa
+	ac_add_options --enable-optimize
+	ac_add_options --enable-release
+	ac_add_options --enable-rust-simd
+	ac_add_options --enable-linker=gold
+	ac_add_options --disable-debug-symbols
+	ac_add_options --disable-pulseaudio
+	ac_add_options --enable-official-branding
+	ac_add_options --disable-tests
+	ac_add_options --disable-debug
+	ac_add_options --disable-updater
+	ac_add_options --disable-crashreporter
+	ac_add_options --disable-necko-wifi
+	ac_add_options --disable-gconf
 EOF
 
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib

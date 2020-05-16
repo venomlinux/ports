@@ -1,0 +1,12 @@
+diff -pruN firefox-75.0.orig/python/mozbuild/mozbuild/controller/building.py firefox-75.0/python/mozbuild/mozbuild/controller/building.py
+--- firefox-75.0.orig/python/mozbuild/mozbuild/controller/building.py	2020-04-10 14:06:41.934514666 +1000
++++ firefox-75.0/python/mozbuild/mozbuild/controller/building.py	2020-04-10 14:11:07.421260179 +1000
+@@ -586,7 +586,7 @@ class TerminalLoggingHandler(logging.Han
+             if self.footer:
+                 self.footer.clear()
+ 
+-            self.fh.write(msg)
++            self.fh.write(msg.encode("utf-8"))
+             self.fh.write('\n')
+ 
+             if self.footer:
