@@ -89,7 +89,7 @@ mount_repo() {
 }
 
 fetch_rootfs() {
-	tarballname="venom-$rootfs-$TARBALLVERSION.tar.xz"
+	tarballname="venom-rootfs-$TARBALLVERSION.tar.xz"
 	url="https://github.com/venomlinux/ports/releases/download/$TARBALLVERSION/$tarballname"
 
 	msg "Fetching rootfs tarball: $url"
