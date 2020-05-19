@@ -215,12 +215,22 @@ commit_port() {
 			fi
 		done
 		if [ "$found" != 1 ]; then
-			echo "Missing dependency port: $d"
+			echo "$portpath: Missing dependency '$d'"
 			missing=1
 		fi
 	done
 	
 	[ "$missing" = 1 ] && exit 1
+	
+	if [ ! -f $portpath/.pkgfiles ]; then
+		echo "$portpath: Please generate .pkgfiles first"
+		exit 1
+	fi
+	
+	if [ ! -f $portpath/.checksums ]; then
+		echo "$portpath: Please generate .checksums first"
+		exit 1
+	fi
 	
 	if [ -z "$cmsg" ]; then
 		if [ -f $portpath/spkgbuild ]; then
