@@ -104,6 +104,12 @@ get_partition_fstype() {
 	echo ${fstype:-none}
 }
 
+get_disk_type() {
+	local disktype
+	disktype=$(lsblk -nrp -o NAME,SIZE,TYPE,PTTYPE | grep -w $1 | awk '{print $4}')
+	echo ${disktype:-none}
+}
+
 print_partitioning_tips() {
 	_dialog --clear --title "  Partitioning Tips  " --msgbox "\n
 For BIOS systems, MBR or GPT partition tables are supported.
@@ -401,7 +407,6 @@ menu_locale() {
 	clock_var=$(_dialog --menu "Select time" 0 50 0 UTC - localtime -) || return 1	
 	return 0
 }
-	
 
 view_settings() {
 	_dialog --title "  Saved settings for installation  " --msgbox "
@@ -411,7 +416,7 @@ Hostname  : $hostname_var
 User      : $user_var
 UserPswd  : $([ $passwd ] && echo -done-)
 Rootpswd  : $([ $rootpasswd ] && echo -done-)
-Root      : $partition_var $filesystem_var
+Root      : $partition_var $filesystem_var $(get_disk_type $partition_var)
 Locale    : $locale_var
 Time      : $clock_var
 EFI       : $([ $EFI_SYSTEM != 1 ] && echo SKIP || echo $efi_var) $([ $format_efi = 1 ] && echo re-format)
@@ -439,8 +444,29 @@ check_settings() {
 	fi
 }
 
+check_disk() {
+	if [ "$EFI_SYSTEM" = 1 ]; then
+		if [ "$(get_disk_type $partition_var)" = "dos" ]; then
+			print_msg "gpt disk required for UEFI system"
+			return 1
+		fi
+		if [ ! "$(fdisk -l | grep ^\/dev | grep "EFI System")" ]; then
+			print_msg "For UEFI system, a FAT32 partition with at least 100MB set as 'EFI System' must be created"
+			return 1
+		fi
+	else
+		if [ "$(get_disk_type $partition_var)" = "gpt" ]; then
+			if [ ! "$(fdisk -l | grep ^\/dev | grep "BIOS boot")" ]; then
+				print_msg "To use GPT partition in BIOS system 1MB partition must be created and set as 'BIOS boot'"
+				return 1
+			fi
+		fi
+	fi
+}
+
 install_now() {
 	check_settings || return 1
+	check_disk || return 1
 	
 	umount -R $VENOMROOT
 	#mountpoint -q $VENOMROOT/boot/efi && umount $VENOMROOT/boot/efi
