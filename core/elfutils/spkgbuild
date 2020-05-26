@@ -1,34 +1,12 @@
 # description	: utilities and libraries for handling ELF files
-# depends	: musl-fts libuargp musl-obstack
 
 name=elfutils
 version=0.179
 release=1
-source="https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2
-	musl-cdefs.patch
-	musl-fts-obstack.patch
-	musl-macros.patch
-	musl-strerror_r.patch
-	musl-strndupa.patch
-	musl-qsort_r.patch
-	error.h"
+source="https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2"
 
 build() {
 	cd $name-$version
-
-	case $XHOST in
-		*-musl)
-		        cp $SRC/error.h lib
-		        cp $SRC/error.h src
-
-		        for i in $SRC/*.patch; do
-		            patch -Np0 -i $i
-		        done
-
-		        autoreconf -if
-		        export CFLAGS="$CFLAGS -Wno-error -Wno-null-dereference"
-		;;
-	esac
 
 	./configure \
 		--prefix=/usr \

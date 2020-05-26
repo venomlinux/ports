@@ -137,8 +137,9 @@ compress_rootfs() {
 		mv "$TARBALLIMG" "$TARBALLIMG".bak
 	}
 	
-	msg "Copying ports..."
+	msg "Copying ports and repofile..."
 	copy_ports
+	copy_repofile
 	
 	msg "Compressing rootfs: $ROOTFS ..."
 	tar --exclude="var/cache/scratchpkg/packages/*" \
@@ -166,6 +167,13 @@ compress_rootfs() {
 
 check_rootfs() {
 	[ -d $ROOTFS/dev ] || zap_rootfs
+}
+
+copy_repofile() {
+	cp $REPOFILE $ROOTFS/etc/scratchpkg.repo
+	for i in $REPO; do
+		sed -i "s,#/usr/ports/$i,/usr/ports/$i," $ROOTFS/etc/scratchpkg.repo
+	done
 }
 
 copy_ports() {
@@ -204,6 +212,8 @@ make_iso() {
 	}
 	
 	copy_ports
+	copy_repofile
+	sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j\$(nproc\)\"/" -i "$ROOTFS"/etc/scratchpkg.conf
 	
 	# make sfs
 	msg "Squashing root filesystem: $ISODIR/rootfs/filesystem.sfs ..."
@@ -357,8 +367,8 @@ main() {
 	
 	[ "$SYSUP" ] && {
 		msg "Upgrading scratchpkg..."
+		copy_repofile
 		chrootrun scratch upgrade scratchpkg -y --no-backup || die
-		cp $REPOFILE $ROOTFS/etc/scratchpkg.repo
 		sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j$JOBS\"/" -i "$ROOTFS"/etc/scratchpkg.conf
 		msg "Full upgrading..."
 		chrootrun scratch sysup -y --no-backup || die

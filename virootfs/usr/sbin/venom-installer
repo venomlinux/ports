@@ -615,7 +615,7 @@ install_now() {
 				echo "UUID=$(blkid -o value -s UUID $vdev) $vmount $vfs defaults 0 0" >> $VENOMROOT/etc/fstab
 			done
 		done
-	fi				
+	fi
 	
 	print_info "Creating user ($user_var)..."
 	useradd -R $VENOMROOT -m -G users,wheel,audio,video -s /bin/bash $user_var || print_error_msg "Error configure user '$user_var'"
@@ -627,7 +627,7 @@ install_now() {
 	if [ "$locale_var" != "SKIP" ]; then
 		print_info "Generating locales (${locale_var}.UTF-8)..."
 		sed "s/#$locale_var/$locale_var/" -i $VENOMROOT/etc/locales
-		echo $locale_var.UTF-8 > $VENOMROOT/etc/locale.conf
+		echo "LANG=$locale_var.UTF-8" > $VENOMROOT/etc/locale.conf
 		run_chroot genlocales &>/dev/null
 	fi
 	
