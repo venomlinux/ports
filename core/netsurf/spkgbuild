@@ -2,7 +2,7 @@
 # depends	: perl-html-parser gtk3 curl
 
 name=netsurf
-version=3.9
+version=3.10
 release=1
 source="http://download.netsurf-browser.org/netsurf/releases/source-full/netsurf-all-$version.tar.gz"
 
@@ -15,12 +15,12 @@ build() {
 		LIBDIR=lib \
 		INCLUDEDIR=include \
 		NETSURF_GTK_MAJOR=3 \
-		TARGET=gtk
+		TARGET=gtk3
 	make install \
 		PREFIX=/usr \
 		LIBDIR=lib \
 		INCLUDEDIR=include \
 		DESTDIR=$PKG \
 		NETSURF_GTK_MAJOR=3 \
-		TARGET=gtk
+		TARGET=gtk3
 }
