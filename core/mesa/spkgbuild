@@ -2,22 +2,12 @@
 # depends	: libdrm llvm expat zlib zstd elfutils libxcb libxshmfence libx11 wayland libxvmc libxv libxext libxfixes libxdamage libxxf86vm python3-mako libglvnd xrandr wayland-protocols
 
 name=mesa
-version=20.0.7
+version=20.1.0
 release=1
-source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz
-	glx-tls.patch
-	musl.patch"
+source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
-	case $XHOST in
-		*-musl)
-		        patch -Np0 -i $SRC/musl.patch
-		        patch -Np1 -i $SRC/glx-tls.patch
-			_tls="-Delf-use-tls=false"
-		;;
-	esac
 
 	PLATFORMS="drm,x11,wayland"
 	GALLIUM_DRV="r300,r600,svga,swrast,radeonsi,nouveau"
@@ -38,7 +28,6 @@ build() {
 	      -Dplatforms=$PLATFORMS \
 	      -Dglvnd=true \
 	      -Dllvm=true \
-	      $_tls \
 	      ..
 	ninja
 	DESTDIR=$PKG ninja install
