@@ -4,9 +4,7 @@
 name=compton
 version=8
 release=1
-source="$name-$version.tar.gz::https://github.com/yshui/compton/archive/v$version.tar.gz
-	compton.conf
-	compton.custom.conf"
+source="$name-$version.tar.gz::https://github.com/yshui/compton/archive/v$version.tar.gz"
 
 build() {
 	cd picom-$version
@@ -16,8 +14,4 @@ build() {
 	meson --prefix=/usr --buildtype=release . build
 	ninja -C build
 	DESTDIR=$PKG ninja -C build install
-
-	#install -Dm644 $SRC/compton.conf $PKG/etc/xdg/compton.conf
-	#install -Dm644 compton.sample.conf $PKG/etc/xdg/compton.sample.conf
-	install -Dm644 $SRC/compton.custom.conf $PKG/etc/xdg/compton.conf
 }
