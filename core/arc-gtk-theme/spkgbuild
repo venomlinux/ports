@@ -1,16 +1,21 @@
 # description	: A flat theme with transparent elements for GTK 3, GTK 2 and Gnome-Shell. Latest commit from the master branch on Github
-# depends	: gtk3 gtk-engine-murrine
+# depends	: gtk3 gtk-engine-murrine inkscape optipng sassc
 
 name=arc-gtk-theme
 _name=arc-theme
-version=20170302
+version=20200513
 release=1
-source="$name-$version.tar.gz::https://github.com/horst3180/arc-theme/archive/$version.tar.gz"
+source="https://github.com/jnsh/$_name/archive/$version.tar.gz"
 
 build() {
 	cd $_name-$version
 
-	./autogen.sh --prefix=/usr --with-gnome=3.22
+	autoreconf -fi
+	./configure \
+		--prefix=/usr \
+		--disable-cinnamon \
+		--disable-gnome-shell
+	make
 	make DESTDIR=$PKG install
 }
 
