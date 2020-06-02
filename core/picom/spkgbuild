@@ -1,17 +1,21 @@
 # description	: A compositor for X11
 # depends	: libconfig dbus libev libxdg-basedir uthash xcb-util-renderutil xcb-util-image libxext pixman libglvnd
 
-name=compton
+name=picom
 version=8
 release=1
-source="$name-$version.tar.gz::https://github.com/yshui/compton/archive/v$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/yshui/picom/archive/v$version.tar.gz
+	$name.conf"
 
 build() {
-	cd picom-$version
+	cd $name-$version
 
 	mkdir build
 
 	meson --prefix=/usr --buildtype=release . build
 	ninja -C build
 	DESTDIR=$PKG ninja -C build install
+
+	install -Dm644 $SRC/picom.conf $PKG/etc/xdg/picom.conf
+	install -Dm644 picom.sample.conf $PKG/etc/xdg/picom.conf.example
 }
