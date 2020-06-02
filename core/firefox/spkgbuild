@@ -2,23 +2,15 @@
 # depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent dbus-glib unzip zip autoconf2.13 yasm rust cbindgen nodejs
 
 name=firefox
-version=76.0.1
+version=77.0
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
-	0001-Use-remoting-name-for-GDK-application-names.patch
-	fix-unicode-errors.patch
 	$name.desktop"
 
 build() {
 	INITDIR=$PWD
 
 	cd $name-$version
-
-	# https://bugzilla.mozilla.org/show_bug.cgi?id=1530052
-	patch -p1 -i $SRC/0001-Use-remoting-name-for-GDK-application-names.patch
-
-	# https://bugzilla.mozilla.org/show_bug.cgi?id=1532169
-	patch -p1 -i $SRC/fix-unicode-errors.patch	
 
 cat <<- EOF > .mozconfig
 	mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-shared
