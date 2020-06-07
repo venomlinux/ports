@@ -2,7 +2,7 @@
 # depends	: nspr sqlite
 
 name=nss
-version=3.52.1
+version=3.53
 _version=$(echo $version | sed 's/\./_/g')
 release=1
 source="https://archive.mozilla.org/pub/security/nss/releases/NSS_${_version}_RTM/src/$name-$version.tar.gz
@@ -11,6 +11,7 @@ source="https://archive.mozilla.org/pub/security/nss/releases/NSS_${_version}_RT
 build() {
 	cd $name-$version
 
+	# taken from LFS
   	patch -Np1 -i $SRC/nss-standalone.patch
 
 	cd nss
