@@ -1,8 +1,8 @@
 # description	: Standalone web browser from mozilla.org, Extended Support Release
-# depends	: gtk3 gtk2 libxt dbus-glib alsa-lib libvpx libevent nss sqlite icu unzip zip diffutils gconf python2 yasm mesa inetutils autoconf2.13
+# depends	: gtk3 gtk2 libxt dbus-glib alsa-lib libvpx libevent nss sqlite icu unzip zip diffutils gconf python2 yasm mesa inetutils autoconf2.13 rust cbindgen nodejs nasm
 
 name=firefox-esr
-version=68.7.0
+version=68.9.0
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/firefox-${version}esr.source.tar.xz
         firefox.desktop"
@@ -35,8 +35,8 @@ cat <<- EOF > .mozconfig
 	ac_add_options --disable-gconf
 EOF
 
-	./mach build
-	DESTDIR=$PKG ./mach install
+	SHELL=/bin/sh ./mach build
+	SHELL=/bin/sh DESTDIR=$PKG ./mach install
 
 	mkdir -p $PKG/usr/share/pixmaps
 	ln -s /usr/lib/firefox/browser/chrome/icons/default/default48.png $PKG/usr/share/pixmaps/firefox_default48.png
