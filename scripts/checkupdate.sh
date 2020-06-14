@@ -69,6 +69,10 @@ getver_aur() {
 	| sed 's/-.*//'
 }
 
+getver_python() {
+	getver_default | grep -v [[:alpha:]]
+}
+
 # main
 fetch() {
 	#wget -qO - -t 3 -T 10 $url
@@ -185,6 +189,8 @@ check() {
 				run_check getver_gnome;;
 			*archive.xfce.org*)
 				run_check getver_xfce4;;
+			*python.org*|*pypi.org*|*pythonhosted.org*|*pypi.io*)
+				run_check getver_python;;
 			*rubygems.org*)
 				run_check getver_ruby;;
 			*kde.org/stable/plasma*|*kde.org/stable/frameworks*|*kde.org/stable/applications*)
