@@ -2,11 +2,11 @@
 # depends	: coreutils gawk grep pciutils procps-ng sed
 
 name=inxi
-version=3.1.01.1
+version=3.1.03.1
 _ver=${version%.*}
 _sion=${version##*.}
 release=1
-source="$name-$version.tar.gz::https://github.com/smxi/inxi/archive/${_ver}-${_sion}.tar.gz"
+source="https://github.com/smxi/inxi/archive/${_ver}-${_sion}/$name-$version.tar.gz"
 
 build() {
 	cd $name-${_ver}-${_sion}
