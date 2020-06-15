@@ -1,0 +1,16 @@
+# description	: freedesktop.org backend for WPE WebKit
+# depends	: libwpe glib libxkbcommon
+
+name=wpebackend-fdo
+version=1.6.1
+release=1
+source="https://wpewebkit.org/releases/$name-$version.tar.xz"
+
+build() {
+	cmake -H$name-$version -Bbuild \
+	    -DCMAKE_BUILD_TYPE=Plain \
+	    -DCMAKE_INSTALL_PREFIX=/usr \
+	    -DCMAKE_INSTALL_LIBDIR=/usr/lib
+	cmake --build build
+	DESTDIR=$PKG cmake --build build --target install
+}

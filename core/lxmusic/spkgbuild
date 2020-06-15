@@ -1,0 +1,15 @@
+# description	: Lightweight XMMS2 client
+# depends	: gtk3 libnotify xmms2 intltool
+
+name=lxmusic
+version=0.4.7
+release=1
+source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
+

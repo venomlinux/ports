@@ -1,0 +1,33 @@
+# description	: Set of tools that manage logical partitions
+# depends	: libaio
+
+name=lvm2
+version=2.02.185
+release=1
+backup="etc/lvm/lvm.conf
+	etc/lvm/lvmlocal.conf"
+source="https://sourceware.org/pub/lvm2/LVM2.$version.tgz
+	portability.patch
+	fix-stdio-usage.patch
+	mlockall-default-config.patch"
+
+build() {
+	cd LVM2.$version
+
+	case $XHOST in
+		*-musl) 
+		        patch -Np0 -i $SRC/mlockall-default-config.patch
+		        patch -Np0 -i $SRC/fix-stdio-usage.patch
+		        patch -Np0 -i $SRC/portability.patch
+		;;
+	esac
+
+	PATH=$PATH:/sbin:/usr/sbin      \
+	./configure --prefix=/usr       \
+	            --exec-prefix=      \
+	            --enable-cmdlib     \
+	            --enable-pkgconfig  \
+	            --enable-udev_sync
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,20 @@
+# description	: X Window System image undumping utility
+# depends	: libx11 
+
+name=xwud
+version=1.0.5
+release=1
+source="http://ftp.x.org/pub/individual/app/xwud-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

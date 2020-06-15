@@ -1,0 +1,14 @@
+# description	: Programs to install and remove LSB based bootscripts
+
+name=initd-tools
+version=0.1.3
+release=1
+source="https://people.freedesktop.org/~dbn/initd-tools/releases/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/ --mandir=/usr/share/man
+	make
+	make DESTDIR=$PKG install
+}
+

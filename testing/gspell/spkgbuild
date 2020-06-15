@@ -1,0 +1,17 @@
+# description	: API to add spell checking to a GTK+ application
+# depends	: enchant
+
+name=gspell
+version=1.8.2
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/gspell/${version%.*}/gspell-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+}

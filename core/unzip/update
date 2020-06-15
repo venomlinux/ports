@@ -1,0 +1,6 @@
+port_getver() {
+	fetch \
+	| grep -Eo unzip[0-9.]+.tar.gz \
+	| sed 's/unzip//;s/\.tar\.gz//' \
+	| grep -Ev [0-9][0-9][0-9]
+}

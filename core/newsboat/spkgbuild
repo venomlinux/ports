@@ -1,0 +1,18 @@
+# description	: An RSS/Atom feed reader for text terminals
+# depends	: curl json-c libxml2 sqlite stfl asciidoc rust
+
+name=newsboat
+version=2.19
+release=1
+source="https://newsboat.org/releases/$version/newsboat-$version.tar.xz
+	newsboat.1.gz
+	podboat.1.gz"
+
+build() {
+	cd $name-$version
+	#./config.sh
+	make prefix=/usr newsboat podboat
+	install -d $PKG/usr/{bin,share/man/man1}
+	install -m 0755 newsboat podboat $PKG/usr/bin
+	install -m 0644 $SRC/*.1.gz $PKG/usr/share/man/man1
+}

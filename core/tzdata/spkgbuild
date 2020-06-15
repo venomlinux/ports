@@ -1,19 +1,18 @@
 # description	: Sources for time zone and daylight saving time data
 
 name=tzdata
-version=2019c
+version=2020a
 release=1
-source=(https://www.iana.org/time-zones/repository/releases/${name}${version}.tar.gz
-	https://www.iana.org/time-zones/repository/releases/tzcode${version}.tar.gz)
-md5sum=(f6987e6dfdb2eb83a1b5076a50b80894
-	195a17454c5db05cab96595380650391)
+source="https://www.iana.org/time-zones/repository/releases/${name}${version}.tar.gz
+	https://www.iana.org/time-zones/repository/releases/tzcode${version}.tar.gz"
 
 build() {
 	make
 	make DESTDIR=$PKG install
 
 	ZONEINFO=$PKG/usr/share/zoneinfo
-	mkdir -pv $ZONEINFO/{posix,right}
+	mkdir -pv $ZONEINFO/posix \
+	          $ZONEINFO/right
 
 	for tz in etcetera southamerica northamerica europe africa antarctica  \
 	          asia australasia backward pacificnew systemv; do

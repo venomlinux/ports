@@ -1,0 +1,35 @@
+# description	: A fork of the rEFIt boot manager
+# depends	: gnu-efi
+
+name=refind
+version=0.12.0
+release=1
+source="https://downloads.sourceforge.net/$name/$version/$name-src-$version.tar.gz"
+
+build() {
+        cd $name-$version
+        make gnuefi
+        make -j1 fs_gnuefi
+        for xx in $PKG/usr/bin $PKG/usr/share/$name/drivers_x64 $PKG/usr/share/$name/fonts $PKG/usr/share/$name/icons/svg $PKG/usr/share/$name/images $PKG/usr/share/$name/keys $PKG/usr/share/$name/tools_x64; do
+			install -d $xx
+		done
+        install -m 0644 $name/${name}_x64.efi $PKG/usr/share/$name/${name}_x64.efi
+        install -m 0644 drivers_x64/*.efi $PKG/usr/share/$name/drivers_x64/
+        install -m 0644 gptsync/gptsync_x64.efi $PKG/usr/share/$name/tools_x64/gptsync_x64.efi
+        for F in $name-install $name-mkdefault mkrlconf mvrefind fonts/mkfont.sh; do
+                install -m 0755 ${F} $PKG/usr/bin/$(basename ${F})
+        done
+        sed -i -e 's,RefindDir="$ThisDir/refind",RefindDir="/usr/share/refind",g' \
+                $PKG/usr/bin/$name-install
+        install -m 0644 fonts/*.png $PKG/usr/share/$name/fonts/
+        install -m 0644 icons/*.png $PKG/usr/share/$name/icons/
+        install -m 0644 icons/svg/*.svg $PKG/usr/share/$name/icons/svg/
+        for xx in bmp png svg; do
+			install -m 0644 images/*.$xx $PKG/usr/share/$name/images/
+		done
+		for xx in cer crt; do
+			install -m 0644 keys/*.$xx $PKG/usr/share/$name/keys/
+		done
+        install -m 0644 $name.conf-sample $PKG/usr/share/$name/$name.conf-sample
+}
+

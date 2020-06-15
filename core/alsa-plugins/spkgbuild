@@ -1,0 +1,14 @@
+# description	: Plugins for various audio libraries and sound servers
+# depends	: alsa-lib
+
+name=alsa-plugins
+version=1.2.2
+release=1
+source="ftp://ftp.alsa-project.org/pub/plugins/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}

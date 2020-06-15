@@ -1,8 +1,6 @@
-getver_tzdata() {
+port_getver() {
 	fetch \
 	| grep -Eo tzdata[0-9a-z.]+.tar.gz \
 	| sed 's/tzdata//;s/\.tar\.gz//' \
-	| grep -v beta \
-	| sort -V \
-	| uniq
+	| grep -v beta
 }

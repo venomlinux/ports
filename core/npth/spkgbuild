@@ -1,0 +1,14 @@
+# description	: Portable POSIX/ANSI-C based library for Unix platforms which provides non-preemptive priority-based scheduling for multiple threads of execution (multithreading) inside event-driven applications
+
+name=npth
+version=1.6
+release=1
+source="ftp://ftp.gnupg.org/gcrypt/$name/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

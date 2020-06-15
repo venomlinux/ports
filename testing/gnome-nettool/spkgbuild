@@ -1,0 +1,18 @@
+# description	: Network information tool which provides GUI interface
+# depends	: gtk3 itstool libgtop
+
+name=gnome-nettool
+version=3.8.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-nettool/${version%.*}/gnome-nettool-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	sed -i 's/%s ping/%s/' src/ping.h
+	sed -i '27 s/%s6/%s /' src/ping.h
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

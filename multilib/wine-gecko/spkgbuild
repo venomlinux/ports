@@ -1,0 +1,14 @@
+# description	: Wine's built-in replacement for Microsoft's Internet Explorer
+# depends	: wine
+
+name=wine-gecko
+version=2.47
+release=1
+options="!strip"
+source="http://dl.winehq.org/wine/wine-gecko/$version/wine_gecko-$version-x86_64.msi
+	http://dl.winehq.org/wine/wine-gecko/$version/wine_gecko-$version-x86.msi"
+
+build() {
+	install -Dm644 wine_gecko-$version-x86_64.msi $PKG/usr/share/wine/gecko/wine_gecko-$version-x86_64.msi
+	install -Dm644 wine_gecko-$version-x86.msi $PKG/usr/share/wine/gecko/wine_gecko-$version-x86.msi
+}

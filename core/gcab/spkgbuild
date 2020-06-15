@@ -1,0 +1,21 @@
+# description	: A GObject library to create cabinet files
+# depends	: glib gobject-introspection vala meson
+
+name=gcab
+version=1.4
+release=1
+source="https://ftp.gnome.org/pub/GNOME/sources/gcab/$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+
+	meson \
+		--prefix=/usr \
+		-Ddocs=false \
+		-Dtests=false
+	ninja
+	DESTDIR=$PKG ninja install
+}

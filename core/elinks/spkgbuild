@@ -1,0 +1,26 @@
+# description	: An advanced and well-established feature-rich text mode web browser
+# depends	: expat openssl zlib
+
+name=elinks
+version=20170613
+release=1
+source="http://crux.nu/files/distfiles/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	 autoreconf -i
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --enable-256-colors \
+                --enable-html-highlight \
+                --disable-nls \
+                --with-zlib \
+                --without-x \
+                --without-bzlib \
+                --without-lua
+	make CFLAGS="$CFLAGS -Wno-all"
+	make DESTDIR=$PKG install
+}

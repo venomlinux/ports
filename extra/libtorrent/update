@@ -1,9 +1,0 @@
-getver_libtorrent() {
-	fetch \
-	| grep archive \
-	| grep -Eo libtorrent-[0-9a-z_]+.tar.gz \
-	| sed 's/libtorrent-//;s/\.tar.*//;s/_/\./g' \
-	| grep -v ^1.2.* \
-	| sort -V \
-	| uniq
-}

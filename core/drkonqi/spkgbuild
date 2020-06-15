@@ -1,0 +1,22 @@
+# description	: The KDE crash handler
+# depends	: kidletime kxmlrpcclient extra-cmake-modules
+
+name=drkonqi
+version=5.18.4
+release=1
+source="https://download.kde.org/stable/plasma/$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+		 -DCMAKE_BUILD_TYPE=Release	\
+		 -DBUILD_TESTING=OFF		\
+		 -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}
+

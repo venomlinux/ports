@@ -1,10 +1,9 @@
 # description	: Management tools and libraries relating to cryptography
 
 name=openssl
-version=1.1.1d
+version=1.1.1g
 release=1
-source=(https://openssl.org/source/$name-$version.tar.gz)
-md5sum=(3be209000dbc7e1b95bcdf47980a3baa)
+source="https://openssl.org/source/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
@@ -20,6 +19,4 @@ build() {
 	sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 
 	make DESTDIR=$PKG MANDIR=/usr/share/man MANSUFFIX=ssl install
-
-	rm -r $PKG/usr/share/doc
 }

@@ -1,0 +1,17 @@
+# description	: Integration library for using GStreamer with Clutter
+# depends	: clutter gst-plugins-base libgudev
+
+name=clutter-gst
+version=3.0.27
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/clutter-gst/${version%.*}/clutter-gst-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+}

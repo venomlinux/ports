@@ -1,7 +1,0 @@
-getver_cdparanoia() {
-	fetch \
-	| grep -Eo cdparanoia-III-[0-9.]+.src.tgz \
-	| sed 's/cdparanoia-III-//;s/\.src\.tgz//' \
-	| sort -V \
-	| uniq
-}

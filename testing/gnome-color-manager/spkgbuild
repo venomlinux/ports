@@ -1,0 +1,23 @@
+# description	: Session framework for the GNOME desktop environment
+# depends	: colord-gtk itstool lcms2 libcanberra libexif
+
+name=gnome-color-manager
+version=3.32.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-color-manager/${version%.*}/gnome-color-manager-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	# disable installation of the man pages to avoid a build failure
+	sed /subdir\(\'man/d -i meson.build
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr --libexecdir=lib ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

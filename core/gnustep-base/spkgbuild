@@ -1,0 +1,16 @@
+# description	: The GNUstep base package
+# depends	: gnustep-make libffi icu gnutls libxml2 libxslt
+
+name=gnustep-base
+version=1.27.0
+_version=$(echo $version | sed 's/\./_/g')
+release=1
+source="https://github.com/gnustep/libs-base/releases/download/base-${_version}/gnustep-base-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	. /usr/share/GNUstep/Makefiles/GNUstep.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

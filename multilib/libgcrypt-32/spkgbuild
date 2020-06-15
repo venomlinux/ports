@@ -1,13 +1,10 @@
 # description	: A general purpose crypto library based on the code used in GnuPG
-# homepage	: https://www.gnupg.org/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: libgcrypt libgpg-error-32
 
 name=libgcrypt-32
 version=1.8.5
 release=1
-source=(ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-$version.tar.bz2)
-md5sum=(348cc4601ca34307fc6cd6c945467743)
+source="https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-$version.tar.bz2"
 
 build() {
 	cd libgcrypt-$version

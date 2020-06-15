@@ -1,0 +1,19 @@
+# description	: GNU Image Manipulation Program
+# depends	: gegl json-glib python2-gtk gtk2 mypaint-brushes gexiv2 poppler-glib glib-networking gtk3 librsvg
+
+name=gimp
+version=2.10.20
+release=1
+source="https://download.gimp.org/pub/$name/v${version%.*}/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+}

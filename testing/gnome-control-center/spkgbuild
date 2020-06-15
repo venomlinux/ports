@@ -1,0 +1,23 @@
+# description	: GNOME settings manager
+# depends	: accountsservice blocaled clutter-gtk colord-gtk gnome-online-accounts gnome-settings-daemon grilo gsound libgtop libpwquality udisks2 pulseaudio networkmanager network-manager-applet gnome-bluetooth samba krb5
+
+name=gnome-control-center
+version=3.34.2
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-control-center/${version%.*}/gnome-control-center-$version.tar.xz
+	0001-restore-consolekit-support.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/0001-restore-consolekit-support.patch
+	
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr --libexecdir=lib -Dcheese=false ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

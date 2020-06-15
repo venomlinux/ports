@@ -1,0 +1,21 @@
+# description	: Library designed to manipulate RSS and Atom feeds
+# depends	: libsoup
+
+name=libgrss
+version=0.7.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/libgrss/${version%.*}/libgrss-$version.tar.xz
+	libgrss-$version-bugfixes-1.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/libgrss-$version-bugfixes-1.patch
+
+	autoreconf -fiv
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+}

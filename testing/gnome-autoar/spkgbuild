@@ -1,0 +1,17 @@
+# description	: Framework for automatic archive extraction, compression, and management
+# depends	: gtk3 libarchive vala
+
+name=gnome-autoar
+version=0.2.4
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-autoar/${version%.*}/gnome-autoar-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+}

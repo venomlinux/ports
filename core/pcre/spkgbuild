@@ -1,12 +1,9 @@
 # description	: Perl Compatible Regular Expression libraries
-# homepage	: https://www.pcre.org/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=pcre
-version=8.43
+version=8.44
 release=1
-source=(ftp://ftp.pcre.org/pub/$name/$name-$version.tar.bz2)
-md5sum=(636222e79e392c3d95dcc545f24f98c4)
+source="ftp://ftp.pcre.org/pub/$name/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
@@ -25,6 +22,4 @@ build() {
 	install -d $PKG/lib
 	mv -v $PKG/usr/lib/libpcre.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libpcre.so) $PKG/usr/lib/libpcre.so
-
-	rm -r $PKG/usr/share/doc
 }

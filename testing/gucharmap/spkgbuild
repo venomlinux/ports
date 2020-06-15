@@ -1,0 +1,18 @@
+# description	: Unicode character map and font viewer
+# depends	: gtk3 itstool unzip wget
+
+name=gucharmap
+version=12.0.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gucharmap/${version%.*}/gucharmap-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	LIBS="-ldl"               \
+	./configure --prefix=/usr \
+		    --enable-vala \
+		    --with-unicode-data=download
+	make
+	make DESTDIR=$PKG install
+}

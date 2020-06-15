@@ -1,0 +1,20 @@
+# description	: File indexing and search provider used in the GNOME desktop environment
+# depends	: json-glib libseccomp libsoup vala sqlite upower
+
+name=tracker
+version=2.3.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/tracker/${version%.*}/tracker-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr --libexecdir=lib --sysconfdir=/etc ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

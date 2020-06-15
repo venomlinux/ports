@@ -1,0 +1,18 @@
+# description	: Utility used for taking screenshots
+# depends	: gtk3 libcanberra
+
+name=gnome-screenshot
+version=3.34.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-screenshot/${version%.*}/gnome-screenshot-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

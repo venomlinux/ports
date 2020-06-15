@@ -1,13 +1,10 @@
 # description	: Reading/writing various compression formats
-# homepage	: https://libarchive.org/
-# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
-# depends	: acl xz lz4 bzip2
+# depends	: acl xz bzip2
 
 name=libarchive
-version=3.4.0
+version=3.4.3
 release=1
-source=(https://github.com/libarchive/libarchive/releases/download/v$version/libarchive-$version.tar.gz)
-md5sum=(6046396255bd7cf6d0f6603a9bda39ac)
+source="https://github.com/libarchive/libarchive/releases/download/v$version/libarchive-$version.tar.gz"
 
 build() {
 	cd $name-$version
@@ -16,6 +13,9 @@ build() {
 		--prefix=/usr \
 		--without-xml2 \
 		--without-nettle \
+		--without-lz4 \
+		--without-zstd \
+		--without-openssl \
 		--disable-static
 	make
 	make DESTDIR=$PKG install

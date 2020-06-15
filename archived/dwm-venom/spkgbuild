@@ -1,0 +1,22 @@
+# description	: A dynamic window manager for X
+# depends	: dmenu freetype2 libx11 libxft libxinerama ohsnap siji-font st-venom
+
+name=dwm-venom
+version=20190603
+release=1
+_commit=840dab393a0d6d8d46c29c24e57f2ebf5238d82e
+source="$name-$version.tar.gz::https://github.com/venomlinux/dwm-venom/archive/$_commit.tar.gz
+	dwm.desktop
+	dwm-bar
+	config.h"
+
+build() {
+	cd $name-$_commit
+
+	cp $SRC/config.h .
+
+	make PREFIX=/usr DESTDIR=$PKG install
+
+	install -m644 -D $SRC/dwm.desktop $PKG/usr/share/xsessions/dwm.desktop
+	install -m755 -D $SRC/dwm-bar $PKG/usr/bin/dwm-bar
+}

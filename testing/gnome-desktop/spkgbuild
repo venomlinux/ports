@@ -1,0 +1,22 @@
+# description	: Library that provides an API shared by several applications on the GNOME Desktop
+# depends	: gsettings-desktop-schemas gtk3 iso-codes itstool libseccomp libxml2 xkeyboard-config bubblewrap meson
+
+name=gnome-desktop
+version=3.34.3
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-desktop/${version%.*}/gnome-desktop-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd build
+	
+	meson --prefix=/usr \
+	      --libexecdir=lib \
+	      -Dgnome_distributor="Venom Linux" ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

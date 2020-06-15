@@ -1,0 +1,22 @@
+# description	: Application used to burn CD/DVD on the GNOME Desktop
+# depends	: gst-plugins-base itstool libcanberra libnotify libisoburn libisofs totem-pl-parser
+
+name=brasero
+version=3.12.2
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/brasero/${version%.*}/brasero-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--enable-compile-warnings=no \
+		--enable-cxx-warnings=no \
+		--disable-nls \
+		--disable-schemas-compile
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+}

@@ -1,0 +1,17 @@
+# description	: Library providing facilities to integrate Clutter into GTK+ applications
+# depends	: gobject-introspection clutter gtk3
+
+name=clutter-gtk
+version=1.8.4
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/clutter-gtk/${version%.*}/clutter-gtk-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+}

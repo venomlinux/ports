@@ -1,0 +1,21 @@
+# description	: Convenience library for the Yahoo! Place Finder APIs
+# depends	: json-glib libsoup gobject-introspection
+
+name=geocode-glib
+version=3.26.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/geocode-glib/${version%.*}/geocode-glib-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson \
+		--prefix=/usr \
+		--libexecdir=lib \
+		-Denable-gtk-doc=false ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

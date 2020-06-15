@@ -1,0 +1,23 @@
+# description	: KDE Plasma Desktop
+# depends	: polkit-kde-agent-1 libcanberra libxkbfile kmenuedit systemsettings ksysguard kpeople baloo qt5 kactivities-stats extra-cmake-modules kdoctools boost xf86-input-evdev xf86-input-synaptics xorg-server python3 kdesignerplugin
+
+name=plasma-desktop
+version=5.18.4
+release=1
+source="https://download.kde.org/stable/plasma/$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
+		 -DCMAKE_BUILD_TYPE=Release	\
+		 -DBUILD_TESTING=OFF		\
+		 -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}
+

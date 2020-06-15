@@ -1,0 +1,23 @@
+# description	: KDE Plasma Workspace
+# depends	: kjsembed knotifyconfig libxdamage libksysguard ktexteditor qt5 xrdb xsetroot xmessage xprop kwin kdelibs4support kxmlrpcclient kidletime kxmlgui phonon-backend-gstreamer extra-cmake-modules kdoctools baloo krunner kxmlrpcclient networkmanager-qt kdesignerplugin kactivities-stats kpeople kscreen
+
+name=plasma-workspace
+version=5.18.4
+release=1
+source="https://download.kde.org/stable/plasma/$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+	      -DCMAKE_INSTALL_LIBEXECDIR=lib    \
+		 -DCMAKE_BUILD_TYPE=Release	\
+		 -DBUILD_TESTING=OFF		\
+		 -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}
+

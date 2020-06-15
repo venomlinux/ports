@@ -1,0 +1,22 @@
+# description	: KDE's terminal emulator
+# depends	: knotifyconfig kpty kparts kinit extra-cmake-modules kdoctools python3
+
+name=konsole
+version=19.12.3
+release=1
+source="https://download.kde.org/stable/release-service/$version/src/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	 \
+	      -DCMAKE_BUILD_TYPE=Release         \
+	      -DBUILD_TESTING=OFF                \
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}
+

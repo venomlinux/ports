@@ -1,0 +1,16 @@
+# description	: GObject wrapper for the Facebook Graph API
+# depends	: gnome-online-accounts rest
+
+name=gfbgraph
+version=0.2.3
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gfbgraph/${version%.*}/gfbgraph-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/doc $PKG/usr/share/gtk-doc
+}

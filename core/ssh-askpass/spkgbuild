@@ -1,0 +1,15 @@
+# description	: Passphrase dialog
+# depends	: gtk2
+
+name=ssh-askpass
+version=8.3p1
+release=1
+source="http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-$version.tar.gz"
+
+build() {
+	cd openssh-$version/contrib
+	make gnome-ssh-askpass2
+	install -v -d -m755 $PKG/usr/lib/openssh/contrib
+	install -v -m755 gnome-ssh-askpass2 $PKG/usr/lib/openssh/contrib
+	ln -sv contrib/gnome-ssh-askpass2 $PKG/usr/lib/openssh/ssh-askpass
+}

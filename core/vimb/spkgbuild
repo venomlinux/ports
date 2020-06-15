@@ -1,0 +1,13 @@
+# description	: Fast and lightweight web browser based on WebKit/GTK+
+# depends	: webkitgtk
+
+name=vimb
+version=3.6.0
+release=1
+source="https://github.com/fanglingsu/vimb/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make PREFIX=/usr
+	make PREFIX=/usr DESTDIR=$PKG install
+}

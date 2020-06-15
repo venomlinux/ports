@@ -1,0 +1,5 @@
+port_getver() {
+	fetch \
+	| grep -Eo exiv2-[0-9.]+-Source.tar.[bgx]z2? \
+	| sed 's/exiv2-//;s/-Source.*//'
+}

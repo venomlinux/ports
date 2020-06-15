@@ -1,0 +1,17 @@
+# description	: Contains a framework used to access the user's online accounts
+# depends	: gcr json-glib rest vala webkitgtk gobject-introspection
+
+name=gnome-online-accounts
+version=3.34.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-online-accounts/${version%.*}/gnome-online-accounts-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --libexecdir=/usr/lib --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
+}

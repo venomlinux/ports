@@ -1,0 +1,7 @@
+port_getver() {
+	fetch \
+	| grep archive \
+	| grep -Eo cowsay-[0-9a-z.]+\.tar\.gz \
+	| sed "s/\.tar\.gz//;s/^v//;s/^$filename-//" \
+	| grep -Evi '(alpha|beta|rc|example|pre|doc*)'
+}

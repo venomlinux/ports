@@ -1,15 +1,19 @@
 # description	: utilities and libraries for handling ELF files
 
 name=elfutils
-version=0.178
+version=0.180
 release=1
-source=(https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2)
-md5sum=(5480d0b7174446aba13a6adde107287f)
+source="https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2"
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --program-prefix="eu-" --disable-nls --disable-debuginfod
+	./configure \
+		--prefix=/usr \
+		--program-prefix="eu-" \
+		--disable-nls \
+		--disable-debuginfod \
+		--enable-deterministic-archives
 	make
 	make DESTDIR=$PKG install
 }

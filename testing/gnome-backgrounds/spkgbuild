@@ -1,0 +1,18 @@
+# description	: Collection of backgrounds in the GNOME Desktop environment
+# depends	: 
+
+name=gnome-backgrounds
+version=3.34.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-backgrounds/${version%.*}/gnome-backgrounds-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

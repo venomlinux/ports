@@ -1,0 +1,17 @@
+# description	: Small library for playing system sounds
+# depends	: 
+
+name=gsound
+version=1.0.2
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gsound/${version%.*}/gsound-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+}

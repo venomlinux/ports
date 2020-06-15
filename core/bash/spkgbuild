@@ -1,16 +1,31 @@
 # description	: The Bourne-Again SHell
-# homepage	: https://www.gnu.org/software/bash/bash.html
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: ncurses readline
 
 name=bash
-version=5.0
+version=5.0.017
+majver=${version%%.*}
+basever=${version%.*}
+patchver=${version##*.}
 release=1
-source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz)
-md5sum=(2b44b47b905be16f45709648f671820b)
+source="https://ftp.gnu.org/gnu/$name/$name-$basever.tar.gz
+	https://ftp.gnu.org/gnu/bash/bash-$basever-patches/bash${majver}0-$patchver"
+
+p=0; while [ $p -lt $patchver ]; do
+	p=$(( p + 1 ))
+	case $p in
+		 ?) s=00$p ;;
+		??) s=0$p  ;;
+		 *) s=$p   ;;
+	esac
+	source="$source https://ftp.gnu.org/gnu/bash/bash-$basever-patches/bash${majver}0-$s"
+done
 
 build() {
-	cd $name-$version
+	cd $name-$basever
+
+	for i in $SRC/bash${majver}0-*; do
+		patch -p0 -i $i
+	done
 
 	./configure --prefix=/usr \
 	            --without-bash-malloc \
@@ -22,6 +37,4 @@ build() {
 	mkdir -p $PKG/bin
 	mv $PKG/usr/bin/bash $PKG/bin
 	ln -s bash $PKG/bin/sh
-
-	rm -fr $PKG/usr/share/{doc,info}
 }

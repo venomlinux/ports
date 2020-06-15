@@ -1,0 +1,17 @@
+# description	: Window Navigator Construction Kit
+# depends	: gtk3 startup-notification gobject-introspection meson
+
+name=libwnck3
+version=3.36.0
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/libwnck/${version%.*}/libwnck-$version.tar.xz"
+
+build() {
+	cd libwnck-$version
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr -Dbuildtype=release -Dgtk_doc=false ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

@@ -1,0 +1,21 @@
+# description	: Terminal emulator for GNOME Desktop
+# depends	: dconf itstool pcre2 vte3
+
+name=gnome-terminal
+version=3.34.2
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-terminal/${version%.*}/gnome-terminal-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	./configure --prefix=/usr \
+		    --libexecdir=/usr/lib \
+	            --disable-static \
+		    --disable-search-provider \
+	            --without-nautilus-extension
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
+}

@@ -1,0 +1,17 @@
+# description	: Common development macros for GNOME
+# depends	: autoconf-archive
+
+name=gnome-common
+version=3.18.0
+release=2
+source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--with-autoconf-archive
+	make
+	make DESTDIR=$PKG install
+}

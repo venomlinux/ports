@@ -1,0 +1,15 @@
+# description	: Configurable talking cow (and a few other creatures)
+# depends	: perl
+
+name=cowsay
+version=3.04
+release=1
+source="https://github.com/tnalpgge/rank-amateur-cowsay/archive/cowsay-$version.tar.gz
+	$name.patch"
+
+build() {
+	cd rank-amateur-cowsay-$name-$version
+	patch -p1 -i ../cowsay.patch
+	sed 's:/man/:/share/man/:g' -i install.sh
+	./install.sh $PKG/usr
+}

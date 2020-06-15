@@ -1,0 +1,17 @@
+# description	: Lightweight C library that eases the writing of UNIX daemons
+# depends	: 
+
+name=libdaemon
+version=0.14
+release=1
+source="http://0pointer.de/lennart/projects/libdaemon/libdaemon-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
+}

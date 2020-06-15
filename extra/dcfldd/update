@@ -1,8 +1,0 @@
-getver_dcfldd() {
-	fetch \
-	| grep -Eo dcfldd-[0-9a-z.-]+.tar.[bgx]z2? \
-	| sed 's/dcfldd-//;s/\.tar.*//' \
-	| tr '-' '.' \
-	| sort -V \
-	| uniq
-}

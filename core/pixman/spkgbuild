@@ -1,0 +1,14 @@
+# description	: Library that provides low-level pixel manipulation features such as image compositing and trapezoid rasterization
+
+name=pixman
+version=0.40.0
+release=1
+source="https://cairographics.org/releases/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+  	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

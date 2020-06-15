@@ -1,0 +1,22 @@
+# description	: Generic interface into various existing spell checking libraries
+# depends	: glib
+
+name=enchant
+version=2.2.8
+release=1
+source="https://github.com/AbiWord/enchant/releases/download/v$version/enchant-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	# Create symlinks for this package version so that other other packages
+	# can find it using the old name
+	ln -sv enchant-2 $PKG/usr/include/enchant
+	ln -sv enchant-2 $PKG/usr/bin/enchant
+	ln -sv libenchant-2.so $PKG/usr/lib/libenchant.so
+	ln -sv enchant-2.pc $PKG/usr/lib/pkgconfig/enchant.pc
+}

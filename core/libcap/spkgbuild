@@ -1,13 +1,10 @@
 # description	: Implements the user-space interfaces to the POSIX 1003.1e capabilities available in Linux kernels
-# homepage	: https://sites.google.com/site/fullycapable/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: attr linux-api-headers
 
 name=libcap
-version=2.29
+version=2.36
 release=1
-source=(https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/$name-$version.tar.xz)
-md5sum=(dd865b8a0a13cb8e9768e832e00f9f11)
+source="https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
@@ -15,6 +12,9 @@ build() {
 	# use our buildflags
 	sed -i "s/CFLAGS :=/CFLAGS += \$(CPPFLAGS) /" Make.Rules
 	sed -i "s/LDFLAGS :=/LDFLAGS +=/" Make.Rules
+
+	# Disable tests, as they cause cross-build failure
+	sed -e '/test:/,/.sh/d' -e '/tests/d' -i Makefile
 
 	make GOLANG=no RAISE_SETFCAP=no lib=lib prefix=/usr DESTDIR=$PKG install
 	chmod -v 755 $PKG/usr/lib/libcap.so

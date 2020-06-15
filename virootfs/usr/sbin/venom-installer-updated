@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+[ "$(id -u)" = 0 ] || {
+	echo "Please as root."
+	exit 1
+}
+
+cd /tmp
+
+curl -# -o venom-installer https://raw.githubusercontent.com/venomlinux/ports/master/virootfs/usr/sbin/venom-installer && \
+chmod +x venom-installer && \
+./venom-installer "$@"

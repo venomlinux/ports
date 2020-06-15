@@ -1,0 +1,12 @@
+# description	: Wine's built-in replacement for Microsoft's .NET Framework
+# depends	: wine
+
+name=wine-mono
+version=5.1.0
+release=1
+options="!strip"
+source="http://dl.winehq.org/wine/wine-mono/$version/wine-mono-$version-x86.msi"
+
+build() {
+	install -Dm644 wine-mono-$version-x86.msi $PKG/usr/share/wine/mono/wine-mono-$version.msi
+}

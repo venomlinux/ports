@@ -1,0 +1,18 @@
+# description	: Libraries used for extending the GTK+ text functions to include syntax highlighting
+# depends	: gtk3 gobject-introspection
+
+name=gtksourceview4
+version=4.4.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gtksourceview/${version%.*}/gtksourceview-$version.tar.xz"
+
+build() {
+	cd gtksourceview-$version
+	
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

@@ -1,0 +1,24 @@
+# description	: LXQt system configuration
+# depends	: qt5 cmake xf86-input-libinput libkscreen
+
+name=lxqt-config
+version=0.14.1
+release=1
+source="https://downloads.lxqt.org/downloads/lxqt-config/$version/lxqt-config-$version.tar.xz
+	qt5.14-fix.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/qt5.14-fix.patch
+
+	mkdir -p build
+	cd build
+
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+	..
+	make
+	make DESTDIR=$PKG install
+}

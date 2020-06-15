@@ -1,14 +1,10 @@
 # description	: Key-table files, console fonts, and keyboard utilities
-# homepage	: http://www.kbd-project.org/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=kbd
 version=2.2.0
 release=1
-source=(https://www.kernel.org/pub/linux/utils/$name/$name-$version.tar.xz
-	$name-backspace-1.patch)
-md5sum=(d1d7ae0b5fb875dc082731e09cd0c8bc
-	f75cca16a38da6caa7d52151f7136895)
+source="https://www.kernel.org/pub/linux/utils/$name/$name-$version.tar.xz
+	$name-backspace-1.patch"
 
 build() {
 	cd $name-$version
@@ -23,5 +19,9 @@ build() {
 	make DESTDIR=$PKG install
 
 	mkdir -p $PKG/bin
-	mv -v $PKG/usr/bin/{dumpkeys,kbd_mode,loadkeys,setfont} $PKG/bin
+	mv -v $PKG/usr/bin/dumpkeys \
+	      $PKG/usr/bin/kbd_mode \
+	      $PKG/usr/bin/loadkeys \
+	      $PKG/usr/bin/setfont \
+	      $PKG/bin
 }

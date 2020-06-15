@@ -1,13 +1,10 @@
 # description	: Generates a perfect hash function from a key set
-# homepage	: https://www.gnu.org/software/gperf/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: gcc texinfo
 
 name=gperf
 version=3.1
 release=1
-source=(https://ftp.gnu.org/gnu/gperf/$name-$version.tar.gz)
-md5sum=(9e251c0a618ad0824b51117d5d9db87e)
+source="https://ftp.gnu.org/gnu/gperf/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
@@ -16,5 +13,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/{info,doc}
+	rm -r $PKG/usr/share/info \
+	      $PKG/usr/share/doc
 }

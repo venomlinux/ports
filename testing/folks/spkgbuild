@@ -1,0 +1,20 @@
+# description	: Library that aggregates people from multiple sources
+# depends	: evolution-data-server libgee python2 bluez telepathy-glib
+
+name=folks
+version=0.13.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/folks/${version%.*}/folks-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr --sysconfdir=/etc -Dbluez_backend=false ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

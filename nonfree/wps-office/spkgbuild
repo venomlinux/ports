@@ -1,0 +1,25 @@
+# description	: Kingsoft Office (WPS Office) is an office productivity suite
+# depends	: fontconfig libxrender desktop-file-utils shared-mime-info xdg-utils openssl1.0 sdl2 hicolor-icon-theme pulseaudio
+
+name=wps-office
+version=11.1.0.8392
+release=1
+source="http://kdl.cc.ksosoft.com/wps-community/download/8392/wps-office_${version}_amd64.deb"
+
+build() {
+	bsdtar -xf ${name}_${version}_amd64.deb
+	bsdtar -xf data.tar.xz -C $PKG
+
+	for xx in wps wpp et; do
+		sed -i 's|/opt/kingsoft/wps-office|/usr/lib|' $PKG/usr/bin/$xx
+	done
+	rm -fr $PKG/opt/kingsoft/wps-office/office6/mui/zh_CN
+	rm -fr $PKG/opt/kingsoft/wps-office/templates
+
+	install -d $PKG/usr/lib
+	mv $PKG/opt/kingsoft/wps-office/office6 $PKG/usr/lib
+	rm -fr $PKG/opt
+
+	mkdir -p $PKG/etc/revdep.d/
+	echo "/usr/lib/office6/" > $PKG/etc/revdep.d/$name.conf
+}

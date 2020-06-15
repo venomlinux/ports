@@ -1,0 +1,30 @@
+# description	: GNOME session manager
+# depends	: dbus-glib 
+
+name=gnome-session
+version=3.34.2
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-session/${version%.*}/gnome-session-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	sed 's@/bin/sh@/bin/sh -l@' -i gnome-session/gnome-session.in
+
+	mkdir build
+	cd    build
+	
+	meson \
+		--prefix=/usr \
+		--libexecdir=lib \
+		-Dconsolekit=true \
+		-Dsystemd_journal=false \
+		-Dsystemd=false \
+		-Dsystemd_session=disable \
+		-Dsystemd_journal=false \
+	      ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale $PKG/usr/share/doc
+}

@@ -1,0 +1,36 @@
+# description	: System service that is responsible for providing graphical logins and managing local and remote displays
+# depends	: 
+
+name=gdm
+version=3.34.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gdm/${version%.*}/gdm-$version.tar.xz
+	0001-restore-consolekit-support.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/0001-restore-consolekit-support.patch
+
+	autoreconf -vif
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--without-plymouth \
+		--disable-static \
+		--enable-gdm-xsession \
+		--with-systemdsystemunitdir=no \
+		--with-pam-mod-dir=/lib/security \
+		--with-default-pam-config=lfs \
+		--with-console-kit \
+		--with-consolekit-directory=/usr/lib/consoleKit \
+		--without-systemd \
+		--disable-user-display-server \
+		--disable-schemas-compile \
+		--disable-systemd-journal \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+}

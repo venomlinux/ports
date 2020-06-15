@@ -1,0 +1,50 @@
+# package install script
+
+action=$1
+newversion=$2
+oldversion=$3
+
+_xmlcatalog() {
+	xmlcatalog --noout "$@" /etc/xml/catalog
+}
+
+post_install() {	
+	version=$1
+
+	[ -f /etc/xml/catalog ] || _xmlcatalog --create
+
+	for ver in $version current; do
+		for x in rewriteSystem rewriteURI; do
+			_xmlcatalog --add $x http://cdn.docbook.org/release/xsl/$ver \
+			/usr/share/xml/docbook/xsl-stylesheets-$version
+
+			_xmlcatalog --add $x http://docbook.sourceforge.net/release/xsl-ns/$ver \
+			/usr/share/xml/docbook/xsl-stylesheets-$version
+
+			_xmlcatalog --add $x http://docbook.sourceforge.net/release/xsl/$ver \
+			/usr/share/xml/docbook/xsl-stylesheets-nons-$version
+		done
+	done
+
+	unset version
+}
+
+post_remove() {	
+	version=$1
+	_xmlcatalog --del "/usr/share/xml/docbook/xsl-stylesheets-$version"
+	_xmlcatalog --del "/usr/share/xml/docbook/xsl-stylesheets-nons-$version"
+	unset version
+}
+
+case $action in
+	post-install)
+		post_install $newversion
+		;;
+	post-upgrade)
+		post_remove $oldversion
+		post_install $newversion
+		;;
+	post-remove)
+		post_remove $newversion
+		;;
+esac

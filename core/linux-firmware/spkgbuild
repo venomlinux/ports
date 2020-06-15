@@ -1,13 +1,10 @@
 # description	: Firmware files for Linux
-# homepage	: http://git.kernel.org/?p=linux/kernel/git/firmware/linux-firmware.git;a=summary
-# maintainer	: Emmett1, emmett1.2miligrams at gmail.com
 
 name=linux-firmware
-version=20191215
+version=20200519
 release=1
-options=(!strip)
-source=(https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-$version.tar.gz)
-md5sum=(0d019854c8a0b0e81514bc968d1a56c7)
+options="!strip"
+source="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-$version.tar.gz"
 
 build() {
 	cd $name-$version

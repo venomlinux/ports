@@ -1,0 +1,18 @@
+# description	: Collection of GStreamer effects
+# depends	: 
+
+name=gnome-video-effects
+version=0.5.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-video-effects/${version%.*}/gnome-video-effects-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

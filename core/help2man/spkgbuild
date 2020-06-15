@@ -1,0 +1,18 @@
+# description	: Conversion tool to create man files
+
+name=help2man
+version=1.47.15
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+                    --mandir=/usr/share/man \
+	            --infodir=/usr/share/info \
+	            --libdir=/usr/lib
+	make
+	make DESTDIR=$PKG install
+}
+

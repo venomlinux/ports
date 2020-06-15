@@ -1,0 +1,14 @@
+# description	: Stylesheets for Yelp
+# depends	: intltool itstool
+
+name=yelp-xsl
+version=3.36.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/yelp-xsl/${version%.*}/yelp-xsl-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

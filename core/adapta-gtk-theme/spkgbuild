@@ -1,0 +1,19 @@
+# description	: An adaptive Gtk+ theme based on Material Design Guidelines
+# depends	: parallel ruby-sass gtk3 gtk2 inkscape gtk-engine-murrine sassc
+
+name=adapta-gtk-theme
+version=3.95.0.11
+release=1
+source="https://github.com/adapta-project/adapta-gtk-theme/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./autogen.sh \
+	    --prefix='/usr' \
+	    --enable-parallel \
+	    --enable-plank \
+	    --enable-telegram \
+	    --disable-unity
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,23 @@
+# description	: Hardware integration and detection
+# depends	: qt5 upower udisks2 extra-cmake-modules
+
+name=solid
+version=5.68.0
+release=1
+source="https://download.kde.org/stable/frameworks/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	\
+	      -DCMAKE_PREFIX_PATH=/usr		\
+	      -DCMAKE_BUILD_TYPE=Release	\
+	      -DBUILD_TESTING=OFF		\
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}
+

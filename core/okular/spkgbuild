@@ -1,0 +1,24 @@
+# description	: Document Viewer
+# depends	: libkexiv2 poppler qca kpty kactivities threadweaver kjs kparts libtiff extra-cmake-modules kdoctools khtml python3
+
+name=okular
+version=19.12.3
+release=1
+source="https://download.kde.org/stable/release-service/$version/src/okular-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	 \
+	      -DCMAKE_BUILD_TYPE=Release         \
+	      -DBUILD_TESTING=OFF                \
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+	
+        rm -r $PKG/usr/share/man/{ca,uk,nl,pt_BR,et,fr,de,ru,it,es,pt,sv}
+}
+

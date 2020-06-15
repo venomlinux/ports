@@ -1,0 +1,20 @@
+# description	: Fork of few GSD components to make GNOME work without systemd
+# depends	: dbus-glib polkit
+
+name=opensettings
+version=1.2
+release=1
+source="https://github.com/ataraxialinux/opensettings/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	autoreconf -vif
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--bindir=/usr/bin
+	make
+	make DESTDIR=$PKG install
+}

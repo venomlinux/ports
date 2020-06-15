@@ -1,0 +1,23 @@
+# description	: Applications used for dealing with storage devices
+# depends	: gnome-settings-daemon itstool libdvdread libsecret udisks2
+
+name=gnome-disk-utility
+version=3.34.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-disk-utility/${version%.*}/gnome-disk-utility-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr \
+	      --libexecdir=lib \
+	      --sysconfdir=/etc \
+	      -Dlogind=none
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

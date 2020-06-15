@@ -1,9 +1,0 @@
-url=$(dirname $url)
-
-getver_krb5() {
-	fetch \
-	| grep folder \
-	| sed 's,.*HREF=",,;s,\/.*,,' \
-	| sort -V \
-	| grep -v [a-z]
-}

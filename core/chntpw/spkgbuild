@@ -1,0 +1,16 @@
+# description	: Offline NT Password Editor - reset passwords in a Windows NT SAM user database file
+# depends	: openssl
+
+name=chntpw
+version=140201
+release=1
+source="http://pogostick.net/~pnh/ntpasswd/$name-source-$version.zip"
+
+build() {
+	cd $name-$version
+	sed -i 's/^CFLAGS= \(.*\) -m32 $/CFLAGS= \1/' Makefile
+	make
+	install -Dm0755 $name $PKG/usr/bin/$name
+	install -Dm0755 reged $PKG/usr/bin/reged
+	install -Dm0755 cpnt $PKG/usr/bin/cpnt
+}

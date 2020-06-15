@@ -1,0 +1,15 @@
+# description	: Ncurses CD writer program which uses cdrecord and mkisofs
+# depends	: cdrtools ncurses libburn libcdio
+
+name=cdw
+version=0.8.1
+release=1
+source="https://sourceforge.net/projects/$name/files/$name/${name}%20${version}/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make prefix=$PKG/usr install
+}

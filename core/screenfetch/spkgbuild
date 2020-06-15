@@ -1,0 +1,14 @@
+# description	: Fetches system/theme information in terminal for Linux desktop screenshots
+# optdepends	: scrot
+
+name=screenfetch
+version=3.9.1
+release=1
+source="$name-$version.tar.gz::https://github.com/KittyKatt/screenFetch/archive/v$version.tar.gz"
+
+build() {
+	cd screenFetch-$version
+
+	install -Dm755 $name-dev $PKG/usr/bin/$name
+	install -Dm644 $name.1   $PKG/usr/share/man/man1/$name.1 
+}

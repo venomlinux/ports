@@ -1,0 +1,29 @@
+# description	: Window manager for GNOME
+# depends	: clutter gnome-settings-daemon libcanberra libwacom libxkbcommon pipewire upower zenity wayland wayland-protocols blocaled libinput
+
+name=mutter
+version=3.34.3
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/mutter/${version%.*}/mutter-$version.tar.xz
+	0001-fix-libglvnd-support.patch
+	drm.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/0001-fix-libglvnd-support.patch
+	patch -Np1 -i $SRC/drm.patch
+	
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr \
+	      --libexecdir=lib \
+	      -Dprofiler=false \
+	      -Dtests=false \
+	      -Dnative_backend=false ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

@@ -1,0 +1,19 @@
+# description	: Library providing freedesktop.org XDG specs implementations for Qt
+# depends	: qt5 cmake lxqt-build-tools
+
+name=libqtxdg
+version=3.3.1
+release=1
+source="https://downloads.lxqt.org/downloads/libqtxdg/$version/libqtxdg-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+	..
+	make
+	make DESTDIR=$PKG install
+}

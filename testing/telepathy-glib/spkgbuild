@@ -1,0 +1,19 @@
+# description	: Library used by GLib based Telepathy components
+# depends	: dbus-glib libxslt
+
+name=telepathy-glib
+version=0.24.1
+release=1
+source="https://telepathy.freedesktop.org/releases/telepathy-glib/telepathy-glib-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+		--enable-vala-bindings \
+	        --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+}

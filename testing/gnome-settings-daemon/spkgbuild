@@ -1,0 +1,23 @@
+# description	: Setting various parameters of a GNOME Session and the applications
+# depends	: colord fontconfig geoclue geocode-glib gnome-desktop lcms2 libcanberra libgweather libnotify upower xf86-input-wacom libwacom opensettings
+
+name=gnome-settings-daemon
+version=3.34.2
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-settings-daemon/${version%.*}/gnome-settings-daemon-$version.tar.xz
+	0001-restore-consolekit-support.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/0001-restore-consolekit-support.patch
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr --libexecdir=lib --sysconfdir=/etc -Dsystemd=false ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

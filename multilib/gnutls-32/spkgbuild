@@ -2,17 +2,16 @@
 # depends	: gnutls gmp-32 nettle-32 libtasn1-32 p11-kit-32
 
 name=gnutls-32
-version=3.6.11.1
+version=3.6.14
 release=1
-source=(https://www.gnupg.org/ftp/gcrypt/gnutls/v${version%.*}/${name/-32/}-${version}.tar.xz)
-md5sum=(3670ee0b0d95b3dee185eff2dc910ee7)
+source="https://www.gnupg.org/ftp/gcrypt/gnutls/v${version%.*}/${name/-32/}-${version}.tar.xz"
 
 build() {
 	cd gnutls-$version
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	./configure --prefix=/usr \
 		    --libdir=/usr/lib32 \

@@ -1,0 +1,21 @@
+# description	: GNOME's replacement for gtop
+# depends	: adwaita-icon-theme gtkmm3 itstool libgtop librsvg
+
+name=gnome-system-monitor
+version=3.32.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-system-monitor/${version%.*}/gnome-system-monitor-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr --libexecdir=lib -Dsystemd=false ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}
+

@@ -1,0 +1,16 @@
+# description	: Caja actions is an extension for Caja, the MATE file manager
+# depends	: glib gtk3 gdk-pixbuf libgtop caja gtk-doc
+
+name=caja-actions
+version=1.8.3
+release=1
+source="$name-$version.tar.gz::https://github.com/raveit65/caja-actions/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	NOCONFIGURE=1 ./autogen.sh
+	./configure --prefix=/usr --libexecdir=/usr/lib --with-gtk=3
+	make
+	make DESTDIR=$PKG install
+}

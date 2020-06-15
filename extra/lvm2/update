@@ -1,7 +1,0 @@
-getver_lvm2() {
-	fetch \
-	| grep -Eo LVM2.[0-9.]+.tgz \
-	| sed 's/LVM2\.//;s/\.tgz//' \
-	| sort -V \
-	| uniq
-}

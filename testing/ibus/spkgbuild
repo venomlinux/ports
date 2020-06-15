@@ -1,0 +1,30 @@
+# description	: Input framework for the Linux OS
+# depends	: dconf iso-codes
+
+name=ibus
+version=1.5.21
+release=1
+source="https://github.com/ibus/ibus/releases/download/$version/ibus-$version.tar.gz
+	ibus-$version-upstream_fixes-1.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/ibus-$version-upstream_fixes-1.patch
+
+	# deprecated schema entries
+	sed -i 's@/desktop/ibus@/org/freedesktop/ibus@g' \
+	    data/dconf/org.freedesktop.ibus.gschema.xml
+
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+		--sysconfdir=/etc \
+		--disable-unicode-dict \
+		--disable-emoji-dict
+	rm -f tools/main.c
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale $PKG/usr/share/gtk-doc
+}

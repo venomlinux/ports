@@ -1,0 +1,20 @@
+# description	: Application used for viewing and cataloging image files on the GNOME Desktop
+# depends	: adwaita-icon-theme exempi gnome-desktop itstool libjpeg-turbo libpeas
+
+name=eog
+version=3.34.2
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/eog/${version%.*}/eog-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

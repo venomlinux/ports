@@ -1,0 +1,18 @@
+# description	: GObject-based wrapper around the Exiv2 library
+# depends	: exiv2 vala meson
+
+name=gexiv2
+version=0.12.1
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/gexiv2/${version%.*}/gexiv2-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr
+	ninja
+	DESTDIR=$PKG ninja install
+}

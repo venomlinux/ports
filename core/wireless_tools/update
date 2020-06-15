@@ -1,0 +1,9 @@
+filename=wireless_tools
+url=https://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/Tools.html
+
+port_getver() {
+	fetch \
+	| grep -Eo wireless_tools.[0-9.]+.tar.gz \
+	| sed 's/wireless_tools\.//;s/\.tar\.gz//'
+}
+

@@ -1,16 +1,12 @@
 # description	: Provides data for network services and protocols
-# homepage	: https://www.iana.org/protocols
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 
 name=iana-etc
-version=2.30
+version=20200525
 release=1
-source=(http://anduin.linuxfromscratch.org/LFS/$name-$version.tar.bz2)
+source="services protocols"
 
 build() {
-	cd $name-$version
-
-	make
-	make DESTDIR=$PKG install
+	install -d -m 755 $PKG/etc
+	install -m 644 services $PKG/etc
+	install -m 644 protocols $PKG/etc
 }
-md5sum=(3ba3afb1d1b261383d247f46cb135ee8)

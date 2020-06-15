@@ -1,20 +1,22 @@
 # description	: Vi Improved, a highly configurable, improved version of the vi text editor
-# homepage	: https://www.vim.org/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: acl gawk
 
 name=vim
-version=8.2.0000
+version=8.2.0890
 release=1
-source=(https://github.com/vim/vim/archive/v$version/vim-v$version.tar.gz)
-md5sum=(319ba0ac832a2151a8492c8445fc1e9c)
+source="https://github.com/vim/vim/archive/v$version/vim-v$version.tar.gz"
 
 build() {
 	cd vim-$version
 
 	echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 
-	./configure --prefix=/usr --enable-multibyte --disable-gui
+	./configure \
+		--prefix=/usr \
+		--enable-multibyte \
+		--disable-gui \
+		--with-tlib=ncursesw \
+		--without-x
 	make
 	make DESTDIR=$PKG install
 
@@ -23,9 +25,8 @@ build() {
 	mv $SRC/man1 $PKG/usr/share/man/man1
 
 	# no desktop files and icons
-	rm -r $PKG/usr/share/{applications,icons}
-
-	ln -sv vim $PKG/usr/bin/vi
+	rm -r $PKG/usr/share/applications \
+	      $PKG/usr/share/icons
 
 	mkdir -pv $PKG/etc
 cat > $PKG/etc/vimrc << "EOF"
@@ -45,4 +46,6 @@ endif
 
 " End /etc/vimrc
 EOF
+
+	ln -sv vim $PKG/usr/bin/vi
 }

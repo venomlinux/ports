@@ -1,0 +1,14 @@
+# description	: Implementation of the org.freedesktop.locale1 D–Bus protocol
+# depends	: polkit libdaemon
+
+name=blocaled
+version=0.1
+release=1
+source="https://github.com/pierre-labastie/blocaled/releases/download/v$version/blocaled-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib
+	make
+	make DESTDIR=$PKG install
+}

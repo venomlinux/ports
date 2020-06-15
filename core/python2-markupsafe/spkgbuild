@@ -1,0 +1,14 @@
+# description	: Python module that implements a XML/HTML/XHTML Markup safe string
+# depends	: python2 python2-setuptools
+
+name=python2-markupsafe
+version=1.1.1
+release=1
+source="https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-$version.tar.gz"
+
+build() {
+	cd MarkupSafe-$version
+	
+	python2 setup.py build
+	python2 setup.py install --root=$PKG --optimize=1
+}

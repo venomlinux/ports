@@ -1,0 +1,19 @@
+# description	: Prints out the capabilities of any video adaptors associated with the display that are accessible through the X-Video extension
+# depends	: libxv libx11 
+
+name=xvinfo
+version=1.1.4
+release=1
+source="http://ftp.x.org/pub/individual/app/xvinfo-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

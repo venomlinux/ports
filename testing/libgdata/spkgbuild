@@ -1,0 +1,20 @@
+# description	: GLib-based library for accessing online service APIs using the GData protocol
+# depends	: libsoup liboauth gnome-online-accounts gtk3 uhttpmock vala gobject-introspection gcr
+
+name=libgdata
+version=0.17.11
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/libgdata/${version%.*}/libgdata-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr --libexecdir=lib -Dgtk_doc=false ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

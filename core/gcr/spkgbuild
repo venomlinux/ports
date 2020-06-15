@@ -1,0 +1,22 @@
+# description	: Libraries used for displaying certificates and accessing key stores
+# depends	: glib libgcrypt p11-kit gtk3 gobject-introspection vala meson gnupg
+
+name=gcr
+version=3.36.0
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	sed -i -r 's:"(/desktop):"/org/gnome\1:' schema/*.xml
+
+	mkdir build-glib
+        cd    build-glib
+
+        meson --prefix=/usr \
+              --libexecdir=lib \
+	      -Dgtk_doc=false
+	ninja
+	DESTDIR=$PKG ninja install
+}

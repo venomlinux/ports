@@ -1,0 +1,18 @@
+# description	: Application that allows you to monitor the current weather
+# depends	: gjs libgweather
+
+name=gnome-weather
+version=3.34.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-weather/${version%.*}/gnome-weather-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

@@ -1,26 +1,23 @@
 # description	: The GNU compiler collection, which includes the C and C++ compilers
-# homepage	: http://gcc.gnu.org/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: binutils
 
 name=gcc
-version=9.2.0
+version=9.3.0
 release=1
-source=(https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
-	c89 c99)
-md5sum=(3818ad8600447f05349098232c2ddc78
-	3d333df77302ed89e06a4a8539943b7d
-	da96f545b863e57c6ab2598c1ea9a740)
+source="https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
+	c89 c99"
 
 build() {
 	cd $name-$version
 
-	if [ "$OSTYPE" = "linux-musl" ]; then
-		buildflags="--disable-multilib --disable-libsanitizer"
-	else
-		buildflags="--enable-multilib"
-	fi
+	case $XHOST in
+		*-musl) _config="--disable-multilib --disable-libsanitizer"
+		        _pkgversion="Venom Linux (musl) $version-$release";;
+		*)      _config="--enable-multilib"
+		        _pkgversion="Venom Linux $version-$release";;
+	esac
 
+	# /lib is 64bit libraries directory
 	sed -e '/m64=/s/lib64/lib/' \
 	    -i.orig gcc/config/i386/t-linux64
 
@@ -30,15 +27,21 @@ build() {
 	mkdir -v build
 	cd       build
 
-	SED=sed                               \
-	../configure --prefix=/usr            \
-		     --libexecdir=/usr/lib    \
-	             --enable-languages=c,c++,objc,obj-c++ \
-	             --disable-bootstrap      \
-		     --disable-libmpx         \
-	             --with-system-zlib       \
-		     --disable-nls	      \
-		     $buildflags
+	SED=sed \
+	../configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+		--enable-languages=c,c++,objc,obj-c++ \
+		--disable-bootstrap \
+		--disable-libmpx \
+		--with-system-zlib \
+		--disable-nls \
+		--with-pkgversion="$_pkgversion" \
+		--enable-threads=posix \
+		--enable-__cxa_atexit \
+		--enable-default-pie \
+		--enable-default-ssp \
+		$_config
 	make
 	make -j1 DESTDIR=$PKG install
 
@@ -56,5 +59,5 @@ build() {
 	install -Dm755 $SRC/c89 $PKG/usr/bin/c89
 	install -Dm755 $SRC/c99 $PKG/usr/bin/c99
 
-	rm -fr $PKG/usr/share/{info,$name-$version}
+	rm -r $PKG/usr/share/$name-$version
 }

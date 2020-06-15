@@ -1,0 +1,28 @@
+# description	: Binary build of the GNU version of the Mozilla Firefox browser
+# depends	: dbus-glib gtk2 gtk3 libxt nss
+
+name=icecat-bin
+version=60.7.0
+release=1
+
+_name=icecat
+_version=$version-gnu1
+
+source="https://ftp.gnu.org/gnu/gnuzilla/$version/$_name-$version.en-US.gnulinux-x86_64.tar.bz2
+	$_name.desktop
+	$_name-safe.desktop
+	$_name-launcher.sh"
+
+build() {
+	install -d $PKG/usr/lib/$_name
+
+	cp -a $SRC/$_name/* $PKG/usr/lib/$_name/
+
+	install -d $PKG/usr/share/applications
+	install -m644 $SRC/$_name.desktop $PKG/usr/share/applications
+	install -m644 $SRC/$_name-safe.desktop $PKG/usr/share/applications
+	install -d $PKG/usr/share/pixmaps
+	install -m644 $SRC/$_name/browser/chrome/icons/default/default128.png $PKG/usr/share/pixmaps/$_name.png
+	install -d $PKG/usr/bin/
+	install -m755 $SRC/$_name-launcher.sh $PKG/usr/bin/$_name
+}

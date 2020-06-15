@@ -1,0 +1,16 @@
+# description	: Set of C++ bindings for GLib
+# depends	: glib libsigc++
+
+name=glibmm
+version=2.64.2
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	sed -i -e 's/^doc_subdirs/#doc_subdirs/' Makefile
+	make DESTDIR=$PKG install
+}

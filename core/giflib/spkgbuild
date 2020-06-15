@@ -1,0 +1,13 @@
+# description	: Libraries for reading and writing GIFs as well as programs for converting and working with GIF files
+
+name=giflib
+version=5.2.1
+release=1
+source="https://downloads.sourceforge.net/giflib/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make
+	make PREFIX=$PKG/usr install
+	rm $PKG/usr/lib/libgif.a
+}

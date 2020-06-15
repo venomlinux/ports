@@ -1,0 +1,28 @@
+# description	: A non-linear video editor for Linux using the MLT video framework
+# depends	: mlt extra-cmake-modules kdoctools python3 v4l-utils
+
+name=kdenlive
+version=19.12.3
+release=1
+source="https://download.kde.org/stable/release-service/$version/src/kdenlive-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	sed -e '/KLocal/a #include <functional>' \
+	    -i src/profiles/tree/profiletreemodel.cpp
+
+	sed -e '/abs/s/leftDist/(int)&/' \
+	    -i src/scopes/audioscopes/spectrogram.cpp
+
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr	 \
+	      -DCMAKE_BUILD_TYPE=Release         \
+	      -DBUILD_TESTING=OFF                \
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+}
+

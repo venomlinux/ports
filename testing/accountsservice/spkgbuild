@@ -1,0 +1,26 @@
+# description	: D-Bus interfaces for querying and manipulating user account information
+# depends	: libgcrypt polkit
+
+name=accountsservice
+version=0.6.55
+release=1
+source="https://www.freedesktop.org/software/accountsservice/accountsservice-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd build
+	
+	meson \
+		--prefix=/usr \
+		--libexecdir=lib \
+		-Dadmin_group=wheel \
+		-Delogind=false \
+		-Dsystemdsystemunitdir=no \
+		..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

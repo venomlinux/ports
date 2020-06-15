@@ -1,23 +1,18 @@
 # description	: Contains math libraries that useful functions for arbitrary precision arithmetic
-# homepage	: https://gmplib.org/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: gcc bash
 
 name=gmp
-version=6.1.2
-release=2
-source=(https://ftp.gnu.org/gnu/gmp/$name-$version.tar.xz)
-md5sum=(f58fa8001d60c4c77595fbbb62b63c1d)
+version=6.2.0
+release=1
+source="https://ftp.gnu.org/gnu/gmp/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr    \
-	            --enable-cxx     \
-	            --build=x86_64-unknown-linux-gnu \
+	./configure --prefix=/usr \
+	            --enable-cxx \
+	            --build=${XHOST:-x86_64-unknown-linux-gnu} \
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share
 }

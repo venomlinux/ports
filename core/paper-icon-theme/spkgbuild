@@ -1,0 +1,15 @@
+# description	: Paper is an open source desktop theme and icon project by Sam Hewitt
+# depends	: gtk3 meson
+
+name=paper-icon-theme
+version=1.5.0
+release=1
+options="!strip"
+source="$name-$version.tar.gz::https://github.com/snwh/$name/archive/v.$version.tar.gz"
+
+build() {
+	cd $name-v.$version
+
+	meson "build" --prefix=/usr
+	DESTDIR=$PKG ninja -C "build" install
+}

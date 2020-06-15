@@ -1,0 +1,17 @@
+# description	: An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent (no gui)
+# depends	: libtorrent boost qt5
+
+name=qbittorrent-nox
+version=4.2.5
+release=1
+source="https://downloads.sourceforge.net/qbittorrent/qbittorrent-$version.tar.xz"
+
+build() {
+	cd qbittorrent-$version
+
+	export QBT_ADD_CONFIG='nostrip'
+
+	./configure --prefix=/usr --disable-gui
+	make
+	make INSTALL_ROOT=$PKG install
+}

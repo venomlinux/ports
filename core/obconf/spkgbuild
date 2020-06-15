@@ -1,0 +1,15 @@
+# description	: A GTK2 based configuration tool for the Openbox windowmanager
+# depends	: libglade openbox startup-notification desktop-file-utils gtk2 libsm
+
+name=obconf
+version=2.0.4
+release=1
+source="http://www.openbox.org/dist/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-nls
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,20 @@
+# description	: Graphical interface for managing and using encryption keys
+# depends	: gcr gnupg gpgme itstool libpwquality libsecret gnome-keyring
+
+name=seahorse
+version=3.34
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/seahorse/$version/seahorse-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	sed -i -r 's:"(/apps):"/org/gnome\1:' data/*.xml
+
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr -Dldap-support=false ..
+	ninja
+	make DESTDIR=$PKG install
+}

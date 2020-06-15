@@ -1,13 +1,10 @@
 # description	: A library for the arithmetic of complex numbers with arbitrarily high precision and correct rounding of the result
-# homepage	: http://www.multiprecision.org/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depdends	: mpfr
+# depends	: mpfr
 
 name=libmpc
 version=1.1.0
 release=1
-source=(https://ftp.gnu.org/gnu/mpc/mpc-$version.tar.gz)
-md5sum=(4125404e41e482ec68282a2e687f6c73)
+source="https://ftp.gnu.org/gnu/mpc/mpc-$version.tar.gz"
 
 build() {
 	cd mpc-$version
@@ -16,6 +13,4 @@ build() {
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share
 }

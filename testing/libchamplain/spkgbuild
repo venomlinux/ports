@@ -1,0 +1,18 @@
+# description	: Clutter-based widget that is used to display rich and interactive maps
+# depends	: gobject-introspection vala gtk3 libsoup sqlite clutter-gtk
+
+name=libchamplain
+version=0.12.20
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/libchamplain/${version%.*}/libchamplain-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

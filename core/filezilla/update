@@ -1,0 +1,6 @@
+port_getver() {
+	fetch \
+	| grep -Eo FileZilla_[0-9a-z.]+_src.tar.[bgx]z2? \
+	| grep -v latest \
+	| sed 's/FileZilla_//;s/_src.*//'
+}

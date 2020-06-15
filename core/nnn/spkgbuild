@@ -1,0 +1,12 @@
+# description	: Free, fast, friendly file browser
+# depends	: ncurses readline
+
+name=nnn
+version=3.2
+release=1
+source="https://github.com/jarun/$name/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make DESTDIR=$PKG PREFIX=/usr install
+}

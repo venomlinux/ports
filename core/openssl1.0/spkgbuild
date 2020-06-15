@@ -1,0 +1,36 @@
+# description	: Libraries relating to cryptography
+
+name=openssl1.0
+version=1.0.2u
+release=1
+source="https://openssl.org/source/openssl-$version.tar.gz
+	openssl-compat_versioned_symbols-1.patch"
+
+build() {
+	cd openssl-$version
+
+	patch -Np1 -i ../openssl-compat_versioned_symbols-1.patch
+
+	./config --prefix=/usr            \
+	         --openssldir=/etc/ssl    \
+	         --libdir=lib/openssl-1.0 \
+	         shared                   \
+	         zlib-dynamic
+	make depend
+	make -j1
+	make DESTDIR=$PKG INSTALL_PREFIX=$PWD/Dest install_sw
+
+	rm -rf $PKG/usr/lib/openssl-1.0
+	install -vdm755                   $PKG/usr/lib/openssl-1.0
+	cp -Rv Dest/usr/lib/openssl-1.0/* $PKG/usr/lib/openssl-1.0
+	
+	mv -v  $PKG/usr/lib/openssl-1.0/libcrypto.so.1.0.0 $PKG/usr/lib
+	mv -v  $PKG/usr/lib/openssl-1.0/libssl.so.1.0.0 $PKG/usr/lib
+	ln -sv ../libssl.so.1.0.0         $PKG/usr/lib/openssl-1.0
+	ln -sv ../libcrypto.so.1.0.0      $PKG/usr/lib/openssl-1.0
+	
+	install -vdm755                   $PKG/usr/include/openssl-1.0
+	cp -Rv Dest/usr/include/openssl   $PKG/usr/include/openssl-1.0
+	
+	sed 's@/include$@/include/openssl-1.0@' -i $PKG/usr/lib/openssl-1.0/pkgconfig/*.pc
+}

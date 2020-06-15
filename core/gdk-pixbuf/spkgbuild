@@ -1,0 +1,18 @@
+# description	: Toolkit for image loading and pixel buffer manipulation
+# depends	: glib libjpeg-turbo libpng libtiff shared-mime-info libx11 libxcb libxau jasper gobject-introspection
+
+name=gdk-pixbuf
+version=2.40.0
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+	
+	meson --prefix=/usr --libexecdir=/usr/lib/$name -Djasper=true ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

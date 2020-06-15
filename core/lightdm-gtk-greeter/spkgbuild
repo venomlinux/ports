@@ -1,0 +1,26 @@
+# description	: GTK+ greeter for LightDM
+# depends	: gtk3 lightdm exo gobject-introspection intltool
+
+name=lightdm-gtk-greeter
+version=2.0.7
+release=1
+backup="etc/lightdm/lightdm-gtk-greeter.conf"
+source="https://launchpad.net/$name/${version%.*}/$version/+download/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure                      \
+	   --prefix=/usr                 \
+	   --libexecdir=/usr/lib/lightdm \
+	   --sbindir=/usr/bin            \
+	   --sysconfdir=/etc             \
+	   --with-libxklavier            \
+	   --enable-kill-on-sigterm      \
+	   --disable-libido              \
+	   --disable-libindicator        \
+	   --disable-static              \
+	   --disable-nls
+	make
+	make DESTDIR=$PKG install
+}

@@ -10,7 +10,7 @@ post_install() {
 	else
 		kernver=$(file /boot/vmlinuz-venom  | cut -d ' ' -f9)
 	fi
-	if [ $(type -p mkinitramfs) ]; then
+	if [ $(command -v mkinitramfs) ]; then
 		mkinitramfs -q -k $kernver -o /boot/initrd-venom.img
 	fi
 	depmod $kernver

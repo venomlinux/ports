@@ -1,7 +1,0 @@
-getver_scrot() {
-	fetch \
-	| grep -Eo scrot[-_][0-9a-z.]+.orig.tar.[bgx]z2? \
-	| sed 's/scrot_//;s/.orig.*//' \
-	| sort -V \
-	| uniq
-}

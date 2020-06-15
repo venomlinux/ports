@@ -1,0 +1,18 @@
+# description	: Interface to manipulate XPS documents
+# depends	: gtk3 lcms2 libarchive libjpeg-turbo libtiff libxslt
+
+name=libgxps
+version=0.3.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/libgxps/${version%.*}/libgxps-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

@@ -1,0 +1,7 @@
+url=https://www.musepack.net/index.php?pg=src
+
+port_getver() {
+	fetch \
+	| grep -Eo libreplaygain_r[0-9a-z.]+.tar.[bgx]z2? \
+	| sed 's/libreplaygain_r//;s/\.tar.*//'
+}

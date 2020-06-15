@@ -1,0 +1,15 @@
+# description	: Command line utilities for working with Desktop entries
+# depends	: glib
+
+name=desktop-file-utils
+version=0.24
+release=1
+source="https://freedesktop.org/software/$name/releases/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

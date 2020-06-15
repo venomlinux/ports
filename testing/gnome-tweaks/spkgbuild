@@ -1,0 +1,20 @@
+# description	: Program used to tweak advanced GNOME settings
+# depends	: gtk3 gsettings-desktop-schemas libhandy
+
+name=gnome-tweaks
+version=3.34.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-tweaks/${version%.*}/gnome-tweaks-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr --libexecdir=lib
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

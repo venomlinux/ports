@@ -1,7 +1,0 @@
-getver_x265() {
-	fetch \
-	| grep -Eo x265_[0-9.]+.tar.gz \
-	| sed 's/x265_//;s/\.tar.*//' \
-	| sort -V \
-	| uniq
-}

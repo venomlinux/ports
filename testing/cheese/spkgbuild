@@ -1,0 +1,22 @@
+# description	: Take photos and videos with fun graphical effects
+# depends	: clutter-gst clutter-gtk gnome-desktop gnome-video-effects
+
+name=cheese
+version=3.34.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/cheese/${version%.*}/cheese-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	# fix a problem generating the man page
+	sed -i "s/&version;/$version/" docs/reference/cheese.xml
+	sed -i "s/&version;/$version/" docs/reference/cheese-docs.xml
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr -Dgtk_doc=false ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

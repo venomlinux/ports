@@ -1,0 +1,16 @@
+# description	: Collection of POSIX-C functions implementing the OAuth Core RFC 5849 standard
+# depends	: curl
+
+name=liboauth
+version=1.0.3
+release=1
+source="https://downloads.sourceforge.net/liboauth/liboauth-$version.tar.gz
+	liboauth-$version-openssl-1.1.0-3.patch"
+
+build() {
+	cd $name-$version
+	patch -Np1 -i $SRC/liboauth-$version-openssl-1.1.0-3.patch
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

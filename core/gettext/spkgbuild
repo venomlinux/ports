@@ -1,30 +1,26 @@
 # description	: Utilities for internationalization and localization
-# homepage	: https://www.gnu.org/software/gettext/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: acl gcc bash
+# depends	: ncurses acl
 
 name=gettext
-version=0.20.1
+version=0.20.2
 release=1
-source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
-md5sum=(9ed9e26ab613b668e0026222a9c23639)
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-	# suppress two invocations of test-lock which on some machines can loop forever
-	sed -i '/^TESTS =/d' gettext-runtime/tests/Makefile.in
-	sed -i 's/test-lock..EXEEXT.//' gettext-tools/gnulib-tests/Makefile.in
-
-	./configure --prefix=/usr \
-	            --disable-static \
-		    --disable-nls
-	make || make -j1
-	make -j1 DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share/{doc,info}
-
-	# musl system does not have this library
-	chmod -v 0755 $PKG/usr/lib/preloadable_libintl.so || true
+	./configure \
+		--prefix=/usr \
+		--disable-static \
+		--disable-nls \
+		--disable-java \
+		--disable-csharp \
+                --without-git \
+                --without-emacs \
+                --with-included-libxml \
+                --with-included-libcroco \
+                --with-included-glib
+	make
+	make DESTDIR=$PKG install
 }
 

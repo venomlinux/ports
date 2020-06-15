@@ -1,0 +1,20 @@
+# description	: Map application for GNOME
+# depends	: clutter-gtk folks geoclue geocode-glib gfbgraph gjs libchamplain rest
+
+name=gnome-maps
+version=3.34.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-maps/${version%.*}/gnome-maps-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

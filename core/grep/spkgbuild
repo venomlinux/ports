@@ -1,13 +1,10 @@
 # description	: Programs for searching through files
-# homepage	: https://www.gnu.org/software/grep/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
-# depends	: texinfo
+# depends	: pcre
 
 name=grep
-version=3.3
+version=3.4
 release=1
-source=(https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz)
-md5sum=(05d0718a1b7cc706a4bdf8115363f1ed)
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
@@ -15,6 +12,4 @@ build() {
 	./configure --prefix=/usr --bindir=/bin --disable-nls
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share/info
 }

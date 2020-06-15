@@ -1,0 +1,17 @@
+# description	: Lightweight image viewer
+# depends	: gtk2
+
+name=gpicview
+version=0.2.5
+release=1
+source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+	sed -i 's/Utility;//' $PKG/usr/share/applications/gpicview.desktop
+}

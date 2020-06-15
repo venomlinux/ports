@@ -1,0 +1,22 @@
+# description	: Open source software library used for creating fast, visually rich and animated graphical user interfaces
+# depends	: atk cogl json-glib gobject-introspection gtk3 libgudev
+
+name=clutter
+version=1.26.2
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/clutter/${version%.*}/clutter-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--enable-egl-backend \
+		--enable-evdev-input \
+		--enable-wayland-backend \
+		--enable-wayland-compositor
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+}

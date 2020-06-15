@@ -1,0 +1,14 @@
+# description	: Library used to identify wacom tablets and their model-specific features
+# depends	: libgudev libxml2
+
+name=libwacom
+version=0.29
+release=1
+source="https://downloads.sourceforge.net/linuxwacom/libwacom-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

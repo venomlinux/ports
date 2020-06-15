@@ -1,0 +1,13 @@
+# description	: A simple pythonic template language written in Python (python2)
+# depends	: python2 python2-markupsafe
+
+name=python2-jinja2
+version=2.11.2
+release=1
+source="https://pypi.org/packages/source/J/Jinja2/Jinja2-$version.tar.gz"
+
+build() {
+	cd Jinja2-$version
+	python2 setup.py build
+	python2 setup.py install --root="$PKG" -O1
+}

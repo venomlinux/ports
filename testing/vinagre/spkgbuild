@@ -1,0 +1,14 @@
+# description	: VNC client for the GNOME Desktop
+# depends	: 
+
+name=vinagre
+version=3.22.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/vinagre/${version%.*}/vinagre-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --enable-compile-warnings=minimum
+	make
+	make DESTDIR=$PKG install
+}

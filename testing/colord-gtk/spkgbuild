@@ -1,0 +1,22 @@
+# description	: GTK+ bindings for Colord
+# depends	: colord gtk3
+
+name=colord-gtk
+version=0.2.0
+release=1
+source="https://www.freedesktop.org/software/colord/releases/colord-gtk-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+	
+	meson --prefix=/usr  \
+	      -Dgtk2=true    \
+	      -Dvapi=true    \
+	      -Ddocs=false   \
+	      -Dman=false ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

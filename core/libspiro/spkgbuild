@@ -1,0 +1,18 @@
+# description	: Simplifies the drawing of beautiful curves
+
+name=libspiro
+version=20200505
+release=1
+source="https://github.com/fontforge/$name/releases/download/$version/$name-dist-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	autoreconf -i
+	automake --foreign -Wall
+
+	export LDFLAGS=
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

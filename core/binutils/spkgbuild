@@ -1,38 +1,34 @@
 # description	: A linker, an assembler, and other tools for handling object files
-# homepage	: https://www.gnu.org/software/binutils/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: zlib
 
 name=binutils
-version=2.33.1
+version=2.34
 release=1
-source=(https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz)
-md5sum=(9406231b7d9dd93731c2d06cefe8aaf1)
+source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-	if [ "$OSTYPE" = "linux-musl" ]; then
-		buildflags="--disable-multilib --with-lib-path=/usr/lib:/lib"
-	else
-		buildflags="--enable-multilib --with-lib-path=/usr/lib:/lib:/usr/lib32"
-	fi
+	case $XHOST in
+		*-musl) _multilib="--disable-multilib --with-lib-path=/usr/lib:/lib";;
+		*)      _multilib="--enable-multilib --with-lib-path=/usr/lib:/lib:/usr/lib32";;
+	esac
 
 	sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
 
 	mkdir -v build
 	cd       build
 
-	../configure --prefix=/usr       \
-	             --enable-gold       \
-		     --disable-nls       \
-	             --enable-ld=default \
-	             --enable-plugins    \
-	             --enable-shared     \
-	             --disable-werror    \
-	             --with-system-zlib  \
-		     $buildflags
+	../configure \
+		--prefix=/usr \
+		--enable-gold \
+		--disable-nls \
+		--enable-ld=default \
+		--enable-plugins \
+		--enable-shared \
+		--disable-werror \
+		--with-system-zlib \
+		$_multilib
 	make tooldir=/usr
 	make tooldir=/usr DESTDIR=$PKG install
-	rm -fr $PKG/usr/share/info
 }

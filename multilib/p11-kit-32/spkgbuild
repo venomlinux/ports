@@ -1,13 +1,10 @@
 # description	: Provides a way to load and enumerate PKCS #11 (a Cryptographic Token Interface Standard) modules
-# homepage	: https://github.com/p11-glue/p11-kit/
-# maintainer	: emmett1, emmett1.2miligrams at gmail.com
 # depends	: p11-kit libffi-32
 
 name=p11-kit-32
-version=0.23.18.1
+version=0.23.20
 release=1
-source=(https://github.com/p11-glue/p11-kit/releases/download/$version/p11-kit-$version.tar.gz)
-md5sum=(79480c3a2c905a74f86e885966148537)
+source="https://github.com/p11-glue/p11-kit/releases/download/$version/p11-kit-$version.tar.xz"
 
 build() {
 	cd p11-kit-$version
@@ -25,5 +22,8 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -fr $PKG/etc $PKG/usr/{bin,share,include}
+	rm -r $PKG/etc \
+	      $PKG/usr/bin \
+	      $PKG/usr/share \
+	      $PKG/usr/include
 }

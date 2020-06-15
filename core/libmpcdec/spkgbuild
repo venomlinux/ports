@@ -1,0 +1,17 @@
+# description	: MusePack decoding library
+# depends	: libcue libreplaygain
+
+name=libmpcdec
+version=1.2.6
+release=1
+source="http://files.musepack.net/source/libmpcdec-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

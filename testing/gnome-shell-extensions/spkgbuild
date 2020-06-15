@@ -1,0 +1,20 @@
+# description	: Collection of extensions providing additional and optional functionality to the GNOME Shell
+# depends	: libgtop
+
+name=gnome-shell-extensions
+version=3.34.2
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-shell-extensions/${version%.*}/gnome-shell-extensions-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
+}

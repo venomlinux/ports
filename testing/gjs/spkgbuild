@@ -1,0 +1,14 @@
+# description	: Javascript bindings for GNOME
+# depends	: cairo dbus gobject-introspection js60
+
+name=gjs
+version=1.58.4
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gjs/${version%.*}/gjs-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

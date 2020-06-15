@@ -1,0 +1,15 @@
+# description	: Digital clock in ncurses
+# depends	: ncurses
+
+name=tty-clock
+version=2.3
+release=1
+source="$name-$version.tar.gz::https://github.com/xorg62/tty-clock/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make
+	install -Dm755 $name $PKG/usr/bin/$name
+	install -Dm655 tty-clock.1 $PKG/usr/share/man/man1/tty-clock.1
+}
+

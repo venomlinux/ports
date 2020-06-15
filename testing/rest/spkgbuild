@@ -1,0 +1,18 @@
+# description	: library that was designed to make it easier to access web services
+# depends	: ca-certificates libsoup gobject-introspection
+
+name=rest
+version=0.8.1
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/rest/${version%.*}/rest-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+		--with-ca-certificates=/etc/ssl/ca-bundle.crt
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+}

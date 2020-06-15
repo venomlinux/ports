@@ -1,0 +1,134 @@
+#!/bin/sh
+#
+# script to fix broken binaries/libraries
+#
+
+usage() {
+	cat << EOF
+Usage:
+  $(basename $0) [option] [arg]
+  
+Options:
+  -r, --rebuild     rebuild & reinstall broken package
+  -y, --yes         dont ask user confirmation to rebuild package (use with -r/--rebuild)
+  -h, --help        print this help message
+  
+EOF
+}
+
+confirm() {
+	printf "$1 (Y/n) "
+	read -r response
+	case "$response" in
+		[Nn][Oo]|[Nn]) echo "$2"; exit 2 ;;
+		*) : ;;
+	esac
+}
+
+extract_opts() {
+	while [ "$1" ]; do
+		case $1 in
+			--*) opts="$opts $1";;
+			 -*) char=${#1}; count=1
+			     while [ "$count" != "$char" ]; do
+			         count=$((count+1))
+			         opts="$opts -$(echo $1 | cut -c $count)"
+			     done;;
+			  *) opts="$opts $1"
+		esac
+		shift
+	done
+	echo $opts
+}
+
+parse_opt() {
+	while [ $1 ]; do
+		case $1 in
+			-r|--rebuild) REBUILD=1 ;;
+			    -y|--yes) NOCONFIRM=1 ;;
+			   -h|--help) usage; exit 0 ;;
+			           *) echo "Invalid option ($1)"; exit 1 ;;
+		esac
+		shift
+	done
+}
+
+rebuild() {	
+	printf "Calculating rebuild order...\033[0K\r"
+	for allpkg in $(scratch deplist $pkgdone | awk '{print $2}'); do
+		for pkg in $pkgdone; do
+			if [ "$pkg" = "$allpkg" ]; then
+				order="$order $allpkg"
+				break
+			fi
+		done
+	done
+	if [ "$order" ]; then
+		if [ "$NOCONFIRM" = "" ]; then
+			echo "Package will be rebuild & reinstall by this order:"
+			echo "$order"
+			echo
+			confirm "Continue rebuild & reinstall broken packages?" "Operation cancelled."
+		fi
+		for p in $order; do
+			scratch build -f $p && scratch install -r $p || exit 1
+		done
+	fi
+}
+
+scan_files() {
+	echo "Checking for broken linkage..."
+	for i in /lib/* /usr/lib/* /bin/* /sbin/* /usr/bin/* /usr/sbin/*; do
+		case "$(file $i)" in
+			*executable*statically\ linked*|*symbolic\ link*) continue;;
+		esac
+		case "$(file -bi $i)" in
+			*application/x-sharedlib* | *application/x-executable* | *application/x-pie-executable*)
+				printf " $i\033[0K\r"
+				for f in $(ldd $i 2>&1 | grep "Error loading shared library" | sed "s/.*needed by //;s/)//" | sort | uniq); do
+					[ "$f" ] || continue
+					case "$(file $f)" in
+						*symbolic\ link*) continue;;
+					esac
+					if ! echo $done | grep -wq $f; then
+						pkg=$(scratch provide $f$ | awk '{print $1}' | head -n1)
+						[ "$pkg" ] || continue
+						req=$(ldd $f 2>&1 | grep "needed by $f" | awk '{print $5}' | sed 's/://')
+						echo " $pkg -> $f (required $req)"
+						if ! echo $pkgdone | grep -wq $pkg; then
+							pkgdone="$pkgdone $pkg"
+							unset pkg
+						fi
+						done="$done $f"
+						unset f
+					fi
+				done
+		esac
+	done
+	printf "\033[0K"
+}
+
+parse_opt $(extract_opts "$@")
+
+if [ "$(id -u)" != 0 ] && [ "$REBUILD" = 1 ]; then
+	echo "$(basename $0) need to run as root to rebuild & reinstall package"
+	exit 1
+fi
+
+scan_files
+
+if [ "$pkgdone" ]; then
+	echo
+	echo "Broken package(s):"
+	for rebuild in $pkgdone; do
+		echo " $rebuild"
+	done
+	echo
+	if [ "$REBUILD" = 1 ]; then
+		rebuild
+	fi
+else
+	echo "All packages is doing fine."
+fi
+
+exit 0

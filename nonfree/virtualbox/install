@@ -1,0 +1,9 @@
+# package install script
+
+action=$1
+newversion=$2
+oldversion=$3
+
+case $action in
+	post-install) getent group vboxusers >/dev/null || groupadd vboxusers ;;
+esac
