@@ -1,28 +1,9 @@
-# ports
-Contain all ports for [Venom Linux](https://venomlinux.org/) used by [scratchpkg](https://github.com/venomlinux/scratchpkg)
+## Venom Linux Ports Repository
 
-All ports are separated into several repositories. This repositories will get sync by `scratchpkg` using a tool called `httpup`.
-These are repository exist (for now):
+This repository contains the spkgbuild for [Venom Linux](https://venomlinux.org/) used with [scratchpkg](https://github.com/venomlinux/scratchpkg).
 
-* `core`     :    Ports needed for core system.
-* `extra`    :    All other ports.
-* `xorg`     :    Ports for Xorg.
-* `multilib` :    Multilib ports.
-* `community`:    Community ports.
-* `testing`  :    Testing ports.
+It also contains others scripts and tools to operate with Venom Linux.
 
-### rep-gen
+If you want to contribute feel free to fork then make Pull Request any changes. Make sure you read [wiki](https://github.com/venomlinux/ports/wiki) first.
 
-`rep-gen` is a script to generate 'REPO' file in the repository. `rep-gen` need to run after any of ports changed.
 
-#### how to use:
-
-    ./rep-gen <repo name>
-    
-or, for all exist repositories
-
-    ./rep-gen
-    
-Example:
-
-    ./rep-gen core xorg
