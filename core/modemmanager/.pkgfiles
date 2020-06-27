@@ -5,11 +5,13 @@ drwxr-xr-x root/root    etc/dbus-1/system.d/
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/udev/
 drwxr-xr-x root/root    lib/udev/rules.d/
+-rw-r--r-- root/root    lib/udev/rules.d/77-mm-broadmobi-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-cinterion-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-dell-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-dlink-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-ericsson-mbm.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-fibocom-port-types.rules
+-rw-r--r-- root/root    lib/udev/rules.d/77-mm-foxconn-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-haier-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-huawei-net-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-longcheer-port-types.rules
@@ -92,11 +94,13 @@ drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/ModemManager/
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-altair-lte.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-anydata.so
+-rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-broadmobi.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-cinterion.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-dell.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-dlink.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-ericsson-mbm.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-fibocom.so
+-rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-foxconn.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-generic.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-haier.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-huawei.so
@@ -125,6 +129,7 @@ drwxr-xr-x root/root    usr/lib/ModemManager/
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-wavecom.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-x22x.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-zte.so
+-rwxr-xr-x root/root    usr/lib/ModemManager/libmm-shared-foxconn.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-shared-icera.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-shared-novatel.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-shared-option.so
@@ -133,9 +138,9 @@ drwxr-xr-x root/root    usr/lib/ModemManager/
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-shared-xmm.so
 drwxr-xr-x root/root    usr/lib/girepository-1.0/
 -rw-r--r-- root/root    usr/lib/girepository-1.0/ModemManager-1.0.typelib
-lrwxrwxrwx root/root    usr/lib/libmm-glib.so -> libmm-glib.so.0.5.0
-lrwxrwxrwx root/root    usr/lib/libmm-glib.so.0 -> libmm-glib.so.0.5.0
--rwxr-xr-x root/root    usr/lib/libmm-glib.so.0.5.0
+lrwxrwxrwx root/root    usr/lib/libmm-glib.so -> libmm-glib.so.0.6.0
+lrwxrwxrwx root/root    usr/lib/libmm-glib.so.0 -> libmm-glib.so.0.6.0
+-rwxr-xr-x root/root    usr/lib/libmm-glib.so.0.6.0
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/ModemManager.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/mm-glib.pc
@@ -143,7 +148,7 @@ drwxr-xr-x root/root    usr/sbin/
 -rwxr-xr-x root/root    usr/sbin/ModemManager
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/ModemManager/
--rw-r--r-- root/root    usr/share/ModemManager/mm-dell-dw5821e-carrier-mapping.conf
+-rw-r--r-- root/root    usr/share/ModemManager/mm-foxconn-t77w968-carrier-mapping.conf
 drwxr-xr-x root/root    usr/share/bash-completion/
 drwxr-xr-x root/root    usr/share/bash-completion/completions/
 -rw-r--r-- root/root    usr/share/bash-completion/completions/mmcli
