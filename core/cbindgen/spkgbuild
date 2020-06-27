@@ -2,7 +2,7 @@
 # depends	: rust
 
 name=cbindgen
-version=0.14.2
+version=0.14.3
 release=1
 source="https://github.com/eqrion/cbindgen/archive/v$version/cbindgen-$version.tar.gz"
 
@@ -10,10 +10,7 @@ build() {
 	export CARGO_HOME="$PWD/cargo"
 	mkdir -p $CARGO_HOME
 
-	case $XHOST in
-		*-musl) _target="$XARCH-unknown-linux-musl";;
-		*)      _target="$XARCH-unknown-linux-gnu";;
-	esac
+        _target="$XARCH-unknown-linux-gnu"
 
 	cd $name-$version
 	cargo fetch --locked --target $_target
