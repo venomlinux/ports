@@ -3,32 +3,15 @@
 
 name=llvm
 version=10.0.0
-release=1
+release=2
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
-	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz
-	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/compiler-rt-$version.src.tar.xz
-	llvm-config.h
-	0001-add-musl-triplets.patch"
+	llvm-config.h"
 
 build() {
 	cd $name-$version.src
 
 	export CC=gcc
-	export CXX=g++
-
-	mv ../clang-$version.src tools/clang
-	mv ../compiler-rt-$version.src projects/compiler-rt
-
-	case $XHOST in
-		*-musl)
-		        patch -Np1 -i $SRC/0001-add-musl-triplets.patch -d tools/clang
-
-		        # Disable sanitizers
-		        sed -i 's/set(COMPILER_RT_HAS_SANITIZER_COMMON TRUE)/set(COMPILER_RT_HAS_SANITIZER_COMMON FALSE)/' projects/compiler-rt/cmake/config-ix.cmake
-		;;
-	esac
-
-	
+	export CXX=g++	
 
 	mkdir -v build
 	cd       build
@@ -45,19 +28,9 @@ build() {
 	ninja
 	DESTDIR=$PKG ninja install
 
-	case $XHOST in
-		*-musl) continue;;
-		*)
-		   mv $PKG/usr/include/llvm/Config/llvm-config.h \
-		      $PKG/usr/include/llvm/Config/llvm-config-64.h
-		   cp $SRC/llvm-config.h $PKG/usr/include/llvm/Config/llvm-config.h
-		;;
-	esac		        
-
-	mkdir -p $PKG/usr/lib/llvm
-	mv $PKG/usr/libexec/c++-analyzer \
-	   $PKG/usr/libexec/ccc-analyzer \
-	   $PKG/usr/lib/llvm
-	rmdir $PKG/usr/libexec
-	sed -i 's|libexec|lib/llvm|' $PKG/usr/bin/scan-build
+	# multilib stub
+	mv $PKG/usr/include/llvm/Config/llvm-config.h \
+	   $PKG/usr/include/llvm/Config/llvm-config-64.h
+	cp $SRC/llvm-config.h \
+	   $PKG/usr/include/llvm/Config/llvm-config.h	
 }

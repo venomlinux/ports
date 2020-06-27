@@ -1,0 +1,50 @@
+# description	: Collection of modular and reusable compiler and toolchain technologies
+# depends	: llvm
+
+name=clang
+version=10.0.0
+release=1
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz"
+
+build() {
+	cd llvm-$version.src
+
+	export CC=gcc
+	export CXX=g++
+
+	mv ../clang-$version.src tools/clang
+
+	mkdir -v build
+	cd       build
+	
+	cmake .. -G Ninja \
+	      -DCMAKE_INSTALL_PREFIX=/usr           \
+	      -DLLVM_ENABLE_FFI=ON                  \
+	      -DCMAKE_BUILD_TYPE=Release            \
+	      -DLLVM_BUILD_LLVM_DYLIB=ON            \
+      	      -DLLVM_LINK_LLVM_DYLIB=ON             \
+	      -DLLVM_ENABLE_RTTI=ON                 \
+	      -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF" \
+	      -Wno-dev
+	ninja
+	DESTDIR=$PKG ninja install	        
+
+	mkdir -p $PKG/usr/lib/clang
+	mv $PKG/usr/libexec/c++-analyzer \
+	   $PKG/usr/libexec/ccc-analyzer \
+	   $PKG/usr/lib/clang
+	rmdir $PKG/usr/libexec
+	sed -i 's|libexec|lib/clang|' $PKG/usr/bin/scan-build
+
+	cd $PKG/usr/bin
+	rm ll* obj2yaml opt sancov sanstats verify-uselistorder yaml2obj bugpoint dsymutil
+	cd $PKG/usr/include
+	rm -r llvm llvm-c
+	cd $PKG/usr/lib/cmake
+	rm -r llvm
+	cd $PKG/usr/lib
+	rm libLLVM* libLTO* libRemarks*
+	cd $PKG/usr/share
+	rm -r opt-viewer	
+}

@@ -3,10 +3,8 @@
 
 name=llvm-32
 version=10.0.0
-release=1
-source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
-	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz
-	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/compiler-rt-$version.src.tar.xz"
+release=2
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz"
 
 build() {
 	cd llvm-$version.src
@@ -14,9 +12,6 @@ build() {
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
-
-	mv ../clang-$version.src tools/clang
-	mv ../compiler-rt-$version.src projects/compiler-rt
 
 	mkdir -v build
 	cd       build
