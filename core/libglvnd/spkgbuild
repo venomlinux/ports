@@ -2,23 +2,17 @@
 # depends	: libxext libx11 meson
 
 name=libglvnd
-version=1.3.1
-release=2
+version=1.3.2
+release=1
 source="https://github.com/NVIDIA/libglvnd/archive/v$version/$name-v$version.tar.gz"
 
 build() {
 	cd libglvnd-$version
 
-	case $XHOST in
-		*-musl) _config="-Dtls=disabled";;
-	esac
-	
 	mkdir build
 	cd build
 
-	meson \
-		--prefix=/usr \
-		$_config
+	meson --prefix=/usr
 	ninja
 	DESTDIR=$PKG ninja install
 }
