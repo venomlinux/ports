@@ -7,6 +7,7 @@ SCRIPTDIR="$(dirname $(realpath $0))"
 
 sudo $SCRIPTDIR/build.sh \
 		-zap \
+                -rebase \
 		-rootfs || exit 1
 
 exit 0

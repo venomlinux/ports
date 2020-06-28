@@ -361,6 +361,7 @@ main() {
 	[ "$ZAP" ] && zap_rootfs
 	
 	[ "$REBASE" ] && {
+		copy_repofile
 		msg "Running pkgbase..."
 		chrootrun pkgbase -y || die
 	}
