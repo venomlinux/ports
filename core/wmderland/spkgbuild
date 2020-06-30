@@ -1,0 +1,37 @@
+# description	: X11 tiling window manager using space partitioning trees
+# depends	: libx11 cmake
+
+name=wmderland
+version=1.0.4
+release=1
+source="https://github.com/aesophor/wmderland/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	# wmderland
+	mkdir build
+	cd build
+
+	cmake .. \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=MINSIZEREL
+	make
+	make DESTDIR=$PKG install
+
+	# ipc-client
+	mkdir -p ../ipc-client/build
+	cd ../ipc-client/build
+
+	cmake .. \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=MINSIZEREL
+	make
+	make DESTDIR=$PKG install
+
+	# extra stuff
+	mkdir -p $PKG/etc/xdg/wmderland/
+	mkdir -p $PKG/usr/share/xsessions/
+	install -D -m644 ../../example/config $PKG/etc/xdg/wmderland/
+	install -D -m644 ../../example/wmderland.desktop $PKG/usr/share/xsessions/
+}
