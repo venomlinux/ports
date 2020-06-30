@@ -1,8 +1,8 @@
 # description	: Stand-alone browser based on the Mozilla codebase
-# depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent dbus-glib unzip zip autoconf2.13 yasm rust cbindgen nodejs clang
+# depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent dbus-glib unzip zip autoconf2.13 yasm rust cbindgen nodejs clang nasm
 
 name=firefox
-version=77.0.1
+version=78.0
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	$name.desktop"
@@ -20,7 +20,6 @@ cat <<- EOF > .mozconfig
 	ac_add_options --enable-application=browser
 	ac_add_options --with-system-jpeg
 	ac_add_options --with-system-zlib
-	ac_add_options --with-system-bz2
 	ac_add_options --with-system-png
 	ac_add_options --with-system-nspr
 	ac_add_options --with-system-nss
@@ -40,7 +39,6 @@ cat <<- EOF > .mozconfig
 	ac_add_options --disable-updater
 	ac_add_options --disable-crashreporter
 	ac_add_options --disable-necko-wifi
-	ac_add_options --disable-gconf
 EOF
 
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
