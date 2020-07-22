@@ -3,8 +3,10 @@
 
 name=icu-32
 version=67.1
+_version=$(echo $version | tr '.' '-')
+__version=$(echo $version | tr '.' '_')
 release=1
-source="http://download.icu-project.org/files/icu4c/$version/icu4c-${version//./_}-src.tgz"
+source="https://github.com/unicode-org/icu/releases/download/release-$_version/icu4c-$__version-src.tgz"
 
 build() {
 	cd icu/source
