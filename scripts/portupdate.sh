@@ -11,18 +11,20 @@ SCRIPTDIR="$(dirname $(realpath $0))"
 EDITOR=${EDITOR:-vim}
 
 [ "$1" ] || exit 1
-[ "$2" ] || exit 1
+#[ "$2" ] || exit 1
 
 [ -s $PORTSDIR/$1/spkgbuild ] || {
 	echo "Port not exist: $1"
 	exit 1
 }
 
-# update version
-sed -i "/^version=/s/=.*/=$2/" $PORTSDIR/$1/spkgbuild
+[ "$2" ] && {
+	# update version
+	sed -i "/^version=/s/=.*/=$2/" $PORTSDIR/$1/spkgbuild
 
-# change release to 1
-sed -i "/^release=/s/=.*/=1/" $PORTSDIR/$1/spkgbuild
+	# change release to 1
+	sed -i "/^release=/s/=.*/=1/" $PORTSDIR/$1/spkgbuild
+}
 
 rm -f $PORTSDIR/$1/.checksums
 rm -f $PORTSDIR/$1/.pkgfiles
@@ -58,5 +60,8 @@ sudo $SCRIPTDIR/build.sh \
 		esac
 		exit 1
 	}
+	
+sudo chown $(id -u):$(id -u) $PORTSDIR/$1/.checksums
+sudo chown $(id -u):$(id -u) $PORTSDIR/$1/.pkgfiles
 
 exit 0
