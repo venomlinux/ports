@@ -471,6 +471,9 @@ drwxr-xr-x root/root    usr/include/llvm/CodeGen/PBQP/
 -rw-r--r-- root/root    usr/include/llvm/CodeGen/Passes.h
 -rw-r--r-- root/root    usr/include/llvm/CodeGen/PreISelIntrinsicLowering.h
 -rw-r--r-- root/root    usr/include/llvm/CodeGen/PseudoSourceValue.h
+-rw-r--r-- root/root    usr/include/llvm/CodeGen/RDFGraph.h
+-rw-r--r-- root/root    usr/include/llvm/CodeGen/RDFLiveness.h
+-rw-r--r-- root/root    usr/include/llvm/CodeGen/RDFRegisters.h
 -rw-r--r-- root/root    usr/include/llvm/CodeGen/ReachingDefAnalysis.h
 -rw-r--r-- root/root    usr/include/llvm/CodeGen/RegAllocPBQP.h
 -rw-r--r-- root/root    usr/include/llvm/CodeGen/RegAllocRegistry.h
@@ -1632,6 +1635,7 @@ drwxr-xr-x root/root    usr/lib/cmake/llvm/
 -rw-r--r-- root/root    usr/lib/cmake/llvm/HandleLLVMStdlib.cmake
 -rw-r--r-- root/root    usr/lib/cmake/llvm/LLVM-Config.cmake
 -rw-r--r-- root/root    usr/lib/cmake/llvm/LLVMConfig.cmake
+-rw-r--r-- root/root    usr/lib/cmake/llvm/LLVMConfigExtensions.cmake
 -rw-r--r-- root/root    usr/lib/cmake/llvm/LLVMConfigVersion.cmake
 -rw-r--r-- root/root    usr/lib/cmake/llvm/LLVMDistributionSupport.cmake
 -rw-r--r-- root/root    usr/lib/cmake/llvm/LLVMExports-release.cmake
@@ -1642,7 +1646,7 @@ drwxr-xr-x root/root    usr/lib/cmake/llvm/
 -rw-r--r-- root/root    usr/lib/cmake/llvm/TableGen.cmake
 -rw-r--r-- root/root    usr/lib/cmake/llvm/UseLibtool.cmake
 -rw-r--r-- root/root    usr/lib/cmake/llvm/VersionFromVCS.cmake
-lrwxrwxrwx root/root    usr/lib/libLLVM-10.0.0.so -> libLLVM-10.so
+lrwxrwxrwx root/root    usr/lib/libLLVM-10.0.1.so -> libLLVM-10.so
 -rwxr-xr-x root/root    usr/lib/libLLVM-10.so
 lrwxrwxrwx root/root    usr/lib/libLLVM.so -> libLLVM-10.so
 -rw-r--r-- root/root    usr/lib/libLLVMAMDGPUAsmParser.a
@@ -1678,6 +1682,7 @@ lrwxrwxrwx root/root    usr/lib/libLLVM.so -> libLLVM-10.so
 -rw-r--r-- root/root    usr/lib/libLLVMDemangle.a
 -rw-r--r-- root/root    usr/lib/libLLVMDlltoolDriver.a
 -rw-r--r-- root/root    usr/lib/libLLVMExecutionEngine.a
+-rw-r--r-- root/root    usr/lib/libLLVMExtensions.a
 -rw-r--r-- root/root    usr/lib/libLLVMFrontendOpenMP.a
 -rw-r--r-- root/root    usr/lib/libLLVMFuzzMutate.a
 -rw-r--r-- root/root    usr/lib/libLLVMGlobalISel.a
