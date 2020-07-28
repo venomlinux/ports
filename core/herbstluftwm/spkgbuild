@@ -1,0 +1,19 @@
+# description	: Manual tiling window manager for X
+# depends	: libxinerama libx11 libxext libxrandr cmake
+
+name=herbstluftwm
+version=0.8.3
+release=1
+source="https://herbstluftwm.org/tarballs/herbstluftwm-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd build
+
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr ..
+	make
+	make DESTDIR=$PKG install
+}
