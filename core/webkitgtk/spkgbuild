@@ -3,21 +3,12 @@
 # depends	: libwebp mesa ruby sqlite which enchant libxslt openjpeg2 libwpe bubblewrap xdg-dbus-proxy wpebackend-fdo libxcomposite libnotify libxt
 
 name=webkitgtk
-version=2.28.3
+version=2.28.4
 release=1
-source="https://webkitgtk.org/releases/$name-$version.tar.xz
-	fix-fast-memory-disabled.patch
-	musl-fixes.patch"
+source="https://webkitgtk.org/releases/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
-	case $XHOST in
-		*-musl)
-		        patch -Np1 -i $SRC/fix-fast-memory-disabled.patch
-		        patch -Np1 -i $SRC/musl-fixes.patch
-		;;
-	esac
 	
 	mkdir build
 	cd build
