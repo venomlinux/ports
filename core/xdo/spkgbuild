@@ -1,0 +1,14 @@
+# description	: Utility for performing actions on windows in X
+# depends	: libxcb xcb-util xcb-util-wm
+
+name=xdo
+version=0.5.7
+release=1
+source="https://github.com/baskerville/xdo/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	make PREFIX=/usr
+	make PREFIX=/usr DESTDIR=$PKG install
+}
