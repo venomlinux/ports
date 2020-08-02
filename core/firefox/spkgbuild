@@ -2,15 +2,18 @@
 # depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent dbus-glib unzip zip autoconf2.13 yasm rust cbindgen nodejs clang nasm
 
 name=firefox
-version=78.0.2
+version=79.0
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
-	$name.desktop"
+	$name.desktop
+	bug1654465.diff"
 
 build() {
 	INITDIR=$PWD
 
 	cd $name-$version
+
+	patch -Np1 -i ../bug1654465.diff
 
 cat <<- EOF > .mozconfig
 	mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-shared
