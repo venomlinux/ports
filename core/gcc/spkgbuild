@@ -2,20 +2,13 @@
 # depends	: binutils
 
 name=gcc
-version=9.3.0
+version=10.2.0
 release=1
 source="https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
 	c89 c99"
 
 build() {
 	cd $name-$version
-
-	case $XHOST in
-		*-musl) _config="--disable-multilib --disable-libsanitizer"
-		        _pkgversion="Venom Linux (musl) $version-$release";;
-		*)      _config="--enable-multilib"
-		        _pkgversion="Venom Linux $version-$release";;
-	esac
 
 	# /lib is 64bit libraries directory
 	sed -e '/m64=/s/lib64/lib/' \
@@ -36,12 +29,12 @@ build() {
 		--disable-libmpx \
 		--with-system-zlib \
 		--disable-nls \
-		--with-pkgversion="$_pkgversion" \
+		--with-pkgversion="Venom Linux $version-$release" \
 		--enable-threads=posix \
 		--enable-__cxa_atexit \
 		--enable-default-pie \
 		--enable-default-ssp \
-		$_config
+		--enable-multilib
 	make
 	make -j1 DESTDIR=$PKG install
 
