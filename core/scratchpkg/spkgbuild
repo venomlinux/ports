@@ -2,20 +2,19 @@
 # depends	: coreutils httpup libarchive
 
 name=scratchpkg
-version=0.9
-release=4
+version=20200729
+release=1
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
 	etc/scratchpkg.repo
+	etc/scratchpkg.mask
 	etc/revdep.conf"
 scratchpkg_url=https://github.com/venomlinux/scratchpkg
-source="$scratchpkg_url/archive/$version/$name-$version.tar.gz
+source="$scratchpkg_url/archive/$version.tar.gz
 	$name.repo
 	$name.conf
 	$name.alias
-	$scratchpkg_url/commit/f74b026a13c69275675fb0fa8310693269988da8.patch
-	$scratchpkg_url/commit/ab23dbde6751bfec2cc2a220de92c16fb18237c2.patch
-	$scratchpkg_url/commit/eee0a24f613633d1d118f112e3a30aeb2365c744.patch"
+	$name.mask"
 
 build() {
 	cd $name-$version
@@ -30,4 +29,5 @@ build() {
 	install -m644 $SRC/$name.repo $PKG/etc/$name.repo
 	install -m644 $SRC/$name.conf $PKG/etc/$name.conf
 	install -m644 $SRC/$name.alias $PKG/etc/$name.alias
+	install -m644 $SRC/$name.mask $PKG/etc/$name.mask
 }

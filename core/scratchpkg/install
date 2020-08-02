@@ -1,16 +1,17 @@
-post_upgrade() {
-	grep -q "/usr/ports/xorg" /etc/scratchpkg.repo && \
-		sed -i '\,/usr/ports/xorg,d' /etc/scratchpkg.repo
-	grep -q "/usr/ports/extra" /etc/scratchpkg.repo && \
-		sed -i '\,/usr/ports/extra,d' /etc/scratchpkg.repo
-	grep -q "/usr/ports/nonfree" /etc/scratchpkg.repo || \
-		echo "#/usr/ports/nonfree    https://raw.githubusercontent.com/venomlinux/ports/master/nonfree" >> /etc/scratchpkg.repo
-
-	sed -i "/libuargp/d" /etc/scratchpkg.alias
-	sed -i "/musl-fts/d" /etc/scratchpkg.alias
-	sed -i "/musl-obstack/d" /etc/scratchpkg.alias
+initalias() {
+	if [ -L /sbin/init ] && [ $(readlink /sbin/init) = runit-init ]; then
+		sed -i "/runit sysvinit/d" /etc/scratchpkg.alias
+		sed -i "/rc runit-rc/d" /etc/scratchpkg.alias
+		grep -q ^"sysvinit runit" /etc/scratchpkg.alias || echo "sysvinit runit" >> /etc/scratchpkg.alias
+		grep -q ^"rc runit-rc" /etc/scratchpkg.alias || echo "rc runit-rc" >> /etc/scratchpkg.alias
+	else
+		sed -i "/sysvinit runit/d" /etc/scratchpkg.alias
+		sed -i "/rc runit-rc/d" /etc/scratchpkg.alias
+		grep -q ^"runit sysvinit" /etc/scratchpkg.alias || echo "runit sysvinit" >> /etc/scratchpkg.alias
+		grep -q ^"rc runit-rc" /etc/scratchpkg.alias || echo "runit-rc rc" >> /etc/scratchpkg.alias
+	fi
 }
 
 case $1 in
-	post-upgrade) post_upgrade;;
+	post-upgrade|post-install) initalias;;
 esac
