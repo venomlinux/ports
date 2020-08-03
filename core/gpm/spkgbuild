@@ -4,18 +4,15 @@ name=gpm
 version=1.20.7
 release=4
 source="https://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
-	$name-$version-glibc_2.26-1.patch
+	gpm-1.20.7-consolidated-1.patch
+	rc.$name
 	run
 	conf"
 
 build() {
 	cd $name-$version
 
-	for i in display-buttons display-coords get-versions; do
-		sed -i -e 's:<gpm.h>:"headers/gpm.h":' src/prog/$i.c
-	done
-
-	patch -Np1 -i ../$name-$version-glibc_2.26-1.patch
+	patch -Np1 -i ../gpm-1.20.7-consolidated-1.patch
 
 	./autogen.sh
 	./configure --prefix=/usr --sysconfdir=/etc
@@ -24,6 +21,9 @@ build() {
 
 	ln -sfv libgpm.so.2.1.0 $PKG/usr/lib/libgpm.so
 	install -v -m644 conf/gpm-root.conf $PKG/etc
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/$name/run

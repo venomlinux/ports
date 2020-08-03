@@ -5,6 +5,7 @@ name=bluez
 version=5.54
 release=2
 source="https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
+	rc.bluetoothd
 	run"
 
 build() {
@@ -43,6 +44,9 @@ cat > $PKG/etc/bluetooth/uart.conf << "EOF"
 #
 # End of uart.conf
 EOF
+
+	# rc service
+	install -Dm755 $SRC/rc.bluetoothd $PKG/etc/rc.d/bluetoothd
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/bluetoothd/run

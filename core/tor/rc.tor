@@ -1,0 +1,33 @@
+#!/bin/sh	
+#	
+# /etc/rc.d/tor: start/stop Tor service	
+#	
+
+. /etc/rc.subr
+
+PROG=/usr/bin/tor
+OPTS="--quiet"
+	
+case $1 in	
+	start)	
+		msg "Starting Tor service..."	
+		start_daemon $PROG $OPTS
+		;;	
+	stop)	
+		msg "Stopping Tor service..."	
+		stop_daemon $PROG
+		;;	
+	restart)	
+		$0 stop	
+		sleep 1	
+		$0 start	
+		;;	
+	status)	
+		status_daemon $PROG
+		;;	
+	*)	
+		echo "Usage: $0 [start|stop|restart|status]"	
+		;;	
+esac
+
+# End of file

@@ -5,6 +5,7 @@ name=dbus
 version=1.12.20
 release=1
 source="https://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz
+	rc.$name
 	run"
 
 build() {
@@ -26,6 +27,9 @@ build() {
 
 	chown -v root:messagebus $PKG/usr/lib/$name/dbus-daemon-launch-helper
 	chmod -v      4750       $PKG/usr/lib/$name/dbus-daemon-launch-helper
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/$name/run

@@ -4,6 +4,7 @@ name=dhcpcd
 version=9.1.4
 release=1
 source="http://roy.marples.name/downloads/$name/$name-$version.tar.xz
+	rc.network
 	run
 	conf"
 
@@ -14,6 +15,9 @@ build() {
 	            --dbdir=/var/lib/dhcpcd
 	make
 	make DESTDIR=$PKG install
+
+	# rc service
+	install -Dm755 $SRC/rc.network $PKG/etc/rc.d/network
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/$name/run

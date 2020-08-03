@@ -12,19 +12,11 @@ source="https://github.com/CanonicalLtd/lightdm/releases/download/$version/light
 	lightdm.rules
 	$name.pam
 	$name-autologin.pam
-	run
-	musl-language.patch
-	musl-updwtmpx.patch"
+	rc.$name
+	run"
 
 build() {
 	cd $name-$version
-
-	case $XHOST in
-		*-musl)
-		        patch -Np0 -i $SRC/musl-language.patch
-		        patch -Np0 -i $SRC/musl-updwtmpx.patch
-		;;
-	esac
 
 	./configure                          \
 	       --prefix=/usr                 \
@@ -55,6 +47,9 @@ build() {
 		$PKG/var/lib/lightdm-data \
 		$PKG/var/cache/lightdm \
 		$PKG/var/log/lightdm
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/$name/run

@@ -6,20 +6,11 @@ version=0.5.3
 release=2
 backup="etc/lxdm/lxdm.conf"
 source="https://downloads.sourceforge.net/$name/$name-$version.tar.xz
-	run
-	execinfo.patch
-	fix-msghdr-usage.patch"
+	rc.$name
+	run"
 
 build() {
 	cd $name-$version
-
-	case $XHOST in
-		*-musl)
-		        for p in $SRC/*.patch; do
-		        	patch -Np0 -i $p
-		        done
-		;;
-	esac
 
 cat > pam/lxdm << "EOF"
 #%PAM-1.0
@@ -51,6 +42,9 @@ sed -e 's/^bg/#&/'        \
 	            --with-systemdsystemunitdir=no
 	make
 	make DESTDIR=$PKG install
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/$name/run

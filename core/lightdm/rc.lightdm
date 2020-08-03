@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# /etc/rc.d/lightdm: start/stop lightdm daemon
+#
+
+. /etc/rc.subr
+
+NAME="lightdm daemon"
+PROG=/usr/bin/lightdm
+
+case $1 in
+	start)
+		msg "Starting $NAME..."
+		start_daemon $PROG &
+		;;
+	stop)
+		msg "Stopping $NAME..."
+		stop_daemon $PROG
+		;;
+	restart)
+		$0 stop
+		sleep 2
+		$0 start
+		;;
+	status)
+		status_daemon $PROG
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+# End of file

@@ -5,6 +5,7 @@ name=cronie
 version=1.5.5
 release=3
 source="https://github.com/cronie-crond/cronie/releases/download/$name-$version/$name-$version.tar.gz
+	rc.crond
 	$name.deny
 	$name.pam
 	run"
@@ -33,6 +34,9 @@ build() {
 	install -Dm0644 contrib/anacrontab $PKG/etc/anacrontab
 	install -Dm0644 contrib/0hourly $PKG/etc/cron.d/0hourly
 	install -Dm0755 contrib/0anacron $PKG/etc/cron.hourly/0anacron
+
+	# rc service
+	install -Dm755 $SRC/rc.crond $PKG/etc/rc.d/crond
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/$name/run

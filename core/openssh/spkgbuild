@@ -5,6 +5,7 @@ name=openssh
 version=8.3p1
 release=1
 source="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
+	rc.sshd
 	run"
 
 build() {
@@ -24,6 +25,9 @@ build() {
 
 	sed '/^#ChallengeResponseAuthentication yes$/c ChallengeResponseAuthentication no' \
 	    -i $PKG/etc/ssh/sshd_config
+
+	# rc service
+	install -Dm755 $SRC/rc.sshd $PKG/etc/rc.d/sshd
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/sshd/run

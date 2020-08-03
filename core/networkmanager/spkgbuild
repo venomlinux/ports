@@ -6,6 +6,7 @@ version=1.26.0
 release=1
 backup="etc/NetworkManager/NetworkManager.conf"
 source="https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
+	rc.$name
 	run"
 
 build() {
@@ -13,8 +14,6 @@ build() {
 
 	# Fix a missing meson.build file for initrd hooks
 	sed '/initrd/d' -i src/meson.build
-
-	export CFLAGS="$CFLAGS -DRTLD_DEEPBIND=0"
 
 	mkdir build
 	cd    build
@@ -48,6 +47,9 @@ cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"
 [main]
 plugins=keyfile
 EOF
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/$name/run

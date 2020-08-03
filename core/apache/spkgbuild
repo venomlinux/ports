@@ -6,6 +6,7 @@ version=2.4.43
 release=1
 source="https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 	httpd-blfs_layout-1.patch
+	rc.httpd
 	run"
 
 build() {
@@ -14,7 +15,8 @@ build() {
 	# Forces the apxs utility to use absolute pathnames for modules, when instructed to do so
 	patch -Np1 -i ../httpd-blfs_layout-1.patch
 
-	sed '/dir.*CFG_PREFIX/s@^@#@' -i support/apxs.in
+	# Adapt the Lua module to API changes in Lua-5.4
+	sed -i 's/lua_resume(a, NULL, b)/lua_resume(a, NULL, b, NULL)/' modules/lua/mod_lua.h
 	
 	./configure --enable-authnz-fcgi                              \
 	            --enable-layout=BLFS                              \
@@ -35,6 +37,9 @@ build() {
 	mv -v $PKG/usr/sbin/suexec $PKG/usr/lib/httpd/suexec
 
 	rm -fr $PKG/var/run
+
+	# rc service
+	install -Dm755 $SRC/rc.httpd $PKG/etc/rc.d/httpd
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/httpd/run

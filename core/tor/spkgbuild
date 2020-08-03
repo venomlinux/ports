@@ -5,6 +5,7 @@ name=tor
 version=0.4.3.6
 release=1
 source="https://www.torproject.org/dist/$name-$version.tar.gz
+	rc.tor
 	torrc
 	run"
 
@@ -19,6 +20,9 @@ build() {
 	mv $PKG/etc/tor/torrc.sample $PKG/etc/tor/torrc-dist
 
 	install -d $PKG/var/lib/tor
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/$name/run

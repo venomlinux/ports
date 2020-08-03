@@ -4,6 +4,7 @@ name=sysklogd
 version=2.1.2
 release=1
 source="https://github.com/troglobit/sysklogd/releases/download/v$version/sysklogd-$version.tar.gz
+	rc.$name
 	run"
 
 build() {
@@ -31,6 +32,9 @@ user.* -/var/log/user.log
 
 # End /etc/syslog.conf
 EOF
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/$name/run

@@ -5,6 +5,7 @@ name=acpid
 version=2.0.32
 release=3
 source="https://downloads.sourceforge.net/acpid2/$name-$version.tar.xz
+	rc.$name
 	run"
 
 build() {
@@ -26,6 +27,9 @@ cat > $PKG/etc/acpi/lid.sh << "EOF"
 /usr/sbin/pm-suspend
 EOF
 	chmod +x $PKG/etc/acpi/lid.sh
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/$name/run

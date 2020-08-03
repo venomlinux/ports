@@ -7,6 +7,7 @@ release=3
 backup="etc/wpa_supplicant.conf"
 source="https://w1.fi/releases/$name-$version.tar.gz
 	wpa_supplicant.conf
+	rc.wpa
 	run
 	conf"
 
@@ -64,6 +65,9 @@ EOF
 
 	# wpa_supplicant.conf
 	install -Dm 600 $SRC/wpa_supplicant.conf $PKG/etc/wpa_supplicant.conf
+
+	# rc service
+	install -Dm755 $SRC/rc.wpa $PKG/etc/rc.d/wpa
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/$name/run

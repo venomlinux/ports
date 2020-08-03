@@ -5,6 +5,7 @@ name=alsa-utils
 version=1.2.3
 release=1
 source="ftp://ftp.alsa-project.org/pub/utils/$name-$version.tar.bz2
+	rc.alsa
 	run
 	finish"
 
@@ -18,6 +19,9 @@ build() {
 		    --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	# rc service
+	install -Dm755 $SRC/rc.alsa $PKG/etc/rc.d/alsa
 
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/alsa/run
