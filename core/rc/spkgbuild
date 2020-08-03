@@ -1,0 +1,12 @@
+# description	: BSD-style init (CRUX inspired)
+# depends	: sysvinit
+
+name=rc
+version=20200730
+release=1
+source="https://github.com/venomlinux/rc/archive/8b2bde1b3b814233e3457d94d864fb67d5e0b0e0.tar.gz"
+
+build() {
+	cd $name-8b2bde1b3b814233e3457d94d864fb67d5e0b0e0
+	make DESTDIR=$PKG install
+}
