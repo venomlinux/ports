@@ -2,14 +2,16 @@
 # depends	: qt5 cmake liblxqt kwindowsystem libqtxdg
 
 name=lxqt-about
-version=0.14.1
+version=0.15.0
 release=1
-source="https://downloads.lxqt.org/downloads/lxqt-about/$version/lxqt-about-$version.tar.xz"
+source="https://github.com/lxqt/$name/releases/download/$version/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
+
 	mkdir -p build
 	cd build
+
 	cmake \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 	..
