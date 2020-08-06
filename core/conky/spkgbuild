@@ -1,16 +1,16 @@
 # description	: Lightweight system monitor for X
-# depends	: lua imlib2 wireless_tools cmake man-db docbook2x
+# depends	: lua imlib2 wireless_tools cmake man-db docbook2x libxdamage libxft libxinerama
 
 name=conky
-version=1.11.5
+version=1.11.6
 release=1
-options="!strip"
-source="$name-$version.tar.gz::https://github.com/brndnmtthws/conky/archive/v${version}.tar.gz"
+source="https://github.com/brndnmtthws/conky/archive/v$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
 
 	cmake \
+		-D RELEASE=ON \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D MAINTAINER_MODE=ON \
 		-D BUILD_WLAN=ON \
