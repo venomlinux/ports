@@ -2,15 +2,12 @@
 # depends	: qt5 cmake kwindowsystem polkit-qt libqtxdg libxscrnsaver libx11
 
 name=liblxqt
-version=0.14.1
+version=0.15.1
 release=1
-source="https://downloads.lxqt.org/downloads/liblxqt/$version/liblxqt-$version.tar.xz
-	qt5.14-fix.patch"
+source="https://github.com/lxqt/$name/releases/download/$version/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i $SRC/qt5.14-fix.patch
 
 	mkdir -p build
 	cd build
