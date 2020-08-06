@@ -1,14 +1,14 @@
 initalias() {
 	if [ -L /sbin/init ] && [ $(readlink /sbin/init) = runit-init ]; then
 		sed -i "/runit sysvinit/d" /etc/scratchpkg.alias
-		sed -i "/rc runit-rc/d" /etc/scratchpkg.alias
+		sed -i "/runit-rc rc/d" /etc/scratchpkg.alias
 		grep -q ^"sysvinit runit" /etc/scratchpkg.alias || echo "sysvinit runit" >> /etc/scratchpkg.alias
 		grep -q ^"rc runit-rc" /etc/scratchpkg.alias || echo "rc runit-rc" >> /etc/scratchpkg.alias
 	else
 		sed -i "/sysvinit runit/d" /etc/scratchpkg.alias
 		sed -i "/rc runit-rc/d" /etc/scratchpkg.alias
 		grep -q ^"runit sysvinit" /etc/scratchpkg.alias || echo "runit sysvinit" >> /etc/scratchpkg.alias
-		grep -q ^"rc runit-rc" /etc/scratchpkg.alias || echo "runit-rc rc" >> /etc/scratchpkg.alias
+		grep -q ^"runit-rc rc" /etc/scratchpkg.alias || echo "runit-rc rc" >> /etc/scratchpkg.alias
 	fi
 }
 
