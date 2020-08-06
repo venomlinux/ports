@@ -8,6 +8,9 @@ source="https://www.x.org/pub/individual/driver/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
+
+	export CFLAGS="$CFLAGS -fcommon"
+
 	./configure --prefix=/usr \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
