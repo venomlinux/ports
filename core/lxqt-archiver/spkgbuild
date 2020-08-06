@@ -1,0 +1,21 @@
+# description	: A simple & lightweight desktop-agnostic Qt file archiver
+# depends	: qt5 cmake libfm-qt json-glib menu-cache libexif
+
+name=lxqt-archiver
+version=0.2.0
+release=1
+source="https://github.com/lxqt/$name/releases/download/$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir -p build
+	cd build
+
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+	..
+	make
+	make DESTDIR=$PKG install
+}
