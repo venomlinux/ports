@@ -5,6 +5,7 @@ drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/include/mlt++/
 -rw-r--r-- root/root    usr/include/mlt++/Mlt.h
 -rw-r--r-- root/root    usr/include/mlt++/MltAnimation.h
+-rw-r--r-- root/root    usr/include/mlt++/MltAudio.h
 -rw-r--r-- root/root    usr/include/mlt++/MltConfig.h
 -rw-r--r-- root/root    usr/include/mlt++/MltConsumer.h
 -rw-r--r-- root/root    usr/include/mlt++/MltDeque.h
@@ -32,6 +33,7 @@ drwxr-xr-x root/root    usr/include/mlt/
 drwxr-xr-x root/root    usr/include/mlt/framework/
 -rw-r--r-- root/root    usr/include/mlt/framework/mlt.h
 -rw-r--r-- root/root    usr/include/mlt/framework/mlt_animation.h
+-rw-r--r-- root/root    usr/include/mlt/framework/mlt_audio.h
 -rw-r--r-- root/root    usr/include/mlt/framework/mlt_cache.h
 -rw-r--r-- root/root    usr/include/mlt/framework/mlt_consumer.h
 -rw-r--r-- root/root    usr/include/mlt/framework/mlt_deque.h
@@ -60,29 +62,25 @@ drwxr-xr-x root/root    usr/include/mlt/framework/
 -rw-r--r-- root/root    usr/include/mlt/framework/mlt_types.h
 -rw-r--r-- root/root    usr/include/mlt/framework/mlt_version.h
 drwxr-xr-x root/root    usr/lib/
-lrwxrwxrwx root/root    usr/lib/libmlt++.so -> libmlt++.so.6.20.0
-lrwxrwxrwx root/root    usr/lib/libmlt++.so.3 -> libmlt++.so.6.20.0
--rwxr-xr-x root/root    usr/lib/libmlt++.so.6.20.0
-lrwxrwxrwx root/root    usr/lib/libmlt.so -> libmlt.so.6.20.0
-lrwxrwxrwx root/root    usr/lib/libmlt.so.6 -> libmlt.so.6.20.0
--rwxr-xr-x root/root    usr/lib/libmlt.so.6.20.0
+lrwxrwxrwx root/root    usr/lib/libmlt++.so -> libmlt++.so.6.22.1
+lrwxrwxrwx root/root    usr/lib/libmlt++.so.3 -> libmlt++.so.6.22.1
+-rwxr-xr-x root/root    usr/lib/libmlt++.so.6.22.1
+lrwxrwxrwx root/root    usr/lib/libmlt.so -> libmlt.so.6.22.1
+lrwxrwxrwx root/root    usr/lib/libmlt.so.6 -> libmlt.so.6.22.1
+-rwxr-xr-x root/root    usr/lib/libmlt.so.6.22.1
 drwxr-xr-x root/root    usr/lib/mlt/
--rwxr-xr-x root/root    usr/lib/mlt/libmltavformat.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltcore.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltdecklink.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltfrei0r.so
+-rwxr-xr-x root/root    usr/lib/mlt/libmltgdk.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltkdenlive.so
--rwxr-xr-x root/root    usr/lib/mlt/libmltlinsys.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltmotion_est.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltnormalize.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltoldfilm.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltplus.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltplusgpl.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltqt.so
--rwxr-xr-x root/root    usr/lib/mlt/libmltresample.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltrtaudio.so
--rwxr-xr-x root/root    usr/lib/mlt/libmltsdl.so
--rwxr-xr-x root/root    usr/lib/mlt/libmltsdl2.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltvideostab.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltvmfx.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltvorbis.so
@@ -93,10 +91,6 @@ drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/mlt-framework.pc
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/mlt/
-drwxr-xr-x root/root    usr/share/mlt/avformat/
--rw-r--r-- root/root    usr/share/mlt/avformat/blacklist.txt
--rw-r--r-- root/root    usr/share/mlt/avformat/consumer_avformat.yml
--rw-r--r-- root/root    usr/share/mlt/avformat/producer_avformat.yml
 drwxr-xr-x root/root    usr/share/mlt/core/
 -rw-r--r-- root/root    usr/share/mlt/core/consumer_multi.yml
 -rw-r--r-- root/root    usr/share/mlt/core/data_fx.properties
@@ -157,13 +151,15 @@ drwxr-xr-x root/root    usr/share/mlt/frei0r/
 -rw-r--r-- root/root    usr/share/mlt/frei0r/not_thread_safe.txt
 -rw-r--r-- root/root    usr/share/mlt/frei0r/param_name_map.yaml
 -rw-r--r-- root/root    usr/share/mlt/frei0r/resolution_scale.yml
+drwxr-xr-x root/root    usr/share/mlt/gdk/
+-rw-r--r-- root/root    usr/share/mlt/gdk/filter_rescale.yml
+-rw-r--r-- root/root    usr/share/mlt/gdk/producer_pango.yml
+-rw-r--r-- root/root    usr/share/mlt/gdk/producer_pixbuf.yml
 drwxr-xr-x root/root    usr/share/mlt/kdenlive/
 -rw-r--r-- root/root    usr/share/mlt/kdenlive/filter_boxblur.yml
 -rw-r--r-- root/root    usr/share/mlt/kdenlive/filter_freeze.yml
 -rw-r--r-- root/root    usr/share/mlt/kdenlive/filter_wave.yml
 -rw-r--r-- root/root    usr/share/mlt/kdenlive/producer_framebuffer.yml
-drwxr-xr-x root/root    usr/share/mlt/linsys/
--rw-r--r-- root/root    usr/share/mlt/linsys/consumer_sdi.yml
 -rw-r--r-- root/root    usr/share/mlt/metaschema.yaml
 drwxr-xr-x root/root    usr/share/mlt/motion_est/
 -rw-r--r-- root/root    usr/share/mlt/motion_est/filter_autotrack_rectangle.yml
@@ -230,6 +226,8 @@ drwxr-xr-x root/root    usr/share/mlt/presets/consumer/avformat/
 -rw-r--r-- root/root    usr/share/mlt/presets/consumer/avformat/MPEG-2
 -rw-r--r-- root/root    usr/share/mlt/presets/consumer/avformat/MPEG-4
 -rw-r--r-- root/root    usr/share/mlt/presets/consumer/avformat/MPEG-4-ASP
+-rw-r--r-- root/root    usr/share/mlt/presets/consumer/avformat/Slide-Deck-H264
+-rw-r--r-- root/root    usr/share/mlt/presets/consumer/avformat/Slide-Deck-HEVC
 -rw-r--r-- root/root    usr/share/mlt/presets/consumer/avformat/Sony-PSP
 -rw-r--r-- root/root    usr/share/mlt/presets/consumer/avformat/Vorbis
 -rw-r--r-- root/root    usr/share/mlt/presets/consumer/avformat/WAV
@@ -439,19 +437,8 @@ drwxr-xr-x root/root    usr/share/mlt/qt/
 -rw-r--r-- root/root    usr/share/mlt/qt/producer_qtext.yml
 -rw-r--r-- root/root    usr/share/mlt/qt/transition_qtblend.yml
 -rw-r--r-- root/root    usr/share/mlt/qt/transition_vqm.yml
-drwxr-xr-x root/root    usr/share/mlt/resample/
--rw-r--r-- root/root    usr/share/mlt/resample/filter_resample.yml
 drwxr-xr-x root/root    usr/share/mlt/rtaudio/
 -rw-r--r-- root/root    usr/share/mlt/rtaudio/consumer_rtaudio.yml
-drwxr-xr-x root/root    usr/share/mlt/sdl/
--rw-r--r-- root/root    usr/share/mlt/sdl/consumer_sdl.yml
--rw-r--r-- root/root    usr/share/mlt/sdl/consumer_sdl_audio.yml
--rw-r--r-- root/root    usr/share/mlt/sdl/consumer_sdl_preview.yml
--rw-r--r-- root/root    usr/share/mlt/sdl/consumer_sdl_still.yml
--rw-r--r-- root/root    usr/share/mlt/sdl/producer_sdl_image.yml
-drwxr-xr-x root/root    usr/share/mlt/sdl2/
--rw-r--r-- root/root    usr/share/mlt/sdl2/consumer_sdl2.yml
--rw-r--r-- root/root    usr/share/mlt/sdl2/consumer_sdl2_audio.yml
 drwxr-xr-x root/root    usr/share/mlt/videostab/
 -rw-r--r-- root/root    usr/share/mlt/videostab/filter_videostab.yml
 -rw-r--r-- root/root    usr/share/mlt/videostab/filter_videostab2.yml
