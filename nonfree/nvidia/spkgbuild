@@ -2,7 +2,7 @@
 # depends	: gtk2 gtk3 nvidia-modules
 
 name=nvidia
-version=440.100
+version=450.57
 release=1
 source="http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
 	nvidia-drm-outputclass.conf"
@@ -63,7 +63,6 @@ build() {
 	install -m 0755 libcuda.so.$version $PKG/usr/lib/
 	ln -s libcuda.so.$version $PKG/usr/lib/libcuda.so.1
 	ln -s libcuda.so.$version $PKG/usr/lib/libcuda.so
-	install -m 0755 libnvidia-fatbinaryloader.so.$version $PKG/usr/lib/
 	install -m 0755 libnvidia-ptxjitcompiler.so.$version $PKG/usr/lib/
 	ln -s libnvidia-ptxjitcompiler.so.$version $PKG/usr/lib/libnvidia-ptxjitcompiler.so.1
 	ln -s libnvidia-ptxjitcompiler.so.$version $PKG/usr/lib/libnvidia-ptxjitcompiler.so
