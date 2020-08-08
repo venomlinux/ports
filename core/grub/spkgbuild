@@ -3,16 +3,18 @@
 
 name=grub
 version=2.04
-release=1
+release=2
 backup="etc/default/grub"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	grub.default
-	detect-venom-fallback-initrd.patch"
+	detect-venom-fallback-initrd.patch
+	0006-BootHole.patch"
 
 build() {
 	cd $name-$version
 
 	patch -Np1 -i $SRC/detect-venom-fallback-initrd.patch
+	patch -Np1 -i $SRC/0006-BootHole.patch
 
 	# fix os name
 	sed 's|GNU/Linux|Linux|' -i "util/grub.d/10_linux.in"
