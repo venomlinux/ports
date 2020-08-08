@@ -3,15 +3,19 @@
 
 name=grub-efi
 version=2.04
-release=1
+unifont_version=13.0.03
+release=2
 source="https://ftp.gnu.org/gnu/grub/grub-$version.tar.xz
-	https://ftp.gnu.org/gnu/unifont/unifont-12.1.02/unifont-12.1.02.bdf.gz"
+	https://ftp.gnu.org/gnu/unifont/unifont-$unifont_version/unifont-$unifont_version.bdf.gz
+	0006-BootHole.patch"
 
 build() {
 	cd grub-$version
 
-	gunzip $SRC/unifont-12.1.02.bdf.gz
-	cp $SRC/unifont-12.1.02.bdf unifont.bdf
+	patch -Np1 -i $SRC/0006-BootHole.patch
+
+	gunzip $SRC/unifont-$unifont_version.bdf.gz
+	cp $SRC/unifont-$unifont_version.bdf unifont.bdf
 
 	./configure --prefix=/usr  \
             --sbindir=/sbin        \
