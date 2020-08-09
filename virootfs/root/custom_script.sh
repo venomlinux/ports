@@ -83,26 +83,28 @@ fi
 
 echo venomlive > /etc/hostname
 
-if [ -d /etc/sv/lxdm ]; then
+if [ -x /etc/rc.d/lxdm ]; then
 	DM=lxdm
-elif [ -d /etc/sv/lightdm ]; then
+elif [ -x /etc/rc.d/lightdm ]; then
 	DM=lightdm
-elif [ -d /etc/sv/sddm ]; then
+elif [ -x /etc/rc.d/sddm ]; then
 	DM=sddm
-elif [ -d /etc/sv/slim ]; then
+elif [ -x /etc/rc.d/slim ]; then
 	DM=slim
 fi
 
-if [ -d /etc/sv/networkmanager ]; then
+if [ -x /etc/rc.d/networkmanager ]; then
 	NETWORK=networkmanager
-elif [ -d /etc/sv/dhcpcd ]; then
-	NETWORK=dhcpcd
+elif [ -x /etc/rc.d/network ]; then
+	NETWORK=network
 fi
 
 for i in sysklogd dbus $DM $NETWORK bluetooth; do
-	if [ -d /etc/sv/$i ]; then
-		ln -sf /etc/sv/$i /var/service
+	if [ -x /etc/rc.d/$i ]; then
+		daemon="$daemon $i"
 	fi
 done
+
+sed -i "s/^#DAEMONS=.*/DAEMONS=\"$daemon\"/" /etc/rc.conf
 
 exit 0

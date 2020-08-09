@@ -51,6 +51,7 @@ MAIN_PKG="pm-utils sudo scrot hexchat audacious audacious-plugins smplayer alsa-
 if [ "$1" ]; then
 	while [ $1 ]; do
 		buildiso $1
+		shift
 	done
 else
 	for f in $FLAVOR; do

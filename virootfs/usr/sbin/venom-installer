@@ -557,19 +557,19 @@ install_now() {
 		cp -Ra "$CUSTOMIZEDIR"/* $VENOMROOT
 	fi
 	
-	if [ -d $VENOMROOT/etc/sv/networkmanager ]; then
+	if [ -x $VENOMROOT/etc/rc.d/networkmanager ]; then
 		network=networkmanager
-	elif [ -d $VENOMROOT/etc/sv/dhcpcd ]; then
-		network=dhcpcd
+	elif [ -x $VENOMROOT/etc/rc.d/network ]; then
+		network=network
 	fi
 	
-	if [ -d $VENOMROOT/etc/sv/lxdm ]; then
+	if [ -x $VENOMROOT/etc/rc.d/lxdm ]; then
 		dm=lxdm
-	elif [ -d $VENOMROOT/etc/sv/lightdm ]; then
+	elif [ -x $VENOMROOT/etc/rc.d/lightdm ]; then
 		dm=lightdm
-	elif [ -d $VENOMROOT/etc/sv/sddm ]; then
+	elif [ -x $VENOMROOT/etc/rc.d/sddm ]; then
 		dm=sddm
-	elif [ -d $VENOMROOT/etc/sv/slim ]; then
+	elif [ -x $VENOMROOT/etc/rc.d/slim ]; then
 		dm=slim
 	fi
 
@@ -579,8 +579,12 @@ install_now() {
 
 	# enable services
 	for d in $daemons; do
-		if [ -d $VENOMROOT/etc/sv/$d ]; then
-			run_chroot ln -s /etc/sv/$d /var/service
+		if [ -x $VENOMROOT/etc/rc.d/$d ]; then
+			if [ "$dd" ]; then
+				dd="$dd $d"
+			else
+				dd="$d"
+			fi
 		fi
 	done
 	
@@ -588,13 +592,16 @@ install_now() {
 	echo "$hostname_var" > $VENOMROOT/etc/hostname
 	
 	# hardware clock
-	sed "s;#HARDWARECLOCK=.*;HARDWARECLOCK=\"$clock_var\";" -i $VENOMROOT/etc/runit/runit.conf
+	sed "s;#HARDWARECLOCK=.*;HARDWARECLOCK=\"$clock_var\";" -i $VENOMROOT/etc/rc.conf
 	
 	# timezone
-	sed "s;#TIMEZONE=.*;TIMEZONE=\"$timezone_var\";" -i $VENOMROOT/etc/runit/runit.conf
+	sed "s;#TIMEZONE=.*;TIMEZONE=\"$timezone_var\";" -i $VENOMROOT/etc/rc.conf
 	
 	# keymap
-	sed "s;#KEYMAP=.*;KEYMAP=\"$keymap_var\";" -i $VENOMROOT/etc/runit/runit.conf
+	sed "s;#KEYMAP=.*;KEYMAP=\"$keymap_var\";" -i $VENOMROOT/etc/rc.conf
+	
+	# daemons
+	sed "s;#DAEMONS=.*;DAEMONS=\"$dd\";" -i $VENOMROOT/etc/rc.conf
 
 	# fstab
 	print_info "Setup fstab..."
