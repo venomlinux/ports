@@ -7,9 +7,12 @@ release=1
 source="http://hisham.hm/htop/releases/$version/htop-$version.tar.gz"
 
 build() {
-    cd $name-$version
-    ./configure --prefix=/usr --disable-nls --mandir=/usr/share/man
-    make
-    make DESTDIR=$PKG install
+	cd $name-$version
+
+	export CFLAGS="$CFLAGS -fcommon"
+
+	./configure --prefix=/usr --disable-nls --mandir=/usr/share/man
+	make
+	make DESTDIR=$PKG install
 }
 
