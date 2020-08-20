@@ -2,8 +2,8 @@
 # depends	: util-macros mkfontscale font-util
 
 name=font-misc-ethiopic
-version=1.0.3
-release=2
+version=1.0.4
+release=1
 source="http://ftp.x.org/pub/individual/font/font-misc-ethiopic-$version.tar.bz2"
 
 build() {
@@ -16,8 +16,5 @@ build() {
 		--disable-static
 	make
 	make DESTDIR=$PKG install
-	
-	find $PKG -name 'fonts.scale' -delete	
-	find $PKG -name 'fonts.dir' -delete
 }
 
