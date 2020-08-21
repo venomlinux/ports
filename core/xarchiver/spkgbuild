@@ -4,15 +4,14 @@
 name=xarchiver
 version=0.5.4
 release=1
-source="https://downloads.sourceforge.net/$name/$name-$version.tar.bz2
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-$version-fixes-1.patch"
+source="https://downloads.sourceforge.net/$name/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../$name-$version-fixes-1.patch
+	export CFLAGS="$CFLAGS -fcommon"
 
-	./autogen.sh --prefix=/usr \
+	./configure --prefix=/usr \
 	             --libexecdir=/usr/lib/xfce4
 	make
 	make DESTDIR=$PKG install
