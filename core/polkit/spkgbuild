@@ -1,16 +1,13 @@
 # description	: Toolkit for defining and handling authorizations
-# depends	: glib js60 linux-pam gobject-introspection
+# depends	: glib mozjs linux-pam gobject-introspection intltool
 
 name=polkit
-version=0.116
+version=0.117
 release=1
-source="https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz
-	make-innetgr-optional.patch"
+source="https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-
-	patch -Np0 -i $SRC/make-innetgr-optional.patch
 
 	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
