@@ -3,7 +3,7 @@
 
 name=scratchpkg
 version=20200729
-release=1
+release=2
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
 	etc/scratchpkg.repo
@@ -14,7 +14,8 @@ source="$scratchpkg_url/archive/$version.tar.gz
 	$name.repo
 	$name.conf
 	$name.alias
-	$name.mask"
+	$name.mask
+	$scratchpkg_url/commit/497b92c1cdeba692e0a805efa3b0a30644e10c72.patch"
 
 build() {
 	cd $name-$version
