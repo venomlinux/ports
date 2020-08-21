@@ -2,13 +2,15 @@
 # depends	: rust
 
 name=cbindgen
-version=0.14.3
+version=0.14.4
 release=1
 source="https://github.com/eqrion/cbindgen/archive/v$version/cbindgen-$version.tar.gz"
 
 build() {
 	export CARGO_HOME="$PWD/cargo"
 	mkdir -p $CARGO_HOME
+
+	XARCH=${XARCH:-x86_64}
 
         _target="$XARCH-unknown-linux-gnu"
 
