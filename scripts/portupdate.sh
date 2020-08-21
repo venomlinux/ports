@@ -61,7 +61,7 @@ sudo $SCRIPTDIR/build.sh \
 		exit 1
 	}
 	
-sudo chown $(id -u):$(id -u) $PORTSDIR/$1/.checksums
-sudo chown $(id -u):$(id -u) $PORTSDIR/$1/.pkgfiles
+[ -f $PORTSDIR/$1/.checksums ] && sudo chown $(id -u):$(id -u) $PORTSDIR/$1/.checksums
+[ -f $PORTSDIR/$1/.pkgfiles ] && sudo chown $(id -u):$(id -u) $PORTSDIR/$1/.pkgfiles
 
 exit 0

@@ -118,7 +118,7 @@ zap_rootfs() {
 	mkdir -p $ROOTFS
 	msg "Extracting tarball image: $TARBALLIMG"
 	tar -xf $TARBALLIMG -C $ROOTFS || die "Error extracting tarball image"
-	cp $REPOFILE $ROOTFS/etc/scratchpkg.repo
+	tmp_scratchpkgconf
 	unset ZAP
 }
 
@@ -139,7 +139,7 @@ compress_rootfs() {
 	
 	msg "Copying ports and repofile..."
 	copy_ports
-	copy_repofile
+	main_scratchpkgconf
 	
 	msg "Compressing rootfs: $ROOTFS ..."
 	tar --exclude="var/cache/scratchpkg/packages/*" \
@@ -169,25 +169,37 @@ check_rootfs() {
 	[ -d $ROOTFS/dev ] || zap_rootfs
 }
 
-copy_repofile() {
-	cp $REPOFILE $ROOTFS/etc/scratchpkg.repo
+tmp_scratchpkgconf() {
+	mv "$ROOTFS"/etc/scratchpkg.repo "$ROOTFS"/etc/scratchpkg.repo.spkgnew
 	for i in $REPO; do
-		sed -i "s,#/usr/ports/$i,/usr/ports/$i," $ROOTFS/etc/scratchpkg.repo
+		echo "/usr/ports/$i" >> "$ROOTFS"/etc/scratchpkg.repo
 	done
+	cp "$ROOTFS"/etc/scratchpkg.conf "$ROOTFS"/etc/scratchpkg.conf.spkgnew
+	sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j$JOBS\"/" -i "$ROOTFS"/etc/scratchpkg.conf
+}
+
+main_scratchpkgconf() {
+	if [ -f $ROOTFS/etc/scratchpkg.repo.spkgnew ]; then
+		mv $ROOTFS/etc/scratchpkg.repo.spkgnew $ROOTFS/etc/scratchpkg.repo
+	fi
+	if [ -f $ROOTFS/etc/scratchpkg.conf.spkgnew ]; then
+		mv $ROOTFS/etc/scratchpkg.conf.spkgnew $ROOTFS/etc/scratchpkg.conf
+	fi
 }
 
 copy_ports() {
 	rm -fr $ROOTFS/usr/ports
 	mkdir -p $ROOTFS/usr/ports
-	for repo in $REPO; do
-		[ -d $PORTSDIR/$repo ] || msg "Repo not exist: $repo"
-		msg "Copying repo: $repo"
-		cp -Ra $PORTSDIR/$repo $ROOTFS/usr/ports || exit 1
-		rm -f $ROOTFS/usr/ports/$repo/REPO
-		rm -f $ROOTFS/usr/ports/$repo/.httpup-repgen-ignore
-		rm -f $ROOTFS/usr/ports/$repo/*/update
-		chown -R 0:0 $ROOTFS/usr/ports/$repo
-	done
+	[ -d $PORTSDIR/core ] || {
+		msg "core repo not exist"
+		return 1
+	}
+	msg "Copying core repo..."
+	cp -Ra $PORTSDIR/core $ROOTFS/usr/ports || exit 1
+	rm -f $ROOTFS/usr/ports/core/REPO
+	rm -f $ROOTFS/usr/ports/core/.httpup-repgen-ignore
+	rm -f $ROOTFS/usr/ports/core/*/update
+	chown -R 0:0 $ROOTFS/usr/ports/core
 }
 
 make_iso() {
@@ -212,7 +224,7 @@ make_iso() {
 	}
 	
 	copy_ports
-	copy_repofile
+	main_scratchpkgconf
 	sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j\$(nproc\)\"/" -i "$ROOTFS"/etc/scratchpkg.conf
 	
 	# make sfs
@@ -361,16 +373,14 @@ main() {
 	[ "$ZAP" ] && zap_rootfs
 	
 	[ "$REBASE" ] && {
-		copy_repofile
 		msg "Running pkgbase..."
 		chrootrun pkgbase -y || die
 	}
 	
 	[ "$SYSUP" ] && {
 		msg "Upgrading scratchpkg..."
-		copy_repofile
 		chrootrun scratch upgrade scratchpkg -y --no-backup || die
-		sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j$JOBS\"/" -i "$ROOTFS"/etc/scratchpkg.conf
+		tmp_scratchpkgconf
 		msg "Full upgrading..."
 		chrootrun scratch sysup -y --no-backup || die
 	}
@@ -421,7 +431,7 @@ ROOTFS="${ROOTFS:-$PORTSDIR/rootfs}"
 FILESDIR="$PORTSDIR/files"
 JOBS="${JOBS:-$(nproc)}"
 
-REPO="${REPO:-core}"
+REPO="core multilib nonfree testing"
 REPOFILE="$FILESDIR/scratchpkg.repo"
 
 # iso
