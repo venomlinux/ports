@@ -12,7 +12,7 @@ build() {
 	export LDFLAGS="$LDFLAGS -pthread"
 
 	make -C libunrar lib
-	make -C unrar STRIP="true"
+	make -C unrar -j1
 
 	install -v -Dm755 unrar/unrar $PKG/usr/bin/unrar
 	install -Dm755 libunrar/libunrar.so $PKG/usr/lib/libunrar.so
