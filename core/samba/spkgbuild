@@ -2,7 +2,7 @@
 # depends	: fuse3 gpgme python3 jansson libtirpc rpcsvc-proto perl-parse-yapp gnutls linux-pam
 
 name=samba
-version=4.12.5
+version=4.12.6
 release=1
 source="https://www.samba.org/ftp/samba/stable/$name-$version.tar.gz
 	run.smbd
@@ -10,6 +10,10 @@ source="https://www.samba.org/ftp/samba/stable/$name-$version.tar.gz
 
 build() {
 	cd $name-$version
+
+	# fix build with glibc-2.32
+	sed -r 's/nss_(setpw|endpw|setgr|endgr)ent/my_&/' \
+	    -i nsswitch/nsstest.c
 	
 	CFLAGS="-I/usr/include/tirpc" \
 	LDFLAGS="-ltirpc" \
