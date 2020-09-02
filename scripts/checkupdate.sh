@@ -55,6 +55,7 @@ getver_xfce4() {
 	url=$url/$(fetch \
 	| sed 's,.*href=",,;s,\/.*,,' \
 	| grep ^[0-9a-z] \
+	| grep -E ".*.[02468].*" \
 	| sort -V \
 	| uniq \
 	| tail -n1)	
