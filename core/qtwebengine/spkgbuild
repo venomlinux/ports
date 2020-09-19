@@ -2,15 +2,12 @@
 # depends	: qt5 nss python2 libwebp libxslt opus ninja ffmpeg alsa-lib libxcomposite libxtst
 
 name=qtwebengine
-version=5.15.0
+version=5.15.1
 release=1
-source="https://download.qt.io/archive/qt/${version%.*}/$version/submodules/$name-everywhere-src-$version.tar.xz
-	icu67.patch"
+source="https://download.qt.io/archive/qt/${version%.*}/$version/submodules/$name-everywhere-src-$version.tar.xz"
 
 build() {
 	cd $name-everywhere-src-$version
-
-	patch -Np3 -d src/3rdparty/chromium/v8 < ../icu67.patch # Fix build with ICU 67
 
 	find -type f -name "*.pr[io]" |
 	  xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
