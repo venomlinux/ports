@@ -5,21 +5,12 @@
 # depends	: gst-plugins-base cups
 
 name=qt5
-version=5.15.0
+version=5.15.1
 release=1
-source="https://download.qt.io/archive/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz
-	main.patch
-	webengine.patch"
+source="https://download.qt.io/archive/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz"
 
 build() {
 	cd qt-everywhere-src-$version
-
-	case $XHOST in
-		*-musl)
-		        patch -Np1 -i $SRC/main.patch
-		        patch -Np1 -i $SRC/webengine.patch
-		;;
-	esac
 
 	# Build qmake using Venom {C,LD}FLAGS
 	# This also sets default {C,CXX,LD}FLAGS for projects built using qmake
