@@ -1,15 +1,20 @@
 # description	: GStreamer plugins for Libav (a fork of FFmpeg)
-# depends	: gst-plugins-base ffmpeg yasm
+# depends	: gst-plugins-base ffmpeg yasm meson
 
 name=gst-libav
-version=1.16.2
+version=1.18.0
 release=1
 source="https://gstreamer.freedesktop.org/src/gst-libav/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr \
-		    --with-package-name="GStreamer Good Plugins $version (Venom)"
-	make
-	make DESTDIR=$PKG install
+
+	mkdir build
+        cd build
+
+        meson --prefix=/usr \
+	      -Ddoc=disabled \
+	      -Dpackage-name="GStreamer FFmpeg Plugins $version (Venom)"
+        ninja
+        DESTDIR=$PKG ninja install
 }
