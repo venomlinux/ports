@@ -2,7 +2,7 @@
 # depends	: curl gnutls nettle zlib
 
 name=libcurl-gnutls
-version=7.72.0
+version=7.73.0
 release=1
 source="https://curl.haxx.se/download/curl-$version.tar.xz"
 
@@ -25,7 +25,7 @@ build() {
 	make -C lib
 	make -C lib DESTDIR=$PKG install
 
-	mv $PKG/usr/lib/libcurl.so.4.6.0 $PKG/usr/lib/libcurl-gnutls.so.4.6.0
+	mv $PKG/usr/lib/libcurl.so.4.7.0 $PKG/usr/lib/libcurl-gnutls.so.4.7.0
 	rm $PKG/usr/lib/libcurl.a* $PKG/usr/lib/libcurl.so*
 	for v in 3 4 4.0.0 4.1.0 4.2.0 4.3.0 4.4.0; do
 	    ln -s libcurl-gnutls.so.4.6.0 "$PKG"/usr/lib/libcurl-gnutls.so.${v}
