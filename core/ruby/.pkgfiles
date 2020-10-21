@@ -45,13 +45,13 @@ drwxr-xr-x root/root    usr/include/ruby-2.7.0/ruby/backward/
 -rw-r--r-- root/root    usr/include/ruby-2.7.0/ruby/version.h
 -rw-r--r-- root/root    usr/include/ruby-2.7.0/ruby/vm.h
 drwxr-xr-x root/root    usr/include/ruby-2.7.0/x86_64-linux/
--rw-r--r-- root/root    usr/include/ruby-2.7.0/x86_64-linux/rb_mjit_min_header-2.7.1.h
+-rw-r--r-- root/root    usr/include/ruby-2.7.0/x86_64-linux/rb_mjit_min_header-2.7.2.h
 drwxr-xr-x root/root    usr/include/ruby-2.7.0/x86_64-linux/ruby/
 -rw-r--r-- root/root    usr/include/ruby-2.7.0/x86_64-linux/ruby/config.h
 drwxr-xr-x root/root    usr/lib/
-lrwxrwxrwx root/root    usr/lib/libruby.so -> libruby.so.2.7.1
-lrwxrwxrwx root/root    usr/lib/libruby.so.2.7 -> libruby.so.2.7.1
--rwxr-xr-x root/root    usr/lib/libruby.so.2.7.1
+lrwxrwxrwx root/root    usr/lib/libruby.so -> libruby.so.2.7.2
+lrwxrwxrwx root/root    usr/lib/libruby.so.2.7 -> libruby.so.2.7.2
+-rwxr-xr-x root/root    usr/lib/libruby.so.2.7.2
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/ruby-2.7.pc
 drwxr-xr-x root/root    usr/lib/ruby/
@@ -456,6 +456,7 @@ drwxr-xr-x root/root    usr/lib/ruby/2.7.0/irb/cmd/
 -rw-r--r-- root/root    usr/lib/ruby/2.7.0/irb/cmd/chws.rb
 -rw-r--r-- root/root    usr/lib/ruby/2.7.0/irb/cmd/fork.rb
 -rw-r--r-- root/root    usr/lib/ruby/2.7.0/irb/cmd/help.rb
+-rw-r--r-- root/root    usr/lib/ruby/2.7.0/irb/cmd/info.rb
 -rw-r--r-- root/root    usr/lib/ruby/2.7.0/irb/cmd/load.rb
 -rw-r--r-- root/root    usr/lib/ruby/2.7.0/irb/cmd/nop.rb
 -rw-r--r-- root/root    usr/lib/ruby/2.7.0/irb/cmd/pushws.rb
@@ -1416,9 +1417,9 @@ drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/gdbm-2.1.0/
 drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/getoptlong-0.1.0/
 drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/io-console-0.5.6/
 drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/ipaddr-1.2.2/
-drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/irb-1.2.3/
-drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/irb-1.2.3/exe/
--rwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/irb-1.2.3/exe/irb
+drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/irb-1.2.6/
+drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/irb-1.2.6/exe/
+-rwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/irb-1.2.6/exe/irb
 drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/json-2.3.0/
 drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/logger-1.4.2/
 drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/matrix-0.2.0/
@@ -1600,7 +1601,7 @@ drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/rdoc-6.2.1/exe/
 -rwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/rdoc-6.2.1/exe/ri
 drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/readline-0.0.2/
 drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/readline-ext-0.1.0/
-drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/reline-0.1.3/
+drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/reline-0.1.5/
 drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/rexml-3.2.3/
 drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/rss-0.2.8/
 drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/gems/sdbm-1.0.0/
@@ -1778,7 +1779,7 @@ drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/specifications/default/
 -rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/getoptlong-0.1.0.gemspec
 -rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/io-console-0.5.6.gemspec
 -rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/ipaddr-1.2.2.gemspec
--rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/irb-1.2.3.gemspec
+-rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/irb-1.2.6.gemspec
 -rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/json-2.3.0.gemspec
 -rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/logger-1.4.2.gemspec
 -rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/matrix-0.2.0.gemspec
@@ -1796,7 +1797,7 @@ drwxr-xr-x root/root    usr/lib/ruby/gems/2.7.0/specifications/default/
 -rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/rdoc-6.2.1.gemspec
 -rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/readline-0.0.2.gemspec
 -rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/readline-ext-0.1.0.gemspec
--rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/reline-0.1.3.gemspec
+-rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/reline-0.1.5.gemspec
 -rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/rexml-3.2.3.gemspec
 -rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/rss-0.2.8.gemspec
 -rw-r--r-- root/root    usr/lib/ruby/gems/2.7.0/specifications/default/sdbm-1.0.0.gemspec
