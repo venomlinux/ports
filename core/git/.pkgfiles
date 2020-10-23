@@ -21,7 +21,7 @@ hrwxr-xr-x root/root    usr/lib/git-core/git-archive link to usr/bin/git-upload-
 hrwxr-xr-x root/root    usr/lib/git-core/git-bisect--helper link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-blame link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-branch link to usr/bin/git-upload-archive
--rwxr-xr-x root/root    usr/lib/git-core/git-bugreport
+hrwxr-xr-x root/root    usr/lib/git-core/git-bugreport link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-bundle link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-cat-file link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-check-attr link to usr/bin/git-upload-archive
@@ -32,7 +32,7 @@ hrwxr-xr-x root/root    usr/lib/git-core/git-checkout link to usr/bin/git-upload
 hrwxr-xr-x root/root    usr/lib/git-core/git-checkout-index link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-cherry link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-cherry-pick link to usr/bin/git-upload-archive
-hrwxr-xr-x root/root    usr/lib/git-core/git-citool link to usr/lib/git-core/git-gui
+-rwxr-xr-x root/root    usr/lib/git-core/git-citool
 hrwxr-xr-x root/root    usr/lib/git-core/git-clean link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-clone link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-column link to usr/bin/git-upload-archive
@@ -42,9 +42,9 @@ hrwxr-xr-x root/root    usr/lib/git-core/git-commit-tree link to usr/bin/git-upl
 hrwxr-xr-x root/root    usr/lib/git-core/git-config link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-count-objects link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-credential link to usr/bin/git-upload-archive
--rwxr-xr-x root/root    usr/lib/git-core/git-credential-cache
--rwxr-xr-x root/root    usr/lib/git-core/git-credential-cache--daemon
--rwxr-xr-x root/root    usr/lib/git-core/git-credential-store
+hrwxr-xr-x root/root    usr/lib/git-core/git-credential-cache link to usr/bin/git-upload-archive
+hrwxr-xr-x root/root    usr/lib/git-core/git-credential-cache--daemon link to usr/bin/git-upload-archive
+hrwxr-xr-x root/root    usr/lib/git-core/git-credential-store link to usr/bin/git-upload-archive
 -rwxr-xr-x root/root    usr/lib/git-core/git-cvsexportcommit
 -rwxr-xr-x root/root    usr/lib/git-core/git-cvsimport
 hrwxr-xr-x root/root    usr/lib/git-core/git-cvsserver link to usr/bin/git-cvsserver
@@ -58,7 +58,7 @@ hrwxr-xr-x root/root    usr/lib/git-core/git-difftool link to usr/bin/git-upload
 -rwxr-xr-x root/root    usr/lib/git-core/git-difftool--helper
 hrwxr-xr-x root/root    usr/lib/git-core/git-env--helper link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-fast-export link to usr/bin/git-upload-archive
--rwxr-xr-x root/root    usr/lib/git-core/git-fast-import
+hrwxr-xr-x root/root    usr/lib/git-core/git-fast-import link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-fetch link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-fetch-pack link to usr/bin/git-upload-archive
 -rwxr-xr-x root/root    usr/lib/git-core/git-filter-branch
@@ -70,7 +70,7 @@ hrwxr-xr-x root/root    usr/lib/git-core/git-fsck-objects link to usr/bin/git-up
 hrwxr-xr-x root/root    usr/lib/git-core/git-gc link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-get-tar-commit-id link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-grep link to usr/bin/git-upload-archive
--rwxr-xr-x root/root    usr/lib/git-core/git-gui
+hrwxr-xr-x root/root    usr/lib/git-core/git-gui link to usr/lib/git-core/git-citool
 -rwxr-xr-x root/root    usr/lib/git-core/git-gui--askpass
 hrwxr-xr-x root/root    usr/lib/git-core/git-hash-object link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-help link to usr/bin/git-upload-archive
@@ -128,11 +128,10 @@ hrwxr-xr-x root/root    usr/lib/git-core/git-reflog link to usr/bin/git-upload-a
 hrwxr-xr-x root/root    usr/lib/git-core/git-remote link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-remote-ext link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-remote-fd link to usr/bin/git-upload-archive
--rwxr-xr-x root/root    usr/lib/git-core/git-remote-ftp
-hrwxr-xr-x root/root    usr/lib/git-core/git-remote-ftps link to usr/lib/git-core/git-remote-ftp
-hrwxr-xr-x root/root    usr/lib/git-core/git-remote-http link to usr/lib/git-core/git-remote-ftp
-hrwxr-xr-x root/root    usr/lib/git-core/git-remote-https link to usr/lib/git-core/git-remote-ftp
--rwxr-xr-x root/root    usr/lib/git-core/git-remote-testsvn
+hrwxr-xr-x root/root    usr/lib/git-core/git-remote-ftp link to usr/lib/git-core/git-remote-ftps
+-rwxr-xr-x root/root    usr/lib/git-core/git-remote-ftps
+hrwxr-xr-x root/root    usr/lib/git-core/git-remote-http link to usr/lib/git-core/git-remote-ftps
+hrwxr-xr-x root/root    usr/lib/git-core/git-remote-https link to usr/lib/git-core/git-remote-ftps
 hrwxr-xr-x root/root    usr/lib/git-core/git-repack link to usr/bin/git-upload-archive
 hrwxr-xr-x root/root    usr/lib/git-core/git-replace link to usr/bin/git-upload-archive
 -rwxr-xr-x root/root    usr/lib/git-core/git-request-pull
@@ -183,7 +182,6 @@ hrwxr-xr-x root/root    usr/lib/git-core/git-write-tree link to usr/bin/git-uplo
 drwxr-xr-x root/root    usr/lib/git-core/mergetools/
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/araxis
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/bc
--rw-r--r-- root/root    usr/lib/git-core/mergetools/bc3
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/codecompare
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/deltawalker
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/diffmerge
@@ -193,19 +191,16 @@ drwxr-xr-x root/root    usr/lib/git-core/mergetools/
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/examdiff
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/guiffy
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/gvimdiff
--rw-r--r-- root/root    usr/lib/git-core/mergetools/gvimdiff2
--rw-r--r-- root/root    usr/lib/git-core/mergetools/gvimdiff3
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/kdiff3
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/kompare
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/meld
+-rw-r--r-- root/root    usr/lib/git-core/mergetools/nvimdiff
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/opendiff
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/p4merge
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/smerge
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/tkdiff
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/tortoisemerge
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/vimdiff
--rw-r--r-- root/root    usr/lib/git-core/mergetools/vimdiff2
--rw-r--r-- root/root    usr/lib/git-core/mergetools/vimdiff3
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/winmerge
 -rw-r--r-- root/root    usr/lib/git-core/mergetools/xxdiff
 drwxr-xr-x root/root    usr/lib/perl5/
