@@ -2,12 +2,15 @@
 # depends	: gsl boost imagemagick6 gc lcms2 poppler-glib popt libxslt gtkmm3 double-conversion potrace gdl libsoup
 
 name=inkscape
-version=1.0
+version=1.0.1
 release=1
-source="https://gitlab.com/inkscape/inkscape/-/archive/INKSCAPE_${version/./_}/inkscape-INKSCAPE_${version/./_}.tar.bz2"
+source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz"
 
 build() {
-	cd $name-INKSCAPE_${version/./_}
+	cd $name-${version}_2020-09-07_3bc2e813f5
+
+	# fix build failure with glibc-2.32
+	sed -i '/#include <iostream>/a #include <atomic>' src/ui/tool/node.cpp
 
 	mkdir build
 	cd    build
