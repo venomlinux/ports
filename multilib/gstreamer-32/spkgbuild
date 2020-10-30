@@ -1,8 +1,8 @@
 # description	: Streaming media framework that enables applications to share a common set of plugins
-# depends	: gstreamer
+# depends	: gstreamer glib-32
 
 name=gstreamer-32
-version=1.16.2
+version=1.18.1
 release=1
 source="http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-$version.tar.xz"
 
@@ -13,12 +13,20 @@ build() {
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	./configure --prefix=/usr \
-		    --libdir=/usr/lib32 \
-		    --libexecdir=/usr/lib32 \
-        	    --with-package-name="GStreamer $version (Venom)"
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+        cd build
+
+        meson \
+		--prefix=/usr \
+		--libdir=/usr/lib32 \
+		--libexecdir=/usr/lib32 \
+		-Dgst_debug=false \
+		-Dgtk_doc=disabled \
+		-Dnls=disabled \
+		-Dintrospection=disabled \
+		-Dpackage-name="GStreamer $version (Venom Linux)"
+	ninja
+	DESTDIR=$PKG ninja install
 
 	rm -r $PKG/usr/{bin,share,include}
 }
