@@ -1,0 +1,21 @@
+# description   : theme engine for Qt4/Qt5 and KDE
+# depends       : qt5 llvm libffi icu harfbuzz kwindowsystem
+
+_name=Kvantum
+name=kvantum
+version=0.17.0
+release=1
+source="https://github.com/tsujan/$_name/archive/V$version/$name-$version.tar.gz"
+
+build() {
+	cd $_name-$version/$_name
+	mkdir -p build
+	cd build
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+	..
+	make
+	make DESTDIR=$PKG install
+	# Removed translations
+	rm -fr $PKG/usr/share/kvantumpreview/translations $PKG/usr/share/kvantummanager/translations
+}
