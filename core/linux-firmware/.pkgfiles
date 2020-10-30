@@ -286,6 +286,7 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/renoir_pfp.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/renoir_rlc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/renoir_sdma.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/renoir_ta.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/renoir_vcn.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/si58_mc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/stoney_ce.bin
@@ -461,6 +462,7 @@ drwxr-xr-x root/root    lib/firmware/ath10k/QCA9377/hw1.0/
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9377/hw1.0/board.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9377/hw1.0/firmware-5.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9377/hw1.0/firmware-6.bin
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA9377/hw1.0/firmware-sdio-5.bin
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA9887/
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA9887/hw1.0/
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9887/hw1.0/board.bin
@@ -755,6 +757,28 @@ lrwxrwxrwx root/root    lib/firmware/cxgb4/t5fw.bin -> t5fw-1.24.17.0.bin
 lrwxrwxrwx root/root    lib/firmware/cxgb4/t6-config.txt -> configs/t6-config-default.txt
 -rw-r--r-- root/root    lib/firmware/cxgb4/t6fw-1.24.17.0.bin
 lrwxrwxrwx root/root    lib/firmware/cxgb4/t6fw.bin -> t6fw-1.24.17.0.bin
+drwxr-xr-x root/root    lib/firmware/cypress/
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac43012-sdio.bin
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac43012-sdio.clm_blob
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac43340-sdio.bin
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac43362-sdio.bin
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac4339-sdio.bin
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac43430-sdio.bin
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac43430-sdio.clm_blob
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac43455-sdio.bin
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac43455-sdio.clm_blob
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac4354-sdio.bin
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac4354-sdio.clm_blob
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac4356-pcie.bin
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac4356-pcie.clm_blob
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac4356-sdio.bin
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac4356-sdio.clm_blob
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac43570-pcie.bin
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac43570-pcie.clm_blob
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac4373-sdio.bin
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac4373-sdio.clm_blob
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac54591-pcie.bin
+-rw-r--r-- root/root    lib/firmware/cypress/cyfmac54591-pcie.clm_blob
 drwxr-xr-x root/root    lib/firmware/dabusb/
 -rw-r--r-- root/root    lib/firmware/dabusb/bitstream.bin
 -rw-r--r-- root/root    lib/firmware/dabusb/firmware.fw
@@ -845,6 +869,7 @@ lrwxrwxrwx root/root    lib/firmware/i915/bxt_dmc_ver1.bin -> bxt_dmc_ver1_07.bi
 -rw-r--r-- root/root    lib/firmware/i915/cml_huc_4.0.0.bin
 -rw-r--r-- root/root    lib/firmware/i915/cnl_dmc_ver1_06.bin
 -rw-r--r-- root/root    lib/firmware/i915/cnl_dmc_ver1_07.bin
+-rw-r--r-- root/root    lib/firmware/i915/dg1_dmc_ver2_02.bin
 -rw-r--r-- root/root    lib/firmware/i915/ehl_guc_33.0.4.bin
 -rw-r--r-- root/root    lib/firmware/i915/ehl_huc_9.0.0.bin
 -rw-r--r-- root/root    lib/firmware/i915/glk_dmc_ver1_04.bin
@@ -978,9 +1003,11 @@ lrwxrwxrwx root/root    lib/firmware/intel/dsp_fw_release.bin -> dsp_fw_release_
 -rw-r--r-- root/root    lib/firmware/intel/ibt-hw-37.8.10-fw-22.50.19.14.f.bseq
 -rw-r--r-- root/root    lib/firmware/intel/ibt-hw-37.8.bseq
 drwxr-xr-x root/root    lib/firmware/intel/ice/
+drwxr-xr-x root/root    lib/firmware/intel/ice/ddp-comms/
+-rw-r--r-- root/root    lib/firmware/intel/ice/ddp-comms/ice_comms-1.3.20.0.pkg
 drwxr-xr-x root/root    lib/firmware/intel/ice/ddp/
--rw-r--r-- root/root    lib/firmware/intel/ice/ddp/ice-1.3.4.0.pkg
-lrwxrwxrwx root/root    lib/firmware/intel/ice/ddp/ice.pkg -> ice-1.3.4.0.pkg
+-rw-r--r-- root/root    lib/firmware/intel/ice/ddp/ice-1.3.16.0.pkg
+lrwxrwxrwx root/root    lib/firmware/intel/ice/ddp/ice.pkg -> ice-1.3.16.0.pkg
 lrwxrwxrwx root/root    lib/firmware/intel/ipu3-fw.bin -> irci_irci_ecr-master_20161208_0213_20170112_1500.bin
 -rw-r--r-- root/root    lib/firmware/intel/irci_irci_ecr-master_20161208_0213_20170112_1500.bin
 -rw-r--r-- root/root    lib/firmware/intelliport2.bin
@@ -1075,31 +1102,39 @@ lrwxrwxrwx root/root    lib/firmware/iwlwifi-7265D-10.ucode -> iwlwifi-7265-10.u
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-hr-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-hr-b0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-hr-b0-55.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-hr-b0-59.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-55.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-59.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-55.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-59.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-55.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-59.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-55.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-59.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-55.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-59.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-46.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-55.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-59.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-59.ucode
 drwxr-xr-x root/root    lib/firmware/kaweth/
 -rw-r--r-- root/root    lib/firmware/kaweth/new_code.bin
 -rw-r--r-- root/root    lib/firmware/kaweth/new_code_fix.bin
@@ -1199,14 +1234,17 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2007.1168.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.1036.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.1310.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.1312.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2000.2308.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2000.2714.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2007.1168.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.1036.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.1310.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.1312.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2007.1168.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1036.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1310.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1312.mfa2
 drwxr-xr-x root/root    lib/firmware/meson/
 drwxr-xr-x root/root    lib/firmware/meson/vdec/
 -rw-r--r-- root/root    lib/firmware/meson/vdec/g12a_h264.bin
@@ -1707,8 +1745,8 @@ drwxr-xr-x root/root    lib/firmware/nvidia/tu104/acr/
 lrwxrwxrwx root/root    lib/firmware/nvidia/tu104/acr/bl.bin -> ../../tu102/acr/bl.bin
 lrwxrwxrwx root/root    lib/firmware/nvidia/tu104/acr/ucode_ahesasc.bin -> ../../tu102/acr/ucode_ahesasc.bin
 lrwxrwxrwx root/root    lib/firmware/nvidia/tu104/acr/ucode_asb.bin -> ../../tu102/acr/ucode_asb.bin
-lrwxrwxrwx root/root    lib/firmware/nvidia/tu104/acr/ucode_unload.bin -> ../../tu102/acr/ucode_unload.bin
-lrwxrwxrwx root/root    lib/firmware/nvidia/tu104/acr/unload_bl.bin -> ../../tu102/acr/unload_bl.bin
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu104/acr/ucode_unload.bin -> ../../tu102/acr/unload_bl.bin
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu104/acr/unload_bl.bin -> ../../tu102/acr/ucode_unload.bin
 drwxr-xr-x root/root    lib/firmware/nvidia/tu104/gr/
 lrwxrwxrwx root/root    lib/firmware/nvidia/tu104/gr/fecs_bl.bin -> ../../tu102/gr/fecs_bl.bin
 -rw-r--r-- root/root    lib/firmware/nvidia/tu104/gr/fecs_data.bin
@@ -1734,8 +1772,8 @@ drwxr-xr-x root/root    lib/firmware/nvidia/tu106/acr/
 lrwxrwxrwx root/root    lib/firmware/nvidia/tu106/acr/bl.bin -> ../../tu102/acr/bl.bin
 lrwxrwxrwx root/root    lib/firmware/nvidia/tu106/acr/ucode_ahesasc.bin -> ../../tu102/acr/ucode_ahesasc.bin
 lrwxrwxrwx root/root    lib/firmware/nvidia/tu106/acr/ucode_asb.bin -> ../../tu102/acr/ucode_asb.bin
-lrwxrwxrwx root/root    lib/firmware/nvidia/tu106/acr/ucode_unload.bin -> ../../tu102/acr/ucode_unload.bin
-lrwxrwxrwx root/root    lib/firmware/nvidia/tu106/acr/unload_bl.bin -> ../../tu102/acr/unload_bl.bin
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu106/acr/ucode_unload.bin -> ../../tu102/acr/unload_bl.bin
+lrwxrwxrwx root/root    lib/firmware/nvidia/tu106/acr/unload_bl.bin -> ../../tu102/acr/ucode_unload.bin
 drwxr-xr-x root/root    lib/firmware/nvidia/tu106/gr/
 lrwxrwxrwx root/root    lib/firmware/nvidia/tu106/gr/fecs_bl.bin -> ../../tu102/gr/fecs_bl.bin
 -rw-r--r-- root/root    lib/firmware/nvidia/tu106/gr/fecs_data.bin
@@ -1830,6 +1868,7 @@ drwxr-xr-x root/root    lib/firmware/qca/
 -rw-r--r-- root/root    lib/firmware/qca/crbtfw32.tlv
 -rw-r--r-- root/root    lib/firmware/qca/crnv21.bin
 -rw-r--r-- root/root    lib/firmware/qca/crnv32.bin
+-rw-r--r-- root/root    lib/firmware/qca/crnv32u.bin
 -rw-r--r-- root/root    lib/firmware/qca/htbtfw20.tlv
 -rw-r--r-- root/root    lib/firmware/qca/htnv20.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_00130300.bin
@@ -2340,6 +2379,7 @@ drwxr-xr-x root/root    lib/firmware/ti-connectivity/
 -rw-r--r-- root/root    lib/firmware/ti-connectivity/TIInit_6.2.31.bts
 -rw-r--r-- root/root    lib/firmware/ti-connectivity/TIInit_6.6.15.bts
 -rw-r--r-- root/root    lib/firmware/ti-connectivity/TIInit_7.2.31.bts
+-rw-r--r-- root/root    lib/firmware/ti-connectivity/vpdma-1b8.bin
 -rw-r--r-- root/root    lib/firmware/ti-connectivity/wl1251-fw.bin
 -rw-r--r-- root/root    lib/firmware/ti-connectivity/wl1251-nvs.bin
 -rw-r--r-- root/root    lib/firmware/ti-connectivity/wl1271-fw-2.bin
