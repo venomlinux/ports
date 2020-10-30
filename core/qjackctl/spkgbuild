@@ -1,0 +1,14 @@
+# description	: JACK Audio Connection Kit - Qt GUI Interface
+# depends	: qt5 jack alsa-lib
+
+name=qjackctl
+version=0.6.3
+release=1
+source="https://sourceforge.net/projects/qjackctl/files/qjackctl/$version/qjackctl-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr 
+	make
+	make DESTDIR=$PKG install
+}
