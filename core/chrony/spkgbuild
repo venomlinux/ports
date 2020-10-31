@@ -1,0 +1,17 @@
+# description	: An NTP client, ntp replacement
+# depends	: 
+
+name=chrony
+version="4.0"
+release=1
+options=""
+noextract=""
+backup=""
+source="https://download.tuxfamily.org/chrony/chrony-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
