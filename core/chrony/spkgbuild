@@ -1,5 +1,5 @@
-# description	: An NTP client, ntp replacement
-# depends	: 
+# description	: A NTP client
+# depends	: gcc glibc nss readline libcap nettle 
 
 name=chrony
 version="4.0"
@@ -7,7 +7,7 @@ release=1
 options=""
 noextract=""
 backup=""
-source="https://download.tuxfamily.org/chrony/chrony-$version.tar.gz"
+source="https://download.tuxfamily.org/$name/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
