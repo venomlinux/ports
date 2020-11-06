@@ -3,7 +3,7 @@
 
 name=libxkbcommon
 version=1.0.1
-release=1
+release=2
 source="https://xkbcommon.org/download/$name-$version.tar.xz"
 
 build() {
@@ -13,6 +13,7 @@ build() {
 	cd build
 
 	meson --prefix=/usr \
+	      --libexecdir=lib \
 	      -Denable-docs=false
 	ninja
 	DESTDIR=$PKG ninja install
