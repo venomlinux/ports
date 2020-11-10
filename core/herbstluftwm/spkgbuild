@@ -2,7 +2,7 @@
 # depends	: libxinerama libx11 libxext libxrandr cmake
 
 name=herbstluftwm
-version=0.8.3
+version=0.9.0
 release=1
 source="https://herbstluftwm.org/tarballs/herbstluftwm-$version.tar.gz"
 
@@ -13,7 +13,9 @@ build() {
 	cd build
 
 	cmake \
-		-DCMAKE_INSTALL_PREFIX=/usr ..
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DWITH_DOCUMENTATION=NO \
+		..
 	make
 	make DESTDIR=$PKG install
 }
