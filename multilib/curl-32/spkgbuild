@@ -11,13 +11,16 @@ build() {
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	[ -d $(pkgadd --print-dbdir)/zstd-32 ] || _opt="--without-zstd"
 
 	./configure --prefix=/usr \
 		    --libdir=/usr/lib32 \
 		    --enable-threaded-resolver \
 		    --without-libidn2 \
-		    --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt
+		    --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt \
+		    $_opt
 	make
 	make DESTDIR=$PWD/DESTDIR install
 	mkdir -p $PKG/usr/lib32
