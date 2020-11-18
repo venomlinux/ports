@@ -8,5 +8,5 @@ source="https://gvp.cz/www/BILEKM/programming/ports/sources/sdhcp.tar"
 
 build() {
 	cd $name
-	make DESTDIR=$PKG install
+	make PREFIX=/usr DESTDIR=$PKG install
 }
