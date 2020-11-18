@@ -9,7 +9,7 @@ source="https://github.com/polybar/polybar/releases/download/$version/$name-$ver
 build() {
 	cd $name
 	mkdir build && cd build
-	cmake ..
+	cmake .. -DCMAKE_INSTALL_PREFIX=/usr
 	make
 	make DESTDIR=$PKG install
 }

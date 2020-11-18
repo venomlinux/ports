@@ -8,5 +8,5 @@ source="https://dl.suckless.org/farbfeld/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-	make DESTDIR=$PKG install
+	make PREFIX=/usr DESTDIR=$PKG install
 }
