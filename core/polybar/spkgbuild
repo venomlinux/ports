@@ -1,0 +1,15 @@
+# description	: a fast and easy-to-use status bar
+# depends	: cmake cairo libxcb python xcb-proto xcb-util-image xcb-util-wm
+
+name=polybar
+version="3.4.3"
+release=1
+source="https://github.com/polybar/polybar/releases/download/$version/$name-$version.tar"
+
+build() {
+	cd $name
+	mkdir build && cd build
+	cmake .. -DCMAKE_INSTALL_PREFIX=/usr
+	make
+	make DESTDIR=$PKG install
+}
