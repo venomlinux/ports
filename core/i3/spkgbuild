@@ -1,27 +1,18 @@
 # description	: An improved dynamic tiling window manager
-# depends	: xcb-util-cursor xcb-util-keysyms xcb-util-wm xcb-util-xrm libev yajl startup-notification pango libxkbcommon bison flex
+# depends	: xcb-util-cursor xcb-util-keysyms xcb-util-wm xcb-util-xrm libev yajl startup-notification pango libxkbcommon bison flex meson
 
 name=i3
-version=4.18.3
+version=4.19
 release=1
-source="http://i3wm.org/downloads/$name-$version.tar.bz2
-	0001-Use-OVER-operator-for-drawing-text.patch"
+source="http://i3wm.org/downloads/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-	# https://github.com/i3/i3/pull/2908
-	patch -Np1 -i ../0001-Use-OVER-operator-for-drawing-text.patch
-
-	autoreconf -fvi
-
 	mkdir build
 	cd build
 
-	../configure \
-		--prefix=/usr \
-		--sysconfdir=/etc \
-		--disable-docs
-	make
-	make DESTDIR=$PKG install
+	meson --prefix=/usr
+	ninja
+	DESTDIR=$PKG ninja install
 }
