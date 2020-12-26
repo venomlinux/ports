@@ -1,16 +1,12 @@
 # description	: The GNU Database Manager
-# depends	: bash
 
 name=gdbm
-version=1.18.1
+version=1.19
 release=1
-source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz
-	fix-build-with-gcc10.patch"
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i ../fix-build-with-gcc10.patch
 
 	./configure --prefix=/usr \
 	            --disable-static \
@@ -18,6 +14,4 @@ build() {
 	            --enable-libgdbm-compat
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share/info
 }
