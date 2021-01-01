@@ -1,0 +1,23 @@
+# description	: Hierarchical, reference counted memory pool system with destructors
+# depends	: python3
+
+name=talloc
+version=2.3.1
+release=1
+options=""
+noextract=""
+backup=""
+source="https://samba.org/ftp/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--bundled-libraries=NONE \
+		--enable-talloc-compat1
+
+	make
+	make DESTDIR=$PKG install
+
+}
