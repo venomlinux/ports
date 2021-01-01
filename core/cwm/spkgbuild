@@ -1,0 +1,15 @@
+# description	: Linux port of the OpenBSD window manager 
+# depends	: pkg-config libx11 libxft xrandr
+
+name=cwm
+version=6.7
+release=1
+options=""
+noextract=""
+backup=""
+source="https://github.com/leahneukirchen/$name/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make DESTDIR=$PKG install
+}
