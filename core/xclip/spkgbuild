@@ -1,0 +1,18 @@
+# description	: command line interface to the X11 clipboard
+# depends	: libxmu 
+
+name=xclip
+version=0.13
+release=1
+options=""
+noextract=""
+backup=""
+source="https://github.com/astrand/$name/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./bootstrap
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
