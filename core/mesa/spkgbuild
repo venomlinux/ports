@@ -1,17 +1,13 @@
 # description	: OpenGL compatible 3D graphics library
-# depends	: libdrm llvm expat zlib zstd elfutils libxcb libxshmfence libx11 wayland libxvmc libxv libxext libxfixes libxdamage libxxf86vm python3-mako libglvnd xrandr wayland-protocols
+# depends	: python3-mako llvm elfutils bison flex libxext libxdamage libxshmfence libxxf86vm libxrandr libdrm libglvnd
 
 name=mesa
-version=20.2.2
+version=20.3.2
 release=1
 source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
-	PLATFORMS="drm,x11,wayland"
-	GALLIUM_DRV="r300,r600,svga,swrast,radeonsi,nouveau"
-	DRI_DRIVERS="i915,i965,r100,r200,nouveau"
 
 	mkdir build
 	cd    build
@@ -23,11 +19,12 @@ build() {
 	      -Degl=true \
 	      -Dosmesa=gallium \
 	      -Dgallium-nine=true \
-	      -Ddri-drivers=$DRI_DRIVERS \
-	      -Dgallium-drivers=$GALLIUM_DRV \
-	      -Dplatforms=$PLATFORMS \
+	      -Dplatforms=x11 \
 	      -Dglvnd=true \
 	      -Dllvm=true \
+	      -Dgallium-drivers=r300,r600,svga,swrast,radeonsi,nouveau \
+	      -Dvulkan-drivers=amd,intel \
+	      -Ddri-drivers=i915,i965,nouveau \
 	      ..
 	ninja
 	DESTDIR=$PKG ninja install

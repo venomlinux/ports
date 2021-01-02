@@ -1,9 +1,9 @@
 # description	: keymap compiler and support library
-# depends	: xkeyboard-config libxcb meson wayland-protocols
+# depends	: xkeyboard-config libxcb meson
 
 name=libxkbcommon
 version=1.0.3
-release=1
+release=2
 source="https://xkbcommon.org/download/$name-$version.tar.xz"
 
 build() {
@@ -14,6 +14,7 @@ build() {
 
 	meson --prefix=/usr \
 	      --libexecdir=lib \
+	      -Denable-wayland=false \
 	      -Denable-docs=false
 	ninja
 	DESTDIR=$PKG ninja install

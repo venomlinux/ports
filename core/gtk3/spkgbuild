@@ -1,19 +1,16 @@
 # description	: Libraries used for creating graphical user interfaces for applications
-# depends	: adwaita-icon-theme at-spi2-atk gdk-pixbuf libepoxy pango wayland wayland-protocols libxkbcommon gobject-introspection libxcomposite libxcursor libxinerama
+# depends	: adwaita-icon-theme glib atk pango fribidi cairo gdk-pixbuf libxinerama libxi libepoxy at-spi2-atk
 
 name=gtk3
 version=3.24.24
-release=1
+release=2
 source="https://ftp.gnome.org/pub/gnome/sources/gtk+/${version%.*}/gtk+-$version.tar.xz"
 
 build() {
 	cd gtk+-$version
 
-	./configure --prefix=/usr             \
-	            --sysconfdir=/etc         \
-	            --enable-broadway-backend \
-	            --enable-x11-backend      \
-	            --enable-wayland-backend
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc
 	make
 	make DESTDIR=$PKG install
 
