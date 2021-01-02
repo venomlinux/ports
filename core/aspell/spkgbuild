@@ -1,0 +1,20 @@
+# description	: GNU aspell is a spell checker designed to replace ispell 
+# depends	: ncurses
+
+name=aspell
+version=0.60.8
+release=1
+options=""
+noextract=""
+backup=""
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		--disable-nls \
+		--enable-curses=ncursesw
+	make
+	make DESTDIR=$PKG install
+	rm -R $PKG/usr/share/info
+}
