@@ -1,7 +1,7 @@
 # description	: All-in-one voice and text chat for gamers that's free and secure
 
 name=discord
-version=0.0.10
+version=0.0.13
 release=1
 source="https://dl.discordapp.net/apps/linux/$version/$name-$version.tar.gz"
 
@@ -16,5 +16,5 @@ build() {
 
 	install -d $PKG/usr/share/pixmaps $PKG/usr/share/applications
 	ln -s /usr/share/$name/$name.png $PKG/usr/share/pixmaps/$name.png
-	ln -s /usr/share/$name/$name.desktop $PKG/usr/share/applications/$name.desktop	
+	ln -s /usr/share/$name/$name.desktop $PKG/usr/share/applications/$name.desktop
 }
