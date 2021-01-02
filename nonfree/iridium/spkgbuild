@@ -2,12 +2,10 @@
 # depends	: alsa-lib gconf gtk3 libxtst nss libarchive pipewire
 
 name=iridium
-version=2019.04.73.1
-_ver=${version%.*}
-_sion=${version##*.}
+version=2020.11.85
 release=1
 options="!strip"
-source="https://downloads.iridiumbrowser.de/fedora_30/iridium-browser-${_ver}-${_sion}.fc30.x86_64.rpm"
+source="https://downloads.iridiumbrowser.de/epel8/$name-browser-$version-$release.el8.x86_64.rpm"
 
 build() {
 	cp -R * $PKG
