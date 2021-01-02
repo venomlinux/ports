@@ -1,0 +1,29 @@
+# description	: Music playback daemon 
+# depends	:  boost ninja meson faad2 flac audiofile mpg123 
+
+name=mpd
+version=0.22.3
+release=1
+options=""
+noextract=""
+backup=""
+source="https://www.musicpd.org/download/$name/${version%.*}/$name-$version.tar.xz
+	mpd"
+
+build() {
+	meson setup $name-$version build \
+		--prefix=/usr \
+		--sysconfdir=/etc/mpd \
+		--buildtype=plain \
+		-Db_ndebug=true \
+		-Dmpcdec=disabled \
+		-Ddocumentation=disabled
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
+
+	install -Dm 0644 $SRC/$name-$version/doc/mpdconf.example $PKG/etc/mpd/mpd.conf
+	install -D $SRC/mpd $PKG/etc/rc.d/mpd
+
+	rm -r $PKG/usr/share/doc
+
+}
