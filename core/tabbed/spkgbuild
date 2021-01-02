@@ -1,0 +1,21 @@
+# description	: Siimple generic tabbed fronted to xembed aware applications
+# depends	: libx11
+
+name=tabbed
+version=0.6
+release=3
+options=""
+noextract=""
+backup=""
+source="http://dl.suckless.org/tools/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	if [ -f $PKGMK_ROOT/config.h ]; then
+		cp $PKGMK_ROOT/config.h .
+	fi
+
+	make CC=gcc
+	make DESTDIR=$PKG PREFIX=/usr install
+}
