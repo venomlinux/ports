@@ -1,0 +1,16 @@
+# description	: Create book from markdown files, like Gitbook but implemented in Rust" 
+# depends	: rust
+
+name=mdbook
+version=0.4.4
+release=1
+options=""
+noextract=""
+backup=""
+source="https://github.com/rust-lang-nursery/mdBook/archive/v${version}.tar.gz"
+
+build() {
+	cd "mdBook-$version"
+	cargo build --release
+	install -Dm 755 "target/release/${name}" "${PKG}/usr/bin/${name}"
+}
