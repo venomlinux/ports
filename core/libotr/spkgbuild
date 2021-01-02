@@ -1,0 +1,18 @@
+# description	: Off-the-Record Messaging Library and Toolkit 
+# depends	: 
+
+name=libotr
+version=4.1.1
+release=1
+options=""
+noextract=""
+backup=""
+source="https://otr.cypherpunks.ca/${name}-${version}.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --mandir=/usr/share/man
+	make
+	make DESTDIR=$PKG install
+}
