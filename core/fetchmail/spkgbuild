@@ -1,0 +1,21 @@
+# description	: A remote-mail retrieval utility 
+# depends	: openssl
+
+name=fetchmail
+version=6.4.15
+release=1
+options=""
+noextract=""
+backup=""
+source="https://sourceforge.net/projects/${name}/files/branch_${version%.*}/${name}-${version}.tar.xz"
+
+build() {
+	cd $name-$version
+	# don't build python stuff
+	sed -i '22,24s/^/#/' Makefile.am
+	autoreconf -vi
+
+	./configure --prefix=/usr --disable-nls
+	make
+	make DESTDIR=$PKG install
+}
