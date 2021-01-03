@@ -1,0 +1,27 @@
+# description	: Server that converts RPC program numbers into universal addresses 
+# depends	: libtirpc
+
+name=rpcbind
+version=1.2.5
+release=1
+options=""
+noextract=""
+backup=""
+source="https://downloads.sourceforge.net/project/$name/$name/$version/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	# use sunrpc instead of rpcbind as service-name
+	sed '/servname\[\]/s/rpcbind/sunrpc/' -i src/rpcbind.c
+
+	./configure --prefix=/usr \
+                --sbindir=/sbin \
+                --disable-libwrap \
+                --without-systemdsystemunitdir
+
+	make
+	make DESTDIR=$PKG install
+
+	install -D -m 755 rpcbind $PKG/etc/rc.d/rpcbind
+}
