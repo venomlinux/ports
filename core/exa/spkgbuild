@@ -11,8 +11,8 @@ source="https://github.com/ogham/$name/archive/v$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-  	mkdir "$PKGMK_SOURCE_DIR/rust" || true
-	export CARGO_HOME="$PKGMK_SOURCE_DIR/rust"
+  	mkdir rust || true
+	export CARGO_HOME=rust
 
 	cargo update
 	cargo fetch
