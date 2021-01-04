@@ -1,0 +1,22 @@
+# description	: A secure and free password manager for all of your devices. 
+# depends	: alsa-lib libnotify libsecret libxss libxtst nspr nss
+
+name=bitwarden-bin
+version=1.23.1
+release=1
+options="!strip !emptydirs"
+noextract=""
+backup=""
+source="https://github.com/bitwarden/desktop/releases/download/v${version}/Bitwarden-${version}-amd64.deb"
+
+build() {
+	bsdtar -xf Bitwarden-${version}-amd64.deb
+	bsdtar -xf data.tar.xz -C $PKG/
+
+	# Symlink
+	install -d "${PKG}/usr/bin"
+	ln -s "/opt/Bitwarden/bitwarden" "${PKG}/usr/bin/bitwarden"
+
+	chown root:root $PKG/opt/Bitwarden/chrome-sandbox
+	chmod 4755 $PKG/opt/Bitwarden/chrome-sandbox
+}
