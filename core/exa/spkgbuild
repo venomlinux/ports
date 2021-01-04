@@ -1,0 +1,30 @@
+# description	: exa is a modern replacement for ls written in rust
+# depends	: rust
+
+name=exa
+version=0.9.0
+release=1
+options=""
+noextract=""
+backup=""
+source="https://github.com/ogham/$name/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+  	mkdir rust || true
+	export CARGO_HOME=rust
+
+	cargo update
+	cargo fetch
+	cargo build --release --locked
+	install -Dt $PKG/usr/bin target/release/exa
+
+	if [ -e /usr/share/zsh ]; then
+    		install -Dm644 contrib/completions.zsh \
+		$PKG/usr/share/zsh/site-functions/_$name
+  	fi
+	if [ -e /usr/lib/pkgconfig/bash-completion.pc ]; then
+		install -Dm644 contrib/completions.bash \
+		$PKG/usr/share/bash-completion/completions/$name
+	fi
+}
