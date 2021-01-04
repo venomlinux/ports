@@ -13,7 +13,10 @@ build() {
 	cd $name-$version
 	mkdir build
 	cd build
-	cmake -DCMAKE_INSTALL_PREFIX="/usr" ../
+	cmake -DCMAKE_INSTALL_PREFIX="/usr" \
+		-DCMAKE_INSTALL_SYSCONFDIR=/etc \
+    		-DCMAKE_BUILD_TYPE=None \
+		../
 	make
 	make DESTDIR=$PKG install
 }
