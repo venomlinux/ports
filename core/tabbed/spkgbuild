@@ -12,10 +12,6 @@ source="http://dl.suckless.org/tools/$name-$version.tar.gz"
 build() {
 	cd $name-$version
 
-	if [ -f $PKGMK_ROOT/config.h ]; then
-		cp $PKGMK_ROOT/config.h .
-	fi
-
 	make CC=gcc
 	make DESTDIR=$PKG PREFIX=/usr install
 }
