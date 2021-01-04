@@ -1,0 +1,18 @@
+# description	: Wow such top. So stats 
+# depends	: nodejs
+
+name=vtop
+version=0.6.1
+release=1
+options=""
+noextract=""
+backup=""
+source="http://registry.npmjs.org/$name/-/${name}-${version}.tgz"
+
+build() {
+	cd $SRC
+	local _npmdir="$PKG/usr/lib/node_modules/"
+	mkdir -p $_npmdir
+	cd $_npmdir
+	npm install -g --prefix "$PKG/usr" $name@$version
+}
