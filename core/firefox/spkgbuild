@@ -1,8 +1,8 @@
 # description	: Stand-alone browser based on the Mozilla codebase
-# depends	: alsa-lib gtk2 gtk3 nss nspr icu libevent dbus-glib unzip zip autoconf2.13 yasm rust cbindgen nodejs clang nasm
+# depends	: alsa-lib libnotify libidl2 python2 gtk2 gtk3 nss nspr icu libevent dbus-glib unzip zip autoconf2.13 yasm rust cbindgen nodejs clang nasm
 
 name=firefox
-version=83.0
+version=84.0.1
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	$name.desktop"
@@ -44,6 +44,7 @@ EOF
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
 	export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 	export CARGO_HOME=$INITDIR
+	export MOZ_NOSPAM=1
 	export MACH_USE_SYSTEM_PYTHON=1
 
 	SHELL=/bin/sh ./mach build
@@ -66,3 +67,4 @@ EOF
 		echo $i >> $PKG/etc/revdep.d/$name.conf
 	done
 }
+
