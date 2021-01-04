@@ -12,6 +12,6 @@ source="https://github.com/LemonBoy/bar/archive/v$version/$name-$version.tar.gz"
 build() {
 	cd bar-$version
 
-	make VERSION=1.4
-	make VERSION=1.4 DESTDIR=$PKG install
+	make VERSION=${version}
+	make VERSION=${version} DESTDIR=$PKG install
 }
