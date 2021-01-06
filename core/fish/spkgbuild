@@ -19,4 +19,7 @@ build() {
 		../
 	make
 	make DESTDIR=$PKG install
+
+	# added to /etc/shells
+	echo "/usr/bin/fish" >> $PKG/etc/shells
 }
