@@ -89,7 +89,7 @@ mount_repo() {
 }
 
 fetch_rootfs() {
-	tarballname="venom-rootfs-$TARBALLVERSION.tar.xz"
+	tarballname="venomlinux-rootfs-$TARBALLVERSION.tar.xz"
 	url="https://github.com/venomlinux/ports/releases/download/$TARBALLVERSION/$tarballname"
 
 	msg "Fetching rootfs tarball: $url"
@@ -120,13 +120,6 @@ zap_rootfs() {
 	tar -xf $TARBALLIMG -C $ROOTFS || die "Error extracting tarball image"
 	tmp_scratchpkgconf
 	unset ZAP
-}
-
-install_pkg() {
-	local estatus=0
-	PKG="$(echo $PKG | tr ',' ' ')"
-	chrootrun scratch install -y $PKG || estatus=1
-	return $estatus
 }
 
 compress_rootfs() {
@@ -179,12 +172,13 @@ tmp_scratchpkgconf() {
 }
 
 main_scratchpkgconf() {
-	if [ -f $ROOTFS/etc/scratchpkg.repo.spkgnew ]; then
-		mv $ROOTFS/etc/scratchpkg.repo.spkgnew $ROOTFS/etc/scratchpkg.repo
-	fi
-	if [ -f $ROOTFS/etc/scratchpkg.conf.spkgnew ]; then
-		mv $ROOTFS/etc/scratchpkg.conf.spkgnew $ROOTFS/etc/scratchpkg.conf
-	fi
+	chrootrun scratch install -r -y --no-backup scratchpkg
+	#if [ -f $ROOTFS/etc/scratchpkg.repo.spkgnew ]; then
+	#	mv $ROOTFS/etc/scratchpkg.repo.spkgnew $ROOTFS/etc/scratchpkg.repo
+	#fi
+	#if [ -f $ROOTFS/etc/scratchpkg.conf.spkgnew ]; then
+	#	mv $ROOTFS/etc/scratchpkg.conf.spkgnew $ROOTFS/etc/scratchpkg.conf
+	#fi
 }
 
 copy_ports() {
@@ -209,7 +203,7 @@ make_iso() {
 	rm -fr "$ISODIR"
 	mkdir -p "$ISODIR"/{rootfs,isolinux,boot}
 	for file in $ISOLINUX_FILES; do
-		cp "/usr/share/syslinux/$file" "$ISODIR/isolinux" || die "Failed copying isolinux file: $file"
+		cp "$ROOTFS/usr/share/syslinux/$file" "$ISODIR/isolinux" || die "Failed copying isolinux file: $file"
 	done
 	cp "$FILESDIR/splash.png" "$ISODIR/isolinux"
 	cp "$FILESDIR/isolinux.cfg" "$ISODIR/isolinux"
@@ -223,9 +217,10 @@ make_iso() {
 		chown -R 0:0 "$ISODIR/customize"
 	}
 	
-	copy_ports
 	main_scratchpkgconf
-	sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j\$(nproc\)\"/" -i "$ROOTFS"/etc/scratchpkg.conf
+	copy_ports
+	#chrootrun scratch install -y scratchpkg
+	#sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j\$(nproc\)\"/" -i "$ROOTFS"/etc/scratchpkg.conf
 	
 	# make sfs
 	msg "Squashing root filesystem: $ISODIR/rootfs/filesystem.sfs ..."
@@ -247,14 +242,14 @@ make_iso() {
 	
 	msg "Setup UEFI mode..."
 	mkdir -p "$ISODIR"/boot/{grub/{fonts,x86_64-efi},EFI}
-	if [ -f /usr/share/grub/unicode.pf2 ];then
-		cp "/usr/share/grub/unicode.pf2" "$ISODIR/boot/grub/fonts"
+	if [ -f $ROOTFS/usr/share/grub/unicode.pf2 ];then
+		cp "$ROOTFS/usr/share/grub/unicode.pf2" "$ISODIR/boot/grub/fonts"
 	fi
 	if [ -f "$ISODIR/isolinux/splash.png" ]; then
 		cp "$ISODIR/isolinux/splash.png" "$ISODIR/boot/grub/"
 	fi
 	echo "set prefix=/boot/grub" > "$ISODIR/boot/grub-early.cfg"
-	cp -a /usr/lib/grub/x86_64-efi/*.{mod,lst} "$ISODIR/boot/grub/x86_64-efi" || die "Failed copying efi files"
+	cp -a $ROOTFS/usr/lib/grub/x86_64-efi/*.{mod,lst} "$ISODIR/boot/grub/x86_64-efi" || die "Failed copying efi files"
 	cp "$FILESDIR/grub.cfg" "$ISODIR/boot/grub/"
 
 	grub-mkimage -c "$ISODIR/boot/grub-early.cfg" -o "$ISODIR/boot/EFI/bootx64.efi" -O x86_64-efi -p "" iso9660 normal search search_fs_file
@@ -276,7 +271,7 @@ make_iso() {
 	msg "Making iso: $OUTPUTISO ..."
 	rm -f "$OUTPUTISO" "$OUTPUTISO.md5"
 	xorriso -as mkisofs \
-		-isohybrid-mbr /usr/share/syslinux/isohdpfx.bin \
+		-isohybrid-mbr $ROOTFS/usr/share/syslinux/isohdpfx.bin \
 		-c isolinux/boot.cat \
 		-b isolinux/isolinux.bin \
 		  -no-emul-boot \
@@ -291,6 +286,28 @@ make_iso() {
 	
 	msg "Cleaning iso directory: $ISODIR"
 	rm -fr "$ISODIR"
+	md5sum "$OUTPUTISO" > "$OUTPUTISO".md5
+	msg "Making iso completed: $OUTPUTISO ($(ls -lh $OUTPUTISO | awk '{print $5}'))"
+}
+
+check() {
+	[ $2 ] || return 0
+	command -v $1 >/dev/null || {
+		echo "'$1' not found, please install '$2'"
+		return 1
+	}
+}
+
+checktool() {
+	if [ "$ISO" ]; then
+		check mksquashfs squashfs-tools || err=1
+		check xorriso libisoburn || err=1
+		if [ ! -d /usr/lib/grub/x86_64-efi/ ]; then
+			echo "'grub-efi' files not found"
+			err=1
+		fi
+	fi
+	[ "$err" = 1 ] && exit 1
 }
 
 usage() {
@@ -358,6 +375,8 @@ parse_opts() {
 
 main() {
 	[ "$HELP" ] && usage
+	
+	checktool
 
 	[ "$(id -u)" = 0 ] || {
 		die "$0 need root access!"
@@ -423,7 +442,7 @@ SCRIPTDIR="$(dirname $(realpath $0))"
 parse_opts "$@"
 
 TARBALLVERSION="20200414"
-TARBALLIMG="$PORTSDIR/venom-rootfs.tar.xz"
+TARBALLIMG="$PORTSDIR/venomlinux-rootfs.tar.xz"
 
 SRCDIR="${SRCDIR:-/var/cache/scratchpkg/sources}"
 PKGDIR="${PKGDIR:-/var/cache/scratchpkg/packages}"
@@ -437,8 +456,8 @@ REPOFILE="$FILESDIR/scratchpkg.repo"
 # iso
 ISODIR="${ISODIR:-/tmp/venomiso}"
 ISOLABEL="VENOMLIVE_$(date +"%Y%m%d")"
-ISO_PKG="linux,dialog,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs"
-OUTPUTISO="${OUTPUTISO:-$PORTSDIR/venom-$(date +"%Y%m%d").iso}"
+ISO_PKG="linux,dialog,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,syslinux"
+OUTPUTISO="${OUTPUTISO:-$PORTSDIR/venomlinux-$(date +"%Y%m%d").iso}"
 
 trap "interrupted" 1 2 3 15
 

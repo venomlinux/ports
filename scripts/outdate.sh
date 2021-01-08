@@ -98,17 +98,17 @@ run_check() {
 
 		upver=${upver:-404}
 		
-		touch $SCRIPTDIR/error $SCRIPTDIR/outdate
+		touch $outdateerror $outdatelist
 		
-		sed "\,^$ppath ,d" -i $SCRIPTDIR/error
-		sed "\,^$ppath ,d" -i $SCRIPTDIR/outdate
+		sed "\,^$ppath ,d" -i $outdateerror
+		sed "\,^$ppath ,d" -i $outdatelist
 
 		if [ "$upver" = "404" ]; then
 			echo -e " $ppath ${RED}404${CRESET} ($version)"
-			echo "$ppath $version" >> $SCRIPTDIR/error
+			echo "$ppath $version" >> $outdateerror
 		elif [ "$version" != "$upver" ]; then
 			echo -e " $ppath ${YELLOW}$upver${CRESET} ($version)"
-			echo "$ppath $upver" >> $SCRIPTDIR/outdate
+			echo "$ppath $upver $version" >> $outdatelist
 		fi
 	fi
 }
@@ -148,8 +148,8 @@ check() {
 	fi
 	
 	# ignore
-	if [ -f "$SCRIPTDIR/ignoreupdate" ]; then
-		if grep -qx $ppath "$SCRIPTDIR/ignoreupdate"; then
+	if [ -f "$outdateskip" ]; then
+		if grep -qx $ppath "$outdateskip"; then
 			echo -e " $ppath ${GREEN}SKIP${CRESET} ($version)"
 			return
 		fi
@@ -280,9 +280,13 @@ main() {
 	fi
 }
 
-PORTREPO="musl core multilib nonfree community testing"
+PORTREPO="core multilib nonfree testing"
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
+
+outdatelist="$SCRIPTDIR/outdate.list"
+outdateerror="$SCRIPTDIR/outdate.error"
+outdateskip="$SCRIPTDIR/outdate.skip"
 
 exclude="alpha beta doc rc migration example pre dev start cpp data"
 

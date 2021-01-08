@@ -3,7 +3,7 @@
 # script for update REPO file using httpup-repgen
 #
 
-PORTREPO="core multilib nonfree community testing"
+PORTREPO="core multilib nonfree testing"
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 

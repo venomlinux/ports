@@ -35,10 +35,10 @@ revert_changes() {
 	
 	case $input in
 		N|n) echo "Keep changes.";;
-		  *) echo "Revert changes..."
-		     echo -n '> spkgbuild  : '; git checkout spkgbuild
-		     echo -n '> .checksums : '; git checkout .checksums
-		     echo -n '> .pkgfiles  : '; git checkout .pkgfiles;;
+		  *) for f in $(git status -s . | awk '{print $2}'); do
+				echo -n "$f: "
+				git checkout $f
+			 done;;
 	esac
 	exit 4
 }
@@ -316,6 +316,19 @@ port_checkdep() {
 	done
 }
 
+port_revert() {
+	local port=$1
+	[ "$port" ] || return 1
+	if [ ! -d $PORTSDIR/$port ]; then
+		echo "port '$port' not exist"
+		exit 1
+	fi
+	for f in $(git status -s $PORTSDIR/$port | awk '{print $2}'); do
+		echo -n "$f: "
+		git checkout $f
+	done
+}
+
 port_help() {
 	cat << EOF
 Usage:
@@ -326,6 +339,7 @@ Options:
   commit <portname> <commit msg>   commit port's update changes
   build  <portname> <opts>         build port
   diff   <portname>                show diff of ports
+  revert <portname>                revert ports changes
   repgen                           update REPO file
   push                             push all updates
   status                           show current status
@@ -334,7 +348,7 @@ Options:
 EOF
 }
 
-PORTREPO=(core multilib nonfree community testing)
+PORTREPO=(core multilib nonfree testing)
 INDEX_DIR="/var/lib/scratchpkg/index"
 EDITOR=${EDITOR:-vim}
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
