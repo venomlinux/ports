@@ -290,6 +290,7 @@ outdateskip="$SCRIPTDIR/outdate.skip"
 
 exclude="alpha beta doc rc migration example pre dev start cpp data"
 
+touch $outdatelist $outdateerror $outdateskip
 main $@
 
 exit 0
