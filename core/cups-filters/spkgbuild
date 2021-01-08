@@ -1,0 +1,31 @@
+# description	: Backends and filters for CUPS
+# depends	: ghostscript poppler qpdf mupdf dejavu-ttf
+
+name=cups-filters
+version=1.28.6
+release=1
+options=""
+noextract=""
+backup=""
+source="https://www.openprinting.org/download/$name/$name-$version.tar.xz
+rc.cups-browsed"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+		--sysconfdir=/etc \
+		--without-php \
+		--disable-avahi \
+		--disable-dbus \
+		--disable-braille \
+		--without-rcdir \
+		--with-browseremoteprotocols=cups 
+
+	make
+	make DESTDIR=$PKG install
+
+	install -D -m 0755 $SRC/rc.cups-browsed $PKG/etc/rc.d/rc.cups-browsed
+
+	rm -r $PKG/usr/share/doc
+}
