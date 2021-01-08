@@ -1,0 +1,18 @@
+# description	: Utility that does structural, content-preserving transformations on PDF files 
+# depends	: gnutls zlib libjpeg-turbo openssl
+
+name=qpdf
+version=10.1.0
+release=1
+options=""
+noextract=""
+backup=""
+source="http://downloads.sourceforge.net/project/$name/$name/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share/doc	
+}
