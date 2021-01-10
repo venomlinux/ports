@@ -2,10 +2,10 @@
 # depends	: sdl qt5 virtualbox-modules
 
 name=virtualbox
-version=6.1.2
+version=6.1.16
 release=1
 _name=Oracle_VM_VirtualBox_Extension_Pack
-_release=135662
+_release=140961
 
 source="http://download.virtualbox.org/virtualbox/$version/VirtualBox-${version}-${_release}-Linux_amd64.run
 	virtualbox.60-vboxdrv.rules"
@@ -15,12 +15,12 @@ build() {
 
 	# extract source file
 	sh VirtualBox-${version}-${_release}-Linux_amd64.run --keep --noexec --target $SRC/
-	
+
 	# creating directories
 	mkdir -p $PKG/opt/VirtualBox $PKG/etc/vbox $PKG/usr/bin $PKG/lib/udev/rules.d/ \
 	    $PKG/usr/share/applications/ $PKG/usr/share/pixmaps/ $PKG/usr/share/mime/packages/ \
 	    $PKG/etc/ld.so.conf.d
-	
+
 	cd $PKG/opt/VirtualBox
 	tar xfj $SRC/VirtualBox.tar.bz2
 	rm -Rf $PKG/opt/VirtualBox/sdk  $PKG/opt/VirtualBox/src
@@ -44,7 +44,7 @@ build() {
 
 	echo "# VirtualBox installation directory" > $PKG/etc/vbox/vbox.cfg
 	echo "INSTALL_DIR="\"/opt/VirtualBox\" >> $PKG/etc/vbox/vbox.cfg
-	
+
 	echo /opt/VirtualBox > $PKG/etc/ld.so.conf.d/virtualbox.conf
 
 	mv $name.xml $PKG/usr/share/mime/packages/

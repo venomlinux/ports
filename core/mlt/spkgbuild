@@ -2,7 +2,7 @@
 # depends	: qt5 frei0r-plugins
 
 name=mlt
-version=6.22.1
+version=6.24.0
 release=1
 source="https://github.com/mltframework/mlt/releases/download/v$version/mlt-$version.tar.gz"
 
@@ -10,7 +10,7 @@ build() {
 	cd $name-$version
 
 	# Disable PulseAudio (taken from tsaop, crux's kf5 port)
-	sed -i 's|-D__LINUX_PULSE__||' src/modules/rtaudio/Makefile 
+	sed -i 's|-D__LINUX_PULSE__||' src/modules/rtaudio/Makefile
 
 	./configure --prefix=/usr            \
 	            --enable-gpl             \
