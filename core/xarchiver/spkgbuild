@@ -1,10 +1,10 @@
 # description	: GTK+ archive manager with support for tar, xz, bzip2, gzip, zip, 7z, rar, lzo and many other archive formats
-# depends	: gtk3
+# depends	: gtk3 binutils zip gzip unrar unzip xz
 
 name=xarchiver
-version=0.5.4
+version=0.5.4.16
 release=1
-source="https://downloads.sourceforge.net/$name/$name-$version.tar.bz2"
+source="https://github.com/ib/$name/archive/$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version

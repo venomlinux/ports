@@ -1,16 +1,18 @@
 # description	: VTE-based terminal emulator for LXDE with support for multiple tabs
-# depends	: vte2
+# depends	: vte3
 
 name=lxterminal
 version=0.3.2
 release=1
-source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz"
+source="https://downloads.sourceforge.net/lxde/${name}-${version}.tar.xz
+0001-Don-t-use-deprecated-vte_terminal_match_add_gregex.patch"
 
 build() {
 	cd $name-$version
+  patch -Np1 -i ../0001-Don-t-use-deprecated-vte_terminal_match_add_gregex.patch
 
 	sed -ri '/^ +init/s/init/return init/' src/unixsocket.c
-	./configure --prefix=/usr
+	./configure --sysconfdir=/etc --prefix=/usr --enable-gtk3 
 	make
 	make DESTDIR=$PKG install
 }
