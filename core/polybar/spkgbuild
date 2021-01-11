@@ -2,12 +2,12 @@
 # depends	: cmake cairo libxcb python3 xcb-proto xcb-util-image xcb-util-wm
 
 name=polybar
-version="3.4.3"
+version=3.5.4
 release=1
-source="https://github.com/polybar/polybar/releases/download/$version/$name-$version.tar"
+source="https://github.com/$name/$name/releases/download/$version/$name-$version.tar.gz"
 
 build() {
-	cd $name
+	cd $name-$version
 	mkdir build && cd build
 	cmake .. -DCMAKE_INSTALL_PREFIX=/usr
 	make

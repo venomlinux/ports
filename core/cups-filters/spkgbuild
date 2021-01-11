@@ -1,8 +1,8 @@
 # description	: Backends and filters for CUPS
-# depends	: ghostscript poppler qpdf mupdf dejavu-ttf
+# depends	: ghostscript poppler qpdf mupdf dejavu-fonts
 
 name=cups-filters
-version=1.28.6
+version=1.28.7
 release=1
 options=""
 noextract=""
@@ -20,7 +20,7 @@ build() {
 		--disable-dbus \
 		--disable-braille \
 		--without-rcdir \
-		--with-browseremoteprotocols=cups 
+		--with-browseremoteprotocols=cups
 
 	make
 	make DESTDIR=$PKG install

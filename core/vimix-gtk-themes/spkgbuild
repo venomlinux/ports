@@ -2,16 +2,14 @@
 # depends	: gtk3 gtk-engine-murrine gtk-engines
 
 name=vimix-gtk-themes
-version=20190225
+_version=2020-11-28
+version=${_version//-/.}
 release=1
 options="!strip"
-_commit=c6b15d0a94f9c7264e5d6d019c9296171e2ff907
-source="$name-$_commit.tar.gz::https://github.com/vinceliuice/vimix-gtk-themes/archive/$_commit.tar.gz
-	Install.patch"
+source="$name-$version.tar.gz::https://github.com/vinceliuice/$name/archive/$_version.tar.gz"
 
 build() {
-	cd $name-$_commit
-	patch Install < "$SRC/Install.patch"
-	install -m755 -d "$PKG/usr/share/themes"
-	DEST_DIR="$PKG/usr/share/themes" ./Install
+  cd "$name-$_version"
+	install -d "$PKG/usr/share/themes"
+	./install.sh -a -d "$PKG/usr/share/themes"
 }

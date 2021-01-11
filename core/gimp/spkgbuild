@@ -1,5 +1,5 @@
 # description	: GNU Image Manipulation Program
-# depends	: gegl json-glib python2-gtk gtk2 mypaint-brushes gexiv2 poppler-glib glib-networking gtk3 librsvg
+# depends	: gegl appstream-glib json-glib python2-gtk gtk2 mypaint-brushes1 exiv2 poppler-glib glib-networking gtk3 librsvg
 
 name=gimp
 version=2.10.22
@@ -9,11 +9,14 @@ source="https://download.gimp.org/pub/$name/v${version%.*}/$name-$version.tar.bz
 build() {
 	cd $name-$version
 
-	./configure \
+	  ./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--libexecdir=/usr/lib/$name \
-		--disable-nls
+		--disable-nls \
+    --enable-mp \
+    --disable-check-update \
+    --without-aa 
 	make
 	make DESTDIR=$PKG install
 }
