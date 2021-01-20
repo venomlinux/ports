@@ -27,6 +27,12 @@ verifythisisnotcrux() {
 	done
 }
 
+verifythisisnotarch() {
+	for i in PKGMK pkgver pkgrel pkgdesc pkgdir srcdir; do
+		grep -q "$i" $portpath/spkgbuild && msg "please remove ARCH stuff, this is not ARCH"
+	done
+}
+
 verifydeps() {
 	deps=
 	if [ "$(grep "^# depends[[:blank:]]*:" $portpath/spkgbuild)" ]; then
@@ -68,6 +74,7 @@ while [ $1 ]; do
 	verifyfiles
 	verifyunnecessaryfiles
 	verifythisisnotcrux
+	verifythisisnotarch
 	shift
 done
 
