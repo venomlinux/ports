@@ -25,6 +25,7 @@ build() {
 	chmod 644 "$PKG/opt/${name%-bin}"/resources/app{.asar,-update.yml}
 
   install -Dm755 "$PKG/opt/${name%-bin}/${name%-bin}" -t "$PKG/usr/bin"
+  ln -sf "/opt/${name%-bin}/${name%-bin}" "$PKG/usr/bin/${name%-bin}"
 
 	install -Dm644 "squashfs-root/${name%-bin}.desktop" -t "$PKG/usr/share/applications"
 
