@@ -3,7 +3,7 @@
 
 name=internxt-drive-bin
 _name=drive
-version=1.2.4
+version=1.2.5
 release=1
 source="https://github.com/internxt/${_name}-desktop/releases/download/v${version}/${name%-bin}-${version}_x86_64.AppImage"
 
@@ -24,8 +24,7 @@ build() {
 	# Fix permisssions
 	chmod 644 "$PKG/opt/${name%-bin}"/resources/app{.asar,-update.yml}
 
-	install -Dm755 "squashfs-root/${name%-bin}" -t "$PKG/usr/bin"
-	ln -sf "$PKG/opt/${name%-bin}/${name%-bin}" "$PKG/usr/bin/${name%-bin}"
+  install -Dm755 "$PKG/opt/${name%-bin}/${name%-bin}" -t "$PKG/usr/bin"
 
 	install -Dm644 "squashfs-root/${name%-bin}.desktop" -t "$PKG/usr/share/applications"
 
