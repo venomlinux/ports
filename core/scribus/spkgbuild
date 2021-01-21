@@ -1,0 +1,35 @@
+# description	: layout tool 
+# depends	: boost cups harfbuzz-icu hunspell libart_lgpl poppler qt5
+
+name=scribus
+version=1.5.6.1
+release=1
+source="https://downloads.sourceforge.net/$name/$name-$version.tar.xz"
+
+build() {
+  sed \
+    -e 's|#!/usr/bin/python|#!/usr/bin/python3|' \
+    -e 's|#!/usr/bin/env python|#!/usr/bin/env python3|' \
+    -i $name-$version/scribus/plugins/scriptplugin/{samples,scripts}/*
+
+  cmake -S $name-$version -B build -G Ninja \
+    -D CMAKE_INSTALL_PREFIX=/usr \
+    -D CMAKE_BUILD_TYPE=Release \
+    -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+    -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+    -Wno-dev
+  cmake --build build
+  DESTDIR=$PKG cmake --install build
+
+  rm -r $PKG/usr/share/man/??
+  rm -r $PKG/usr/share/doc
+  find $PKG \( \
+    -iname '*changelog*' -o \
+    -iname '*news*' -o \
+    -iname '*todo*' -o \
+    -iname '*readme*' -o \
+    -iname '*copying*' \) -exec rm -fr '{}' \+
+
+  #fix missing fonts error
+  ln -snf /usr/share/fonts $PKG/usr/lib/ 
+}
