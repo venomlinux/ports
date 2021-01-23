@@ -1,9 +1,9 @@
 # description	: layout tool 
-# depends	: boost cups harfbuzz-icu hunspell libart_lgpl poppler qt5
+# depends	: boost cups harfbuzz-icu hunspell poppler qt5
 
 name=scribus
 version=1.5.6.1
-release=1
+release=2
 source="https://downloads.sourceforge.net/$name/$name-$version.tar.xz"
 
 build() {
@@ -29,7 +29,4 @@ build() {
     -iname '*todo*' -o \
     -iname '*readme*' -o \
     -iname '*copying*' \) -exec rm -fr '{}' \+
-
-  #fix missing fonts error
-  ln -snf /usr/share/fonts $PKG/usr/lib/ 
 }
