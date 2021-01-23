@@ -3,7 +3,7 @@
 
 name=font-adobe-utopia-type1
 version=1.0.4
-release=2
+release=3
 source="http://ftp.x.org/pub/individual/font/font-adobe-utopia-type1-$version.tar.bz2"
 
 build() {
@@ -16,8 +16,5 @@ build() {
 		--disable-static
 	make
 	make DESTDIR=$PKG install
-	
-	find $PKG -name 'fonts.scale' -delete	
-	find $PKG -name 'fonts.dir' -delete
 }
 

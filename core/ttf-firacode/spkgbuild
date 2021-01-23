@@ -1,15 +1,11 @@
-# description	: Fira Code Font ttf 
-# depends	: 
+# description	: Fira Code Font ttf
 
 name=ttf-firacode
 version=5.2
-release=1
-options=""
-noextract=""
-backup=""
+release=2
 source="https://github.com/tonsky/FiraCode/releases/download/${version}/Fira_Code_v${version}.zip"
 
 build() {
-	mkdir -p "$PKG/usr/share/fonts/${name}"
-	cp "ttf/"*.ttf "$PKG/usr/share/fonts/${name}"
+	mkdir -p "$PKG/usr/share/fonts/firacode"
+	cp "ttf/"*.ttf "$PKG/usr/share/fonts/firacode"
 }

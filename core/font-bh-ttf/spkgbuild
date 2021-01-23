@@ -3,7 +3,7 @@
 
 name=font-bh-ttf
 version=1.0.3
-release=1
+release=2
 source="http://ftp.x.org/pub/individual/font/font-bh-ttf-$version.tar.bz2"
 
 build() {
@@ -16,8 +16,5 @@ build() {
 		--disable-static
 	make
 	make DESTDIR=$PKG install
-	
-	find $PKG -name 'fonts.dir' -delete
-	find $PKG -name 'fonts.scale' -delete
 }
 

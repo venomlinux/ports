@@ -3,7 +3,7 @@
 
 name=fontconfig
 version=2.13.1
-release=3
+release=4
 source="https://www.freedesktop.org/software/fontconfig/release/$name-$version.tar.bz2"
 
 build() {
@@ -16,7 +16,8 @@ build() {
 	            --sysconfdir=/etc    \
 	            --localstatedir=/var \
 		    --disable-nls        \
-	            --disable-docs
+	            --disable-docs \
+		    --with-default-fonts=/usr/share/fonts
 	make
 	make DESTDIR=$PKG install
 }

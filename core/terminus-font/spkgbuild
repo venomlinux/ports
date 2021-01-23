@@ -3,16 +3,15 @@
 
 name=terminus-font
 version=4.49.1
-release=1
+release=2
 source="https://downloads.sourceforge.net/project/$name/$name-${version%.1}/terminus-font-$version.tar.gz"
 
 build() {
 	cd $name-$version
 
-	chmod +x configure
 	./configure \
 		--prefix=/usr \
-		--x11dir=/usr/share/fonts/X11/misc \
+		--x11dir=/usr/share/fonts/misc \
 		--psfdir=/usr/share/consolefonts
 	make
 	make DESTDIR=$PKG install
