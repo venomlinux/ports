@@ -2,7 +2,7 @@
 # depends	: nss libxtst libappindicator libnotify
 
 name=tutanota-desktop-bin
-version=3.80.4
+version=3.80.5
 release=1
 source="${name%-bin}-$version.AppImage::https://mail.tutanota.com/desktop/${name%-bin}-linux.AppImage
 	https://raw.githubusercontent.com/tutao/tutanota/master/tutao-pub.pem
@@ -29,6 +29,7 @@ build() {
 	chmod 644 "$PKG/opt/${name%-bin}"/resources/app{.asar,-update.yml}
 
 	install -Dm755 "squashfs-root/${name%-bin}" -t "$PKG/usr/bin"
+  ln -sf "/opt/${name%-bin}/${name%-bin}" "$PKG/usr/bin/${name%-bin}"
 
 	install -Dm644 "squashfs-root/${name%-bin}.desktop" -t "$PKG/usr/share/applications"
 
