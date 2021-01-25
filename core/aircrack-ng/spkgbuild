@@ -9,6 +9,16 @@ source="https://download.aircrack-ng.org/$name-$version.tar.gz"
 build() {
 	cd $name-$version
 
+	cat > which <<EOF
+#!/bin/sh
+type -p \$1
+EOF
+
+chmod +x which
+export PATH=$PATH:$PWD
+
+	CFLAGS="$CFLAGS -fcommon"
+
 	./autogen.sh
 	./configure --prefix=/usr
 	make

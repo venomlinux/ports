@@ -4,7 +4,6 @@
 name=shared-mime-info
 version=1.10
 release=5
-options="!makeflags"
 source="https://freedesktop.org/~hadess/$name-$version.tar.xz"
 
 build() {
@@ -14,6 +13,6 @@ build() {
 	export ac_cv_func_fdatasync=no
 
 	./configure --prefix=/usr --disable-update-mimedb
-	make
+	make -j1
 	make DESTDIR=$PKG install
 }
