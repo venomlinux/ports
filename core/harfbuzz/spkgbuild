@@ -1,19 +1,22 @@
 # description	: OpenType text shaping engine
-# depends	: glib freetype2 graphite2
+# depends	: meson glib gobject-introspection cairo
 
 name=harfbuzz
-version=2.6.7
+version=2.7.4
 release=1
-source="https://www.freedesktop.org/software/$name/release/$name-$version.tar.xz"
+source="https://github.com/harfbuzz/harfbuzz/releases/download/$version/harfbuzz-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-	./configure \
-		--prefix=/usr \
-		--with-gobject \
-		--with-graphite2 \
-		--with-icu=no
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+        cd build
+
+        meson \
+                --prefix=/usr \
+                -Ddocs=disabled \
+		-Dgraphite=auto \
+		-Dbenchmark=disabled
+        ninja
+        DESTDIR=$PKG ninja install
 }

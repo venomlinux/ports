@@ -22,5 +22,7 @@ build() {
                 --with-included-glib
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{doc,info}
 }
 
