@@ -44,8 +44,6 @@ build() {
 
 	make install_root=$PKG install
 
-	rm -r $PKG/usr/share/{locale,info}
-
 	cp -v ../nscd/nscd.conf $PKG/etc/nscd.conf
 	mkdir -p $PKG/var/cache/nscd
 

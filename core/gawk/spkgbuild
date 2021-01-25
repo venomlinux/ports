@@ -15,6 +15,4 @@ build() {
 	./configure --prefix=/usr --libexecdir=/usr/lib --sysconfdir=/etc --disable-nls
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share/info
 }

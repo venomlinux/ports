@@ -2,24 +2,24 @@
 # depends	: coreutils httpup libarchive
 
 name=scratchpkg
-version=20210124
-release=1
+version=20200729
+release=4
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
 	etc/scratchpkg.repo
 	etc/scratchpkg.mask
 	etc/revdep.conf"
 scratchpkg_url=https://github.com/venomlinux/scratchpkg
-source="https://github.com/venomlinux/scratchpkg/archive/b14ab18b8df9fb694fbfb1771be6881f327bab62.tar.gz
+source="$scratchpkg_url/archive/$version.tar.gz
 	$name.repo
 	$name.conf
 	$name.alias
 	$name.mask
-	portsync
-	scratch.patch"
+	$scratchpkg_url/commit/497b92c1cdeba692e0a805efa3b0a30644e10c72.patch
+	$scratchpkg_url/commit/b42c48a88cadd40d8f4f30bbffb2f8d58e99a1e0.patch"
 
 build() {
-	cd $name-b14ab18b8df9fb694fbfb1771be6881f327bab62
+	cd $name-$version
 
 	for s in $SRC/*; do
 		case $s in
@@ -28,7 +28,6 @@ build() {
 	done
 
 	DESTDIR=$PKG ./INSTALL.sh
-	install -m755 $SRC/portsync $PKG/usr/bin/portsync
 	install -m644 $SRC/$name.repo $PKG/etc/$name.repo
 	install -m644 $SRC/$name.conf $PKG/etc/$name.conf
 	install -m644 $SRC/$name.alias $PKG/etc/$name.alias

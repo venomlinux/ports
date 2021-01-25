@@ -1,4 +1,5 @@
 # description	: User-space support for the hardware monitoring drivers in the Linux kernel
+# depends	: which
 
 name=lm_sensors
 version=3.6.0
@@ -7,14 +8,6 @@ source="https://github.com/lm-sensors/lm-sensors/archive/V${version//./-}/$name-
 	run"
 
 build() {
-	cat > which <<EOF
-#!/bin/sh
-type -p \$1
-EOF
-
-chmod +x which
-export PATH=$PATH:$PWD
-
 	cd ${name/_/-}-${version//./-}
 	make PREFIX=/usr        \
 	     BUILD_STATIC_LIB=0 \

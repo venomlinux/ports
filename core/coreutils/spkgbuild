@@ -4,19 +4,25 @@
 name=coreutils
 version=8.32
 release=1
-source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
+	$name-i18n-1.patch"
 
 build() {
 	cd $name-$version
 
-	export FORCE_UNSAFE_CONFIGURE=1
+	# fixes POSIX requires that programs from Coreutils recognize
+	# character boundaries correctly even in multibyte locales
+	#patch -Np1 -i ../$name-i18n-1.patch
+	sed -i '/test.lock/s/^/#/' gnulib-tests/gnulib.mk
 
+	autoreconf -fiv
+	FORCE_UNSAFE_CONFIGURE=1 \
 	./configure \
 		--prefix=/usr \
 		--libexecdir=/usr/lib \
 		--enable-no-install-program=kill,uptime \
 		--disable-nls
-	make
+	FORCE_UNSAFE_CONFIGURE=1 make
 	make DESTDIR=$PKG install
 
 	mkdir -pv $PKG/bin \
