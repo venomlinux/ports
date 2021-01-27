@@ -10,7 +10,7 @@ build() {
 	cd $name-$version
 
 	export LDFLAGS="$LDFLAGS -L/usr/lib/openssl-1.0"
-	export CFLAGS="$CFLAGS -I/usr/include/openssl-1.0"
+	export CFLAGS="$CFLAGS -I/usr/include/openssl-1.0 -fcommon"
 
 	./configure --exec_prefix=/usr --prefix=/usr --enable-ipv6 --with-plugins --with-ssl --mandir=/usr/share/man/
 	make 

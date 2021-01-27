@@ -16,7 +16,8 @@ build() {
                 --prefix=/usr \
                 -Ddocs=disabled \
 		-Dgraphite=auto \
-		-Dbenchmark=disabled
+		-Dbenchmark=disabled \
+		-Dicu=disabled
         ninja
         DESTDIR=$PKG ninja install
 }
