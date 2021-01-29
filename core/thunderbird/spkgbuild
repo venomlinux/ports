@@ -2,17 +2,17 @@
 # depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent nspr dbus-glib gconf clang cbindgen nodejs nasm unzip zip nss
 
 name=thunderbird
-version=78.4.0
+version=78.7.0
 release=1
-source="https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz
-	thunderbird-$version-rustc1470-1.patch"
+source="https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz"
+#thunderbird-$version-rustc1470-1.patch"
 
 build() {
 	INITDIR=$PWD
 
 	cd $name-$version
 
-	patch -p1 -i ../thunderbird-$version-rustc1470-1.patch
+#	patch -p1 -i ../thunderbird-$version-rustc1470-1.patch
 	
 	cat > mozconfig << "EOF"
 #ac_add_options --disable-dbus
@@ -21,7 +21,7 @@ ac_add_options --disable-necko-wifi
 #ac_add_options --enable-startup-notification
 ac_add_options --disable-pulseaudio
 #ac_add_options --disable-gconf
-#ac_add_options --enable-calendar
+ac_add_options --enable-calendar
 #ac_add_options --enable-system-sqlite
 ac_add_options --with-system-libevent
 #ac_add_options --with-system-libvpx
