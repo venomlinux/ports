@@ -2,7 +2,7 @@
 # depends	: alsa-lib libnotify libidl2 python2 gtk2 gtk3 nss nspr icu libevent dbus-glib unzip zip autoconf2.13 yasm rust cbindgen nodejs clang nasm
 
 name=firefox
-version=84.0.2
+version=85.0
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	$name.desktop"
@@ -15,6 +15,7 @@ build() {
 cat <<- EOF > .mozconfig
 	mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-shared
 	unset MOZ_TELEMETRY_REPORTING
+  ac_add_options --enable-application=browser
 	ac_add_options --prefix=/usr
 	ac_add_options --enable-default-toolkit=cairo-gtk3
 	ac_add_options --enable-application=browser
@@ -27,6 +28,7 @@ cat <<- EOF > .mozconfig
 	ac_add_options --enable-system-ffi
 	ac_add_options --enable-system-pixman
 	ac_add_options --enable-alsa
+  ac_add_options --enable-hardening
 	ac_add_options --enable-optimize
 	ac_add_options --enable-release
 	ac_add_options --enable-rust-simd
