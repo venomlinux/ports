@@ -9,6 +9,14 @@ source="https://samba.org/ftp/$name/$name-$version.tar.gz"
 build() {
 	cd $name-$version
 
+	cat > which <<EOF
+#!/bin/sh
+type -p \$1
+EOF
+
+chmod +x which
+export PATH=$PATH:$PWD
+
 	./configure \
 		--prefix=/usr \
 		--bundled-libraries=NONE \

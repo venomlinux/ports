@@ -9,6 +9,15 @@ source="https://github.com/gnustep/tools-make/archive/make-${_version}.tar.gz"
 
 build() {
 	cd tools-make-make-${_version}
+
+	cat > which <<EOF
+#!/bin/sh
+type -p \$1
+EOF
+
+chmod +x which
+export PATH=$PATH:$PWD
+
 	./configure \
 		--prefix=/usr \
 		--enable-native-objc-exceptions

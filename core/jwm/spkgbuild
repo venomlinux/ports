@@ -1,5 +1,5 @@
 # description	: A lightweight window manager for the X11 Window System
-# depends	: libxext libxmu libxinerama libxpm libjpeg-turbo libpng librsvg cairo libxft 
+# depends	: libxext libxmu libxinerama libxpm libjpeg-turbo libpng librsvg cairo libxft
 
 name=jwm
 version=2.3.7
@@ -13,6 +13,8 @@ build() {
 
 	sed -i 's|/usr/local/share/|/usr/share/|' contrib/Makefile po/Makefile* example.jwmrc
 	sed "s/autohide/height=\"20\" autohide/" -i example.jwmrc
+
+	export CFLAGS="$CFLAGS -I/usr/include/freetype2"
 
 	./configure \
 		--prefix=/usr \

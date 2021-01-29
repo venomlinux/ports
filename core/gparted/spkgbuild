@@ -17,8 +17,4 @@ build() {
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
-
-	# Install policy file
-	install -D -m0644 org.gnome.gparted.policy \
-	    $PKG/usr/share/polkit-1/actions/org.gnome.gparted.policy
 }

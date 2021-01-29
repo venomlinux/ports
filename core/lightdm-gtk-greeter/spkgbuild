@@ -1,11 +1,11 @@
 # description	: GTK+ greeter for LightDM
-# depends	: gtk3 lightdm exo gobject-introspection intltool
+# depends	: gtk3 lightdm exo gobject-introspection intltool xfce4-dev-tools
 
 name=lightdm-gtk-greeter
-version=2.0.7
+version=2.0.8
 release=1
 backup="etc/lightdm/lightdm-gtk-greeter.conf"
-source="https://launchpad.net/$name/${version%.*}/$version/+download/$name-$version.tar.gz"
+source="https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-$version/lightdm-gtk-greeter-$version.tar.gz"
 
 build() {
 	cd $name-$version

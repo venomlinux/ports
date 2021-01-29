@@ -13,6 +13,9 @@ build() {
 
 	patch -p1 -i $SRC/$name-$version-amd64.patch || exit 1
 	sed -i 's/\[:space:\]/[&]/g' configure
+
+	export CFLAGS="$CFLAGS -fcommon"
+
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install

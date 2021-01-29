@@ -15,6 +15,8 @@ build() {
 	patch -Np1 -i ../inttypes.patch
 	patch -Np1 -i ../sysmacros.patch
 
+	export CFLAGS="$CFLAGS -fcommon"
+
 	./configure
 	make
 	make DESTDIR=$PKG install

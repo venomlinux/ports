@@ -8,6 +8,15 @@ source="http://pub.mate-desktop.org/releases/${version:0:4}/$name-$version.tar.x
 
 build() {
 	cd $name-$version
+
+	cat > which <<EOF
+#!/bin/sh
+type -p \$1
+EOF
+
+chmod +x which
+export PATH=$PATH:$PWD
+
 	./autogen.sh
 	./configure --prefix=/usr
 	make

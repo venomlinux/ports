@@ -7,6 +7,9 @@ source="https://ftp.gnu.org/gnu/cpio/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
+
+	export CFLAGS="$CFLAGS -fcommon"
+
 	./configure --prefix=/usr \
 	            --bindir=/bin \
 	            --enable-mt   \

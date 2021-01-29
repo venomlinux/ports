@@ -8,6 +8,15 @@ source="https://github.com/jstedfast/gmime/archive/$version/$name-$version.tar.g
 
 build() {
 	cd gmime-$version
+
+	cat > which <<EOF
+#!/bin/sh
+type -p \$1
+EOF
+
+chmod +x which
+export PATH=$PATH:$PWD
+
 	NOCONFIGURE=1 ./autogen.sh
 	./configure --prefix=/usr \
     	--program-prefix=gmime3 \
