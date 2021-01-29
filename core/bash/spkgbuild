@@ -2,30 +2,16 @@
 # depends	: ncurses readline
 
 name=bash
-version=5.0.017
+version=5.1.004
 majver=${version%%.*}
 basever=${version%.*}
 patchver=${version##*.}
 release=1
-source="https://ftp.gnu.org/gnu/$name/$name-$basever.tar.gz
-	https://ftp.gnu.org/gnu/bash/bash-$basever-patches/bash${majver}0-$patchver"
-
-p=0; while [ $p -lt $patchver ]; do
-	p=$(( p + 1 ))
-	case $p in
-		 ?) s=00$p ;;
-		??) s=0$p  ;;
-		 *) s=$p   ;;
-	esac
-	source="$source https://ftp.gnu.org/gnu/bash/bash-$basever-patches/bash${majver}0-$s"
-done
+source="https://ftp.gnu.org/gnu/$name/$name-$basever.tar.gz"
+#https://ftp.gnu.org/gnu/bash/bash-$basever-patches/bash${majver}0-$patchver"
 
 build() {
 	cd $name-$basever
-
-	for i in $SRC/bash${majver}0-*; do
-		patch -p0 -i $i
-	done
 
 	./configure --prefix=/usr \
 	            --without-bash-malloc \
