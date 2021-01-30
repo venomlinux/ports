@@ -8,7 +8,7 @@ source="http://user-dirs.freedesktop.org/releases/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --sysconfdir=/etc --disable-nls
+	./configure --prefix=/usr --sysconfdir=/etc --disable-nls --enable-documentation=no
 	make
 	make DESTDIR=$PKG install
 }

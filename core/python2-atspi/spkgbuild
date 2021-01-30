@@ -7,7 +7,16 @@ release=1
 source="https://ftp.gnome.org/pub/gnome/sources/pyatspi/${version::4}/pyatspi-$version.tar.xz"
 
 build() {
-	cd pyatspi-$version	
+	cd pyatspi-$version
+
+	cat > which <<EOF
+#!/bin/sh
+type -p \$1
+EOF
+
+chmod +x which
+export PATH=$PATH:$PWD
+	
 	./configure --prefix=/usr --with-python=/usr/bin/python2
 	make
 	make DESTDIR=$PKG install
