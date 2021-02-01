@@ -9,7 +9,7 @@ def read_spkgbuild(filepath):
     with filepath.open() as lines:
         for line in lines:
             key, eq, value = line.strip().partition('=')
-            if eq and key in ['name', 'version']:
+            if eq and key in ['name', 'version', 'source']:
                 result[key] = value
     return result
 
