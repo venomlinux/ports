@@ -1,26 +1,29 @@
-#!/usr/bin/python3
-
-import glob
 import json
+from pathlib import Path
 
-repo_list = ["core", "multilib", "nonfree", "testing"]
-temp_json=[] 
-package_name = ''
-package_version = ''
-for i in repo_list:
-    print(i)
-    for name in glob.glob('../' + i +'/*/spkgbuild'): 
-        package = open(name,'r')
-        Lines = package.readlines()
-        for line in Lines:
-            if(line.strip().startswith('name')):
-                package_name = line.strip()[5:]
-            if(line.strip().startswith('version')):
-                package_version = line.strip()[8:]
-            if(package_name != '' and package_version != ''):
-                temp_json.append({"repo": i,"name": package_name,"version": package_version})
-                package_name = ''
-                package_version = ''
+BASEPATH = Path('..')
+REPOSITORIES = ["core", "multilib", "nonfree", "testing"]
 
-with open('packages.json', 'w') as outfile:
-    json.dump(temp_json, outfile)
+def read_spkgbuild(filepath):
+    result = {}
+    with filepath.open() as lines:
+        for line in lines:
+            key, eq, value = line.strip().partition('=')
+            if eq and key in ['name', 'version']:
+                result[key] = value
+    return result
+
+def main():
+    packages = []
+    for repository in REPOSITORIES:
+        print(repository)
+        for filepath in (BASEPATH / repository).glob('*/spkgbuild'):
+            info = read_spkgbuild(filepath)
+            info["repo"] = repository
+            packages.append(info)
+
+    with open('packages.json', 'w') as outfile:
+        json.dump(packages, outfile)
+
+if __name__ == "__main__":
+    main()
