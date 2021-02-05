@@ -20,7 +20,7 @@ build() {
 		    --sysconfdir=/etc \
 		    --libexecdir=/usr/lib \
 		    --disable-nls
-	make || make -j1
+	make -j1
 	make DESTDIR=$PKG install
 
 	install -v -m644 -D doc/keymap.default $PKG/etc/w3m/keymap

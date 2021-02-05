@@ -8,6 +8,14 @@ source="https://ftp.gnome.org/pub/gnome/sources/pyatspi/${version::4}/pyatspi-$v
 
 build() {
 	cd pyatspi-$version
+
+	cat > which <<EOF
+#!/bin/sh
+type -p \$1
+EOF
+
+chmod +x which
+export PATH=$PATH:$PWD
 	
 	./configure --prefix=/usr --with-python=/usr/bin/python3
 	make

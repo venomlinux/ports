@@ -5,14 +5,15 @@ name=acpid
 version=2.0.32
 release=3
 source="https://downloads.sourceforge.net/acpid2/$name-$version.tar.xz
-	rc.$name
-	run"
+	rc.$name"
 
 build() {
 	cd $name-$version
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 
 	install -v -m755 -d $PKG/etc/acpi/events
 
@@ -30,8 +31,4 @@ EOF
 
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
-        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

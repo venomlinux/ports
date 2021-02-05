@@ -5,10 +5,13 @@ name=qt5-webkit
 _qtver=5.212.0-alpha4
 version=$(echo $_qtver | sed 's/-//')
 release=1
-source="https://github.com/annulen/webkit/releases/download/qtwebkit-$_qtver/qtwebkit-$_qtver.tar.xz"
+source="https://github.com/annulen/webkit/releases/download/qtwebkit-$_qtver/qtwebkit-$_qtver.tar.xz
+	qt5-webkit-bison-3.7.patch::https://github.com/qtwebkit/qtwebkit/commit/d92b11fe.patch"
 
 build() {
 	cd qtwebkit-$_qtver
+
+	patch -p1 -i ../qt5-webkit-bison-3.7.patch # Fix build with bison 3.7
 
 	mkdir -p build
 	cd build

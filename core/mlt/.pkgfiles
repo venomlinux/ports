@@ -69,9 +69,9 @@ lrwxrwxrwx root/root    usr/lib/libmlt.so -> libmlt.so.6.24.0
 lrwxrwxrwx root/root    usr/lib/libmlt.so.6 -> libmlt.so.6.24.0
 -rwxr-xr-x root/root    usr/lib/libmlt.so.6.24.0
 drwxr-xr-x root/root    usr/lib/mlt/
--rwxr-xr-x root/root    usr/lib/mlt/libmltavformat.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltcore.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltdecklink.so
+-rwxr-xr-x root/root    usr/lib/mlt/libmltfrei0r.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltgdk.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltkdenlive.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltmotion_est.so
@@ -81,7 +81,6 @@ drwxr-xr-x root/root    usr/lib/mlt/
 -rwxr-xr-x root/root    usr/lib/mlt/libmltplusgpl.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltqt.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltrtaudio.so
--rwxr-xr-x root/root    usr/lib/mlt/libmltsdl2.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltvideostab.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltvmfx.so
 -rwxr-xr-x root/root    usr/lib/mlt/libmltvorbis.so
@@ -92,11 +91,6 @@ drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/mlt-framework.pc
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/mlt/
-drwxr-xr-x root/root    usr/share/mlt/avformat/
--rw-r--r-- root/root    usr/share/mlt/avformat/blacklist.txt
--rw-r--r-- root/root    usr/share/mlt/avformat/consumer_avformat.yml
--rw-r--r-- root/root    usr/share/mlt/avformat/producer_avformat.yml
--rw-r--r-- root/root    usr/share/mlt/avformat/yuv_only.txt
 drwxr-xr-x root/root    usr/share/mlt/core/
 -rw-r--r-- root/root    usr/share/mlt/core/consumer_multi.yml
 -rw-r--r-- root/root    usr/share/mlt/core/data_fx.properties
@@ -152,6 +146,12 @@ drwxr-xr-x root/root    usr/share/mlt/feeds/PAL/
 -rw-r--r-- root/root    usr/share/mlt/feeds/PAL/etv.properties
 -rw-r--r-- root/root    usr/share/mlt/feeds/PAL/example.properties
 -rw-r--r-- root/root    usr/share/mlt/feeds/PAL/obscure.properties
+drwxr-xr-x root/root    usr/share/mlt/frei0r/
+-rw-r--r-- root/root    usr/share/mlt/frei0r/blacklist.txt
+-rw-r--r-- root/root    usr/share/mlt/frei0r/filter_cairoblend_mode.yml
+-rw-r--r-- root/root    usr/share/mlt/frei0r/not_thread_safe.txt
+-rw-r--r-- root/root    usr/share/mlt/frei0r/param_name_map.yaml
+-rw-r--r-- root/root    usr/share/mlt/frei0r/resolution_scale.yml
 drwxr-xr-x root/root    usr/share/mlt/gdk/
 -rw-r--r-- root/root    usr/share/mlt/gdk/filter_rescale.yml
 -rw-r--r-- root/root    usr/share/mlt/gdk/producer_pango.yml
@@ -442,9 +442,6 @@ drwxr-xr-x root/root    usr/share/mlt/qt/
 -rw-r--r-- root/root    usr/share/mlt/qt/transition_vqm.yml
 drwxr-xr-x root/root    usr/share/mlt/rtaudio/
 -rw-r--r-- root/root    usr/share/mlt/rtaudio/consumer_rtaudio.yml
-drwxr-xr-x root/root    usr/share/mlt/sdl2/
--rw-r--r-- root/root    usr/share/mlt/sdl2/consumer_sdl2.yml
--rw-r--r-- root/root    usr/share/mlt/sdl2/consumer_sdl2_audio.yml
 drwxr-xr-x root/root    usr/share/mlt/videostab/
 -rw-r--r-- root/root    usr/share/mlt/videostab/filter_videostab.yml
 -rw-r--r-- root/root    usr/share/mlt/videostab/filter_videostab2.yml

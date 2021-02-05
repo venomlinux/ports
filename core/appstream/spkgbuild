@@ -15,4 +15,6 @@ build() {
         meson --prefix=/usr -Dapidocs=false -Dinstall-docs=false
         ninja
         DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
 }

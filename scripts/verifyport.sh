@@ -59,6 +59,18 @@ verifydeps() {
 	fi
 }
 
+verifyforbiddendir() {
+	for i in \
+		usr/share/locale/ \
+		usr/share/doc/ \
+		usr/share/gtk-doc/ \
+		usr/doc/ \
+		usr/locale; do
+		[ -f $portpath/.pkgfiles ] || continue
+		grep -q ${i} $portpath/.pkgfiles && msg "please remove this forbidden directory: ${i}"
+	done
+}
+
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 
@@ -75,6 +87,7 @@ while [ $1 ]; do
 	verifyunnecessaryfiles
 	verifythisisnotcrux
 	verifythisisnotarch
+	verifyforbiddendir
 	shift
 done
 

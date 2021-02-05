@@ -11,8 +11,10 @@ build() {
 
 	export CFLAGS="$CFLAGS -fcommon"
 
-	./configure --prefix=/usr \
-	             --libexecdir=/usr/lib/xfce4
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib/xfce4 \
+		--disable-doc
 	make
 	make DESTDIR=$PKG install
 }

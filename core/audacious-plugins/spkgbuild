@@ -8,7 +8,10 @@ source="http://distfiles.audacious-media-player.org/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
+
 	TPUT=/bin/true ./configure --prefix=/usr --disable-wavpack
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }

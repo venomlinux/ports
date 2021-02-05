@@ -8,6 +8,16 @@ interrupted() {
 	exit 1
 }
 
+mount_ccache() {
+	mkdir -p $ROOTFS/var/lib/ccache
+	mount --bind $CCACHE_DIR $ROOTFS/var/lib/ccache
+}
+
+umount_ccache() {
+	unmount $ROOTFS/var/lib/ccache
+	rm -fr $ROOTFS/var/lib/ccache
+}
+
 mount_pseudofs() {
 	mount --bind /dev $ROOTFS/dev
 	mount -t devpts devpts $ROOTFS/dev/pts -o gid=5,mode=620
@@ -36,9 +46,11 @@ unmount() {
 chrootrun() {
 	mount_cache_and_portsrepo
 	mount_pseudofs
+	mount_ccache
 	cp -L /etc/resolv.conf $ROOTFS/etc/
-	chroot $ROOTFS $@
+	chroot $ROOTFS /usr/bin/env -i PATH=/usr/lib/ccache:$PATH CCACHE_DIR=/var/lib/ccache $@
 	retval=$?
+	umount_ccache
 	umount_pseudofs
 	umount_cache_and_portsrepo
 	return $retval
@@ -330,6 +342,7 @@ Options:
   -zap                  remove and re-extract rootfs
   -iso                  make iso from rootfs
   -fetch                fetch latest rootfs tarball
+  -ccache               use ccache
   -h|-help              show this help message
       
 EOF
@@ -366,6 +379,7 @@ parse_opts() {
 			     -zap) ZAP=1;;
 			     -iso) ISO=1;;
 			   -fetch) FETCH=1;;
+			  -ccache) CCACHE=1;;
 			 -h|-help) HELP=1;;
 			        *) die "invalid options: $1";;
 		esac
@@ -382,7 +396,7 @@ main() {
 		die "$0 need root access!"
 	}
 
-	mkdir -p $PKGDIR $SRCDIR
+	mkdir -p $PKGDIR $SRCDIR $CCACHE_DIR
 	
 	[ "$FETCH" ] && fetch_rootfs
 	
@@ -411,6 +425,10 @@ main() {
 	
 	[ "$RFS" ] && {
 		compress_rootfs || die
+	}
+	
+	[ "$CCACHE" ] && {
+		chrootrun scratch install -y ccache || die
 	}
 	
 	[ "$PKG" ] && {
@@ -447,6 +465,7 @@ TARBALLIMG="$PORTSDIR/venomlinux-rootfs.tar.xz"
 SRCDIR="${SRCDIR:-/var/cache/scratchpkg/sources}"
 PKGDIR="${PKGDIR:-/var/cache/scratchpkg/packages}"
 ROOTFS="${ROOTFS:-$PORTSDIR/rootfs}"
+CCACHE_DIR="${CCACHEDIR:-/var/lib/ccache}"
 FILESDIR="$PORTSDIR/files"
 JOBS="${JOBS:-$(nproc)}"
 

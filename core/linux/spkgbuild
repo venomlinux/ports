@@ -4,9 +4,9 @@
 name=linux
 version=5.4.92
 release=1
-options="!strip"
 source="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$version.tar.xz
 	config"
+NO_STRIP=yes
 
 build() {
 	cd linux-$version
