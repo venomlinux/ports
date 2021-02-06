@@ -48,7 +48,7 @@ chrootrun() {
 	mount_pseudofs
 	mount_ccache
 	cp -L /etc/resolv.conf $ROOTFS/etc/
-	chroot $ROOTFS /usr/bin/env -i PATH=/usr/lib/ccache:$PATH CCACHE_DIR=/var/lib/ccache $@
+	chroot $ROOTFS /usr/bin/env -i PATH=/usr/lib/ccache:$PATH CCACHE_DIR=/var/lib/ccache TERM=$TERM SHELL=/bin/sh $@
 	retval=$?
 	umount_ccache
 	umount_pseudofs
