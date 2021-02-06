@@ -23,7 +23,8 @@ for r in $repo; do
 				*) continue;;
 			esac
 			case $s in
-				*x.org*|*gnu.org*|*gnome.org*|*github.com*) homepage=$(echo $s | cut -d / -f1-4);;
+				*x.org*|*gnu.org*|*gnome.org*) homepage=$(echo $s | cut -d / -f1-4);;
+				*github.com*) homepage=$(echo $s | cut -d / -f1-5);;
 				*) homepage=$(echo $s | cut -d / -f1-3);;
 			esac
 		fi
