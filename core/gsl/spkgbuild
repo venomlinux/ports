@@ -10,4 +10,6 @@ build() {
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info
 }

@@ -17,4 +17,6 @@ build() {
 	            --with-rmt=/usr/lib/tar/rmt
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info
 }
