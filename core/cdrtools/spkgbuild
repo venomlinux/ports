@@ -4,15 +4,14 @@
 name=cdrtools
 version=3.02a09
 release=1
-options="!makeflags"
 source="https://downloads.sourceforge.net/$name/alpha/$name-$version.tar.bz2"
 
 build() {
 	cd $name-${version%%a*}
   
 	export GMAKE_NOWARN=true
-	make INS_BASE=/usr DEFINSUSR=root DEFINSGRP=root
-	make INS_BASE=/usr DEFINSUSR=root DEFINSGRP=root DESTDIR=$PKG install
+	make -j1 INS_BASE=/usr DEFINSUSR=root DEFINSGRP=root
+	make -j1 INS_BASE=/usr DEFINSUSR=root DEFINSGRP=root DESTDIR=$PKG install
 
 	# remove unneeded files that may cause conflicts
 	rm -rf $PKG/usr/include
@@ -25,4 +24,6 @@ build() {
 	ln -s readcd readom
 	ln -s mkisofs genisoimage
 	ln -s cdda2wav icedax
+
+	rm -r $PKG/usr/share/doc
 }

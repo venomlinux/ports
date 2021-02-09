@@ -1,24 +1,24 @@
 # description	: The Go Programming Language
 
 name=go
-version=1.15.7
+version=1.15.8
 release=1
-options="!strip"
-noextract="go1.15.7.linux-amd64.tar.gz"
+noextract="go1.4.3.linux-amd64.tar.gz"
 source="https://storage.googleapis.com/golang/go$version.src.tar.gz
-	https://storage.googleapis.com/golang/go1.15.7.linux-amd64.tar.gz"
+	https://storage.googleapis.com/golang/go1.4.3.linux-amd64.tar.gz"
 
 unset LC_ALL
 
 build() {
 	mkdir go1.15
-	tar xf go1.15.7.linux-amd64.tar.gz -C go1.15 --strip-components 1
+	tar xf go1.4.3.linux-amd64.tar.gz -C go1.15 --strip-components 1
 
 	export GOROOT=$SRC/$name-$version
 	export GOROOT_FINAL="/usr/lib/go"
 	export GOROOT_BOOTSTRAP="$PWD/go1.15"
 	export GOARCH=amd64
 	export GOOS=linux
+	export GOCACHE=off
 
 	cd $name/src
 

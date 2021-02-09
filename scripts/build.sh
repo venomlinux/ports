@@ -48,7 +48,7 @@ chrootrun() {
 	mount_pseudofs
 	mount_ccache
 	cp -L /etc/resolv.conf $ROOTFS/etc/
-	chroot $ROOTFS /usr/bin/env -i PATH=/usr/lib/ccache:$PATH CCACHE_DIR=/var/lib/ccache TERM=$TERM SHELL=/bin/sh $@
+	chroot $ROOTFS /usr/bin/env -i PATH=/usr/lib/ccache:$PATH CCACHE_DIR=/var/lib/ccache TERM=$TERM SHELL=/bin/sh LANG=en_US.UTF-8 $@
 	retval=$?
 	umount_ccache
 	umount_pseudofs
@@ -426,6 +426,11 @@ main() {
 	[ "$RFS" ] && {
 		compress_rootfs || die
 	}
+	
+	# setup locales
+	echo "en_US.UTF-8 UTF-8" > $ROOTFS/etc/locales
+	echo "en_US ISO-8859-1" >> $ROOTFS/etc/locales
+	chrootrun genlocales
 	
 	[ "$CCACHE" ] && {
 		chrootrun scratch install -y ccache || die

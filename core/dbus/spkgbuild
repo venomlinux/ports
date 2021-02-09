@@ -5,8 +5,7 @@ name=dbus
 version=1.12.20
 release=1
 source="https://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz
-	rc.$name
-	run"
+	rc.$name"
 
 build() {
 	cd $name-$version
@@ -25,13 +24,11 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
+	rm -r $PKG/usr/share/doc
+
 	chown -v root:messagebus $PKG/usr/lib/$name/dbus-daemon-launch-helper
 	chmod -v      4750       $PKG/usr/lib/$name/dbus-daemon-launch-helper
 
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
-        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

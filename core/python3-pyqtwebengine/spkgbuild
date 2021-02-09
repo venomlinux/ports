@@ -2,13 +2,13 @@
 # depends	: qtwebengine python3-pyqt5 python3-sip-pyqt5
 
 name=python3-pyqtwebengine
-version=5.13.1
+version=5.15.2
 release=1
-source="https://www.riverbankcomputing.com/static/Downloads/PyQtWebEngine/$version/PyQtWebEngine_gpl-$version.tar.gz"
+source="https://pypi.python.org/packages/source/P/PyQtWebEngine/PyQtWebEngine-$version.tar.gz"
 
 build() {
-	cd PyQtWebEngine_gpl-$version
-	python3 configure.py
+	cd PyQtWebEngine-$version
+	python3 configure.py --verbose
 	make
 	make INSTALL_ROOT=$PKG install -j1
 	install -d $PKG/usr/share/sip/PyQt5

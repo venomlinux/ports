@@ -21,4 +21,6 @@ export PATH=$PATH:$PWD
 	./configure --prefix=/usr --libexecdir=/usr/lib --with-gtk=3
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/{doc,gtk-doc,locale}
 }

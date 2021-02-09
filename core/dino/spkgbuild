@@ -1,5 +1,5 @@
 # description	: Modern XMPP (Jabber) chat client written in Vala 
-# depends	: glib glib-networking gtk3 gpgme libgee libgcrypt libsignal-protocol-c libsoup sqlite qrencode git
+# depends	: glib glib-networking gtk3 gpgme libgee libgcrypt libsignal-protocol-c libsoup sqlite qrencode
 
 name=dino
 version=0.2.0
@@ -11,4 +11,6 @@ build() {
 		-DCMAKE_INSTALL_PREFIX=/usr
 	ninja -C build
 	DESTDIR="${PKG}" ninja -C build install
+
+	rm -r $PKG/usr/share/locale
 }

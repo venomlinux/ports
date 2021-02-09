@@ -36,5 +36,7 @@ build() {
 	make DESTDIR=$PKG install
 
 	install -m755 tools/qt-faststart $PKG/usr/bin
+
+	rm -r $PKG/usr/share/doc
 }
 

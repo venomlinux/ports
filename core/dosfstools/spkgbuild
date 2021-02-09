@@ -8,10 +8,13 @@ source="https://github.com/dosfstools/dosfstools/releases/download/v$version/dos
 
 build() {
 	cd $name-$version
+
 	./configure --prefix=/               \
 	            --enable-compat-symlinks \
 	            --mandir=/usr/share/man  \
 		    --docdir=/usr/share/doc/$name
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 }

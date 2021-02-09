@@ -24,6 +24,8 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
+	rm -r $PKG/usr/share/gtk-doc
+
 	mv -v $PKG/etc/X11/app-defaults/xinitrc.d/90-consolekit \
 	      $PKG/etc/X11/app-defaults/xinitrc.d/90-consolekit.sh
 
