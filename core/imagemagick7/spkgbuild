@@ -4,8 +4,8 @@
 name=imagemagick7
 version=7.0.10.45
 release=1
-options="libtool"
 source="https://www.imagemagick.org/download/ImageMagick-${version%.*}-${version##*.}.tar.xz"
+KEEP_LIBTOOL="yes"
 
 build() {
 	cd ImageMagick-${version%.*}-${version##*.}
@@ -19,4 +19,6 @@ build() {
 		    --without-openexr
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
 }

@@ -11,4 +11,7 @@ build() {
 	./configure --prefix=/usr --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+	rm -r $PKG/usr/share/info
 }

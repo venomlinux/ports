@@ -29,11 +29,13 @@ build() {
 	      -Dtmpfilesdir=no  \
 	      -Dlogind=false    \
 	      -Ddnssd=false     \
-	      ${GVFS_OPTS}
+	      $GVFS_OPTS
 	ninja
 	DESTDIR=$PKG ninja install
 
 	# exclude library for revdep
 	mkdir -p $PKG/etc/revdep.d/
 	echo libgvfscommon.so > $PKG/etc/revdep.d/$name.conf
+
+	rm -r $PKG/usr/share/locale
 }

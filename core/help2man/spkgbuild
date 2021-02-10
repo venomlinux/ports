@@ -14,5 +14,6 @@ build() {
 	            --libdir=/usr/lib
 	make
 	make DESTDIR=$PKG install
-}
 
+	rm -r $PKG/usr/share/info
+}

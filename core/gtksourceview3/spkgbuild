@@ -10,7 +10,9 @@ source="https://ftp.gnome.org/pub/gnome/sources/gtksourceview/${version%.*}/gtks
 build() {
 	cd gtksourceview-$version
 
-	./configure --prefix=/usr --disable-nls --disable-gtk-doc
+	./configure --prefix=/usr --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
 }

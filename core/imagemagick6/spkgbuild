@@ -5,9 +5,9 @@ name=imagemagick6
 version=6.9.11.52
 _version=${version%.*}-${version##*.}
 release=1
-options="libtool"
 source="https://www.imagemagick.org/download/releases/ImageMagick-$_version.tar.xz
 	ImageMagick-libs_only-1.patch"
+KEEP_LIBTOOL="yes"
 
 build() {
 	cd ImageMagick-$_version
@@ -26,5 +26,6 @@ build() {
 
 	# remove conflict with imagemagick7
 	rm -fr $PKG/usr/share/man
-}
 
+	rm -r $PKG/usr/share/doc
+}

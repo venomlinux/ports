@@ -1,5 +1,5 @@
 # description	: GNOME keyring client library
-# depends	: glib dbus libgcrypt libgpg-error vala gobject-introspection
+# depends	: glib dbus libgcrypt libgpg-error vala gobject-introspection intltool
 
 name=libgnome-keyring
 version=3.12.0
@@ -20,4 +20,7 @@ build() {
 		--libexecdir=/usr/lib/gnome-keyring
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
+	rm -r $PKG/usr/share/gtk-doc
 }
