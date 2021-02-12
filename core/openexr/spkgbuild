@@ -20,4 +20,6 @@ build() {
 	sed -e 's|=include|=${prefix}/include|g' -e 's|=lib|=${prefix}/lib|g' \
 	    -i "$PKG"/usr/lib/pkgconfig/OpenEXR.pc -i "$PKG"/usr/lib/pkgconfig/IlmBase.pc
 
+
+	rm -r $PKG/usr/share/doc
 }

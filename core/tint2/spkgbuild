@@ -15,4 +15,7 @@ build() {
 	   -GNinja
 	ninja
 	DESTDIR="$PKG" ninja install
+
+	rm -r $PKG/usr/share/doc
+	rm -r $PKG/usr/share/locale
 }

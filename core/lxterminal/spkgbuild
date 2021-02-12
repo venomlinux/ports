@@ -15,4 +15,6 @@ build() {
 	./configure --sysconfdir=/etc --prefix=/usr --enable-gtk3 
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }

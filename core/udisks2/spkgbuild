@@ -17,4 +17,7 @@ build() {
 		    --disable-man
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
+	rm -r $PKG/usr/share/gtk-doc
 }

@@ -9,4 +9,6 @@ source="$name-$version.tar.gz::https://github.com/nsf/obkey/archive/v$version.ta
 build() {
 	cd $name-$version
 	python2 setup.py install --root=$PKG
+
+	rm -r $PKG/usr/share/locale
 }

@@ -14,4 +14,7 @@ build() {
 	            --program-suffix=-1
 	make GETTEXT_PACKAGE=libwnck-1
 	make GETTEXT_PACKAGE=libwnck-1 DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
+	rm -r $PKG/usr/share/gtk-doc
 }

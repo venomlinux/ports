@@ -19,4 +19,6 @@ build() {
 	            --enable-locale-charset
 	make
 	make DESTDIR=$PKG install-full
+
+	rm -r $PKG/usr/share/doc
 }

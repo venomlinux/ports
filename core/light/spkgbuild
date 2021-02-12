@@ -27,4 +27,6 @@ build() {
         install -Dm755 $SRC/run $PKG/etc/sv/$name/run
         install -Dm755 $SRC/finish $PKG/etc/sv/$name/finish
         ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+
+	rm -r $PKG/usr/share/doc
 }

@@ -14,4 +14,6 @@ build() {
 		PYTHON=/usr/bin/python3
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
 }

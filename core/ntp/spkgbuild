@@ -61,4 +61,6 @@ EOF
 	# runit service
         install -Dm755 $SRC/run $PKG/etc/sv/ntpd/run
         ln -s /run/runit/supervise.ntpd $PKG/etc/sv/ntpd/supervise
+
+	rm -r $PKG/usr/share/doc
 }

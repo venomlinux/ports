@@ -1,5 +1,5 @@
 # description	: Simple GTK+ 2 text editor for the Xfce desktop environment
-# depends	: gtksourceview3
+# depends	: gtksourceview3 xfconf
 
 name=mousepad
 version=0.5.1
@@ -12,4 +12,6 @@ build() {
 	./configure --prefix=/usr --enable-keyfile-settings --disable-nls
 	make
 	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
 }
