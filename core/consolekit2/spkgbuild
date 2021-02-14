@@ -2,14 +2,15 @@
 # depends	: dbus-glib linux-pam polkit libx11
 
 name=consolekit2
-version=1.2.1
-release=2
-source="https://github.com/Consolekit2/ConsoleKit2/releases/download/$version/ConsoleKit2-$version.tar.bz2
+version=1.2.2
+release=1
+source="https://github.com/ConsoleKit2/ConsoleKit2/archive/$version/$name-$version.tar.gz
 	pam-foreground-compat.ck"
 
 build() {
 	cd ConsoleKit2-$version
 
+	NOCONFIGURE=1 ./autogen.sh
 	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
@@ -23,8 +24,6 @@ build() {
 		--with-systemdsystemunitdir=no
 	make
 	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/share/gtk-doc
 
 	mv -v $PKG/etc/X11/app-defaults/xinitrc.d/90-consolekit \
 	      $PKG/etc/X11/app-defaults/xinitrc.d/90-consolekit.sh

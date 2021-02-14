@@ -10,6 +10,14 @@ source="https://download.qt.io/official_releases/qt/${version%.*}/$version/singl
 build() {
 	cd qt-everywhere-src-$version
 
+	cat > which <<EOF
+#!/bin/sh
+type -p \$1
+EOF
+
+chmod +x which
+export PATH=$PATH:$PWD
+
 	# Build qmake using Venom {C,LD}FLAGS
 	# This also sets default {C,CXX,LD}FLAGS for projects built using qmake
 	sed -i -e "s|^\(QMAKE_CFLAGS_RELEASE.*\)|\1 ${CFLAGS}|" \
@@ -118,4 +126,5 @@ for i in $PKG/usr/lib/qt5/bin/*; do
 	ln -sv /usr/lib/qt5/bin/$(basename $i) $PKG/usr/bin/$(basename $i)-qt5
 done
 
+rm -r $PKG/usr/share/doc
 }
