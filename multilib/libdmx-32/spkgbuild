@@ -1,5 +1,5 @@
 # description	: X11 Distributed Multihead extension library
-# depends	: libdmx
+# depends	: libdmx xorgproto-32 libx11-32 libxext-32
 
 name=libdmx-32
 version=1.1.4
@@ -11,7 +11,7 @@ build() {
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	./configure \
 		--prefix=/usr \
