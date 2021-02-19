@@ -3,7 +3,7 @@
 # optdepends	: libdrm cairo docbook-xml docbook-xml libxslt valgrind cunit
 
 name=libdrm-32
-version=2.4.103
+version=2.4.104
 release=1
 source="https://dri.freedesktop.org/libdrm/libdrm-$version.tar.xz"
 
@@ -12,7 +12,7 @@ build() {
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	mkdir build
 	cd build
