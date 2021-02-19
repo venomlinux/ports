@@ -6,7 +6,7 @@ SCRIPTDIR="$(dirname $(realpath $0))"
 
 repo="core multilib nonfree testing"
 
-echo -ne "[" > packages.json
+echo -ne "[" > $SCRIPTDIR/packages.json
 
 for r in $repo; do
 	for p in $PORTSDIR/$r/*; do
@@ -33,7 +33,7 @@ for r in $repo; do
 	done
 done
 
-sed 's/.$//' -i packages.json # remove last comma (,)
-echo -ne "]" >> packages.json
+sed 's/.$//' -i $SCRIPTDIR/packages.json # remove last comma (,)
+echo -ne "]" >> $SCRIPTDIR/packages.json
 
 exit 0
