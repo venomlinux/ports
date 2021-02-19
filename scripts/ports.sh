@@ -271,6 +271,9 @@ port_push() {
 	
 	port_repgen
 	
+	echo "generating packagelist"
+	$SCRIPTDIR/genpackagelist.sh
+	
 	for r in ${PORTREPO[@]}; do
 		git add $r
 	done
