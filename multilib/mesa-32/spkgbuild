@@ -1,9 +1,9 @@
 # description	: OpenGL compatible 3D graphics library
-# depends	: llvm-32 mesa libglvnd-32 wayland-32 libxdamage-32 libxfixes-32 libxxf86vm-32 libxv-32 libxvmc-32 libxrandr-32
+# depends	: llvm-32 mesa libglvnd-32 libxdamage-32 libxfixes-32 libxxf86vm-32 libxv-32 libxvmc-32 libxrandr-32
 # depends	: zlib-32 libdrm-32 libxshmfence-32
 
 name=mesa-32
-version=20.2.2
+version=20.3.4
 release=1
 source="https://mesa.freedesktop.org/archive/mesa-$version.tar.xz
 	crossfile"
@@ -13,12 +13,8 @@ build() {
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig:/usr/share/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 	export LLVM_CONFIG="/usr/bin/llvm-config-32"
-
-	PLATFORMS="drm,x11,wayland"
-	GALLIUM_DRV="r300,r600,svga,swrast,radeonsi,nouveau"
-	DRI_DRIVERS="i915,i965,r100,r200,nouveau"
 
 	mkdir build
 	cd    build
@@ -27,16 +23,17 @@ build() {
 	      --sysconfdir=/etc \
 	      --libdir=/usr/lib32 \
 	      --native-file $SRC/crossfile \
-	      -Dvalgrind=false \
+	      -Dvalgrind=disabled \
 	      -Dglx=dri \
-	      -Degl=true \
+	      -Degl=enabled \
 	      -Dosmesa=gallium \
 	      -Dgallium-nine=true \
-	      -Ddri-drivers=$DRI_DRIVERS \
-	      -Dgallium-drivers=$GALLIUM_DRV \
-	      -Dplatforms=$PLATFORMS \
+	      -Ddri-drivers=i915,i965,nouveau \
+	      -Dgallium-drivers=r300,r600,svga,swrast,radeonsi,nouveau \
+	      -Dvulkan-drivers=amd,intel \
 	      -Dglvnd=true \
-	      -Dllvm=true \
+	      -Dllvm=enabled \
+	      -Dplatforms=x11 \
 	      ..
 	ninja
 	DESTDIR=$PKG ninja install
