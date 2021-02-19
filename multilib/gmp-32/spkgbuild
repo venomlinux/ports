@@ -2,7 +2,7 @@
 # depends	: gmp
 
 name=gmp-32
-version=6.2.0
+version=6.2.1
 release=1
 source="https://ftp.gnu.org/gnu/gmp/gmp-$version.tar.xz"
 
@@ -11,7 +11,7 @@ build() {
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	./configure --prefix=/usr    \
 		    --libdir=/usr/lib32 \
