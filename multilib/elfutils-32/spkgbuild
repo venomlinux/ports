@@ -2,7 +2,7 @@
 # depends	: elfutils zlib-32 curl-32
 
 name=elfutils-32
-version=0.182
+version=0.183
 release=1
 source="https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2"
 
@@ -11,7 +11,7 @@ build() {
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	./configure --prefix=/usr --libdir=/usr/lib32 --disable-textrelcheck --disable-debuginfod
 	make
