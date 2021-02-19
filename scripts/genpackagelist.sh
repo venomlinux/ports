@@ -29,7 +29,7 @@ for r in $repo; do
 			esac
 		fi
 		jsonformat="{\"name\": "\"$name"\",\"version\": "\"$version"\",\"release\": "\"$release"\",\"repo\": "\"$r"\",\"homepage\": "\"$homepage"\"},"
-		echo -ne $jsonformat >> packages.json
+		echo -ne $jsonformat >> $SCRIPTDIR/packages.json
 	done
 done
 
