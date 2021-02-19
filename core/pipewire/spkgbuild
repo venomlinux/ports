@@ -2,7 +2,7 @@
 # depends	: meson alsa-lib gstreamer ffmpeg dbus gst-plugins-base bluez sbc jack
 
 name=pipewire
-version=0.3.17
+version=0.3.22
 release=1
 source="https://github.com/PipeWire/pipewire/archive/$version/$name-$version.tar.gz"
 
@@ -20,4 +20,6 @@ build() {
 	      -Dpipewire-pulseaudio=false
 	ninja
 	DESTDIR=$PKG ninja install
+
+	rm -r $PKG/usr/share/locale
 }
