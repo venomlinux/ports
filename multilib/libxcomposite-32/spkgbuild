@@ -1,5 +1,5 @@
 # description	: X11 Composite extension library
-# depends	: libxcomposite
+# depends	: libxcomposite xorgproto-32 libx11-32 libxfixes-32
 
 name=libxcomposite-32
 version=0.4.5
@@ -11,7 +11,7 @@ build() {
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	./configure \
 		--prefix=/usr \
