@@ -1,5 +1,5 @@
 # description	: X11 pixmap library
-# depends	: libxpm
+# depends	: libxpm xorgproto-32 libx11-32
 
 name=libxpm-32
 version=3.5.13
@@ -11,7 +11,7 @@ build() {
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	./configure \
 		--prefix=/usr \
