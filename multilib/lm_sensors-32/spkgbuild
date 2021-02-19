@@ -2,12 +2,12 @@
 # depends	: lm_sensors
 
 name=lm_sensors-32
-version=3.4.0
+version=3.6.0
 release=1
-source="https://ftp.gwdg.de/pub/linux/misc/lm-sensors/lm_sensors-$version.tar.bz2"
+source="https://github.com/lm-sensors/lm-sensors/archive/V${version//./-}/lm_sensors-$version.tar.gz"
 
 build() {
-	cd lm_sensors-$version
+	cd lm-sensors-${version//./-}
 
 	sed -i 's/CC := gcc/CC := gcc -m32/' Makefile
 
