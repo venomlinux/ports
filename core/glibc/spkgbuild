@@ -2,7 +2,7 @@
 # depends	: linux-api-headers python3
 
 name=glibc
-version=2.32
+version=2.33
 release=1
 backup="etc/locales"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
@@ -110,7 +110,7 @@ sed -e '1,3d' -e 's|/| |g' -e 's|\\| |g' -e 's|^|#|g' \
 install -Dm755 $SRC/genlocales $PKG/usr/bin/genlocales
 
 	# shipped with tzdata
-	rm $PKG/usr/sbin/zdump
+	rm $PKG/usr/bin/zdump
 	rm $PKG/usr/sbin/zic
 	rm $PKG/usr/bin/tzselect
 }
