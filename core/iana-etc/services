@@ -1,4 +1,4 @@
-# /etc/services, created 2020-05-25T22:44:44+0800
+# /etc/services, created 2021-02-22T22:50:58+0800
 # Source: https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xml
 tcpmux              1/tcp
 tcpmux              1/udp
@@ -4076,6 +4076,7 @@ hydra            2374/tcp
 docker           2375/tcp
 docker-s         2376/tcp
 swarm            2377/tcp
+dali             2378/udp
 etcd-client      2379/tcp
 etcd-server      2380/tcp
 compaq-https     2381/tcp
@@ -7226,8 +7227,6 @@ secure-cfg-svr   3978/tcp
 secure-cfg-svr   3978/udp
 smwan            3979/tcp
 smwan            3979/udp
-acms             3980/tcp
-acms             3980/udp
 starfish         3981/tcp
 starfish         3981/udp
 eis              3982/tcp
@@ -7664,6 +7663,7 @@ pscl-mgt         4312/tcp
 perrla           4313/tcp
 choiceview-agt   4314/tcp
 choiceview-clt   4316/tcp
+opentelemetry    4317/tcp
 fdt-rcatp        4320/tcp
 fdt-rcatp        4320/udp
 rwhois           4321/tcp
@@ -8863,8 +8863,8 @@ spramsd          5770/tcp
 spramsd          5770/udp
 netagent         5771/tcp
 netagent         5771/udp
-dali-port        5777/tcp
-dali-port        5777/udp
+starfield-io     5777/tcp
+starfield-io     5777/udp
 vts-rpc          5780/tcp
 3par-evts        5781/tcp
 3par-evts        5781/udp
@@ -9203,6 +9203,7 @@ fg-sysupdate     6550/tcp
 fg-sysupdate     6550/udp
 sum              6551/tcp
 sum              6551/udp
+checkmk-agent    6556/tcp
 xdsxdm           6558/tcp
 xdsxdm           6558/udp
 sane-port        6566/tcp
@@ -9273,6 +9274,7 @@ tsa              6689/udp
 cleverdetect     6690/tcp
 babel            6696/udp
 ircs-u           6697/tcp
+babel-dtls       6699/udp
 kti-icad-srvr    6701/tcp
 kti-icad-srvr    6701/udp
 e-design-net     6702/tcp
@@ -9479,6 +9481,7 @@ ramp             7227/tcp
 ramp             7227/udp
 citrixupp        7228/tcp
 citrixuppg       7229/tcp
+asa-gateways     7234/tcp
 aspcoordination  7235/udp
 display          7236/tcp
 pads             7237/tcp
@@ -9777,6 +9780,8 @@ ca-audit-da      8025/tcp
 ca-audit-da      8025/udp
 ca-audit-ds      8026/tcp
 ca-audit-ds      8026/udp
+papachi-p2p-srv  8027/tcp
+papachi-p2p-srv  8027/udp
 pro-ed           8032/tcp
 pro-ed           8032/udp
 mindprint        8033/tcp
@@ -10077,6 +10082,7 @@ jmb-cds1         8900/tcp
 jmb-cds1         8900/udp
 jmb-cds2         8901/tcp
 jmb-cds2         8901/udp
+dpp              8908/tcp
 manyone-http     8910/tcp
 manyone-http     8910/udp
 manyone-xml      8911/tcp
@@ -10316,6 +10322,7 @@ laes-bf          9536/tcp
 laes-bf          9536/udp
 trispen-sra      9555/tcp
 trispen-sra      9555/udp
+p4runtime        9559/tcp
 ldgateway        9592/tcp
 ldgateway        9592/udp
 cba8             9593/tcp
@@ -10583,6 +10590,8 @@ wifree          11208/tcp
 wifree          11208/udp
 memcache        11211/tcp
 memcache        11211/udp
+xcompute        11235/tcp
+xcompute        11235/sctp
 imip            11319/tcp
 imip            11319/udp
 imip-channels   11320/tcp
@@ -10897,6 +10906,7 @@ sxuptp          19540/udp
 jcp             19541/tcp
 jcp             19541/udp
 mle             19788/udp
+faircom-db      19790/tcp
 iec-104-sec     19998/tcp
 dnp-sec         19999/tcp
 dnp-sec         19999/udp
@@ -10978,6 +10988,8 @@ wnn6            22273/tcp
 wnn6            22273/udp
 cis             22305/tcp
 cis             22305/udp
+showcockpit-net 22333/tcp
+showcockpit-net 22333/udp
 shrewd-control  22335/tcp
 shrewd-stream   22335/udp
 cis-secure      22343/tcp
@@ -11145,6 +11157,7 @@ voxelstorm      28200/udp
 siemensgsm      28240/tcp
 siemensgsm      28240/udp
 bosswave        28589/tcp
+saltd-licensing 29000/tcp
 sgsap           29118/sctp
 otmp            29167/tcp
 otmp            29167/udp
@@ -11237,6 +11250,7 @@ traceroute      33434/udp
 mtrace          33435/udp
 snip-slave      33656/tcp
 snip-slave      33656/udp
+digilent-adept  33890/tcp
 turbonote-2     34249/tcp
 turbonote-2     34249/udp
 p-net-local     34378/tcp
@@ -11284,6 +11298,7 @@ observium-agent 36602/tcp
 mapx            36700/tcp
 kastenxpipe     36865/tcp
 kastenxpipe     36865/udp
+3gpp-w1ap       37472/sctp
 neckar          37475/tcp
 neckar          37475/udp
 gdrive-sync     37483/tcp
