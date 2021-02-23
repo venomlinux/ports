@@ -1,13 +1,14 @@
 # description	: Bundle of CA Root Certificates from Mozilla
+# homepage	: https://curl.se/docs/caextract.html
 
 name=ca-certificates
-version=20200508
+version=20210119
+_version=${version:0:4}-${version:4:2}-${version:6:2}
 release=1
-options="!checksum"
-source="https://curl.haxx.se/ca/cacert.pem"
+source="https://curl.se/ca/cacert-$_version.pem"
 
 build() {
-	install -Dm644 $SRC/cacert.pem $PKG/etc/ssl/cert.pem
+	install -Dm644 $SRC/cacert-$_version.pem $PKG/etc/ssl/cert.pem
 
 	install -d $PKG/etc/ssl/certs
 	ln -s /etc/ssl/cert.pem $PKG/etc/ssl/certs/ca-certificates.crt
