@@ -302,6 +302,14 @@ make_iso() {
 	msg "Making iso completed: $OUTPUTISO ($(ls -lh $OUTPUTISO | awk '{print $5}'))"
 }
 
+generatelocales() {
+	[ -f $ROOTFS/usr/lib/locale/locale-archive ] && return
+	mkdir -p $ROOTFS/usr/lib/locale/
+	msg "Generate 'en_US' locales..."
+	chrootrun localedef -i en_US -f ISO-8859-1 en_US
+	chrootrun localedef -i en_US -f UTF-8 en_US.UTF-8
+}
+
 check() {
 	[ $2 ] || return 0
 	command -v $1 >/dev/null || {
@@ -405,6 +413,8 @@ main() {
 	
 	[ "$ZAP" ] && zap_rootfs
 	
+	generatelocales
+	
 	[ "$REBASE" ] && {
 		msg "Running pkgbase..."
 		chrootrun pkgbase -y || die
@@ -426,11 +436,6 @@ main() {
 	[ "$RFS" ] && {
 		compress_rootfs || die
 	}
-	
-	# setup locales
-	echo "en_US.UTF-8 UTF-8" > $ROOTFS/etc/locales
-	echo "en_US ISO-8859-1" >> $ROOTFS/etc/locales
-	chrootrun genlocales
 	
 	[ "$CCACHE" ] && {
 		chrootrun scratch install -y ccache || die

@@ -47,7 +47,6 @@ done
 
 sudo $SCRIPTDIR/build.sh \
 	-pkg=${1##*/} \
-	-ccache \
 	-zap || {
 		echo -n "Error occurs. Do you want to revert changes? Y/n "
 		read -n1 input
