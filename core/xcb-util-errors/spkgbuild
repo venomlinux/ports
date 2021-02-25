@@ -1,0 +1,14 @@
+# description	: XCB errors library 
+# depends	: libxcb xorgproto
+
+name=xcb-util-errors
+version=1.0
+release=1
+source="https://xcb.freedesktop.org/dist/xcb-util-errors-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
