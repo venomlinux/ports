@@ -1,18 +1,23 @@
 # description	: Stand-alone mail/news client based on the Mozilla codebase
-# depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent nspr dbus-glib gconf clang cbindgen nodejs nasm unzip zip nss
+# depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent nspr dbus-glib gconf clang cbindgen nodejs nasm unzip zip nss libxcomposite
 
 name=thunderbird
-version=78.7.0
+version=78.8.0
 release=1
 source="https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz"
-#thunderbird-$version-rustc1470-1.patch"
 
 build() {
 	INITDIR=$PWD
 
 	cd $name-$version
 
-#	patch -p1 -i ../thunderbird-$version-rustc1470-1.patch
+	cat > which <<EOF
+#!/bin/sh
+type -p \$1
+EOF
+
+chmod +x which
+export PATH=$PATH:$PWD
 	
 	cat > mozconfig << "EOF"
 #ac_add_options --disable-dbus
