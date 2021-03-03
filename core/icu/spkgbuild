@@ -14,7 +14,10 @@ build() {
 	[ "$CC" ] || export CC=gcc
 	[ "$CXX" ] || export CXX=g++
 
-	./configure --prefix=/usr
+	./configure \
+		--prefix=/usr \
+		--disable-samples \
+		--disable-tests
 	make
 	make DESTDIR=$PKG install
 }
