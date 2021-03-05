@@ -1,0 +1,21 @@
+# description	: AV1 Codec Library
+# homepage	: https://aomedia.googlesource.com/aom
+# depends	: cmake yasm
+
+name=aom
+version=2.0.2
+release=1
+source="$name-$version.tar.gz::https://aomedia.googlesource.com/aom/+archive/cb1d48da8da2061e72018761788a18b8fa8013bb.tar.gz"
+
+build() {
+	mkdir bld
+	cd bld
+	
+	cmake .. \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DBUILD_SHARED_LIBS=1 \
+		-DENABLE_TESTS=0 \
+		-DENABLE_DOCS=0
+	make
+	make DESTDIR="$PKG" install
+}
