@@ -1,9 +1,9 @@
 # description	: FFmpeg is a solution to record, convert and stream audio and video
-# depends	: libass fdk-aac freetype2 lame gnutls libtheora libvorbis libvpx opus x264 x265 alsa-lib libva libvdpau sdl2 yasm
+# depends	: libass fdk-aac freetype2 lame gnutls libtheora libvorbis libvpx opus x264 x265 alsa-lib libva libvdpau sdl2 yasm aom dav1d
 
 name=ffmpeg
 version=4.3.1
-release=1
+release=2
 source="https://ffmpeg.org/releases/$name-$version.tar.xz"
 
 build() {
@@ -30,7 +30,9 @@ build() {
 	            --enable-libvorbis   \
 	            --enable-libvpx      \
 	            --enable-libx264     \
-	            --enable-libx265
+	            --enable-libx265	\
+		--enable-libaom \
+		--enable-libdav1d
 	make
 	gcc tools/qt-faststart.c -o tools/qt-faststart
 	make DESTDIR=$PKG install
