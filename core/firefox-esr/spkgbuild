@@ -1,8 +1,8 @@
 # description	: Standalone web browser from mozilla.org, Extended Support Release
-# depends	: gtk3 gtk2 libxt dbus-glib alsa-lib libvpx libevent nss sqlite icu unzip zip diffutils gconf python2 yasm mesa inetutils autoconf2.13 rust cbindgen nodejs nasm
+# depends	: gtk3 gtk2 libxt dbus-glib alsa-lib libvpx libevent nss sqlite icu unzip zip diffutils gconf python2 yasm mesa inetutils autoconf2.13 rust cbindgen nodejs nasm which clang libxcomposite
 
 name=firefox-esr
-version=68.9.0
+version=78.8.0
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/firefox-${version}esr.source.tar.xz
         firefox.desktop"
@@ -21,7 +21,6 @@ cat <<- EOF > .mozconfig
 	ac_add_options --with-system-nss
 	ac_add_options --enable-system-ffi
 	ac_add_options --enable-system-pixman
-	ac_add_options --enable-system-sqlite
 	ac_add_options --enable-alsa
 	ac_add_options --enable-official-branding
 	ac_add_options --with-distribution-id=venomlinux
@@ -32,8 +31,9 @@ cat <<- EOF > .mozconfig
 	ac_add_options --disable-crashreporter
 	ac_add_options --disable-necko-wifi
 	ac_add_options --disable-pulseaudio
-	ac_add_options --disable-gconf
 EOF
+
+	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
 
 	SHELL=/bin/sh ./mach build
 	SHELL=/bin/sh DESTDIR=$PKG ./mach install
