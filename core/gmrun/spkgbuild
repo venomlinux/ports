@@ -1,18 +1,16 @@
 # description	: A simple program which provides a run program window
-# depends	: gtk2 glib popt
+# depends	: gtk3 glib popt
 
 name=gmrun
-version=0.9.2
+version=1.0w
 release=1
-source="https://downloads.sourceforge.net/$name/$name-$version.tar.gz
-	gcc43.patch"
+source="https://github.com/wdlkmpx/gmrun/archive/$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
 
-	patch -p0 -i $SRC/gcc43.patch
-	./configure --prefix=/usr
+	./autogen.sh
+	./configure --prefix=/usr --sysconfdir=/etc
 	make
-
 	make DESTDIR=$PKG install
 }
