@@ -1,0 +1,14 @@
+# description	: Pretty printing of data structures
+# depends	: perl
+
+name=perl-data-dump
+version=1.23
+release=1
+source="https://search.cpan.org/CPAN/authors/id/G/GA/GAAS/Data-Dump-$version.tar.gz"
+
+build() {
+	cd Data-Dump-$version
+	perl Makefile.PL INSTALLDIRS=vendor
+	make
+	make DESTDIR=$PKG install
+}
