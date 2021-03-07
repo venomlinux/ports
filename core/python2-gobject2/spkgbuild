@@ -1,5 +1,5 @@
 # description	: Python 2 bindings to the GObject class from GLib
-# depends	: python3-gobject2
+# depends	: python2
 
 name=python2-gobject2
 version=2.28.7
@@ -15,6 +15,5 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -fr $PKG/usr/{include/,lib/pkgconfig/,share/pygobject/xsl}
-	rm -fr $PKG/usr/share/gtk-doc
+	rm -r $PKG/usr/share/gtk-doc
 }
