@@ -11,10 +11,19 @@ source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 nostrip="lib.*/ld-.*\.so$
 	lib.*/libc-.*\.so$
 	lib.*/libpthread-.*\.so$
-	lib.*/libthread_db-.*\.so$"	
+	lib.*/libthread_db-.*\.so$"
 
 build() {
 	cd $name-$version
+
+
+	eval "$(
+	declare -f build | \
+	sed '
+	s|--prefix=/usr|--prefix=/usr libc_cv_include_x86_isa_level=no|g
+	'
+	)"
+
 
 	_configure_flag="
 		--prefix=/usr \
@@ -82,8 +91,21 @@ mkdir -p $PKG/etc/ld.so.conf.d
 	# 32bit
 	mkdir -v ../build32
 	cd ../build32
+
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
+
+
+
+	eval "$(
+	declare -f build | \
+	sed '
+	s|--prefix=/usr|--prefix=/usr libc_cv_include_x86_isa_level=no|g
+	'
+	)"
+
+
+
 	../configure \
 		--libdir=/usr/lib32 \
 		--libexecdir=/usr/lib32 \
