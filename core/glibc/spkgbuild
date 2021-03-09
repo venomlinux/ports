@@ -3,7 +3,7 @@
 
 name=glibc
 version=2.33
-release=1
+release=2
 backup="etc/locales"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	$name-fhs-1.patch
@@ -23,7 +23,8 @@ build() {
 		--disable-werror \
 		--enable-kernel=3.2 \
 		--enable-stack-protector=strong \
-		--enable-multi-arch"
+		--enable-multi-arch \
+		libc_cv_include_x86_isa_level=no"
 
 	patch -Np1 -i ../$name-fhs-1.patch
 
