@@ -1,0 +1,19 @@
+# description	: Python 3 bindings to the GObject class from GLib
+# depends	: python3 glib
+
+name=python3-gobject2
+version=2.28.7
+release=2
+source="https://ftp.gnome.org/pub/gnome/sources/pygobject/${version%.*}/pygobject-$version.tar.xz"
+
+build() {
+	cd pygobject-$version
+
+	./configure --prefix=/usr \
+		--disable-introspection \
+		PYTHON=/usr/bin/python3
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+}

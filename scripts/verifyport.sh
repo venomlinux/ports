@@ -15,12 +15,6 @@ verifyfiles() {
 	[ -f $portpath/.checksums ] || msg "'.checksums' not exist, please generate it using 'pkgbuild -g'"
 }
 
-verifyunnecessaryfiles() {
-	if [ -f $portpath/.pkgfiles ]; then
-		grep -q "usr/share/licenses" $portpath/.pkgfiles && msg "please remove licenses: usr/share/licenses"
-	fi
-}
-
 verifythisisnotcrux() {
 	for i in PKGMK prt prt-get; do
 		grep -q "$i" $portpath/spkgbuild && msg "please remove CRUX stuff, this is not CRUX"
@@ -28,7 +22,7 @@ verifythisisnotcrux() {
 }
 
 verifythisisnotarch() {
-	for i in PKGMK pkgver pkgrel pkgdesc pkgdir srcdir; do
+	for i in pkgver pkgrel pkgdesc pkgdir srcdir; do
 		grep -q "$i" $portpath/spkgbuild && msg "please remove ARCH stuff, this is not ARCH"
 	done
 }
@@ -61,13 +55,23 @@ verifydeps() {
 
 verifyforbiddendir() {
 	for i in \
+		usr/share/licenses/ \
 		usr/share/locale/ \
 		usr/share/doc/ \
 		usr/share/gtk-doc/ \
 		usr/doc/ \
 		usr/locale; do
 		[ -f $portpath/.pkgfiles ] || continue
-		grep -q ${i} $portpath/.pkgfiles && msg "please remove this forbidden directory: ${i}"
+		grep -q ${i}$ $portpath/.pkgfiles && msg "please remove this forbidden directory: ${i}"
+	done
+}
+
+verifynotusedir() {
+	for i in \
+		usr/local/ \
+		usr/libexec; do
+		[ -f $portpath/.pkgfiles ] || continue
+		grep -q ${i}$ $portpath/.pkgfiles && msg "this directory not use in venom: ${i}"
 	done
 }
 
@@ -84,10 +88,10 @@ while [ $1 ]; do
 	verifydeps
 	verifyvar
 	verifyfiles
-	verifyunnecessaryfiles
 	verifythisisnotcrux
 	verifythisisnotarch
 	verifyforbiddendir
+	verifynotusedir
 	shift
 done
 
