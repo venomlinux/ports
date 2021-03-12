@@ -553,10 +553,11 @@ install_now() {
 		echo " $(( 100*countsfs/totalsfs ))% $line"
 	done ) | _dialog --progressbox "unsquash filesystem to $partition_var..." 20 70
 	
-	if [ -d "$CUSTOMIZEDIR" ]; then
-		cp -Ra "$CUSTOMIZEDIR"/* $VENOMROOT
+	if [ -f /root/post-install.sh ]; then
+		print_info "Running post-install script..."
+		VIROOTFS=$VIROOTFS VENOMROOTFS=$VENOMROOTFS sh /root/post-install.sh &>/null
 	fi
-	
+
 	if [ -x $VENOMROOT/etc/rc.d/networkmanager ]; then
 		network=networkmanager
 	elif [ -x $VENOMROOT/etc/rc.d/network ]; then
