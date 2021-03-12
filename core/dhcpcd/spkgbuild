@@ -4,9 +4,7 @@ name=dhcpcd
 version=9.4.0
 release=1
 source="http://roy.marples.name/downloads/$name/$name-$version.tar.xz
-	rc.network
-	run
-	conf"
+	rc.network"
 
 build() {
 	cd $name-$version
@@ -18,9 +16,4 @@ build() {
 
 	# rc service
 	install -Dm755 $SRC/rc.network $PKG/etc/rc.d/network
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
-        install -Dm644 $SRC/conf $PKG/etc/sv/$name/conf
-        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

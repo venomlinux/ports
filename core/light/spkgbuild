@@ -5,9 +5,7 @@ name=light
 version=1.2.2
 release=2
 source="$name-$version.tar.gz::https://github.com/haikarainen/light/archive/v$version.tar.gz
-	rc.$name
-	run
-	finish"
+	rc.$name"
 
 build() {
 	cd $name-$version
@@ -22,11 +20,6 @@ build() {
 
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
-        install -Dm755 $SRC/finish $PKG/etc/sv/$name/finish
-        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 
 	rm -r $PKG/usr/share/doc
 }

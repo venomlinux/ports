@@ -1,5 +1,5 @@
 # description	: Linux OS platform information API 
-# depends	: python3 python3-setuptools python3-sphinx
+# depends	: python3 python3-setuptools
 
 name=python3-distro
 version=1.5.0
@@ -8,6 +8,6 @@ source="https://github.com/nir0s/distro/archive/v${version}/python-distro-${vers
 
 build() {
 	cd distro-$version
-  python3 setup.py build
-  python3 setup.py install -O1 --root="$PKG" --skip-build
+	python3 setup.py build
+	python3 setup.py install -O1 --root="$PKG" --skip-build
 }

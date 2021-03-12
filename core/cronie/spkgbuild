@@ -7,8 +7,7 @@ release=3
 source="https://github.com/cronie-crond/cronie/releases/download/$name-$version/$name-$version.tar.gz
 	rc.crond
 	$name.deny
-	$name.pam
-	run"
+	$name.pam"
 
 build() {
 	cd $name-$version
@@ -37,8 +36,4 @@ build() {
 
 	# rc service
 	install -Dm755 $SRC/rc.crond $PKG/etc/rc.d/crond
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
-        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

@@ -6,8 +6,7 @@ version=0.4.4.7
 release=1
 source="https://www.torproject.org/dist/$name-$version.tar.gz
 	rc.tor
-	torrc
-	run"
+	torrc"
 
 build() {
 	cd $name-$version
@@ -23,10 +22,6 @@ build() {
 
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
-        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 
 	rm -r $PKG/usr/share/doc
 }

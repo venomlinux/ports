@@ -3,8 +3,7 @@
 name=lm_sensors
 version=3.6.0
 release=1
-source="https://github.com/lm-sensors/lm-sensors/archive/V${version//./-}/$name-$version.tar.gz
-	run"
+source="https://github.com/lm-sensors/lm-sensors/archive/V${version//./-}/$name-$version.tar.gz"
 
 build() {
 	cat > which <<EOF
@@ -24,8 +23,4 @@ export PATH=$PATH:$PWD
 	     BUILD_STATIC_LIB=0 \
 	     MANDIR=/usr/share/man \
 	     DESTDIR=$PKG install
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/fancontrol/run
-        ln -s /run/runit/supervise.fancontrol $PKG/etc/sv/fancontrol/supervise
 }

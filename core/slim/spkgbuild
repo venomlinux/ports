@@ -7,7 +7,6 @@ release=4
 backup="etc/slim.conf"
 source="https://sourceforge.net/projects/${name}.berlios/files/$name-$version.tar.gz
 	rc.slim
-	run
 	$name.pam"
 
 build() {
@@ -31,8 +30,4 @@ build() {
 
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
-        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

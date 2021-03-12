@@ -5,8 +5,7 @@ name=bluez
 version=5.55
 release=1
 source="https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
-	rc.bluetoothd
-	run"
+	rc.bluetoothd"
 
 build() {
 	cd $name-$version
@@ -47,8 +46,4 @@ EOF
 
 	# rc service
 	install -Dm755 $SRC/rc.bluetoothd $PKG/etc/rc.d/bluetoothd
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/bluetoothd/run
-        ln -s /run/runit/supervise.bluetoothd $PKG/etc/sv/bluetoothd/supervise
 }

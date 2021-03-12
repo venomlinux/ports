@@ -6,8 +6,7 @@ version=0.5.3
 release=2
 backup="etc/lxdm/lxdm.conf"
 source="https://downloads.sourceforge.net/$name/$name-$version.tar.xz
-	rc.$name
-	run"
+	rc.$name"
 
 build() {
 	cd $name-$version
@@ -45,8 +44,4 @@ sed -e 's/^bg/#&/'        \
 
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
-        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

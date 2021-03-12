@@ -4,9 +4,7 @@
 name=samba
 version=4.13.4
 release=1
-source="https://www.samba.org/ftp/samba/stable/$name-$version.tar.gz
-	run.smbd
-	run.nmbd"
+source="https://www.samba.org/ftp/samba/stable/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
@@ -45,11 +43,5 @@ build() {
 	# revdep exclude
 	mkdir -p $PKG/etc/revdep.d
 	echo "/usr/lib/samba/" > $PKG/etc/revdep.d/samba.conf
-	echo "/usr/lib/python3.8/site-packages/samba/" >> $PKG/etc/revdep.d/samba.conf
-
-	# runit service
-        install -Dm755 $SRC/run.nmbd $PKG/etc/sv/nmbd/run
-        ln -s /run/runit/supervise.nmbd $PKG/etc/sv/nmbd/supervise
-        install -Dm755 $SRC/run.smbd $PKG/etc/sv/smbd/run
-        ln -s /run/runit/supervise.smbd $PKG/etc/sv/smbd/supervise
+	echo "/usr/lib/python3.9/site-packages/samba/" >> $PKG/etc/revdep.d/samba.conf
 }

@@ -4,8 +4,7 @@
 name=monit
 version=5.27.2
 release=1
-source="http://mmonit.com/$name/dist/$name-$version.tar.gz
-	run"
+source="http://mmonit.com/$name/dist/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
@@ -15,8 +14,4 @@ build() {
 	make DESTDIR=$PKG install
 
 	install -D -m 0700 monitrc $PKG/etc/monitrc
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
-        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

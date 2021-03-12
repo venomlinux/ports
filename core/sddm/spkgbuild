@@ -7,8 +7,7 @@ release=1
 backup="usr/share/sddm/scripts/Xsetup
 	etc/sddm.conf"
 source="https://github.com/sddm/sddm/releases/download/v$version/sddm-$version.tar.xz
-	rc.$name
-	run"
+	rc.$name"
 
 build() {
 	cd $name-$version
@@ -95,8 +94,4 @@ EOF
 
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
-        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }

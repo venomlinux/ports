@@ -6,8 +6,7 @@ version=2.4.46
 release=1
 source="https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 	httpd-blfs_layout-1.patch
-	rc.httpd
-	run"
+	rc.httpd"
 
 build() {
 	cd httpd-$version
@@ -40,8 +39,4 @@ build() {
 
 	# rc service
 	install -Dm755 $SRC/rc.httpd $PKG/etc/rc.d/httpd
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/httpd/run
-        ln -s /run/runit/supervise.httpd $PKG/etc/sv/httpd/supervise
 }

@@ -5,9 +5,7 @@ version=1.20.7
 release=4
 source="https://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
 	gpm-1.20.7-consolidated-1.patch
-	rc.$name
-	run
-	conf"
+	rc.$name"
 
 build() {
 	cd $name-$version
@@ -24,11 +22,6 @@ build() {
 
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/$name/run
-        install -Dm644 $SRC/conf $PKG/etc/sv/$name/conf
-        ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 
 	rm -r $PKG/usr/share/info
 }
