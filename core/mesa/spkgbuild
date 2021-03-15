@@ -2,7 +2,7 @@
 # depends	: python3-mako llvm elfutils bison flex libxext libxdamage libxshmfence libxxf86vm libxrandr libdrm libglvnd
 
 name=mesa
-version=20.3.4
+version=21.0.0
 release=1
 source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
 
@@ -16,12 +16,12 @@ build() {
 	      --sysconfdir=/etc \
 	      -Dvalgrind=false \
 	      -Dglx=dri \
-	      -Degl=true \
-	      -Dosmesa=gallium \
+	      -Degl=enabled \
+	      -Dosmesa=true \
 	      -Dgallium-nine=true \
 	      -Dplatforms=x11 \
 	      -Dglvnd=true \
-	      -Dllvm=true \
+	      -Dllvm=enabled \
 	      -Dgallium-drivers=r300,r600,svga,swrast,radeonsi,nouveau \
 	      -Dvulkan-drivers=amd,intel \
 	      -Ddri-drivers=i915,i965,nouveau \
