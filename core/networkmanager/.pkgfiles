@@ -1,4 +1,4 @@
-networkmanager-1.28.0-1
+networkmanager-1.30.2-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/NetworkManager/
 -rw-r--r-- root/root    etc/NetworkManager/NetworkManager.conf.spkgnew
@@ -62,6 +62,7 @@ drwxr-xr-x root/root    usr/include/libnm/
 -rw-r--r-- root/root    usr/include/libnm/nm-device-ppp.h
 -rw-r--r-- root/root    usr/include/libnm/nm-device-team.h
 -rw-r--r-- root/root    usr/include/libnm/nm-device-tun.h
+-rw-r--r-- root/root    usr/include/libnm/nm-device-veth.h
 -rw-r--r-- root/root    usr/include/libnm/nm-device-vlan.h
 -rw-r--r-- root/root    usr/include/libnm/nm-device-vrf.h
 -rw-r--r-- root/root    usr/include/libnm/nm-device-vxlan.h
@@ -74,7 +75,9 @@ drwxr-xr-x root/root    usr/include/libnm/
 -rw-r--r-- root/root    usr/include/libnm/nm-dhcp-config.h
 -rw-r--r-- root/root    usr/include/libnm/nm-enum-types.h
 -rw-r--r-- root/root    usr/include/libnm/nm-errors.h
+-rw-r--r-- root/root    usr/include/libnm/nm-ethtool-utils.h
 -rw-r--r-- root/root    usr/include/libnm/nm-ip-config.h
+-rw-r--r-- root/root    usr/include/libnm/nm-keyfile.h
 -rw-r--r-- root/root    usr/include/libnm/nm-object.h
 -rw-r--r-- root/root    usr/include/libnm/nm-remote-connection.h
 -rw-r--r-- root/root    usr/include/libnm/nm-secret-agent-old.h
@@ -92,6 +95,7 @@ drwxr-xr-x root/root    usr/include/libnm/
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-ethtool.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-generic.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-gsm.h
+-rw-r--r-- root/root    usr/include/libnm/nm-setting-hostname.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-infiniband.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-ip-config.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-ip-tunnel.h
@@ -103,6 +107,7 @@ drwxr-xr-x root/root    usr/include/libnm/
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-olpc-mesh.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-ovs-bridge.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-ovs-dpdk.h
+-rw-r--r-- root/root    usr/include/libnm/nm-setting-ovs-external-ids.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-ovs-interface.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-ovs-patch.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-ovs-port.h
@@ -116,6 +121,7 @@ drwxr-xr-x root/root    usr/include/libnm/
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-team.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-tun.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-user.h
+-rw-r--r-- root/root    usr/include/libnm/nm-setting-veth.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-vlan.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-vpn.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-vrf.h
@@ -144,9 +150,9 @@ drwxr-xr-x root/root    usr/include/libnm/
 -rw-r--r-- root/root    usr/include/libnm/nm-wimax-nsp.h
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/NetworkManager/
-drwxr-xr-x root/root    usr/lib/NetworkManager/1.28.0/
--rwxr-xr-x root/root    usr/lib/NetworkManager/1.28.0/libnm-device-plugin-adsl.so
--rwxr-xr-x root/root    usr/lib/NetworkManager/1.28.0/libnm-device-plugin-wifi.so
+drwxr-xr-x root/root    usr/lib/NetworkManager/1.30.2/
+-rwxr-xr-x root/root    usr/lib/NetworkManager/1.30.2/libnm-device-plugin-adsl.so
+-rwxr-xr-x root/root    usr/lib/NetworkManager/1.30.2/libnm-device-plugin-wifi.so
 drwxr-xr-x root/root    usr/lib/NetworkManager/VPN/
 drwxr-xr-x root/root    usr/lib/NetworkManager/conf.d/
 drwxr-xr-x root/root    usr/lib/NetworkManager/dispatcher.d/
@@ -165,6 +171,7 @@ lrwxrwxrwx root/root    usr/lib/libnm.so.0 -> libnm.so.0.1.0
 -rwxr-xr-x root/root    usr/lib/nm-dhcp-helper
 -rwxr-xr-x root/root    usr/lib/nm-dispatcher
 -rwxr-xr-x root/root    usr/lib/nm-iface-helper
+-rwxr-xr-x root/root    usr/lib/nm-initrd-generator
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/libnm.pc
 drwxr-xr-x root/root    usr/sbin/
