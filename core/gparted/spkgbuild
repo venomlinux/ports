@@ -1,5 +1,5 @@
 # description	: Gtk 2 GUI for other command line tools that can create, reorganise or delete disk partitions
-# depends	: gtkmm3 parted
+# depends	: gtkmm3 parted polkit
 
 name=gparted
 version=1.2.0
@@ -17,7 +17,4 @@ build() {
 	            --disable-static
 	make
 	make DESTDIR=$PKG install
-
-	install -D -m0644 org.gnome.gparted.policy \
-		$PKG/usr/share/polkit-1/actions/org.gnome.gparted.policy
 }
