@@ -2,7 +2,7 @@
 
 name=elfutils
 version=0.183
-release=1
+release=2
 source="https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2"
 
 build() {
@@ -10,6 +10,7 @@ build() {
 
 	./configure \
 		--prefix=/usr \
+		--sysconfdir=/etc \
 		--program-prefix="eu-" \
 		--disable-nls \
 		--disable-debuginfod \
