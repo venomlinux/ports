@@ -1,3 +1,4 @@
+linux-firmware-20210315-1
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/firmware/
 drwxr-xr-x root/root    lib/firmware/3com/
@@ -68,6 +69,17 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/fiji_smc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/fiji_uvd.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/fiji_vce.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_asd.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_ce.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_dmcub.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_me.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_mec.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_mec2.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_pfp.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_rlc.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_sdma.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_ta.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_vcn.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/hainan_ce.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/hainan_k_smc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/hainan_mc.bin
@@ -721,7 +733,9 @@ lrwxrwxrwx root/root    lib/firmware/brcm/brcmfmac43430-sdio.bin -> ../cypress/c
 lrwxrwxrwx root/root    lib/firmware/brcm/brcmfmac43430-sdio.clm_blob -> ../cypress/cyfmac43430-sdio.clm_blob
 -rw-r--r-- root/root    lib/firmware/brcm/brcmfmac43430-sdio.raspberrypi,3-model-b.txt
 lrwxrwxrwx root/root    lib/firmware/brcm/brcmfmac43430-sdio.sinovoip,bpi-m2-plus.txt -> brcmfmac43430-sdio.AP6212.txt
+lrwxrwxrwx root/root    lib/firmware/brcm/brcmfmac43430-sdio.sinovoip,bpi-m2-ultra.txt -> brcmfmac43430-sdio.AP6212.txt
 lrwxrwxrwx root/root    lib/firmware/brcm/brcmfmac43430-sdio.sinovoip,bpi-m2-zero.txt -> brcmfmac43430-sdio.AP6212.txt
+lrwxrwxrwx root/root    lib/firmware/brcm/brcmfmac43430-sdio.sinovoip,bpi-m3.txt -> brcmfmac43430-sdio.AP6212.txt
 -rw-r--r-- root/root    lib/firmware/brcm/brcmfmac43430a0-sdio.ONDA-V80 PLUS.txt
 -rw-r--r-- root/root    lib/firmware/brcm/brcmfmac43430a0-sdio.bin
 -rw-r--r-- root/root    lib/firmware/brcm/brcmfmac43430a0-sdio.jumper-ezpad-mini3.txt
@@ -1186,38 +1200,47 @@ lrwxrwxrwx root/root    lib/firmware/iwlwifi-7265D-10.ucode -> iwlwifi-7265-10.u
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-hr-b0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-hr-b0-55.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-hr-b0-59.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-hr-b0-62.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-55.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-59.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-62.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-55.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-59.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-62.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-55.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-59.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-62.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-55.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-59.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-62.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-55.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-59.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-62.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-46.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-53.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-55.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-59.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-62.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-59.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-62.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm
 drwxr-xr-x root/root    lib/firmware/kaweth/
 -rw-r--r-- root/root    lib/firmware/kaweth/new_code.bin
 -rw-r--r-- root/root    lib/firmware/kaweth/new_code_fix.bin
@@ -1280,6 +1303,7 @@ drwxr-xr-x root/root    lib/firmware/matrox/
 -rw-r--r-- root/root    lib/firmware/matrox/g200_warp.fw
 -rw-r--r-- root/root    lib/firmware/matrox/g400_warp.fw
 drwxr-xr-x root/root    lib/firmware/mediatek/
+-rw-r--r-- root/root    lib/firmware/mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/WIFI_MT7961_patch_mcu_1_2_hdr.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/WIFI_RAM_CODE_MT7961_1.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7610e.bin
@@ -1323,6 +1347,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.1312.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.2018.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.2304.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.2406.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2000.2308.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2000.2714.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2007.1168.mfa2
@@ -1331,12 +1356,14 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.1312.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.2018.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.2304.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.2406.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2007.1168.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1036.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1310.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1312.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.2018.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.2304.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.2406.mfa2
 drwxr-xr-x root/root    lib/firmware/meson/
 drwxr-xr-x root/root    lib/firmware/meson/vdec/
 -rw-r--r-- root/root    lib/firmware/meson/vdec/g12a_h264.bin
@@ -2460,6 +2487,8 @@ drwxr-xr-x root/root    lib/firmware/rtw88/
 -rw-r--r-- root/root    lib/firmware/rtw88/rtw8822b_fw.bin
 -rw-r--r-- root/root    lib/firmware/rtw88/rtw8822c_fw.bin
 -rw-r--r-- root/root    lib/firmware/rtw88/rtw8822c_wow_fw.bin
+drwxr-xr-x root/root    lib/firmware/rtw89/
+-rw-r--r-- root/root    lib/firmware/rtw89/rtw8852a_fw.bin
 lrwxrwxrwx root/root    lib/firmware/s2250.fw -> go7007/s2250-2.fw
 lrwxrwxrwx root/root    lib/firmware/s2250_loader.fw -> go7007/s2250-1.fw
 -rw-r--r-- root/root    lib/firmware/s5p-mfc-v6-v2.fw
@@ -2474,6 +2503,8 @@ drwxr-xr-x root/root    lib/firmware/sb16/
 -rw-r--r-- root/root    lib/firmware/sb16/ima_adpcm_playback.csp
 -rw-r--r-- root/root    lib/firmware/sb16/mulaw_main.csp
 -rw-r--r-- root/root    lib/firmware/sdd_sagrad_1091_1098.bin
+drwxr-xr-x root/root    lib/firmware/silabs/
+-rw-r--r-- root/root    lib/firmware/silabs/wfm_wf200_C0.sec
 drwxr-xr-x root/root    lib/firmware/slicoss/
 -rw-r--r-- root/root    lib/firmware/slicoss/gbdownload.sys
 -rw-r--r-- root/root    lib/firmware/slicoss/gbrcvucode.sys
