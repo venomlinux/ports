@@ -2,8 +2,8 @@
 # depends	: iana-etc
 
 name=filesystem
-version=1
-release=8
+version=20200329
+release=1
 backup="etc/passwd
 	etc/locale.conf
 	etc/resolv.conf
@@ -30,7 +30,8 @@ source="passwd
 	bash_profile.skel
 	bashrc.skel
 	bash_logout.skel
-	issue"
+	issue
+	which"
 
 build() {
 	#  root dirs
@@ -101,4 +102,7 @@ build() {
 	install -m644 issue $PKG/etc
 	
 	dircolors -p > $PKG/etc/dircolors
+
+	# provide my own which script
+	install -m755 which $PKG/bin/which
 }
