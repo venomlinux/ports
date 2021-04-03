@@ -14,5 +14,4 @@ build() {
 	patch -Np0 -i ../$name.patch
 	python2 setup.py install --root=$PKG
 	install -m644 $SRC/oblogout.conf $PKG/etc/
-	rm -r $PKG/usr/share/locale
 }

@@ -24,5 +24,4 @@ build() {
 	mv -v $PKG/usr/lib/libpcre.so.* $PKG/lib
 	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libpcre.so) $PKG/usr/lib/libpcre.so
 
-	rm -r $PKG/usr/share/doc
 }

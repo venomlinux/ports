@@ -17,7 +17,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/doc
 
 	mkdir -p $PKG/etc
 	cat > $PKG/etc/syslog.conf << "EOF"

@@ -29,7 +29,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/info
 
 	# borrow from Arch
 	install -D -m0644 $SRC/grub.default $PKG/etc/default/grub

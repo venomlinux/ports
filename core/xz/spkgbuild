@@ -14,7 +14,6 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/share/doc
 
 	mkdir -pv $PKG/bin $PKG/lib
 	for i in lzma unlzma lzcat xz unxz xzcat; do
