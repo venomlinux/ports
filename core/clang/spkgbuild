@@ -4,29 +4,27 @@
 name=clang
 version=11.1.0
 release=1
-source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
-	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz"
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz"
 
 build() {
-	cd llvm-$version.src
+	cd $name-$version.src
 
 	export CC=gcc
 	export CXX=g++
-
-	mv ../clang-$version.src tools/clang
 
 	mkdir -v build
 	cd       build
 	
 	cmake .. -G Ninja \
-	      -DCMAKE_INSTALL_PREFIX=/usr           \
-	      -DLLVM_ENABLE_FFI=ON                  \
-	      -DCMAKE_BUILD_TYPE=Release            \
-	      -DLLVM_BUILD_LLVM_DYLIB=ON            \
-      	      -DLLVM_LINK_LLVM_DYLIB=ON             \
-	      -DLLVM_ENABLE_RTTI=ON                 \
-	      -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF" \
-	      -Wno-dev
+	    -DCMAKE_INSTALL_PREFIX=/usr \
+	    -DCMAKE_BUILD_TYPE=Release \
+	    -DLLVM_ENABLE_RTTI=ON \
+	    -DLLVM_ENABLE_EH=ON \
+	    -DCLANG_BUILD_EXAMPLES=OFF \
+	    -DCLANG_INCLUDE_DOCS=OFF \
+	    -DCLANG_INCLUDE_TESTS=OFF \
+	    -DLIBCLANG_BUILD_STATIC=ON \
+	    -Wno-dev
 	ninja
 	DESTDIR=$PKG ninja install	        
 
@@ -35,16 +33,5 @@ build() {
 	   $PKG/usr/libexec/ccc-analyzer \
 	   $PKG/usr/lib/clang
 	rmdir $PKG/usr/libexec
-	sed -i 's|libexec|lib/clang|' $PKG/usr/bin/scan-build
-
-	cd $PKG/usr/bin
-	rm ll* obj2yaml opt sancov sanstats verify-uselistorder yaml2obj bugpoint dsymutil
-	cd $PKG/usr/include
-	rm -r llvm llvm-c
-	cd $PKG/usr/lib/cmake
-	rm -r llvm
-	cd $PKG/usr/lib
-	rm libLLVM* libLTO* libRemarks*
-	cd $PKG/usr/share
-	rm -r opt-viewer	
+	sed -i 's|libexec|lib/clang|' $PKG/usr/bin/scan-build	
 }
