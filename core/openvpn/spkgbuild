@@ -2,17 +2,18 @@
 # depends:     lzo iproute2 pkcs11-helper linux-pam
 
 name=openvpn
-version=2.5.0
+version=2.5.1
 release=1
 source="https://github.com/OpenVPN/openvpn/archive/v$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
 
+	sed -i '/^CONFIGURE_DEFINES=/s/set/env/g' configure.ac
+
 	autoreconf -fi
 	./configure \
 		--prefix=/usr \
-		--mandir=/usr/share/man \
 		--enable-iproute2 \
 		--enable-plugins \
 		--enable-pkcs11 \
