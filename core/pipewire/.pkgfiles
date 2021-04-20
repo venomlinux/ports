@@ -1,4 +1,4 @@
-pipewire-0.3.23-1
+pipewire-0.3.25-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/pipewire/
 -rw-r--r-- root/root    etc/pipewire/client-rt.conf
@@ -26,6 +26,7 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/pw-dot
 -rwxr-xr-x root/root    usr/bin/pw-dump
 -rwxr-xr-x root/root    usr/bin/pw-jack
+-rwxr-xr-x root/root    usr/bin/pw-loopback
 -rwxr-xr-x root/root    usr/bin/pw-metadata
 -rwxr-xr-x root/root    usr/bin/pw-mididump
 lrwxrwxrwx root/root    usr/bin/pw-midiplay -> pw-cat
@@ -138,6 +139,9 @@ drwxr-xr-x root/root    usr/include/spa-0.2/spa/param/audio/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/layout.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/raw.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/type-info.h
+drwxr-xr-x root/root    usr/include/spa-0.2/spa/param/bluetooth/
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/bluetooth/audio.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/bluetooth/type-info.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/format-utils.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/format.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/param.h
@@ -190,19 +194,19 @@ drwxr-xr-x root/root    usr/lib/alsa-lib/
 drwxr-xr-x root/root    usr/lib/gstreamer-1.0/
 -rwxr-xr-x root/root    usr/lib/gstreamer-1.0/libgstpipewire.so
 lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so -> libpipewire-0.3.so.0
-lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.323.0
--rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.323.0
+lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.325.0
+-rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.325.0
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so -> libjack.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.323.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.323.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.325.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.325.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so -> libjacknet.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.323.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.323.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.325.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.325.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so -> libjackserver.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.323.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.323.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.325.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.325.0
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-access.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-adapter.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-client-device.so
@@ -229,6 +233,8 @@ drwxr-xr-x root/root    usr/lib/spa-0.2/audioconvert/
 -rwxr-xr-x root/root    usr/lib/spa-0.2/audioconvert/libspa-audioconvert.so
 drwxr-xr-x root/root    usr/lib/spa-0.2/audiomixer/
 -rwxr-xr-x root/root    usr/lib/spa-0.2/audiomixer/libspa-audiomixer.so
+drwxr-xr-x root/root    usr/lib/spa-0.2/audiotestsrc/
+-rwxr-xr-x root/root    usr/lib/spa-0.2/audiotestsrc/libspa-audiotestsrc.so
 drwxr-xr-x root/root    usr/lib/spa-0.2/bluez5/
 -rwxr-xr-x root/root    usr/lib/spa-0.2/bluez5/libspa-bluez5.so
 drwxr-xr-x root/root    usr/lib/spa-0.2/control/
@@ -242,6 +248,10 @@ drwxr-xr-x root/root    usr/lib/spa-0.2/v4l2/
 -rwxr-xr-x root/root    usr/lib/spa-0.2/v4l2/libspa-v4l2.so
 drwxr-xr-x root/root    usr/lib/spa-0.2/videoconvert/
 -rwxr-xr-x root/root    usr/lib/spa-0.2/videoconvert/libspa-videoconvert.so
+drwxr-xr-x root/root    usr/lib/spa-0.2/videotestsrc/
+-rwxr-xr-x root/root    usr/lib/spa-0.2/videotestsrc/libspa-videotestsrc.so
+drwxr-xr-x root/root    usr/lib/spa-0.2/volume/
+-rwxr-xr-x root/root    usr/lib/spa-0.2/volume/libspa-volume.so
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/alsa-card-profile/
 drwxr-xr-x root/root    usr/share/alsa-card-profile/mixer/
