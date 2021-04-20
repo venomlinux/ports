@@ -2,14 +2,17 @@
 # depends	: glib
 
 name=libgudev
-version=234
+version=236
 release=1
 source="https://ftp.gnome.org/pub/gnome/sources/$name/$version/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --disable-umockdev
-	make
-	make DESTDIR=$PKG install
+	mkdir build
+	cd build
+
+	meson --prefix=/usr
+	ninja
+	DESTDIR=$PKG ninja install
 }
