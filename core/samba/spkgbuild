@@ -2,19 +2,12 @@
 # depends	: fuse3 gpgme python3 jansson libtirpc rpcsvc-proto perl-parse-yapp gnutls linux-pam dbus
 
 name=samba
-version=4.13.4
+version=4.14.3
 release=1
 source="https://www.samba.org/ftp/samba/stable/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-
-	# fix build with glibc-2.32
-	sed -r 's/nss_(setpw|endpw|setgr|endgr)ent/my_&/' \
-	    -i nsswitch/nsstest.c
-
-	CFLAGS="-I/usr/include/tirpc" \
-	LDFLAGS="-ltirpc" \
 	./configure \
 	    --prefix=/usr \
 	    --sysconfdir=/etc \
@@ -24,7 +17,6 @@ build() {
 	    --with-pammodulesdir=/lib/security \
 	    --enable-fhs \
 	    --without-systemd \
-	    --enable-selftest \
 	    --without-ad-dc \
 	    --without-ads \
 	    --without-ldap \
