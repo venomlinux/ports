@@ -1,15 +1,18 @@
 # description	: Modular Wayland compositor library 
-# depends	: libinput libxkbcommon pixman xcb-util-image xcb-util-wm meson ninja wayland-protocols xcb-util-errors
+# depends	: libinput libxkbcommon pixman xcb-util-image xcb-util-wm meson ninja wayland-protocols xcb-util-errors mesa
 
 name=wlroots
-version=0.12.0
+version=0.13.0
 release=1
-source="https://github.com/swaywm/wlroots/archive/$version.tar.gz"
+source="https://github.com/swaywm/wlroots/archive/$version/$name-$version.tar.gz"
 
 build() {
-	meson --prefix="/usr" "$name-$version" build \
-        	-Dlogind-provider=systemd \
-        	-Dlibseat=disabled	
-	ninja -C build
-	DESTDIR="$PKG" ninja -C build install
+	cd $name-$version
+
+	mkdir build
+	cd build
+
+	meson --prefix=/usr
+	ninja
+	DESTDIR=$PKG ninja install
 }
