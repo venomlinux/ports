@@ -54,6 +54,7 @@ verifydeps() {
 }
 
 verifyforbiddendir() {
+	[ -f $portpath/.pkgfiles ] || return
 	for i in \
 		usr/share/licenses/ \
 		usr/share/locale/ \
@@ -61,16 +62,16 @@ verifyforbiddendir() {
 		usr/share/gtk-doc/ \
 		usr/doc/ \
 		usr/locale; do
-		[ -f $portpath/.pkgfiles ] || continue
 		grep -q ${i}$ $portpath/.pkgfiles && msg "please remove this forbidden directory: ${i}"
 	done
 }
 
 verifynotusedir() {
+	[ -f $portpath/.pkgfiles ] || return
 	for i in \
 		usr/local/ \
-		usr/libexec; do
-		[ -f $portpath/.pkgfiles ] || continue
+		usr/etc/ \
+		usr/libexec/; do
 		grep -q ${i}$ $portpath/.pkgfiles && msg "this directory not use in venom: ${i}"
 	done
 }
