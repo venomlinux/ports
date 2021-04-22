@@ -5,7 +5,7 @@ name=libxml2-32
 version=2.9.10
 release=1
 source="http://xmlsoft.org/sources/libxml2-$version.tar.gz
-	libxml2-python3_hack-1.patch"
+	libxml2-2.9.10-icu68.patch"
 
 build() {
 	cd libxml2-$version
@@ -14,9 +14,8 @@ build() {
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	patch -Np1 -i ../libxml2-python3_hack-1.patch
+	patch -Np1 -i ../libxml2-2.9.10-icu68.patch
 
-	sed -i '/_PyVerify_fd/,+1d' python/types.c
 	./configure --prefix=/usr \
 		    --libdir=/usr/lib32 \
 		    --disable-static \
