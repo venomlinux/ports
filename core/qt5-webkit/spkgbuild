@@ -8,12 +8,14 @@ release=1
 source="https://github.com/annulen/webkit/releases/download/qtwebkit-$_qtver/qtwebkit-$_qtver.tar.xz
 	qt5-webkit-bison-3.7.patch::https://github.com/qtwebkit/qtwebkit/commit/d92b11fe.patch
 	qt5-webkit-python-3.9.patch::https://github.com/qtwebkit/qtwebkit/commit/78360c01.patch
-	icu68.patch"
+	icu68.patch
+	glib-2.68.patch"
 
 build() {
 	cd qtwebkit-$_qtver
 
 	patch -p0 -i ../icu68.patch
+	patch -p1 -i ../glib-2.68.patch
 	patch -p1 -i ../qt5-webkit-bison-3.7.patch # Fix build with bison 3.7
 	patch -p1 -i ../qt5-webkit-python-3.9.patch # Fix build with python 3.9
 
