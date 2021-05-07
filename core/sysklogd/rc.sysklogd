@@ -5,29 +5,18 @@
 
 . /etc/rc.subr
 
-PROG=/sbin/syslogd
-PROGK=/sbin/klogd
+PROG=/usr/sbin/syslogd
+OPTS=-ss
+PID=/var/run/syslogd.pid
 
 case "$1" in
 	start)
 		msg "Starting system log daemon..."
-		parms=${SYSKLOGD_PARMS-'-m 0'}
-		start_daemon $PROG $parms
-
-		msg "Starting kernel log daemon..."
-		start_daemon $PROGK
+		start_daemon $PROG $OPTS -p $PID
 		;;
 	stop)
-		msg "Stopping kernel log daemon..."
-		stop_daemon $PROG
-		
 		msg "Stopping system log daemon..."
-		stop_daemon $PROGK
-		;;
-	reload)
-		echo "Reloading system log daemon config file..."
-		pid=`pidof syslogd`
-		kill -HUP "$pid"
+		stop_daemon $PROG -p $PID
 		;;
 	restart)
 		$0 stop
@@ -36,10 +25,9 @@ case "$1" in
 		;;
 	status)
 		status_daemon $PROG
-		status_daemon $PROGK
 		;;
 	*)
-		echo "Usage: $0 [start|stop|reload|restart|status]"
+		echo "Usage: $0 [start|stop|restart|status]"
 		exit 1
 		;;
 esac
