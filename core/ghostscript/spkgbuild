@@ -3,8 +3,9 @@
 
 name=ghostscript
 version=9.53.3
+_version=$(echo $version | sed 's/\.//g')
 release=1
-source="https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${version//./}/$name-$version.tar.xz
+source="https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${_version}/$name-$version.tar.xz
 	https://downloads.sourceforge.net/sourceforge/gs-fonts/$name-fonts-std-8.11.tar.gz"
 
 build() {
@@ -30,5 +31,6 @@ build() {
 	cp -r $SRC/fonts $PKG/usr/share/ghostscript
 
 	rm $PKG/usr/share/ghostscript/fonts/[CRT]*
-	rm $PKG/usr/bin/ijs_{client,server}_example
+	rm $PKG/usr/bin/ijs_client_example \
+	   $PKG/usr/bin/ijs_server_example
 }

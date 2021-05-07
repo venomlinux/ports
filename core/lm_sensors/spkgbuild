@@ -1,20 +1,14 @@
 # description	: User-space support for the hardware monitoring drivers in the Linux kernel
 
 name=lm_sensors
+_name=$(echo $name | sed 's/_/-/g')
 version=3.6.0
+_version=$(echo $version | sed 's/\./-/g')
 release=1
-source="https://github.com/lm-sensors/lm-sensors/archive/V${version//./-}/$name-$version.tar.gz"
+source="https://github.com/lm-sensors/lm-sensors/archive/V$_version/$name-$version.tar.gz"
 
 build() {
-	cat > which <<EOF
-#!/bin/sh
-type -p \$1
-EOF
-
-chmod +x which
-export PATH=$PATH:$PWD
-
-	cd ${name/_/-}-${version//./-}
+	cd $_name-$_version
 	make PREFIX=/usr        \
 	     BUILD_STATIC_LIB=0 \
 	     MANDIR=/usr/share/man

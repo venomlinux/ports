@@ -8,6 +8,7 @@ source="https://github.com/stevenhoneyman/l3afpad/archive/v$version/$name-$versi
 
 build() {
 	cd $name-$version
+	sed -i 's|gtk_window_set_icon_from_file(GTK_WINDOW(mw->window), ICONDIR"/l3afpad.png", NULL);|gtk_window_set_icon_name(GTK_WINDOW(mw->window), "l3afpad");|' src/window.c
 	./autogen.sh
 	./configure --prefix=/usr
 	make
