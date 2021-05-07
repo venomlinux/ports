@@ -4,10 +4,10 @@
 name=lm_sensors-32
 version=3.6.0
 release=1
-source="https://github.com/lm-sensors/lm-sensors/archive/V${version//./-}/lm_sensors-$version.tar.gz"
+source="https://github.com/lm-sensors/lm-sensors/archive/V$(echo $version | sed 's/\./-/g')/lm_sensors-$version.tar.gz"
 
 build() {
-	cd lm-sensors-${version//./-}
+	cd lm-sensors-$(echo $version | sed 's/\./-/g')
 
 	sed -i 's/CC := gcc/CC := gcc -m32/' Makefile
 
