@@ -1,0 +1,20 @@
+# description	: Convert X font from Bitmap Distribution Format to Portable Compiled Format
+# depends	: util-macros xorgproto
+
+name=bdftopcf
+version=1.1
+release=1
+source="https://www.x.org/pub/individual/app/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --disable-static \
+		--disable-devel-docs
+	make
+	make DESTDIR=$PKG install
+}

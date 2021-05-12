@@ -1,0 +1,20 @@
+# description	: Session manager for Xfce
+# depends	: libwnck3 libxfce4ui desktop-file-utils shared-mime-info polkit-gnome xfdesktop libsm iceauth xinit xrdb
+
+name=xfce4-session
+version=4.16.0
+release=1
+source="https://archive.xfce.org/src/xfce/xfce4-session/${version%.*}/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--disable-legacy-sm \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+
+}

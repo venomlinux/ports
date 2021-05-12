@@ -1,0 +1,20 @@
+# description	: Highly configurable desktop window manager with extensive standards support
+# depends	: libxau libsm libice libx11 glib libxcursor startup-notification pango harfbuzz fontconfig freetype2 libxft imlib2 librsvg gdk-pixbuf cairo libxinerama libxrender libxrandr libxext libxml2
+
+name=openbox
+version=3.6.1
+release=2
+source="http://openbox.org/dist/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+	            --libexecdir=/usr/lib/$name \
+	            --disable-static \
+		    --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+}

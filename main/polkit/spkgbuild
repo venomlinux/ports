@@ -1,0 +1,27 @@
+# description	: Toolkit for defining and handling authorizations
+# depends	: glib mozjs linux-pam gobject-introspection intltool
+
+name=polkit
+version=0.118
+release=1
+source="https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+	            --localstatedir=/var \
+	            --disable-static \
+	            --enable-libsystemd-login=no \
+		    --with-authfw=pam \
+		    --enable-libelogind=no \
+		    --disable-man-pages
+	make
+	make DESTDIR=$PKG install
+
+	chown polkitd $PKG/etc/polkit-1/rules.d
+	chown polkitd $PKG/usr/share/polkit-1/rules.d
+	chmod 700 $PKG/etc/polkit-1/rules.d
+	chmod 700 $PKG/usr/share/polkit-1/rules.d
+}

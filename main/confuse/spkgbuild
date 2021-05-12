@@ -1,0 +1,14 @@
+# description	: C-library for parsing configuration files
+
+name=confuse
+version=3.3
+release=1
+source="https://github.com/martinh/libconfuse/releases/download/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --enable-shared --disable-nls
+	make
+	make DESTDIR=$PKG install
+	rm -fr $PKG/usr/share/
+}

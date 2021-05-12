@@ -1,0 +1,16 @@
+# description	: WebSocket client library for Python
+# depends	: python3-six python3-setuptools
+
+name=python3-websocket-client
+version=0.58.0
+release=1
+source="https://pypi.io/packages/source/w/websocket-client/websocket_client-$version.tar.gz"
+
+build() {
+	cd websocket_client-$version
+
+	sed -i "s/'backports.ssl_match_hostname'//" setup.py
+	
+	python3 setup.py build
+	python3 setup.py install --root=$PKG --optimize=1
+}

@@ -1,0 +1,15 @@
+# description	: Wallpaper tool for Wayland compositors 
+# depends	: meson ninja wayland-protocols cairo
+
+name=swaybg
+version=1.0
+release=1
+source="https://github.com/swaywm/swaybg/archive/$version.tar.gz"
+
+build() {
+	meson "$name-$version" build \
+        	--prefix /usr \
+        	--buildtype=plain
+	ninja -C build
+	DESTDIR="$PKG/" ninja -C build install
+}

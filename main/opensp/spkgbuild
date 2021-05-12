@@ -1,0 +1,37 @@
+# description	: C++ library for using SGML/XML files
+# depends	: sgml-common
+
+name=opensp
+version=1.5.2
+release=1
+source="https://downloads.sourceforge.net/openjade/OpenSP-$version.tar.gz"
+
+build() {
+	cd OpenSP-$version
+
+	sed -i 's/32,/253,/' lib/Syntax.cxx
+	for i in gensyntax.pl unicode.syn; do
+	sed -i 's/LITLEN          240 /LITLEN          8092/' \
+	    unicode/$i
+	done
+
+	./configure --prefix=/usr \
+		    --disable-static \
+		    --disable-doc-build \
+		    --disable-nls \
+		    --enable-default-catalog=/etc/sgml/catalog \
+		    --enable-http \
+		    --enable-default-search-path=/usr/share/sgml
+	make pkgdatadir=/usr/share/sgml/OpenSP-$version
+	make pkgdatadir=/usr/share/sgml/OpenSP-$version DESTDIR=$PKG install
+
+	ln -v -sf onsgmls   $PKG/usr/bin/nsgmls
+	ln -v -sf osgmlnorm $PKG/usr/bin/sgmlnorm
+	ln -v -sf ospam     $PKG/usr/bin/spam
+	ln -v -sf ospcat    $PKG/usr/bin/spcat
+	ln -v -sf ospent    $PKG/usr/bin/spent
+	ln -v -sf osx       $PKG/usr/bin/sx
+	ln -v -sf osx       $PKG/usr/bin/sgml2xml
+	ln -v -sf libosp.so $PKG/usr/lib/libsp.so
+
+}

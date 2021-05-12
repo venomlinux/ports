@@ -1,0 +1,17 @@
+# description	: Adobe Flash Player
+# depends	: libxt gtk2 nss curl hicolor-icon-theme
+
+name=flashplugin
+version=32.0.0.465
+release=1
+source="flash_player_npapi_linux_$version.x86_64.tar.gz::https://fpdownload.adobe.com/get/flashplayer/pdc/$version/flash_player_npapi_linux.x86_64.tar.gz
+        flash_player_ppapi_linux_$version.x86_64.tar.gz::https://fpdownload.adobe.com/get/flashplayer/pdc/$version/flash_player_ppapi_linux.x86_64.tar.gz"
+
+build() {
+	install -Dm644 libflashplayer.so $PKG/usr/lib/mozilla/plugins/libflashplayer.so
+	install -D -t $PKG/usr/bin usr/bin/flash-player-properties
+	install -d $PKG/usr/share/
+	cp -a usr/share/applications $PKG/usr/share/
+	cp -a usr/share/icons $PKG/usr/share/
+	install -Dm644 -t $PKG/usr/lib/PepperFlash manifest.json libpepflashplayer.so
+}

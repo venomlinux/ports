@@ -1,0 +1,31 @@
+# description	: Mozilla's JavaScript engine written in C
+# depends	: yasm icu nspr autoconf2.13 python2 rust
+
+name=mozjs
+version=78.10.1
+release=1
+source="https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/firefox-${version}esr.source.tar.xz"
+
+build() {
+	cd firefox-$version
+
+	mkdir mozjs-build
+	cd    mozjs-build
+
+	export SHELL=/bin/sh
+
+	CC=gcc CXX=g++ \
+	../js/src/configure \
+		--prefix=/usr \
+		--with-intl-api \
+		--with-system-zlib \
+		--with-system-nspr \
+		--with-system-icu \
+		--disable-jemalloc \
+		--disable-debug-symbols \
+		--enable-readline
+	make
+	make DESTDIR=$PKG install
+
+	rm $PKG/usr/lib/libjs_static.ajs
+}

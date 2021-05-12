@@ -1,0 +1,16 @@
+# description	: DVD/CD/music player for Xfce that uses GStreamer
+# depends	: gst-plugins-base gst-plugins-good libxfce4ui libnotify taglib gst-libav
+
+name=parole
+version=4.16.0
+release=1
+source="http://archive.xfce.org/src/apps/parole/${version%.*}/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+}

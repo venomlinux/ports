@@ -1,0 +1,28 @@
+# description	: Implementations of the VP8 Codec, used in most current html5 video, and of the next-generation VP9 Codec
+# depends	: yasm
+
+name=libvpx
+version=1.10.0
+release=1
+source="https://github.com/webmproject/libvpx/archive/v$version/libvpx-v$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	cat > which <<EOF
+#!/bin/sh
+type -p \$1
+EOF
+
+chmod +x which
+export PATH=$PATH:$PWD
+
+	mkdir libvpx-build
+	cd    libvpx-build
+
+	../configure --prefix=/usr    \
+ 	            --enable-shared  \
+ 	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

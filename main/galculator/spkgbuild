@@ -1,0 +1,16 @@
+# description	: GTK+ based scientific calculator
+# depends	: gtk3 intltool
+
+name=galculator
+version=2.1.4
+release=1
+source="http://galculator.mnim.org/downloads/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	export CFLAGS="$CFLAGS -fcommon"
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+}

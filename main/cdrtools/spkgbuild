@@ -1,0 +1,28 @@
+# description	: Original cdrtools supporting CD, DVD and BluRay burning
+# depends	: acl libcap
+
+name=cdrtools
+version=3.02a09
+release=1
+source="https://downloads.sourceforge.net/$name/alpha/$name-$version.tar.bz2"
+
+build() {
+	cd $name-${version%%a*}
+  
+	export GMAKE_NOWARN=true
+	make -j1 INS_BASE=/usr DEFINSUSR=root DEFINSGRP=root
+	make -j1 INS_BASE=/usr DEFINSUSR=root DEFINSGRP=root DESTDIR=$PKG install
+
+	# remove unneeded files that may cause conflicts
+	rm -rf $PKG/usr/include
+	rm -rf $PKG/usr/lib/*.a $PKG/usr/lib/profiled
+	rm -rf $PKG/usr/share/man/man3
+
+	# create symlinks for cdrkit compatibility
+	cd $PKG/usr/bin
+	ln -s cdrecord wodim
+	ln -s readcd readom
+	ln -s mkisofs genisoimage
+	ln -s cdda2wav icedax
+
+}

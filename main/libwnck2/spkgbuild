@@ -1,0 +1,18 @@
+# description	: Window Navigator Construction Kit
+# depends	: gtk2 startup-notification
+
+name=libwnck2
+version=2.30.7
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/libwnck/${version%.*}/libwnck-$version.tar.xz"
+
+build() {
+	cd libwnck-$version
+
+	./configure --prefix=/usr \
+	            --disable-static \
+	            --program-suffix=-1
+	make GETTEXT_PACKAGE=libwnck-1
+	make GETTEXT_PACKAGE=libwnck-1 DESTDIR=$PKG install
+
+}

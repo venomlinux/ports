@@ -1,0 +1,15 @@
+# description	: Lightweight GTK+ clipboard manager
+# depends	: gtk2 libx11
+
+name=parcellite
+version=1.2.1
+release=1
+source="https://downloads.sourceforge.net/parcellite/parcellite-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+
+}

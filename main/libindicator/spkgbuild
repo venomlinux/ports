@@ -1,0 +1,25 @@
+# description	: Set of symbols and convenience functions for Ayatana indicators
+# depends	: gtk3 python3
+
+name=libindicator
+version=12.10.1
+release=1
+source="https://launchpad.net/libindicator/${version%.*}/$version/+download/libindicator-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	sed -i 's/-Werror//' libindicator/Makefile.am tools/Makefile.am
+	autoreconf -fi
+
+	./configure \
+		--prefix=/usr \
+		--localstatedir=/var \
+		--libexecdir=/usr/lib/libindicator \
+		--sysconfdir=/etc \
+		--with-gtk=3 \
+		--disable-static \
+		--disable-tests
+	make
+	make DESTDIR=$PKG install
+}

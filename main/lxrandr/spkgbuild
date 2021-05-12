@@ -1,0 +1,16 @@
+# description	: Monitor configuration tool for LXDE
+# depends	: gtk2 xrandr
+
+name=lxrandr
+version=0.3.2
+release=1
+source="https://downloads.sourceforge.net/lxde/lxrandr-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+}

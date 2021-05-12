@@ -1,0 +1,18 @@
+# description	: Xlib-based library for the X Present Extension
+# depends	: libx11 libxext libxfixes libxrandr
+
+_name=libXpresent
+name=libxpresent
+version=1.0.0
+release=1
+source="https://www.x.org/archive/individual/lib/$_name-$version.tar.gz"
+
+build() {
+	cd $_name-$version
+	./configure \
+		--prefix=/usr \
+		--libexecdir /usr/lib \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

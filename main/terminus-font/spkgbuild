@@ -1,0 +1,26 @@
+# description	: Monospace bitmap font (for X11 and console)
+# depends	: fontconfig encodings mkfontscale bdftopcf python3
+
+name=terminus-font
+version=4.49.1
+release=2
+source="https://downloads.sourceforge.net/project/$name/$name-${version%.1}/terminus-font-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--x11dir=/usr/share/fonts/misc \
+		--psfdir=/usr/share/consolefonts
+	make
+	make DESTDIR=$PKG install
+
+	install -Dm644 75-yes-terminus.conf \
+		$PKG/etc/fonts/conf.avail/75-yes-terminus.conf
+	install -d $PKG/etc/fonts/conf.d
+
+	cd $PKG/etc/fonts/conf.d
+	ln -s ../conf.avail/75-yes-terminus.conf .
+
+}

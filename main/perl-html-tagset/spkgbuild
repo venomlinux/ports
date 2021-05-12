@@ -1,0 +1,13 @@
+# description	: Data tables useful in parsing HTML
+
+name=perl-html-tagset
+version=3.20
+release=1
+source="https://www.cpan.org/authors/id/P/PE/PETDANCE/HTML-Tagset-$version.tar.gz"
+
+build() {
+	cd HTML-Tagset-$version
+	perl Makefile.PL INSTALLDIRS=vendor
+	make
+	make DESTDIR=$PKG install
+}

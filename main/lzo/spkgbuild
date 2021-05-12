@@ -1,0 +1,17 @@
+# description	: Data compression library
+
+name=lzo
+version=2.10
+release=1
+source="https://www.oberhumer.com/opensource/lzo/download/lzo-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+	            --enable-shared \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share
+}

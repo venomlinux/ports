@@ -1,0 +1,17 @@
+# description	: Multithreaded video transcoder
+# depends	: numactl gst-plugins-base libass lame freetype2 gtk3
+
+name=handbrake
+version=1.3.1
+release=1
+source="https://download.handbrake.fr/releases/$version/HandBrake-$version-source.tar.bz2"
+
+build() {
+	cd HandBrake-$version
+
+	ln -s "$SOURCE_DIR" download
+
+	./configure --prefix=/usr --disable-df-fetch
+	make -C build
+	make -C build DESTDIR=$PKG install
+}

@@ -1,0 +1,19 @@
+# description	: A simple window management tool (GTK2 version)
+# depends	: mate-panel libwnck3 gtk3 glib libx11 libxtst libfakekey
+
+name=mate-netbook
+version=1.24.0
+release=1
+source="https://pub.mate-desktop.org/releases/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+}

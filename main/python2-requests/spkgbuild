@@ -1,0 +1,20 @@
+# description	: Python HTTP for Humans (python2)
+# depends	: python2-chardet python2-idna python2-urllib3
+
+name=python2-requests
+_name=${name#*-}
+_n=${_name%${_name#?}}
+version=2.23.0
+release=1
+source="https://files.pythonhosted.org/packages/source/$_n/${name#*-}/${name#*-}-$version.tar.gz
+	certs.patch"
+
+build() {
+	cd ${name#*-}-$version
+
+	sed -e '/certifi/d' -i setup.py
+	patch -p1 -i $SRC/certs.patch
+
+	python2 setup.py build
+	python2 setup.py install --prefix=/usr --root=$PKG
+}

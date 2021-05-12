@@ -1,0 +1,20 @@
+# description	: Library for creating and utilizing caches to speed up the manipulation for freedesktop.org defined application menus
+# depends	: libfm-extra
+
+name=menu-cache
+version=1.1.0
+release=2
+source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz
+	menu-cache-1.1.0-0001-Support-gcc10-compilation.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../menu-cache-1.1.0-0001-Support-gcc10-compilation.patch
+
+	./configure --prefix=/usr \
+	            --libexecdir=/usr/lib \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

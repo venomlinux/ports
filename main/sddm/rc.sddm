@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# /etc/rc.d/sddm: start/stop sddm daemon
+#
+
+. /etc/rc.subr
+
+NAME="sddm"
+PROG=/usr/bin/sddm
+
+case $1 in
+	start)
+		msg "Starting $NAME..."
+		start_daemon /usr/bin/sddm &
+		;;
+	stop)
+		msg "Stopping $NAME..."
+		stop_daemon $PROG
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		status_daemon $PROG
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+# End of file

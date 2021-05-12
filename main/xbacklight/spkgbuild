@@ -1,0 +1,19 @@
+# description	: RandR-based backlight control application
+# depends	: libxcb xcb-util 
+
+name=xbacklight
+version=1.2.3
+release=1
+source="http://ftp.x.org/pub/individual/app/xbacklight-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

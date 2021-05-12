@@ -1,0 +1,18 @@
+# description	: Lightweight and desktop-independent task manager
+# depends	: gtk2
+
+name=lxtask
+version=0.1.10
+release=1
+source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	export CFLAGS="$CFLAGS -fcommon"
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+}

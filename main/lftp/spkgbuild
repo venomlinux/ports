@@ -1,0 +1,23 @@
+# description	: Sophisticated command line based FTP client
+# depends	: readline gnutls expat ncurses
+
+name=lftp
+version=4.9.2
+release=1
+backup="etc/lftp.conf"
+source="https://lftp.yar.ru/ftp/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--with-gnutls \
+		--without-openssl \
+		--without-included-regex \
+		--disable-static \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/lib
+}

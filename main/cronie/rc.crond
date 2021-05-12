@@ -1,0 +1,32 @@
+#!/bin/sh	
+#	
+# /etc/rc.d/crond: start/stop crond service	
+#	
+
+. /etc/rc.subr
+
+PROG=/usr/bin/crond
+	
+case $1 in	
+	start)	
+		msg "Starting crond service..."	
+		start_daemon $PROG
+		;;	
+	stop)	
+		msg "Stopping crond service..."	
+		stop_daemon $PROG
+		;;	
+	restart)	
+		$0 stop	
+		sleep 1	
+		$0 start	
+		;;	
+	status)	
+		status_daemon $PROG
+		;;	
+	*)	
+		echo "Usage: $0 [start|stop|restart|status]"	
+		;;	
+esac
+
+# End of file

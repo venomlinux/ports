@@ -1,0 +1,18 @@
+# description	: A fast math parser library
+# depends	: cmake
+
+name=muparser
+version=2.3.2
+release=1
+source="https://github.com/beltoforion/muparser/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	
+	mkdir build
+	cd build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+	make
+	make DESTDIR=$PKG install
+}

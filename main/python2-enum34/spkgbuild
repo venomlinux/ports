@@ -1,0 +1,14 @@
+# description	: Python 3.4 Enum backported
+# depends	: python2-setuptools
+
+name=python2-enum34
+_name=${name#*-}
+_n=${_name%${_name#?}}
+version=1.1.10
+release=1
+source="https://files.pythonhosted.org/packages/source/$_n/${name#*-}/${name#*-}-$version.tar.gz"
+
+build() {
+	cd ${name#*-}-$version
+	python2 setup.py install --prefix=/usr --root=$PKG --optimize=1
+}

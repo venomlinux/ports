@@ -1,0 +1,13 @@
+# description	: C library for parsing and emitting YAML
+
+name=yaml
+version=0.2.5
+release=1
+source="http://pyyaml.org/download/libyaml/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}

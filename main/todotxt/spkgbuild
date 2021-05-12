@@ -1,0 +1,17 @@
+# description	: lifehacker.com's todo.sh script for maintaining a todo.txt file 
+# depends	: bash 
+
+name=todotxt
+_name=todo.txt_cli
+version=2.12.0
+release=1
+source="https://github.com/todotxt/todo.txt-cli/releases/download/v${version}/$_name-${version}.tar.gz"
+
+build() {
+	cd $_name-$version
+	install -D -m644 todo.cfg $PKG/usr/share/$name/todo.cfg
+	install -D -m755 todo.sh $PKG/usr/bin/todo.sh
+
+	install -d $PKG/usr/share/bash-completion/completions/
+	install -D -m644 todo_completion $PKG/usr/share/bash-completion/completions/todo.sh
+}

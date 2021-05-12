@@ -1,0 +1,36 @@
+#!/bin/sh	
+#	
+# /etc/rc.d/network: start/stop the ISC DHCP Server	
+#	
+
+. /etc/rc.subr
+
+DEV=${DEV:-$(ls /sys/class/net/ | grep -Exv "(lo|sit0)" | head -n1)}
+
+PROG=/sbin/dhcpcd
+PIDFILE=/var/run/$PROGNAME.pid	
+OPTS="--waitip -h $(/bin/hostname) -z $DEV"
+	
+case $1 in	
+	start)	
+		msg "Starting $PROGNAME..."	
+		start_daemon $PROG $OPTS
+		;;	
+	stop)	
+		msg "Stopping $PROGNAME..."	
+		stop_daemon $PROG
+		;;	
+	restart)	
+		$0 stop	
+		sleep 1	
+		$0 start	
+		;;	
+	status)	
+		status_daemon $PROG
+		;;	
+	*)	
+		echo "Usage: $0 [start|stop|restart|status]"	
+		;;	
+esac
+
+# End of file

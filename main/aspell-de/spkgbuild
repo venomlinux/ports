@@ -1,0 +1,28 @@
+# description	: German dictionary for aspell 
+# depends	: aspell
+
+name=aspell-de
+version=20161207
+release=1
+source="https://j3e.de/ispell/igerman98/dict/igerman98-${version}.tar.bz2"
+
+build() {
+	cd igerman98-$version
+	LANGS="de_DE de_AT de_CH"
+  	for l in ${LANGS}; do
+    		make aspell/${l}.rws
+  	done
+
+	cd aspell
+	install -d "${PKG}/usr/lib/aspell-0.60"
+
+	LANGS="de_DE de_AT de_CH"
+	for l in ${LANGS}; do
+		install -m644 ${l}.alias ${l}.dat ${l}_affix.dat ${l}.multi ${l}.rws \
+		"${PKG}/usr/lib/aspell-0.60/"
+  	done
+
+	echo "add de_DE.multi" > "${PKG}/usr/lib/aspell-0.60/deutsch.alias"
+	echo "add de_DE.multi" > "${PKG}/usr/lib/aspell-0.60/german.alias"
+	echo "add de_CH.multi" > "${PKG}/usr/lib/aspell-0.60/swiss.alias"
+}

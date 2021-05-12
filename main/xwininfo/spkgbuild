@@ -1,0 +1,19 @@
+# description	: Command-line utility to print information about windows on an X server
+# depends	: libxcb libx11
+
+name=xwininfo
+version=1.1.5
+release=1
+source="http://ftp.x.org/pub/individual/app/xwininfo-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,6 @@
+port_getver() {
+	fetch \
+	| grep -Eo lynx[0-9a-z.]+.tar.[bgx]z2? \
+	| grep -Ev '(dev|pre)' \
+	| sed 's/lynx//;s/\.tar.*//'
+}

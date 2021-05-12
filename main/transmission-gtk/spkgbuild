@@ -1,0 +1,17 @@
+# description	: Fast, easy, and free BitTorrent client (GTK+ GUI)
+# depends	: curl libevent openssl gtk3 hicolor-icon-theme desktop-file-utils intltool
+
+name=transmission-gtk
+version=3.00
+release=1
+source="https://github.com/transmission/transmission-releases/raw/master/transmission-$version.tar.xz"
+
+build() {
+	cd transmission-$version
+
+	export LINGUAS=" "
+
+	./configure --prefix=/usr
+	make
+	make -C gtk DESTDIR=$PKG install
+}

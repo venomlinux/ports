@@ -1,0 +1,20 @@
+# description	: X.org misc fonts
+# depends	: util-macros mkfontscale font-util
+
+name=font-misc-ethiopic
+version=1.0.4
+release=2
+source="http://ftp.x.org/pub/individual/font/font-misc-ethiopic-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

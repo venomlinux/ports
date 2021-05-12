@@ -1,0 +1,20 @@
+# description	: Utility libraries for XC Binding
+# depends	: libxcb 
+
+name=xcb-util
+version=0.4.0
+release=1
+source="https://xorg.freedesktop.org/archive/individual/xcb/xcb-util-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

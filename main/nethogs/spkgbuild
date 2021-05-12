@@ -1,0 +1,22 @@
+# description	: A net top tool which displays traffic used per process instead of per IP or interface
+# depends	: ncurses libpcap
+
+name=nethogs
+version=0.8.6
+release=1
+source="$name-$version.tar.gz::https://github.com/raboof/nethogs/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	sed -i 's|/sbin|/bin|' src/MakeApp.mk
+	sed -i 's|/local||'  Makefile
+
+	unset CFLAGS
+	unset CXXFLAGS
+	make prefix=/usr
+	make prefix=/usr libnethogs
+
+	make prefix=/usr DESTDIR=$PKG install
+	make prefix=/usr DESTDIR=$PKG install_lib
+}

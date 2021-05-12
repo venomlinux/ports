@@ -1,0 +1,19 @@
+# description	: GLib interfaces to the D-Bus API
+# depends	: dbus glib
+
+name=dbus-glib
+version=0.112
+release=1
+source="http://dbus.freedesktop.org/releases/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+  	./configure --prefix=/usr \
+		    --libexecdir=/usr/lib/$name \
+	            --sysconfdir=/etc \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+
+}

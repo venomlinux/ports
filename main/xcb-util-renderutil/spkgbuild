@@ -1,0 +1,20 @@
+# description	: Utility libraries for XC Binding - Convenience functions for the Render extension
+# depends	: libxcb 
+
+name=xcb-util-renderutil
+version=0.3.9
+release=1
+source="https://xorg.freedesktop.org/archive/individual/xcb/xcb-util-renderutil-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

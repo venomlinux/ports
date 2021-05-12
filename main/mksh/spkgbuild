@@ -1,0 +1,17 @@
+# description	: The MirBSD Korn Shell
+
+name=mksh
+version=R59c
+release=1
+backup="etc/mkshrc"
+source="http://www.mirbsd.org/MirOS/dist/mir/mksh/$name-$version.tgz"
+
+build() {
+	cd $name
+
+	sh Build.sh -r
+
+	install -D -m 0755 $name $PKG/bin/$name
+	install -D -m 0644 $name.1 $PKG/usr/share/man/man1/$name.1
+	install -D -m 0644 dot.${name}rc $PKG/etc/${name}rc
+}

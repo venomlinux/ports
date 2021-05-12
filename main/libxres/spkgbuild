@@ -1,0 +1,20 @@
+# description	: X11 Resource extension library
+# depends	: libx11 libxext 
+
+name=libxres
+version=1.2.1
+release=1
+source="http://ftp.x.org/pub/individual/lib/libXres-$version.tar.bz2"
+
+build() {
+	cd libXres-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

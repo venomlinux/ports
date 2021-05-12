@@ -1,0 +1,15 @@
+# description	: Customizable and lightweight notification-daemon
+# depends	: libxinerama pango libnotify libxscrnsaver
+
+name=dunst
+version=1.6.1
+release=1
+source="https://github.com/dunst-project/dunst/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	make -C "$SRC/$name-$version" X11INC=/usr/include/X11 X11LIB=/usr/lib/X11 WAYLAND=0
+	make -C "$name-$version" DESTDIR="$PKG" WAYLAND=0 PREFIX=/usr install
+
+	# remove systemd trash file
+	rm -fr $PKG/usr/lib/
+}

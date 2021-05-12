@@ -1,0 +1,6 @@
+port_getver() {
+	fetch \
+	| grep archive \
+	| grep -Eo make-[0-9a-z_]+.tar.gz \
+	| sed 's/make-//;s/\.tar.*//;s/_/\./g'
+}

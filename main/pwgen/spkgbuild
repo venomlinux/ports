@@ -1,0 +1,13 @@
+# description	: A small GPLed password generator
+
+name=pwgen
+version=2.08
+release=1
+source="http://download.sourceforge.net/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,21 @@
+# description	: General purpose messaging, notification and menuing program for X11
+# depends	: libxpm libx11 libxinerama libxft
+
+name=dzen2
+version=20130923
+release=1
+source="https://github.com/robm/dzen/archive/488ab66019f475e35e067646621827c18a879ba1.tar.gz"
+
+build() {
+	cd dzen-488ab66019f475e35e067646621827c18a879ba1
+
+	CFLAGS="$CFLAGS -Wall -I. -DVERSION=\"${VERSION}\" -DDZEN_XINERAMA -DDZEN_XPM -DDZEN_XFT `pkg-config --cflags xft`"
+	LIBS="`pkg-config --libs xpm` `pkg-config --libs xinerama` `pkg-config --libs xft`"
+
+	sed -e '/strip/d' -i Makefile gadgets/Makefile
+
+	make X11INC=/usr/include X11LIB=/usr/lib CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS $LIBS"
+	make -C gadgets X11INC=/usr/include X11LIB=/usr/lib CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS $LIBS"
+	make PREFIX=/usr MANPREFIX=/usr/man DESTDIR=$PKG install
+	make -C gadgets PREFIX=/usr MANPREFIX=/usr/man DESTDIR=$PKG install
+}

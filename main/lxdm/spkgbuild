@@ -1,0 +1,47 @@
+# description	: Lightweight Display Manager for the LXDE desktop
+# depends	: gtk2 iso-codes consolekit2 linux-pam xorg-server librsvg
+
+name=lxdm
+version=0.5.3
+release=2
+backup="etc/lxdm/lxdm.conf"
+source="https://downloads.sourceforge.net/$name/$name-$version.tar.xz
+	rc.$name"
+
+build() {
+	cd $name-$version
+
+cat > pam/lxdm << "EOF"
+#%PAM-1.0
+auth       requisite      pam_nologin.so
+auth       required       pam_env.so
+auth       include        system-auth
+-auth      optional       pam_gnome_keyring.so
+account    include        system-auth
+password   include        system-auth
+session    required       pam_limits.so
+session    include        system-auth
+-session   optional       pam_gnome_keyring.so auto_start
+EOF
+
+sed -i 's:sysconfig/i18n:profile.d/i18n.sh:g' data/lxdm.in
+sed -i 's:/etc/xprofile:/etc/profile:g' data/Xsession
+sed -e 's/^bg/#&/'        \
+    -e '/reset=1/ s/# //' \
+    -e 's/logou$/logout/' \
+    -e "/arg=/a arg=/usr/bin/X" \
+    -i data/lxdm.conf.in
+
+	autoreconf -fiv
+	./configure --prefix=/usr \
+	            --sysconfdir=/etc \
+		    --libexecdir=/usr/lib/$name \
+	            --with-pam \
+		    --disable-nls \
+	            --with-systemdsystemunitdir=no
+	make
+	make DESTDIR=$PKG install
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+}

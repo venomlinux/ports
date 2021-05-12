@@ -1,0 +1,23 @@
+# description	: An ACME Shell script, an acme client alternative to certbot
+# depends	: bash
+
+name=acme.sh
+version=2.8.8
+release=1
+source="https://github.com/acmesh-official/$name/archive/$version.tar.gz"
+
+build() {
+  cd $name-$version
+
+  install -dm755 "$PKG"/usr/share/acme.sh/deploy
+  install -dm755 "$PKG"/usr/share/acme.sh/dnsapi
+  install -dm755 "$PKG"/usr/share/acme.sh/notify
+  install -dm755 "$PKG"/usr/bin
+
+  install -m755 acme.sh "$PKG"/usr/share/acme.sh/
+  install -m755 deploy/*.sh "$PKG"/usr/share/acme.sh/deploy/
+  install -m755 dnsapi/*.sh "$PKG"/usr/share/acme.sh/dnsapi/
+  install -m755 notify/*.sh "$PKG"/usr/share/acme.sh/notify/
+
+  ln -s /usr/share/acme.sh/acme.sh "$PKG"/usr/bin/acme.sh
+}

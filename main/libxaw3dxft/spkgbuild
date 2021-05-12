@@ -1,0 +1,20 @@
+# description	: xaw3d library for xpaint
+# depends	: libxft libxmu libxpm util-macros
+
+name=libxaw3dxft
+_name=libXaw3dXft
+version=1.6.2h
+release=1
+source="https://sourceforge.net/projects/sf-xpaint/files/$name/${_name}-$version.tar.bz2"
+
+build() {
+	cd $_name-$version
+	./autogen.sh
+	./configure --prefix=/usr --enable-internationalization \
+	    --enable-multiplane-bitmaps \
+	    --enable-gray-stipples \
+	    --enable-arrow-scrollbars
+	make
+	make DESTDIR=$PKG install
+	rm -r $PKG/usr/share
+}

@@ -1,0 +1,21 @@
+# description	: Library used for reading, writing and manipulating audio file tags
+# depends	: cmake
+
+name=taglib
+version=1.12
+release=1
+source="https://taglib.github.io/releases/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DCMAKE_BUILD_TYPE=Release  \
+	      -DBUILD_SHARED_LIBS=ON \
+	      ..
+	make
+	make DESTDIR=$PKG install
+}

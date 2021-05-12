@@ -1,0 +1,19 @@
+# description	: Checks and undeletes partitions + PhotoRec, signature based recovery tool
+# depends	: e2fsprogs
+
+name=testdisk
+version=7.1
+release=1
+source="https://www.cgsecurity.org/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--without-ewf \
+		--enable-sudo
+	make
+	make DESTDIR=$PKG install
+
+}

@@ -1,0 +1,15 @@
+# description	: Torrent library
+# depends	: zlib openssl
+
+name=libtorrent
+version=0.13.8
+release=1
+source="http://rtorrent.net/downloads/libtorrent-$version.tar.gz"
+
+build() {
+	cd libtorrent-$version
+
+	./configure --prefix=/usr --enable-debug=no
+	make
+	make DESTDIR=$PKG install
+}

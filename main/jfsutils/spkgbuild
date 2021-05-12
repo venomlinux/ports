@@ -1,0 +1,23 @@
+# description	: Administration and debugging tools for the jfs file system
+# depends	: util-linux
+
+name=jfsutils
+version=1.1.15
+release=1
+source="http://jfs.sourceforge.net/project/pub/jfsutils-$version.tar.gz
+	inttypes.patch
+	sysmacros.patch"
+
+build() {
+	cd $name-$version
+
+	# patch taken from Arch
+	patch -Np1 -i ../inttypes.patch
+	patch -Np1 -i ../sysmacros.patch
+
+	export CFLAGS="$CFLAGS -fcommon"
+
+	./configure
+	make
+	make DESTDIR=$PKG install
+}

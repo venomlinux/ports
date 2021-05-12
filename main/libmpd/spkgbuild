@@ -1,0 +1,22 @@
+# description	: Signal based wrapper around libmpdclient
+# depends	: glib
+
+name=libmpd
+version=11.8.17
+release=1
+source="https://download.sarine.nl/Programs/gmpc/${version%.*}/$name-$version.tar.gz
+	0001-fix-return-value.patch
+	0002-include-config.h.patch
+	0003-fix-comparison.patch"
+
+build() {
+	cd $name-$version
+
+	for i in $SRC/*.patch; do
+		patch -Np1 -i $i
+	done
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

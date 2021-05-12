@@ -1,0 +1,15 @@
+# description	: Simple X Image Viewer
+# depends	: imlib2 libx11 libxft fontconfig libexif giflib
+
+name=sxiv
+version=26
+release=1
+source="https://github.com/muennich/sxiv/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make
+	make PREFIX=/usr DESTDIR=$PKG install
+	make -C icon PREFIX=/usr DESTDIR=$PKG install
+	install -Dm644 sxiv.desktop $PKG/usr/share/applications/sxiv.desktop
+}

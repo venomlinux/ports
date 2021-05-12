@@ -1,0 +1,18 @@
+# description	: Command line utilities for working with Desktop entries
+# depends	: glib meson
+
+name=desktop-file-utils
+version=0.26
+release=1
+source="https://freedesktop.org/software/$name/releases/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build-glib
+        cd    build-glib
+
+        meson --prefix=/usr ..
+	ninja
+	DESTDIR=$PKG ninja install
+}

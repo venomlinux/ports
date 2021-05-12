@@ -1,0 +1,23 @@
+# description	: Alternate menu for Xfce4
+# depends	: garcon xfce4-panel cmake ninja
+
+name=xfce4-whiskermenu-plugin
+version=2.5.3
+release=1
+source="http://archive.be.xfce.org/src/panel-plugins/xfce4-whiskermenu-plugin/${version%.*}/xfce4-whiskermenu-plugin-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	mkdir -p build
+	cd build
+
+	cmake .. \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-GNinja
+	ninja
+	DESTDIR=$PKG ninja install
+
+}

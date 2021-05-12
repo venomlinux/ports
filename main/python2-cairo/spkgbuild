@@ -1,0 +1,14 @@
+# description	: Python 2 bindings to Cairo
+# depends	: python2 cairo
+
+name=python2-cairo
+version=1.18.2
+release=1
+source="https://github.com/pygobject/pycairo/releases/download/v$version/pycairo-$version.tar.gz"
+
+build() {
+	cd pycairo-$version
+
+	python2 setup.py build
+	python2 setup.py install --root=$PKG --optimize=1
+}

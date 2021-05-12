@@ -1,0 +1,10 @@
+# description	: A hand groomed and optically balanced typeface based on Bitstream Vera Mono
+
+name=ttf-hack
+version=3.003
+release=2
+source="https://github.com/source-foundry/Hack/releases/download/v${version}/Hack-v${version}-ttf.tar.xz"
+
+build() {
+	install -Dm644 -t "$PKG/usr/share/fonts/TTF/" "$SRC"/Hack-*.ttf
+}

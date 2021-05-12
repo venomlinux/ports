@@ -1,0 +1,15 @@
+# description	: Contains eight themes/engines and two additional engines for GTK2
+# depends	: gtk2
+
+name=gtk-engines
+version=2.20.2
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/gtk-engines/${version%.*}/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+}

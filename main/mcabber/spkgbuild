@@ -1,0 +1,20 @@
+# description	: A small Jabber console client, includes features: SSL, PGP, MUC, UTF8 
+# depends	: ncurses glib loudmouth gpgme libotr aspell
+
+name=mcabber
+version=1.1.2
+release=1
+source="https://www.lilotux.net/~mikael/$name/files/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	CFLAGS="$CFLAGS -fcommon" # https://wiki.gentoo.org/wiki/Gcc_10_porting_notes/fno_common
+	./configure --prefix=/usr --enable-hgcset \
+		--mandir=/usr/share/man \
+		--enable-aspell --enable-otr
+	make
+	make DESTDIR="${PKG}" install
+	mkdir -p "${PKG}"/usr/share/mcabber/example
+	cp -a mcabberrc.example \
+		"${PKG}"/usr/share/mcabber/example/mcabberrc
+}

@@ -1,0 +1,19 @@
+# description	: Lightweight volume control with a tray icon
+# depends	: gtk3 alsa-utils libnotify
+
+name=pnmixer
+version=0.7.2
+release=1
+source="https://github.com/nicklan/pnmixer/releases/download/v$version/$name-v$version.tar.gz"
+
+build() {
+	cd $name-v$version
+
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+	make
+	make DESTDIR=$PKG install
+
+}

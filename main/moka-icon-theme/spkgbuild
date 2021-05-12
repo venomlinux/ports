@@ -1,0 +1,13 @@
+# description	: An icon theme designed with a minimal, flat style, using simple geometry & colours. 
+
+name=moka-icon-theme
+version=5.4.0
+release=1
+source="${name}-$version.tar.gz::https://github.com/moka-project/$name/archive/v$version.tar.gz"
+
+build() {
+  install -d -m 755 "${PKG}"/usr/share/icons/Moka
+  cp -dr --no-preserve=ownership "${name}-${version}"/Moka "${PKG}"/usr/share/icons/
+  find "${PKG}"/usr/share/icons/ -type d -exec chmod 755 {} \;
+  find "${PKG}"/usr/share/icons/ -type f -exec chmod 644 {} \;
+}

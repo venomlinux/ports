@@ -1,0 +1,27 @@
+# description	: Utilities for internationalization and localization
+# depends	: ncurses acl
+
+name=gettext
+version=0.21
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--disable-static \
+		--disable-nls \
+		--disable-java \
+		--disable-csharp \
+                --without-git \
+                --without-emacs \
+                --with-included-libxml \
+                --with-included-libcroco \
+                --with-included-glib
+	make
+	make DESTDIR=$PKG install
+
+}
+

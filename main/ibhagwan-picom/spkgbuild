@@ -1,0 +1,13 @@
+# description	: A picom fork with support for rounded corners 
+# depends	: libconfig libev libxdg-basedir uthash xcb-util-renderutil xcb-util-image libxext pixman libglvnd dbus
+
+name=ibhagwan-picom
+version="Next"
+release=1
+source="$name-$version.tar.gz::https://github.com/ibhagwan/picom/archive/vNext.tar.gz"
+build() {
+	cd picom-v$version
+	meson --prefix=/usr --buildtype=release . build
+	ninja -C build
+	DESTDIR=$PKG ninja -C build install
+}

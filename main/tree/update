@@ -1,0 +1,5 @@
+port_getver() {
+	fetch \
+	| grep -Eo tree-[0-9a-z.]+.tgz \
+	| sed 's/tree-//;s/\.tgz//'
+}

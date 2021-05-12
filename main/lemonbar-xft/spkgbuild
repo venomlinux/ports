@@ -1,0 +1,12 @@
+# description	: lemonbar fork with xft support
+# depends	: libxft
+
+name=lemonbar-xft
+version=1.1
+release=1
+source="https://github.com/MalteKiefer/bar/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd bar-$version
+	make DESTDIR=$PKG install
+}

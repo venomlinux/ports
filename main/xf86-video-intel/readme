@@ -1,0 +1,34 @@
+Kernel Configuration:
+
+Enable the following options in the kernel configuration. Only one of the lines
+“Intel I810” or “Intel 8xx/9xx...” needs to be selected. If you select the latter,
+“Enable modesetting...” is needed too. Recompile the kernel if necessary:
+
+Device Drivers  --->
+  Graphics support --->
+   <*> Direct Rendering Manager (XFree86 ... support) ---> [CONFIG_DRM]
+   <*> Intel 8xx/9xx/G3x/G4x/HD Graphics                   [CONFIG_DRM_I915]
+
+
+Working around problems with the Intel driver:
+
+The SandyBridge New Acceleration (SNA) code is intended to replace the old UXA (UMA
+Acceleration Architecture), but it is a large body of code and sometimes causes
+problems. In particular, when a system is built with gcc-5 and kernel headers from
+linux-4.0, trying to run this driver using SNA has been known to segfault on some of
+the supported chips. However, the version of the code in the version control system
+listed above has been tested successfully with both SNA and UXA capabilities.
+
+To work around this problem, as well as enabling support for UXA, it is necessary to
+force UXA to be used by creating a configuration file. If this problem applies to
+you, create the following file as the root user and modify it as needed:
+
+cat >> /etc/X11/xorg.conf.d/20-intel.conf << "EOF"
+Section   "Device"
+        Identifier "Intel Graphics"
+        Driver     "intel"
+        #Option     "DRI" "2"            # DRI3 is default
+        #Option     "AccelMethod"  "sna" # default
+        #Option     "AccelMethod"  "uxa" # fallback
+EndSection
+EOF

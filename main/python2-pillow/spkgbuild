@@ -1,0 +1,16 @@
+# description	: Python Imaging Library (PIL) fork (python2)
+# depends	: python2 python2-setuptools freetype2 openjpeg2
+
+name=python2-pillow
+version=6.2.1
+release=1
+source="https://files.pythonhosted.org/packages/source/P/Pillow/Pillow-$version.tar.gz"
+
+build() {
+	cd Pillow-$version
+	python2 setup.py build
+	python2 setup.py install --root="$PKG" --optimize=1
+
+	install -dm755 "$PKG/usr/include/python2.7/"
+	install -m644 -t "$PKG/usr/include/python2.7/" src/libImaging/*.h
+}

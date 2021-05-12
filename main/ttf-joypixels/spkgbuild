@@ -1,0 +1,10 @@
+# description	: Emoji as a Service (formerly EmojiOne) 
+
+name=ttf-joypixels
+version=6.0.0
+release=1
+source="https://cdn.joypixels.com/arch-linux/font/${version}/joypixels-android.ttf"
+
+build() {
+	install -Dm644 "joypixels-android.ttf" "${PKG}/usr/share/fonts/${name#ttf-}/JoyPixels.ttf"
+}

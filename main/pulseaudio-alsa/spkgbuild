@@ -1,0 +1,13 @@
+# description	: ALSA Configuration for PulseAudio
+# depends	: alsa-plugins pulseaudio
+
+name=pulseaudio-alsa
+version=1
+release=1
+backup="etc/asound.conf"
+source="asound.conf"
+
+build() {
+	install -Dm644 asound.conf "$PKG/etc/asound.conf"
+}
+

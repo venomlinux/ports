@@ -1,0 +1,20 @@
+# description	: GNOME Docking Library
+# depends	: libxml2 gtk3
+
+name=gdl
+version=3.34.0
+release=1
+source="https://ftp.acc.umu.se/pub/gnome/sources/gdl/${version%.*}/gdl-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+
+}

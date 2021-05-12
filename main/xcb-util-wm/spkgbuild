@@ -1,0 +1,20 @@
+# description	: libraries for XC Binding - client and window-manager helpers for ICCCM
+# depends	: libxcb 
+
+name=xcb-util-wm
+version=0.4.1
+release=1
+source="https://xorg.freedesktop.org/archive/individual/xcb/xcb-util-wm-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

@@ -1,0 +1,19 @@
+# description	: Reiserfs utilities
+# depends	: util-linux
+
+name=reiserfsprogs
+version=3.6.27
+release=1
+source="https://www.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/v$version/$name-$version.tar.xz
+	reiserfsprogs-3.6.27-loff_t.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np0 -i ../reiserfsprogs-3.6.27-loff_t.patch
+
+	autoreconf -i
+	./configure --prefix=/usr --sbindir=/sbin
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,17 @@
+# description	: Simple NUMA policy support
+# depends	: perl
+
+name=numactl
+version=2.0.14
+release=1
+source="https://github.com/numactl/numactl/releases/download/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	autoreconf -vfi
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+	# conflict with man-pages package
+	rm $PKG/usr/share/man/man2/move_pages.2
+}

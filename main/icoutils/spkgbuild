@@ -1,0 +1,14 @@
+# description	: Extracts and converts images in MS Windows(R) icon and cursor files
+# depends	: libpng
+
+name=icoutils
+version=0.32.3
+release=1
+source="https://savannah.nongnu.org/download/$name/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --mandir=/usr/share/man --disable-nls
+	make
+	make DESTDIR=$PKG install
+}

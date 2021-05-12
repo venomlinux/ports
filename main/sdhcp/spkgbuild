@@ -1,0 +1,11 @@
+# description	: suckless dhcp client
+
+name=sdhcp
+version=git
+release=1
+source="https://gvp.cz/www/BILEKM/programming/ports/sources/sdhcp.tar"
+
+build() {
+	cd $name
+	make PREFIX=/usr DESTDIR=$PKG install
+}

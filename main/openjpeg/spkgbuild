@@ -1,0 +1,17 @@
+# description	: Open-source implementation of the JPEG-2000 standard
+# depends	: lcms2 libtiff libpng zlib
+
+name=openjpeg
+version=1.5.2
+release=1
+source="https://downloads.sourceforge.net/openjpeg.mirror/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+  	autoreconf -f -i
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+
+}

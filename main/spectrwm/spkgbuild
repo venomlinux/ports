@@ -1,0 +1,20 @@
+# description	: A small dynamic tiling window manager for X11
+# depends	: libx11 xcb-util xcb-util-wm xcb-util-keysyms libxcb libxcursor libxft libxrandr libxt freetype2
+
+name=spectrwm
+version=3.4.1
+_version=$(echo $version | tr '.' '_')
+release=1
+source="https://github.com/conformal/spectrwm/archive/SPECTRWM_$_version.tar.gz
+	baraction.sh"
+
+build() {
+	cd $name-SPECTRWM_$_version
+	make -C linux PREFIX=/usr SYSCONFDIR=/etc
+	make -C linux PREFIX=/usr SYSCONFDIR=/etc DESTDIR=$PKG install
+	install -d $PKG/usr/share/$name
+	ls linux
+	install -m644 $SRC/baraction.sh $PKG/usr/share/$name
+	install -m644 screenshot.sh $PKG/usr/share/$name
+
+}

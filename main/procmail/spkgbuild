@@ -1,0 +1,20 @@
+# description	: Highly configurable auto mail processing
+
+name=procmail
+version=3.22
+release=1
+source="http://ftp.osuosl.org/pub/blfs/conglomeration/${name}/${name}-${version}.tar.gz
+procmail-3.22-getline.patch
+formisc.c.patch
+fix_memory_allocation_bug.diff"
+
+build() {
+    cd ${name}-${version}
+
+    patch -p1 -i "${SRC}/procmail-3.22-getline.patch"
+    patch -p1 -i "${SRC}/formisc.c.patch"
+    patch -p1 -i "${SRC}/fix_memory_allocation_bug.diff"
+
+    yes n | make CFLAGS0="${CFLAGS} ${LDFLAGS}" LOCKINGTEST="/tmp ."
+    make BASENAME=${PKG}/usr MANDIR=${PKG}/usr/share/man install
+}

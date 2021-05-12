@@ -1,0 +1,15 @@
+# description	: Xfce panel profiles
+# depends	: python3 python3-gobject3 xfce4-panel intltool gtk3
+
+name=xfce4-panel-profiles
+version=1.0.13
+release=1
+source="https://archive.xfce.org/src/apps/$name/1.0/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+}

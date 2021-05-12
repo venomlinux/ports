@@ -1,0 +1,22 @@
+# description	: X.org framebuffer video driver
+# depends	: xorg-server xorgproto
+
+name=xf86-video-fbdev
+version=0.5.0
+release=1
+source="http://ftp.x.org/pub/individual/driver/$name-$version.tar.bz2
+	gcc8.diff"
+
+build() {
+	cd $name-$version
+
+	patch -Np0 -i $SRC/gcc8.diff
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

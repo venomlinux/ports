@@ -1,0 +1,16 @@
+# description	: Compressing files into ZIP archives
+# depends	: bzip2
+
+name=zip
+version=3.0
+_version=$(echo $version | sed 's/\.//')
+release=1
+source="https://downloads.sourceforge.net/infozip/${name}${_version}.tar.gz"
+
+build() {
+	cd ${name}${_version}
+
+  	make -f unix/Makefile generic_gcc
+	make prefix=$PKG/usr MANDIR=$PKG/usr/share/man/man1 -f unix/Makefile install
+}
+

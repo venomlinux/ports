@@ -1,0 +1,16 @@
+# description	: Text-mode full-screen digital clock
+# depends	: ncurses
+
+name=vtclock
+version=0.0.20161228
+release=1
+source="http://webonastick.com/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	make
+  	install -d $PKG/usr/bin
+	make prefix=$PKG/usr/ install
+}
+

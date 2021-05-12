@@ -1,0 +1,12 @@
+# description	: Tool for enabling and disabling wireless devices
+
+name=rfkill
+version=1.0
+release=1
+source="http://www.kernel.org/pub/software/network/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	make
+	make DESTDIR=$PKG install
+}

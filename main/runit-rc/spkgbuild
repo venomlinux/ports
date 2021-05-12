@@ -1,0 +1,24 @@
+# description	: Runit scripts for Venom Linux
+# depends	: runit
+
+name=runit-rc
+version=20200403
+release=2
+backup="etc/runit/rc.startup.local
+	etc/runit/rc.shutdown.local
+	etc/runit/runit.conf"
+source="https://github.com/venomlinux/runit-rc/archive/$version/$name-$version.tar.gz
+	https://github.com/venomlinux/runit-rc/commit/40b4b3892256a2e466686e1514253d70cc8f75d5.patch"
+
+build() {
+	cd $name-$version
+	patch -Np1 -i ../40b4b3892256a2e466686e1514253d70cc8f75d5.patch
+	make CC=${CC:-gcc}
+	make CC=${CC:-gcc} DESTDIR=$PKG install
+	ln -s runit-init $PKG/sbin/init
+	for i in $(seq 6); do
+		ln -sf /etc/sv/getty-tty$i $PKG/etc/runit/runsvdir/default
+		ln -s /run/runit/supervise.getty-tty$i $PKG/etc/sv/getty-tty$i/supervise
+	done
+	ln -s /run/runit/supervise.sulogin $PKG/etc/sv/sulogin/supervise
+}

@@ -1,0 +1,12 @@
+# description	: A lossless image format
+# depends	: libpng libjpeg-turbo
+
+name=farbfeld
+version=4
+release=1
+source="https://dl.suckless.org/farbfeld/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make PREFIX=/usr DESTDIR=$PKG install
+}

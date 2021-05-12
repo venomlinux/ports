@@ -1,0 +1,33 @@
+#!/bin/sh	
+#	
+# /etc/rc.d/slim: start/stop Slim Display Manager	
+#	
+
+. /etc/rc.subr
+
+PROG=/usr/bin/slim
+OPTS="-d"
+	
+case $1 in	
+	start)	
+		msg "Starting Slim Display Manager..."	
+		start_daemon $PROG $OPTS
+		;;	
+	stop)	
+		msg "Stopping Slim Display Manager..."	
+		stop_daemon $PROG
+		;;	
+	restart)	
+		$0 stop	
+		sleep 1	
+		$0 start	
+		;;	
+	status)	
+		status_daemon $PROG
+		;;	
+	*)	
+		echo "Usage: $0 [start|stop|restart|status]"	
+		;;	
+esac
+
+# End of file

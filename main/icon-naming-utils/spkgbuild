@@ -1,0 +1,15 @@
+# description	: Perl script used for maintaining backwards compatibility with current desktop icon themes
+# depends	: perl-xml-simple
+
+name=icon-naming-utils
+version=0.8.90
+release=2
+source="http://tango.freedesktop.org/releases/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --libexecdir=/usr/lib/$name
+	make
+	make DESTDIR=$PKG install
+}

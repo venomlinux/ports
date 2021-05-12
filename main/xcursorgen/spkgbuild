@@ -1,0 +1,19 @@
+# description	: Create an X cursor file from PNG images
+# depends	: libx11 libxcursor libpng zlib 
+
+name=xcursorgen
+version=1.0.7
+release=1
+source="http://ftp.x.org/pub/individual/app/xcursorgen-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

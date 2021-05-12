@@ -1,0 +1,17 @@
+# description	: Low level library that handles the details of audio and video formats
+# depends	: libpng
+
+name=gavl
+version=1.4.0
+release=1
+source="https://downloads.sourceforge.net/gmerlin/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	LIBS=-lm \
+	./configure --prefix=/usr     \
+	            --without-doxygen
+	make
+	make DESTDIR=$PKG install
+}

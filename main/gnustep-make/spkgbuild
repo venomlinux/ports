@@ -1,0 +1,26 @@
+# description	: The GNUstep make package
+
+name=gnustep-make
+version=2.9.0
+_version=$(echo $version | sed 's/\./_/g')
+release=1
+backup="etc/GNUstep/GNUstep.conf"
+source="https://github.com/gnustep/tools-make/archive/make-${_version}.tar.gz"
+
+build() {
+	cd tools-make-make-${_version}
+
+	cat > which <<EOF
+#!/bin/sh
+type -p \$1
+EOF
+
+chmod +x which
+export PATH=$PATH:$PWD
+
+	./configure \
+		--prefix=/usr \
+		--enable-native-objc-exceptions
+	make
+	make DESTDIR=$PKG install
+}

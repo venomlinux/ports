@@ -1,0 +1,20 @@
+# description	: Gtk 2 GUI for other command line tools that can create, reorganise or delete disk partitions
+# depends	: gtkmm3 parted polkit
+
+name=gparted
+version=1.2.0
+release=2
+source="https://sourceforge.net/projects/gparted/files/gparted/gparted-$version/gparted-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --disable-doc \
+		    --disable-nls \
+		    --enable-libparted-dmraid \
+		    --enable-xhost-root \
+	            --disable-static
+	make
+	make DESTDIR=$PKG install
+}

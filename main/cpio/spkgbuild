@@ -1,0 +1,21 @@
+# description	: Tools for archiving
+
+name=cpio
+version=2.13
+release=2
+source="https://ftp.gnu.org/gnu/cpio/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	export CFLAGS="$CFLAGS -fcommon"
+
+	./configure --prefix=/usr \
+	            --bindir=/bin \
+	            --enable-mt   \
+		    --disable-nls \
+	            --with-rmt=/usr/lib/tar/rmt
+	make
+	make DESTDIR=$PKG install
+
+}

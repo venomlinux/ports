@@ -1,0 +1,14 @@
+# description	: The PyPA recommended tool for installing Python packages
+# depends	: python2 python2-setuptools
+
+name=python2-pip
+version=20.1.1
+release=1
+source="https://pypi.io/packages/source/p/pip/pip-${version}.tar.gz"
+
+build() {
+	cd pip-$version
+	python2 setup.py build
+	python2 setup.py install --prefix=/usr --root="$PKG"
+	mv $PKG/usr/bin/pip $PKG/usr/bin/pip-py2
+}

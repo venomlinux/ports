@@ -1,0 +1,18 @@
+# description	: Elegant, simple, clean dock
+# depends	: atk bamf cairo gdk-pixbuf glib gtk3 libgee libwnck3 libx11 libxfixes libxi pango gnome-common intltool vala gnome-menus
+
+name=plank
+version=0.11.89
+release=1
+source="https://launchpad.net/plank/1.0/$version/+download/plank-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure \
+	    --prefix=/usr \
+	    --sysconfdir=/etc \
+	    --disable-apport \
+	    --disable-nls
+	make
+	make DESTDIR=$PKG install
+}

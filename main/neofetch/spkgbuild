@@ -1,0 +1,12 @@
+# description	: A CLI system information tool written in BASH that supports displaying images
+# depends	: bash lsb-release
+
+name=neofetch
+version=7.1.0
+release=2
+source="$name-$version.tar.gz::https://github.com/dylanaraps/$name/archive/$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make DESTDIR=$PKG install
+}

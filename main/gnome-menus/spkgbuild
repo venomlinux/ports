@@ -1,0 +1,18 @@
+# description	: Implementation of the draft Desktop Menu Specification from freedesktop.org
+# depends	: gobject-introspection glib
+
+name=gnome-menus
+version=3.36.0
+release=1
+source="http://ftp.gnome.org/pub/gnome/sources/gnome-menus/${version%.*}/gnome-menus-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+
+}

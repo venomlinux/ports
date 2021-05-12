@@ -1,0 +1,20 @@
+# description	: Simple API for XML
+# depends	: perl perl-xml-namespacesupport perl-xml-sax-base
+
+name=perl-xml-sax
+version=1.02
+release=1
+source="http://search.cpan.org/CPAN/authors/id/G/GR/GRANTM/XML-SAX-$version.tar.gz"
+
+build() {
+	cd XML-SAX-$version
+
+	#patch -Np1 -i $SRC/perl-xml-sax.patch
+
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make
+	PERLLIB=blib/lib make install DESTDIR=$PKG
+
+	find $PKG -name '.packlist' -delete
+	find $PKG -name '*.pod' -delete
+}

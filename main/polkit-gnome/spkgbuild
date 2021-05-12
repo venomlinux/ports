@@ -1,0 +1,31 @@
+# description	: Authentication Agent for Polkit that integrates well with the GNOME Desktop environment
+# depends	: gtk3 polkit
+
+name=polkit-gnome
+version=0.105
+release=2
+source="https://ftp.gnome.org/pub/gnome/sources/$name/$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --libexecdir=/usr/lib/$name
+	make
+	make DESTDIR=$PKG install
+
+install -d $PKG/etc/xdg/autostart
+cat > $PKG/etc/xdg/autostart/polkit-gnome-authentication-agent-1.desktop << "EOF"
+[Desktop Entry]
+Name=PolicyKit Authentication Agent
+Comment=PolicyKit Authentication Agent
+Exec=/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+Terminal=false
+Type=Application
+Categories=
+NoDisplay=true
+OnlyShowIn=GNOME;XFCE;Unity;
+AutostartCondition=GNOME3 unless-session gnome
+EOF
+
+
+}

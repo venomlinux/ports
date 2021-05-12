@@ -1,0 +1,13 @@
+# description	: Python3 library to access freedesktop.org standards
+# depends	: python3
+
+name=python3-xdg
+version=0.25
+release=1
+source="https://people.freedesktop.org/~takluyver/pyxdg-$version.tar.gz"
+
+build() {
+	cd pyxdg-$version
+	python3 setup.py install --optimize=1 --root=$PKG
+}
+

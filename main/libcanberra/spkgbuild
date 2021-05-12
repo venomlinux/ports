@@ -1,0 +1,16 @@
+# description	: Implementation of the XDG Sound Theme and Name Specifications, for generating event sounds on free desktops
+# depends	: libvorbis alsa-lib gstreamer gtk3
+
+name=libcanberra
+version=0.30
+release=1
+source="http://0pointer.de/lennart/projects/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-oss
+	make
+	make -j1 DESTDIR=$PKG install
+
+}

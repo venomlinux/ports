@@ -1,0 +1,30 @@
+# description	: Library for passing menus over DBus
+# depends	: vala gobject-introspection glib gtk3
+
+name=libdbusmenu
+version=16.04.0
+release=1
+source="https://launchpad.net/libdbusmenu/${version%.*}/$version/+download/libdbusmenu-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	sed -i 's/-Werror//' libdbusmenu-*/Makefile.am
+	sed -i 's/-Werror//' libdbusmenu-*/Makefile.in
+
+	export HAVE_VALGRIND_TRUE='#'
+	export HAVE_VALGRIND_FALSE=''
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name \
+		--localstatedir=/var \
+		--disable-dumper \
+		--disable-static \
+		--disable-tests \
+		--with-gtk=3
+	make
+	make -j1 DESTDIR=$PKG install
+
+}

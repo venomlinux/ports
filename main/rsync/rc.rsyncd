@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+# /etc/rc.d/rsync: start/stop RSYNC Server
+#
+
+. /etc/rc.subr
+
+NAME="RSYNC Server"
+PROG=/usr/bin/rsync
+OPTS="--daemon"
+
+case $1 in
+	start)
+		msg "Starting $NAME..."
+		start_daemon $PROG $OPTS
+		;;
+	stop)
+		msg "Stopping $NAME..."
+		stop_daemon $PROG
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		status_daemon $PROG
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+# End of file

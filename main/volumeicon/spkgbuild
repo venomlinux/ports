@@ -1,0 +1,16 @@
+# description	: Volume control for your system tray
+# depends	: gtk3 alsa-lib libnotify
+
+name=volumeicon
+version=0.5.1
+release=1
+source="http://nullwise.com/files/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+  	./configure --prefix=/usr --enable-notify
+	make
+	make DESTDIR=$PKG install
+
+}

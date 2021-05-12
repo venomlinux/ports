@@ -1,0 +1,13 @@
+# description	: A generic menu for X
+# depends	: freetype2 libxft libxinerama
+
+name=dmenu
+version=5.0
+release=1
+source="http://dl.suckless.org/tools/dmenu-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make
+	make DESTDIR=$PKG PREFIX=/usr install
+}

@@ -1,0 +1,21 @@
+# description	: X11 toolkit intrinsics library
+# depends	: libsm libice libx11 
+
+name=libxt
+version=1.2.1
+release=1
+source="http://ftp.x.org/pub/individual/lib/libXt-$version.tar.bz2"
+
+build() {
+	cd libXt-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --disable-static \
+		--with-appdefaultdir=/etc/X11/app-defaults
+	make
+	make DESTDIR=$PKG install
+
+}

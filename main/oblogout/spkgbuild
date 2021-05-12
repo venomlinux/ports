@@ -1,0 +1,17 @@
+# description	: Openbox logout script
+# depends	: python2 python2-distutils-extra python2-gtk python2-pillow python2-dbus
+
+name=oblogout
+version=0.2
+release=1
+backup="etc/oblogout.conf"
+source="https://launchpad.net/oblogout/$version/$version.0/+download/$name-$version.tar.bz2
+	$name.patch
+	$name.conf"
+
+build() {
+	cd $name
+	patch -Np0 -i ../$name.patch
+	python2 setup.py install --root=$PKG
+	install -m644 $SRC/oblogout.conf $PKG/etc/
+}

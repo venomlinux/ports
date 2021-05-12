@@ -1,0 +1,15 @@
+# description	: MATE themes
+# depends	: gtk2
+
+name=mate-themes
+version=3.22.21
+release=1
+source="https://pub.mate-desktop.org/releases/themes/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-nls
+	make
+	make DESTDIR=$PKG install
+}
+

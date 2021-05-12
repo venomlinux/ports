@@ -1,0 +1,19 @@
+# description	: X11 Composite extension library
+# depends	: libx11 libxfixes
+
+name=libxcomposite
+version=0.4.5
+release=1
+source="http://ftp.x.org/pub/individual/lib/libXcomposite-$version.tar.bz2"
+
+build() {
+	cd libXcomposite-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}

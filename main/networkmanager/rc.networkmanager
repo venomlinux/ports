@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# /etc/rc.d/networkmanager: start/stop Network Manager
+#
+
+. /etc/rc.subr
+
+NAME="Network Manager"
+PROG=/usr/sbin/NetworkManager
+PIDFILE=/var/run/$PROGNAME/$PROGNAME.pid
+
+case $1 in
+	start)
+		msg "Starting $NAME..."
+		if [ ! -d /var/run/NetworkManager ]; then
+			install -d -o root -g root -m 755 /var/run/NetworkManager
+		fi
+		start_daemon $PROG
+		;;
+	stop)
+		msg "Stopping $NAME..."
+		stop_daemon $PROG
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		status_daemon $PROG
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+# End of file

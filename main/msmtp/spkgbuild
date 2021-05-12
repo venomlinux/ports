@@ -1,0 +1,16 @@
+# description	: An SMTP client suitable for use with mutt etc.
+# depends	: openssl
+
+name=msmtp
+version=1.8.14
+release=1
+source="https://marlam.de/$name/releases/$name-$version.tar.xz"
+
+build() {
+    cd $name-$version
+    ./configure --prefix=/usr \
+                --with-tls=openssl \
+                --disable-nls
+    make
+    make DESTDIR=$PKG install
+}

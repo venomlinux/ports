@@ -1,0 +1,17 @@
+# description	: Themes for SMPlayer
+# depends	: smplayer optipng
+
+name=smplayer-themes
+version=20.11.0
+release=1
+source="https://downloads.sourceforge.net/smplayer/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	# Fix invalid PNG icons to work with libpng 1.6
+	find -name '*.png' -exec optipng -quiet -force -fix {} +
+	
+	make PREFIX=/usr
+	make DESTDIR=$PKG PREFIX=/usr install
+}

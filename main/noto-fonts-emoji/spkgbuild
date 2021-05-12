@@ -1,0 +1,13 @@
+# description	: Google Noto emoji fonts 
+
+name=noto-fonts-emoji
+version=20200916
+_commit=565d292c31e3446ec3d9b42f6fa1285f14ae0b0d
+release=1
+source="$name-$version.zip::https://github.com/googlei18n/noto-emoji/archive/$_commit.zip"
+
+build() {
+	cd noto-emoji-*
+	mkdir -p "$PKG"/usr/share/fonts/noto
+	install -m644 fonts/NotoColorEmoji.ttf "$PKG"/usr/share/fonts/noto
+}

@@ -1,0 +1,21 @@
+# description	: Window manager for Xfce
+# depends	: libwnck3 libxfce4ui libxfce4util startup-notification libxcomposite
+
+name=xfwm4
+version=4.16.1
+release=1
+source="http://archive.xfce.org/src/xfce/xfwm4/${version%.*}/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--enable-randr \
+		--enable-compositor \
+		--enable-xsync \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+
+}

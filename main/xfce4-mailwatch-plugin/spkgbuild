@@ -1,0 +1,22 @@
+# description	: Multi-protocol, multi-mailbox mail watcher for the Xfce4 panel
+# depends	: xfce4-panel intltool
+
+name=xfce4-mailwatch-plugin
+version=1.3.0
+release=1
+source="http://archive.xfce.org/src/panel-plugins/xfce4-mailwatch-plugin/${version%.*}/xfce4-mailwatch-plugin-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib \
+		--localstatedir=/var \
+		--disable-static \
+		--disable-debug \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+
+}

@@ -1,0 +1,27 @@
+# description	: Mozilla's JavaScript engine written in C
+# depends	: gcc yasm icu nspr autoconf2.13 python2
+
+name=js60
+version=60.1.0
+release=1
+source="https://ftp.gnome.org/pub/gnome/teams/releng/tarballs-needing-help/mozjs/mozjs-$version.tar.bz2"
+
+build() {
+	cd mozjs-$version
+
+	mkdir mozjs-build
+	cd    mozjs-build
+
+	export SHELL=/bin/sh
+
+	../js/src/configure \
+		--prefix=/usr \
+		--with-intl-api \
+		--with-system-zlib \
+		--with-system-nspr \
+		--with-system-icu \
+		--disable-jemalloc \
+		--enable-readline
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,20 @@
+# description	: Text-based addressbook designed for use with Mutt 
+# depends	: git
+
+name=abook
+version=0.6.1
+release=1
+source="http://abook.sourceforge.net/devel/${name}-${version}.tar.gz
+gcc5.patch"
+
+build() {
+	cd $name-$version
+	aclocal && automake --add-missing && autoconf
+	sed 's/0.18/0.20/g' -i po/Makefile.in.in
+	patch -p1 -i ../gcc5.patch
+
+	./configure --prefix=/usr --mandir=/usr/share/man
+	make
+	make DESTDIR="${PKG}" install
+
+}

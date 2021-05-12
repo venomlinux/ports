@@ -1,0 +1,19 @@
+# description	: X11 Distributed Multihead extension library
+# depends	: libx11 libxext 
+
+name=libdmx
+version=1.1.4
+release=1
+source="http://ftp.x.org/pub/individual/lib/libdmx-$version.tar.bz2"
+
+build() {
+	cd libdmx-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+}

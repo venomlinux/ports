@@ -1,0 +1,21 @@
+# description	: X Rendering Extension client library
+# depends	: libx11 
+
+name=libxrender
+version=0.9.10
+release=1
+source="http://ftp.x.org/pub/individual/lib/libXrender-$version.tar.bz2"
+
+build() {
+	cd libXrender-$version
+
+	./configure \
+		--prefix=/usr \
+                --sysconfdir=/etc \
+                --localstatedir=/var \
+                --disable-static
+	make
+	make DESTDIR=$PKG install
+
+
+}

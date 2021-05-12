@@ -1,0 +1,20 @@
+# description	: Free software libraries written using the Qt framework
+# depends	: qt5 cmake
+
+name=grantlee
+version=5.2.0
+release=1
+source="http://downloads.grantlee.org/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DCMAKE_BUILD_TYPE=Release  \
+	      ..
+	make
+	make DESTDIR=$PKG install
+}

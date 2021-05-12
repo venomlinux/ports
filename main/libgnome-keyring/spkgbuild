@@ -1,0 +1,24 @@
+# description	: GNOME keyring client library
+# depends	: glib dbus libgcrypt libgpg-error vala gobject-introspection intltool
+
+name=libgnome-keyring
+version=3.12.0
+release=2
+source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	# fix vapi build with vala 0.42
+	sed -i 's/unlock skip=false/@unlock skip=false/' library/GnomeKeyring-1.0.metadata
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static \
+		--libexecdir=/usr/lib/gnome-keyring
+	make
+	make DESTDIR=$PKG install
+
+}

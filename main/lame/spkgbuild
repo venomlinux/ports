@@ -1,0 +1,19 @@
+# description	: An MP3 encoder and optionally, an MP3 frame analyzer
+# depends	: ncurses
+
+name=lame
+version=3.100
+release=1
+source="https://downloads.sourceforge.net/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--enable-mp3rtp \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+
+}

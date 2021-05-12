@@ -1,0 +1,13 @@
+# description	: Backport of the PEP 362 function signature features from Python 3.3's inspect module for Python 2.x
+# depends	: python2-setuptools
+
+name=python2-funcsigs
+version=1.0.2
+release=1
+source="https://files.pythonhosted.org/packages/source/f/funcsigs/funcsigs-$version.tar.gz"
+
+build() {
+	cd funcsigs-$version
+	python2 setup.py install --root=$PKG --optimize=1
+}
+

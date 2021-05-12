@@ -1,0 +1,24 @@
+# description	: Program to easily change brightness on backlight-controllers
+# depends	: help2man
+
+name=light
+version=1.2.2
+release=2
+source="$name-$version.tar.gz::https://github.com/haikarainen/light/archive/v$version.tar.gz
+	rc.$name"
+
+build() {
+	cd $name-$version
+
+	# fix build with gcc-10
+	export CFLAGS="$CFLAGS -fcommon"
+
+	./autogen.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+
+}

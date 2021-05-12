@@ -1,0 +1,15 @@
+# description	: Perl HTML parser class
+# depends	: perl-html-tagset
+
+name=perl-html-parser
+version=3.72
+release=1
+source="https://www.cpan.org/authors/id/G/GA/GAAS/HTML-Parser-$version.tar.gz"
+
+build() {
+	cd HTML-Parser-$version
+	perl Makefile.PL INSTALLDIRS=vendor
+	make
+	make DESTDIR=$PKG install
+	find $PKG -name *.pod -delete
+}

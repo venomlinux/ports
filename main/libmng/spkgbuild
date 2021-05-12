@@ -1,0 +1,16 @@
+# description	: Read and write Multiple-image Network Graphics (MNG)
+# depends	: lcms2 libjpeg-turbo
+
+name=libmng
+version=2.0.3
+release=1
+source="https://downloads.sourceforge.net/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+}
+

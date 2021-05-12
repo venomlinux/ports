@@ -1,0 +1,23 @@
+# description	: The Tcl scripting language
+# depends	: zlib
+
+name=tcl
+version=8.6.11
+release=1
+source="https://downloads.sourceforge.net/tcl/tcl$version-src.tar.gz"
+
+build() {
+	cd $name$version/unix
+
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/share/man \
+		--without-tzdata
+	make
+	make INSTALL_ROOT=$PKG install install-private-headers
+
+	ln -sv tclsh8.6 $PKG/usr/bin/tclsh
+
+	# conflict with perl
+	rm $PKG/usr/share/man/man3/Thread.3
+}

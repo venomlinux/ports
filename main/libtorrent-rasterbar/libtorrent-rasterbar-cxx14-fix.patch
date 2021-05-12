@@ -1,0 +1,737 @@
+From ec286b37283a2bc03cf8b0b6ae72e920265eb754 Mon Sep 17 00:00:00 2001
+From: Nam Nguyen <namn@berkeley.edu>
+Date: Fri, 21 Aug 2020 09:01:40 +0000
+Subject: [PATCH 01/10] Use ax_cxx_compile_stdcxx.m4 and move to c++14 Use
+ ax_cxx_compile_stdcxx.m4 instead of ax_cxx_compile_stdcxx_11.m4. Use c++14
+ instead of c++11.
+
+---
+ configure.ac | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 0b9b0c446b..c037607874 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -143,8 +143,7 @@ AS_ECHO
+ AS_ECHO "Checking for boost libraries:"
+ 
+ AX_BOOST_BASE([1.58])
+-
+-AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
++AX_CXX_COMPILE_STDCXX(14, [noext], [mandatory])
+ 
+ AX_BOOST_SYSTEM()
+ AS_IF([test -z "$BOOST_SYSTEM_LIB"],
+
+From a9012add4018381ce50b83a81980b2fd7831606b Mon Sep 17 00:00:00 2001
+From: Nam Nguyen <namn@berkeley.edu>
+Date: Fri, 21 Aug 2020 21:35:37 +0000
+Subject: [PATCH 02/10] add --with-std=c++14 configure switch --with-std=c++14
+ allows the user to specify what C++ standard to use. It supports
+ {c,gnu}++{11,14,17}. If unspecified the default is c++11. Either
+ AX_CXX_COMPILE_STDCXX_11 or AX_CXX_COMPILE_STDCXX are called appropriately.
+
+---
+ configure.ac | 37 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index c037607874..c7ee9b8edd 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -143,7 +143,41 @@ AS_ECHO
+ AS_ECHO "Checking for boost libraries:"
+ 
+ AX_BOOST_BASE([1.58])
+-AX_CXX_COMPILE_STDCXX(14, [noext], [mandatory])
++
++AC_ARG_WITH(
++  [std],
++  [AS_HELP_STRING(
++    [--with-std[=ARG]],
++    [specify C++ standard (e.g., c++14 or gnu++11) [default=c++11]])],
++  [[ARG_STD=$withval]],
++  [[ARG_STD=c++11]]
++)
++
++AC_MSG_CHECKING([which c++ standard to use])
++AS_CASE(["$ARG_STD"],
++  ["c++17"|"C++17"], [
++      AC_MSG_RESULT([-std=c++17])
++      AX_CXX_COMPILE_STDCXX(17, [noext], [mandatory])
++    ],
++  ["gnu++17"], [
++      AC_MSG_RESULT([-std=gnu++17])
++      AX_CXX_COMPILE_STDCXX(17, [ext], [mandatory])
++    ],
++  ["c++14"|"C++14"], [
++      AC_MSG_RESULT([-std=c++14])
++      AX_CXX_COMPILE_STDCXX(14, [noext], [mandatory])
++    ],
++  [gnu++14], [
++      AC_MSG_RESULT([-std=gnu++14])
++      AX_CXX_COMPILE_STDCXX(14, [ext], [mandatory])
++    ],
++  [gnu++11], [
++      AC_MSG_RESULT([-std=gnu++11])
++      AX_CXX_COMPILE_STDCXX_11([ext], [mandatory])
++    ],
++  [AC_MSG_RESULT([-std=c++11])
++   AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])]
++)
+ 
+ AX_BOOST_SYSTEM()
+ AS_IF([test -z "$BOOST_SYSTEM_LIB"],
+@@ -589,6 +623,7 @@ Build options:
+   debug build:          ${ARG_ENABLE_DEBUG:-no}
+   invariant checks:     ${ARG_ENABLE_INVARIANT:-no}
+   logging support:      ${ARG_ENABLE_LOGGING:-yes}
++  with std:             ${ARG_STD:-c++11}
+ 
+ Features:
+   encryption support:   ${ARG_ENABLE_ENCRYPTION:-yes}
+
+From bca36cdcce209d1dfb473eab2e049ccf29b8a72e Mon Sep 17 00:00:00 2001
+From: Nam Nguyen <namn@berkeley.edu>
+Date: Fri, 21 Aug 2020 21:53:20 +0000
+Subject: [PATCH 03/10] add quotes
+
+---
+ configure.ac | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index c7ee9b8edd..ba9b02106a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -167,11 +167,11 @@ AS_CASE(["$ARG_STD"],
+       AC_MSG_RESULT([-std=c++14])
+       AX_CXX_COMPILE_STDCXX(14, [noext], [mandatory])
+     ],
+-  [gnu++14], [
++  ["gnu++14"], [
+       AC_MSG_RESULT([-std=gnu++14])
+       AX_CXX_COMPILE_STDCXX(14, [ext], [mandatory])
+     ],
+-  [gnu++11], [
++  ["gnu++11"], [
+       AC_MSG_RESULT([-std=gnu++11])
+       AX_CXX_COMPILE_STDCXX_11([ext], [mandatory])
+     ],
+
+From bf6ed65a4068071a6b8565128f8cebd3f29fef55 Mon Sep 17 00:00:00 2001
+From: Nam Nguyen <namn@berkeley.edu>
+Date: Fri, 21 Aug 2020 23:07:08 +0000
+Subject: [PATCH 04/10] capitalization
+
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index ba9b02106a..6ea4a4fde2 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -153,7 +153,7 @@ AC_ARG_WITH(
+   [[ARG_STD=c++11]]
+ )
+ 
+-AC_MSG_CHECKING([which c++ standard to use])
++AC_MSG_CHECKING([which C++ standard to use])
+ AS_CASE(["$ARG_STD"],
+   ["c++17"|"C++17"], [
+       AC_MSG_RESULT([-std=c++17])
+
+From feb65af2bd7db89af0ad5ef57dfd669591742bb4 Mon Sep 17 00:00:00 2001
+From: Nam Nguyen <namn@berkeley.edu>
+Date: Sat, 22 Aug 2020 08:51:12 +0000
+Subject: [PATCH 05/10] add --with-cxx-standard=14 configure switch C++
+ standard is specified by 11, 14 or 17. Either AX_CXX_COMPILE_STDCXX_11 or
+ AX_CXX_COMPILE_STDCXX are called appropriately.
+
+---
+ configure.ac                | 64 ++++++++++++++++++++-----------------
+ m4/ax_cxx_compile_stdcxx.m4 | 36 ++++++++++++---------
+ 2 files changed, 55 insertions(+), 45 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 6ea4a4fde2..2f0a4326f2 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -145,39 +145,43 @@ AS_ECHO "Checking for boost libraries:"
+ AX_BOOST_BASE([1.58])
+ 
+ AC_ARG_WITH(
+-  [std],
++  [cxx-standard],
+   [AS_HELP_STRING(
+-    [--with-std[=ARG]],
+-    [specify C++ standard (e.g., c++14 or gnu++11) [default=c++11]])],
+-  [[ARG_STD=$withval]],
+-  [[ARG_STD=c++11]]
++    [--with-cxx-std[=ARG]],
++    [specify C++ standard (e.g., 11, 14 or 17) [default=11]])],
++  [[ARG_CXX_STANDARD=$withval]],
++  [[ARG_CXX_STANDARD=reverting to compiler default]]
+ )
+ 
+ AC_MSG_CHECKING([which C++ standard to use])
+-AS_CASE(["$ARG_STD"],
+-  ["c++17"|"C++17"], [
+-      AC_MSG_RESULT([-std=c++17])
+-      AX_CXX_COMPILE_STDCXX(17, [noext], [mandatory])
+-    ],
+-  ["gnu++17"], [
+-      AC_MSG_RESULT([-std=gnu++17])
+-      AX_CXX_COMPILE_STDCXX(17, [ext], [mandatory])
+-    ],
+-  ["c++14"|"C++14"], [
+-      AC_MSG_RESULT([-std=c++14])
+-      AX_CXX_COMPILE_STDCXX(14, [noext], [mandatory])
+-    ],
+-  ["gnu++14"], [
+-      AC_MSG_RESULT([-std=gnu++14])
+-      AX_CXX_COMPILE_STDCXX(14, [ext], [mandatory])
+-    ],
+-  ["gnu++11"], [
+-      AC_MSG_RESULT([-std=gnu++11])
+-      AX_CXX_COMPILE_STDCXX_11([ext], [mandatory])
+-    ],
+-  [AC_MSG_RESULT([-std=c++11])
+-   AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])]
+-)
++if test "x${ARG_CXX_STANDARD}" = "x17" ; then
++  AX_CXX_COMPILE_STDCXX(17, [noext], [optional], [setcxx])
++elif test "x${ARG_CXX_STANDARD}" = "x14" ; then
++  AX_CXX_COMPILE_STDCXX(14, [noext], [optional], [setcxx])
++elif test "x${ARG_CXX_STANDARD}" = "x11" ; then
++  AX_CXX_COMPILE_STDCXX(11, [noext], [optional], [setcxx])
++else
++  dnl nothing specified so use compiler's default C++ dialect
++  AX_CXX_COMPILE_STDCXX(17, [noext], [optional], [])
++  AX_CXX_COMPILE_STDCXX(14, [noext], [optional], [])
++  AX_CXX_COMPILE_STDCXX(11, [noext], [optional], [])
++  if test "x${HAVE_CXX17}" = "x1" ; then
++    CXX="$CXX -std=c++17"
++    if test -n "$CXXCPP" ; then
++      CXXCPP="$CXXCPP -std=c++17"
++    fi
++  elif test "x${HAVE_CXX14}" = "x1" ; then
++    CXX="$CXX -std=c++14"
++    if test -n "$CXXCPP" ; then
++      CXXCPP="$CXXCPP -std=c++14"
++    fi
++  else
++    CXX="$CXX -std=c++11"
++    if test -n "$CXXCPP" ; then
++      CXXCPP="$CXXCPP -std=c++11"
++    fi
++  fi
++fi
+ 
+ AX_BOOST_SYSTEM()
+ AS_IF([test -z "$BOOST_SYSTEM_LIB"],
+@@ -623,7 +627,7 @@ Build options:
+   debug build:          ${ARG_ENABLE_DEBUG:-no}
+   invariant checks:     ${ARG_ENABLE_INVARIANT:-no}
+   logging support:      ${ARG_ENABLE_LOGGING:-yes}
+-  with std:             ${ARG_STD:-c++11}
++  with std:             ${ARG_CXX_STANDARD:-default}
+ 
+ Features:
+   encryption support:   ${ARG_ENABLE_ENCRYPTION:-yes}
+diff --git a/m4/ax_cxx_compile_stdcxx.m4 b/m4/ax_cxx_compile_stdcxx.m4
+index 43087b2e68..69989d59d7 100644
+--- a/m4/ax_cxx_compile_stdcxx.m4
++++ b/m4/ax_cxx_compile_stdcxx.m4
+@@ -4,7 +4,7 @@
+ #
+ # SYNOPSIS
+ #
+-#   AX_CXX_COMPILE_STDCXX(VERSION, [ext|noext], [mandatory|optional])
++#   AX_CXX_COMPILE_STDCXX(VERSION, [ext|noext], [mandatory|optional], [setcxx])
+ #
+ # DESCRIPTION
+ #
+@@ -25,6 +25,12 @@
+ #   regardless, after defining HAVE_CXX${VERSION} if and only if a
+ #   supporting mode is found.
+ #
++#   The fourth argument, if left unspecified, skips over setting the various
++#   -std combinations and skips over setting CXX and CXXCPP. If specified
++#   'setcxx' it will restore the default behavior. This argument is augmented
++#   for libtorrent-rasterbar and does not exist in the stock m4 interface.
++#   Skipping over setting CXX is useful for detecting the default C++ dialect.
++#
+ # LICENSE
+ #
+ #   Copyright (c) 2008 Benjamin Kosnik <bkoz@redhat.com>
+@@ -69,17 +75,17 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
+       cachevar=AS_TR_SH([ax_cv_cxx_compile_cxx$1_$switch])
+       AC_CACHE_CHECK(whether $CXX supports C++$1 features with $switch,
+                      $cachevar,
+-        [ac_save_CXX="$CXX"
+-         CXX="$CXX $switch"
++        [ifelse([$4], [setcxx], [ac_save_CXX="$CXX" CXX="$CXX $switch"], [])
+          AC_COMPILE_IFELSE([AC_LANG_SOURCE([_AX_CXX_COMPILE_STDCXX_testbody_$1])],
+           [eval $cachevar=yes],
+           [eval $cachevar=no])
+-         CXX="$ac_save_CXX"])
++         ifelse([$4], [setcxx], [CXX="$ac_save_CXX"], [])])
+       if eval test x\$$cachevar = xyes; then
+-        CXX="$CXX $switch"
+-        if test -n "$CXXCPP" ; then
+-          CXXCPP="$CXXCPP $switch"
+-        fi
++	ifelse([$4], [setcxx],
++               [CXX="$CXX $switch"
++               if test -n "$CXXCPP" ; then
++                 CXXCPP="$CXXCPP $switch"
++               fi], [])
+         ac_success=yes
+         break
+       fi
+@@ -96,17 +102,17 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
+         cachevar=AS_TR_SH([ax_cv_cxx_compile_cxx$1_$switch])
+         AC_CACHE_CHECK(whether $CXX supports C++$1 features with $switch,
+                        $cachevar,
+-          [ac_save_CXX="$CXX"
+-           CXX="$CXX $switch"
++          [ifelse([$4], [setcxx], [ac_save_CXX="$CXX" CXX="$CXX $switch"], [])
+            AC_COMPILE_IFELSE([AC_LANG_SOURCE([_AX_CXX_COMPILE_STDCXX_testbody_$1])],
+             [eval $cachevar=yes],
+             [eval $cachevar=no])
+-           CXX="$ac_save_CXX"])
++           ifelse([$4], [setcxx], [CXX="$ac_save_CXX"], [])])
+         if eval test x\$$cachevar = xyes; then
+-          CXX="$CXX $switch"
+-          if test -n "$CXXCPP" ; then
+-            CXXCPP="$CXXCPP $switch"
+-          fi
++	  ifelse([$4], [setcxx],
++               [CXX="$CXX $switch"
++               if test -n "$CXXCPP" ; then
++                 CXXCPP="$CXXCPP $switch"
++               fi], [])
+           ac_success=yes
+           break
+         fi
+
+From e7aeeaabd0ec6f623fd94d348e6db9312cb727c2 Mon Sep 17 00:00:00 2001
+From: Nam Nguyen <namn@berkeley.edu>
+Date: Sat, 22 Aug 2020 09:29:12 +0000
+Subject: [PATCH 06/10] typo with naming
+
+---
+ configure.ac | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 2f0a4326f2..7e48078a7c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -147,7 +147,7 @@ AX_BOOST_BASE([1.58])
+ AC_ARG_WITH(
+   [cxx-standard],
+   [AS_HELP_STRING(
+-    [--with-cxx-std[=ARG]],
++    [--with-cxx-standard[=ARG]],
+     [specify C++ standard (e.g., 11, 14 or 17) [default=11]])],
+   [[ARG_CXX_STANDARD=$withval]],
+   [[ARG_CXX_STANDARD=reverting to compiler default]]
+
+From 9b45e622d4a815d31f50f5e4fba6e4316fe14272 Mon Sep 17 00:00:00 2001
+From: Nam Nguyen <namn@berkeley.edu>
+Date: Sat, 22 Aug 2020 20:55:20 +0000
+Subject: [PATCH 07/10] invert behavior and be explicit with 'skip' argument
+ The 4th argument left unspecified means default behavior. 'skip' means to
+ skip setting CXX as should be done when detecting the default compiler.
+
+---
+ configure.ac                | 12 ++++++------
+ m4/ax_cxx_compile_stdcxx.m4 | 39 +++++++++++++++++++++----------------
+ 2 files changed, 28 insertions(+), 23 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 7e48078a7c..59b0d6603b 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -155,16 +155,16 @@ AC_ARG_WITH(
+ 
+ AC_MSG_CHECKING([which C++ standard to use])
+ if test "x${ARG_CXX_STANDARD}" = "x17" ; then
+-  AX_CXX_COMPILE_STDCXX(17, [noext], [optional], [setcxx])
++  AX_CXX_COMPILE_STDCXX(17, [noext], [optional], [])
+ elif test "x${ARG_CXX_STANDARD}" = "x14" ; then
+-  AX_CXX_COMPILE_STDCXX(14, [noext], [optional], [setcxx])
++  AX_CXX_COMPILE_STDCXX(14, [noext], [optional], [])
+ elif test "x${ARG_CXX_STANDARD}" = "x11" ; then
+-  AX_CXX_COMPILE_STDCXX(11, [noext], [optional], [setcxx])
++  AX_CXX_COMPILE_STDCXX(11, [noext], [optional], [])
+ else
+   dnl nothing specified so use compiler's default C++ dialect
+-  AX_CXX_COMPILE_STDCXX(17, [noext], [optional], [])
+-  AX_CXX_COMPILE_STDCXX(14, [noext], [optional], [])
+-  AX_CXX_COMPILE_STDCXX(11, [noext], [optional], [])
++  AX_CXX_COMPILE_STDCXX(17, [noext], [optional], [skip])
++  AX_CXX_COMPILE_STDCXX(14, [noext], [optional], [skip])
++  AX_CXX_COMPILE_STDCXX(11, [noext], [optional], [skip])
+   if test "x${HAVE_CXX17}" = "x1" ; then
+     CXX="$CXX -std=c++17"
+     if test -n "$CXXCPP" ; then
+diff --git a/m4/ax_cxx_compile_stdcxx.m4 b/m4/ax_cxx_compile_stdcxx.m4
+index 69989d59d7..50859df211 100644
+--- a/m4/ax_cxx_compile_stdcxx.m4
++++ b/m4/ax_cxx_compile_stdcxx.m4
+@@ -4,7 +4,7 @@
+ #
+ # SYNOPSIS
+ #
+-#   AX_CXX_COMPILE_STDCXX(VERSION, [ext|noext], [mandatory|optional], [setcxx])
++#   AX_CXX_COMPILE_STDCXX(VERSION, [ext|noext], [mandatory|optional], [skip])
+ #
+ # DESCRIPTION
+ #
+@@ -25,11 +25,11 @@
+ #   regardless, after defining HAVE_CXX${VERSION} if and only if a
+ #   supporting mode is found.
+ #
+-#   The fourth argument, if left unspecified, skips over setting the various
+-#   -std combinations and skips over setting CXX and CXXCPP. If specified
+-#   'setcxx' it will restore the default behavior. This argument is augmented
+-#   for libtorrent-rasterbar and does not exist in the stock m4 interface.
+-#   Skipping over setting CXX is useful for detecting the default C++ dialect.
++#   The fourth argument, if left unspecified, does the default behavior. If
++#   specified 'skip', it skips over setting the various -std combinations
++#   and skips over setting CXX and CXXCPP. This argument is augmented for
++#   libtorrent-rasterbar and does not exist in the stock m4 interface.
++#   Skipping is useful for detecting the default C++ dialect.
+ #
+ # LICENSE
+ #
+@@ -65,6 +65,9 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
+         [$3], [mandatory], [ax_cxx_compile_cxx$1_required=true],
+         [$3], [optional], [ax_cxx_compile_cxx$1_required=false],
+         [m4_fatal([invalid third argument `$3' to AX_CXX_COMPILE_STDCXX])])
++  m4_if([$4], [], [],
++        [$4], [skip], [],
++        [m4_fatal([invalid second argument `$4' to AX_CXX_COMPILE_STDCXX])])dnl
+   AC_LANG_PUSH([C++])dnl
+   ac_success=no
+ 
+@@ -75,17 +78,18 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
+       cachevar=AS_TR_SH([ax_cv_cxx_compile_cxx$1_$switch])
+       AC_CACHE_CHECK(whether $CXX supports C++$1 features with $switch,
+                      $cachevar,
+-        [ifelse([$4], [setcxx], [ac_save_CXX="$CXX" CXX="$CXX $switch"], [])
++        [ifelse([$4], [skip], [], [ac_save_CXX="$CXX" CXX="$CXX $switch"])
+          AC_COMPILE_IFELSE([AC_LANG_SOURCE([_AX_CXX_COMPILE_STDCXX_testbody_$1])],
+           [eval $cachevar=yes],
+           [eval $cachevar=no])
+-         ifelse([$4], [setcxx], [CXX="$ac_save_CXX"], [])])
++         ifelse([$4], [skip], [], [CXX="$ac_save_CXX"])])
+       if eval test x\$$cachevar = xyes; then
+-	ifelse([$4], [setcxx],
++	ifelse([$4], [skip],
++	       [],
+                [CXX="$CXX $switch"
+                if test -n "$CXXCPP" ; then
+                  CXXCPP="$CXXCPP $switch"
+-               fi], [])
++               fi])
+         ac_success=yes
+         break
+       fi
+@@ -102,17 +106,18 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
+         cachevar=AS_TR_SH([ax_cv_cxx_compile_cxx$1_$switch])
+         AC_CACHE_CHECK(whether $CXX supports C++$1 features with $switch,
+                        $cachevar,
+-          [ifelse([$4], [setcxx], [ac_save_CXX="$CXX" CXX="$CXX $switch"], [])
++          [ifelse([$4], [skip], [], [ac_save_CXX="$CXX" CXX="$CXX $switch"])
+            AC_COMPILE_IFELSE([AC_LANG_SOURCE([_AX_CXX_COMPILE_STDCXX_testbody_$1])],
+             [eval $cachevar=yes],
+             [eval $cachevar=no])
+-           ifelse([$4], [setcxx], [CXX="$ac_save_CXX"], [])])
++           ifelse([$4], [skip], [], [CXX="$ac_save_CXX"])])
+         if eval test x\$$cachevar = xyes; then
+-	  ifelse([$4], [setcxx],
+-               [CXX="$CXX $switch"
+-               if test -n "$CXXCPP" ; then
+-                 CXXCPP="$CXXCPP $switch"
+-               fi], [])
++	  ifelse([$4], [skip],
++	         [],
++                 [CXX="$CXX $switch"
++                 if test -n "$CXXCPP" ; then
++                   CXXCPP="$CXXCPP $switch"
++                 fi])
+           ac_success=yes
+           break
+         fi
+
+From 9c0a31ffb974a11a3ea00f96cfe45616cf75bcf4 Mon Sep 17 00:00:00 2001
+From: Nam Nguyen <namn@berkeley.edu>
+Date: Fri, 25 Sep 2020 09:30:52 +0000
+Subject: [PATCH 08/10] revert ax_cxx_compile_stdcxx.m4 to default
+
+---
+ configure.ac                | 53 ++++++++++++++++++++-----------------
+ m4/ax_cxx_compile_stdcxx.m4 | 41 +++++++++++-----------------
+ 2 files changed, 44 insertions(+), 50 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 59b0d6603b..b7eee17d99 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -150,36 +150,41 @@ AC_ARG_WITH(
+     [--with-cxx-standard[=ARG]],
+     [specify C++ standard (e.g., 11, 14 or 17) [default=11]])],
+   [[ARG_CXX_STANDARD=$withval]],
+-  [[ARG_CXX_STANDARD=reverting to compiler default]]
++  [[ARG_CXX_STANDARD=default]]
+ )
+ 
+-AC_MSG_CHECKING([which C++ standard to use])
++AC_MSG_CHECKING([which c++ standard to use])
+ if test "x${ARG_CXX_STANDARD}" = "x17" ; then
+-  AX_CXX_COMPILE_STDCXX(17, [noext], [optional], [])
++  AX_CXX_COMPILE_STDCXX(17, [noext], [optional])
+ elif test "x${ARG_CXX_STANDARD}" = "x14" ; then
+-  AX_CXX_COMPILE_STDCXX(14, [noext], [optional], [])
++  AX_CXX_COMPILE_STDCXX(14, [noext], [optional])
+ elif test "x${ARG_CXX_STANDARD}" = "x11" ; then
+-  AX_CXX_COMPILE_STDCXX(11, [noext], [optional], [])
++  AX_CXX_COMPILE_STDCXX_11([noext], [optional])
++elif test "${ARG_CXX_STANDARD}" -lt "11" ; then
++  dnl force 11 if user specified out of bounds, regardless of compiler default
++  ARG_CXX_STANDARD="11"
++  AX_CXX_COMPILE_STDCXX_11([noext], [optional])
++elif test "${ARG_CXX_STANDARD}" -gt "17" ; then
++  dnl force 11 if user specified out of bounds, regardless of compiler default
++  ARG_CXX_STANDARD="11"
++  AX_CXX_COMPILE_STDCXX_11([noext], [optional])
+ else
+-  dnl nothing specified so use compiler's default C++ dialect
+-  AX_CXX_COMPILE_STDCXX(17, [noext], [optional], [skip])
+-  AX_CXX_COMPILE_STDCXX(14, [noext], [optional], [skip])
+-  AX_CXX_COMPILE_STDCXX(11, [noext], [optional], [skip])
+-  if test "x${HAVE_CXX17}" = "x1" ; then
+-    CXX="$CXX -std=c++17"
+-    if test -n "$CXXCPP" ; then
+-      CXXCPP="$CXXCPP -std=c++17"
+-    fi
+-  elif test "x${HAVE_CXX14}" = "x1" ; then
+-    CXX="$CXX -std=c++14"
+-    if test -n "$CXXCPP" ; then
+-      CXXCPP="$CXXCPP -std=c++14"
+-    fi
++  dnl nothing specified so use compiler default
++
++  echo '#include <iostream>' > cpp_standard.cpp
++  echo 'using std::cout; using std::endl; int main() { switch (__cplusplus) { case 201103L: cout << 11 << endl; break; case 201402L: cout << 14 << endl; break; case 201703L: cout << 17 << endl; break; default: cout << 1 << endl; } }' >> cpp_standard.cpp
++  ${CXX} cpp_standard.cpp -o cpp_standard
++  DEFAULT_CXX_STANDARD=`./cpp_standard`
++  echo $DEFAULT_CXX_STANDARD
++  if test "x${DEFAULT_CXX_STANDARD}" = "x17" ; then
++    ARG_CXX_STANDARD="17"
++    AX_CXX_COMPILE_STDCXX(17, [noext], [optional])
++  elif test "x${DEFAULT_CXX_STANDARD}" = "x14" ; then
++    ARG_CXX_STANDARD="14"
++    AX_CXX_COMPILE_STDCXX(14, [noext], [optional])
+   else
+-    CXX="$CXX -std=c++11"
+-    if test -n "$CXXCPP" ; then
+-      CXXCPP="$CXXCPP -std=c++11"
+-    fi
++    ARG_CXX_STANDARD="11"
++    AX_CXX_COMPILE_STDCXX_11([noext], [optional])
+   fi
+ fi
+ 
+@@ -627,7 +632,7 @@ Build options:
+   debug build:          ${ARG_ENABLE_DEBUG:-no}
+   invariant checks:     ${ARG_ENABLE_INVARIANT:-no}
+   logging support:      ${ARG_ENABLE_LOGGING:-yes}
+-  with std:             ${ARG_CXX_STANDARD:-default}
++  cxx standard:         ${ARG_CXX_STANDARD:-default}
+ 
+ Features:
+   encryption support:   ${ARG_ENABLE_ENCRYPTION:-yes}
+diff --git a/m4/ax_cxx_compile_stdcxx.m4 b/m4/ax_cxx_compile_stdcxx.m4
+index 50859df211..43087b2e68 100644
+--- a/m4/ax_cxx_compile_stdcxx.m4
++++ b/m4/ax_cxx_compile_stdcxx.m4
+@@ -4,7 +4,7 @@
+ #
+ # SYNOPSIS
+ #
+-#   AX_CXX_COMPILE_STDCXX(VERSION, [ext|noext], [mandatory|optional], [skip])
++#   AX_CXX_COMPILE_STDCXX(VERSION, [ext|noext], [mandatory|optional])
+ #
+ # DESCRIPTION
+ #
+@@ -25,12 +25,6 @@
+ #   regardless, after defining HAVE_CXX${VERSION} if and only if a
+ #   supporting mode is found.
+ #
+-#   The fourth argument, if left unspecified, does the default behavior. If
+-#   specified 'skip', it skips over setting the various -std combinations
+-#   and skips over setting CXX and CXXCPP. This argument is augmented for
+-#   libtorrent-rasterbar and does not exist in the stock m4 interface.
+-#   Skipping is useful for detecting the default C++ dialect.
+-#
+ # LICENSE
+ #
+ #   Copyright (c) 2008 Benjamin Kosnik <bkoz@redhat.com>
+@@ -65,9 +59,6 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
+         [$3], [mandatory], [ax_cxx_compile_cxx$1_required=true],
+         [$3], [optional], [ax_cxx_compile_cxx$1_required=false],
+         [m4_fatal([invalid third argument `$3' to AX_CXX_COMPILE_STDCXX])])
+-  m4_if([$4], [], [],
+-        [$4], [skip], [],
+-        [m4_fatal([invalid second argument `$4' to AX_CXX_COMPILE_STDCXX])])dnl
+   AC_LANG_PUSH([C++])dnl
+   ac_success=no
+ 
+@@ -78,18 +69,17 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
+       cachevar=AS_TR_SH([ax_cv_cxx_compile_cxx$1_$switch])
+       AC_CACHE_CHECK(whether $CXX supports C++$1 features with $switch,
+                      $cachevar,
+-        [ifelse([$4], [skip], [], [ac_save_CXX="$CXX" CXX="$CXX $switch"])
++        [ac_save_CXX="$CXX"
++         CXX="$CXX $switch"
+          AC_COMPILE_IFELSE([AC_LANG_SOURCE([_AX_CXX_COMPILE_STDCXX_testbody_$1])],
+           [eval $cachevar=yes],
+           [eval $cachevar=no])
+-         ifelse([$4], [skip], [], [CXX="$ac_save_CXX"])])
++         CXX="$ac_save_CXX"])
+       if eval test x\$$cachevar = xyes; then
+-	ifelse([$4], [skip],
+-	       [],
+-               [CXX="$CXX $switch"
+-               if test -n "$CXXCPP" ; then
+-                 CXXCPP="$CXXCPP $switch"
+-               fi])
++        CXX="$CXX $switch"
++        if test -n "$CXXCPP" ; then
++          CXXCPP="$CXXCPP $switch"
++        fi
+         ac_success=yes
+         break
+       fi
+@@ -106,18 +96,17 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
+         cachevar=AS_TR_SH([ax_cv_cxx_compile_cxx$1_$switch])
+         AC_CACHE_CHECK(whether $CXX supports C++$1 features with $switch,
+                        $cachevar,
+-          [ifelse([$4], [skip], [], [ac_save_CXX="$CXX" CXX="$CXX $switch"])
++          [ac_save_CXX="$CXX"
++           CXX="$CXX $switch"
+            AC_COMPILE_IFELSE([AC_LANG_SOURCE([_AX_CXX_COMPILE_STDCXX_testbody_$1])],
+             [eval $cachevar=yes],
+             [eval $cachevar=no])
+-           ifelse([$4], [skip], [], [CXX="$ac_save_CXX"])])
++           CXX="$ac_save_CXX"])
+         if eval test x\$$cachevar = xyes; then
+-	  ifelse([$4], [skip],
+-	         [],
+-                 [CXX="$CXX $switch"
+-                 if test -n "$CXXCPP" ; then
+-                   CXXCPP="$CXXCPP $switch"
+-                 fi])
++          CXX="$CXX $switch"
++          if test -n "$CXXCPP" ; then
++            CXXCPP="$CXXCPP $switch"
++          fi
+           ac_success=yes
+           break
+         fi
+
+From 49b4683f484271e394612b80331af39c5a0c36c5 Mon Sep 17 00:00:00 2001
+From: Nam Nguyen <namn@berkeley.edu>
+Date: Fri, 25 Sep 2020 23:54:23 +0000
+Subject: [PATCH 09/10] mandatory
+
+---
+ configure.ac | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index b7eee17d99..29c237fa8b 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -155,19 +155,19 @@ AC_ARG_WITH(
+ 
+ AC_MSG_CHECKING([which c++ standard to use])
+ if test "x${ARG_CXX_STANDARD}" = "x17" ; then
+-  AX_CXX_COMPILE_STDCXX(17, [noext], [optional])
++  AX_CXX_COMPILE_STDCXX(17, [noext], [mandatory])
+ elif test "x${ARG_CXX_STANDARD}" = "x14" ; then
+-  AX_CXX_COMPILE_STDCXX(14, [noext], [optional])
++  AX_CXX_COMPILE_STDCXX(14, [noext], [mandatory])
+ elif test "x${ARG_CXX_STANDARD}" = "x11" ; then
+-  AX_CXX_COMPILE_STDCXX_11([noext], [optional])
++  AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
+ elif test "${ARG_CXX_STANDARD}" -lt "11" ; then
+   dnl force 11 if user specified out of bounds, regardless of compiler default
+   ARG_CXX_STANDARD="11"
+-  AX_CXX_COMPILE_STDCXX_11([noext], [optional])
++  AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
+ elif test "${ARG_CXX_STANDARD}" -gt "17" ; then
+   dnl force 11 if user specified out of bounds, regardless of compiler default
+   ARG_CXX_STANDARD="11"
+-  AX_CXX_COMPILE_STDCXX_11([noext], [optional])
++  AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
+ else
+   dnl nothing specified so use compiler default
+ 
+@@ -178,13 +178,13 @@ else
+   echo $DEFAULT_CXX_STANDARD
+   if test "x${DEFAULT_CXX_STANDARD}" = "x17" ; then
+     ARG_CXX_STANDARD="17"
+-    AX_CXX_COMPILE_STDCXX(17, [noext], [optional])
++    AX_CXX_COMPILE_STDCXX(17, [noext], [mandatory])
+   elif test "x${DEFAULT_CXX_STANDARD}" = "x14" ; then
+     ARG_CXX_STANDARD="14"
+-    AX_CXX_COMPILE_STDCXX(14, [noext], [optional])
++    AX_CXX_COMPILE_STDCXX(14, [noext], [mandatory])
+   else
+     ARG_CXX_STANDARD="11"
+-    AX_CXX_COMPILE_STDCXX_11([noext], [optional])
++    AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
+   fi
+ fi
+ 
+
+From a942fa69062f5c1719cc96f8169c175fd6607c93 Mon Sep 17 00:00:00 2001
+From: Nam Nguyen <namn@berkeley.edu>
+Date: Sat, 26 Sep 2020 00:51:45 +0000
+Subject: [PATCH 10/10] fix bug where unspecified default was not respected If
+ no --with-cxx-standard is given, there was a bug that resulted in 11 being
+ incorrectly preferred over the compiler's default. To resolve this make sure
+ that default is handled by the final else. Ensure it does not fall into the
+ elif clauses where the user gives an out of bounds standard (< 11 or > 17)
+ and it clamps it to 11.
+
+---
+ configure.ac | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 29c237fa8b..3fa925b1fa 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -160,11 +160,11 @@ elif test "x${ARG_CXX_STANDARD}" = "x14" ; then
+   AX_CXX_COMPILE_STDCXX(14, [noext], [mandatory])
+ elif test "x${ARG_CXX_STANDARD}" = "x11" ; then
+   AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
+-elif test "${ARG_CXX_STANDARD}" -lt "11" ; then
++elif test "x${ARG_CXX_STANDARD}" != "xdefault" -a "${ARG_CXX_STANDARD}" -lt "11" ; then
+   dnl force 11 if user specified out of bounds, regardless of compiler default
+   ARG_CXX_STANDARD="11"
+   AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
+-elif test "${ARG_CXX_STANDARD}" -gt "17" ; then
++elif test "x${ARG_CXX_STANDARD}" != "xdefault" -a "${ARG_CXX_STANDARD}" -gt "17" ; then
+   dnl force 11 if user specified out of bounds, regardless of compiler default
+   ARG_CXX_STANDARD="11"
+   AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])

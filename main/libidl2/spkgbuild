@@ -1,0 +1,16 @@
+# description	: A front-end for CORBA 2.2 IDL and Netscape's XPIDL
+# depends	: glib texinfo
+
+name=libidl2
+version=0.8.14
+release=1
+options="!emptydirs"
+source="https://ftp.gnome.org/pub/gnome/sources/libIDL/${version%.*}/libIDL-$version.tar.bz2"
+
+build() {
+	cd libIDL-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+}

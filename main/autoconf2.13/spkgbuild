@@ -1,0 +1,19 @@
+# description	: An old version of Autoconf
+
+name=autoconf2.13
+version=2.13
+release=1
+source="https://ftp.gnu.org/gnu/autoconf/autoconf-$version.tar.gz
+	autoconf-$version-consolidated_fixes-1.patch"
+
+build() {
+	cd autoconf-$version
+
+  	patch -Np1 -i ../autoconf-$version-consolidated_fixes-1.patch
+	mv -v autoconf.texi autoconf213.texi
+	rm -v autoconf.info
+	./configure --prefix=/usr --program-suffix=2.13
+	make
+	make DESTDIR=$PKG install
+
+}

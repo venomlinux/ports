@@ -1,0 +1,18 @@
+# description	: BitchX is an IRC (Internet Relay Chat) client
+# depends	: openssl1.0
+
+name=bitchx
+version=1.2.1
+release=1
+source="http://www.bitchx.com/download/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	export LDFLAGS="$LDFLAGS -L/usr/lib/openssl-1.0"
+	export CFLAGS="$CFLAGS -I/usr/include/openssl-1.0 -fcommon"
+
+	./configure --exec_prefix=/usr --prefix=/usr --enable-ipv6 --with-plugins --with-ssl --mandir=/usr/share/man/
+	make 
+	make DESTDIR=$PKG install
+}

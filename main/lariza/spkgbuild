@@ -1,0 +1,12 @@
+# description	: Simple WebKit2GTK+ Browser 
+# depends	: webkitgtk git tabbed
+
+name=lariza
+version=20.08
+release=1
+source="https://www.uninformativ.de/git/${name}/archives/${name}-v${version}.tar.gz"
+
+build() {
+	cd $name-v$version
+	make DESTDIR="$PKG" prefix="/usr" install
+}

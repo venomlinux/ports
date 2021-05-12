@@ -1,0 +1,16 @@
+# description	: Power manager for the Xfce desktop
+# depends	: libnotify upower xfce4-panel
+
+name=xfce4-power-manager
+version=4.16.0
+release=1
+source="http://archive.xfce.org/src/xfce/xfce4-power-manager/${version%.*}/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --sysconfdir=/etc --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+}

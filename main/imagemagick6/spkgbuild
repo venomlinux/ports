@@ -1,0 +1,30 @@
+# description	: An image viewing/manipulation program (version 6)
+# depends	: fontconfig lcms2 libtool libxext libxt perl libxml2 librsvg
+
+name=imagemagick6
+version=6.9.12.1
+_version=${version%.*}-${version##*.}
+release=1
+source="https://www.imagemagick.org/download/releases/ImageMagick-$_version.tar.xz
+	ImageMagick-libs_only-1.patch"
+KEEP_LIBTOOL="yes"
+
+build() {
+	cd ImageMagick-$_version
+	
+	patch -Np1 -i ../ImageMagick-libs_only-1.patch
+	autoreconf -fi
+
+	./configure --prefix=/usr     \
+	            --sysconfdir=/etc \
+	            --enable-hdri     \
+	            --with-modules    \
+	            --disable-static  \
+		    --without-openexr
+	make
+	make DESTDIR=$PKG install-libs-only
+
+	# remove conflict with imagemagick7
+	rm -fr $PKG/usr/share/man
+
+}

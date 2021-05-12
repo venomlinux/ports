@@ -1,0 +1,97 @@
+# description	: Lightweight display manager based upon Qt and QML
+# depends	: extra-cmake-modules qt5 linux-pam upower consolekit2 libxcb
+
+name=sddm
+version=0.19.0
+release=1
+backup="usr/share/sddm/scripts/Xsetup
+	etc/sddm.conf"
+source="https://github.com/sddm/sddm/releases/download/v$version/sddm-$version.tar.xz
+	rc.$name"
+
+build() {
+	cd $name-$version
+
+	sed -e '/UPOWER_SERVICE)/ s:^://:' \
+	    -i src/daemon/PowerManager.cpp
+	
+	sed -e '/\$@$/s/exec/& ck-launch-session/' \
+	    -i data/scripts/Xsession
+
+	mkdir build
+	cd    build
+	
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib/sddm \
+	      -DCMAKE_BUILD_TYPE=Release \
+	      -DENABLE_JOURNALD=OFF \
+	      -DDBUS_CONFIG_FILENAME=sddm_org.freedesktop.DisplayManager.conf \
+	      -Wno-dev ..
+	make
+	make DESTDIR=$PKG install
+	install -dm755 -o sddm -g sddm $PKG/var/lib/sddm
+
+	install -d $PKG/usr/lib/sddm/sddm.conf.d
+	$PKG/usr/bin/sddm --example-config > $PKG/etc/sddm.conf
+
+	# Unset InputMethod https://github.com/sddm/sddm/issues/952
+	sed -e "/^InputMethod/s/qtvirtualkeyboard//" -i $PKG/etc/sddm.conf
+
+	install -d $PKG/etc/pam.d/
+	cat > $PKG/etc/pam.d/sddm << "EOF"
+#%PAM-1.0
+
+auth		include		system-auth
+-auth		optional	pam_gnome_keyring.so
+-auth   optional  pam_kwallet5.so
+
+account		include		system-auth
+
+password	include		system-auth
+-password	optional	pam_gnome_keyring.so use_authtok
+
+session		optional	pam_keyinit.so force revoke
+session		include		system-auth
+-session		optional	pam_gnome_keyring.so auto_start
+-session  optional  pam_kwallet5.so auto_start
+EOF
+
+cat > $PKG/etc/pam.d/sddm-autologin << "EOF"
+#%PAM-1.0
+auth        required    pam_env.so
+auth        required    pam_tally.so file=/var/log/faillog onerr=succeed
+auth        required    pam_shells.so
+auth        required    pam_nologin.so
+auth        required    pam_permit.so
+-auth       optional    pam_gnome_keyring.so
+-auth       optional    pam_kwallet5.so
+account     include     system-auth
+password    include     system-auth
+session     include     system-auth
+-session    optional    pam_gnome_keyring.so auto_start
+-session    optional    pam_kwallet5.so auto_start
+EOF
+
+cat > $PKG/etc/pam.d/sddm-greeter << "EOF"
+#%PAM-1.0
+
+# Load environment from /etc/environment and ~/.pam_environment
+auth		required pam_env.so
+
+# Always let the greeter start without authentication
+auth		required pam_permit.so
+
+# No action required for account management
+account		required pam_permit.so
+
+# Can't change password
+password	required pam_deny.so
+
+# Setup session
+session		required pam_unix.so
+session		optional pam_ck_connector.so
+EOF
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+}

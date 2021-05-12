@@ -1,0 +1,14 @@
+# description	: A simple (suckless) terminal (emmett1's fork)
+# depends	: libx11 libxft libxrender fontconfig freetype2 ohsnap
+
+name=st
+version=20200408
+release=1
+_commit=9203c816d2bd58ce1971ae50e756b4eef18fa83c
+source="$name-$_commit.tar.gz::https://github.com/emmett1/st/archive/$_commit.tar.gz"
+
+build() {
+	cd $name-$_commit
+	make PREFIX=/usr
+	make PREFIX=/usr DESTDIR=$PKG install
+}

@@ -1,0 +1,16 @@
+# description	: C++ interface to GTK+ 2
+# depends	: atkmm gtk2 pangomm
+
+name=gtkmm2
+version=2.24.5
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/gtkmm/${version%.*}/gtkmm-$version.tar.xz"
+
+build() {
+	cd gtkmm-$version
+
+	./configure --prefix=/usr
+	make
+	sed -i -e 's/^doc_subdirs/#doc_subdirs/' Makefile
+	make DESTDIR=$PKG install
+}

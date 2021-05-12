@@ -1,0 +1,14 @@
+# description	: Perl/CPAN Module Parse::Yapp : Generates OO LALR parser modules
+# depends	: perl
+
+name=perl-parse-yapp
+version=1.21
+release=1
+source="https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-$version.tar.gz"
+
+build() {
+	cd Parse-Yapp-$version
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make
+	make DESTDIR=$PKG install
+}

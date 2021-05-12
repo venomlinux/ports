@@ -1,0 +1,19 @@
+# description	: Simple X server performance benchmarker
+# depends	: libxext libxft libxrender libx11 libxmu 
+
+name=x11perf
+version=1.6.1
+release=1
+source="http://ftp.x.org/pub/individual/app/x11perf-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

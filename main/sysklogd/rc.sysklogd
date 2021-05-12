@@ -1,0 +1,35 @@
+#!/bin/sh
+#
+# /etc/rc.d/sysklogd
+#
+
+. /etc/rc.subr
+
+PROG=/usr/sbin/syslogd
+OPTS=-ss
+PID=/var/run/syslogd.pid
+
+case "$1" in
+	start)
+		msg "Starting system log daemon..."
+		start_daemon $PROG $OPTS -p $PID
+		;;
+	stop)
+		msg "Stopping system log daemon..."
+		stop_daemon $PROG -p $PID
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		status_daemon $PROG
+		;;
+	*)
+		echo "Usage: $0 [start|stop|restart|status]"
+		exit 1
+		;;
+esac
+
+# End of file

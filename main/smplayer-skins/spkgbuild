@@ -1,0 +1,13 @@
+# description	: Skins for SMPlayer
+# depends	: smplayer
+
+name=smplayer-skins
+version=20.11.0
+release=1
+source="https://downloads.sourceforge.net/smplayer/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	make PREFIX=/usr
+	make DESTDIR=$PKG PREFIX=/usr install
+}

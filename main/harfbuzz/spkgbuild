@@ -1,0 +1,23 @@
+# description	: OpenType text shaping engine
+# depends	: meson glib gobject-introspection cairo
+
+name=harfbuzz
+version=2.8.0
+release=1
+source="https://github.com/harfbuzz/harfbuzz/releases/download/$version/harfbuzz-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+        cd build
+
+        meson \
+                --prefix=/usr \
+                -Ddocs=disabled \
+		-Dgraphite=auto \
+		-Dbenchmark=disabled \
+		-Dicu=disabled
+        ninja
+        DESTDIR=$PKG ninja install
+}

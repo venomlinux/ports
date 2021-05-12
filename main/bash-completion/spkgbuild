@@ -1,0 +1,16 @@
+# description	: Programmable completion for the bash shell
+# depends	: bash
+
+name=bash-completion
+version=2.11
+release=1
+source="https://github.com/scop/bash-completion/releases/download/$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+
+	rm $PKG/etc/profile.d/bash_completion.sh
+}

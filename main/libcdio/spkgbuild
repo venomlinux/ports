@@ -1,0 +1,16 @@
+# description	: library for CD-ROM and CD image access
+# depends	: ncurses
+
+name=libcdio
+version=2.1.0
+release=1
+source="ftp://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+
+}

@@ -1,0 +1,16 @@
+# description	: Set of default configuration for LXDE
+# depends	: lxde-icon-theme lxpanel lxsession openbox pcmanfm desktop-file-utils hicolor-icon-theme shared-mime-info consolekit2 dbus notification-daemon
+
+name=lxde-common
+version=0.99.2
+release=1
+source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}
+

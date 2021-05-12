@@ -1,0 +1,15 @@
+# description	: Python library for ISO 639 standard (python2)
+# depends	: python2-setuptools
+
+name=python2-iso-639
+_name=${name#*-}
+_n=${_name%${_name#?}}
+version=0.4.5
+release=1
+source="https://files.pythonhosted.org/packages/source/$_n/${name#*-}/${name#*-}-$version.tar.gz"
+
+build() {
+	cd ${name#*-}-$version
+	python2 setup.py build
+	python2 setup.py install --root=$PKG --optimize=1
+}

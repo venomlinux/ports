@@ -1,0 +1,17 @@
+# description	: Iconic bitmap font based on stlarch with additional glyphs
+# depends	: fontconfig bdftopcf mkfontscale
+
+name=siji-font
+_name=siji
+version=20190218
+release=2
+_commit=c691f200c1c66e76daa2afc9cbbd1aa39045c906
+source="siji-$version.tar.gz::https://github.com/stark/siji/archive/$_commit.tar.gz"
+
+build() {
+	cd siji-$_commit
+
+	install -D -m644 pcf/siji.pcf "${PKG}/usr/share/fonts/misc/siji.pcf"
+	install -D -m644 bdf/siji.bdf "${PKG}/usr/share/fonts/misc/siji.bdf"
+	install -D -m755 view.sh "${PKG}/usr/share/${_name}/view.sh"
+}

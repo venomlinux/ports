@@ -1,0 +1,22 @@
+# description	: Create and extract archives in Thunar
+# depends	: hicolor-icon-theme thunar intltool
+
+name=thunar-archive-plugin
+version=0.4.0
+release=1
+source="http://archive.xfce.org/src/thunar-plugins/$name/${version%.*}/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/xfce4 \
+		--localstatedir=/var \
+		--disable-static \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+
+}

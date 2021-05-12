@@ -1,0 +1,22 @@
+# description	: Mount/umount utility for the Xfce4 panel
+# depends	: xfce4-panel intltool
+
+name=xfce4-mount-plugin
+version=1.1.5
+release=1
+source="http://archive.xfce.org/src/panel-plugins/xfce4-mount-plugin/${version%.*}/xfce4-mount-plugin-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib \
+		--localstatedir=/var \
+		--disable-static \
+		--disable-debug \
+		--disable-nls
+	make
+	make DESTDIR=$PKG install
+
+}

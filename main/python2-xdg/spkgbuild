@@ -1,0 +1,12 @@
+# description	: Python library to access freedesktop.org standards
+# depends	: python2
+
+name=python2-xdg
+version=0.25
+release=1
+source="https://people.freedesktop.org/~takluyver/pyxdg-$version.tar.gz"
+
+build() {
+	cd pyxdg-$version
+	python2 setup.py install --optimize=1 --root=$PKG
+}

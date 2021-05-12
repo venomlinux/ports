@@ -1,0 +1,18 @@
+# description	: Library which provides access to hardware accelerated video processing for video cards based on an Intel GPU
+# depends	: mesa libva libdrm meson
+
+name=libva-intel
+version=2.4.1
+release=1
+source="https://github.com/intel/intel-vaapi-driver/archive/$version.tar.gz"
+
+build() {
+	cd intel-vaapi-driver-$version
+
+	mkdir build
+        cd    build
+
+        meson --prefix=/usr
+        ninja
+        DESTDIR=$PKG ninja install
+}

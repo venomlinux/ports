@@ -1,0 +1,39 @@
+# description	: Open source web browser based on Firefox focusing on efficiency
+# depends	: python2 autoconf2.13 gtk2 yasm gconf alsa-lib dbus-glib
+
+name=palemoon
+version=28.8.4
+release=1
+source="https://github.com/MoonchildProductions/UXP/archive/PM${version}_Release.tar.gz
+	mozconfig"
+rev_ex_libs="libxul.so libmozsqlite3.so libmozavutil.so liblgpllibs.so"
+
+build() {
+	cd UXP-PM${version}_Release
+
+	sed "s,%BUILDDIR%,$SRC,g" $SRC/mozconfig > .mozconfig
+
+	./mach build
+	./mach package
+
+	install -d $PKG/usr/bin
+	install -d $PKG/usr/lib
+	cp -r $SRC/pmbuild/dist/$name/ $PKG/usr/lib/$name
+	ln -s ../lib/$name/$name $PKG/usr/bin/$name
+
+	for i in 16 32 48; do
+		install -Dm644 $SRC/pmbuild/dist/palemoon/browser/chrome/icons/default/default${i}.png \
+			$PKG/usr/share/icons/hicolor/${i}x${i}/apps/$name.png
+	done
+	install -Dm644 $SRC/pmbuild/dist/palemoon/browser/icons/mozicon128.png \
+			$PKG/usr/share/icons/hicolor/128x128/apps/$name.png
+
+	install -Dm644 application/palemoon/branding/official/palemoon.desktop \
+		$PKG/usr/share/applications/$name.desktop
+
+	# exclude library for revdep
+        mkdir -p $PKG/etc/revdep.d/
+        for i in $rev_ex_libs; do
+                echo $i >> $PKG/etc/revdep.d/$name.conf
+        done
+}

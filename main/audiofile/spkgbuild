@@ -1,0 +1,26 @@
+# description	: Silicon Graphics Audio File Library
+# depends	: alsa-lib flac
+
+name=audiofile
+version=0.3.6
+release=1
+source="https://audiofile.68k.org/$name-$version.tar.gz
+	004-CVE-2017-6829.patch
+	005-CVE-2017-6827-CVE-2017-6828-CVE-2017-6832-CVE-2017-6833-CVE-2017-6835-CVE-2017-6837.patch
+	006-CVE-2017-6839.patch
+	007-CVE-2017-6830-CVE-2017-6834-CVE-2017-6836-CVE-2017-6838.patch
+	009-CVE-2017-6831.patch
+	fix-gcc6-shift_left.patch"
+
+build() {
+	cd $name-$version
+
+	for p in $SRC/*.patch; do
+		patch -Np0 -i $p
+	done
+	autoreconf -vfi
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

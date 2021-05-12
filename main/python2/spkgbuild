@@ -1,0 +1,31 @@
+# description	: Next generation of the python high-level scripting language
+# depends	: libffi openssl sqlite
+
+name=python2
+version=2.7.18
+release=1
+source="https://www.python.org/ftp/python/$version/Python-$version.tar.xz
+	pyconfig.h"
+
+build() {
+	cd Python-$version
+
+	sed -i '/#SSL/,+3 s/^#//' Modules/Setup.dist
+
+  	./configure --prefix=/usr       \
+	            --enable-shared     \
+	            --with-system-expat \
+	            --with-system-ffi   \
+	            --enable-unicode=ucs4 
+	make
+	make DESTDIR=$PKG install
+
+	# conflict with python3
+	rm $PKG/usr/bin/2to3
+
+	chmod -v 755 $PKG/usr/lib/libpython2.7.so.1.0
+
+        mv $PKG/usr/include/python2.7/pyconfig.h \
+	   $PKG/usr/include/python2.7/pyconfig-64.h
+        install -m 0644 $SRC/pyconfig.h $PKG/usr/include/python2.7/
+}

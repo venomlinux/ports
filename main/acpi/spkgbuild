@@ -1,0 +1,13 @@
+# description	: Client for battery, power, and thermal readings
+
+name=acpi
+version=1.7
+release=1
+source="https://downloads.sourceforge.net/acpiclient/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

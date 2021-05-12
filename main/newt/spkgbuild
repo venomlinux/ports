@@ -1,0 +1,21 @@
+# description	: Programming library for color text mode, widget based user interfaces
+# depends	: popt slang
+
+name=newt
+version=0.52.21
+release=1
+source="http://fedorahosted.org/releases/n/e/newt/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	sed -e 's/^LIBNEWT =/#&/' \
+	    -e '/install -m 644 $(LIBNEWT)/ s/^/#/' \
+	    -e 's/$(LIBNEWT)/$(LIBNEWTSONAME)/g' \
+	    -i Makefile.in
+
+	./configure --prefix=/usr --with-gpm-support
+	make
+	make DESTDIR=$PKG install
+
+}

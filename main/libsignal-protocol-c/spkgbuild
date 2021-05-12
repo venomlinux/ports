@@ -1,0 +1,16 @@
+# description	: Signal Protocol C Library 
+# depends	: glibc cmake
+
+name=libsignal-protocol-c
+version=2.3.3
+release=1
+source="https://github.com/WhisperSystems/libsignal-protocol-c/archive/v${version}/${name}-${version}.tar.gz"
+
+build() {
+	cmake -B build -S ${name}-${version} \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DBUILD_SHARED_LIBS=ON \
+
+	make -C build
+	make -C build DESTDIR="${PKG}" install
+}

@@ -1,0 +1,20 @@
+# description	: Used to send desktop notifications to a notification daemon
+# depends	: gtk3 gobject-introspection docbook-xsl libxslt
+
+name=libnotify
+version=0.7.9
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd    build
+
+	meson --prefix=/usr \
+	      -Dgtk_doc=false \
+	      -Ddocbook_docs=disabled
+	ninja
+	DESTDIR=$PKG ninja install
+}

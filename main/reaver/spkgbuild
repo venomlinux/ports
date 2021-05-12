@@ -1,0 +1,22 @@
+# description	: Brute force attack against Wifi Protected Setup
+# depends	: libpcap sqlite
+
+name=reaver
+_name=reaver-wps-fork-t6x
+version=1.6.6
+release=1
+source="https://github.com/t6x/$_name/releases/download/v$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version/src
+
+	sed 's|CFLAGS=|CFLAGS+=|' -i Makefile
+
+	./configure --prefix=/usr --sysconfdir=/etc
+	make CONFDIR=/etc/reaver
+
+	install -Dm 755 reaver -t $PKG/usr/bin
+	install -Dm 755 wash -t $PKG/usr/bin
+	install -dm 755 $PKG/etc/reaver
+	install -Dm 644 ../docs/reaver.1 -t $PKG/usr/share/man/man1
+}

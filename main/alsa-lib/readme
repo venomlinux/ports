@@ -1,0 +1,16 @@
+Kernel Configuration
+
+If needed, enable the following options in the kernel configuration and recompile
+the kernel:
+
+Device Drivers --->
+  <*/m> Sound card support --->                  [CONFIG_SOUND]
+    <*/m> Advanced Linux Sound Architecture ---> [CONFIG_SND]
+            Select settings and drivers appropriate for your hardware.
+    < >   Open Sound System (DEPRECATED)         [CONFIG_SOUND_PRIME]
+
+In the Device Drivers ⇒ Sound card support ⇒ Advanced Linux Sound Architecture
+section of the kernel configuration, select the settings and drivers appropriate
+for your hardware. Ensure that the deprecated Device Drivers ⇒ Sound card support
+⇒ Open Sound System is not selected. If necessary, recompile and install your new
+kernel.

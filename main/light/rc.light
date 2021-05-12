@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+# /etc/rc.d/light: start/stop light
+#
+
+. /etc/rc.subr
+
+NAME="Brightnes"
+PROG=/usr/bin/light
+
+case $1 in
+	start)
+		msg "Restoring $NAME..."
+		start_daemon $PROG -I
+		;;
+	stop)
+		msg "Saving $NAME..."
+		start_daemon $PROG -O
+		;;
+	restart)
+		$0 stop
+		$0 start
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart]"
+		;;
+esac
+
+# End of file

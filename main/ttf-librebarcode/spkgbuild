@@ -1,0 +1,12 @@
+# description	: Barcode fonts for various barcode standards 
+
+name=ttf-librebarcode
+_name=librebarcode
+version=1.008
+release=1
+source="$_name-$version.tar.gz::https://github.com/graphicore/$_name/archive/pre-v$version.tar.gz"
+
+build() {
+     cd "$_name-pre-v$version"
+    install -Dm644 -t "$PKG/usr/share/fonts/TTF/" fonts/*.ttf
+}

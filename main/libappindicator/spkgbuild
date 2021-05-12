@@ -1,0 +1,25 @@
+# description	: Library that allow applications to export menus
+# depends	: gtk3 vala gobject-introspection libindicator libdbusmenu dbus-glib gtk-doc
+
+name=libappindicator
+version=12.10.0
+release=1
+source="https://launchpad.net/libappindicator/${version%.*}/$version/+download/libappindicator-$version.tar.gz
+	no-python.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/no-python.patch
+
+	sed -i 's/-Werror//' src/Makefile.am
+	autoreconf -fi
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--with-gtk=3
+	make -j1
+	make -j1 DESTDIR=$PKG install
+}

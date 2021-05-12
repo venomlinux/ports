@@ -1,0 +1,19 @@
+# description	: Query configuration information of DRI drivers
+# depends	: libx11 libglvnd 
+
+name=xdriinfo
+version=1.0.6
+release=1
+source="http://ftp.x.org/pub/individual/app/xdriinfo-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+  	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
