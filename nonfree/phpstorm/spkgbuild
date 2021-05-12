@@ -4,7 +4,7 @@
 
 name=phpstorm
 version=2021.1.2b211.7142.44
-release=1
+release=2
 noextract="*.tar.gz"
 source="https://download.jetbrains.com/webide/PhpStorm-${version%b*}.tar.gz
 jetbrains-phpstorm.desktop"
@@ -17,7 +17,6 @@ build() {
   install -dm755 "${PKG}"/usr/share/pixmaps/
 
   cp -a "${SRC}"/PhpStorm-${version#*b}/ "${PKG}"/opt/${name}
-  rm -rf "${PKG}"/opt/${name}/jbr
 
   ln -s /opt/${name}/bin/${name}.sh "${PKG}"/usr/bin/${name}
   install -D -m 644 "${SRC}"/jetbrains-${name}.desktop "${PKG}"/usr/share/applications/
