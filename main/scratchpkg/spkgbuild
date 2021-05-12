@@ -2,20 +2,20 @@
 # depends	: coreutils httpup libarchive
 
 name=scratchpkg
-version=20210504
-release=1
+version=20210512
+release=2
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
 	etc/scratchpkg.repo
 	etc/scratchpkg.mask
 	etc/revdep.conf"
 scratchpkg_url=https://github.com/venomlinux/scratchpkg
-source="https://github.com/venomlinux/scratchpkg/archive/8691210b76b2096a35e176f9589f1fbdc73d93df.tar.gz
+source="https://github.com/venomlinux/scratchpkg/archive/31e52cc3b5ae360f3cf6350f7e87a92f01b58c9e.tar.gz
 	$name.repo
 	$name.conf"
 
 build() {
-	cd $name-8691210b76b2096a35e176f9589f1fbdc73d93df
+	cd $name-31e52cc3b5ae360f3cf6350f7e87a92f01b58c9e
 
 	for s in $SRC/*; do
 		case $s in

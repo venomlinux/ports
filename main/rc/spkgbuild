@@ -2,12 +2,12 @@
 # depends	: sysvinit
 
 name=rc
-version=20200821
+version=20210512
 release=1
 backup="etc/rc.conf"
-source="https://github.com/venomlinux/rc/archive/93cb0a4e6cdf338329976e9ebbf1a67609422a31.tar.gz"
+source="https://github.com/venomlinux/rc/archive/c1f623591cf82fb35906cf2f9a729b6c361c4e5f.tar.gz"
 
 build() {
-	cd $name-93cb0a4e6cdf338329976e9ebbf1a67609422a31
+	cd $name-c1f623591cf82fb35906cf2f9a729b6c361c4e5f
 	make DESTDIR=$PKG install
 }
