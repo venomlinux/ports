@@ -1,8 +1,8 @@
 # description: VPN Client
-# depends:     lzo iproute2 pkcs11-helper linux-pam
+# depends:     lzo iproute2 pkcs11-helper linux-pam python3-docutils
 
 name=openvpn
-version=2.5.1
+version=2.5.2
 release=1
 source="https://github.com/OpenVPN/openvpn/archive/v$version/$name-$version.tar.gz"
 
@@ -20,5 +20,4 @@ build() {
 		--disable-systemd
 	make
 	make DESTDIR=$PKG install
-
 }

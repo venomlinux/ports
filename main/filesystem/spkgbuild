@@ -1,7 +1,7 @@
 # description	: Base Venom Linux files
 
 name=filesystem
-version=20200329
+version=20210518
 release=1
 backup="etc/passwd
 	etc/locale.conf
@@ -20,7 +20,7 @@ source="passwd
 	inputrc
 	shells
 	fstab
-	lsb-release
+	os-release
 	bashrc
 	profile
 	dircolors.sh
@@ -29,8 +29,7 @@ source="passwd
 	bash_profile.skel
 	bashrc.skel
 	bash_logout.skel
-	issue
-	which"
+	issue"
 
 build() {
 	#  root dirs
@@ -85,7 +84,7 @@ build() {
 	install -m644 inputrc $PKG/etc
 	install -m644 shells $PKG/etc
 	install -m644 fstab $PKG/etc
-	install -m644 lsb-release $PKG/etc
+	install -m644 os-release $PKG/etc
 	install -m644 bashrc $PKG/etc
 	install -m644 profile $PKG/etc
 
@@ -101,7 +100,4 @@ build() {
 	install -m644 issue $PKG/etc
 	
 	dircolors -p > $PKG/etc/dircolors
-
-	# provide my own which script
-	install -m755 which $PKG/bin/which
 }

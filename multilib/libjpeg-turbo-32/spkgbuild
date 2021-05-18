@@ -2,7 +2,7 @@
 # depends	: libjpeg-turbo
 
 name=libjpeg-turbo-32
-version=2.0.6
+version=2.1.0
 release=1
 source="https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-$version.tar.gz"
 
@@ -22,7 +22,7 @@ build() {
 	      -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib32  \
 	      ..
 	make
-	make DESTDIR=$PKG install
-
-	rm -fr $PKG/usr/{bin,share,include}
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

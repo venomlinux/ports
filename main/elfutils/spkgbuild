@@ -2,8 +2,8 @@
 # depends	: curl zlib xz bzip2
 
 name=elfutils
-version=0.183
-release=2
+version=0.184
+release=1
 source="https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2"
 
 build() {
@@ -13,7 +13,6 @@ build() {
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--program-prefix="eu-" \
-		--disable-nls \
 		--disable-debuginfod \
 		--enable-deterministic-archives
 	make

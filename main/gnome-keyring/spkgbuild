@@ -2,7 +2,7 @@
 # depends	: gcr linux-pam openssh glib
 
 name=gnome-keyring
-version=3.36.0
+version=40.0
 release=1
 source="https://ftp.gnome.org/pub/gnome/sources/gnome-keyring/${version%.*}/$name-$version.tar.xz"
 
@@ -15,8 +15,7 @@ build() {
 	            --sysconfdir=/etc \
 	            --with-pam-dir=/lib/security \
 		    --disable-doc \
-		    --disable-schemas-compile \
-		    --disable-nls
+		    --disable-schemas-compile
 	make
 	make DESTDIR=$PKG install
 }

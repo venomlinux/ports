@@ -5,7 +5,7 @@ if [ -f /lib/modules/KERNELVERSION ]; then
 else
 	kernver=$(uname -r)
 fi
-if [ $(type -p mkinitramfs) ]; then
+if [ $(command -v mkinitramfs) ]; then
 	mkinitramfs -q -k $kernver -o /boot/initrd-venom.img
 fi
 depmod $kernver

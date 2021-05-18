@@ -2,7 +2,7 @@
 # depends	: icu
 
 name=libxml2
-version=2.9.10
+version=2.9.12
 release=1
 source="http://xmlsoft.org/sources/$name-$version.tar.gz
 	libxml2-2.9.10-icu68.patch"
@@ -11,7 +11,7 @@ build() {
 	cd $name-$version
 
 	# icu-68.2 fix
-	patch -Np1 -i ../libxml2-2.9.10-icu68.patch
+	#patch -Np1 -i ../libxml2-2.9.10-icu68.patch
 
 	./configure --prefix=/usr \
 		    --disable-static \

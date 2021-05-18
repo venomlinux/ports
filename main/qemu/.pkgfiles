@@ -1,3 +1,4 @@
+qemu-6.0.0-1
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/udev/
 drwxr-xr-x root/root    lib/udev/rules.d/
@@ -5,8 +6,6 @@ drwxr-xr-x root/root    lib/udev/rules.d/
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/elf2dmp
--rwxr-xr-x root/root    usr/bin/ivshmem-client
--rwxr-xr-x root/root    usr/bin/ivshmem-server
 -rwxr-xr-x root/root    usr/bin/qemu-aarch64
 -rwxr-xr-x root/root    usr/bin/qemu-aarch64_be
 -rwxr-xr-x root/root    usr/bin/qemu-alpha
@@ -15,6 +14,7 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/qemu-cris
 -rwxr-xr-x root/root    usr/bin/qemu-edid
 -rwxr-xr-x root/root    usr/bin/qemu-ga
+-rwxr-xr-x root/root    usr/bin/qemu-hexagon
 -rwxr-xr-x root/root    usr/bin/qemu-hppa
 -rwxr-xr-x root/root    usr/bin/qemu-i386
 -rwxr-xr-x root/root    usr/bin/qemu-img
@@ -33,8 +33,8 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/qemu-or1k
 -rwxr-xr-x root/root    usr/bin/qemu-ppc
 -rwxr-xr-x root/root    usr/bin/qemu-ppc64
--rwxr-xr-x root/root    usr/bin/qemu-ppc64abi32
 -rwxr-xr-x root/root    usr/bin/qemu-ppc64le
+-rwxr-xr-x root/root    usr/bin/qemu-pr-helper
 -rwxr-xr-x root/root    usr/bin/qemu-riscv32
 -rwxr-xr-x root/root    usr/bin/qemu-riscv64
 -rwxr-xr-x root/root    usr/bin/qemu-s390x
@@ -51,7 +51,6 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/qemu-system-cris
 -rwxr-xr-x root/root    usr/bin/qemu-system-hppa
 -rwxr-xr-x root/root    usr/bin/qemu-system-i386
--rwxr-xr-x root/root    usr/bin/qemu-system-lm32
 -rwxr-xr-x root/root    usr/bin/qemu-system-m68k
 -rwxr-xr-x root/root    usr/bin/qemu-system-microblaze
 -rwxr-xr-x root/root    usr/bin/qemu-system-microblazeel
@@ -73,19 +72,15 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/qemu-system-sparc
 -rwxr-xr-x root/root    usr/bin/qemu-system-sparc64
 -rwxr-xr-x root/root    usr/bin/qemu-system-tricore
--rwxr-xr-x root/root    usr/bin/qemu-system-unicore32
 -rwxr-xr-x root/root    usr/bin/qemu-system-x86_64
 -rwxr-xr-x root/root    usr/bin/qemu-system-xtensa
 -rwxr-xr-x root/root    usr/bin/qemu-system-xtensaeb
--rwxr-xr-x root/root    usr/bin/qemu-tilegx
 -rwxr-xr-x root/root    usr/bin/qemu-x86_64
 -rwxr-xr-x root/root    usr/bin/qemu-xtensa
 -rwxr-xr-x root/root    usr/bin/qemu-xtensaeb
-drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/qemu/
--rwxr-xr-x root/root    usr/lib/qemu/qemu-bridge-helper
--rwxr-xr-x root/root    usr/lib/qemu/qemu-pr-helper
+-rwxr-x--- root/kvm    usr/lib/qemu/qemu-bridge-helper
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/applications/
 -rw-r--r-- root/root    usr/share/applications/qemu.desktop
@@ -191,13 +186,14 @@ drwxr-xr-x root/root    usr/share/qemu/keymaps/
 -rw-r--r-- root/root    usr/share/qemu/linuxboot.bin
 -rw-r--r-- root/root    usr/share/qemu/linuxboot_dma.bin
 -rw-r--r-- root/root    usr/share/qemu/multiboot.bin
+-rw-r--r-- root/root    usr/share/qemu/npcm7xx_bootrom.bin
 -rw-r--r-- root/root    usr/share/qemu/openbios-ppc
 -rw-r--r-- root/root    usr/share/qemu/openbios-sparc32
 -rw-r--r-- root/root    usr/share/qemu/openbios-sparc64
--rw-r--r-- root/root    usr/share/qemu/opensbi-riscv32-sifive_u-fw_jump.bin
--rw-r--r-- root/root    usr/share/qemu/opensbi-riscv32-virt-fw_jump.bin
--rw-r--r-- root/root    usr/share/qemu/opensbi-riscv64-sifive_u-fw_jump.bin
--rw-r--r-- root/root    usr/share/qemu/opensbi-riscv64-virt-fw_jump.bin
+-rw-r--r-- root/root    usr/share/qemu/opensbi-riscv32-generic-fw_dynamic.bin
+-rw-r--r-- root/root    usr/share/qemu/opensbi-riscv32-generic-fw_dynamic.elf
+-rw-r--r-- root/root    usr/share/qemu/opensbi-riscv64-generic-fw_dynamic.bin
+-rw-r--r-- root/root    usr/share/qemu/opensbi-riscv64-generic-fw_dynamic.elf
 -rw-r--r-- root/root    usr/share/qemu/palcode-clipper
 -rw-r--r-- root/root    usr/share/qemu/petalogix-ml605.dtb
 -rw-r--r-- root/root    usr/share/qemu/petalogix-s3adsp1800.dtb
@@ -208,6 +204,7 @@ drwxr-xr-x root/root    usr/share/qemu/keymaps/
 -rw-r--r-- root/root    usr/share/qemu/pxe-pcnet.rom
 -rw-r--r-- root/root    usr/share/qemu/pxe-rtl8139.rom
 -rw-r--r-- root/root    usr/share/qemu/pxe-virtio.rom
+-rw-r--r-- root/root    usr/share/qemu/qboot.rom
 -rw-r--r-- root/root    usr/share/qemu/qemu-nsis.bmp
 -rw-r--r-- root/root    usr/share/qemu/qemu_vga.ndrv
 -rw-r--r-- root/root    usr/share/qemu/s390-ccw.img

@@ -5,10 +5,11 @@ name=boost
 version=1.76.0
 _version=$(echo $version | sed 's/\./_/g')
 release=1
-source="https://dl.bintray.com/boostorg/release/$version/source/boost_${_version}.tar.bz2"
+source="https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${_version}.tar.bz2"
 
 build() {
-	cd boost_${version//./_}
+ls
+	cd boost_${_version}
 
 	./bootstrap.sh --prefix=/usr
 	./b2 ${MAKEFLAGS} stage --stagedir=$PKG/usr threading=multi link=shared

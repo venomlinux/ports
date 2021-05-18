@@ -2,7 +2,7 @@
 # depends	: alsa-lib sdl2 glib python3 coreutils pixman libx11
 
 name=qemu
-version=5.2.0
+version=6.0.0
 release=1
 source="http://download.qemu-project.org/$name-$version.tar.bz2"
 
@@ -24,7 +24,7 @@ build() {
 	make DESTDIR=$PKG install
 
 	chmod 4750 $PKG/usr/lib/qemu/qemu-bridge-helper
-	chmod root:kvm $PKG/usr/lib/qemu/qemu-bridge-helper
+	chown root:kvm $PKG/usr/lib/qemu/qemu-bridge-helper
 
 install -d $PKG/lib/udev/rules.d/
 cat > $PKG/lib/udev/rules.d/65-kvm.rules << "EOF"

@@ -1,17 +1,21 @@
 # description	: Documentation tool for public library API
-# depends	: docbook-xml docbook-xsl itstool libxslt python2 python3-pygments
+# depends	: docbook-xml docbook-xsl itstool libxslt python2 python3-pygments meson
 
 name=gtk-doc
-version=1.32
-release=2
-options="docs"
-source="https://ftp.gnome.org/pub/gnome/sources/gtk-doc/$version/$name-$version.tar.xz"
+version=1.33.2
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/gtk-doc/${version%.*}/$name-$version.tar.xz"
+KEEP_DOC="yes"
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
+	
+	mkdir build
+	cd build
+
+	meson --prefix=/usr -Dtests=false -Dautotools_support=true -Dcmake_support=true
+	ninja
+        DESTDIR=$PKG ninja install
 
 	rm -r $PKG/usr/share/help
 }

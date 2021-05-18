@@ -3,7 +3,7 @@
 
 name=virtualbox-ose-guest
 _name=VirtualBox
-version=6.1.18
+version=6.1.22
 release=1
 source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.tar.bz2
 	60-vboxguest.rules
@@ -31,7 +31,7 @@ build() {
 		--disable-udptunnel \
 		--disable-devmapper \
 		--nofatal
-	source ./env.sh
+	. ./env.sh
 	kmk all
 
 	cd "out/linux.$BUILD_PLATFORM_ARCH/release/bin/additions"

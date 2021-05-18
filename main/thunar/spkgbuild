@@ -2,7 +2,7 @@
 # depends	: exo libxfce4ui gnome-icon-theme libgudev libnotify libexif
 
 name=thunar
-version=4.16.6
+version=4.16.8
 release=1
 source="http://archive.xfce.org/src/xfce/$name/${version%.*}/thunar-$version.tar.bz2"
 
@@ -10,8 +10,7 @@ build() {
 	cd thunar-$version
 
 	./configure --prefix=/usr \
-	            --sysconfdir=/etc \
-		    --disable-nls
+	            --sysconfdir=/etc
 	make
 	make DESTDIR=$PKG install
 

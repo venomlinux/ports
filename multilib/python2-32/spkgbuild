@@ -27,7 +27,7 @@ build() {
 	chmod -v 755 $PKG/usr/lib32/libpython2.7.so.1.0
 
 	mv $PKG/usr/include/python2.7/pyconfig.h $PKG/
-	rm -r $PKG/usr/{bin,include,lib,share/man}
+	rm -r $PKG/usr/bin $PKG/usr/include $PKG/usr/lib $PKG/usr/share/man
 	install -d $PKG/usr/include/python2.7
 	mv $PKG/pyconfig.h $PKG/usr/include/python2.7/pyconfig-32.h
 }

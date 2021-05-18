@@ -1,7 +1,7 @@
 # description	: Contains math libraries that useful functions for arbitrary precision arithmetic
-# depends	: gmp
+# depends	: libgmp
 
-name=gmp-32
+name=libgmp-32
 version=6.2.1
 release=1
 source="https://ftp.gnu.org/gnu/gmp/gmp-$version.tar.xz"
@@ -21,7 +21,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	mv $PKG/usr/include/gmp{,-32}.h
+	mv $PKG/usr/include/gmp.h $PKG/usr/include/gmp-32.h
 	rm $PKG/usr/include/gmpxx.h
 
 	rm -fr $PKG/usr/share/ 

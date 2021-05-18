@@ -2,7 +2,7 @@
 # depends	: mpg123 alsa-lib-32 sdl-32
 
 name=mpg123-32
-version=1.26.4
+version=1.27.2
 release=1
 source="https://downloads.sourceforge.net/mpg123/mpg123-$version.tar.bz2"
 
@@ -15,7 +15,7 @@ build() {
 
 	./configure --prefix=/usr --libdir=/usr/lib32 --with-audio="alsa sdl" --with-cpu=i586
 	make
-	make DESTDIR=$PKG install
-
-	rm -r $PKG/usr/{bin,share,include}
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

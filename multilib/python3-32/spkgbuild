@@ -2,7 +2,7 @@
 # depends	: libffi-32 python3
 
 name=python3-32
-version=3.8.5
+version=3.9.5
 release=1
 source="https://www.python.org/ftp/python/$version/Python-$version.tar.xz"
 
@@ -21,15 +21,12 @@ build() {
 	            --with-system-ffi   \
 	            --without-ensurepip
 	make
-	make DESTDIR=$PKG install
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+	mkdir -p $PKG/usr/include/python${version%.*}
+	cp DESTDIR/usr/include/python${version%.*}/pyconfig.h $PKG/usr/include/python${version%.*}/pyconfig-32.h
 
-	chmod -v 755 $PKG/usr/lib32/libpython${version::3}.so
+	chmod -v 755 $PKG/usr/lib32/libpython${version%.*}.so
 	chmod -v 755 $PKG/usr/lib32/libpython3.so
-
-	mv $PKG/usr/include/python3.8/pyconfig.h $PKG/
-	rm -r $PKG/usr/{bin,include,lib,share/man}
-	install -d $PKG/usr/include/python3.8
-	mv $PKG/pyconfig.h $PKG/usr/include/python3.8/pyconfig-32.h
 }
-
-
