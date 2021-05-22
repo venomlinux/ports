@@ -80,11 +80,6 @@ mount_venomiso() {
 		cp -aR $MEDIUM/virootfs/* $newroot/ || problem
 	fi
 
-	if [ -d $MEDIUM/customize/ ]; then
-		msg "copying customize files to $newroot..."
-		cp -aR $MEDIUM/customize/* $newroot/ || problem
-	fi
-
 	# Tell system to skip fsck during startup
 	> $newroot/fastboot
 

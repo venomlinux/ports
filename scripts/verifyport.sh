@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 msg() {
 	echo "$port: $@"
@@ -39,7 +39,7 @@ verifydeps() {
 		cd $PORTSDIR
 		for d in $deps; do
 			found=0
-			for r in core multilib nonfree; do
+			for r in main multilib nonfree; do
 				if [ -f $r/$d/spkgbuild ]; then
 					found=1
 					break
