@@ -1,0 +1,15 @@
+# description	: Dependency Manager for PHP 
+# homepage	: https://getcomposer.org/
+# depends	: php unzip
+
+name=composer
+version=2.0.14
+release=1
+noextract=""
+backup=""
+source="https://github.com/composer/composer/releases/download/$version/composer.phar"
+
+build() {
+
+	install -Dm755 composer.phar "${PKG}/usr/bin/composer"
+}
