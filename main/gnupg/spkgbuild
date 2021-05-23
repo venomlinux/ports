@@ -2,7 +2,7 @@
 # depends	: libassuan libgcrypt libgpg-error libksba npth pinentry
 
 name=gnupg
-version=2.3.0
+version=2.3.1
 release=1
 source="https://gnupg.org/ftp/gcrypt/$name/$name-$version.tar.bz2"
 
@@ -12,8 +12,7 @@ build() {
 	./configure \
 		--prefix=/usr \
 		--libexecdir=/usr/lib/$name \
-		--enable-symcryptrun \
-		--disable-nls
+		--enable-symcryptrun
 	make
 	make DESTDIR=$PKG install
 

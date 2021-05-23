@@ -27,16 +27,29 @@ require "$ENV{HOME}/.config/obmenu-generator/config.pl";
 ## Text editor
 my $editor = $CONFIG->{editor};
 
+## Terminal
+my $terminal = $CONFIG->{terminal};
+
 our $SCHEMA = [
 
 	{sep => 'Venom Linux'},
 
     #          COMMAND                 LABEL              ICON
-    {item => ['pcmanfm',          'File Manager', 'system-file-manager']},
     {item => ['xterm',            'Terminal',     'utilities-terminal']},
+    {item => ['pcmanfm',          'File Manager', 'system-file-manager']},
     {item => ['xdg-open http://', 'Web Browser',  'web-browser']},
     {item => ['gmrun',            'Run command',  'system-run']},
-    {item => ['sudo xterm -e venom-installer',  'Install Venom', 'install']},
+    {item => ["$terminal -geometry 110x35 -e 'less /usr/share/venomlinux/welcome_message'",  'Welcome', 'welcome']},
+    {item => ["sudo $terminal -e venom-installer",  'Install Venom', 'install']},
+
+	# cli programs
+    {beg => ['Cli Programs', 'applications-system']},
+		{item => ["$terminal -e alsamixer", 'alsamixer', 'alsamixer']},
+		{item => ["$terminal -e nmtui",     'nmtui',     'nmtui']},
+		{item => ["$terminal -e mc",        'mc',        'mc']},
+		{item => ["$terminal -e htop",      'htop',      'htop']},
+		{item => ["$terminal -e irssi",     'irssi',     'irssi']},
+    {end => undef},
 
     {sep => undef},
 

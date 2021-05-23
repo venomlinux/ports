@@ -2,7 +2,7 @@
 # depends	: gstreamer glib-32
 
 name=gstreamer-32
-version=1.18.3
+version=1.18.4
 release=1
 source="http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-$version.tar.xz"
 
@@ -26,7 +26,7 @@ build() {
 		-Dintrospection=disabled \
 		-Dpackage-name="GStreamer $version (Venom Linux)"
 	ninja
-	DESTDIR=$PKG ninja install
-
-	rm -r $PKG/usr/{bin,share,include}
+	DESTDIR=$PWD/DESTDIR ninja install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

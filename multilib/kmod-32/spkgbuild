@@ -20,7 +20,7 @@ build() {
 	            --with-xz              \
 	            --with-zlib
 	make
-	make DESTDIR=$PKG install
-
-	rm -fr $PKG/usr/{share,include} $PKG/bin
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

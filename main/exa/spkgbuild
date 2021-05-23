@@ -2,7 +2,7 @@
 # depends	: rust
 
 name=exa
-version=0.9.0
+version=0.10.1
 release=1
 source="https://github.com/ogham/$name/archive/v$version/$name-$version.tar.gz"
 
@@ -16,12 +16,10 @@ build() {
 	cargo build --release --locked
 	install -Dt $PKG/usr/bin target/release/exa
 
-	if [ -e /usr/share/zsh ]; then
-    		install -Dm644 contrib/completions.zsh \
+	install -Dm644 completions/completions.zsh \
 		$PKG/usr/share/zsh/site-functions/_$name
-  	fi
-	if [ -e /usr/lib/pkgconfig/bash-completion.pc ]; then
-		install -Dm644 contrib/completions.bash \
+	install -Dm644 completions/completions.bash \
 		$PKG/usr/share/bash-completion/completions/$name
-	fi
+	install -Dm644 completions/completions.fish \
+		$PKG/usr/share/fish/vendor_completions.d/$name.fish
 }

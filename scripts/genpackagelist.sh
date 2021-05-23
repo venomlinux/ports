@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 # script to generate packages.json
 
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 
-repo="core multilib nonfree testing"
+repo="main multilib nonfree testing"
 
 echo -ne "[" > $SCRIPTDIR/packages.json
 

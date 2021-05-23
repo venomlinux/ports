@@ -2,7 +2,7 @@
 # depends	: libtasn1
 
 name=libtasn1-32
-version=4.16.0
+version=4.17.0
 release=1
 source="https://ftp.gnu.org/gnu/libtasn1/libtasn1-$version.tar.gz"
 
@@ -19,7 +19,7 @@ build() {
 		--host=i686-pc-linux-gnu \
 		--disable-static
 	make
-	make DESTDIR=$PKG install
-
-	rm -fr $PKG/usr/{bin,share,include}
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

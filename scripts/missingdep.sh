@@ -4,7 +4,7 @@ PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 BUILD_SCRIPT=spkgbuild
 
-repo="core multilib nonfree"
+repo="main multilib nonfree"
 
 cd $PORTSDIR
 rm -f scripts/allports

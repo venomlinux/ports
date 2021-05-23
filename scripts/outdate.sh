@@ -280,7 +280,7 @@ main() {
 	fi
 }
 
-PORTREPO="core multilib nonfree testing"
+PORTREPO="main multilib nonfree"
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 

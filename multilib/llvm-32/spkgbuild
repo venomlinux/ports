@@ -38,7 +38,7 @@ build() {
 	install -t $SRC/keep $PKG/usr/bin/llvm-config $PKG/usr/include/llvm/Config/llvm-config.h
 
 	# remove unneeded files
-	rm -rf $PKG/usr/{bin,include,share,libexec}
+	rm -rf $PKG/usr/bin $PKG/usr/include $PKG/usr/share $PKG/usr/libexec
 
 	# install 32bit header and config
 	install -m 0755 -D $SRC/keep/llvm-config $PKG/usr/bin/llvm-config-32

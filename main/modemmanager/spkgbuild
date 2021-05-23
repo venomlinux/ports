@@ -2,7 +2,7 @@
 # depends	: libqmi libgudev libmbim libqmi polkit gobject-introspection vala libxslt
 
 name=modemmanager
-version=1.16.2
+version=1.16.4
 release=1
 source="https://www.freedesktop.org/software/ModemManager/ModemManager-$version.tar.xz"
 
@@ -13,8 +13,7 @@ build() {
 	            --sysconfdir=/etc    \
 	            --localstatedir=/var \
 	            --enable-more-warnings=no \
-	            --disable-static \
-		    --disable-nls
+	            --disable-static
 	make
 	make DESTDIR=$PKG install
 }

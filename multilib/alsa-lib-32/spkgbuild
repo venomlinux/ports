@@ -15,7 +15,7 @@ build() {
 
   	./configure --libdir=/usr/lib32
 	make
-	make DESTDIR=$PKG install
-
-	rm -fr $PKG/usr/{bin,share,include}
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

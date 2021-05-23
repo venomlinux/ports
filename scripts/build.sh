@@ -196,16 +196,16 @@ main_scratchpkgconf() {
 copy_ports() {
 	rm -fr $ROOTFS/usr/ports
 	mkdir -p $ROOTFS/usr/ports
-	[ -d $PORTSDIR/core ] || {
-		msg "core repo not exist"
+	[ -d $PORTSDIR/main ] || {
+		msg "main repo not exist"
 		return 1
 	}
-	msg "Copying core repo..."
-	cp -Ra $PORTSDIR/core $ROOTFS/usr/ports || exit 1
-	rm -f $ROOTFS/usr/ports/core/REPO
-	rm -f $ROOTFS/usr/ports/core/.httpup-repgen-ignore
-	rm -f $ROOTFS/usr/ports/core/*/update
-	chown -R 0:0 $ROOTFS/usr/ports/core
+	msg "Copying main repo..."
+	cp -Ra $PORTSDIR/main $ROOTFS/usr/ports || exit 1
+	rm -f $ROOTFS/usr/ports/main/REPO
+	rm -f $ROOTFS/usr/ports/main/.httpup-repgen-ignore
+	rm -f $ROOTFS/usr/ports/main/*/update
+	chown -R 0:0 $ROOTFS/usr/ports/main
 }
 
 make_iso() {
@@ -213,7 +213,7 @@ make_iso() {
 	# prepare isolinux files
 	msg "Preparing isolinux..."
 	rm -fr "$ISODIR"
-	mkdir -p "$ISODIR"/{rootfs,isolinux,boot}
+	mkdir -p "$ISODIR"/{rootfs,isolinux,efi/boot,boot}
 	for file in $ISOLINUX_FILES; do
 		cp "$ROOTFS/usr/share/syslinux/$file" "$ISODIR/isolinux" || die "Failed copying isolinux file: $file"
 	done
@@ -253,7 +253,7 @@ make_iso() {
 	cp "$ROOTFS/boot/initrd-venom.img" "$ISODIR/boot/initrd" || die "Failed copying initrd"
 	
 	msg "Setup UEFI mode..."
-	mkdir -p "$ISODIR"/boot/{grub/{fonts,x86_64-efi},EFI}
+	mkdir -p "$ISODIR"/boot/grub/{fonts,x86_64-efi}
 	if [ -f $ROOTFS/usr/share/grub/unicode.pf2 ];then
 		cp "$ROOTFS/usr/share/grub/unicode.pf2" "$ISODIR/boot/grub/fonts"
 	fi
@@ -264,14 +264,14 @@ make_iso() {
 	cp -a $ROOTFS/usr/lib/grub/x86_64-efi/*.{mod,lst} "$ISODIR/boot/grub/x86_64-efi" || die "Failed copying efi files"
 	cp "$FILESDIR/grub.cfg" "$ISODIR/boot/grub/"
 
-	grub-mkimage -c "$ISODIR/boot/grub-early.cfg" -o "$ISODIR/boot/EFI/bootx64.efi" -O x86_64-efi -p "" iso9660 normal search search_fs_file
+	grub-mkimage -c "$ISODIR/boot/grub-early.cfg" -o "$ISODIR/efi/boot/bootx64.efi" -O x86_64-efi -p "" iso9660 normal search search_fs_file
 	modprobe loop
 	dd if=/dev/zero of=$ISODIR/boot/efiboot.img count=4096
 	mkdosfs -n VENOM-UEFI "$ISODIR/boot/efiboot.img" || die "Failed create mkdosfs image"
 	mkdir -p "$ISODIR/boot/efiboot"
 	mount -o loop "$ISODIR/boot/efiboot.img" "$ISODIR/boot/efiboot" || die "Failed mount efiboot.img"
 	mkdir -p "$ISODIR/boot/efiboot/EFI/boot"
-	cp "$ISODIR/boot/EFI/bootx64.efi" "$ISODIR/boot/efiboot/EFI/boot"
+	cp "$ISODIR/efi/boot/bootx64.efi" "$ISODIR/boot/efiboot/EFI/boot"
 	unmount "$ISODIR/boot/efiboot"
 	rm -fr "$ISODIR/boot/efiboot"
 
@@ -479,7 +479,7 @@ CCACHE_DIR="${CCACHEDIR:-/var/lib/ccache}"
 FILESDIR="$PORTSDIR/files"
 JOBS="${JOBS:-$(nproc)}"
 
-REPO="core multilib nonfree testing"
+REPO="main multilib nonfree testing"
 REPOFILE="$FILESDIR/scratchpkg.repo"
 
 # iso

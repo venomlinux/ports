@@ -19,7 +19,7 @@ build() {
 	            --with-rootprefix=      \
 	            --disable-static
 	make
-	make DESTDIR=$PKG install
-
-	rm -fr $PKG/usr/{bin,sbin,share,include,lib32/udev} $PKG/etc
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

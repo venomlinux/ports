@@ -10,7 +10,7 @@ VENOMROOTFS=${VENOMROOTFS:-/tmp/venominstall}
 # copy over all customs configs and customization except some unnecessary files
 for i in $(find $VIROOTFS -type f | sed "s,$VIROOTFS,,"); do
     case $i in
-        *venom-installer*|*custom_script.sh|*fstab|*issue|*venominstaller.desktop) continue;;
+        *venom-installer*|*custom_script.sh|*fstab|*issue|*venominstaller.desktop|*post-install.sh) continue;;
     esac
     install -D $VIROOTFS/$i $VENOMROOTFS/$i
 done
@@ -20,5 +20,8 @@ sed 's/current_theme.*/current_theme typogin/' -i $VENOMROOTFS/etc/slim.conf
 
 # remove install venom entry from ob menu
 sed '/Install Venom/d' -i $VENOMROOTFS/etc/skel/.config/obmenu-generator/schema.pl
+
+# remove welcome message entry from autostart
+sed '/xterm/d' -i $VENOMROOTFS/etc/skel/.config/openbox/autostart
 
 exit 0

@@ -18,10 +18,7 @@ build() {
 	            --disable-static \
 	            --disable-documentation
 	make
-	make DESTDIR=$PKG install
-
-	rm -fr $PKG/usr/{bin,include,share}
-
-	# remove file conflict with mesa
-	#rm $PKG/usr/lib/{libwayland-egl.so{,.1,.1.0.0},pkgconfig/wayland-egl.pc}
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

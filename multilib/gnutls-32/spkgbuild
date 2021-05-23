@@ -1,5 +1,5 @@
 # description	: Libraries and userspace tools which provide a secure layer over a reliable transport layer
-# depends	: gnutls gmp-32 nettle-32 libtasn1-32 p11-kit-32
+# depends	: gnutls libgmp-32 nettle-32 libtasn1-32 p11-kit-32
 
 name=gnutls-32
 version=3.7.1
@@ -20,7 +20,7 @@ build() {
 		    --with-included-unistring \
 		    --disable-guile
 	make
-	make DESTDIR=$PKG install
-
-	rm -fr $PKG/usr/{bin,share,include}
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
