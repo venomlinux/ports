@@ -2,10 +2,14 @@
 # depends	: libmpc libmpfr libgmp zlib
 
 name=gcc
-version=11.1.0
+version=10.3.0
 release=1
 source="https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
 	c89 c99"
+if [ $version != 10.3.0 ]; then
+	echo "DONT TOUCH THE TOOLCHAIN!"
+	exit 100
+fi
 
 build() {
 	cd $name-$version
