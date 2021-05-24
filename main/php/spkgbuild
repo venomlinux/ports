@@ -1,6 +1,6 @@
 # description	: PHP interpreter, extension modules and support stuff 
 # homepage	: https://www.php.net
-# depends	: tidy oniguruma bzip2 krb5 enchant libpcre2 libxml2 curl db gdbm
+# depends	: tidy oniguruma openssl bzip2 krb5 enchant libpcre2 libxml2 curl db gdbm
 
 name=php
 version=8.0.6
@@ -57,6 +57,7 @@ build() {
 		--with-pdo-mysql=shared,mysqlnd \
 		--with-pdo-sqlite=shared \
 		--with-readline \
+		--with-openssl \
 		--with-sqlite3=shared \
 		--with-tidy=shared \
 		--with-xsl=shared \
@@ -80,7 +81,4 @@ build() {
     install -d $PKG/etc/php/conf.d
     install -m 644 php.ini-* $PKG/etc/php
 
-    # order matters !
-    printf 'extension=%s\n' {bz2,curl,openssl,dba}.so \
-           > $PKG/etc/php/conf.d/extensions.ini
 }
