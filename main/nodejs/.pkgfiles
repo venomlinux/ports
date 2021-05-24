@@ -1,4 +1,4 @@
-nodejs-16.1.0-1
+nodejs-16.2.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/node
@@ -1214,6 +1214,7 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/lib/utils/config/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/view.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/whoami.js
 drwxr-xr-x root/root    usr/lib/node_modules/npm/lib/workspaces/
+-rw-r--r-- root/root    usr/lib/node_modules/npm/lib/workspaces/arborist-cmd.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/workspaces/get-workspaces.js
 drwxr-xr-x root/root    usr/lib/node_modules/npm/man/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/man/man1/
@@ -1300,7 +1301,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/man/man7/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/CHANGELOG.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/README.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/bin/
@@ -1335,12 +1335,12 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/l
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/calc-dep-flags.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/consistent-resolve.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/debug.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/dep-spec.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/dep-valid.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/diff.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/edge.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/from-path.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/gather-dep-set.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/get-workspace-nodes.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/inventory.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/link.js
@@ -2680,11 +2680,11 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/libnpmdiff/lib/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmdiff/lib/untar.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmdiff/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/CHANGELOG.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/README.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/lib/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/lib/cache-install-dir.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/lib/file-exists.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/lib/get-bin-from-manifest.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/lib/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/lib/manifest-missing.js
@@ -2692,7 +2692,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/lib/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/lib/run-script.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmexec/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/libnpmfund/
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmfund/CHANGELOG.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmfund/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmfund/README.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/libnpmfund/index.js
