@@ -2,7 +2,7 @@
 # depends	: curl openssl zlib
 
 name=libcurl-compat
-version=7.76.1
+version=7.77.0
 release=1
 source="https://curl.haxx.se/download/curl-$version.tar.xz"
 
@@ -17,6 +17,7 @@ build() {
 	    --enable-ipv6 \
 	    --enable-threaded-resolver \
 	    --with-gssapi \
+	    --with-openssl \
 	    --with-random='/dev/urandom' \
 	    --with-ca-bundle='/etc/ssl/ca-bundle.crt'
 	make -C lib
