@@ -1,9 +1,10 @@
-url=https://www.nvidia.com/object/unix.html
+url=https://www.nvidia.com/en-us/drivers/unix/
 
 port_getver() {
 	fetch \
-	| grep "Latest Long Lived Branch" \
+	| sed 's/<br>/\n/g' \
+	| grep "Latest Production Branch Version:" \
 	| head -n1 \
-	|  sed "s/.*\(>[0-9].*[0-9]<\).*/\1/" \
-	| sed 's/>//;s/<//'
+	| sed 's/\".*\"//' \
+	| grep -Eo [0-9.]+
 }
