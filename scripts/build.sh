@@ -101,8 +101,7 @@ mount_repo() {
 }
 
 fetch_rootfs() {
-	tarballname="venomlinux-rootfs-$TARBALLVERSION.tar.xz"
-	url="https://github.com/venomlinux/ports/releases/download/$TARBALLVERSION/$tarballname"
+	url="https://github.com/venomlinux/ports/releases/download/$RELEASE/venomlinux-rootfs-$RELEASE-$ARCH.tar.xz"
 
 	msg "Fetching rootfs tarball: $url"
 	wget -c --passive-ftp --no-directories --tries=3 --waitretry=3 --output-document=$TARBALLIMG.part $url
@@ -469,9 +468,14 @@ SCRIPTDIR="$(dirname $(realpath $0))"
 
 parse_opts "$@"
 
-TARBALLVERSION="20200414"
-TARBALLIMG="$PORTSDIR/venomlinux-rootfs.tar.xz"
+ARCH=$(uname -m)
+RELEASE=$(git branch --show-current)
 
+[ "$RELEASE" = master ] && {
+	RELEASE=current
+}
+
+TARBALLIMG="$PORTSDIR/venomlinux-rootfs-$RELEASE-$ARCH.tar.xz"
 SRCDIR="${SRCDIR:-/var/cache/scratchpkg/sources}"
 PKGDIR="${PKGDIR:-/var/cache/scratchpkg/packages}"
 ROOTFS="${ROOTFS:-$PORTSDIR/rootfs}"
@@ -486,7 +490,7 @@ REPOFILE="$FILESDIR/scratchpkg.repo"
 ISODIR="${ISODIR:-/tmp/venomiso}"
 ISOLABEL="VENOMLIVE_$(date +"%Y%m%d")"
 ISO_PKG="linux,dialog,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,syslinux"
-OUTPUTISO="${OUTPUTISO:-$PORTSDIR/venomlinux-$(date +"%Y%m%d").iso}"
+OUTPUTISO="${OUTPUTISO:-$PORTSDIR/venomlinux-$RELEASE-$ARCH.iso}"
 
 trap "interrupted" 1 2 3 15
 
