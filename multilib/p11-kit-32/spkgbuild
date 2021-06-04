@@ -2,7 +2,7 @@
 # depends	: p11-kit libffi-32 libtasn1-32
 
 name=p11-kit-32
-version=0.23.22
+version=0.24.0
 release=1
 source="https://github.com/p11-glue/p11-kit/releases/download/$version/p11-kit-$version.tar.xz"
 
@@ -20,10 +20,7 @@ build() {
 		--sysconfdir=/etc \
 		--with-trust-paths=/etc/pki/anchors	
 	make
-	make DESTDIR=$PKG install
-
-	rm -r $PKG/etc \
-	      $PKG/usr/bin \
-	      $PKG/usr/share \
-	      $PKG/usr/include
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
