@@ -1,5 +1,5 @@
 # description	: The GL Vendor-Neutral Dispatch library
-# depends	: libxext libx11 meson
+# depends	: libxext libx11
 
 name=libglvnd
 version=1.3.3
@@ -9,10 +9,18 @@ source="https://github.com/NVIDIA/libglvnd/archive/v$version/$name-v$version.tar
 build() {
 	cd libglvnd-$version
 
-	mkdir build
-	cd build
+	autoreconf -if
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
 
-	meson --prefix=/usr
-	ninja
-	DESTDIR=$PKG ninja install
+	#
+	# build using meson is broken for now
+	#
+	#mkdir build
+	#cd build
+
+	#meson --prefix=/usr
+	#ninja
+	#DESTDIR=$PKG ninja install
 }
