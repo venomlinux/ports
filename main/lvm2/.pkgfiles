@@ -1,3 +1,4 @@
+lvm2-2.03.12-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/lvm/
 -rw-r--r-- root/root    etc/lvm/lvm.conf.spkgnew
@@ -10,14 +11,16 @@ drwxr-xr-x root/root    etc/lvm/profile/
 -r--r--r-- root/root    etc/lvm/profile/metadata_profile_template.profile
 -r--r--r-- root/root    etc/lvm/profile/thin-generic.profile
 -r--r--r-- root/root    etc/lvm/profile/thin-performance.profile
+-r--r--r-- root/root    etc/lvm/profile/vdo-small.profile
 drwxr-xr-x root/root    lib/
 -r-xr-xr-x root/root    lib/libdevmapper.so.1.02
--r-xr-xr-x root/root    lib/liblvm2cmd.so.2.02
+-r-xr-xr-x root/root    lib/liblvm2cmd.so.2.03
 drwxr-xr-x root/root    lib/udev/
 drwxr-xr-x root/root    lib/udev/rules.d/
 -r--r--r-- root/root    lib/udev/rules.d/10-dm.rules
 -r--r--r-- root/root    lib/udev/rules.d/11-dm-lvm.rules
 -r--r--r-- root/root    lib/udev/rules.d/13-dm-disk.rules
+-r--r--r-- root/root    lib/udev/rules.d/69-dm-lvm-metad.rules
 -r--r--r-- root/root    lib/udev/rules.d/95-dm-notify.rules
 drwxr-xr-x root/root    sbin/
 -r-xr-xr-x root/root    sbin/blkdeactivate
@@ -30,8 +33,8 @@ lrwxrwxrwx root/root    sbin/lvcreate -> lvm
 lrwxrwxrwx root/root    sbin/lvdisplay -> lvm
 lrwxrwxrwx root/root    sbin/lvextend -> lvm
 -r-xr-xr-x root/root    sbin/lvm
--r-xr-xr-x root/root    sbin/lvmconf
 lrwxrwxrwx root/root    sbin/lvmconfig -> lvm
+lrwxrwxrwx root/root    sbin/lvmdevices -> lvm
 lrwxrwxrwx root/root    sbin/lvmdiskscan -> lvm
 -r-xr-xr-x root/root    sbin/lvmdump
 lrwxrwxrwx root/root    sbin/lvmsadc -> lvm
@@ -62,6 +65,7 @@ lrwxrwxrwx root/root    sbin/vgexport -> lvm
 lrwxrwxrwx root/root    sbin/vgextend -> lvm
 lrwxrwxrwx root/root    sbin/vgimport -> lvm
 lrwxrwxrwx root/root    sbin/vgimportclone -> lvm
+lrwxrwxrwx root/root    sbin/vgimportdevices -> lvm
 lrwxrwxrwx root/root    sbin/vgmerge -> lvm
 lrwxrwxrwx root/root    sbin/vgmknodes -> lvm
 lrwxrwxrwx root/root    sbin/vgreduce -> lvm
@@ -76,7 +80,7 @@ drwxr-xr-x root/root    usr/include/
 -r--r--r-- root/root    usr/include/lvm2cmd.h
 drwxr-xr-x root/root    usr/lib/
 lrwxrwxrwx root/root    usr/lib/libdevmapper.so -> ../../lib/libdevmapper.so.1.02
-lrwxrwxrwx root/root    usr/lib/liblvm2cmd.so -> ../../lib/liblvm2cmd.so.2.02
+lrwxrwxrwx root/root    usr/lib/liblvm2cmd.so -> ../../lib/liblvm2cmd.so.2.03
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -r--r--r-- root/root    usr/lib/pkgconfig/devmapper.pc
 drwxr-xr-x root/root    usr/share/
@@ -89,6 +93,7 @@ drwxr-xr-x root/root    usr/share/man/man7/
 -r--r--r-- root/root    usr/share/man/man7/lvmreport.7.gz
 -r--r--r-- root/root    usr/share/man/man7/lvmsystemid.7.gz
 -r--r--r-- root/root    usr/share/man/man7/lvmthin.7.gz
+-r--r--r-- root/root    usr/share/man/man7/lvmvdo.7.gz
 drwxr-xr-x root/root    usr/share/man/man8/
 -r--r--r-- root/root    usr/share/man/man8/blkdeactivate.8.gz
 -r--r--r-- root/root    usr/share/man/man8/dmsetup.8.gz
@@ -104,8 +109,8 @@ drwxr-xr-x root/root    usr/share/man/man8/
 -r--r--r-- root/root    usr/share/man/man8/lvm-fullreport.8.gz
 -r--r--r-- root/root    usr/share/man/man8/lvm-lvpoll.8.gz
 -r--r--r-- root/root    usr/share/man/man8/lvm.8.gz
--r--r--r-- root/root    usr/share/man/man8/lvmconf.8.gz
 -r--r--r-- root/root    usr/share/man/man8/lvmconfig.8.gz
+-r--r--r-- root/root    usr/share/man/man8/lvmdevices.8.gz
 -r--r--r-- root/root    usr/share/man/man8/lvmdiskscan.8.gz
 -r--r--r-- root/root    usr/share/man/man8/lvmdump.8.gz
 -r--r--r-- root/root    usr/share/man/man8/lvmsadc.8.gz
@@ -136,6 +141,7 @@ drwxr-xr-x root/root    usr/share/man/man8/
 -r--r--r-- root/root    usr/share/man/man8/vgextend.8.gz
 -r--r--r-- root/root    usr/share/man/man8/vgimport.8.gz
 -r--r--r-- root/root    usr/share/man/man8/vgimportclone.8.gz
+-r--r--r-- root/root    usr/share/man/man8/vgimportdevices.8.gz
 -r--r--r-- root/root    usr/share/man/man8/vgmerge.8.gz
 -r--r--r-- root/root    usr/share/man/man8/vgmknodes.8.gz
 -r--r--r-- root/root    usr/share/man/man8/vgreduce.8.gz
