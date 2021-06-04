@@ -2,13 +2,13 @@
 # depends	: python3
 
 name=recode
-version=3.7.8
+version=3.7.9
 release=1
 source="https://github.com/rrthomas/recode/releases/download/v$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --disable-nls
+	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
 
