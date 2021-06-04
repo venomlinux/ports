@@ -2,22 +2,22 @@
 # depends	: libusb libtiff libpng xz
 
 name=sane
-version=1.0.31
-release=2
-source="https://gitlab.com/sane-project/backends/uploads/8bf1cae2e1803aefab9e5331550e5d5d/$name-backends-$version.tar.gz"
+version=1.0.32
+release=1
+source="https://gitlab.com/sane-project/backends/uploads/104f09c07d35519cc8e72e604f11643f/$name-backends-$version.tar.gz"
 
 build() {
 	cd $name-backends-$version
 
-    	./configure --prefix=/usr \
+    	./configure \
+		--prefix=/usr \
                 --localstatedir=/var \
                 --sysconfdir=/etc \
                 --disable-translations \
                 --disable-locking \
                 --disable-latex \
                 --with-group=scanner \
-                --with-usb
-    
+                --with-usb    
 	make
 	make -j1 DESTDIR=$PKG install
 
