@@ -27,6 +27,10 @@ for i in $(cat $SCRIPTDIR/outdate.list | tr ' ' '?'); do
 	ver=$(echo $i | cut -d '?' -f2)
 	oldver=$(echo $i | cut -d '?' -f3)
 	
+	case $i in
+		python2-*) continue;;
+	esac
+	
 	[ -s $PORTSDIR/$pkg/spkgbuild ] || {
 		echo "Port not exist: $pkg"
 		continue
