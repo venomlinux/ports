@@ -22,6 +22,7 @@ d:herbstluftwm
 d:wpebackend-fdo
 d:dmenu
 d:qt5-webkit
+d:dnsmasq
 d:oblogout
 d:nitrogen
 d:ruby-rb-fsevent
@@ -171,6 +172,7 @@ d:libmpc
 d:faenza-icon-theme
 d:perl-xml-sax
 d:smtube
+d:cmatrix
 d:vte2
 d:python2-gtk
 d:ffmpegthumbnailer
@@ -547,6 +549,7 @@ d:xfce4-appfinder
 d:consolekit2
 d:gnutls
 d:screen
+d:ncspot
 d:v4l-utils
 d:vlc
 d:libmateweather
@@ -1235,6 +1238,10 @@ f:3540b17b2229c92567aa6f57ae8f41e0:qt5-webkit/icu68.patch
 f:e73cde59e94fb11dc1230326a221d5fd:qt5-webkit/.pkgfiles
 f:a706f48462340baf14a8808fbe688804:qt5-webkit/.checksums
 f:1a0a32f037e0a7d3036e972384abe41c:qt5-webkit/spkgbuild
+f:03910ef2a2cf39d55be1e77be6711f8f:dnsmasq/rc.dnsmasq
+f:60fa73132380115ae7e0c7c144f20547:dnsmasq/.pkgfiles
+f:2e7afd5e8d82d063001e56d8f3dfe798:dnsmasq/.checksums
+f:24d443fa15795dc1fcfdb30e6915639a:dnsmasq/spkgbuild
 f:ca15a5cac102edc0c74cba74a4eaf0c1:oblogout/oblogout.conf
 f:885446da2d5e19e52e372e68aa517e02:oblogout/.pkgfiles
 f:0e6ba570a4977cb72f678f0ec639f9ff:oblogout/oblogout.patch
@@ -1649,9 +1656,9 @@ f:8555be7bc86903f0a85f982d35915e86:tmux/spkgbuild
 f:ec84d77dd440df6f7db3c594d7c48ebd:qbittorrent-nox/.pkgfiles
 f:657f0250c6d63f75bf9d99ef949e5c0d:qbittorrent-nox/.checksums
 f:9387ca7f9e16e689a061f2059f71a597:qbittorrent-nox/spkgbuild
-f:b14acf5a0ca57bbe89fd5c3c53828748:fontforge/.pkgfiles
-f:ca7fb325b18cf0208e17c9dde805c5ab:fontforge/.checksums
-f:72b4b96696f9179e259679163c54f799:fontforge/spkgbuild
+f:1e45a10083ae6736e853480decaf6bff:fontforge/.pkgfiles
+f:45f7ff9a004c45aa657701e7484ede0e:fontforge/.checksums
+f:abf1d0128d5a0eeee88dd195c3a9debd:fontforge/spkgbuild
 f:25a86ec194afbc11519dd37288e67ec7:exo/.pkgfiles
 f:efcd94950fc14dd384d512d5835b4322:exo/.checksums
 f:e84a58b20af1c3b37a4cd2e36cb55066:exo/spkgbuild
@@ -1708,6 +1715,9 @@ f:2e189daaf645249fc304b989ae79d32b:perl-xml-sax/spkgbuild
 f:54ee909f851a604180a54df16fd77ab6:smtube/.pkgfiles
 f:0a2672b70cb3ec1b0256be62dd3c0f79:smtube/.checksums
 f:4fc9afb29bcdf30d0174dd8561ae8e11:smtube/spkgbuild
+f:b675ccdc70db6008d496b7355f03ec3c:cmatrix/.pkgfiles
+f:5959300fc0b99e692ee2e48f1d7dd887:cmatrix/.checksums
+f:0d40a53b8e07cdfb2a4733802267ab25:cmatrix/spkgbuild
 f:bb8cb7127106c869de2bffe65b6db1b2:vte2/alt-key.patch
 f:3c9d39af6109a8452d076f32c240ed01:vte2/.pkgfiles
 f:5c0cca5e0aaa7b3017086a358eddffb1:vte2/CVE-2012-2738.patch
@@ -2937,6 +2947,9 @@ f:d7bfdb07444431911fa4f9b97015a8a6:gnutls/spkgbuild
 f:e8c70dcd145fef29ba8d9bff5958f14b:screen/.pkgfiles
 f:0465b16d507beec22d9491815179fd48:screen/.checksums
 f:4e47e3b2260d310ac19bf4c3144889db:screen/spkgbuild
+f:fe4d2ca49bf77cd0015284575068f08d:ncspot/.pkgfiles
+f:abfb7580db0e44e60f84aec2f65b233b:ncspot/.checksums
+f:d1a03fcc21e1037e0d4db33149537551:ncspot/spkgbuild
 f:c6ac3cbd37ae613ce948dbddd67ec0b2:v4l-utils/.pkgfiles
 f:87760b74038b85dfe90feef42b6d091f:v4l-utils/.checksums
 f:cceaea01cffc1cf5aa3d48095d57b0ed:v4l-utils/spkgbuild
@@ -3028,9 +3041,9 @@ f:071311ab8d83e173e65d3e17345f5c35:pulseaudio-alsa/.pkgfiles
 f:6f8533d175cd1bf80ec56e890491e437:pulseaudio-alsa/.checksums
 f:0274ac9ae0624a892d0d115c8377b638:pulseaudio-alsa/spkgbuild
 f:9e4c8b285a01444f43e27f1af8799a6b:fltk/fltk-fix-lib-mess.patch
-f:951a3eb79ee8e81e70fb6b16abc9c168:fltk/.pkgfiles
-f:d71da3b6fa9c976c1ff4d369a575c4d0:fltk/.checksums
-f:45089330cbce38d405f890633f6a36c4:fltk/spkgbuild
+f:d36589300cc3daa2c0adeb353c793a38:fltk/.pkgfiles
+f:378287fa00beb3c9babebf7f72f9b7b2:fltk/.checksums
+f:d63f2deca157154d15d81e328b9e49b4:fltk/spkgbuild
 f:f24595131a36e11f2f6c35649ed21bc6:linux-lts/post-upgrade.sh
 f:12450ea44a06dc09df747cb19433a4d4:linux-lts/.pkgfiles
 f:f24595131a36e11f2f6c35649ed21bc6:linux-lts/post-install.sh
