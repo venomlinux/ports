@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+# /etc/rc.d/dnsmasq: start/stop dnsmasq daemon
+#
+
+. /etc/rc.subr
+
+PROG=/usr/sbin/dnsmasq
+PIDFILE=/var/run/dnsmasq.pid
+
+case $1 in
+	start)
+		msg "Starting dnsmasq daemon..."
+		start_daemon $PROG
+		;;
+	stop)
+		msg "Stopping dnsmasq daemon..."
+		stop_daemon $PROG
+		rm -f $PIDFILE
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		status_daemon $PROG
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+# End of file
