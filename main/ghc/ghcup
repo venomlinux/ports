@@ -1,0 +1,19 @@
+# description	: GHC is the haskell compiler 
+# homepage	: 
+# depends	: 
+
+name=ghc
+version=8.10.5
+release=1
+noextract=""
+backup=""
+source="https://github.com/DarthHelmut/ghc/raw/main/ghcup"
+
+build() {
+	wget https://github.com/DarthHelmut/ghc/raw/main/ghcup
+	chmod 755 ghcup
+	./ghcup install cabal
+	cabal install --lib happy alex ghc
+	
+
+}
