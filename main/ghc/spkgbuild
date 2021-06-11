@@ -1,0 +1,48 @@
+# description	: Glasgow Haskell compiler
+# homepage	: https://www.haskell.org/haskellwiki/Glasgow_Haskell_Compiler
+# depends	: libffi
+
+name=ghc
+version=8.10.5
+release=1
+source="https://downloads.haskell.org/~ghc/$version/ghc-$version-src.tar.xz"
+
+build() {
+	# bootstrap ghc if not installed
+	if [ ! -x /usr/bin/ghc ]; then
+		if [ ! -f $SOURCE_DIR/ghc-$version-x86_64-centos7-linux.tar.xz ]; then
+			curl -C - -L --fail --ftp-pasv --retry 3 --retry-delay 3 -o $SOURCE_DIR/ghc-$version-x86_64-centos7-linux.tar.xz.partial \
+				https://downloads.haskell.org/~ghc/$version/ghc-$version-x86_64-centos7-linux.tar.xz
+			if [ $? = 0 ]; then
+				mv $SOURCE_DIR/ghc-$version-x86_64-centos7-linux.tar.xz.partial \
+					$SOURCE_DIR/ghc-$version-x86_64-centos7-linux.tar.xz
+			else
+				msgerr "Failed downloading ghc bootstrap"
+				exit 1
+			fi
+		fi
+		mkdir -p $SRC/binary
+		tar -p -o -C $SRC/binary -xf $SOURCE_DIR/ghc-$version-x86_64-centos7-linux.tar.xz
+
+		cd $SRC/binary/$name-$version
+
+		ln -sv /lib/libncursesw.so.6 libtinfo.so.5
+		export LD_LIBRARY_PATH=$(pwd):$LD_LIBRARY_PATH
+
+		./configure --prefix=$SRC/bootstrap
+		make install
+		cd $SRC
+
+		export PATH=$SRC/bootstrap/bin:$PATH
+	fi
+
+	cd $name-$version
+
+	./configure \
+                --prefix=/usr \
+                --docdir=/usr/share/doc/ghc \
+                --with-system-libffi \
+                --with-ffi-includes=$(pkg-config --variable=includedir libffi)
+	make
+	make -j1 DESTDIR=$PKG install
+}
