@@ -1,3 +1,4 @@
+grub-2.06-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/bash_completion.d/
 -rw-r--r-- root/root    etc/bash_completion.d/grub
@@ -8,6 +9,7 @@ drwxr-xr-x root/root    etc/grub.d/
 -rwxr-xr-x root/root    etc/grub.d/10_linux
 -rwxr-xr-x root/root    etc/grub.d/20_linux_xen
 -rwxr-xr-x root/root    etc/grub.d/30_os-prober
+-rwxr-xr-x root/root    etc/grub.d/30_uefi-firmware
 -rwxr-xr-x root/root    etc/grub.d/40_custom
 -rwxr-xr-x root/root    etc/grub.d/41_custom
 -rw-r--r-- root/root    etc/grub.d/README
@@ -51,6 +53,8 @@ drwxr-xr-x root/root    usr/lib/grub/i386-pc/
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/affs.module
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/afs.mod
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/afs.module
+-rw-r--r-- root/root    usr/lib/grub/i386-pc/afsplitter.mod
+-rwxr-xr-x root/root    usr/lib/grub/i386-pc/afsplitter.module
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/ahci.mod
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/ahci.module
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/all_video.mod
@@ -282,6 +286,8 @@ drwxr-xr-x root/root    usr/lib/grub/i386-pc/
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/jfs.module
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/jpeg.mod
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/jpeg.module
+-rw-r--r-- root/root    usr/lib/grub/i386-pc/json.mod
+-rwxr-xr-x root/root    usr/lib/grub/i386-pc/json.module
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/kernel.exec
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/kernel.img
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/keylayouts.mod
@@ -316,6 +322,8 @@ drwxr-xr-x root/root    usr/lib/grub/i386-pc/
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/lspci.module
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/luks.mod
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/luks.module
+-rw-r--r-- root/root    usr/lib/grub/i386-pc/luks2.mod
+-rwxr-xr-x root/root    usr/lib/grub/i386-pc/luks2.module
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/lvm.mod
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/lvm.module
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/lzma_decompress.image
@@ -502,6 +510,8 @@ drwxr-xr-x root/root    usr/lib/grub/i386-pc/
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/sleep.module
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/sleep_test.mod
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/sleep_test.module
+-rw-r--r-- root/root    usr/lib/grub/i386-pc/smbios.mod
+-rwxr-xr-x root/root    usr/lib/grub/i386-pc/smbios.module
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/spkmodem.mod
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/spkmodem.module
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/squash4.mod
@@ -567,8 +577,6 @@ drwxr-xr-x root/root    usr/lib/grub/i386-pc/
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/usbtest.module
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/vbe.mod
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/vbe.module
--rw-r--r-- root/root    usr/lib/grub/i386-pc/verifiers.mod
--rwxr-xr-x root/root    usr/lib/grub/i386-pc/verifiers.module
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/vga.mod
 -rwxr-xr-x root/root    usr/lib/grub/i386-pc/vga.module
 -rw-r--r-- root/root    usr/lib/grub/i386-pc/vga_text.mod
@@ -613,3 +621,8 @@ drwxr-xr-x root/root    usr/lib/grub/i386-pc/
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/grub/
 -rw-r--r-- root/root    usr/share/grub/grub-mkconfig_lib
+drwxr-xr-x root/root    usr/share/info/
+-rw-r--r-- root/root    usr/share/info/grub-dev.info.gz
+-rw-r--r-- root/root    usr/share/info/grub.info-1.gz
+-rw-r--r-- root/root    usr/share/info/grub.info-2.gz
+-rw-r--r-- root/root    usr/share/info/grub.info.gz
