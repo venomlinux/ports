@@ -1,16 +1,19 @@
 # description	: freedesktop.org backend for WPE WebKit
-# depends	: libwpe glib libxkbcommon libepoxy wayland-protocols
+# homepage	: https://wpewebkit.org
+# depends	: libwpe glib libepoxy wayland-protocols meson
 
 name=wpebackend-fdo
-version=1.8.4
+version=1.10.0
 release=1
 source="https://wpewebkit.org/releases/$name-$version.tar.xz"
 
 build() {
-	cmake -H$name-$version -Bbuild \
-	    -DCMAKE_BUILD_TYPE=Plain \
-	    -DCMAKE_INSTALL_PREFIX=/usr \
-	    -DCMAKE_INSTALL_LIBDIR=/usr/lib
-	cmake --build build
-	DESTDIR=$PKG cmake --build build --target install
+	cd $name-$version
+
+        mkdir build
+        cd build
+
+        meson --prefix=/usr
+        ninja
+        DESTDIR=$PKG ninja install
 }
