@@ -11,6 +11,10 @@ build() {
 
 	export CFLAGS="$CFLAGS -fcommon"
 
+	# replace interpreter to #!/bin/bash
+	# the configure script is bashism
+	sed '1 s,^.*$,#!/bin/bash,' -i configure
+
 	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
