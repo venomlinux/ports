@@ -2,7 +2,7 @@
 # depends	: readline ncurses
 
 name=gdbm
-version=1.19
+version=1.20
 release=1
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz"
 
@@ -11,7 +11,6 @@ build() {
 
 	./configure --prefix=/usr \
 	            --disable-static \
-		    --disable-nls \
 	            --enable-libgdbm-compat
 	make
 	make DESTDIR=$PKG install
