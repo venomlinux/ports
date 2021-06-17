@@ -2,23 +2,12 @@
 # homepage	: https://alsa-project.org
 
 name=alsa-ucm-conf
-version=1.2.5
+version=1.2.5.1
 release=1
-source="https://www.alsa-project.org/files/pub/lib/$name-$version.tar.bz2
-	$name-1.2.5-hda_intel_lookups.patch::https://github.com/alsa-project/alsa-ucm-conf/commit/3f34021beffba4e39f064a14c5faceeaa224b766.patch"
+source="https://www.alsa-project.org/files/pub/lib/$name-$version.tar.bz2"
 
 build() {
-	# upstream creates tarball contents that don't match the version
-	# https://github.com/alsa-project/alsa-ucm-conf/issues/95
-	mv -v "$name-"*/ "$name-$version"
-
 	cd $name-$version
-
-	# fix issue with missing lookup:
-	# https://github.com/alsa-project/alsa-lib/issues/148
-	# https://bugs.archlinux.org/task/71180
-	patch -Np1 -i ../$name-1.2.5-hda_intel_lookups.patch
-
 	find ucm2 -type f -iname "*.conf" -exec install -vDm 644 {} "$PKG/usr/share/alsa/"{} \;
 	find ucm2 -type l -iname "*.conf" -exec cp -dv {} "$PKG/usr/share/alsa/"{} \;
 }
