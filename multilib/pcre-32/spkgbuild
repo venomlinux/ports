@@ -1,8 +1,8 @@
 # description	: Perl Compatible Regular Expression libraries
-# depends	: pcre bzip2-32 readline-32
+# depends	: pcre
 
 name=pcre-32
-version=8.44
+version=8.45
 release=1
 source="ftp://ftp.pcre.org/pub/pcre/pcre-$version.tar.bz2"
 
@@ -18,9 +18,6 @@ build() {
 	            --enable-unicode-properties       \
 	            --enable-pcre16                   \
 	            --enable-pcre32                   \
-	            --enable-pcregrep-libz            \
-	            --enable-pcregrep-libbz2          \
-	            --enable-pcretest-libreadline     \
 	            --disable-static
 	make
 	make DESTDIR=$PWD/DESTDIR install
