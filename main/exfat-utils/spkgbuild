@@ -1,0 +1,16 @@
+# description	: Utilities for exFAT file system
+# homepage	: https://github.com/relan/exfat
+# depends	: fuse2
+
+name=exfat-utils
+version=1.3.0
+release=1
+source="https://github.com/relan/exfat/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd exfat-$version
+	autoreconf -fiv
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
