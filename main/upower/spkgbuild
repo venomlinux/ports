@@ -2,11 +2,12 @@
 # depends	: dbus-glib libgudev libusb polkit gobject-introspection
 
 name=upower
-version=0.99.11
+version=0.99.12
 release=1
-source="https://gitlab.freedesktop.org/upower/upower/uploads/93cfe7c8d66ed486001c4f3f55399b7a/upower-0.99.11.tar.xz"
+source="https://gitlab.freedesktop.org/upower/upower/uploads/244f5966c58773bbd3b4c507c549560f/upower-$version.tar.xz"
 
 build() {
+ls
 	cd $name-$version
 
 	./configure --prefix=/usr \
@@ -14,8 +15,7 @@ build() {
 		    --libexecdir=/usr/lib/$name \
 	            --localstatedir=/var \
 	            --enable-deprecated \
-	            --disable-static \
-		    --disable-nls
+	            --disable-static
 	make
 	make DESTDIR=$PKG install
 }
