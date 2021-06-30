@@ -2,24 +2,12 @@
 # depends	: alsa-ucm-conf alsa-topology-conf
 
 name=alsa-lib
-version=1.2.5
-release=2
-source="ftp://ftp.alsa-project.org/pub/lib/$name-$version.tar.bz2
-	$name-1.2.5-load_all_cards.patch::https://github.com/alsa-project/alsa-lib/commit/ddfc32abf5697de1618b9e7ffdf57a0f97013090.patch
-	$name-1.2.5-private_device_prefix1.patch::https://github.com/alsa-project/alsa-lib/commit/0e4ba2ea8c0402f12a645032a14693eb9b1278e6.patch
-	$name-1.2.5-private_device_prefix2.patch::https://github.com/alsa-project/alsa-lib/commit/9621d0bff2e60b43e329ffa5059ab19f2914ec14.patch"
+version=1.2.5.1
+release=1
+source="ftp://ftp.alsa-project.org/pub/lib/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
-
-	# fix loading of multiple cards
-	# https://github.com/alsa-project/alsa-lib/issues/143
-	patch -Np1 -i ../"$name-1.2.5-load_all_cards.patch"
-	# probably fix issues with pipewire:
-	# https://github.com/alsa-project/alsa-lib/issues/142
-	patch -Np1 -i ../"$name-1.2.5-private_device_prefix1.patch"
-	patch -Np1 -i ../"$name-1.2.5-private_device_prefix2.patch"
-	autoreconf -vfi
 
   	./configure --prefix=/usr
 	make
