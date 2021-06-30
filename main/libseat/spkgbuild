@@ -1,0 +1,19 @@
+# description	: A minimal seat management daemon, and a universal seat management library
+# homepage	: https://git.sr.ht/~kennylevinsen/seatd
+# depends	: meson
+
+name=libseat
+version=0.5.0
+release=1
+source="$name-$version.tar.gz::https://git.sr.ht/~kennylevinsen/seatd/archive/$version.tar.gz"
+
+build() {
+	cd seatd-$version
+	
+	mkdir build
+	cd build
+
+	meson --prefix=/usr -Dbuiltin=enabled
+	ninja
+	DESTDIR=$PKG ninja install
+}
