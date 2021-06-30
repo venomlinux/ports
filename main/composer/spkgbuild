@@ -3,11 +3,11 @@
 # depends	: php unzip
 
 name=composer
-version=2.1.0
+version=2.1.3
 release=1
-source="https://github.com/composer/composer/releases/download/$version/composer.phar"
+source="$name-$version.phar::https://github.com/composer/composer/releases/download/$version/composer.phar"
 
 build() {
 
-	install -Dm755 composer.phar "${PKG}/usr/bin/composer"
+	install -Dm755 composer-$version.phar "${PKG}/usr/bin/composer"
 }
