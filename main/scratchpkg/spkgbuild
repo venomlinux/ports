@@ -2,7 +2,7 @@
 # depends	: coreutils libarchive
 
 name=scratchpkg
-version=20210609
+version=20210702
 release=1
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
@@ -10,12 +10,12 @@ backup="etc/scratchpkg.conf
 	etc/scratchpkg.mask
 	etc/revdep.conf"
 scratchpkg_url=https://github.com/venomlinux/scratchpkg
-source="https://github.com/venomlinux/scratchpkg/archive/61dd798a5f7bed08f799eaf78f653e7b1183a0a7.tar.gz
+source="https://github.com/venomlinux/scratchpkg/archive/c254ac0dc62a037f41bc269f1df291f6f53ab239.tar.gz
 	$name.repo
 	$name.conf"
 
 build() {
-	cd $name-61dd798a5f7bed08f799eaf78f653e7b1183a0a7
+	cd $name-c254ac0dc62a037f41bc269f1df291f6f53ab239
 
 	for s in $SRC/*; do
 		case $s in
