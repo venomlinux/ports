@@ -3,13 +3,14 @@
 # depends	: go-md2man libseccomp libassuan libgpg-error gpgme
 
 name=podman
-version=3.1.1
+version=3.2.2
 release=1
 source="$name-$version.tar.gz::https://github.com/containers/podman/archive/refs/tags/v$version.tar.gz"
 
 build() {
 	cd $name-$version
 	export GOCACHE=$PWD/gocache
+	export GOPATH=$PWD/gopath
 	make BUILDTAGS="seccomp exclude_graphdriver_devicemapper exclude_graphdriver_btrfs"
 	make install PREFIX=/usr DESTDIR=$PKG
 }
