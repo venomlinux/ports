@@ -24,7 +24,7 @@ THEME_PKG="arcbox paper-icon-theme osx-arc-theme liberation-fonts picom dunst ne
 # theme: arc-gtk-theme xfce4-whiskermenu-plugin pop-icon-theme
 
 branch=$(git branch --show-current)
-outputiso="$PORTSDIR/venomlinux-$branch.iso"
+outputiso="$PORTSDIR/venomlinux-$branch-$(uname -m).iso"
 pkgs="$(echo $MUST_PKG $XORG_PKG $MAIN_PKG $OPENBOX_PKG $THEME_PKG | tr ' ' ',')"
 
 as_root $SCRIPTDIR/build.sh \

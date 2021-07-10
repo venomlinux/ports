@@ -489,7 +489,7 @@ REPOFILE="$FILESDIR/scratchpkg.repo"
 # iso
 ISODIR="${ISODIR:-/tmp/venomiso}"
 ISOLABEL="VENOMLIVE_$(date +"%Y%m%d")"
-ISO_PKG="linux,dialog,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,syslinux"
+ISO_PKG="linux-lts,dialog,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,syslinux"
 OUTPUTISO="${OUTPUTISO:-$PORTSDIR/venomlinux-$RELEASE-$ARCH.iso}"
 
 trap "interrupted" 1 2 3 15

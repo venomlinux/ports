@@ -3,7 +3,6 @@
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 
-updatedone="$SCRIPTDIR/update.done"
 updatefail="$SCRIPTDIR/update.fail"
 updateskip="$SCRIPTDIR/update.skip"
 
@@ -27,8 +26,8 @@ for i in $(cat $SCRIPTDIR/outdate.list | tr ' ' '?'); do
 	ver=$(echo $i | cut -d '?' -f2)
 	oldver=$(echo $i | cut -d '?' -f3)
 	
-	case $i in
-		python2-*) continue;;
+	case $pkg in
+		*/python2-*) continue;;
 	esac
 	
 	[ -s $PORTSDIR/$pkg/spkgbuild ] || {
@@ -41,16 +40,6 @@ for i in $(cat $SCRIPTDIR/outdate.list | tr ' ' '?'); do
 	vc=$?
 	if [ "$vc" = 0 ] || [ "$vc" = 1 ]; then
 		continue
-	fi
-	#if [ "$pver" = "$ver" ]; then
-		#continue
-	#fi
-	#if [ $(vercomp $pver $ver) = 2 ]; then
-		#echo older
-		#read
-	#fi
-	if [ -f $updatedone ]; then
-		grep -qw $pkg $updatedone && continue
 	fi
 	if [ -f $updateskip ]; then
 		grep -qw $pkg $updateskip && continue
@@ -73,9 +62,7 @@ for i in $(cat $SCRIPTDIR/outdate.list | tr ' ' '?'); do
 		continue
 	fi
 	$SCRIPTDIR/portupdate.sh $pkg $ver
-	if [ $? = 0 ]; then
-		echo $pkg >> $updatedone
-	else
+	if [ $? != 0 ]; then
 		echo $pkg >> $updatefail
 	fi
 done

@@ -288,7 +288,7 @@ outdatelist="$SCRIPTDIR/outdate.list"
 outdateerror="$SCRIPTDIR/outdate.error"
 outdateskip="$SCRIPTDIR/outdate.skip"
 
-exclude="alpha beta doc rc migration example pre dev start cpp data eta"
+exclude="alpha beta doc rc migration example pre dev start cpp data eta release brushes"
 
 touch $outdatelist $outdateerror $outdateskip
 main $@
