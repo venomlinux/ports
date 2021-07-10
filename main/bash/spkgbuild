@@ -2,21 +2,19 @@
 # depends	: ncurses readline
 
 name=bash
-version=5.1.004
+version=5.1.8
 majver=${version%%.*}
 basever=${version%.*}
 patchver=${version##*.}
 release=1
-source="https://ftp.gnu.org/gnu/$name/$name-$basever.tar.gz"
-#https://ftp.gnu.org/gnu/bash/bash-$basever-patches/bash${majver}0-$patchver"
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz"
 
 build() {
-	cd $name-$basever
+	cd $name-$version
 
 	./configure --prefix=/usr \
 	            --without-bash-malloc \
-	            --with-installed-readline \
-		    --disable-nls
+	            --with-installed-readline
 	make -j1
 	make DESTDIR=$PKG install
 
