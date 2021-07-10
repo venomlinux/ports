@@ -670,7 +670,7 @@ install_now() {
 	fi
 	
 	print_info "Resolve temporary packages..."
-	scratch deplist $(cat $LISTPKG) $PKGKEEP | awk '{print $2}' >> $PKGSTRIP
+	scratch deplist $(cat $LISTPKG) $PKGKEEP linux linux-lts | awk '{print $2}' >> $PKGSTRIP
 	scratch installed | awk '{print $1}' >> $PKGINISO
 	
 	for i in $(grep -Fxv -f $PKGSTRIP $PKGINISO); do
