@@ -1,4 +1,4 @@
-wine-6.11-1
+wine-6.12-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/function_grep.pl
@@ -188,6 +188,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/
 -rw-r--r-- root/root    usr/include/wine/windows/cmdprp.idl
 -rw-r--r-- root/root    usr/include/wine/windows/cmdstrm.idl
 -rw-r--r-- root/root    usr/include/wine/windows/cmdtxt.idl
+-rw-r--r-- root/root    usr/include/wine/windows/cmdwpr.idl
 -rw-r--r-- root/root    usr/include/wine/windows/cmnquery.h
 -rw-r--r-- root/root    usr/include/wine/windows/cmnquery.idl
 -rw-r--r-- root/root    usr/include/wine/windows/codecapi.h
@@ -697,6 +698,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/netfw.h
 -rw-r--r-- root/root    usr/include/wine/windows/netfw.idl
 -rw-r--r-- root/root    usr/include/wine/windows/netioapi.h
+-rw-r--r-- root/root    usr/include/wine/windows/netiodef.h
 -rw-r--r-- root/root    usr/include/wine/windows/netlistmgr.h
 -rw-r--r-- root/root    usr/include/wine/windows/netlistmgr.idl
 -rw-r--r-- root/root    usr/include/wine/windows/newdev.h
@@ -713,6 +715,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/ntddvdeo.h
 -rw-r--r-- root/root    usr/include/wine/windows/ntdef.h
 -rw-r--r-- root/root    usr/include/wine/windows/ntdsapi.h
+-rw-r--r-- root/root    usr/include/wine/windows/ntgdi.h
 -rw-r--r-- root/root    usr/include/wine/windows/ntlsa.h
 -rw-r--r-- root/root    usr/include/wine/windows/ntquery.h
 -rw-r--r-- root/root    usr/include/wine/windows/ntsecapi.h
@@ -767,6 +770,8 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/powrprof.h
 -rw-r--r-- root/root    usr/include/wine/windows/prntvpt.h
 -rw-r--r-- root/root    usr/include/wine/windows/profinfo.h
+-rw-r--r-- root/root    usr/include/wine/windows/proofofpossessioncookieinfo.h
+-rw-r--r-- root/root    usr/include/wine/windows/proofofpossessioncookieinfo.idl
 -rw-r--r-- root/root    usr/include/wine/windows/propidl.h
 -rw-r--r-- root/root    usr/include/wine/windows/propidl.idl
 -rw-r--r-- root/root    usr/include/wine/windows/propkey.h
@@ -895,6 +900,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/tapi.h
 -rw-r--r-- root/root    usr/include/wine/windows/taskschd.h
 -rw-r--r-- root/root    usr/include/wine/windows/taskschd.idl
+-rw-r--r-- root/root    usr/include/wine/windows/tbs.h
 -rw-r--r-- root/root    usr/include/wine/windows/tchar.h
 -rw-r--r-- root/root    usr/include/wine/windows/tcpestats.h
 -rw-r--r-- root/root    usr/include/wine/windows/tcpmib.h
@@ -1765,6 +1771,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libnewdev.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libninput.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libnormaliz.def
+-rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libnsi.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libntdll.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libntdsapi.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libntoskrnl.def
@@ -1858,6 +1865,7 @@ lrwxrwxrwx root/root    usr/lib/wine/x86_64-unix/libwine.so.1 -> libwine.so.1.0
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libwtsapi32.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libxinput.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libxmllite.def
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/light.msstyles.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/loadperf.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/localspl.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/localui.dll.so
@@ -1983,6 +1991,8 @@ lrwxrwxrwx root/root    usr/lib/wine/x86_64-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/notepad.exe.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/npmshtml.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/npptools.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/nsi.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/nsiproxy.sys.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/ntdll.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/ntdll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/ntdsapi.dll.so
@@ -2111,6 +2121,7 @@ lrwxrwxrwx root/root    usr/lib/wine/x86_64-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/tasklist.exe.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/taskmgr.exe.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/taskschd.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/tbs.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/tdh.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/tdi.sys.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/termsv.exe.so
@@ -2773,6 +2784,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/ksproxy.ax
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/ksuser.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/ktmw32.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/light.msstyles
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/loadperf.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/localspl.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/localui.dll
@@ -2895,6 +2907,8 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/notepad.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/npmshtml.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/npptools.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/nsi.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/nsiproxy.sys
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/ntdll.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/ntdsapi.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/ntoskrnl.exe
@@ -3019,6 +3033,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/tasklist.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/taskmgr.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/taskschd.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/tbs.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/tdh.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/tdi.sys
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/termsv.exe
@@ -3814,6 +3829,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-unix/
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libnewdev.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libninput.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libnormaliz.def
+-rw-r--r-- root/root    usr/lib32/wine/i386-unix/libnsi.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libntdll.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libntdsapi.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libntoskrnl.def
@@ -3908,6 +3924,7 @@ lrwxrwxrwx root/root    usr/lib32/wine/i386-unix/libwine.so.1 -> libwine.so.1.0
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libwtsapi32.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libxinput.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libxmllite.def
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/light.msstyles.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/loadperf.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/localspl.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/localui.dll.so
@@ -4040,6 +4057,8 @@ lrwxrwxrwx root/root    usr/lib32/wine/i386-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/notepad.exe.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/npmshtml.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/npptools.dll.so
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/nsi.dll.so
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/nsiproxy.sys.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/ntdll.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/ntdll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/ntdsapi.dll.so
@@ -4184,6 +4203,7 @@ lrwxrwxrwx root/root    usr/lib32/wine/i386-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/tasklist.exe.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/taskmgr.exe.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/taskschd.dll.so
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/tbs.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/tdh.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/tdi.sys.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/termsv.exe.so
@@ -4883,6 +4903,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/ksproxy.ax
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/ksuser.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/ktmw32.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/light.msstyles
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/loadperf.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/localspl.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/localui.dll
@@ -5012,6 +5033,8 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/notepad.exe
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/npmshtml.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/npptools.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/nsi.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/nsiproxy.sys
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/ntdll.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/ntdsapi.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/ntoskrnl.exe
@@ -5152,6 +5175,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/tasklist.exe
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/taskmgr.exe
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/taskschd.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/tbs.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/tdh.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/tdi.sys
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/termsv.exe
