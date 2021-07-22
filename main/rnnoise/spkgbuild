@@ -1,0 +1,16 @@
+# description	: A noise suppression library based on a recurrent neural network
+# homepage	: https://jmvalin.ca/demo/rnnoise
+
+name=rnnoise
+version=0.4.1
+release=1
+_githash=1cbdbcf1283499bbb2230a6b0f126eb9b236defd
+source="$name-$version.tar.gz::https://github.com/xiph/rnnoise/archive/${_githash}.tar.gz"
+
+build() {
+	cd $name-$_githash
+	./autogen.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
