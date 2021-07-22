@@ -1,0 +1,19 @@
+# description	: General-purpose scalable concurrent malloc implementation
+# homepage	: http://www.canonware.com/jemalloc/
+# depends	: 
+
+name=jemalloc
+version=5.2.1
+release=1
+source="https://github.com/jemalloc/jemalloc/releases/download/$version/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--disable-initial-exec-tls \
+		--enable-autogen
+	make
+	make DESTDIR=$PKG install
+}
