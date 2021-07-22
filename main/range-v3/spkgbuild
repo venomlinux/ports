@@ -1,0 +1,23 @@
+# description	: Experimental range library for C++11/14/17
+# homepage	: https://github.com/ericniebler/range-v3
+# depends	: cmake ninja
+
+name=range-v3
+version=0.11.0
+release=1
+source="https://github.com/ericniebler/range-v3/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	
+	cmake . \
+		-Bbuild \
+		-GNinja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DRANGE_V3_TESTS=OFF \
+		-DRANGE_V3_HEADER_CHECKS=OFF \
+		-DRANGE_V3_EXAMPLES=OFF \
+		-DRANGE_V3_PERF=OFF
+	ninja -C build
+	DESTDIR=$PKG ninja -C build install
+}
