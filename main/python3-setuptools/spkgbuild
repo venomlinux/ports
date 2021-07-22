@@ -2,9 +2,9 @@
 # depends	: python3
 
 name=python3-setuptools
-version=51.3.3
+version=57.0.0
 release=1
-source="python-setuptools-$version.tar.gz::https://github.com/pypa/setuptools/archive/v$version.tar.gz"
+source="https://files.pythonhosted.org/packages/source/s/${name#*-}/${name#*-}-$version.tar.gz"
 
 build() {
 	cd setuptools-$version
