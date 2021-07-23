@@ -2,15 +2,14 @@
 # depends	: openssl
 
 name=msmtp
-version=1.8.14
+version=1.8.15
 release=1
 source="https://marlam.de/$name/releases/$name-$version.tar.xz"
 
 build() {
     cd $name-$version
     ./configure --prefix=/usr \
-                --with-tls=openssl \
-                --disable-nls
+                --with-tls=openssl
     make
     make DESTDIR=$PKG install
 }
