@@ -1,13 +1,14 @@
 # description	: Text document format for short documents, articles, books and UNIX man pages
-# depends	: docbook-xml python2
+# depends	: docbook-xml python3 libxslt
 
 name=asciidoc
-version=8.6.9
+version=9.1.0
 release=1
-source="https://downloads.sourceforge.net/asciidoc/asciidoc-8.6.9.tar.gz"
+source="https://github.com/asciidoc/$name-py3/archive/$version/$name-py3-$version.tar.gz"
 
 build() {
-	cd $name-$version
+	cd $name-py-$version
+	autoconf
 	./configure --prefix=/usr --sysconfdir=/etc
 	make
 	make DESTDIR=$PKG install
