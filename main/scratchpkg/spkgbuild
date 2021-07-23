@@ -1,9 +1,9 @@
 # description	: A simple package manager for Linux Distribution
-# depends	: coreutils libarchive
+# depends	: coreutils libarchive git
 
 name=scratchpkg
 version=20210702
-release=1
+release=2
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
 	etc/scratchpkg.repo
@@ -12,7 +12,8 @@ backup="etc/scratchpkg.conf
 scratchpkg_url=https://github.com/venomlinux/scratchpkg
 source="https://github.com/venomlinux/scratchpkg/archive/c254ac0dc62a037f41bc269f1df291f6f53ab239.tar.gz
 	$name.repo
-	$name.conf"
+	$name.conf
+	portsync"
 
 build() {
 	cd $name-c254ac0dc62a037f41bc269f1df291f6f53ab239
@@ -26,4 +27,5 @@ build() {
 	DESTDIR=$PKG ./INSTALL.sh
 	install -m644 $SRC/$name.repo $PKG/etc/$name.repo
 	install -m644 $SRC/$name.conf $PKG/etc/$name.conf
+	install -m755 $SRC/portsync $PKG/usr/bin/portsync
 }
