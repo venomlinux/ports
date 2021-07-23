@@ -1,4 +1,4 @@
-nodejs-16.4.2-1
+nodejs-16.5.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/node
@@ -12,6 +12,10 @@ drwxr-xr-x root/root    usr/include/node/cppgc/
 -rw-r--r-- root/root    usr/include/node/cppgc/common.h
 -rw-r--r-- root/root    usr/include/node/js_native_api.h
 -rw-r--r-- root/root    usr/include/node/js_native_api_types.h
+drwxr-xr-x root/root    usr/include/node/libplatform/
+-rw-r--r-- root/root    usr/include/node/libplatform/libplatform-export.h
+-rw-r--r-- root/root    usr/include/node/libplatform/libplatform.h
+-rw-r--r-- root/root    usr/include/node/libplatform/v8-tracing.h
 -rw-r--r-- root/root    usr/include/node/node.h
 -rw-r--r-- root/root    usr/include/node/node_api.h
 -rw-r--r-- root/root    usr/include/node/node_api_types.h
@@ -1173,8 +1177,8 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/lib/utils/config/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/config/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/deref-command.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/did-you-mean.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/error-handler.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/error-message.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/exit-handler.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/explain-dep.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/explain-eresolve.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/file-exists.js
@@ -1353,7 +1357,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/l
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/spec-from-lock.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/tracker.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/tree-check.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/update-root-package-json.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/version-from-tgz.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/vuln.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/yarn-lock.js
@@ -1425,6 +1428,14 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/node-gyp/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/node-gyp/lib/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/node-gyp/lib/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/node-gyp/package.json
+drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/package-json/
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/package-json/LICENSE
+drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/package-json/lib/
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/package-json/lib/index.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/package-json/lib/update-dependencies.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/package-json/lib/update-scripts.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/package-json/lib/update-workspaces.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/package-json/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/promise-spawn/index.js
