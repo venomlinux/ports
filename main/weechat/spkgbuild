@@ -2,7 +2,7 @@
 # depends	: cmake ncurses curl zlib libgcrypt gnutls guile tcl lua ruby
 
 name=weechat
-version=3.0
+version=3.2
 release=1
 source="https://weechat.org/files/src/weechat-$version.tar.xz"
 
@@ -15,8 +15,7 @@ build() {
 	cmake .. -DCMAKE_INSTALL_PREFIX=/usr \
 		-DENABLE_PHP=OFF \
 		-DENABLE_SPELL=OFF \
-		-DENABLE_JAVASCRIPT=OFF \
-		-DENABLE_NLS=OFF
+		-DENABLE_JAVASCRIPT=OFF
 	make
 	make DESTDIR=$PKG install
 }
