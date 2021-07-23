@@ -2,20 +2,12 @@
 # depends	: python3
 
 name=talloc
-version=2.3.2
+version=2.3.3
 release=1
 source="https://samba.org/ftp/$name/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-
-	cat > which <<EOF
-#!/bin/sh
-type -p \$1
-EOF
-
-chmod +x which
-export PATH=$PATH:$PWD
 
 	./configure \
 		--prefix=/usr \
