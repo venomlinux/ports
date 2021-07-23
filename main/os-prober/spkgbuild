@@ -2,14 +2,15 @@
 # depends	: bash
 
 name=os-prober
-version=1.78
+version=1.79
 release=1
 source="http://http.debian.net/debian/pool/main/o/$name/${name}_${version}.tar.xz"
 
 build() {
-	cd $name-$version
+	cd $name
 
 	make
+
 	install -Dm755 linux-boot-prober $PKG/usr/bin/linux-boot-prober
 	install -Dm755 os-prober $PKG/usr/bin/os-prober
 	install -Dm755 newns $PKG/usr/lib/os-prober/newns
@@ -22,6 +23,5 @@ build() {
 	done
 	
 	install -Dm755 os-probes/mounted/powerpc/20macosx $PKG/usr/lib/os-probes/mounted/20macosx
-	
 	install -dm755 $PKG/var/lib/os-prober
 }
