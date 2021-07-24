@@ -1,4 +1,4 @@
-fish-3.2.2-1
+fish-3.3.1-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/fish/
 drwxr-xr-x root/root    etc/fish/completions/
@@ -252,8 +252,10 @@ drwxr-xr-x root/root    usr/share/fish/completions/
 -rw-r--r-- root/root    usr/share/fish/completions/figlet.fish
 -rw-r--r-- root/root    usr/share/fish/completions/file.fish
 -rw-r--r-- root/root    usr/share/fish/completions/find.fish
+-rw-r--r-- root/root    usr/share/fish/completions/firewall-cmd.fish
 -rw-r--r-- root/root    usr/share/fish/completions/fish.fish
 -rw-r--r-- root/root    usr/share/fish/completions/fish_add_path.fish
+-rw-r--r-- root/root    usr/share/fish/completions/fish_config.fish
 -rw-r--r-- root/root    usr/share/fish/completions/fish_indent.fish
 -rw-r--r-- root/root    usr/share/fish/completions/fish_key_reader.fish
 -rw-r--r-- root/root    usr/share/fish/completions/flac.fish
@@ -364,7 +366,6 @@ drwxr-xr-x root/root    usr/share/fish/completions/
 -rw-r--r-- root/root    usr/share/fish/completions/kitty.fish
 -rw-r--r-- root/root    usr/share/fish/completions/kldload.fish
 -rw-r--r-- root/root    usr/share/fish/completions/kldunload.fish
--rw-r--r-- root/root    usr/share/fish/completions/la.fish
 -rw-r--r-- root/root    usr/share/fish/completions/latex.fish
 -rw-r--r-- root/root    usr/share/fish/completions/latexmk.fish
 -rw-r--r-- root/root    usr/share/fish/completions/launchctl.fish
@@ -373,7 +374,6 @@ drwxr-xr-x root/root    usr/share/fish/completions/
 -rw-r--r-- root/root    usr/share/fish/completions/less.fish
 -rw-r--r-- root/root    usr/share/fish/completions/light.fish
 -rw-r--r-- root/root    usr/share/fish/completions/lightdm.fish
--rw-r--r-- root/root    usr/share/fish/completions/ll.fish
 -rw-r--r-- root/root    usr/share/fish/completions/ln.fish
 -rw-r--r-- root/root    usr/share/fish/completions/localectl.fish
 -rw-r--r-- root/root    usr/share/fish/completions/locate.fish
@@ -656,6 +656,7 @@ drwxr-xr-x root/root    usr/share/fish/completions/
 -rw-r--r-- root/root    usr/share/fish/completions/su.fish
 -rw-r--r-- root/root    usr/share/fish/completions/subl.fish
 -rw-r--r-- root/root    usr/share/fish/completions/sudo.fish
+-rw-r--r-- root/root    usr/share/fish/completions/sv.fish
 -rw-r--r-- root/root    usr/share/fish/completions/svn.fish
 -rw-r--r-- root/root    usr/share/fish/completions/sylpheed.fish
 -rw-r--r-- root/root    usr/share/fish/completions/synclient.fish
@@ -958,6 +959,8 @@ drwxr-xr-x root/root    usr/share/fish/functions/
 -rw-r--r-- root/root    usr/share/fish/functions/fish_clipboard_copy.fish
 -rw-r--r-- root/root    usr/share/fish/functions/fish_clipboard_paste.fish
 -rw-r--r-- root/root    usr/share/fish/functions/fish_command_not_found.fish
+-rw-r--r-- root/root    usr/share/fish/functions/fish_commandline_append.fish
+-rw-r--r-- root/root    usr/share/fish/functions/fish_commandline_prepend.fish
 -rw-r--r-- root/root    usr/share/fish/functions/fish_config.fish
 -rw-r--r-- root/root    usr/share/fish/functions/fish_default_key_bindings.fish
 -rw-r--r-- root/root    usr/share/fish/functions/fish_default_mode_prompt.fish
@@ -998,6 +1001,7 @@ drwxr-xr-x root/root    usr/share/fish/functions/
 -rw-r--r-- root/root    usr/share/fish/functions/prevd-or-backward-word.fish
 -rw-r--r-- root/root    usr/share/fish/functions/prevd.fish
 -rw-r--r-- root/root    usr/share/fish/functions/prompt_hostname.fish
+-rw-r--r-- root/root    usr/share/fish/functions/prompt_login.fish
 -rw-r--r-- root/root    usr/share/fish/functions/prompt_pwd.fish
 -rw-r--r-- root/root    usr/share/fish/functions/psub.fish
 -rw-r--r-- root/root    usr/share/fish/functions/pushd.fish
@@ -1051,6 +1055,8 @@ drwxr-xr-x root/root    usr/share/fish/man/man1/
 -rw-r--r-- root/root    usr/share/fish/man/man1/fish-doc.1.gz
 -rw-r--r-- root/root    usr/share/fish/man/man1/fish-faq.1.gz
 -rw-r--r-- root/root    usr/share/fish/man/man1/fish-for-bash-users.1.gz
+-rw-r--r-- root/root    usr/share/fish/man/man1/fish-interactive.1.gz
+-rw-r--r-- root/root    usr/share/fish/man/man1/fish-language.1.gz
 -rw-r--r-- root/root    usr/share/fish/man/man1/fish-releasenotes.1.gz
 -rw-r--r-- root/root    usr/share/fish/man/man1/fish-tutorial.1.gz
 -rw-r--r-- root/root    usr/share/fish/man/man1/fish.1.gz
@@ -1091,6 +1097,7 @@ drwxr-xr-x root/root    usr/share/fish/man/man1/
 -rw-r--r-- root/root    usr/share/fish/man/man1/popd.1.gz
 -rw-r--r-- root/root    usr/share/fish/man/man1/prevd.1.gz
 -rw-r--r-- root/root    usr/share/fish/man/man1/printf.1.gz
+-rw-r--r-- root/root    usr/share/fish/man/man1/prompt_login.1.gz
 -rw-r--r-- root/root    usr/share/fish/man/man1/prompt_pwd.1.gz
 -rw-r--r-- root/root    usr/share/fish/man/man1/psub.1.gz
 -rw-r--r-- root/root    usr/share/fish/man/man1/pushd.1.gz
@@ -1157,20 +1164,16 @@ drwxr-xr-x root/root    usr/share/fish/tools/web_config/partials/
 -rw-r--r-- root/root    usr/share/fish/tools/web_config/partials/variables.html
 drwxr-xr-x root/root    usr/share/fish/tools/web_config/sample_prompts/
 -rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/acidhub.fish
--rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/classic.fish
--rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/classic_status.fish
--rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/classic_vcs.fish
--rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/debian_chroot.fish
+-rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/arrow.fish
+-rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/default.fish
+-rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/disco.fish
 -rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/informative.fish
 -rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/informative_vcs.fish
--rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/justadollar.fish
--rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/lonetwin.fish
 -rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/minimalist.fish
 -rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/nim.fish
 -rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/pythonista.fish
--rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/robbyrussell.fish
--rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/screen_savvy.fish
--rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/sorin.fish
+-rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/scales.fish
+-rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/simple.fish
 -rw-r--r-- root/root    usr/share/fish/tools/web_config/sample_prompts/terlar.fish
 -rw-r--r-- root/root    usr/share/fish/tools/web_config/webconfig.py
 drwxr-xr-x root/root    usr/share/fish/vendor_completions.d/
