@@ -3,8 +3,8 @@
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 
-updatefail="$SCRIPTDIR/update.fail"
-updateskip="$SCRIPTDIR/update.skip"
+updatefail="$SCRIPTDIR/.${0##*/}.fail"
+updateskip="$SCRIPTDIR/.${0##*/}.skip"
 
 vercomp() {	
 	if [ "$1" = "$2" ]; then
@@ -16,12 +16,12 @@ vercomp() {
 	fi
 }
 
-if [ ! -f $SCRIPTDIR/outdate.list ]; then
-	echo "outdate.list file not found"
+if [ ! -f $SCRIPTDIR/.outdate.sh.list ]; then
+	echo ".outdate.sh.list file not found"
 	exit 1
 fi
 
-for i in $(cat $SCRIPTDIR/outdate.list | tr ' ' '?'); do
+for i in $(cat $SCRIPTDIR/.outdate.sh.list | tr ' ' '?'); do
 	pkg=$(echo $i | cut -d '?' -f1)
 	ver=$(echo $i | cut -d '?' -f2)
 	oldver=$(echo $i | cut -d '?' -f3)

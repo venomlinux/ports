@@ -247,17 +247,6 @@ commit_port() {
 	unset cmsg
 }
 
-port_repgen() {
-	if [ ! $(type -pa httpup-repgen) ]; then
-		echo "httpup not installed, aborting"
-		exit 1
-	fi
-	
-	for r in ${PORTREPO[@]}; do
-		httpup-repgen $r
-	done
-}
-
 port_push() {
 	#if git status | grep "Your branch is up to date"; then
 	#	return 0
@@ -269,18 +258,16 @@ port_push() {
 		return 2
 	fi
 	
-	port_repgen
+	#echo "generating packagelist"
+	#$SCRIPTDIR/genpackagelist.sh
 	
-	echo "generating packagelist"
-	$SCRIPTDIR/genpackagelist.sh
-	
-	git add $SCRIPTDIR/packages.json
+	#git add $SCRIPTDIR/packages.json
 	
 	for r in ${PORTREPO[@]}; do
 		git add $r
 	done
 	
-	git commit -m "REPO updated"
+	#git commit -m "REPO updated"
 	git push
 }
 

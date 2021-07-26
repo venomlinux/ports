@@ -207,13 +207,6 @@ check() {
 parseopt() {
 	while [ $1 ]; do
 		case $1 in
-			-r) while [ $2 ]; do
-					case $2 in
-						-*) break;;
-						*) REPO="$REPO $2"
-					esac
-					shift
-				done;;
 			-n) NOOVERRIDE=1;;
 			-v) VERBOSE=1;;
 			-h) print_help; exit 0;;
@@ -231,7 +224,6 @@ Usage:
   ./$(basename $0) [ options ] [ <pkg1> <pkg2> <pkgN> ]
   
 Options:
-  -r <repo>     check for certain repo
   -n            dont use update file override
   -v            print port's details
   -h            show this help message
@@ -284,11 +276,11 @@ PORTREPO="main multilib nonfree"
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 
-outdatelist="$SCRIPTDIR/outdate.list"
-outdateerror="$SCRIPTDIR/outdate.error"
-outdateskip="$SCRIPTDIR/outdate.skip"
+outdatelist="$SCRIPTDIR/.${0##*/}.list"
+outdateerror="$SCRIPTDIR/.${0##*/}.error"
+outdateskip="$SCRIPTDIR/.${0##*/}.skip"
 
-exclude="alpha beta doc rc migration example pre dev start cpp data eta release brushes"
+exclude="alpha beta doc rc migration example pre dev start cpp data eta release brushes autotools"
 
 touch $outdatelist $outdateerror $outdateskip
 main $@

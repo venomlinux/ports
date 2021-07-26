@@ -4,8 +4,17 @@ msg() {
 	echo "$port: $@"
 }
 
+getdeps() {
+	# getdeps <portpath>
+	grep "^# depends[[:blank:]]*:" $portpath/spkgbuild \
+	| sed 's/^# depends[[:blank:]]*:[[:blank:]]*//' \
+	| tr ' ' '\n' \
+	| awk '!a[$0]++' \
+	| sed 's/,//'
+}
+
 verifyvar() {
-	for i in backup noextract options source; do
+	for i in backup noextract source; do
 		grep -q ${i}=\"\" $portpath/spkgbuild && msg "please remove this empty variable: ${i}=\"\""
 	done
 }
@@ -25,32 +34,6 @@ verifythisisnotarch() {
 	for i in pkgver pkgrel pkgdesc pkgdir srcdir; do
 		grep -q "$i" $portpath/spkgbuild && msg "please remove ARCH stuff, this is not ARCH"
 	done
-}
-
-verifydeps() {
-	deps=
-	if [ "$(grep "^# depends[[:blank:]]*:" $portpath/spkgbuild)" ]; then
-		deps=$(grep "^# depends[[:blank:]]*:" $portpath/spkgbuild \
-			| sed 's/^# depends[[:blank:]]*:[[:blank:]]*//' \
-			| tr ' ' '\n' \
-			| awk '!a[$0]++' \
-			| sed 's/,//')
-		[ "$deps" ] || msg "empty dependency"
-		cd $PORTSDIR
-		for d in $deps; do
-			found=0
-			for r in main multilib nonfree; do
-				if [ -f $r/$d/spkgbuild ]; then
-					found=1
-					break
-				fi
-			done
-			if [ "$found" = 0 ]; then
-				msg "dependency '$d' not exist in repo"
-			fi
-		done
-		cd - >/dev/null
-	fi
 }
 
 verifyforbiddendir() {
@@ -76,24 +59,55 @@ verifynotusedir() {
 	done
 }
 
+verifydeps() {
+	if [ "$(grep "^# depends[[:blank:]]*:" $portpath/spkgbuild)" ]; then
+		deps=$(getdeps)
+		[ "$deps" ] || {
+			msg "empty dependency"
+			return
+		}
+		for d in $deps; do
+			found=0
+			for r in $REPO; do
+				[ -f $PORTSDIR/$r/$d/spkgbuild ] && {
+					found=1
+					break
+				}
+			done
+			[ $found = 0 ] && msg "missing deps '$d'"
+		done
+	fi
+}
+
+runverify() {
+	while [ $1 ]; do
+		portpath="$(realpath $1)"
+		port=${portpath##*/}
+		[ -f $portpath/spkgbuild ] || {
+			msg "looks like not a valid port"
+			shift; continue
+		}
+		verifydeps
+		verifyvar
+		verifyfiles
+		verifythisisnotcrux
+		verifythisisnotarch
+		verifyforbiddendir
+		verifynotusedir
+		shift
+	done
+}
+
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
+REPO="main multilib nonfree"
 
-while [ $1 ]; do
-	portpath="$(realpath $1)"
-	port=${portpath##*/}
-	[ -f $portpath/spkgbuild ] || {
-		msg "looks like not a valid port"
-		shift; continue
-	}
-	verifydeps
-	verifyvar
-	verifyfiles
-	verifythisisnotcrux
-	verifythisisnotarch
-	verifyforbiddendir
-	verifynotusedir
-	shift
-done
+if [ $1 ]; then
+	runverify $@
+else
+	for r in $REPO; do
+		runverify $PORTSDIR/$r/*
+	done
+fi
 
 exit 0
