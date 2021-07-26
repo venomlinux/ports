@@ -3,14 +3,12 @@
 
 name=spotify
 version=1.1.55.498.gf9a83c60
-_version=${version%.*}-${version##*.}
 release=1
-options="!strip"
-source="http://repository.spotify.com/pool/non-free/s/spotify-client/spotify-client_${_version}_amd64.deb
+source="http://repository.spotify.com/pool/non-free/s/spotify-client/spotify-client_${version}_amd64.deb
 	spotify"
 
 build() {
-	bsdtar -xf spotify-client_${_version}_amd64.deb
+	bsdtar -xf spotify-client_${version}_amd64.deb
 	tar -xzf data.tar.gz -C $PKG
 
 	install -D $PKG/usr/share/spotify/spotify.desktop $PKG/usr/share/applications/spotify.desktop
