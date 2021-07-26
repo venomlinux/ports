@@ -1,0 +1,25 @@
+# description	: Git web interface written in C
+# homepage	: https://git.zx2c4.com/cgit
+# depends	: asciidoc curl
+
+name=cgit
+version=1.2.3
+release=1
+source="https://git.zx2c4.com/cgit/snapshot/$name-$version.tar.xz
+	cgit.conf"
+
+build() {
+	cd $name-$version
+
+	make get-git
+	make
+	make doc-man
+	make CGIT_SCRIPT_PATH=/usr/share/webapps/cgit DESTDIR=$PKG prefix=/usr install install-man
+
+	install -d $PKG/var/cache/cgit $PKG/usr/lib/cgit
+	install -D -m 0640 $SRC/cgit.conf $PKG/etc/apache/original/extra/cgit.conf
+	install -D -m 0640 $SRC/cgit.conf $PKG/etc/apache/extra/cgit.conf
+
+	mv $PKG/usr/share/webapps/cgit/cgit.cgi $PKG/usr/lib/cgit
+	ln -sf ../../../lib/cgit/cgit.cgi $PKG/usr/share/webapps/cgit/cgit.cgi
+}
