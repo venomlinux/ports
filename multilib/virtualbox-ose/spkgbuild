@@ -10,7 +10,9 @@ source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.
 	virtualbox.60-vboxdrv.rules
 	005-gsoap-build.patch
 	008-no-vboxvideo.patch
-	013-Makefile.patch"
+	013-Makefile.patch
+	dkms.conf
+	buildmodules-vboxhost.sh"
 
 build() {
 	cd $_name-$version
@@ -95,18 +97,16 @@ build() {
 	# udev rules
 	install -Dm0644 "$SRC/virtualbox.60-vboxdrv.rules" "$PKG/lib/udev/rules.d/60-vboxdrv.rules"
 
-	# modules
-	if [ -f /lib/modules/KERNELVERSION ]; then
-		kernver=$(cat /lib/modules/KERNELVERSION)
-	else
-		kernver=$(uname -r)
-	fi
-	cd src
-	make
-	mkdir -p $PKG/lib/modules/$kernver/misc
-	for i in *.ko; do
-	    install -Dm0644 $i $PKG/lib/modules/$kernver/misc
-	done
+	# dkms
+	install -dm0755 "$PKG/usr/src"
+	cp -r src "$PKG/usr/src/vboxhost-${version}_OSE"
+	sed "s,@VERSION@,$version," $SRC/dkms.conf > "$PKG/usr/src/vboxhost-${version}_OSE/dkms.conf"
+
+	# dkms build modules script
+	mkdir -p $PKG/var/lib/dkms
+	sed -e "s/@name@/vboxhost/g" \
+	    -e "s/@version@/${version}_OSE/g" \
+	$SRC/buildmodules-vboxhost.sh > $PKG/var/lib/dkms/buildmodules-vboxhost.sh
 
 	# load modules at boot time
 	install -d $PKG/etc/modules-load.d/
@@ -114,7 +114,4 @@ build() {
 	echo "vboxdrv" >> $PKG/etc/modules-load.d/virtualbox.conf
 	echo "vboxnetadp" >> $PKG/etc/modules-load.d/virtualbox.conf
 	echo "vboxnetflt" >> $PKG/etc/modules-load.d/virtualbox.conf
-
-	# compress modules
-	find $PKG -name '*.ko' -exec xz -T1 {} +
 }
