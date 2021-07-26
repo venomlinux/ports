@@ -1,0 +1,8 @@
+url=http://download.virtualbox.org/virtualbox/
+
+port_getver() {
+	fetch \
+	| grep -Eo href=\"[0-9a-z.]+ \
+	| sed 's/href=\"//' \
+	| grep ^[[:digit:]]
+}
