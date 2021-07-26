@@ -1,0 +1,44 @@
+# description	: Viewer for Portable Document Format (PDF) files
+# homepage	: https://www.xpdfreader.com
+# depends	: qt5 freetype2 libpng fontconfig
+
+name=xpdf
+version=4.03
+release=1
+backup="etc/xpdfrc"
+source="https://dl.xpdfreader.com/xpdf-$version.tar.gz
+	xpdf-4.00-permissions.patch
+	xpdf-4.00-xpdfrc.patch
+	xpdf.desktop"
+
+build() {
+	cd $name-$version
+
+	cp doc/sample-xpdfrc xpdfrc
+	patch -Np1 < ../xpdf-4.00-permissions.patch
+	patch -Np1 < ../xpdf-4.00-xpdfrc.patch
+	sed 's:/usr/share/fonts/type1/gsfonts:/usr/share/fonts/Type1:' -i xpdf/GlobalParams.cc
+
+	mkdir build
+	cd build
+
+	cmake .. \
+	    -DMULTITHREADED=ON \
+	    -DOPI_SUPPORT=ON \
+	    -DXPDFWIDGET_PRINTING=ON \
+	    -DSYSTEM_XPDFRC=/etc/xpdfrc \
+	    -DCMAKE_INSTALL_PREFIX=/usr \
+	    -DCMAKE_BUILD_TYPE=None \
+	    -Wno-dev
+	make
+	make DESTDIR=$PKG install
+
+	install -Dm 644 ../xpdfrc -t $PKG/etc
+	install -Dm 644 $SRC/xpdf.desktop -t $PKG/usr/share/applications
+	install -Dm 644 ../xpdf-qt/xpdf-icon.svg $PKG/usr/share/pixmaps/xpdf.svg
+
+	# remove stuff provided by poppler
+	for tool in pdfdetach pdffonts pdfimages pdfinfo pdftoppm pdftops pdftotext pdftohtml; do
+		rm "$PKG/usr/bin/${tool}" "$PKG/usr/share/man/man1/${tool}.1"
+	done
+}
