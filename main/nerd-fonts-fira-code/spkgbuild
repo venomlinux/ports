@@ -5,9 +5,7 @@
 name=nerd-fonts-fira-code
 version=2.1.0
 release=1
-noextract=""
-backup=""
-source="https://github.com/ryanoasis/nerd-fonts/releases/download/v$version/FiraCode.zip"
+source="FiraCode-$version.zip::https://github.com/ryanoasis/nerd-fonts/releases/download/v$version/FiraCode.zip"
 
 build() {
   find . -iname "*.otf" -not -iname "*Windows Compatible.otf" -execdir install -Dm644 {} "$PKG/usr/share/fonts/OTF/{}" \;
