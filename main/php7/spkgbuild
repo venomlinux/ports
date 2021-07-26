@@ -1,18 +1,16 @@
 # description	: PHP interpreter, extension modules and support stuff 
 # homepage	: https://www.php.net
-# depends	: tidy oniguruma bzip2 krb5 enchant libpcre2 libxml2 curl db gdbm
+# depends	: tidy oniguruma bzip2 krb5 enchant pcre2 libxml2 curl db gdbm
 
 name=php7
 version=7.4.19
 release=1
-noextract=""
-backup=""
 source=https://php.net/distributions/php-$version.tar.xz
 
 build() {
     cd php-$version
 
-    local PHP_CONFIG="
+    PHP_CONFIG="
     --prefix=/usr \
     --mandir=/usr/share/man \
     --localstatedir=/var \
@@ -23,7 +21,7 @@ build() {
     --disable-static --disable-debug \
 	"
 
-    local PHP_SHARED="
+    PHP_SHARED="
 		--enable-bcmath=shared \
 		--enable-calendar=shared \
 		--enable-dba=shared \
