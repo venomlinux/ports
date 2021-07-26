@@ -1,11 +1,12 @@
 # description	: NVIDIA Linux Display Driver (Latest Production Branch)
-# depends	: gtk2 gtk3
+# depends	: gtk3
 
 name=nvidia
 version=470.57.02
-release=1
+release=2
 source="http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
-	nvidia-drm-outputclass.conf"
+	nvidia-drm-outputclass.conf
+	buildmodules-nvidia.sh"
 
 build() {
 	sh NVIDIA-Linux-x86_64-$version.run --extract-only
@@ -125,4 +126,30 @@ build() {
 	sed -i -e 's,__UTILS_PATH__,/usr/bin,' -e 's,__PIXMAP_PATH__,/usr/share/pixmaps,' nvidia-settings.desktop
 	install -m 0644 nvidia-settings.desktop $PKG/usr/share/applications/
 	install -m 0644 nvidia-settings.png $PKG/usr/share/pixmaps/
+
+	# dkms modules
+	sed -i "s/__VERSION_STRING/$version/" kernel/dkms.conf
+	sed -i 's/__JOBS/`nproc`/' kernel/dkms.conf
+	sed -i 's/__DKMS_MODULES//' kernel/dkms.conf
+	sed -i '$iBUILT_MODULE_NAME[0]="nvidia"\
+DEST_MODULE_LOCATION[0]="/kernel/drivers/video"\
+BUILT_MODULE_NAME[1]="nvidia-uvm"\
+DEST_MODULE_LOCATION[1]="/kernel/drivers/video"\
+BUILT_MODULE_NAME[2]="nvidia-modeset"\
+DEST_MODULE_LOCATION[2]="/kernel/drivers/video"\
+BUILT_MODULE_NAME[3]="nvidia-drm"\
+DEST_MODULE_LOCATION[3]="/kernel/drivers/video"' kernel/dkms.conf
+
+	install -dm 755 $PKG/usr/src
+	cp -dr --no-preserve='ownership' kernel $PKG/usr/src/nvidia-$version
+
+	# blacklist conflict module
+	install -d $PKG/etc/modprobe.d
+	echo "blacklist nouveau" > $PKG/etc/modprobe.d/nvidia.conf
+
+	# dkms build modules script
+	mkdir -p $PKG/var/lib/dkms
+	sed -e "s/@name@/$name/g" \
+	    -e "s/@version@/$version/g" \
+	$SRC/buildmodules-$name.sh > $PKG/var/lib/dkms/buildmodules-$name.sh
 }
