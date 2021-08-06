@@ -2,12 +2,16 @@
 # depends	: go
 
 name=restic
-version=0.12.0
+version=0.12.1
 release=1
 source="https://github.com/restic/$name/archive/v${version}/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
+
+	export GOPATH="${PWD}/path"
+	export GOCACHE="${PWD}/cache"
+
 	export CGO_CPPFLAGS="${CPPFLAGS}"
 	export CGO_CFLAGS="${CFLAGS}"
 	export CGO_CXXFLAGS="${CXXFLAGS}"
