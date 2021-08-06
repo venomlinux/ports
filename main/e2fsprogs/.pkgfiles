@@ -1,4 +1,4 @@
-e2fsprogs-1.46.2-1
+e2fsprogs-1.46.3-1
 drwxr-xr-x root/root    bin/
 -rwxr-xr-x root/root    bin/chattr
 -rwxr-xr-x root/root    bin/compile_et
@@ -23,30 +23,30 @@ drwxr-xr-x root/root    sbin/
 -rwxr-xr-x root/root    sbin/badblocks
 -rwxr-xr-x root/root    sbin/debugfs
 -rwxr-xr-x root/root    sbin/dumpe2fs
-hrwxr-xr-x root/root    sbin/e2fsck link to sbin/fsck.ext4
+-rwxr-xr-x root/root    sbin/e2fsck
 -rwxr-xr-x root/root    sbin/e2image
 hrwxr-xr-x root/root    sbin/e2label link to sbin/tune2fs
 hrwxr-xr-x root/root    sbin/e2mmpstatus link to sbin/dumpe2fs
 -rwxr-xr-x root/root    sbin/e2scrub
 -rwxr-xr-x root/root    sbin/e2scrub_all
 -rwxr-xr-x root/root    sbin/e2undo
-hrwxr-xr-x root/root    sbin/fsck.ext2 link to sbin/fsck.ext4
-hrwxr-xr-x root/root    sbin/fsck.ext3 link to sbin/fsck.ext4
--rwxr-xr-x root/root    sbin/fsck.ext4
+hrwxr-xr-x root/root    sbin/fsck.ext2 link to sbin/e2fsck
+hrwxr-xr-x root/root    sbin/fsck.ext3 link to sbin/e2fsck
+hrwxr-xr-x root/root    sbin/fsck.ext4 link to sbin/e2fsck
 -rwxr-xr-x root/root    sbin/logsave
--rwxr-xr-x root/root    sbin/mke2fs
-hrwxr-xr-x root/root    sbin/mkfs.ext2 link to sbin/mke2fs
-hrwxr-xr-x root/root    sbin/mkfs.ext3 link to sbin/mke2fs
-hrwxr-xr-x root/root    sbin/mkfs.ext4 link to sbin/mke2fs
+hrwxr-xr-x root/root    sbin/mke2fs link to sbin/mkfs.ext2
+-rwxr-xr-x root/root    sbin/mkfs.ext2
+hrwxr-xr-x root/root    sbin/mkfs.ext3 link to sbin/mkfs.ext2
+hrwxr-xr-x root/root    sbin/mkfs.ext4 link to sbin/mkfs.ext2
 -rwxr-xr-x root/root    sbin/resize2fs
 -rwxr-xr-x root/root    sbin/tune2fs
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/include/
-hrw-r--r-- root/root    usr/include/com_err.h link to usr/include/et/com_err.h
+-rw-r--r-- root/root    usr/include/com_err.h
 drwxr-xr-x root/root    usr/include/e2p/
 -rw-r--r-- root/root    usr/include/e2p/e2p.h
 drwxr-xr-x root/root    usr/include/et/
--rw-r--r-- root/root    usr/include/et/com_err.h
+hrw-r--r-- root/root    usr/include/et/com_err.h link to usr/include/com_err.h
 drwxr-xr-x root/root    usr/include/ext2fs/
 -rw-r--r-- root/root    usr/include/ext2fs/bitops.h
 -rw-r--r-- root/root    usr/include/ext2fs/ext2_err.h
@@ -87,6 +87,8 @@ drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/et/
 -rw-r--r-- root/root    usr/share/et/et_c.awk
 -rw-r--r-- root/root    usr/share/et/et_h.awk
+drwxr-xr-x root/root    usr/share/info/
+-rw-r--r-- root/root    usr/share/info/libext2fs.info.gz
 drwxr-xr-x root/root    usr/share/man/
 drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/chattr.1.gz
