@@ -1,8 +1,8 @@
 # description	: Base Venom Linux files
 
 name=filesystem
-version=20210608
-release=2
+version=2.1
+release=1
 backup="etc/passwd
 	etc/locale.conf
 	etc/resolv.conf
@@ -84,7 +84,6 @@ build() {
 	install -m644 inputrc $PKG/etc
 	install -m644 shells $PKG/etc
 	install -m644 fstab $PKG/etc
-	install -m644 os-release $PKG/etc
 	install -m644 bashrc $PKG/etc
 	install -m644 profile $PKG/etc
 
@@ -100,4 +99,6 @@ build() {
 	install -m644 issue $PKG/etc
 	
 	dircolors -p > $PKG/etc/dircolors
+	echo $version > $PKG/etc/venom-release
+	sed "s/@RLS@/$version/g" os-release > $PKG/etc/os-release
 }
