@@ -1,14 +1,14 @@
 # description	: A tool that makes it easy to create Python bindings for C and C++ libraries
-# depends	: python3
+# homepage	: https://www.riverbankcomputing.com/software/sip/intro
+# depends	: python3-setuptools python3-packaging python3-toml
 
 name=python3-sip
-version=4.19.25
+version=6.1.1
 release=1
-source="https://www.riverbankcomputing.com/static/Downloads/sip/$version/sip-$version.tar.gz"
+source="https://pypi.python.org/packages/source/s/sip/sip-$version.tar.gz"
 
 build() {
 	cd sip-$version
-	python3 configure.py CFLAGS="$CFLAGS" LFLAGS="$LDFLAGS"
-	make
-	make DESTDIR=$PKG install
+	python3 setup.py build
+	python3 setup.py install --skip-build --root="$PKG" --optimize=1
 }
