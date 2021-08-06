@@ -1,4 +1,4 @@
-nodejs-16.5.0-1
+nodejs-16.6.1-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/node
@@ -957,6 +957,7 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/docs/content/commands/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/docs/content/commands/npm-owner.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/docs/content/commands/npm-pack.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/docs/content/commands/npm-ping.md
+-rw-r--r-- root/root    usr/lib/node_modules/npm/docs/content/commands/npm-pkg.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/docs/content/commands/npm-prefix.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/docs/content/commands/npm-profile.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/docs/content/commands/npm-prune.md
@@ -1039,6 +1040,7 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/docs/output/commands/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/docs/output/commands/npm-owner.html
 -rw-r--r-- root/root    usr/lib/node_modules/npm/docs/output/commands/npm-pack.html
 -rw-r--r-- root/root    usr/lib/node_modules/npm/docs/output/commands/npm-ping.html
+-rw-r--r-- root/root    usr/lib/node_modules/npm/docs/output/commands/npm-pkg.html
 -rw-r--r-- root/root    usr/lib/node_modules/npm/docs/output/commands/npm-prefix.html
 -rw-r--r-- root/root    usr/lib/node_modules/npm/docs/output/commands/npm-profile.html
 -rw-r--r-- root/root    usr/lib/node_modules/npm/docs/output/commands/npm-prune.html
@@ -1133,6 +1135,7 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/lib/exec/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/owner.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/pack.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/ping.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/lib/pkg.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/prefix.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/profile.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/prune.js
@@ -1193,10 +1196,10 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/lib/utils/config/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/open-url.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/otplease.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/path.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/perf.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/ping.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/proc-log-listener.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/pulse-till-done.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/queryable.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/read-package-name.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/read-user-info.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/reify-finish.js
@@ -1252,6 +1255,7 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/man/man1/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/man/man1/npm-owner.1.gz
 -rw-r--r-- root/root    usr/lib/node_modules/npm/man/man1/npm-pack.1.gz
 -rw-r--r-- root/root    usr/lib/node_modules/npm/man/man1/npm-ping.1.gz
+-rw-r--r-- root/root    usr/lib/node_modules/npm/man/man1/npm-pkg.1.gz
 -rw-r--r-- root/root    usr/lib/node_modules/npm/man/man1/npm-prefix.1.gz
 -rw-r--r-- root/root    usr/lib/node_modules/npm/man/man1/npm-profile.1.gz
 -rw-r--r-- root/root    usr/lib/node_modules/npm/man/man1/npm-prune.1.gz
@@ -1332,8 +1336,10 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/l
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/audit-report.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/calc-dep-flags.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/can-place-dep.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/consistent-resolve.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/debug.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/deepest-nesting-target.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/dep-valid.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/diff.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/edge.js
@@ -1345,7 +1351,8 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/l
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/link.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/node.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/optional-set.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/peer-set.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/peer-entry-sets.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/place-dep.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/printable.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/realpath.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/relpath.js
@@ -1386,15 +1393,16 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/LICENSE
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/clone.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/errors.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/find.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/is-clean.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/is.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/lines-to-revs.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/make-error.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/opts.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/proc-log.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/revs.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/should-retry.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/spawn.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/utils.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/git/lib/which.js
@@ -3286,7 +3294,7 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/socks/typings/clie
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/socks/typings/common/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/socks/typings/common/constants.d.ts
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/socks/typings/common/helpers.d.ts
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/socks/typings/common/receiveBuffer.d.ts
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/socks/typings/common/receivebuffer.d.ts
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/socks/typings/common/util.d.ts
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/socks/typings/index.d.ts
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/spdx-correct/
