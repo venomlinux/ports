@@ -2,13 +2,12 @@
 # depends	: zlib bzip2 which icu python2 python3
 
 name=boost
-version=1.76.0
+version=1.77.0
 _version=$(echo $version | sed 's/\./_/g')
 release=1
 source="https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${_version}.tar.bz2"
 
 build() {
-ls
 	cd boost_${_version}
 
 	./bootstrap.sh --prefix=/usr
