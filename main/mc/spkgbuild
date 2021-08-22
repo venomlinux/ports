@@ -2,7 +2,7 @@
 # depends	: glib pcre slang
 
 name=mc
-version=4.8.26
+version=4.8.27
 release=1
 source="http://ftp.midnight-commander.org/$name-$version.tar.xz"
 
@@ -11,8 +11,7 @@ build() {
 	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
 	            --libexecdir=/usr/lib \
-	            --enable-charset \
-		    --disable-nls
+	            --enable-charset
 	make
 	make DESTDIR=$PKG install
 }
