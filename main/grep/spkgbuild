@@ -2,14 +2,14 @@
 # depends	: pcre
 
 name=grep
-version=3.6
+version=3.7
 release=1
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --bindir=/bin --disable-nls
+	./configure --prefix=/usr --bindir=/bin
 	make
 	make DESTDIR=$PKG install
 
