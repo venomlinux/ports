@@ -2,7 +2,7 @@
 # depends	: libusb
 
 name=usbutils
-version=013
+version=014
 release=1
 IGNORE_MDSUM=yes
 source="https://www.kernel.org/pub/linux/utils/usb/usbutils/$name-$version.tar.xz
@@ -11,7 +11,6 @@ source="https://www.kernel.org/pub/linux/utils/usb/usbutils/$name-$version.tar.x
 build() {
 	cd $name-$version
 
-	./autogen.sh
 	./configure --prefix=/usr --datadir=/usr/share/hwdata
 	make
 	make DESTDIR=$PKG install
