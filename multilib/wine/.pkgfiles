@@ -1,4 +1,4 @@
-wine-6.12-1
+wine-6.15-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/function_grep.pl
@@ -195,6 +195,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/
 -rw-r--r-- root/root    usr/include/wine/windows/colinf.idl
 -rw-r--r-- root/root    usr/include/wine/windows/colordlg.h
 -rw-r--r-- root/root    usr/include/wine/windows/colrst.idl
+-rw-r--r-- root/root    usr/include/wine/windows/combaseapi.h
 -rw-r--r-- root/root    usr/include/wine/windows/comcat.h
 -rw-r--r-- root/root    usr/include/wine/windows/comcat.idl
 -rw-r--r-- root/root    usr/include/wine/windows/commctrl.h
@@ -231,6 +232,8 @@ drwxr-xr-x root/root    usr/include/wine/windows/
 -rw-r--r-- root/root    usr/include/wine/windows/d2d1_1.idl
 -rw-r--r-- root/root    usr/include/wine/windows/d2d1_2.h
 -rw-r--r-- root/root    usr/include/wine/windows/d2d1_2.idl
+-rw-r--r-- root/root    usr/include/wine/windows/d2d1effects.h
+-rw-r--r-- root/root    usr/include/wine/windows/d2d1effects.idl
 -rw-r--r-- root/root    usr/include/wine/windows/d2dbasetypes.h
 -rw-r--r-- root/root    usr/include/wine/windows/d2derr.h
 -rw-r--r-- root/root    usr/include/wine/windows/d3d.h
@@ -287,7 +290,6 @@ drwxr-xr-x root/root    usr/include/wine/windows/
 -rw-r--r-- root/root    usr/include/wine/windows/d3dx10.h
 -rw-r--r-- root/root    usr/include/wine/windows/d3dx10async.h
 -rw-r--r-- root/root    usr/include/wine/windows/d3dx10core.h
--rw-r--r-- root/root    usr/include/wine/windows/d3dx10core.idl
 -rw-r--r-- root/root    usr/include/wine/windows/d3dx10math.h
 -rw-r--r-- root/root    usr/include/wine/windows/d3dx10tex.h
 -rw-r--r-- root/root    usr/include/wine/windows/d3dx11.h
@@ -995,6 +997,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/wincrypt.h
 -rw-r--r-- root/root    usr/include/wine/windows/windef.h
 -rw-r--r-- root/root    usr/include/wine/windows/windns.h
+-rw-r--r-- root/root    usr/include/wine/windows/windot11.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.foundation.collections.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.foundation.collections.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.foundation.h
@@ -1150,6 +1153,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-console-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-console-l1-2-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-console-l2-1-0.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-console-l3-2-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-crt-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-crt-l2-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-datetime-l1-1-0.dll.so
@@ -1162,6 +1166,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-errorhandling-l1-1-1.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-errorhandling-l1-1-2.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-errorhandling-l1-1-3.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-featurestaging-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-fibers-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-fibers-l1-1-1.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-file-ansi-l2-1-0.dll.so
@@ -1187,6 +1192,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-kernel32-legacy-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-kernel32-legacy-l1-1-1.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-kernel32-legacy-l1-1-2.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-kernel32-legacy-l1-1-5.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-kernel32-private-l1-1-1.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-largeinteger-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-libraryloader-l1-1-0.dll.so
@@ -1531,6 +1537,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/dxdiag.exe.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/dxdiagn.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/dxgi.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/dxtrans.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/dxva2.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/eject.exe.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/esent.dll.so
@@ -1858,6 +1865,7 @@ lrwxrwxrwx root/root    usr/lib/wine/x86_64-unix/libwine.so.1 -> libwine.so.1.0
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libwmcodecdspuuid.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libwmvcore.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libwnaspi32.def
+-rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libwow64.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libws2_32.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libwsdapi.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libwsnmp32.def
@@ -2234,10 +2242,13 @@ lrwxrwxrwx root/root    usr/lib/wine/x86_64-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wmvcore.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wnaspi32.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wordpad.exe.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wow64.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wow64cpu.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wow64win.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wpc.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/write.exe.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/ws2_32.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/ws2_32.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wscript.exe.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wsdapi.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wshom.ocx.so
@@ -2285,6 +2296,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-console-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-console-l1-2-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-console-l2-1-0.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-console-l3-2-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-crt-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-crt-l2-1-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-datetime-l1-1-0.dll
@@ -2297,6 +2309,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-errorhandling-l1-1-1.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-errorhandling-l1-1-2.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-errorhandling-l1-1-3.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-featurestaging-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-fibers-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-fibers-l1-1-1.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-file-ansi-l2-1-0.dll
@@ -2322,6 +2335,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-kernel32-legacy-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-kernel32-legacy-l1-1-1.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-kernel32-legacy-l1-1-2.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-kernel32-legacy-l1-1-5.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-kernel32-private-l1-1-1.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-largeinteger-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-libraryloader-l1-1-0.dll
@@ -2662,6 +2676,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/dxdiag.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/dxdiagn.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/dxgi.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/dxtrans.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/dxva2.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/eject.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/esent.dll
@@ -3140,7 +3155,9 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wmvcore.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wnaspi32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wordpad.exe
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wow64.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wow64cpu.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wow64win.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wpc.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/write.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/ws2_32.dll
@@ -3193,6 +3210,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-unix/
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-console-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-console-l1-2-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-console-l2-1-0.dll.so
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-console-l3-2-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-crt-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-crt-l2-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-datetime-l1-1-0.dll.so
@@ -3205,6 +3223,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-unix/
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-errorhandling-l1-1-1.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-errorhandling-l1-1-2.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-errorhandling-l1-1-3.dll.so
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-featurestaging-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-fibers-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-fibers-l1-1-1.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-file-ansi-l2-1-0.dll.so
@@ -3230,6 +3249,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-unix/
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-kernel32-legacy-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-kernel32-legacy-l1-1-1.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-kernel32-legacy-l1-1-2.dll.so
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-kernel32-legacy-l1-1-5.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-kernel32-private-l1-1-1.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-largeinteger-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-libraryloader-l1-1-0.dll.so
@@ -3583,6 +3603,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-unix/
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/dxdiag.exe.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/dxdiagn.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/dxgi.dll.so
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/dxtrans.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/dxva2.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/eject.exe.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/esent.dll.so
@@ -4343,6 +4364,7 @@ lrwxrwxrwx root/root    usr/lib32/wine/i386-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/wpc.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/write.exe.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/ws2_32.dll.so
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/ws2_32.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/wscript.exe.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/wsdapi.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/wshom.ocx.so
@@ -4390,6 +4412,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-console-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-console-l1-2-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-console-l2-1-0.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-console-l3-2-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-crt-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-crt-l2-1-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-datetime-l1-1-0.dll
@@ -4402,6 +4425,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-errorhandling-l1-1-1.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-errorhandling-l1-1-2.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-errorhandling-l1-1-3.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-featurestaging-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-fibers-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-fibers-l1-1-1.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-file-ansi-l2-1-0.dll
@@ -4427,6 +4451,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-kernel32-legacy-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-kernel32-legacy-l1-1-1.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-kernel32-legacy-l1-1-2.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-kernel32-legacy-l1-1-5.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-kernel32-private-l1-1-1.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-largeinteger-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-libraryloader-l1-1-0.dll
@@ -4776,6 +4801,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/dxdiag.exe
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/dxdiagn.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/dxgi.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/dxtrans.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/dxva2.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/eject.exe
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/esent.dll
