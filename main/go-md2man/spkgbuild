@@ -3,12 +3,16 @@
 # depends	: go
 
 name=go-md2man
-version=2.0.0
+version=2.0.1
 release=1
 source="$name-$version.tar.gz::https://github.com/cpuguy83/go-md2man/archive/refs/tags/v$version.tar.gz"
 
 build() {
 	cd $name-$version
+
+	export GOPATH="${PWD}/path"
+        export GOCACHE="${PWD}/cache"
+
 	export GOFLAGS="-buildmode=pie -mod=vendor -trimpath"
 	export CGO_LDFLAGS="$LDFLAGS"
 	go build -o go-md2man .
