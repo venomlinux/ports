@@ -2,12 +2,15 @@
 # depends	: go
 
 name=hugo
-version=0.83.1
+version=0.87.0
 release=1
 source="https://github.com/gohugoio/$name/archive/v$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
+
+	export GOPATH="${PWD}/path"
+        export GOCACHE="${PWD}/cache"
 	
 	export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
 	
