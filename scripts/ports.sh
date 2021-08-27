@@ -258,16 +258,16 @@ port_push() {
 		return 2
 	fi
 	
-	#echo "generating packagelist"
-	#$SCRIPTDIR/genpackagelist.sh
+	echo "generating ports.csv"
+	$SCRIPTDIR/genportscsv.sh
 	
-	#git add $SCRIPTDIR/packages.json
+	git add $SCRIPTDIR/ports.csv
 	
 	for r in ${PORTREPO[@]}; do
 		git add $r
 	done
 	
-	#git commit -m "REPO updated"
+	git commit -m "REPO updated"
 	git push
 }
 

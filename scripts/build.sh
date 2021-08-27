@@ -130,6 +130,7 @@ zap_rootfs() {
 	msg "Extracting tarball image: $TARBALLIMG"
 	tar -xf $TARBALLIMG -C $ROOTFS || die "Error extracting tarball image"
 	tmp_scratchpkgconf
+	#echo "$RELEASE" > "$ROOTFS"/etc/venom-release
 	unset ZAP
 }
 
@@ -222,10 +223,6 @@ make_iso() {
 	[ -d "$PORTSDIR/virootfs" ] && {
 		cp -aR "$PORTSDIR/virootfs" "$ISODIR"
 		chown -R 0:0 "$ISODIR/virootfs"
-	}
-	[ -d "$PORTSDIR/customize" ] && {
-		cp -aR "$PORTSDIR/customize" "$ISODIR"
-		chown -R 0:0 "$ISODIR/customize"
 	}
 	
 	main_scratchpkgconf
@@ -425,6 +422,11 @@ main() {
 		tmp_scratchpkgconf
 		msg "Full upgrading..."
 		chrootrun scratch sysup -y --no-backup || die
+		[ -f $ROOTFS/etc/venom-release ] && {
+			if [ $(cat $ROOTFS/etc/venom-release) != "$RELEASE" ]; then
+				msgerr "venom-release $(cat $ROOTFS/etc/venom-release) != $RELEASE"
+			fi
+		}
 	}
 	
 	[ "$REVDEP" ] && {
