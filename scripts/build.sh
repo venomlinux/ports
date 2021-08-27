@@ -101,7 +101,7 @@ mount_repo() {
 }
 
 fetch_rootfs() {
-	url="https://github.com/venomlinux/ports/releases/download/$RELEASE/venomlinux-rootfs-$RELEASE-$ARCH.tar.xz"
+	url="https://github.com/venomlinux/ports/releases/download/v$RELEASE/venomlinux-rootfs-$RELEASE-$ARCH.tar.xz"
 
 	msg "Fetching rootfs tarball: $url"
 	wget -c --passive-ftp --no-directories --tries=3 --waitretry=3 --output-document=$TARBALLIMG.part $url
@@ -121,8 +121,7 @@ zap_rootfs() {
 	REVDEP=1
 	
 	[ -f "$TARBALLIMG" ] || {
-		msgerr "Tarball img not exist: $TARBALLIMG"
-		exit 1
+		fetch_rootfs
 	}
 	msg "Removing existing rootfs: $ROOTFS"
 	rm -fr $ROOTFS
