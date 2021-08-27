@@ -5,11 +5,10 @@ name=webtorrent-desktop-bin
 _name=webtorrent-desktop
 version=0.24.0
 release=1
-source=("https://github.com/webtorrent/${_name}/releases/download/v${version}/WebTorrent-v${version}-linux-x64.zip
+source="https://github.com/webtorrent/${_name}/releases/download/v${version}/WebTorrent-v${version}-linux-x64.zip
 	https://github.com/webtorrent/${_name}/raw/v${version}/static/linux/share/applications/${_name}.desktop
 	48x48.png::https://github.com/webtorrent/${_name}/raw/v${version}/static/linux/share/icons/hicolor/48x48/apps/${_name}.png
-	256x256.png::https://github.com/webtorrent/${_name}/raw/v${version}/static/linux/share/icons/hicolor/256x256/apps/${_name}.png")
-
+	256x256.png::https://github.com/webtorrent/${_name}/raw/v${version}/static/linux/share/icons/hicolor/256x256/apps/${_name}.png"
 
 build() {
 	install -dm755 $PKG/usr/share
