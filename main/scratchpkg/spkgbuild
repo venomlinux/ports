@@ -3,7 +3,7 @@
 
 name=scratchpkg
 version=20210725
-release=1
+release=2
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
 	etc/scratchpkg.repo
@@ -13,7 +13,8 @@ scratchpkg_url=https://github.com/venomlinux/scratchpkg
 source="https://github.com/venomlinux/scratchpkg/archive/d53b1b7b0899e26b8e2c6d39941596d23878b68b.tar.gz
 	$name.repo
 	$name.conf
-	portsync"
+	portsync
+	temporary_workaround_for_coreutils.patch"
 
 build() {
 	cd $name-d53b1b7b0899e26b8e2c6d39941596d23878b68b
