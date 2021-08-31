@@ -1,5 +1,5 @@
 # description	: Network connection manager and user applications
-# depends	: gobject-introspection vala glib libndp eudev curl util-linux nss nspr readline newt intltool libxslt dbus polkit python3-gobject3 gnutls
+# depends	: modemmanager gobject-introspection vala glib libndp eudev curl util-linux nss nspr readline newt intltool libxslt dbus polkit python3-gobject3 gnutls
 
 name=networkmanager
 version=1.32.8
@@ -27,7 +27,7 @@ build() {
 	      -Dselinux=false            \
 	      -Dudev_dir=/lib/udev       \
 	      -Dsession_tracking=no      \
-	      -Dmodem_manager=false      \
+	      -Dmodem_manager=true       \
 	      -Dsystemdsystemunitdir=no  \
 	      -Dsystemd_journal=false    \
 	      -Dmodify_system=true       \
