@@ -2,7 +2,7 @@
 # depends	: python3-mako llvm elfutils bison flex libxext libxdamage libxshmfence libxxf86vm libxrandr libdrm libglvnd
 
 name=mesa
-version=21.2.0
+version=21.2.1
 release=1
 source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
 
@@ -14,7 +14,7 @@ build() {
 	
 	meson --prefix=/usr \
 	      --sysconfdir=/etc \
-	      -Dvalgrind=false \
+	      -Dvalgrind=disabled \
 	      -Dglx=dri \
 	      -Degl=enabled \
 	      -Dosmesa=true \
