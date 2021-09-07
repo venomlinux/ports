@@ -2,7 +2,7 @@
 # depends	: util-linux
 
 name=e2fsprogs
-version=1.46.3
+version=1.46.4
 release=1
 source="https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v$version/e2fsprogs-$version.tar.xz"
 
@@ -19,8 +19,7 @@ build() {
 	             --disable-libblkid      \
 	             --disable-libuuid       \
 	             --disable-uuidd         \
-	             --disable-fsck          \
-		     --disable-nls
+	             --disable-fsck
 	make
 	make DESTDIR=$PKG install
 	make DESTDIR=$PKG install-libs
