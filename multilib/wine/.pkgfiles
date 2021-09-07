@@ -1,4 +1,4 @@
-wine-6.15-1
+wine-6.16-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/function_grep.pl
@@ -291,6 +291,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/
 -rw-r--r-- root/root    usr/include/wine/windows/d3dx10async.h
 -rw-r--r-- root/root    usr/include/wine/windows/d3dx10core.h
 -rw-r--r-- root/root    usr/include/wine/windows/d3dx10math.h
+-rw-r--r-- root/root    usr/include/wine/windows/d3dx10mesh.h
 -rw-r--r-- root/root    usr/include/wine/windows/d3dx10tex.h
 -rw-r--r-- root/root    usr/include/wine/windows/d3dx11.h
 -rw-r--r-- root/root    usr/include/wine/windows/d3dx11async.h
@@ -331,6 +332,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/ddk/d3dkmthk.h
 -rw-r--r-- root/root    usr/include/wine/windows/ddk/fltkernel.h
 -rw-r--r-- root/root    usr/include/wine/windows/ddk/hidclass.h
+-rw-r--r-- root/root    usr/include/wine/windows/ddk/hidpddi.h
 -rw-r--r-- root/root    usr/include/wine/windows/ddk/hidpi.h
 -rw-r--r-- root/root    usr/include/wine/windows/ddk/hidport.h
 -rw-r--r-- root/root    usr/include/wine/windows/ddk/hidsdi.h
@@ -1235,6 +1237,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-psapi-ansi-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-psapi-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-psapi-obsolete-l1-1-0.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-psm-appnotify-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-quirks-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-realtime-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/api-ms-win-core-registry-l1-1-0.dll.so
@@ -1623,6 +1626,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/hhctrl.ocx.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/hid.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/hidclass.sys.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/hidparse.sys.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/hlink.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/hnetcfg.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/hostname.exe.so
@@ -1700,7 +1704,11 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libd3dcompiler.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libd3drm.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libd3dx10.def
+-rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libd3dx10_40.def
+-rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libd3dx10_41.def
+-rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libd3dx10_42.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libd3dx11.def
+-rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libd3dx11_42.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libd3dx9.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libd3dxof.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libdbgeng.def
@@ -1730,6 +1738,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libhal.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libhid.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libhidclass.def
+-rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libhidparse.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libhlink.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libhtmlhelp.def
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libhttpapi.def
@@ -2378,6 +2387,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-psapi-ansi-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-psapi-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-psapi-obsolete-l1-1-0.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-psm-appnotify-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-quirks-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-realtime-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/api-ms-win-core-registry-l1-1-0.dll
@@ -2761,6 +2771,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/hhctrl.ocx
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/hid.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/hidclass.sys
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/hidparse.sys
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/hlink.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/hnetcfg.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/hostname.exe
@@ -3292,6 +3303,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-unix/
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-psapi-ansi-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-psapi-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-psapi-obsolete-l1-1-0.dll.so
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-psm-appnotify-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-quirks-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-realtime-l1-1-0.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/api-ms-win-core-registry-l1-1-0.dll.so
@@ -3690,6 +3702,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-unix/
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/hhctrl.ocx.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/hid.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/hidclass.sys.so
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/hidparse.sys.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/hlink.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/hnetcfg.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/hostname.exe.so
@@ -3771,7 +3784,11 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-unix/
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libd3dcompiler.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libd3drm.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libd3dx10.def
+-rw-r--r-- root/root    usr/lib32/wine/i386-unix/libd3dx10_40.def
+-rw-r--r-- root/root    usr/lib32/wine/i386-unix/libd3dx10_41.def
+-rw-r--r-- root/root    usr/lib32/wine/i386-unix/libd3dx10_42.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libd3dx11.def
+-rw-r--r-- root/root    usr/lib32/wine/i386-unix/libd3dx11_42.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libd3dx9.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libd3dxof.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libdbgeng.def
@@ -3801,6 +3818,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-unix/
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libhal.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libhid.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libhidclass.def
+-rw-r--r-- root/root    usr/lib32/wine/i386-unix/libhidparse.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libhlink.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libhtmlhelp.def
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libhttpapi.def
@@ -4494,6 +4512,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-psapi-ansi-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-psapi-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-psapi-obsolete-l1-1-0.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-psm-appnotify-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-quirks-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-realtime-l1-1-0.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/api-ms-win-core-registry-l1-1-0.dll
@@ -4887,6 +4906,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/hhctrl.ocx
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/hid.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/hidclass.sys
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/hidparse.sys
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/hlink.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/hnetcfg.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/hostname.exe
