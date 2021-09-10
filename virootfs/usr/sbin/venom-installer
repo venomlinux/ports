@@ -648,7 +648,7 @@ install_now() {
 			run_chroot grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=venom_grub --recheck $grub_var &>/dev/null || print_error_msg "Error installing grub"
 		else
 			print_info "Installing grub..."
-			run_chroot grub-install $grub_var &>/dev/null || print_error_msg "Error installing grub"
+			run_chroot grub-install --target=i386-pc $grub_var &>/dev/null || print_error_msg "Error installing grub"
 		fi
 		print_info "Generating grub config..."
 		run_chroot grub-mkconfig -o /boot/grub/grub.cfg &>/dev/null || print_error_msg "Error generating grub config"
