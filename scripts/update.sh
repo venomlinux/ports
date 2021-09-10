@@ -16,6 +16,18 @@ vercomp() {
 	fi
 }
 
+notify() {
+	command -v notify-send >/dev/null && {
+		notify-send "$@"
+	}
+}
+
+notifyerr() {
+	command -v notify-send >/dev/null && {
+		notify-send -u critical "$@"
+	}
+}
+
 if [ ! -f $SCRIPTDIR/.outdate.sh.list ]; then
 	echo ".outdate.sh.list file not found"
 	exit 1
@@ -64,6 +76,9 @@ for i in $(cat $SCRIPTDIR/.outdate.sh.list | tr ' ' '?'); do
 	$SCRIPTDIR/portupdate.sh $pkg $ver
 	if [ $? != 0 ]; then
 		echo $pkg >> $updatefail
+		notifyerr "error build: $pkg $ver"
+	else
+		notify "build ok: $pkg $ver"
 	fi
 done
 	

@@ -26,9 +26,6 @@ EDITOR=${EDITOR:-vim}
 	sed -i "/^release=/s/=.*/=1/" $PORTSDIR/$1/spkgbuild
 }
 
-rm -f $PORTSDIR/$1/.checksums
-rm -f $PORTSDIR/$1/.pkgfiles
-
 while true; do
 	cat $PORTSDIR/$1/spkgbuild | more
 	echo
@@ -44,6 +41,9 @@ while true; do
 		esac
 	done
 done
+
+rm -f $PORTSDIR/$1/.checksums
+rm -f $PORTSDIR/$1/.pkgfiles
 
 sudo $SCRIPTDIR/build.sh \
 	-pkg=${1##*/} \
