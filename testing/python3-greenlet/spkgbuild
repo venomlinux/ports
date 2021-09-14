@@ -1,0 +1,16 @@
+# description	: Lightweight in-process concurrent programming 
+# homepage	: https://pypi.org/project/greenlet/
+# depends	: python3 python3-setuptools
+
+name=python3-greenlet
+version=1.1.1
+release=1
+noextract=""
+backup=""
+source="https://files.pythonhosted.org/packages/source/g/greenlet/greenlet-$version.tar.gz"
+
+build() {
+	cd greenlet-$version
+	python3 setup.py build
+	python3 setup.py install -O1 --root="$PKG"
+}
