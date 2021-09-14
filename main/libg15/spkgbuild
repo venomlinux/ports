@@ -1,0 +1,15 @@
+# description	: Library to handle the LCD and extra keys on the Logitech G15 Gaming Keyboard and similar devices.
+# homepage	: https://gitlab.com/menelkir/libg15
+# depends	: libusb libusb-compat
+
+name=libg15
+version=3.0.7
+release=1
+source="https://gitlab.com/menelkir/libg15/-/archive/$version/libg15-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

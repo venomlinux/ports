@@ -1,0 +1,16 @@
+# description	: Simple XML parser made for easy integration 
+# homepage	: http://www.grinninglizard.com/tinyxml2
+# depends	: cmake ninja setconf
+
+name=tinyxml2
+version=9.0.0
+release=1
+source="https://github.com/leethomason/$name/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cmake -B build -S $name-$version \
+    		-DCMAKE_INSTALL_PREFIX=/usr \
+    		-Dtinyxml2_SHARED_LIBS=ON
+  	cmake --build build	
+	DESTDIR=$PKG cmake --install build
+}

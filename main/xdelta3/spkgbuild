@@ -1,0 +1,22 @@
+# description	: Diff utility for binary files 
+# homepage	: http://xdelta.org/
+# depends	: 
+
+name=xdelta3
+version=3.1.0
+release=1
+source="https://github.com/jmacd/xdelta/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	cd xdelta-$version/xdelta3
+	aclocal
+	autoreconf --install
+	libtoolize
+	autoconf
+	autoheader
+	automake --add-missing
+	automake
+	./configure -disable-dependency-tracking --prefix=/usr --with-liblzma
+	make
+	make DESTDIR=$PKG install
+}

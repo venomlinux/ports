@@ -1,0 +1,19 @@
+# description	: G15daemon takes control of the G15 keyboard, allowing the use of all keys through the linux kernel uinput device driver. 
+# homepage	: https://gitlab.com/menelkir/g15daemon/
+# depends	: libg15render
+
+name=g15daemon
+version=3.0.4
+release=1
+source="https://gitlab.com/menelkir/g15daemon/-/archive/$version/g15daemon-$version.tar.bz2
+		https://gitlab.com/menelkir/g15daemon/-/raw/master/contrib/init/rc.g15daemon"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+}

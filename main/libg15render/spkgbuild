@@ -1,0 +1,15 @@
+# description	: Library to render text and shapes into a buffer usable by the Logitech G15 Gaming Keyboard.
+# homepage	: https://gitlab.com/menelkir/libg15render
+# depends	: libg15
+
+name=libg15render
+version=3.0.4
+release=1
+source="https://gitlab.com/menelkir/libg15render/-/archive/$version/libg15render-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

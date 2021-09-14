@@ -1,0 +1,23 @@
+# description	: Reference frontend for the libretro API 
+# homepage	: http://www.libretro.com/
+# depends	: alsa-lib flac libass gst-libav libdrm freetype2 libglvnd pulseaudio gnutls mesa openal qt5 sdl2 v4l-utils zlib libx11 libxcb libxext libxinerama libxkbcommon libxrandr libxv libxxf86vm  vulkan-icd-loader wayland wayland-protocols
+
+name=retroarch
+version=1.9.9
+release=1
+source="https://github.com/libretro/RetroArch/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	cd RetroArch-$version
+	./configure \
+		--prefix=/usr \
+		--disable-builtinflac \
+		--disable-builtinzlib \
+		--disable-cg \
+		--disable-jack \
+		--disable-oss \
+		--disable-sdl \
+		--enable-dbus
+	make
+	make DESTDIR=$PKG install
+}

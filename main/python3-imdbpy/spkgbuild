@@ -1,0 +1,15 @@
+# description	: Python bindings for the Internet Movie Database (IMDb) 
+# homepage	: https://imdbpy.sourceforge.io/
+# depends	: python3-lxml python3-setuptools python3-sqlalchemy python3-greenlet
+
+name=python3-imdbpy
+version=2021.4.18
+release=1
+source="https://github.com/alberanid/imdbpy/releases/download/${version}/IMDbPY-${version}.tar.gz"
+
+build() {
+	cd IMDbPY-2021.4.18
+	python3 setup.py build
+	python3 setup.py install --skip-build --optimize=1 --root="${PKG}"
+	
+}

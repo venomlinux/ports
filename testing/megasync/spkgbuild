@@ -1,0 +1,30 @@
+# description	: Easy automated syncing between your computers and your MEGA cloud drive 
+# homepage	: https://github.com/meganz/MEGAsync
+# depends	: c-ares crypto++ libsodium libuv libmediainfo libraw qt5 swig doxygen sed lsb-release git megasdk
+
+name=megasync
+version=4.5.3.0
+release=1
+source="https://github.com/meganz/MEGAsync/archive/refs/tags/v${version}_Linux.tar.gz"
+
+build() {
+	cd $SRC/MEGAsync-${version}_Linux/src/MEGASync
+	# git config submodule.src/MEGASync/mega.url
+	# git submodule update --init
+	sed -i '/DEFINES += REQUIRE_HAVE_PDFIUM/d' MEGASync.pro
+	sed -i '/QT += winextras/d' MEGASync.pro
+	sed -i '/CONFIG += USE_PDFIUM/d' MEGASync.pro
+    
+    cd $SRC/MEGAsync-${version}_Linux/src
+    qmake-qt5 "CONFIG += FULLREQUIREMENTS" MEGA.pro
+
+    cd $SRC/MEGAsync-${version}_Linux/src/MEGASync
+	lrelease-qt5 MEGASync.pro
+	cd ..
+	export CFLAGS="-fno-common"
+    make
+	install -dm 755 "${PKG}/usr/bin"
+	make INSTALL_ROOT="${PKG}" TARGET="${PKG}/usr/bin/megasync" install
+	install -Dm 755 "MEGASync/megasync" "${PKG}/usr/bin/megasync"
+
+}

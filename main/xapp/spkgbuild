@@ -1,0 +1,16 @@
+# description	: Common library for X-Apps project 
+# homepage	: https://github.com/linuxmint/xapp
+# depends	: libdbusmenu libgnomekbd samurai python3-gobject3
+
+name=xapp
+version=2.2.3
+release=1
+source="https://github.com/linuxmint/xapp/archive/refs/tags/master.mint20.tar.gz"
+
+build() {
+	mkdir xapp-master.mint20/build
+	cd xapp-master.mint20/build
+	meson --prefix=/usr --libexecdir=lib --buildtype=plain 
+	samu
+	DESTDIR=$PKG samu install
+}

@@ -1,0 +1,15 @@
+# description	: Python SQL toolkit and Object Relational Mapper 
+# homepage	: https://www.sqlalchemy.org/
+# depends	: python3 python3-greenlet
+
+name=python3-sqlalchemy
+version=1.4.23
+release=1
+source="https://pypi.io/packages/source/S/SQLAlchemy/SQLAlchemy-$version.tar.gz"
+
+build() {
+	cd SQLAlchemy-$version
+	python3 setup.py build
+	python3 setup.py install --root="${PKG}"
+}
+

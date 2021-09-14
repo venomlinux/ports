@@ -1,0 +1,14 @@
+# description	: Pulseaudio command-line mixer like amixer
+# homepage	: https://github.com/cdemoulins/pamixer
+# depends	: pulseaudio boost 
+
+name=pamixer
+version=1.4
+release=1
+source="https://github.com/cdemoulins/$name/archive/refs/tags/$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make
+	install -D -m755 pamixer "$PKG"/usr/bin/pamixer
+}

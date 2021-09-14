@@ -1,0 +1,15 @@
+# description	: MMS stream protocol library 
+# homepage	: https://sourceforge.net/projects/libmms/
+# depends	: glibc
+
+name=libmms
+version=0.6.4
+release=1
+source="https://download.sourceforge.net/libmms/${name}-${version}.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

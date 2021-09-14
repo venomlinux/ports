@@ -1,0 +1,28 @@
+# description	: Shared library for libmediainfo and mediainfo
+# homepage	: https://mediaarea.net
+# depends	: libtool automake autoconf
+
+name=libzen
+version=0.4.39
+release=1
+source="https://mediaarea.net/download/source/libzen/$version/libzen_$version.tar.bz2"
+
+build() {
+	cd ZenLib/Project/GNU/Library
+	./autogen.sh
+	./configure --prefix=/usr --enable-unicode --enable-shared --enable-static
+	make
+	make DESTDIR=$PKG install
+	install -D -m 755 libzen-config "${PKG}"/usr/bin/libzen-config	
+	install -dm 755 "$PKG"/usr/lib/pkgconfig
+	
+	install -m 644 libzen.pc "$PKG"/usr/lib/pkgconfig
+
+	cd ../../../Source/ZenLib
+	install -dm 755 "$PKG"/usr/include/ZenLib
+	install -m 644 *.h "$PKG"/usr/include/ZenLib
+	for i in HTTP_Client Format/Html Format/Http; do
+		install -dm0755 "$PKG"/usr/include/ZenLib/$i
+		install -m0644 $i/*.h "$PKG"/usr/include/ZenLib/$i
+	done
+}
