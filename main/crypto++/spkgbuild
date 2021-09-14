@@ -1,0 +1,16 @@
+# description	: A free C++ class library of cryptographic schemes 
+# homepage	: https://www.cryptopp.com/
+# depends	: gcc
+
+name=crypto++
+version=8.5.0
+release=1
+noextract=""
+backup=""
+source="https://github.com/weidai11/cryptopp/archive/refs/tags/CRYPTOPP_8_5_0.tar.gz"
+
+build() {
+	cd cryptopp-CRYPTOPP_8_5_0
+	make PREFIX="/usr" all libcryptopp.pc
+	make DESTDIR=$PKG PREFIX="/usr" install
+}

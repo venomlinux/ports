@@ -1,0 +1,21 @@
+# description	: Shared library for mediainfo 
+# homepage	: https://mediaarea.net 
+# depends	: libmms libzen tinyxml2 
+
+name=libmediainfo
+version=21.03
+release=1
+source="https://mediaarea.net/download/source/libmediainfo/$version/libmediainfo_$version.tar.xz"
+
+build() {
+	cd MediaInfoLib/Project/GNU/Library
+	./autogen.sh
+	./configure --prefix=/usr \
+              --enable-shared \
+              --disable-static \
+              --with-libcurl \
+              --with-libmms \
+              --with-libtinyxml2
+	make
+	make DESTDIR=$PKG install
+}
