@@ -1,6 +1,6 @@
 # description	: An IPTV streaming application 
 # homepage	: https://github.com/linuxmint/hypnotix
-# depends	: dconf hicolor-icon-theme python3-cairo python3-imdbpy python3-requests python-setproctitle mpv xapp
+# depends	: dconf hicolor-icon-theme python3-cairo python3-imdbpy python3-requests python3-setproctitle mpv xapp
 
 name=hypnotix
 version=2.0
@@ -18,8 +18,8 @@ build() {
 	install -Dm644 -t "$PKG"/usr/share/applications usr/share/applications/hypnotix.desktop
 	install -Dm644 -t "$PKG"/usr/share/glib-2.0/schemas usr/share/glib-2.0/schemas/org.x.hypnotix.gschema.xml
 	install -Dm644 -t "$PKG"/usr/share/hypnotix usr/share/hypnotix/*.css
-        install -Dm644 -t "$PKG"/usr/share/hypnotix usr/share/hypnotix/*.png
-        install -Dm644 -t "$PKG"/usr/share/hypnotix usr/share/hypnotix/*.ui
+	install -Dm644 -t "$PKG"/usr/share/hypnotix usr/share/hypnotix/*.png
+    install -Dm644 -t "$PKG"/usr/share/hypnotix usr/share/hypnotix/*.ui
 	install -Dm644 -t "$PKG"/usr/share/hypnotix/pictures usr/share/hypnotix/pictures/*.svg
 	install -Dm644 -t "$PKG"/usr/share/hypnotix/pictures/badges usr/share/hypnotix/pictures/badges/*
 	install -Dm644 -t "$PKG"/usr/share/icons/hicolor/scalable/apps usr/share/icons/hicolor/scalable/apps/hypnotix.svg
