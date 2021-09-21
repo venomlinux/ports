@@ -1,4 +1,4 @@
-pipewire-0.3.34-1
+pipewire-0.3.36-1
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/udev/
 drwxr-xr-x root/root    lib/udev/rules.d/
@@ -166,6 +166,7 @@ drwxr-xr-x root/root    usr/include/spa-0.2/spa/support/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/support/log-impl.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/support/log.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/support/loop.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/support/plugin-loader.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/support/plugin.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/support/system.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/support/thread.h
@@ -190,19 +191,19 @@ drwxr-xr-x root/root    usr/lib/alsa-lib/
 drwxr-xr-x root/root    usr/lib/gstreamer-1.0/
 -rwxr-xr-x root/root    usr/lib/gstreamer-1.0/libgstpipewire.so
 lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so -> libpipewire-0.3.so.0
-lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.334.0
--rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.334.0
+lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.335.0
+-rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.335.0
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so -> libjack.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.334.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.334.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.335.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.335.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so -> libjacknet.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.334.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.334.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.335.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.335.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so -> libjackserver.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.334.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.334.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.335.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.335.0
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-access.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-adapter.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-client-device.so
@@ -238,6 +239,9 @@ drwxr-xr-x root/root    usr/lib/spa-0.2/audiotestsrc/
 -rwxr-xr-x root/root    usr/lib/spa-0.2/audiotestsrc/libspa-audiotestsrc.so
 drwxr-xr-x root/root    usr/lib/spa-0.2/bluez5/
 -rwxr-xr-x root/root    usr/lib/spa-0.2/bluez5/libspa-bluez5.so
+-rwxr-xr-x root/root    usr/lib/spa-0.2/bluez5/libspa-codec-bluez5-aac.so
+-rwxr-xr-x root/root    usr/lib/spa-0.2/bluez5/libspa-codec-bluez5-faststream.so
+-rwxr-xr-x root/root    usr/lib/spa-0.2/bluez5/libspa-codec-bluez5-sbc.so
 drwxr-xr-x root/root    usr/lib/spa-0.2/control/
 -rwxr-xr-x root/root    usr/lib/spa-0.2/control/libspa-control.so
 drwxr-xr-x root/root    usr/lib/spa-0.2/jack/
@@ -331,15 +335,29 @@ drwxr-xr-x root/root    usr/share/alsa/
 drwxr-xr-x root/root    usr/share/alsa/alsa.conf.d/
 -rw-r--r-- root/root    usr/share/alsa/alsa.conf.d/50-pipewire.conf
 -rw-r--r-- root/root    usr/share/alsa/alsa.conf.d/99-pipewire-default.conf
+drwxr-xr-x root/root    usr/share/man/
+drwxr-xr-x root/root    usr/share/man/man1/
+-rw-r--r-- root/root    usr/share/man/man1/pipewire.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/pw-cat.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/pw-cli.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/pw-dot.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/pw-jack.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/pw-metadata.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/pw-mididump.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/pw-mon.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/pw-profiler.1.gz
+drwxr-xr-x root/root    usr/share/man/man5/
+-rw-r--r-- root/root    usr/share/man/man5/pipewire.conf.5.gz
 drwxr-xr-x root/root    usr/share/pipewire/
 -rw-r--r-- root/root    usr/share/pipewire/client-rt.conf
 -rw-r--r-- root/root    usr/share/pipewire/client.conf
 drwxr-xr-x root/root    usr/share/pipewire/filter-chain/
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain/demonic.conf
--rw-r--r-- root/root    usr/share/pipewire/filter-chain/sink-convolver.conf
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain/sink-dolby-surround.conf
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain/sink-eq6.conf
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain/sink-matrix-spatialiser.conf
+-rw-r--r-- root/root    usr/share/pipewire/filter-chain/sink-virtual-surround-5.1-kemar.conf
+-rw-r--r-- root/root    usr/share/pipewire/filter-chain/sink-virtual-surround-7.1-hesuvi.conf
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain/source-rnnoise.conf
 -rw-r--r-- root/root    usr/share/pipewire/jack.conf
 drwxr-xr-x root/root    usr/share/pipewire/media-session.d/
