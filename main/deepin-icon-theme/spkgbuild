@@ -2,15 +2,11 @@
 # depends	: papirus-icon-theme
 
 name=deepin-icon-theme
-version=2021.03.12
+version=2021.08.19
 release=1
-source="https://github.com/linuxdeepin/$name/archive/$version/$name-$version.tar.gz
-	https://github.com/linuxdeepin/deepin-icon-theme/pull/23.patch"
+source="https://github.com/linuxdeepin/$name/archive/$version/$name-$version.tar.gz"
 
 build() {
-	patch -d $name-$version -p1 < 23.patch
-	sed -i 's/deepin/bloom/g' $name-$version/tools/hicolor.links
-
 	find $name-$version -name "* 2.svg" -delete
 	cd $name-$version
 	make hicolor-links
