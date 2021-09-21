@@ -1,4 +1,4 @@
-linux-firmware-20210818-1
+linux-firmware-20210919-1
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/firmware/
 drwxr-xr-x root/root    lib/firmware/3com/
@@ -33,6 +33,7 @@ drwxr-xr-x root/root    lib/firmware/amd-ucode/
 drwxr-xr-x root/root    lib/firmware/amd/
 -rw-r--r-- root/root    lib/firmware/amd/amd_sev_fam17h_model0xh.sbin
 -rw-r--r-- root/root    lib/firmware/amd/amd_sev_fam17h_model3xh.sbin
+-rw-r--r-- root/root    lib/firmware/amd/amd_sev_fam19h_model0xh.sbin
 drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/arcturus_asd.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/arcturus_gpu_info.bin
@@ -461,6 +462,18 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/verde_rlc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/verde_smc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/verde_uvd.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/yellow_carp_asd.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/yellow_carp_ce.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/yellow_carp_dmcub.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/yellow_carp_me.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/yellow_carp_mec.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/yellow_carp_mec2.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/yellow_carp_pfp.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/yellow_carp_rlc.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/yellow_carp_sdma.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/yellow_carp_ta.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/yellow_carp_toc.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/yellow_carp_vcn.bin
 drwxr-xr-x root/root    lib/firmware/ar3k/
 drwxr-xr-x root/root    lib/firmware/ar3k/1020200/
 -rw-r--r-- root/root    lib/firmware/ar3k/1020200/PS_ASIC.pst
@@ -1111,6 +1124,8 @@ lrwxrwxrwx root/root    lib/firmware/intel/dsp_fw_release.bin -> dsp_fw_release_
 -rw-r--r-- root/root    lib/firmware/intel/fw_sst_0f28.bin-48kHz_i2s_master
 -rw-r--r-- root/root    lib/firmware/intel/fw_sst_0f28_ssp0.bin
 -rw-r--r-- root/root    lib/firmware/intel/fw_sst_22a8.bin
+-rw-r--r-- root/root    lib/firmware/intel/ibt-0040-0041.ddc
+-rw-r--r-- root/root    lib/firmware/intel/ibt-0040-0041.sfi
 -rw-r--r-- root/root    lib/firmware/intel/ibt-0041-0041.ddc
 -rw-r--r-- root/root    lib/firmware/intel/ibt-0041-0041.sfi
 -rw-r--r-- root/root    lib/firmware/intel/ibt-11-5.ddc
@@ -1312,6 +1327,10 @@ lrwxrwxrwx root/root    lib/firmware/iwlwifi-7265D-10.ucode -> iwlwifi-7265-10.u
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-59.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-62.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-63.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf-a0-64.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf-a0.pnvm
+-rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-hr-b0-64.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-jf-b0-64.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-59.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-62.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-63.ucode
@@ -1379,6 +1398,7 @@ drwxr-xr-x root/root    lib/firmware/matrox/
 -rw-r--r-- root/root    lib/firmware/matrox/g200_warp.fw
 -rw-r--r-- root/root    lib/firmware/matrox/g400_warp.fw
 drwxr-xr-x root/root    lib/firmware/mediatek/
+-rwxr-xr-x root/root    lib/firmware/mediatek/BT_RAM_CODE_MT7922_1_1_hdr.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/WIFI_MT7922_patch_mcu_1_1_hdr.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/WIFI_MT7961_patch_mcu_1_2_hdr.bin
@@ -1428,6 +1448,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.2406.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.2438.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.2946.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.3326.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2000.2308.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2000.2714.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2007.1168.mfa2
@@ -1439,6 +1460,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.2406.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.2438.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.2946.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.3326.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2007.1168.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1036.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1310.mfa2
@@ -1448,6 +1470,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.2406.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.2438.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.2946.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.3326.mfa2
 drwxr-xr-x root/root    lib/firmware/meson/
 drwxr-xr-x root/root    lib/firmware/meson/vdec/
 -rw-r--r-- root/root    lib/firmware/meson/vdec/g12a_h264.bin
@@ -2218,6 +2241,7 @@ drwxr-xr-x root/root    lib/firmware/qed/
 -rwxr-xr-x root/root    lib/firmware/qed/qed_init_values_zipped-8.37.7.0.bin
 -rw-r--r-- root/root    lib/firmware/qed/qed_init_values_zipped-8.4.2.0.bin
 -rwxr-xr-x root/root    lib/firmware/qed/qed_init_values_zipped-8.42.2.0.bin
+-rw-r--r-- root/root    lib/firmware/qed/qed_init_values_zipped-8.59.1.0.bin
 -rw-r--r-- root/root    lib/firmware/qed/qed_init_values_zipped-8.7.3.0.bin
 -rw-r--r-- root/root    lib/firmware/ql2100_fw.bin
 -rw-r--r-- root/root    lib/firmware/ql2200_fw.bin
