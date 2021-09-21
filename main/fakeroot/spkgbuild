@@ -2,19 +2,12 @@
 # homepage	: https://wiki.debian.org/FakeRoot
 
 name=fakeroot
-version=1.25.3
+version=1.26
 release=1
-source="http://ftp.debian.org/debian/pool/main/f/$name/${name}_${version}.orig.tar.gz
-	fakeroot-1.25.3-glibc-2.33-fix-1.patch
-	fakeroot-1.25.3-glibc-2.33-fix-2.patch
-	fakeroot-1.25.3-glibc-2.33-fix-3.patch"
+source="http://ftp.debian.org/debian/pool/main/f/$name/${name}_${version}.orig.tar.gz"
 
 build() {
 	cd $name-$version
-
-	for p in $SRC/*.patch; do
-		patch -Np1 -i $p
-	done
 
 	sed -i '/^SUBDIRS/d' doc/Makefile.am
 
