@@ -2,7 +2,7 @@
 # depends	: ca-certificates openssl pcre util-linux libidn2 pcre2
 
 name=wget
-version=1.21.1
+version=1.21.2
 release=1
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz"
 
@@ -11,8 +11,7 @@ build() {
 
   	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
-	            --with-ssl=openssl \
-		    --disable-nls
+	            --with-ssl=openssl
 	make
 	make DESTDIR=$PKG install
 
