@@ -1,4 +1,4 @@
-modemmanager-1.16.10-1
+modemmanager-1.18.2-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/dbus-1/
 drwxr-xr-x root/root    etc/dbus-1/system.d/
@@ -19,15 +19,12 @@ drwxr-xr-x root/root    lib/udev/rules.d/
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-longcheer-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-mtk-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-nokia-port-types.rules
--rw-r--r-- root/root    lib/udev/rules.d/77-mm-pcmcia-device-blacklist.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-quectel-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-sierra.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-simtech-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-telit-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-tplink-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-ublox-port-types.rules
--rw-r--r-- root/root    lib/udev/rules.d/77-mm-usb-device-blacklist.rules
--rw-r--r-- root/root    lib/udev/rules.d/77-mm-usb-serial-adapters-greylist.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-x22x-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-zte-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/80-mm-candidate.rules
@@ -44,6 +41,7 @@ drwxr-xr-x root/root    usr/include/ModemManager/
 -rw-r--r-- root/root    usr/include/ModemManager/ModemManager.h
 drwxr-xr-x root/root    usr/include/libmm-glib/
 -rw-r--r-- root/root    usr/include/libmm-glib/libmm-glib.h
+-rw-r--r-- root/root    usr/include/libmm-glib/mm-3gpp-profile.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-bearer-ip-config.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-bearer-properties.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-bearer-stats.h
@@ -52,6 +50,7 @@ drwxr-xr-x root/root    usr/include/libmm-glib/
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-call-properties.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-call.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-cdma-manual-activation-properties.h
+-rw-r--r-- root/root    usr/include/libmm-glib/mm-compat.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-enums-types.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-errors-types.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-firmware-properties.h
@@ -70,6 +69,7 @@ drwxr-xr-x root/root    usr/include/libmm-glib/
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-location-gps-nmea.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-location-gps-raw.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-manager.h
+-rw-r--r-- root/root    usr/include/libmm-glib/mm-modem-3gpp-profile-manager.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-modem-3gpp-ussd.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-modem-3gpp.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-modem-cdma.h
@@ -86,6 +86,7 @@ drwxr-xr-x root/root    usr/include/libmm-glib/
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-object.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-pco.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-signal.h
+-rw-r--r-- root/root    usr/include/libmm-glib/mm-sim-preferred-network.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-sim.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-simple-connect-properties.h
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-simple-status.h
@@ -141,9 +142,9 @@ drwxr-xr-x root/root    usr/lib/ModemManager/
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-shared-xmm.so
 drwxr-xr-x root/root    usr/lib/girepository-1.0/
 -rw-r--r-- root/root    usr/lib/girepository-1.0/ModemManager-1.0.typelib
-lrwxrwxrwx root/root    usr/lib/libmm-glib.so -> libmm-glib.so.0.7.0
-lrwxrwxrwx root/root    usr/lib/libmm-glib.so.0 -> libmm-glib.so.0.7.0
--rwxr-xr-x root/root    usr/lib/libmm-glib.so.0.7.0
+lrwxrwxrwx root/root    usr/lib/libmm-glib.so -> libmm-glib.so.0.8.0
+lrwxrwxrwx root/root    usr/lib/libmm-glib.so.0 -> libmm-glib.so.0.8.0
+-rwxr-xr-x root/root    usr/lib/libmm-glib.so.0.8.0
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/ModemManager.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/mm-glib.pc
@@ -151,7 +152,8 @@ drwxr-xr-x root/root    usr/sbin/
 -rwxr-xr-x root/root    usr/sbin/ModemManager
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/ModemManager/
--rw-r--r-- root/root    usr/share/ModemManager/mm-foxconn-carrier-mapping.conf
+-rw-r--r-- root/root    usr/share/ModemManager/mm-foxconn-t77w968-carrier-mapping.conf
+-rw-r--r-- root/root    usr/share/ModemManager/mm-foxconn-t99w175-carrier-mapping.conf
 drwxr-xr-x root/root    usr/share/bash-completion/
 drwxr-xr-x root/root    usr/share/bash-completion/completions/
 -rw-r--r-- root/root    usr/share/bash-completion/completions/mmcli
@@ -162,6 +164,7 @@ drwxr-xr-x root/root    usr/share/dbus-1/interfaces/
 -rw-r--r-- root/root    usr/share/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Firmware.xml
 -rw-r--r-- root/root    usr/share/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Location.xml
 -rw-r--r-- root/root    usr/share/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Messaging.xml
+-rw-r--r-- root/root    usr/share/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Modem3gpp.ProfileManager.xml
 -rw-r--r-- root/root    usr/share/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Modem3gpp.Ussd.xml
 -rw-r--r-- root/root    usr/share/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.Modem3gpp.xml
 -rw-r--r-- root/root    usr/share/dbus-1/interfaces/org.freedesktop.ModemManager1.Modem.ModemCdma.xml
