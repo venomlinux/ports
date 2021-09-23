@@ -9,6 +9,10 @@ source="https://ftp.gnu.org/gnu/texinfo/$name-$version.tar.xz"
 build() {
 	cd $name-$version
 
+	# fix an issue building the package with Glibc-2.34 or later
+	sed -e 's/__attribute_nonnull__/__nonnull/' \
+	    -i gnulib/lib/malloc/dynarray-skeleton.c
+
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
