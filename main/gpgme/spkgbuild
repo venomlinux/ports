@@ -4,13 +4,16 @@
 name=gpgme
 version=1.16.0
 release=1
-source="ftp://ftp.gnupg.org/gcrypt/gpgme/$name-$version.tar.bz2"
+source="ftp://ftp.gnupg.org/gcrypt/gpgme/$name-$version.tar.bz2
+	support_closeform_for_glibc.patch"
 
 build() {
 	cd $name-$version
+
+	# glibc 2.34 fix
+	patch -Np1 -i ../support_closeform_for_glibc.patch
+
 	./configure --prefix=/usr --disable-gpg-test
 	make
 	make DESTDIR=$PKG install
-
-
 }
