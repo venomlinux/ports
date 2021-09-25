@@ -1,0 +1,25 @@
+# description	: Seat management daemon and library 
+# homepage	: https://git.sr.ht/~kennylevinsen/seatd
+# depends	: meson ninja scdoc
+
+name=seatd
+version=0.6.2
+release=1
+source="https://git.sr.ht/~kennylevinsen/seatd/archive/$version.tar.gz"
+
+build() {
+#cd $name-$version
+	mkdir build
+    meson --prefix=/usr \
+          --buildtype=plain \
+          -Dexamples="disabled" \
+          -Dserver="enabled" \
+          -Dlibseat-logind="auto" \
+		  -Dlibseat-seatd="enabled" \
+		  -Dlibseat-builtin="enabled" \
+          -Dman-pages="enabled" \
+          "seatd-$version" \
+          build
+    ninja -C build	
+	DESTDIR=$PKG ninja -C build install
+}

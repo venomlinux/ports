@@ -1,0 +1,20 @@
+# description	: Library project for developers who would like to support popular graphics image formats 
+# homepage	: http://freeimage.sourceforge.net
+# depends	: libjpeg-turbo openexr openjpeg2 libwebp libraw 
+
+name=freeimage
+version=3.18.0
+release=1
+noextract=""
+backup=""
+source="https://razaoinfo.dl.sourceforge.net/project/freeimage/Source%20Distribution/${version}/FreeImage3180.zip"
+
+build() {
+	cd FreeImage
+	sh gensrclist.sh
+	sh genfipsrclist.sh
+	make -f Makefile.gnu
+	make -f Makefile.fip
+	make DESTDIR=$PKG -f Makefile.gnu install
+	make DESTDIR=$PKG -f Makefile.fip install
+}

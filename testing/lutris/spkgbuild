@@ -1,0 +1,13 @@
+# description	: Lutris is an open gaming platform for Linux 
+# homepage	: https://lutris.net/
+# depends	: python3-yaml gnome-desktop python3-requests python3-dbus webkitgtk ca-certificates
+
+name=lutris
+version=0.5.8.4
+release=1
+source="http://lutris.net/releases/${name}_${version}.tar.xz"
+
+build() {
+	cd $name
+	python3 setup.py install --root $PKG
+}
