@@ -1,0 +1,32 @@
+# description	: Portable web rendering engine WebKit to the GTK+ 3 and GTK+ 2 platforms
+# depends	: cairo cmake gst-plugins-base gst-plugins-bad gtk2 gtk3 harfbuzz-icu libgudev libsecret libsoup libseccomp
+# depends	: libwebp mesa ruby sqlite which enchant libxslt openjpeg2 libwpe bubblewrap xdg-dbus-proxy wpebackend-fdo libxcomposite libnotify libxt
+
+name=webkitgtk
+version=2.30.5
+release=1
+source="https://webkitgtk.org/releases/$name-$version.tar.xz
+		Xutil.patch"
+
+build() {
+	cd $name-$version
+	patch -p1 < $SRC/Xutil.patch
+	
+	mkdir build
+	cd build
+	
+	cmake -DCMAKE_BUILD_TYPE=Release \
+	      -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DCMAKE_SKIP_RPATH=ON \
+	      -DPORT=GTK \
+	      -DLIB_INSTALL_DIR=/usr/lib \
+	      -DCMAKE_INSTALL_LIBEXECDIR:PATH=/usr/lib \
+	      -DUSE_LIBHYPHEN=OFF \
+	      -DENABLE_MINIBROWSER=ON \
+	      -DUSE_WOFF2=OFF \
+	      -DENABLE_GEOLOCATION=OFF \
+	      -DUSE_SYSTEMD=OFF \
+	      -Wno-dev -G Ninja ..
+	ninja
+	DESTDIR=$PKG ninja install
+}
