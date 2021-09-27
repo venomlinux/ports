@@ -26,13 +26,19 @@ verifyfiles() {
 
 verifythisisnotcrux() {
 	for i in PKGMK prt prt-get; do
-		grep -q "$i" $portpath/spkgbuild && msg "please remove CRUX stuff, this is not CRUX"
+		grep -q "$i" $portpath/spkgbuild && msg "please remove CRUX stuff, this is not CRUX: $i"
 	done
 }
 
 verifythisisnotarch() {
 	for i in pkgver pkgrel pkgdesc pkgdir srcdir; do
-		grep -q "$i" $portpath/spkgbuild && msg "please remove ARCH stuff, this is not ARCH"
+		grep -q "$i" $portpath/spkgbuild && msg "please remove ARCH stuff, this is not ARCH: $i"
+	done
+}
+
+verifythisisnotslackware() {
+	for i in LIBDIRSUFFIX '\--docdir=/usr/doc' '\--mandir=/usr/man'; do
+		grep -q "$i" $portpath/spkgbuild && msg "please remove Slackware stuff, this is not Slackware: ${i/\\/}"
 	done
 }
 
@@ -92,6 +98,7 @@ runverify() {
 		verifyfiles
 		verifythisisnotcrux
 		verifythisisnotarch
+		verifythisisnotslackware
 		verifyforbiddendir
 		verifynotusedir
 		shift
@@ -100,7 +107,7 @@ runverify() {
 
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
-REPO="main multilib nonfree"
+REPO="main multilib nonfree testing"
 
 if [ $1 ]; then
 	runverify $@
