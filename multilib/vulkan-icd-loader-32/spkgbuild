@@ -1,0 +1,32 @@
+# description	: Vulkan Installable Client Driver (ICD) Loader 
+# homepage	: https://www.khronos.org/vulkan/
+# depends	: cmake python3-lxml libx11 libxrandr vulkan-headers wayland
+
+name=vulkan-icd-loader-32
+version=1.2.190
+release=1
+source="https://github.com/KhronosGroup/Vulkan-Loader/archive/refs/tags/v$version.tar.gz"
+
+build() {
+  export ASFLAGS=--32
+  export CFLAGS=-m32
+  export CXXFLAGS=-m32
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	cd Vulkan-Loader-$version
+
+	rm -rf build ; mkdir build ; cd build
+	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+		-DVULKAN_HEADERS_INSTALL_DIR=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib32 \
+		-DCMAKE_INSTALL_SYSCONFDIR=/etc \
+		-DCMAKE_INSTALL_DATADIR=/share \
+		-DCMAKE_SKIP_RPATH=True \
+		-DBUILD_TESTS=Off \
+		-DBUILD_WSI_XCB_SUPPORT=On \
+		-DBUILD_WSI_XLIB_SUPPORT=On \
+		-DBUILD_WSI_WAYLAND_SUPPORT=On \
+		-DCMAKE_BUILD_TYPE=Release \
+		..
+	make
+	make DESTDIR=$PKG install
+}
