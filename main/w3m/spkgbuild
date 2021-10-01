@@ -4,21 +4,16 @@
 name=w3m
 version=0.5.3
 release=3
-source="https://downloads.sourceforge.net/w3m/$name-$version.tar.gz
-	fix-compile.patch"
+source="https://salsa.debian.org/debian/$name/-/archive/v$version+git20210102+deb11u0.5/$name-v$version+git20210102+deb11u0.5.tar.gz"
 
 build() {
-	cd $name-$version
+	cd $name-v$version+git20210102+deb11u0.5
 
-	patch -Np1 -i ../fix-compile.patch
-	sed -i 's/file_handle/file_foo/' istream.c
-	sed -i 's/file_handle/file_foo/' istream.h
-	sed -i 's#gdk-pixbuf-xlib-2.0#& x11#' configure
-	sed -i '/USE_EGD/s/define/undef/' config.h.in
-	
 	./configure --prefix=/usr \
 		    --sysconfdir=/etc \
 		    --libexecdir=/usr/lib \
+			--with-imagelib=imlib2 \
+			--with-termlib=ncurses \
 		    --disable-nls
 	make -j1
 	make DESTDIR=$PKG install
