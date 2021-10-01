@@ -1,0 +1,22 @@
+# description	: Front-end for openMSX: the MSX emulator that aims for perfection.
+# homepage	: http://openmsx.org
+# depends	: openmsx-${version} libxml2 wxgtk3 zlib libjpeg libpng libtiff
+
+name=openmsx-catapult
+version=17.0
+release=1
+source="https://github.com/openMSX/openMSX/releases/download/RELEASE_17_0/${name}-${version}.tar.gz"
+
+build() {
+	cd $name-$version
+	sed -i 's@SYMLINK_FOR_BINARY:=true@SYMLINK_FOR_BINARY:=false@' build/custom.mk
+	sed -i 's@/opt/openMSX-Catapult@/usr/share/openmsx-catapult@' build/custom.mk
+	sed -i 's@/opt/openMSX/bin/openmsx@/usr/bin/openmsx@' build/custom.mk
+	sed -i 's@/opt/openMSX/share@/usr/share/openmsx@' build/custom.mk
+	echo 'INSTALL_DOC_DIR:=/usr/share/doc/openmsx-catapult' >> build/custom.mk
+	echo 'INSTALL_SHARE_DIR:=/usr/share/openmsx-catapult' >> build/custom.mk
+	echo 'INSTALL_BINARY_DIR:=/usr/bin' >> build/custom.mk
+
+	make
+	make DESTDIR=$PKG install
+}
