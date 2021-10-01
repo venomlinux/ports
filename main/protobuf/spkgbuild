@@ -13,7 +13,7 @@ build() {
 	./configure --prefix=/usr
 	make
 	cd python
-	python setup.py build --cpp_implementation
+	python3 setup.py build --cpp_implementation
 	cd ..
 	make DESTDIR=$PKG install
 }
