@@ -1,0 +1,28 @@
+# description	:  Very resourcefriendly and feature-rich replacement for i3status, written in pure Rust 
+# homepage	: https://github.com/greshake/i3status-rust
+# depends	: rust pulseaudio
+
+name=i3status-rust
+version=0.20.4
+release=1
+source="https://github.com/greshake/i3status-rust/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	cargo build --release --features "pulseaudio"
+
+	install -Dm755 target/release/i3status-rs "$PKG/usr/bin/i3status-rs"
+	install -Dm644 man/i3status-rs.1 -t "$PKG/usr/share/man/man1"
+
+	for icon_set in files/icons/*.toml; do
+		install -Dm644 "$icon_set" -t "$PKG/usr/share/${name%-*}/icons"
+	done
+
+	for theme in files/themes/*.toml; do
+		install -Dm644 "$theme" -t "$PKG/usr/share/${name%-*}/themes"
+	done
+
+	for example_config in examples/*.toml; do
+		install -Dm644 "$example_config" -t "$PKG/usr/share/doc/${pkgname%-*}/examples"
+	done
+}
