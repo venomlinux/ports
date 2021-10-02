@@ -2,7 +2,7 @@
 # homepage	: https://curl.se/docs/caextract.html
 
 name=ca-certificates
-version=20210705
+version=20210930
 _noyear=${version#????}
 _version=${version%????}-${_noyear%??}-${version#??????}
 release=1
@@ -13,4 +13,5 @@ build() {
 
 	install -d $PKG/etc/ssl/certs
 	ln -s /etc/ssl/cert.pem $PKG/etc/ssl/certs/ca-certificates.crt
+	ln -s /etc/ssl/cert.pem $PKG/etc/ssl/ca-bundle.crt
 }
