@@ -217,7 +217,7 @@ make_iso() {
 		cp "$ROOTFS/usr/share/syslinux/$file" "$ISODIR/isolinux" || die "Failed copying isolinux file: $file"
 	done
 	cp "$FILESDIR/splash.png" "$ISODIR/isolinux"
-	cp "$FILESDIR/isolinux.cfg" "$ISODIR/isolinux"
+	sed "s/@RLS@/$RELEASE/g" "$FILESDIR/isolinux.cfg" > "$ISODIR/isolinux/isolinux.cfg"
 	
 	[ -d "$PORTSDIR/virootfs" ] && {
 		cp -aR "$PORTSDIR/virootfs" "$ISODIR"
@@ -257,7 +257,7 @@ make_iso() {
 	fi
 	echo "set prefix=/boot/grub" > "$ISODIR/boot/grub-early.cfg"
 	cp -a $ROOTFS/usr/lib/grub/x86_64-efi/*.{mod,lst} "$ISODIR/boot/grub/x86_64-efi" || die "Failed copying efi files"
-	cp "$FILESDIR/grub.cfg" "$ISODIR/boot/grub/"
+	sed "s/@RLS@/$RELEASE/g" "$FILESDIR/grub.cfg" > "$ISODIR/boot/grub/grub.cfg"
 
 	grub-mkimage -c "$ISODIR/boot/grub-early.cfg" -o "$ISODIR/efi/boot/bootx64.efi" -O x86_64-efi -p "" iso9660 normal search search_fs_file
 	modprobe loop

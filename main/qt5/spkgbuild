@@ -5,10 +5,14 @@
 name=qt5
 version=5.15.2
 release=1
-source="https://download.qt.io/official_releases/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz"
+source="https://download.qt.io/official_releases/qt/${version%.*}/$version/single/qt-everywhere-src-$version.tar.xz
+	qt-everywhere-src-5.15.2-CVE-2021-3481-1.patch"
 
 build() {
 	cd qt-everywhere-src-$version
+
+	# fix an Out Of Bounds read in QtSVG
+	patch -Np1 -i ../qt-everywhere-src-5.15.2-CVE-2021-3481-1.patch
 
 	# Build qmake using Venom {C,LD}FLAGS
 	# This also sets default {C,CXX,LD}FLAGS for projects built using qmake
@@ -16,6 +20,12 @@ build() {
 	    qtbase/mkspecs/common/gcc-base.conf
 	sed -i -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${LDFLAGS}|" \
 	    qtbase/mkspecs/common/g++-unix.conf
+
+	# fix some issues using gcc-11
+	sed -i '/utility/a #include <limits>'     qtbase/src/corelib/global/qglobal.h
+	sed -i '/string/a #include <limits>'      qtbase/src/corelib/global/qfloat16.h
+	sed -i '/qbytearray/a #include <limits>'  qtbase/src/corelib/text/qbytearraymatcher.h
+	sed -i '/type_traits/a #include <limits>' qtdeclarative/src/qmldebug/qqmlprofilerevent_p.h
 
 	./configure -prefix         /usr \
 	            -sysconfdir     /etc/xdg \

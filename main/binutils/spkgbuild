@@ -3,11 +3,15 @@
 
 name=binutils
 version=2.37
-release=1
-source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz"
+release=2
+source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz
+	close_the_thin_archive_file_descriptor.patch"
 
 build() {
 	cd $name-$version
+
+	# https://sourceware.org/bugzilla/show_bug.cgi?id=28138
+	patch -Np1 -i ../close_the_thin_archive_file_descriptor.patch
 
 	sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
 

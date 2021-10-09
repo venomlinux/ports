@@ -1,3 +1,4 @@
+qt5-5.15.2-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 lrwxrwxrwx root/root    usr/bin/assistant -> /usr/lib/qt5/bin/assistant
@@ -42,6 +43,8 @@ lrwxrwxrwx root/root    usr/bin/qdbusxml2cpp -> /usr/lib/qt5/bin/qdbusxml2cpp
 lrwxrwxrwx root/root    usr/bin/qdbusxml2cpp-qt5 -> /usr/lib/qt5/bin/qdbusxml2cpp
 lrwxrwxrwx root/root    usr/bin/qdistancefieldgenerator -> /usr/lib/qt5/bin/qdistancefieldgenerator
 lrwxrwxrwx root/root    usr/bin/qdistancefieldgenerator-qt5 -> /usr/lib/qt5/bin/qdistancefieldgenerator
+lrwxrwxrwx root/root    usr/bin/qdoc -> /usr/lib/qt5/bin/qdoc
+lrwxrwxrwx root/root    usr/bin/qdoc-qt5 -> /usr/lib/qt5/bin/qdoc
 lrwxrwxrwx root/root    usr/bin/qgltf -> /usr/lib/qt5/bin/qgltf
 lrwxrwxrwx root/root    usr/bin/qgltf-qt5 -> /usr/lib/qt5/bin/qgltf
 lrwxrwxrwx root/root    usr/bin/qhelpgenerator -> /usr/lib/qt5/bin/qhelpgenerator
@@ -3803,6 +3806,21 @@ drwxr-xr-x root/root    usr/include/qt5/QtKmsSupport/5.15.2/QtKmsSupport/private
 -rw-r--r-- root/root    usr/include/qt5/QtKmsSupport/QtKmsSupportDepends
 -rw-r--r-- root/root    usr/include/qt5/QtKmsSupport/QtKmsSupportVersion
 -rw-r--r-- root/root    usr/include/qt5/QtKmsSupport/qtkmssupportversion.h
+drwxr-xr-x root/root    usr/include/qt5/QtLinuxAccessibilitySupport/
+drwxr-xr-x root/root    usr/include/qt5/QtLinuxAccessibilitySupport/5.15.2/
+drwxr-xr-x root/root    usr/include/qt5/QtLinuxAccessibilitySupport/5.15.2/QtLinuxAccessibilitySupport/
+drwxr-xr-x root/root    usr/include/qt5/QtLinuxAccessibilitySupport/5.15.2/QtLinuxAccessibilitySupport/private/
+-rw-r--r-- root/root    usr/include/qt5/QtLinuxAccessibilitySupport/5.15.2/QtLinuxAccessibilitySupport/private/application_p.h
+-rw-r--r-- root/root    usr/include/qt5/QtLinuxAccessibilitySupport/5.15.2/QtLinuxAccessibilitySupport/private/atspiadaptor_p.h
+-rw-r--r-- root/root    usr/include/qt5/QtLinuxAccessibilitySupport/5.15.2/QtLinuxAccessibilitySupport/private/bridge_p.h
+-rw-r--r-- root/root    usr/include/qt5/QtLinuxAccessibilitySupport/5.15.2/QtLinuxAccessibilitySupport/private/cache_p.h
+-rw-r--r-- root/root    usr/include/qt5/QtLinuxAccessibilitySupport/5.15.2/QtLinuxAccessibilitySupport/private/constant_mappings_p.h
+-rw-r--r-- root/root    usr/include/qt5/QtLinuxAccessibilitySupport/5.15.2/QtLinuxAccessibilitySupport/private/dbusconnection_p.h
+-rw-r--r-- root/root    usr/include/qt5/QtLinuxAccessibilitySupport/5.15.2/QtLinuxAccessibilitySupport/private/struct_marshallers_p.h
+-rw-r--r-- root/root    usr/include/qt5/QtLinuxAccessibilitySupport/QtLinuxAccessibilitySupport
+-rw-r--r-- root/root    usr/include/qt5/QtLinuxAccessibilitySupport/QtLinuxAccessibilitySupportDepends
+-rw-r--r-- root/root    usr/include/qt5/QtLinuxAccessibilitySupport/QtLinuxAccessibilitySupportVersion
+-rw-r--r-- root/root    usr/include/qt5/QtLinuxAccessibilitySupport/qtlinuxaccessibilitysupportversion.h
 drwxr-xr-x root/root    usr/include/qt5/QtLocation/
 drwxr-xr-x root/root    usr/include/qt5/QtLocation/5.15.2/
 drwxr-xr-x root/root    usr/include/qt5/QtLocation/5.15.2/QtLocation/
@@ -7876,6 +7894,9 @@ drwxr-xr-x root/root    usr/lib/cmake/Qt5DesignerComponents/
 drwxr-xr-x root/root    usr/lib/cmake/Qt5DeviceDiscoverySupport/
 -rw-r--r-- root/root    usr/lib/cmake/Qt5DeviceDiscoverySupport/Qt5DeviceDiscoverySupportConfig.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5DeviceDiscoverySupport/Qt5DeviceDiscoverySupportConfigVersion.cmake
+drwxr-xr-x root/root    usr/lib/cmake/Qt5DocTools/
+-rw-r--r-- root/root    usr/lib/cmake/Qt5DocTools/Qt5DocToolsConfig.cmake
+-rw-r--r-- root/root    usr/lib/cmake/Qt5DocTools/Qt5DocToolsConfigVersion.cmake
 drwxr-xr-x root/root    usr/lib/cmake/Qt5EdidSupport/
 -rw-r--r-- root/root    usr/lib/cmake/Qt5EdidSupport/Qt5EdidSupportConfig.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5EdidSupport/Qt5EdidSupportConfigVersion.cmake
@@ -7913,17 +7934,18 @@ drwxr-xr-x root/root    usr/lib/cmake/Qt5Gui/
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QEglFSIntegrationPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QEglFSKmsEglDeviceIntegrationPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QEglFSKmsGbmIntegrationPlugin.cmake
--rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QEglFSX11IntegrationPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QEvdevKeyboardPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QEvdevMousePlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QEvdevTabletPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QEvdevTouchScreenPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake
+-rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QGtk3ThemePlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QICNSPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QIbusPlatformInputContextPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QJp2Plugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake
+-rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QLibInputPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QLinuxFbIntegrationPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QMinimalEglIntegrationPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake
@@ -7939,7 +7961,6 @@ drwxr-xr-x root/root    usr/lib/cmake/Qt5Gui/
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QWbmpPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QWebGLIntegrationPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QWebpPlugin.cmake
--rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QXcbEglIntegrationPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QXcbGlxIntegrationPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QXcbIntegrationPlugin.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Gui/Qt5Gui_QXdgDesktopPortalThemePlugin.cmake
@@ -7957,6 +7978,9 @@ drwxr-xr-x root/root    usr/lib/cmake/Qt5LinguistTools/
 -rw-r--r-- root/root    usr/lib/cmake/Qt5LinguistTools/Qt5LinguistToolsConfig.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5LinguistTools/Qt5LinguistToolsConfigVersion.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5LinguistTools/Qt5LinguistToolsMacros.cmake
+drwxr-xr-x root/root    usr/lib/cmake/Qt5LinuxAccessibilitySupport/
+-rw-r--r-- root/root    usr/lib/cmake/Qt5LinuxAccessibilitySupport/Qt5LinuxAccessibilitySupportConfig.cmake
+-rw-r--r-- root/root    usr/lib/cmake/Qt5LinuxAccessibilitySupport/Qt5LinuxAccessibilitySupportConfigVersion.cmake
 drwxr-xr-x root/root    usr/lib/cmake/Qt5Location/
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Location/Qt5LocationConfig.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Qt5Location/Qt5LocationConfigVersion.cmake
@@ -8347,6 +8371,8 @@ lrwxrwxrwx root/root    usr/lib/libQt5Help.so.5.15 -> libQt5Help.so.5.15.2
 -rw-r--r-- root/root    usr/lib/libQt5InputSupport.prl
 -rw-r--r-- root/root    usr/lib/libQt5KmsSupport.a
 -rw-r--r-- root/root    usr/lib/libQt5KmsSupport.prl
+-rw-r--r-- root/root    usr/lib/libQt5LinuxAccessibilitySupport.a
+-rw-r--r-- root/root    usr/lib/libQt5LinuxAccessibilitySupport.prl
 -rw-r--r-- root/root    usr/lib/libQt5Location.prl
 lrwxrwxrwx root/root    usr/lib/libQt5Location.so -> libQt5Location.so.5.15.2
 lrwxrwxrwx root/root    usr/lib/libQt5Location.so.5 -> libQt5Location.so.5.15.2
@@ -8711,6 +8737,7 @@ drwxr-xr-x root/root    usr/lib/qt5/bin/
 -rwxr-xr-x root/root    usr/lib/qt5/bin/qdbusviewer
 -rwxr-xr-x root/root    usr/lib/qt5/bin/qdbusxml2cpp
 -rwxr-xr-x root/root    usr/lib/qt5/bin/qdistancefieldgenerator
+-rwxr-xr-x root/root    usr/lib/qt5/bin/qdoc
 -rwxr-xr-x root/root    usr/lib/qt5/bin/qgltf
 -rwxr-xr-x root/root    usr/lib/qt5/bin/qhelpgenerator
 -rwxr-xr-x root/root    usr/lib/qt5/bin/qlalr
@@ -9351,6 +9378,7 @@ drwxr-xr-x root/root    usr/lib/qt5/mkspecs/modules/
 -rw-r--r-- root/root    usr/lib/qt5/mkspecs/modules/qt_lib_help_private.pri
 -rw-r--r-- root/root    usr/lib/qt5/mkspecs/modules/qt_lib_input_support_private.pri
 -rw-r--r-- root/root    usr/lib/qt5/mkspecs/modules/qt_lib_kms_support_private.pri
+-rw-r--r-- root/root    usr/lib/qt5/mkspecs/modules/qt_lib_linuxaccessibility_support_private.pri
 -rw-r--r-- root/root    usr/lib/qt5/mkspecs/modules/qt_lib_location.pri
 -rw-r--r-- root/root    usr/lib/qt5/mkspecs/modules/qt_lib_location_private.pri
 -rw-r--r-- root/root    usr/lib/qt5/mkspecs/modules/qt_lib_multimedia.pri
@@ -9602,7 +9630,6 @@ drwxr-xr-x root/root    usr/lib/qt5/plugins/egldeviceintegrations/
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/egldeviceintegrations/libqeglfs-emu-integration.so
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/egldeviceintegrations/libqeglfs-kms-egldevice-integration.so
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/egldeviceintegrations/libqeglfs-kms-integration.so
--rwxr-xr-x root/root    usr/lib/qt5/plugins/egldeviceintegrations/libqeglfs-x11-integration.so
 drwxr-xr-x root/root    usr/lib/qt5/plugins/gamepads/
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/gamepads/libevdevgamepad.so
 drwxr-xr-x root/root    usr/lib/qt5/plugins/generic/
@@ -9610,6 +9637,7 @@ drwxr-xr-x root/root    usr/lib/qt5/plugins/generic/
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/generic/libqevdevmouseplugin.so
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/generic/libqevdevtabletplugin.so
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/generic/libqevdevtouchplugin.so
+-rwxr-xr-x root/root    usr/lib/qt5/plugins/generic/libqlibinputplugin.so
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/generic/libqtuiotouchplugin.so
 drwxr-xr-x root/root    usr/lib/qt5/plugins/geometryloaders/
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/geometryloaders/libdefaultgeometryloader.so
@@ -9654,6 +9682,7 @@ drwxr-xr-x root/root    usr/lib/qt5/plugins/platforms/
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/platforms/libqwebgl.so
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/platforms/libqxcb.so
 drwxr-xr-x root/root    usr/lib/qt5/plugins/platformthemes/
+-rwxr-xr-x root/root    usr/lib/qt5/plugins/platformthemes/libqgtk3.so
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/platformthemes/libqxdgdesktopportal.so
 drwxr-xr-x root/root    usr/lib/qt5/plugins/playlistformats/
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/playlistformats/libqtmultimedia_m3u.so
@@ -9697,7 +9726,6 @@ drwxr-xr-x root/root    usr/lib/qt5/plugins/virtualkeyboard/
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/virtualkeyboard/libqtvirtualkeyboard_tcime.so
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/virtualkeyboard/libqtvirtualkeyboard_thai.so
 drwxr-xr-x root/root    usr/lib/qt5/plugins/xcbglintegrations/
--rwxr-xr-x root/root    usr/lib/qt5/plugins/xcbglintegrations/libqxcb-egl-integration.so
 -rwxr-xr-x root/root    usr/lib/qt5/plugins/xcbglintegrations/libqxcb-glx-integration.so
 drwxr-xr-x root/root    usr/lib/qt5/qml/
 drwxr-xr-x root/root    usr/lib/qt5/qml/Qt/
