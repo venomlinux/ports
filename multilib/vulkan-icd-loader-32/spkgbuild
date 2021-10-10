@@ -11,7 +11,9 @@ build() {
 	cd Vulkan-Loader-$version
 
 	export CC="gcc -m32"
-	export ASFLAGS=--32
+	export CFLAGS="-m32"
+	export CXXFLAGS="-m32"
+	export ASFLAGS="--32"
 	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
 	rm -rf build ; mkdir build ; cd build
