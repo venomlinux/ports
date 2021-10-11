@@ -12,11 +12,11 @@ build() {
 
 	./configure \
 		--prefix=/usr \
-		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--libdir=/usr/lib \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--mandir=/usr/man \
-		--docdir=/usr/doc/$PRGNAM-$VERSION \
+		--docdir=/usr/share/doc/$name-$version \
 		--enable-desktop-integration
 
 	make
