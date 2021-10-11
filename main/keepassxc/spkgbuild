@@ -9,13 +9,25 @@ source="https://github.com/keepassxreboot/${name}/releases/download/${version}/$
 
 build() {
 	cd $name-$version
-    	cmake -S . -B build \
-        	-DCMAKE_BUILD_TYPE=Release \
-        	-DCMAKE_INSTALL_PREFIX=/usr \
-        	-DCMAKE_INSTALL_LIBDIR=lib \
-        	-DWITH_XC_UPDATECHECK=OFF \
-		-DWITH_XC_DOCS=OFF \
-		-DWITH_XC_YUBIKEY=OFF
-    	cmake --build build
-    	cmake --build build --target install -- DESTDIR="$PKG"
+
+    cmake \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_MANDIR=/usr/man \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DWITH_TESTS=OFF \
+        -DWITH_XC_BROWSER=${BROWSER:-ON} \
+        -DWITH_XC_YUBIKEY=${YUBIKEY:-OFF} \
+        -DWITH_XC_NETWORKING=${NETWORKING:-ON} \
+        -DWITH_XC_AUTOTYPE=${AUTOTYPE:-ON} \
+        -DWITH_XC_DOCS=${DOCS:-OFF} \
+        -DWITH_XC_SSHAGENT=${SSHAGENT:-ON} \
+        -DWITH_XC_KEESHARE=${KEESHARE:-OFF} \
+        -DWITH_XC_KEESHARE_SECURE=${KEESHARE_SECURE:-OFF} \
+        -DWITH_XC_UPDATECHECK=${UPDATECHECK:-ON} 
+        
+
+        #cmake --build build
+        #cmake --build build --target install -- DESTDIR="$PKG"
+        make
+        make install DESTDIR="$PKG"
 }

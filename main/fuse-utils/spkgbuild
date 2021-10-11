@@ -1,0 +1,23 @@
+# description	: Tools to manage ZX-Spectrum files 
+# homepage	: http://fuse-emulator.sourceforge.net
+# depends	: libspectrum
+
+name=fuse-utils
+version=1.4.3
+release=1
+source="https://downloads.sourceforge.net/project/fuse-emulator/$name/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--mandir=/usr/man \
+		--docdir=/usr/doc/$PRGNAM-$VERSION
+
+	make
+	make DESTDIR=$PKG install
+}

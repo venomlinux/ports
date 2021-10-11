@@ -1,0 +1,16 @@
+# description	:	Lightweight image viewer
+# homepage	: http://www.geeqie.org/
+# depends	: exiv2 gtk3 ffmpegthumbnailer libchamplain poppler-glib intltool python3 librsvg libwebp imagemagick6 fbida gawk 
+
+name=geeqie
+version=1.6
+release=1
+source="https://github.com/BestImageViewer/$name/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./autogen.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

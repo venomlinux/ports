@@ -1,0 +1,24 @@
+# description	: A ZX-Spectrum emulator for unix 
+# homepage	: http://fuse-emulator.sourceforge.net
+# depends	: libspectrum 
+
+name=fuse-emulator
+version=1.5.5
+release=1
+source="https://downloads.sourceforge.net/project/fuse-emulator/fuse/$version/fuse-$version.tar.gz"
+
+build() {
+	cd fuse-$version
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib${LIBDIRSUFFIX} \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--mandir=/usr/man \
+		--docdir=/usr/doc/$PRGNAM-$VERSION \
+		--enable-desktop-integration
+
+	make
+	make DESTDIR=$PKG install
+}
