@@ -3,12 +3,13 @@
 # depends	: pulseaudio boost 
 
 name=pamixer
-version=1.4
+version=1.5
 release=1
 source="https://github.com/cdemoulins/$name/archive/refs/tags/$version.tar.gz"
 
 build() {
 	cd $name-$version
+	CXXFLAGS="$CXXFLAGS -DVERSION=$version"
 	make
 	install -D -m755 pamixer "$PKG"/usr/bin/pamixer
 }

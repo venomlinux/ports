@@ -13,6 +13,10 @@ build() {
 	sed -e 's/"(\\S+)"/"?([^\\s"]+)"?/' \
 	    -i scripts/update-leap/update-leap.in
 
+	# fix an issue introduced with glibc-2.34
+	sed -e 's/#ifndef __sun/#if !defined(__sun) \&\& !defined(__GLIBC__)/' \
+	    -i libntp/work_thread.c
+
 	./configure CFLAGS="$CFLAGS -g -fPIC" \
 	            --prefix=/usr \
 	            --bindir=/usr/sbin \
