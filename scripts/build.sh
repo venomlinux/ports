@@ -184,6 +184,19 @@ tmp_scratchpkgconf() {
 
 main_scratchpkgconf() {
 	chrootrun scratch install -r -y --no-backup scratchpkg
+	cat <<- EOF > "$ROOTFS"/etc/scratchpkg.repo
+	#
+# /etc/scratchpkg.repo : scratchpkg repo file
+#
+# format:
+#    <repo directory> <repo url for sync>
+#
+
+/usr/ports/main       https://github.com/venomlinux/ports/tree/$RELEASE/main
+#/usr/ports/multilib   https://github.com/venomlinux/ports/tree/$RELEASE/multilib
+#/usr/ports/nonfree    https://github.com/venomlinux/ports/tree/$RELEASE/nonfree
+#/usr/ports/testing    https://github.com/venomlinux/ports/tree/$RELEASE/testing
+	EOF
 	#if [ -f $ROOTFS/etc/scratchpkg.repo.spkgnew ]; then
 	#	mv $ROOTFS/etc/scratchpkg.repo.spkgnew $ROOTFS/etc/scratchpkg.repo
 	#fi
@@ -421,11 +434,10 @@ main() {
 		tmp_scratchpkgconf
 		msg "Full upgrading..."
 		chrootrun scratch sysup -y --no-backup || die
-		[ -f $ROOTFS/etc/venom-release ] && {
-			if [ $(cat $ROOTFS/etc/venom-release) != "$RELEASE" ]; then
-				msgerr "venom-release $(cat $ROOTFS/etc/venom-release) != $RELEASE"
-			fi
-		}
+		echo $RELEASE > $ROOTFS/etc/venom-release
+		sed "s/PRETTY_NAME=\".*\"/PRETTY_NAME=\"Venom Linux $RELEASE\"/" -i $ROOTFS/etc/os-release
+		sed "s/VERSION=\".*\"/VERSION=\"$RELEASE\"/" -i $ROOTFS/etc/os-release
+		sed "s/VERSION_ID=\".*\"/VERSION_ID=\"$RELEASE\"/" -i $ROOTFS/etc/os-release
 	}
 	
 	[ "$REVDEP" ] && {
