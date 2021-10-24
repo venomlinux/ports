@@ -1,0 +1,17 @@
+# description	: command line program to sync files and directories to and from different cloud storage providers. 
+# homepage	: https://rclone.org/
+# depends	: go
+
+name=rclone
+version=1.54.1
+release=1
+source="https://github.com/$name/$name/releases/download/v$version/$name-v$version-linux-amd64.zip"
+
+build() {
+	cd $name-v$version-linux-amd64
+	mkdir -p $PKG/usr/bin
+	mkdir -p $PKG/usr/man/man1/
+	cp rclone $PKG/usr/bin
+	chmod 755 $PKG/usr/bin/rclone
+	cp rclone.1 $PKG/usr/man/man1/
+}
