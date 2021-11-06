@@ -1,4 +1,4 @@
-linux-firmware-20210919-1
+linux-firmware-20211027-1
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/firmware/
 drwxr-xr-x root/root    lib/firmware/3com/
@@ -30,6 +30,7 @@ drwxr-xr-x root/root    lib/firmware/amd-ucode/
 -rw-r--r-- root/root    lib/firmware/amd-ucode/microcode_amd_fam15h.bin
 -rw-r--r-- root/root    lib/firmware/amd-ucode/microcode_amd_fam16h.bin
 -rw-r--r-- root/root    lib/firmware/amd-ucode/microcode_amd_fam17h.bin
+-rw-r--r-- root/root    lib/firmware/amd-ucode/microcode_amd_fam19h.bin
 drwxr-xr-x root/root    lib/firmware/amd/
 -rw-r--r-- root/root    lib/firmware/amd/amd_sev_fam17h_model0xh.sbin
 -rw-r--r-- root/root    lib/firmware/amd/amd_sev_fam17h_model3xh.sbin
@@ -46,6 +47,18 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/arcturus_ta.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/arcturus_vcn.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/banks_k_2_smc.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/beige_goby_ce.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/beige_goby_dmcub.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/beige_goby_me.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/beige_goby_mec.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/beige_goby_mec2.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/beige_goby_pfp.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/beige_goby_rlc.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/beige_goby_sdma.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/beige_goby_smc.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/beige_goby_sos.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/beige_goby_ta.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/beige_goby_vcn.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/bonaire_ce.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/bonaire_k_smc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/bonaire_mc.bin
@@ -721,6 +734,7 @@ drwxr-xr-x root/root    lib/firmware/bnx2x/
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1-7.13.1.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1-7.13.11.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1-7.13.15.0.fw
+-rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1-7.13.20.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1-7.2.16.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1-7.2.51.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1-7.8.17.0.fw
@@ -737,6 +751,7 @@ drwxr-xr-x root/root    lib/firmware/bnx2x/
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1h-7.13.1.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1h-7.13.11.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1h-7.13.15.0.fw
+-rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1h-7.13.20.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1h-7.2.16.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1h-7.2.51.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e1h-7.8.17.0.fw
@@ -753,6 +768,7 @@ drwxr-xr-x root/root    lib/firmware/bnx2x/
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e2-7.13.1.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e2-7.13.11.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e2-7.13.15.0.fw
+-rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e2-7.13.20.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e2-7.2.16.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e2-7.2.51.0.fw
 -rw-r--r-- root/root    lib/firmware/bnx2x/bnx2x-e2-7.8.17.0.fw
@@ -804,6 +820,7 @@ lrwxrwxrwx root/root    lib/firmware/brcm/brcmfmac43430-sdio.sinovoip,bpi-m3.txt
 -rw-r--r-- root/root    lib/firmware/brcm/brcmfmac43455-sdio.MINIX-NEO Z83-4.txt
 lrwxrwxrwx root/root    lib/firmware/brcm/brcmfmac43455-sdio.Raspberry Pi Foundation-Raspberry Pi 4 Model B.txt -> brcmfmac43455-sdio.raspberrypi,4-model-b.txt
 lrwxrwxrwx root/root    lib/firmware/brcm/brcmfmac43455-sdio.Raspberry Pi Foundation-Raspberry Pi Compute Module 4.txt -> brcmfmac43455-sdio.raspberrypi,4-model-b.txt
+-rw-r--r-- root/root    lib/firmware/brcm/brcmfmac43455-sdio.acepc-t8.txt
 lrwxrwxrwx root/root    lib/firmware/brcm/brcmfmac43455-sdio.bin -> ../cypress/cyfmac43455-sdio.bin
 lrwxrwxrwx root/root    lib/firmware/brcm/brcmfmac43455-sdio.clm_blob -> ../cypress/cyfmac43455-sdio.clm_blob
 lrwxrwxrwx root/root    lib/firmware/brcm/brcmfmac43455-sdio.raspberrypi,3-model-a-plus.txt -> brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
@@ -895,16 +912,16 @@ drwxr-xr-x root/root    lib/firmware/cxgb4/configs/
 lrwxrwxrwx root/root    lib/firmware/cxgb4/t4-config.txt -> configs/t4-config-default.txt
 -rw-r--r-- root/root    lib/firmware/cxgb4/t4fw-1.14.4.0.bin
 -rw-r--r-- root/root    lib/firmware/cxgb4/t4fw-1.15.37.0.bin
--rw-r--r-- root/root    lib/firmware/cxgb4/t4fw-1.26.0.0.bin
-lrwxrwxrwx root/root    lib/firmware/cxgb4/t4fw.bin -> t4fw-1.26.0.0.bin
+-rw-r--r-- root/root    lib/firmware/cxgb4/t4fw-1.26.2.0.bin
+lrwxrwxrwx root/root    lib/firmware/cxgb4/t4fw.bin -> t4fw-1.26.2.0.bin
 lrwxrwxrwx root/root    lib/firmware/cxgb4/t5-config.txt -> configs/t5-config-default.txt
 -rw-r--r-- root/root    lib/firmware/cxgb4/t5fw-1.14.4.0.bin
 -rw-r--r-- root/root    lib/firmware/cxgb4/t5fw-1.15.37.0.bin
--rw-r--r-- root/root    lib/firmware/cxgb4/t5fw-1.26.0.0.bin
-lrwxrwxrwx root/root    lib/firmware/cxgb4/t5fw.bin -> t5fw-1.26.0.0.bin
+-rw-r--r-- root/root    lib/firmware/cxgb4/t5fw-1.26.2.0.bin
+lrwxrwxrwx root/root    lib/firmware/cxgb4/t5fw.bin -> t5fw-1.26.2.0.bin
 lrwxrwxrwx root/root    lib/firmware/cxgb4/t6-config.txt -> configs/t6-config-default.txt
--rw-r--r-- root/root    lib/firmware/cxgb4/t6fw-1.26.0.0.bin
-lrwxrwxrwx root/root    lib/firmware/cxgb4/t6fw.bin -> t6fw-1.26.0.0.bin
+-rw-r--r-- root/root    lib/firmware/cxgb4/t6fw-1.26.2.0.bin
+lrwxrwxrwx root/root    lib/firmware/cxgb4/t6fw.bin -> t6fw-1.26.2.0.bin
 drwxr-xr-x root/root    lib/firmware/cypress/
 -rw-r--r-- root/root    lib/firmware/cypress/cyfmac43012-sdio.bin
 -rw-r--r-- root/root    lib/firmware/cypress/cyfmac43012-sdio.clm_blob
@@ -944,6 +961,9 @@ drwxr-xr-x root/root    lib/firmware/dpaa2/mc/
 -rw-r--r-- root/root    lib/firmware/dpaa2/mc/mc_10.18.0_ls1088a.itb
 -rw-r--r-- root/root    lib/firmware/dpaa2/mc/mc_10.18.0_ls2088a.itb
 -rw-r--r-- root/root    lib/firmware/dpaa2/mc/mc_10.18.0_lx2160a.itb
+-rw-r--r-- root/root    lib/firmware/dpaa2/mc/mc_10.28.1_ls1088a.itb
+-rw-r--r-- root/root    lib/firmware/dpaa2/mc/mc_10.28.1_ls2088a.itb
+-rw-r--r-- root/root    lib/firmware/dpaa2/mc/mc_10.28.1_lx2160a.itb
 drwxr-xr-x root/root    lib/firmware/dsp56k/
 -rw-r--r-- root/root    lib/firmware/dsp56k/bootstrap.bin
 -rw-r--r-- root/root    lib/firmware/dvb-fe-xc4000-1.4.1.fw
@@ -1006,6 +1026,7 @@ drwxr-xr-x root/root    lib/firmware/go7007/
 drwxr-xr-x root/root    lib/firmware/i915/
 -rw-r--r-- root/root    lib/firmware/i915/adlp_dmc_ver2_09.bin
 -rw-r--r-- root/root    lib/firmware/i915/adlp_dmc_ver2_10.bin
+-rw-r--r-- root/root    lib/firmware/i915/adlp_dmc_ver2_12.bin
 -rw-r--r-- root/root    lib/firmware/i915/adlp_guc_62.0.3.bin
 -rw-r--r-- root/root    lib/firmware/i915/adls_dmc_ver2_01.bin
 lrwxrwxrwx root/root    lib/firmware/i915/bxt_dmc_ver1.bin -> bxt_dmc_ver1_07.bin
@@ -1126,8 +1147,22 @@ lrwxrwxrwx root/root    lib/firmware/intel/dsp_fw_release.bin -> dsp_fw_release_
 -rw-r--r-- root/root    lib/firmware/intel/fw_sst_22a8.bin
 -rw-r--r-- root/root    lib/firmware/intel/ibt-0040-0041.ddc
 -rw-r--r-- root/root    lib/firmware/intel/ibt-0040-0041.sfi
+-rw-r--r-- root/root    lib/firmware/intel/ibt-0040-1020.ddc
+-rw-r--r-- root/root    lib/firmware/intel/ibt-0040-1020.sfi
+-rw-r--r-- root/root    lib/firmware/intel/ibt-0040-2120.ddc
+-rw-r--r-- root/root    lib/firmware/intel/ibt-0040-2120.sfi
+-rw-r--r-- root/root    lib/firmware/intel/ibt-0040-4150.ddc
+-rw-r--r-- root/root    lib/firmware/intel/ibt-0040-4150.sfi
 -rw-r--r-- root/root    lib/firmware/intel/ibt-0041-0041.ddc
 -rw-r--r-- root/root    lib/firmware/intel/ibt-0041-0041.sfi
+-rw-r--r-- root/root    lib/firmware/intel/ibt-1040-0041.ddc
+-rw-r--r-- root/root    lib/firmware/intel/ibt-1040-0041.sfi
+-rw-r--r-- root/root    lib/firmware/intel/ibt-1040-1020.ddc
+-rw-r--r-- root/root    lib/firmware/intel/ibt-1040-1020.sfi
+-rw-r--r-- root/root    lib/firmware/intel/ibt-1040-2120.ddc
+-rw-r--r-- root/root    lib/firmware/intel/ibt-1040-2120.sfi
+-rw-r--r-- root/root    lib/firmware/intel/ibt-1040-4150.ddc
+-rw-r--r-- root/root    lib/firmware/intel/ibt-1040-4150.sfi
 -rw-r--r-- root/root    lib/firmware/intel/ibt-11-5.ddc
 -rw-r--r-- root/root    lib/firmware/intel/ibt-11-5.sfi
 -rw-r--r-- root/root    lib/firmware/intel/ibt-12-16.ddc
@@ -1449,6 +1484,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.2438.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.2946.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.3326.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2010.1006.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2000.2308.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2000.2714.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2007.1168.mfa2
@@ -1461,6 +1497,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.2438.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.2946.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.3326.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2010.1006.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2007.1168.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1036.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1310.mfa2
@@ -1471,6 +1508,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.2438.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.2946.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.3326.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2010.1006.mfa2
 drwxr-xr-x root/root    lib/firmware/meson/
 drwxr-xr-x root/root    lib/firmware/meson/vdec/
 -rw-r--r-- root/root    lib/firmware/meson/vdec/g12a_h264.bin
@@ -2118,6 +2156,7 @@ drwxr-xr-x root/root    lib/firmware/qca/
 -rw-r--r-- root/root    lib/firmware/qca/nvm_usb_00130200_0105.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_usb_00130200_0106.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_usb_00130200_0107.bin
+-rw-r--r-- root/root    lib/firmware/qca/nvm_usb_00130200_0109.bin
 -rw-r--r-- root/root    lib/firmware/qca/nvm_usb_00130200_0110.bin
 -rw-r--r-- root/root    lib/firmware/qca/rampatch_00130300.bin
 -rw-r--r-- root/root    lib/firmware/qca/rampatch_00130302.bin
