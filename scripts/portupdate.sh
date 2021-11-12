@@ -26,31 +26,44 @@ EDITOR=${EDITOR:-vim}
 	sed -i "/^release=/s/=.*/=1/" $PORTSDIR/$1/spkgbuild
 }
 
-while true; do
-	cat $PORTSDIR/$1/spkgbuild | more
-	echo
+if [ "$NOPROMPT" = 1 ]; then
+	echo "Prompt skipped, continue in 5 second..."
+	sleep 5
+else
 	while true; do
-		echo -n "[C]ontinue [E]dit [A]bort ? "
-		read -n1 input
+		cat $PORTSDIR/$1/spkgbuild | more
 		echo
-		case $input in
-			E|e) $EDITOR $PORTSDIR/$1/spkgbuild
-				 break 1;;
-			A|a) exit 1;;
-			C|c) break 2;;
-		esac
+		while true; do
+			echo -n "[C]ontinue [E]dit [A]bort ? "
+			read -n1 input
+			echo
+			case $input in
+				E|e) $EDITOR $PORTSDIR/$1/spkgbuild
+					 break 1;;
+				A|a) exit 1;;
+				C|c) break 2;;
+			esac
+		done
 	done
-done
+fi
 
 rm -f $PORTSDIR/$1/.checksums
 rm -f $PORTSDIR/$1/.pkgfiles
 
 sudo $SCRIPTDIR/build.sh \
 	-pkg=${1##*/} \
+	-skiprevdep \
 	-zap || {
 		echo -n "Error occurs. Do you want to revert changes? Y/n "
-		read -n1 input
-		echo
+		if [ "$NOPROMPT" = 1 ]; then
+			echo
+			echo "Prompt skipped, continue in 5 second..."
+			sleep 5
+			input=y
+		else					
+			read -n1 input
+			echo
+		fi
 		case $input in
 			N|n) echo "Keep changes.";;
 			  *) for f in $(git status -s $PORTSDIR/$1 | awk '{print $2}'); do
