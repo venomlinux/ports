@@ -15,9 +15,8 @@ build() {
         meson \
 		--prefix=/usr \
 		--libexecdir=lib \
-		-Dgst_debug=false \
-		-Dgtk_doc=disabled \
-		-Dnls=disabled \
+		-Dtests=disabled \
+		-Ddoc=disabled \
 		-Dpackage-name="GStreamer Base Plugins $version (Venom Linux)"
 	ninja
 	DESTDIR=$PKG ninja install
