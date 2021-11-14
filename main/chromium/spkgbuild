@@ -1,15 +1,16 @@
 # description	: Open source version of Google Chrome web browser (portable ungoogled binary version)
 # homepage	: https://chromium.woolyss.com/
-# depends	: libva alsa-lib gtk3
+# depends	: libva alsa-lib gtk3 cups
 
 name=chromium
-version=90.0.4430.93
+version=95.0.4638.69.r920003
+ver=${version%.*}
+sion=${version##*.}
 release=1
-source="https://github.com/macchrome/linchrome/releases/download/v$version-r857950-portable-ungoogled-Lin64/ungoogled-chromium_${version}_1.vaapi_linux.tar.xz
+source="https://github.com/macchrome/linchrome/releases/download/v${ver}-${sion}-portable-ungoogled-Lin64/ungoogled-chromium_${ver}_1.vaapi_linux.tar.xz
 	$name.desktop"
-
 build() {
-	cd ungoogled-chromium_${version}_1.vaapi_linux
+	cd ungoogled-chromium_${ver}_1.vaapi_linux
 	install -d $PKG/opt/$name
 	cp -ra * $PKG/opt/$name
 	mv $PKG/opt/$name/chrome_sandbox $PKG/opt/$name/chrome-sandbox
