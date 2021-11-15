@@ -8,7 +8,6 @@ source="https://fossies.org/linux/misc/"$name"-"$version".tar.gz"
 
 build() {
 	cd $name-$version
-	ls
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
