@@ -2,7 +2,7 @@
 # depends	: llvm
 
 name=clang
-version=12.0.1
+version=13.0.0
 release=1
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz"
 
@@ -31,6 +31,10 @@ build() {
 	mkdir -p $PKG/usr/lib/clang
 	mv $PKG/usr/libexec/c++-analyzer \
 	   $PKG/usr/libexec/ccc-analyzer \
+	   $PKG/usr/libexec/analyze-cc \
+	   $PKG/usr/libexec/analyze-c++ \
+	   $PKG/usr/libexec/intercept-c++ \
+	   $PKG/usr/libexec/intercept-cc \
 	   $PKG/usr/lib/clang
 	rmdir $PKG/usr/libexec
 	sed -i 's|libexec|lib/clang|' $PKG/usr/bin/scan-build	
