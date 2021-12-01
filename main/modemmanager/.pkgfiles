@@ -1,5 +1,7 @@
-modemmanager-1.18.2-1
+modemmanager-1.18.4-1
 drwxr-xr-x root/root    etc/
+drwxr-xr-x root/root    etc/ModemManager/
+drwxr-xr-x root/root    etc/ModemManager/fcc-unlock.d/
 drwxr-xr-x root/root    etc/dbus-1/
 drwxr-xr-x root/root    etc/dbus-1/system.d/
 -rw-r--r-- root/root    etc/dbus-1/system.d/org.freedesktop.ModemManager1.conf
@@ -19,6 +21,7 @@ drwxr-xr-x root/root    lib/udev/rules.d/
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-longcheer-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-mtk-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-nokia-port-types.rules
+-rw-r--r-- root/root    lib/udev/rules.d/77-mm-qcom-soc.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-quectel-port-types.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-sierra.rules
 -rw-r--r-- root/root    lib/udev/rules.d/77-mm-simtech-port-types.rules
@@ -95,6 +98,7 @@ drwxr-xr-x root/root    usr/include/libmm-glib/
 -rw-r--r-- root/root    usr/include/libmm-glib/mm-unlock-retries.h
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/ModemManager/
+drwxr-xr-x root/root    usr/lib/ModemManager/fcc-unlock.d/
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-altair-lte.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-anydata.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-broadmobi.so
@@ -120,6 +124,7 @@ drwxr-xr-x root/root    usr/lib/ModemManager/
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-option-hso.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-option.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-pantech.so
+-rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-qcom-soc.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-quectel.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-samsung.so
 -rwxr-xr-x root/root    usr/lib/ModemManager/libmm-plugin-sierra-legacy.so
@@ -152,6 +157,16 @@ drwxr-xr-x root/root    usr/sbin/
 -rwxr-xr-x root/root    usr/sbin/ModemManager
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/ModemManager/
+drwxr-xr-x root/root    usr/share/ModemManager/fcc-unlock.available.d/
+lrwxrwxrwx root/root    usr/share/ModemManager/fcc-unlock.available.d/03f0:4e1d -> 1199
+-rwx------ root/root    usr/share/ModemManager/fcc-unlock.available.d/105b
+lrwxrwxrwx root/root    usr/share/ModemManager/fcc-unlock.available.d/105b:e0ab -> 105b
+-rwx------ root/root    usr/share/ModemManager/fcc-unlock.available.d/1199
+lrwxrwxrwx root/root    usr/share/ModemManager/fcc-unlock.available.d/1199:9079 -> 1199
+-rwx------ root/root    usr/share/ModemManager/fcc-unlock.available.d/1eac
+lrwxrwxrwx root/root    usr/share/ModemManager/fcc-unlock.available.d/1eac:1001 -> 1eac
+lrwxrwxrwx root/root    usr/share/ModemManager/fcc-unlock.available.d/413c:81a3 -> 1199
+lrwxrwxrwx root/root    usr/share/ModemManager/fcc-unlock.available.d/413c:81a8 -> 1199
 -rw-r--r-- root/root    usr/share/ModemManager/mm-foxconn-t77w968-carrier-mapping.conf
 -rw-r--r-- root/root    usr/share/ModemManager/mm-foxconn-t99w175-carrier-mapping.conf
 drwxr-xr-x root/root    usr/share/bash-completion/
