@@ -1,19 +1,18 @@
 # description	: Programs for controlling the network subsystem of the Linux kernel
 
 name=net-tools
-version=20101030
+version=2.10
 release=1
-source="http://anduin.linuxfromscratch.org/BLFS/$name/$name-CVS_${version}.tar.gz
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-CVS_${version}-remove_dups-1.patch"
+source="https://downloads.sourceforge.net/project/net-tools/$name-$version.tar.xz"
 
 build() {
-	cd $name-CVS_${version}
-
-	patch -Np1 -i ../$name-CVS_${version}-remove_dups-1.patch
-
-	sed -i '/#include <netinet\/ip.h>/d'  iptunnel.c
+	cd $name-$version
 
 	yes "" | make config
 	make
-	make DESTDIR=$PKG update
+	make DESTDIR=$PKG install
+	rm $PKG/bin/hostname
+	rm $PKG/bin/dnsdomainname
+	rm $PKG/usr/share/man/man1/dnsdomainname.1
+	rm $PKG/usr/share/man/man1/hostname.1
 }
