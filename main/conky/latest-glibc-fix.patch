@@ -1,0 +1,12 @@
+diff -Naur conky-1.12.2-orig/tests/catch2/catch.hpp conky-1.12.2/tests/catch2/catch.hpp
+--- conky-1.12.2-orig/tests/catch2/catch.hpp	2021-04-25 22:00:29.000000000 +0800
++++ conky-1.12.2/tests/catch2/catch.hpp	2021-12-07 06:28:46.499782839 +0800
+@@ -8348,7 +8348,7 @@
+ // 32kb for the alternate stack seems to be sufficient. However, this value
+ // is experimentally determined, so that's not guaranteed.
+ constexpr static std::size_t sigStackSize =
+-    32768 >= MINSIGSTKSZ ? 32768 : MINSIGSTKSZ;
++    32768;
+ 
+ static SignalDefs signalDefs[] = {
+     {SIGINT, "SIGINT - Terminal interrupt signal"},
