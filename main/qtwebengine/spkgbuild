@@ -1,13 +1,20 @@
 # description	: QtWebEngine integrates chromium's web capabilities into Qt
-# depends	: qt5 nss python2 libwebp libxslt opus ninja ffmpeg alsa-lib libxcomposite libxtst
+# depends	: qt5 nss python2 libwebp libxslt opus ninja ffmpeg alsa-lib libxcomposite libxtst libxcursor nodejs
 
 name=qtwebengine
-version=5.15.2
+version=5.15.6
 release=1
-source="https://download.qt.io/archive/qt/${version%.*}/$version/submodules/$name-everywhere-src-$version.tar.xz"
+source="https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-$version.tar.xz
+	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-5.15.7-1.patch
+	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-5.15.7-build_fixes-1.patch"
 
 build() {
-	cd $name-everywhere-src-$version
+	cd $name-$version
+
+	patch -Np1 -i ../qtwebengine-$version-5.15.7-1.patch
+	patch -Np1 -i ../qtwebengine-5.15.7-build_fixes-1.patch
+
+	mkdir -pv .git src/3rdparty/chromium/.git
 
 	find -type f -name "*.pr[io]" |
 	  xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
