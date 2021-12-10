@@ -3,11 +3,15 @@
 
 name=gc
 version=8.2.0
-release=1
-source="https://github.com/ivmai/bdwgc/releases/download/v$version/$name-$version.tar.gz"
+release=2
+source="https://github.com/ivmai/bdwgc/releases/download/v$version/$name-$version.tar.gz
+	gc-missing-header.patch::https://patch-diff.githubusercontent.com/raw/ivmai/bdwgc/pull/389.patch"
 
 build() {
 	cd $name-$version
+
+	patch -p1 < ../gc-missing-header.patch # Install missing header
+	./autogen.sh
 	
 	./configure --prefix=/usr      \
 	            --enable-cplusplus \
