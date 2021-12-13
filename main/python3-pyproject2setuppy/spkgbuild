@@ -1,0 +1,14 @@
+# description	: Cheap builder for pyproject-based build systems
+# homepage	: https://github.com/mgorny/pyproject2setuppy
+# depends	: python3-setuptools python3-toml
+
+name=python3-pyproject2setuppy
+version=20
+release=1
+source="https://github.com/mgorny/pyproject2setuppy/archive/v$version/pyproject2setuppy-$version.tar.gz"
+
+build() {
+	cd pyproject2setuppy-$version
+	python3 setup.py build
+	python3 setup.py install --root="$PKG" --optimize=1 --skip-build
+}

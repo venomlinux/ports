@@ -12,6 +12,8 @@ source="https://sourceforge.net/projects/${name}.berlios/files/$name-$version.ta
 build() {
 	cd $name-$version
 
+	sed -i 's/WinGC < 0/WinGC != 0/' panel.cpp
+
 	mkdir build
 	cd build
 

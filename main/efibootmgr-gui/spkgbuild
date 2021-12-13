@@ -5,14 +5,14 @@
 name=efibootmgr-gui
 version=0.1
 release=1
-source="https://github.com/Elinvention/efibootmgr-gui/archive/refs/tags/$version.tar.gz"
+source="https://github.com/Elinvention/efibootmgr-gui/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
+	cd efiboots-$version
 
 	install -d $PKG/usr/bin
 	install -d $PKG/usr/share/applications
 
-	install -m644 $SRC/$name-$version/efibootmgr.desktop $PKG/usr/share/applications
-	install -m755 $SRC/$name-$version/efibootmgr_gui.py $PKG/usr/bin/efibootmgr_gui
+	install -m644 efibootmgr.desktop $PKG/usr/share/applications
+	install -m755 efibootmgr_gui.py $PKG/usr/bin/efibootmgr_gui
 }

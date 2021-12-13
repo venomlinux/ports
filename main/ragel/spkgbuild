@@ -1,0 +1,14 @@
+# description	: Ragel compiles executable finite state machines from regular languages
+# depends	: make libtool gcc autoconf automake
+
+name=ragel
+version=6.10
+release=1
+source="https://fossies.org/linux/misc/"$name"-"$version".tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

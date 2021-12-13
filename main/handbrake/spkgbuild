@@ -1,10 +1,10 @@
 # description	: Multithreaded video transcoder
-# depends	: numactl gst-plugins-base libass lame freetype2 gtk3
+# depends	: numactl gst-plugins-base libass lame freetype2 gtk3 speex jansson
 
 name=handbrake
-version=1.3.1
+version=1.4.2
 release=1
-source="https://download.handbrake.fr/releases/$version/HandBrake-$version-source.tar.bz2"
+source="https://github.com/HandBrake/HandBrake/releases/download/$version/HandBrake-$version-source.tar.bz2"
 
 build() {
 	cd HandBrake-$version

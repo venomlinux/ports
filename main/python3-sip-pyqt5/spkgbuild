@@ -2,13 +2,12 @@
 # depends	: python3-sip
 
 name=python3-sip-pyqt5
-version=4.19.25
+version=12.9.0
 release=1
-source="https://www.riverbankcomputing.com/static/Downloads/sip/$version/sip-$version.tar.gz"
+source="https://pypi.python.org/packages/source/P/PyQt5-sip/PyQt5_sip-$version.tar.gz"
 
 build() {
-	cd sip-$version
-	python3 configure.py CFLAGS="$CFLAGS" LFLAGS="$LDFLAGS" --sip-module PyQt5.sip --no-tools
-	make
-	make DESTDIR=$PKG install
+	cd PyQt5_sip-$version
+	python3 setup.py build
+	python3 setup.py install --root="$PKG"
 }

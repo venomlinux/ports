@@ -2,7 +2,7 @@
 # depends	: libffi-32 libxml2-32 ncurses-32 llvm
 
 name=llvm-32
-version=12.0.1
+version=13.0.0
 release=1
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz"
 
@@ -23,9 +23,9 @@ build() {
 	      -DLLVM_BUILD_LLVM_DYLIB=ON            \
       	      -DLLVM_LINK_LLVM_DYLIB=ON             \
 	      -DLLVM_ENABLE_RTTI=ON                 \
-	      -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF" \
 	      -DLLVM_LIBDIR_SUFFIX=32               \
 	      -DCMAKE_C_FLAGS:STRING=-m32           \
+              -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF" \
 	      -DCMAKE_CXX_FLAGS:STRING=-m32         \
 	      -DLLVM_TARGET_ARCH:STRING=i686        \
 	      -DLLVM_DEFAULT_TARGET_TRIPLE="i686-pc-linux-gnu" \

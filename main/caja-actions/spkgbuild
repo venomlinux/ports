@@ -7,15 +7,7 @@ release=1
 source="$name-$version.tar.gz::https://github.com/raveit65/caja-actions/archive/v$version.tar.gz"
 
 build() {
-	cd $name-$version
-
-	cat > which <<EOF
-#!/bin/sh
-type -p \$1
-EOF
-
-chmod +x which
-export PATH=$PATH:$PWD
+	cd $name-eol-$version
 
 	NOCONFIGURE=1 ./autogen.sh
 	./configure --prefix=/usr --libexecdir=/usr/lib --with-gtk=3

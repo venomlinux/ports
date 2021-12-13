@@ -4,10 +4,10 @@
 name=exiv2
 version=0.27.5
 release=1
-source="https://www.exiv2.org/builds/$name-$version-Source.tar.gz"
+source="https://github.com/Exiv2/exiv2/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version-Source
+	cd $name-$version
 
 	# disable building a sample program that fails
 	sed -i '/conntest/s/^/#/' samples/CMakeLists.txt
