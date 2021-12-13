@@ -1,0 +1,48 @@
+# description	: Userspace virtual filesystem designed to work with the I/O abstractions of GLib's GIO library
+# depends	: gvfs libmtp
+
+name=gvfs-mtp
+version=1.48.1
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/gvfs/${version%.*}/gvfs-$version.tar.xz"
+
+build() {
+	[ -f /usr/lib/pkgconfig/fuse3.pc ] || _gvfs_opts="$_gvfs_opts -Dfuse=false"
+	[ -f /usr/lib/pkgconfig/libbluray.pc ] || _gvfs_opts="$_gvfs_opts -Dbluray=false"
+
+	_gvfs_build_opts="
+		meson \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--libexecdir=/usr/lib/$name \
+		-Dsystemduserunitdir=no \
+		-Dtmpfilesdir=no \
+		-Dlogind=false \
+		-Ddnssd=false \
+		$_gvfs_opts
+	"
+
+	cd gvfs-$version
+
+	for i in afc goa google gphoto2 mtp nfs smb; do
+		case $i in
+			${name#*-}) _opt="$_opt -D$i=true";;
+			         *) _opt="$_opt -D$i=false";;
+		esac
+	done
+
+	mkdir build
+	cd    build
+
+	$_gvfs_build_opts $_opt
+	ninja
+	DESTDIR=$PKG ninja install
+
+	# remove gvfs conflicts
+	for f in $(scratch files gvfs | grep -v /$); do
+		rm $PKG/$f || true
+	done
+	for d in $(scratch files gvfs | grep /$ | tac); do
+		rmdir $PKG/$d || true
+	done
+}

@@ -1,0 +1,17 @@
+# description	: Color Picker
+# depends	: cmake lua expat boost gettext ragel gtk3
+
+name=gpick
+version=0.2.6
+release=1
+source="https://github.com/thezbyg/gpick/archive/refs/tags/"$name"-"$version".tar.gz"
+
+build() {
+	cd $name-$name-$version
+	mkdir build
+	cd build	
+
+	cmake .. / -DCMAKE_INSTALL_PREFIX=/usr
+	make
+	make DESTDIR=$PKG install
+}

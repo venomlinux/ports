@@ -16,9 +16,7 @@ build() {
 	      -Dsystemd=disabled \
 	      -Ddocs=disabled \
               -Dvulkan=disabled \
-              -Dexamples=disabled \
-	      -Dpipewire-pulseaudio=disabled
+              -Dexamples=disabled
 	ninja
 	DESTDIR=$PKG ninja install
-
 }

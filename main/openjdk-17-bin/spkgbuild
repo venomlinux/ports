@@ -1,0 +1,21 @@
+# description	: Java
+# depends	: 
+
+name=openjdk-17-bin
+version=17.0.1+12
+release=1
+source="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12.tar.gz"
+
+build() {
+	cd jdk-$version
+	mkdir -p $PKG/usr/lib
+	mkdir -p $PKG/usr/bin
+	mkdir -p $PKG/usr/conf
+	mkdir -p $PKG/usr/include
+	mkdir -p $PKG/usr/jmods	
+	cp -rv lib $PKG/usr/
+	cp -rv bin $PKG/usr/
+	cp -rv conf $PKG/usr/
+	cp -rv include $PKG/include/
+	cp -rv jmods $PKG/jmods/
+}

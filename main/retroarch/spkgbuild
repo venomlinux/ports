@@ -1,14 +1,17 @@
 # description	: Reference frontend for the libretro API 
 # homepage	: http://www.libretro.com/
-# depends	: alsa-lib flac libass gst-libav libdrm freetype2 libglvnd pulseaudio gnutls mesa openal qt5 sdl2 v4l-utils zlib libx11 libxcb libxext libxinerama libxkbcommon libxrandr libxv libxxf86vm  vulkan-icd-loader wayland wayland-protocols
+# depends	: openssl qt5 fribidi libass alsa-lib openal pulseaudio freetype2 fontconfig libx11 libxext libxxf86vm libxinerama libxrandr libxcb libxkbcommon dbus eudev libusb mesa libdrm libglvnd sdl2 libxv flac zlib v4l-utils ffmpeg
 
 name=retroarch
-version=1.9.12
+version=1.9.14
 release=1
-source="https://github.com/libretro/RetroArch/archive/refs/tags/v$version.tar.gz"
+source="https://github.com/libretro/RetroArch/archive/v$version/$name-$version.tar.gz"
 
 build() {
 	cd RetroArch-$version
+#./configure --help | grep wayland
+#sleep 9999
+
 	./configure \
 		--prefix=/usr \
 		--disable-builtinflac \
@@ -17,7 +20,8 @@ build() {
 		--disable-jack \
 		--disable-oss \
 		--disable-sdl \
-		--enable-dbus
+		--enable-dbus \
+		--disable-wayland
 	make
 	make DESTDIR=$PKG install
 }

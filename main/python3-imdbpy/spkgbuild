@@ -5,10 +5,10 @@
 name=python3-imdbpy
 version=2021.4.18
 release=1
-source="https://github.com/alberanid/imdbpy/releases/download/${version}/IMDbPY-${version}.tar.gz"
+source="https://github.com/alberanid/imdbpy/releases/download/2021.04.18/IMDbPY-$version.tar.gz"
 
 build() {
-	cd IMDbPY-2021.4.18
+	cd IMDbPY-$version
 	python3 setup.py build
 	python3 setup.py install --skip-build --optimize=1 --root="${PKG}"
 	

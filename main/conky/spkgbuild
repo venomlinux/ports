@@ -4,10 +4,13 @@
 name=conky
 version=1.12.2
 release=1
-source="https://github.com/brndnmtthws/conky/archive/v$version/$name-$version.tar.gz"
+source="https://github.com/brndnmtthws/conky/archive/v$version/$name-$version.tar.gz
+	latest-glibc-fix.patch"
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i ../latest-glibc-fix.patch
 
 	cmake \
 		-D RELEASE=ON \

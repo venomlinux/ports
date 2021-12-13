@@ -1,5 +1,5 @@
 # description	: Powerful x86 virtualization (Open Source Edition) - guest utilities
-# depends	: zlib libx11 libxrandr libxt libxext libxmu libxslt linux-pam
+# depends	: zlib libx11 libxrandr libxt libxext libxmu libxslt linux-pam dkms
 
 name=virtualbox-ose-guest
 _name=VirtualBox
@@ -10,7 +10,9 @@ source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.
 	vboxguest.hook
 	VBoxClient-all
 	vboxclient.desktop
-	run"
+	dkms.conf
+	buildmodules-vboxguest.sh
+	rc.vboxservice"
 
 build() {
 	cd $_name-$version
@@ -44,18 +46,16 @@ build() {
 	install -Dm0644 $SRC/vboxclient.desktop "$PKG/etc/xdg/autostart/vboxclient.desktop"
 	install -Dm0755 $SRC/VBoxClient-all "$PKG/usr/bin/VBoxClient-all"
 
-	# modules
-	cd src
-	if [ -f /lib/modules/KERNELVERSION ]; then
-		kernver=$(cat /lib/modules/KERNELVERSION)
-	else
-		kernver=$(uname -r)
-	fi
-	make
-	mkdir -p $PKG/lib/modules/$kernver/misc
-	for i in *.ko; do
-	    install -Dm0644 $i $PKG/lib/modules/$kernver/misc
-	done
+	# dmks
+	install -dm0755 "$PKG/usr/src"
+	cp -r src "$PKG/usr/src/vboxguest-${version}_OSE"
+	sed "s,@VERSION@,$version," $SRC/dkms.conf > "$PKG/usr/src/vboxguest-${version}_OSE/dkms.conf"
+
+	# dkms build modules script
+	mkdir -p $PKG/var/lib/dkms
+	sed -e "s/@name@/vboxguest/g" \
+	    -e "s/@version@/${version}_OSE/g" \
+	$SRC/buildmodules-vboxguest.sh > $PKG/var/lib/dkms/buildmodules-vboxguest.sh
 
 	# load modules at boot time
 	install -d $PKG/etc/modules-load.d/
@@ -68,10 +68,6 @@ build() {
 	install -d $PKG/etc/mkinitramfs.d
 	install -m644 $SRC/vboxguest.hook $PKG/etc/mkinitramfs.d
 
-	# compress modules
-	find $PKG -name '*.ko' -exec xz -T1 {} +
-
-	# runit service
-        install -Dm755 $SRC/run $PKG/etc/sv/vboxservice/run
-        ln -s /run/runit/supervise.vboxservice $PKG/etc/sv/vboxservice/supervise
+	# rc service
+        install -Dm755 $SRC/rc.vboxservice $PKG/etc/rc.d/vboxservice
 }
