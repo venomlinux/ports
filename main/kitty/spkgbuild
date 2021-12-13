@@ -1,0 +1,17 @@
+# description	: Kitty is a GPU Accelerated Terminal
+# homepage	: https://sw.kovidgoyal.net/kitty/
+# depends	: python3 harfbuzz zlib libpng lcms2 freetype fontconfig canberra imagemagick7 python3-pygments dbus pkg-config libxkbcommon libxcursor libxcb libxi libxrandr libxinerama libx11 mesa 
+
+name=kitty
+version=0.23.1
+release=1
+noextract=""
+backup=""
+source="https://github.com/kovidgoyal/kitty/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	mkdir -p $PKG/usr/bin
+	python3 -m pip install -r docs/requirements.txt
+	python3 setup.py linux-package --prefix=$PKG/usr
+}
