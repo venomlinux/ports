@@ -12,6 +12,9 @@ source="https://github.com/kovidgoyal/kitty/archive/refs/tags/v$version.tar.gz"
 build() {
 	cd $name-$version
 	mkdir -p $PKG/usr/bin
+	export PIP_CONFIG_FILE=os.devnull
+	export PYTHONPATH=$SRC
+	export PIP_TARGET=$SRC # Hai lazy I am to setup a proper virtualenv, so we just make src our "virtualenv"
 	python3 -m pip install -r docs/requirements.txt
-	python3 setup.py linux-package --prefix=$PKG/usr
+	python3 setup.py linux-package --prefix=$PKG/usr 
 }
