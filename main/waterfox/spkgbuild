@@ -1,26 +1,26 @@
 # description	: 64-Bit optimized Firefox fork, no data collection, allows unsigned extensions
-# depends	: alsa-lib gtk3 gtk2 llvm icu nspr nss sqlite freetype2 cairo hunspell libevent dbus-glib pixman autoconf2.13 rust
+# depends	: alsa-lib gtk3 gtk2 llvm icu nspr nss sqlite freetype2 cairo hunspell libevent dbus-glib pixman autoconf2.13 rust python3
 
 name=waterfox
-version=56.2.14
+version=4.0.3.1
 release=1
-source="https://github.com/MrAlex94/Waterfox/archive/$version/$name-$version.tar.gz
+source="https://github.com/WaterfoxCo/Waterfox/archive/refs/tags/G$version.tar.gz
 	mozconfig
 	waterfox.desktop"
 
 build() {
 	INITDIR=$PWD
 
-	cd Waterfox-$version
+	cd Waterfox-G$version
 
 	cp $SRC/mozconfig .mozconfig
 
 	export CARGO_HOME=$INITDIR
+	export MOZ_NOSPAM=1
+	export MACH_USE_SYSTEM_PYTHON=1
+	SHELL=/bin/sh ./mach build
+	SHELL=/bin/sh DESTDIR=$PKG ./mach install
 
-	make -j -f client.mk build
-	DESTDIR=$PKG make -f client.mk install
-
-	rm -r $PKG/usr/lib/waterfox/browser/features/
 
 	for i in 16 32 48 64 128; do
 	install -Dm644 objdir/dist/waterfox/browser/chrome/icons/default/default$i.png \
