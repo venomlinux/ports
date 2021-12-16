@@ -10,6 +10,8 @@ source="https://downloads.sourceforge.net/w3m/$name-$version.tar.gz
 build() {
 	cd $name-$version
 
+	export LDFLAGS="$LDFLAGS -lX11"
+
 	patch -Np1 -i ../fix-compile.patch
 	sed -i 's/file_handle/file_foo/' istream.c
 	sed -i 's/file_handle/file_foo/' istream.h
