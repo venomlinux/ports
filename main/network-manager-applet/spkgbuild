@@ -15,8 +15,7 @@ build() {
 	meson --prefix=/usr \
 	      --sysconfdir=/etc \
 	      -Dselinux=false \
-	      -Dteam=false \
-	      -Dgtk_doc=false
+	      -Dteam=false
 	ninja
 	DESTDIR=$PKG ninja install
 
