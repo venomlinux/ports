@@ -3,7 +3,7 @@
 
 name=virtualbox-ose
 _name=VirtualBox
-version=6.1.22
+version=6.1.30
 release=1
 source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.tar.bz2
 	LocalConfig.kmk
@@ -28,7 +28,7 @@ build() {
 	echo "VBOX_USE_SYSTEM_GL_HEADERS=true" >> LocalConfig.kmk
 	echo "VBOX_GCC_OPT=$CXXFLAGS" >> LocalConfig.kmk
 
-	sed -i 's/^check_gcc$/#check_gcc/' configure
+	#sed -i 's/^check_gcc$/#check_gcc/' configure
 
 	./configure \
 		--disable-docs \
@@ -66,7 +66,6 @@ build() {
 
 	# components
 	install -dm0755 "$PKG/usr/lib/virtualbox/components"
-	rm components/VBoxREM.so # TODO: remove when dead link is fixed
 	install -m0755 components/* -t "$PKG/usr/lib/virtualbox/components"
 
 	# extensions packs
