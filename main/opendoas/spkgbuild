@@ -1,0 +1,17 @@
+# description	: A portable fork of the OpenBSD `doas` command
+# homepage	: https://github.com/Duncaen/OpenDoas
+# depends	: linux-pam
+
+name=opendoas
+version=6.8.1
+release=1
+backup="etc/doas.conf etc/pam.d/doas"
+source="https://github.com/Duncaen/OpenDoas/releases/download/v$version/opendoas-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+	echo "permit :wheel" > $PKG/etc/doas.conf
+}
