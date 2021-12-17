@@ -1,4 +1,4 @@
-php-8.0.12-1
+php-8.1.0-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/php/
 drwxr-xr-x root/root    etc/php/conf.d/
@@ -18,6 +18,15 @@ drwxr-xr-x root/root    usr/include/php/TSRM/
 -rw-r--r-- root/root    usr/include/php/TSRM/TSRM.h
 -rw-r--r-- root/root    usr/include/php/TSRM/tsrm_win32.h
 drwxr-xr-x root/root    usr/include/php/Zend/
+drwxr-xr-x root/root    usr/include/php/Zend/Optimizer/
+-rw-r--r-- root/root    usr/include/php/Zend/Optimizer/zend_call_graph.h
+-rw-r--r-- root/root    usr/include/php/Zend/Optimizer/zend_cfg.h
+-rw-r--r-- root/root    usr/include/php/Zend/Optimizer/zend_dfg.h
+-rw-r--r-- root/root    usr/include/php/Zend/Optimizer/zend_dump.h
+-rw-r--r-- root/root    usr/include/php/Zend/Optimizer/zend_func_info.h
+-rw-r--r-- root/root    usr/include/php/Zend/Optimizer/zend_inference.h
+-rw-r--r-- root/root    usr/include/php/Zend/Optimizer/zend_optimizer.h
+-rw-r--r-- root/root    usr/include/php/Zend/Optimizer/zend_ssa.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_API.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_alloc.h
@@ -38,11 +47,15 @@ drwxr-xr-x root/root    usr/include/php/Zend/
 -rw-r--r-- root/root    usr/include/php/Zend/zend_constants.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_cpuinfo.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_dtrace.h
+-rw-r--r-- root/root    usr/include/php/Zend/zend_enum.h
+-rw-r--r-- root/root    usr/include/php/Zend/zend_enum_arginfo.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_errors.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_exceptions.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_exceptions_arginfo.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_execute.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_extensions.h
+-rw-r--r-- root/root    usr/include/php/Zend/zend_fibers.h
+-rw-r--r-- root/root    usr/include/php/Zend/zend_fibers_arginfo.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_float.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_gc.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_gdb.h
@@ -91,7 +104,6 @@ drwxr-xr-x root/root    usr/include/php/Zend/
 -rw-r--r-- root/root    usr/include/php/Zend/zend_strtod.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_strtod_int.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_system_id.h
--rw-r--r-- root/root    usr/include/php/Zend/zend_ts_hash.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_type_info.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_types.h
 -rw-r--r-- root/root    usr/include/php/Zend/zend_variables.h
@@ -149,12 +161,14 @@ drwxr-xr-x root/root    usr/include/php/ext/hash/
 -rw-r--r-- root/root    usr/include/php/ext/hash/php_hash_haval.h
 -rw-r--r-- root/root    usr/include/php/ext/hash/php_hash_joaat.h
 -rw-r--r-- root/root    usr/include/php/ext/hash/php_hash_md.h
+-rw-r--r-- root/root    usr/include/php/ext/hash/php_hash_murmur.h
 -rw-r--r-- root/root    usr/include/php/ext/hash/php_hash_ripemd.h
 -rw-r--r-- root/root    usr/include/php/ext/hash/php_hash_sha.h
 -rw-r--r-- root/root    usr/include/php/ext/hash/php_hash_sha3.h
 -rw-r--r-- root/root    usr/include/php/ext/hash/php_hash_snefru.h
 -rw-r--r-- root/root    usr/include/php/ext/hash/php_hash_tiger.h
 -rw-r--r-- root/root    usr/include/php/ext/hash/php_hash_whirlpool.h
+-rw-r--r-- root/root    usr/include/php/ext/hash/php_hash_xxhash.h
 drwxr-xr-x root/root    usr/include/php/ext/iconv/
 -rw-r--r-- root/root    usr/include/php/ext/iconv/iconv_arginfo.h
 -rw-r--r-- root/root    usr/include/php/ext/iconv/php_iconv.h
@@ -178,7 +192,6 @@ drwxr-xr-x root/root    usr/include/php/ext/mbstring/libmbfl/mbfl/
 -rw-r--r-- root/root    usr/include/php/ext/mbstring/libmbfl/mbfl/mbfl_defs.h
 -rw-r--r-- root/root    usr/include/php/ext/mbstring/libmbfl/mbfl/mbfl_encoding.h
 -rw-r--r-- root/root    usr/include/php/ext/mbstring/libmbfl/mbfl/mbfl_filter_output.h
--rw-r--r-- root/root    usr/include/php/ext/mbstring/libmbfl/mbfl/mbfl_ident.h
 -rw-r--r-- root/root    usr/include/php/ext/mbstring/libmbfl/mbfl/mbfl_language.h
 -rw-r--r-- root/root    usr/include/php/ext/mbstring/libmbfl/mbfl/mbfl_memory_device.h
 -rw-r--r-- root/root    usr/include/php/ext/mbstring/libmbfl/mbfl/mbfl_string.h
