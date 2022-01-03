@@ -1,0 +1,15 @@
+# description : Spreadsheet Calculator Improvised, aka sc-im, is an ncurses based, vim-like spreadsheet calculator
+# depends	: ncurses lua libxml2 libzip 
+
+name=sc-im
+version=20211201
+release=1
+_commit=3323033e70b87434e125b66974a80b364da353c5
+source="$name-$_commit.tar.gz::https://github.com/andmarti1424/sc-im/archive/$_commit.tar.gz"
+
+build() {
+	cd $name-$_commit/src
+    sed -i 's|prefix  = /usr/local|prefix  = /usr|g' Makefile
+    make
+	make PREFIX=$PKG/usr DESTDIR=$PKG install
+}
