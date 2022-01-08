@@ -1,0 +1,20 @@
+# description	: silversearcher 
+# depends	: pcre xz
+
+name=silversearcher
+version=2.2.0
+release=1
+source="https://github.com/ggreer/the_silver_searcher/archive/refs/tags/$version.tar.gz"
+
+build() {
+	cd the_silver_searcher-$version
+
+    libtoolize
+    aclocal
+    autoheader
+    automake --add-missing
+    autoreconf -v
+    ./configure --prefix=/usr
+    make CFLAGS="-fcommon -D_GNU_SOURCE -lpthread"
+	make PREFIX=$PKG/usr DESTDIR=$PKG install
+}
