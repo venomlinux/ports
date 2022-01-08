@@ -1,0 +1,13 @@
+# description	: tldr user friendly manpages C client  
+# depends	: 
+
+name=tldr
+version=1.4.2
+release=1
+source="https://github.com/tldr-pages/tldr-c-client/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	cd $name-c-client-$version
+    make
+    make PREFIX=$PKG/usr DESTDIR=$PKG install
+}
