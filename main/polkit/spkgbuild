@@ -1,13 +1,18 @@
 # description	: Toolkit for defining and handling authorizations
-# depends	: glib mozjs linux-pam gobject-introspection intltool
+# depends	: glib duktape linux-pam gobject-introspection intltool
 
 name=polkit
 version=0.120
 release=1
-source="https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz"
+source="https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz
+        polkit-duktape-js-backend.patch"
 
 build() {
 	cd $name-$version
+
+    patch -p1 < $SRC/polkit-duktape-js-backend.patch
+    
+    autoreconf -v
 
 	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
@@ -16,6 +21,7 @@ build() {
 	            --enable-libsystemd-login=no \
 		    --with-authfw=pam \
 		    --enable-libelogind=no \
+		    --with-duktape=yes \
 		    --disable-man-pages
 	make
 	make DESTDIR=$PKG install
