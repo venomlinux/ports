@@ -1,0 +1,15 @@
+# description : NFS Utilities
+# depends	: libtirpc rpcsvc-proto
+
+name=nfs-utils
+version=2.5.4
+release=1
+source="https://www.kernel.org/pub/linux/utils/$name/$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+    ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/sbin --disable-nfsv4 --disable-gss
+    make
+	make PREFIX=$PKG/usr DESTDIR=$PKG install
+}
