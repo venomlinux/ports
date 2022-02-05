@@ -1,4 +1,4 @@
-gnutls-3.7.2-1
+gnutls-3.7.3-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/certtool
@@ -30,9 +30,9 @@ drwxr-xr-x root/root    usr/include/gnutls/
 -rw-r--r-- root/root    usr/include/gnutls/x509-ext.h
 -rw-r--r-- root/root    usr/include/gnutls/x509.h
 drwxr-xr-x root/root    usr/lib/
-lrwxrwxrwx root/root    usr/lib/libgnutls.so -> libgnutls.so.30.30.0
-lrwxrwxrwx root/root    usr/lib/libgnutls.so.30 -> libgnutls.so.30.30.0
--rwxr-xr-x root/root    usr/lib/libgnutls.so.30.30.0
+lrwxrwxrwx root/root    usr/lib/libgnutls.so -> libgnutls.so.30.31.0
+lrwxrwxrwx root/root    usr/lib/libgnutls.so.30 -> libgnutls.so.30.31.0
+-rwxr-xr-x root/root    usr/lib/libgnutls.so.30.31.0
 lrwxrwxrwx root/root    usr/lib/libgnutlsxx.so -> libgnutlsxx.so.28.1.0
 lrwxrwxrwx root/root    usr/lib/libgnutlsxx.so.28 -> libgnutlsxx.so.28.1.0
 -rwxr-xr-x root/root    usr/lib/libgnutlsxx.so.28.1.0
@@ -260,6 +260,7 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_digest_get_name.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_digest_get_oid.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_digest_list.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_digest_set_secure.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_dtls_cookie_send.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_dtls_cookie_verify.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_dtls_get_data_mtu.3.gz
@@ -278,6 +279,7 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_ecc_curve_get_pk.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_ecc_curve_get_size.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_ecc_curve_list.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_ecc_curve_set_enabled.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_encode_ber_digest_info.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_encode_gost_rs_value.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_encode_rs_value.3.gz
@@ -292,8 +294,14 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_ext_register.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_ext_set_data.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_fingerprint.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_fips140_context_deinit.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_fips140_context_init.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_fips140_get_operation_state.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_fips140_mode_enabled.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_fips140_pop_context.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_fips140_push_context.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_fips140_set_mode.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_get_library_config.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_get_system_config_file.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_global_deinit.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_global_init.3.gz
@@ -638,6 +646,7 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_protocol_get_name.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_protocol_get_version.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_protocol_list.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_protocol_set_enabled.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_psk_allocate_client_credentials.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_psk_allocate_server_credentials.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_psk_client_get_hint.3.gz
@@ -785,6 +794,8 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_sign_is_secure.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_sign_is_secure2.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_sign_list.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_sign_set_secure.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_sign_set_secure_for_certs.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_sign_supports_pk_algorithm.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_srp_allocate_client_credentials.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_srp_allocate_server_credentials.3.gz
@@ -841,6 +852,7 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_transport_get_int2.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_transport_get_ptr.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_transport_get_ptr2.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_transport_is_ktls_enabled.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_transport_set_errno.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_transport_set_errno_function.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_transport_set_fastopen.3.gz
@@ -1097,6 +1109,8 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_crt_sign2.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_crt_verify.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_crt_verify_data2.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_ct_sct_get.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_ct_sct_get_version.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_dn_deinit.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_dn_export.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_dn_export2.3.gz
@@ -1108,6 +1122,10 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_dn_oid_known.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_dn_oid_name.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_dn_set_str.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_ext_ct_export_scts.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_ext_ct_import_scts.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_ext_ct_scts_deinit.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_ext_ct_scts_init.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_ext_deinit.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_ext_export_aia.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gnutls_x509_ext_export_authority_key_id.3.gz
