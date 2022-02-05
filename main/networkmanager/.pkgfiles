@@ -1,4 +1,4 @@
-networkmanager-1.32.12-1
+networkmanager-1.34.0-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/NetworkManager/
 -rw-r--r-- root/root    etc/NetworkManager/NetworkManager.conf.spkgnew
@@ -81,6 +81,7 @@ drwxr-xr-x root/root    usr/include/libnm/
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-8021x.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-adsl.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-bluetooth.h
+-rw-r--r-- root/root    usr/include/libnm/nm-setting-bond-port.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-bond.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-bridge-port.h
 -rw-r--r-- root/root    usr/include/libnm/nm-setting-bridge.h
@@ -146,12 +147,12 @@ drwxr-xr-x root/root    usr/include/libnm/
 -rw-r--r-- root/root    usr/include/libnm/nm-wimax-nsp.h
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/NetworkManager/
-drwxr-xr-x root/root    usr/lib/NetworkManager/1.32.12/
--rwxr-xr-x root/root    usr/lib/NetworkManager/1.32.12/libnm-device-plugin-adsl.so
--rwxr-xr-x root/root    usr/lib/NetworkManager/1.32.12/libnm-device-plugin-bluetooth.so
--rwxr-xr-x root/root    usr/lib/NetworkManager/1.32.12/libnm-device-plugin-wifi.so
--rwxr-xr-x root/root    usr/lib/NetworkManager/1.32.12/libnm-device-plugin-wwan.so
--rwxr-xr-x root/root    usr/lib/NetworkManager/1.32.12/libnm-wwan.so
+drwxr-xr-x root/root    usr/lib/NetworkManager/1.34.0/
+-rwxr-xr-x root/root    usr/lib/NetworkManager/1.34.0/libnm-device-plugin-adsl.so
+-rwxr-xr-x root/root    usr/lib/NetworkManager/1.34.0/libnm-device-plugin-bluetooth.so
+-rwxr-xr-x root/root    usr/lib/NetworkManager/1.34.0/libnm-device-plugin-wifi.so
+-rwxr-xr-x root/root    usr/lib/NetworkManager/1.34.0/libnm-device-plugin-wwan.so
+-rwxr-xr-x root/root    usr/lib/NetworkManager/1.34.0/libnm-wwan.so
 drwxr-xr-x root/root    usr/lib/NetworkManager/VPN/
 drwxr-xr-x root/root    usr/lib/NetworkManager/conf.d/
 drwxr-xr-x root/root    usr/lib/NetworkManager/dispatcher.d/
@@ -172,6 +173,7 @@ lrwxrwxrwx root/root    usr/lib/libnm.so.0 -> libnm.so.0.1.0
 -rwxr-xr-x root/root    usr/lib/nm-dispatcher
 -rwxr-xr-x root/root    usr/lib/nm-iface-helper
 -rwxr-xr-x root/root    usr/lib/nm-initrd-generator
+-rwxr-xr-x root/root    usr/lib/nm-priv-helper
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/libnm.pc
 drwxr-xr-x root/root    usr/sbin/
@@ -232,9 +234,11 @@ drwxr-xr-x root/root    usr/share/dbus-1/interfaces/
 -rw-r--r-- root/root    usr/share/dbus-1/interfaces/org.freedesktop.NetworkManager.WifiP2PPeer.xml
 -rw-r--r-- root/root    usr/share/dbus-1/interfaces/org.freedesktop.NetworkManager.xml
 drwxr-xr-x root/root    usr/share/dbus-1/system-services/
+-rw-r--r-- root/root    usr/share/dbus-1/system-services/org.freedesktop.nm-priv-helper.service
 -rw-r--r-- root/root    usr/share/dbus-1/system-services/org.freedesktop.nm_dispatcher.service
 drwxr-xr-x root/root    usr/share/dbus-1/system.d/
 -rw-r--r-- root/root    usr/share/dbus-1/system.d/nm-dispatcher.conf
+-rw-r--r-- root/root    usr/share/dbus-1/system.d/nm-priv-helper.conf
 -rw-r--r-- root/root    usr/share/dbus-1/system.d/org.freedesktop.NetworkManager.conf
 drwxr-xr-x root/root    usr/share/gir-1.0/
 -rw-r--r-- root/root    usr/share/gir-1.0/NM-1.0.gir
