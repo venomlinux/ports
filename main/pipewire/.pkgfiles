@@ -1,4 +1,4 @@
-pipewire-0.3.38-1
+pipewire-0.3.45-1
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/udev/
 drwxr-xr-x root/root    lib/udev/rules.d/
@@ -26,6 +26,7 @@ lrwxrwxrwx root/root    usr/bin/pw-play -> pw-cat
 lrwxrwxrwx root/root    usr/bin/pw-record -> pw-cat
 -rwxr-xr-x root/root    usr/bin/pw-reserve
 -rwxr-xr-x root/root    usr/bin/pw-top
+-rwxr-xr-x root/root    usr/bin/pw-v4l2
 -rwxr-xr-x root/root    usr/bin/spa-acp-tool
 -rwxr-xr-x root/root    usr/bin/spa-inspect
 -rwxr-xr-x root/root    usr/bin/spa-json-dump
@@ -179,6 +180,7 @@ drwxr-xr-x root/root    usr/include/spa-0.2/spa/utils/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/defs.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/dict.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/hook.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/json-pod.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/json.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/keys.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/list.h
@@ -195,19 +197,19 @@ drwxr-xr-x root/root    usr/lib/alsa-lib/
 drwxr-xr-x root/root    usr/lib/gstreamer-1.0/
 -rwxr-xr-x root/root    usr/lib/gstreamer-1.0/libgstpipewire.so
 lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so -> libpipewire-0.3.so.0
-lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.338.0
--rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.338.0
+lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.345.0
+-rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.345.0
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so -> libjack.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.338.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.338.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.345.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.345.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so -> libjacknet.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.338.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.338.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.345.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.345.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so -> libjackserver.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.338.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.338.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.345.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.345.0
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-access.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-adapter.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-client-device.so
@@ -222,6 +224,7 @@ lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjacks
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-protocol-native.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-protocol-pulse.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-protocol-simple.so
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-raop-sink.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-rt.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-rtkit.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-session-manager.so
@@ -229,6 +232,8 @@ lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjacks
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-spa-device.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-spa-node-factory.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-spa-node.so
+drwxr-xr-x root/root    usr/lib/pipewire-0.3/v4l2/
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/v4l2/libpw-v4l2.so
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/libpipewire-0.3.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/libspa-0.2.pc
@@ -312,7 +317,6 @@ drwxr-xr-x root/root    usr/share/alsa-card-profile/mixer/paths/
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/paths/virtual-surround-7.1.conf
 drwxr-xr-x root/root    usr/share/alsa-card-profile/mixer/profile-sets/
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/profile-sets/audigy.conf
--rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/profile-sets/behringer-umc22.conf
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/profile-sets/cmedia-high-speed-true-hdaudio.conf
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/profile-sets/default.conf
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/profile-sets/dell-dock-tb16-usb-audio.conf
@@ -334,6 +338,7 @@ drwxr-xr-x root/root    usr/share/alsa-card-profile/mixer/profile-sets/
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/profile-sets/sennheiser-gsx.conf
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/profile-sets/simple-headphones-mic.conf
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/profile-sets/steelseries-arctis-common-usb-audio.conf
+-rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/profile-sets/texas-instruments-pcm2902.conf
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/profile-sets/usb-gaming-headset.conf
 drwxr-xr-x root/root    usr/share/alsa/
 drwxr-xr-x root/root    usr/share/alsa/alsa.conf.d/
@@ -341,6 +346,7 @@ drwxr-xr-x root/root    usr/share/alsa/alsa.conf.d/
 -rw-r--r-- root/root    usr/share/alsa/alsa.conf.d/99-pipewire-default.conf
 drwxr-xr-x root/root    usr/share/man/
 drwxr-xr-x root/root    usr/share/man/man1/
+-rw-r--r-- root/root    usr/share/man/man1/pipewire-pulse.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/pipewire.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/pw-cat.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/pw-cli.1.gz
@@ -357,6 +363,7 @@ drwxr-xr-x root/root    usr/share/pipewire/
 -rw-r--r-- root/root    usr/share/pipewire/client.conf
 drwxr-xr-x root/root    usr/share/pipewire/filter-chain/
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain/demonic.conf
+-rw-r--r-- root/root    usr/share/pipewire/filter-chain/duplicate-FL.conf
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain/sink-dolby-surround.conf
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain/sink-eq6.conf
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain/sink-matrix-spatialiser.conf
@@ -371,6 +378,7 @@ drwxr-xr-x root/root    usr/share/pipewire/media-session.d/
 -rw-r--r-- root/root    usr/share/pipewire/media-session.d/v4l2-monitor.conf
 -rw-r--r-- root/root    usr/share/pipewire/media-session.d/with-jack
 -rw-r--r-- root/root    usr/share/pipewire/media-session.d/with-pulseaudio
+-rw-r--r-- root/root    usr/share/pipewire/minimal.conf
 -rw-r--r-- root/root    usr/share/pipewire/pipewire-pulse.conf
 -rw-r--r-- root/root    usr/share/pipewire/pipewire.conf
 drwxr-xr-x root/root    usr/share/spa-0.2/
