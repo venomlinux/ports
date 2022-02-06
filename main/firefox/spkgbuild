@@ -2,7 +2,7 @@
 # depends	: alsa-lib libnotify libidl2 python2 gtk2 gtk3 nss nspr icu libevent dbus-glib unzip zip autoconf2.13 yasm rust cbindgen nodejs clang nasm libxcomposite
 
 name=firefox
-version=94.0
+version=96.0.3
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	$name.desktop"
@@ -41,6 +41,7 @@ cat <<- EOF > .mozconfig
 	ac_add_options --disable-crashreporter
 	ac_add_options --disable-necko-wifi
 	ac_add_options --disable-elf-hack
+	ac_add_options --without-wasm-sandboxed-libraries
 EOF
 
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
