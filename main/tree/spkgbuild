@@ -2,12 +2,12 @@
 
 name=tree
 version=2.0.1
-release=1
+release=2
 source="http://mama.indstate.edu/users/ice/$name/src/$name-$version.tgz"
 
 build() {
 	cd $name-$version
 
   	make
-	make prefix=$PKG/usr MANDIR=$PKG/usr/share/man/man1 install
+	make PREFIX=$PKG/usr MANDIR=$PKG/usr/share/man/man1 install
 }
