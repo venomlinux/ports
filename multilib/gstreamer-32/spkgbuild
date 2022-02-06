@@ -2,7 +2,7 @@
 # depends	: gstreamer glib-32
 
 name=gstreamer-32
-version=1.18.5
+version=1.20.0
 release=1
 source="http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-$version.tar.xz"
 
@@ -21,8 +21,6 @@ build() {
 		--libdir=/usr/lib32 \
 		--libexecdir=/usr/lib32 \
 		-Dgst_debug=false \
-		-Dgtk_doc=disabled \
-		-Dnls=disabled \
 		-Dintrospection=disabled \
 		-Dpackage-name="GStreamer $version (Venom Linux)"
 	ninja
