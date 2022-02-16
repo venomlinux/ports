@@ -23,7 +23,7 @@ build() {
 	"
 
 	cd $name-$version
-
+	sed '/policy,/d' -i daemon/meson.build
 	for i in afc goa google gphoto2 mtp nfs smb; do
 		case $i in
 			${name#*-}) _opt="$_opt -D$i=true";;
