@@ -1,0 +1,13 @@
+# description	: Experience the web in a whole new way with Vivaldi.
+# homepage	: https://vivaldi.com/
+# depends	: gtk3 font-bh-ttf cups nss alsa desktop-file-utils shared-mime-info hicolor-icon-theme
+
+name=vivaldi-stable
+version=5.1.2567.49
+release=1
+source="https://downloads.vivaldi.com/stable/vivaldi-stable_${version}-${release}_amd64.deb"
+
+build() {
+	bsdtar -xf vivaldi-stable_${version}-${release}_amd64.deb
+	bsdtar -xf data.tar.xz -C $PKG/
+}
