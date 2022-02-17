@@ -1,0 +1,10 @@
+name=vivaldi-stable
+version=5.1.2567.49
+release=1
+description=browser
+source="https://downloads.vivaldi.com/stable/vivaldi-stable_${version}-${release}_amd64.deb"
+
+build() {
+	bsdtar -xf vivaldi-stable_${version}-${release}_amd64.deb
+	bsdtar -xf data.tar.xz -C $PKG/
+}
