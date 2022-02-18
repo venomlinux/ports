@@ -1,0 +1,14 @@
+# description	: The Private YouTube Client
+# homepage	: https://freetubeapp.io/
+# depends	: 
+
+name=freetube
+version=0.15.1
+release=1
+source="https://github.com/FreeTubeApp/FreeTube/releases/download/v${version}-beta/freetube_${version}_amd64.deb"
+
+build() {
+	ar x freetube_${version}_amd64.deb
+	tar -xf data.tar.xz -C $PKG
+}
+
