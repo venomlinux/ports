@@ -1,4 +1,4 @@
-go-1.17.1-1
+go-1.17.7-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 lrwxrwxrwx root/root    usr/bin/gofmt -> /usr/lib/go/bin/gofmt
@@ -240,6 +240,8 @@ drwxr-xr-x root/root    usr/lib/go/misc/cgo/testplugin/testdata/checkdwarf/
 -rw-r--r-- root/root    usr/lib/go/misc/cgo/testplugin/testdata/checkdwarf/main.go
 drwxr-xr-x root/root    usr/lib/go/misc/cgo/testplugin/testdata/common/
 -rw-r--r-- root/root    usr/lib/go/misc/cgo/testplugin/testdata/common/common.go
+drwxr-xr-x root/root    usr/lib/go/misc/cgo/testplugin/testdata/forkexec/
+-rw-r--r-- root/root    usr/lib/go/misc/cgo/testplugin/testdata/forkexec/main.go
 drwxr-xr-x root/root    usr/lib/go/misc/cgo/testplugin/testdata/host/
 -rw-r--r-- root/root    usr/lib/go/misc/cgo/testplugin/testdata/host/host.go
 drwxr-xr-x root/root    usr/lib/go/misc/cgo/testplugin/testdata/iface/
@@ -402,6 +404,11 @@ drwxr-xr-x root/root    usr/lib/go/misc/cgo/testshared/testdata/issue44031/b/
 -rw-r--r-- root/root    usr/lib/go/misc/cgo/testshared/testdata/issue44031/b/b.go
 drwxr-xr-x root/root    usr/lib/go/misc/cgo/testshared/testdata/issue44031/main/
 -rw-r--r-- root/root    usr/lib/go/misc/cgo/testshared/testdata/issue44031/main/main.go
+drwxr-xr-x root/root    usr/lib/go/misc/cgo/testshared/testdata/issue47837/
+drwxr-xr-x root/root    usr/lib/go/misc/cgo/testshared/testdata/issue47837/a/
+-rw-r--r-- root/root    usr/lib/go/misc/cgo/testshared/testdata/issue47837/a/a.go
+drwxr-xr-x root/root    usr/lib/go/misc/cgo/testshared/testdata/issue47837/main/
+-rw-r--r-- root/root    usr/lib/go/misc/cgo/testshared/testdata/issue47837/main/main.go
 drwxr-xr-x root/root    usr/lib/go/misc/cgo/testshared/testdata/trivial/
 -rw-r--r-- root/root    usr/lib/go/misc/cgo/testshared/testdata/trivial/trivial.go
 -rw-r--r-- root/root    usr/lib/go/misc/cgo/test/sigaltstack.go
@@ -2833,6 +2840,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/testdata/script/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/link_matching_actionid.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/linkname.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/link_syso_issue33139.txt
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/list_all_gobuild.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/list_ambiguous_path.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/list_bad_import.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/list_case_collision.txt
@@ -5103,6 +5111,7 @@ drwxr-xr-x root/root    usr/lib/go/src/debug/macho/testdata/
 -rw-r--r-- root/root    usr/lib/go/src/debug/macho/testdata/gcc-386-darwin-exec.base64
 -rw-r--r-- root/root    usr/lib/go/src/debug/macho/testdata/gcc-amd64-darwin-exec.base64
 -rw-r--r-- root/root    usr/lib/go/src/debug/macho/testdata/gcc-amd64-darwin-exec-debug.base64
+-rw-r--r-- root/root    usr/lib/go/src/debug/macho/testdata/gcc-amd64-darwin-exec-with-bad-dysym.base64
 -rw-r--r-- root/root    usr/lib/go/src/debug/macho/testdata/hello.c
 drwxr-xr-x root/root    usr/lib/go/src/debug/pe/
 -rw-r--r-- root/root    usr/lib/go/src/debug/pe/file_cgo_test.go
@@ -5802,6 +5811,7 @@ drwxr-xr-x root/root    usr/lib/go/src/go/types/testdata/fixedbugs/
 -rw-r--r-- root/root    usr/lib/go/src/go/types/testdata/fixedbugs/issue45985.go2
 -rw-r--r-- root/root    usr/lib/go/src/go/types/testdata/fixedbugs/issue46403.src
 -rw-r--r-- root/root    usr/lib/go/src/go/types/testdata/fixedbugs/issue46404.go1
+-rw-r--r-- root/root    usr/lib/go/src/go/types/testdata/fixedbugs/issue48819.src
 -rw-r--r-- root/root    usr/lib/go/src/go/types/testdata/fixedbugs/issue6977.src
 -rw-r--r-- root/root    usr/lib/go/src/go/types/token_test.go
 -rw-r--r-- root/root    usr/lib/go/src/go/types/type.go
@@ -11208,6 +11218,9 @@ drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue48088.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue48088.dir/b.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue48088.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4813.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue48289.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue48473.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue48476.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4847.go
 drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue4879.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4879.dir/a.go
@@ -11215,17 +11228,23 @@ drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue4879.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4879.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4909a.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4909b.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue49122.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue49249.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue49282.go
 drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue4932.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4932.dir/foo.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4932.dir/state2.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4932.dir/state.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4932.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue49378.go
 drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue4964.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4964.dir/a.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4964.dir/b.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue4964.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5002.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5056.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue50671.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue50854.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5089.go
 drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue5105.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5105.dir/a.go
