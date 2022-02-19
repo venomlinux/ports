@@ -1,4 +1,4 @@
-wlroots-0.14.1-1
+wlroots-0.15.1-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/include/wlr/
@@ -9,7 +9,6 @@ drwxr-xr-x root/root    usr/include/wlr/backend/
 -rw-r--r-- root/root    usr/include/wlr/backend/interface.h
 -rw-r--r-- root/root    usr/include/wlr/backend/libinput.h
 -rw-r--r-- root/root    usr/include/wlr/backend/multi.h
--rw-r--r-- root/root    usr/include/wlr/backend/noop.h
 -rw-r--r-- root/root    usr/include/wlr/backend/session.h
 -rw-r--r-- root/root    usr/include/wlr/backend/wayland.h
 -rw-r--r-- root/root    usr/include/wlr/config.h
@@ -23,6 +22,7 @@ drwxr-xr-x root/root    usr/include/wlr/interfaces/
 -rw-r--r-- root/root    usr/include/wlr/interfaces/wlr_tablet_tool.h
 -rw-r--r-- root/root    usr/include/wlr/interfaces/wlr_touch.h
 drwxr-xr-x root/root    usr/include/wlr/render/
+-rw-r--r-- root/root    usr/include/wlr/render/allocator.h
 -rw-r--r-- root/root    usr/include/wlr/render/dmabuf.h
 -rw-r--r-- root/root    usr/include/wlr/render/drm_format_set.h
 -rw-r--r-- root/root    usr/include/wlr/render/egl.h
@@ -38,6 +38,8 @@ drwxr-xr-x root/root    usr/include/wlr/types/
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_cursor.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_data_control_v1.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_data_device.h
+-rw-r--r-- root/root    usr/include/wlr/types/wlr_drm.h
+-rw-r--r-- root/root    usr/include/wlr/types/wlr_drm_lease_v1.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_export_dmabuf_v1.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_foreign_toplevel_management_v1.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_fullscreen_shell_v1.h
@@ -52,7 +54,6 @@ drwxr-xr-x root/root    usr/include/wlr/types/
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_keyboard_shortcuts_inhibit_v1.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_layer_shell_v1.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_linux_dmabuf_v1.h
--rw-r--r-- root/root    usr/include/wlr/types/wlr_list.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_matrix.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_output.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_output_damage.h
@@ -67,6 +68,7 @@ drwxr-xr-x root/root    usr/include/wlr/types/
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_primary_selection_v1.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_region.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_relative_pointer_v1.h
+-rw-r--r-- root/root    usr/include/wlr/types/wlr_scene.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_screencopy_v1.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_seat.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_server_decoration.h
@@ -89,13 +91,15 @@ drwxr-xr-x root/root    usr/include/wlr/types/
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_xdg_output_v1.h
 -rw-r--r-- root/root    usr/include/wlr/types/wlr_xdg_shell.h
 drwxr-xr-x root/root    usr/include/wlr/util/
+-rw-r--r-- root/root    usr/include/wlr/util/addon.h
+-rw-r--r-- root/root    usr/include/wlr/util/box.h
 -rw-r--r-- root/root    usr/include/wlr/util/edges.h
 -rw-r--r-- root/root    usr/include/wlr/util/log.h
 -rw-r--r-- root/root    usr/include/wlr/util/region.h
 -rw-r--r-- root/root    usr/include/wlr/version.h
 -rw-r--r-- root/root    usr/include/wlr/xcursor.h
 drwxr-xr-x root/root    usr/lib/
-lrwxrwxrwx root/root    usr/lib/libwlroots.so -> libwlroots.so.9
--rwxr-xr-x root/root    usr/lib/libwlroots.so.9
+lrwxrwxrwx root/root    usr/lib/libwlroots.so -> libwlroots.so.10
+-rwxr-xr-x root/root    usr/lib/libwlroots.so.10
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/wlroots.pc
