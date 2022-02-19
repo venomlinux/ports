@@ -1,4 +1,4 @@
-pipewire-0.3.45-1
+pipewire-0.3.46-1
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/udev/
 drwxr-xr-x root/root    lib/udev/rules.d/
@@ -107,12 +107,16 @@ drwxr-xr-x root/root    usr/include/spa-0.2/spa/debug/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/buffer.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/dict.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/format.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/log.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/mem.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/node.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/pod.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/types.h
 drwxr-xr-x root/root    usr/include/spa-0.2/spa/graph/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/graph/graph.h
+drwxr-xr-x root/root    usr/include/spa-0.2/spa/interfaces/
+drwxr-xr-x root/root    usr/include/spa-0.2/spa/interfaces/audio/
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/interfaces/audio/aec.h
 drwxr-xr-x root/root    usr/include/spa-0.2/spa/monitor/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/monitor/device.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/monitor/event.h
@@ -197,24 +201,25 @@ drwxr-xr-x root/root    usr/lib/alsa-lib/
 drwxr-xr-x root/root    usr/lib/gstreamer-1.0/
 -rwxr-xr-x root/root    usr/lib/gstreamer-1.0/libgstpipewire.so
 lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so -> libpipewire-0.3.so.0
-lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.345.0
--rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.345.0
+lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.346.0
+-rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.346.0
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so -> libjack.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.345.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.345.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.346.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.346.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so -> libjacknet.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.345.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.345.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.346.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.346.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so -> libjackserver.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.345.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.345.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.346.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.346.0
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-access.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-adapter.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-client-device.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-client-node.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-echo-cancel.so
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-fallback-sink.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-filter-chain.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-link-factory.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-loopback.so
@@ -238,6 +243,8 @@ drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/libpipewire-0.3.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/libspa-0.2.pc
 drwxr-xr-x root/root    usr/lib/spa-0.2/
+drwxr-xr-x root/root    usr/lib/spa-0.2/aec/
+-rwxr-xr-x root/root    usr/lib/spa-0.2/aec/libspa-aec-null.so
 drwxr-xr-x root/root    usr/lib/spa-0.2/alsa/
 -rwxr-xr-x root/root    usr/lib/spa-0.2/alsa/libspa-alsa.so
 drwxr-xr-x root/root    usr/lib/spa-0.2/audioconvert/
