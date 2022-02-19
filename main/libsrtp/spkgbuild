@@ -1,0 +1,14 @@
+# description	: Library for SRTP (Secure Realtime Transport Protocol)
+# homepage	: https://github.com/cisco/libsrtp
+
+name=libsrtp
+version=2.4.2
+release=1
+source="https://github.com/cisco/libsrtp/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
