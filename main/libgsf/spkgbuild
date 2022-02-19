@@ -1,14 +1,14 @@
 # description : libgsf 
-# depends	: glib libxml2
+# depends     : glib libxml2
 
 name=libgsf
-version=1.14
-release=47
-source="https://download.gnome.org/sources/$name/$version/$name-$version.$release.tar.xz"
+version=1.14.48
+release=1
+source="https://download.gnome.org/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version.$release
-    ./configure --prefix=/usr
-    make
-	make PREFIX=$PKG/usr DESTDIR=$PKG install
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
 }
