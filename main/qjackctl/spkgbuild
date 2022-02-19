@@ -2,13 +2,20 @@
 # depends	: qt5 jack alsa-lib
 
 name=qjackctl
-version=0.9.5
+version=0.9.6
 release=1
 source="https://sourceforge.net/projects/qjackctl/files/qjackctl/$version/qjackctl-$version.tar.gz"
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr 
-	make
-	make DESTDIR=$PKG install
+	
+	mkdir build
+	cd build
+
+	cmake \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_INSTALL_PREFIX=/usr \
+                ..
+        make
+        make DESTDIR=$PKG install
 }
