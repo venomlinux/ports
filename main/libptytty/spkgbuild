@@ -1,0 +1,22 @@
+# description	: An offspring of rxvt-unicode that handles pty/tty/utmp/wtmp/lastlog handling in mostly OS-independent ways
+# homepage	: http://dist.schmorp.de/libptytty/
+# depends	: cmake
+
+name=libptytty
+version=2.0
+release=1
+source="http://dist.schmorp.de/libptytty/libptytty-2.0.tar.gz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+        cd build
+
+        cmake \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_INSTALL_PREFIX=/usr \
+                ..
+        make
+        make DESTDIR=$PKG install
+}
