@@ -15,8 +15,4 @@ build() {
     	--with-ca-certificates=/etc/ssl/certs
 	make
 	make DESTDIR=$PKG install
-
-	# Obsolets libs
-	rm $PKG/usr/lib/librest-0.7.la
-	rm $PKG/usr/lib/librest-extras-0.7.la
 }
