@@ -1,0 +1,18 @@
+# description : Gives more easily access to internet services which says be 'RESTful'
+# homepage : http://www.gnome.org/
+
+name=librest
+version=0.8.1
+release=4
+
+source="https://download.gnome.org/sources/rest/${version%.*}/rest-$version.tar.xz"
+
+build() {
+	cd rest-$version
+	./configure \
+    	--prefix=/usr \
+    	--sysconfdir=/etc \
+    	--with-ca-certificates=/etc/ssl/certs
+	make
+	make DESTDIR=$PKG install
+}
