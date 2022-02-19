@@ -2,13 +2,17 @@
 # depends	: wayland
 
 name=wayland-protocols
-version=1.22
+version=1.25
 release=1
 source="https://wayland.freedesktop.org/releases/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
+	   
+	mkdir builddir
+        cd builddir
+
+        meson --prefix=/usr -Dtests=false
+        ninja
+        DESTDIR=$PKG ninja install
 }
