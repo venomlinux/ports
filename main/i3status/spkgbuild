@@ -1,20 +1,15 @@
 # description	: Generates status bar to use with i3bar, dzen2 or xmobar
-# depends	: confuse yajl libnl alsa-lib pulseaudio asciidoc xmlto
+# depends	: confuse yajl libnl alsa-lib pulseaudio asciidoc xmlto meson
 
 name=i3status
-version=2.13
+version=2.14
 release=1
 backup="etc/i3status.conf"
-source="https://i3wm.org/i3status/$name-$version.tar.bz2"
+source="https://i3wm.org/i3status/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version
-	autoreconf -fi
-	mkdir build
-	cd build
-	../configure \
-		--prefix=/usr \
-		--sysconfdir=/etc
-	make
-	make DESTDIR=$PKG install
+	cd $name-$version/meson
+	meson --prefix=/usr --buildtype=plain -Dmans=true .. build
+	meson compile -C build
+	meson install -C build --destdir "$PKG"
 }
