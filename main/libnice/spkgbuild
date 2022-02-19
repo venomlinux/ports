@@ -1,0 +1,19 @@
+# description	: An implementation of the IETF's draft ICE (for p2p UDP data streams)
+# homepage	: https://nice.freedesktop.org
+# depends	: meson glib
+
+name=libnice
+version=0.1.18
+release=1
+source="https://libnice.freedesktop.org/releases/libnice-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+        cd build
+
+        meson --prefix=/usr -Dtests=disabled
+        ninja
+        DESTDIR=$PKG ninja install
+}
