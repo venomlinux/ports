@@ -1,17 +1,18 @@
 # description	: A project to define a protocol for a compositor to talk to its clients as well as a library implementation of the protocol
-# depends	: libffi libxml2
+# depends	: libffi libxml2 meson
 
 name=wayland
-version=1.19.0
+version=1.20.0
 release=1
 source="http://wayland.freedesktop.org/releases/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 	   
-	./configure --prefix=/usr    \
-	            --disable-static \
-	            --disable-documentation
-	make
-	make DESTDIR=$PKG install
+	mkdir builddir
+        cd builddir
+
+        meson --prefix=/usr -Dtests=false -Ddocumentation=false
+        ninja
+        DESTDIR=$PKG ninja install
 }
