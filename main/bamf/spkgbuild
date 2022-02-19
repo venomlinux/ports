@@ -2,15 +2,12 @@
 # depends	: libgtop libwnck3 gobject-introspection python3-lxml vala gnome-common
 
 name=bamf
-version=0.5.5
+version=0.5.6
 release=1
-source="https://launchpad.net/bamf/${version%.*}/$version/+download/$name-$version.tar.xz"
+source="https://launchpad.net/bamf/${version%.*}/$version/+download/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-
-	#export PYTHON='/usr/bin/python2'
-	export CFLAGS="$CFLAGS -Wno-deprecated-declarations"
 
 	# avoiding generate bloat gtk-doc
 	sed -i '/GTK_DOC_CHECK/d' configure.ac
