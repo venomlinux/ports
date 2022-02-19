@@ -1,0 +1,15 @@
+# description	: A flexible API to implement the spell checking in a GTK+ application
+# homepage	: https://wiki.gnome.org/Projects/gspell
+# depends	: enchant gtk3 iso-codes gobject-introspection vala
+
+name=gspell
+version=1.8.4
+release=1
+source="https://download.gnome.org/sources/gspell/${version%.*}/gspell-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
