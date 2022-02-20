@@ -1,0 +1,22 @@
+# description	: Standalone web browser from mozilla.org - Extended Support Release 
+# depends	: gtk3 libxt nss gtk2 dbus-glib  
+
+name=firefox-esr-bin
+version=91.6.0
+release=1
+source="https://ftp.mozilla.org/pub/firefox/releases/${version}esr/linux-x86_64/en-US/firefox-${version}esr.tar.bz2
+$name.desktop"
+
+build() {
+ 	install -d \
+		$PKG/usr/bin \
+		$PKG/usr/share/applications \
+		$PKG/usr/share/pixmaps \
+		$PKG/opt
+
+	cp -r firefox/ $PKG/opt/$name
+
+	ln -s /opt/$name/firefox $PKG/usr/bin/$name
+	install -m644 $name.desktop $PKG/usr/share/applications/
+	install -m644 firefox/browser/chrome/icons/default/default128.png $PKG/usr/share/pixmaps/$_pkgname.png}
+}
