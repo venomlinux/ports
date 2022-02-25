@@ -2,25 +2,24 @@
 # depends	: expat
 
 name=expat-32
-version=2.4.4
+version=2.4.6
+_v=$(echo $version | sed 's/\./_/g')
 release=1
-source="http://prdownloads.sourceforge.net/expat/expat-$version.tar.bz2"
+source="https://github.com/libexpat/libexpat/archive/R_$_v/expat-$version.tar.gz"
 
 build() {
-	cd expat-$version
+	cd libexpat-R_$_v/expat
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	# fix a problem with the regression tests in the LFS environment
-	sed -i 's|usr/bin/env |bin/|' run.sh.in
-
+	./buildconf.sh
 	./configure \
-		--prefix=/usr \
-		--libdir=/usr/lib32 \
-		--disable-static
-	make
+                --prefix=/usr \
+                --libdir=/usr/lib32 \
+                --disable-static
+        make
 	make DESTDIR=$PWD/DESTDIR install
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
