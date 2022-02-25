@@ -1,18 +1,17 @@
 # description	: A stream oriented C library for parsing XML
+# homepage	: https://libexpat.github.io
 
 name=expat
-version=2.4.4
+version=2.4.6
+_v=$(echo $version | sed 's/\./_/g')
 release=1
-source="https://sourceforge.net/projects/expat/files/expat/$version/expat-$version.tar.bz2"
+source="https://github.com/libexpat/libexpat/archive/R_$_v/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
+	cd lib$name-R_$_v/$name
 
-	# fix a problem with the regression tests
-	sed -i 's|usr/bin/env |bin/|' run.sh.in
-
+	./buildconf.sh
 	./configure --prefix=/usr --disable-static
-	make
-	make DESTDIR=$PKG install
-
+        make
+        make DESTDIR=$PKG install
 }
