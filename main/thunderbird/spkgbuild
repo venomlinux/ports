@@ -1,8 +1,8 @@
 # description	: Stand-alone mail/news client based on the Mozilla codebase
-# depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent nspr dbus-glib gconf clang cbindgen nodejs nasm unzip zip nss libxcomposite
+# depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent nspr dbus-glib gconf clang cbindgen nodejs nasm unzip zip nss libxcomposite which
 
 name=thunderbird
-version=78.11.0
+version=91.6.1
 release=1
 source="https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz"
 
@@ -10,14 +10,6 @@ build() {
 	INITDIR=$PWD
 
 	cd $name-$version
-
-	cat > which <<EOF
-#!/bin/sh
-type -p \$1
-EOF
-
-chmod +x which
-export PATH=$PATH:$PWD
 	
 	cat > mozconfig << "EOF"
 #ac_add_options --disable-dbus
@@ -26,7 +18,7 @@ ac_add_options --disable-necko-wifi
 #ac_add_options --enable-startup-notification
 ac_add_options --disable-pulseaudio
 #ac_add_options --disable-gconf
-ac_add_options --enable-calendar
+#ac_add_options --enable-calendar
 #ac_add_options --enable-system-sqlite
 ac_add_options --with-system-libevent
 #ac_add_options --with-system-libvpx
@@ -55,8 +47,8 @@ EOF
         export MOZBUILD_STATE_PATH=${PWD}/mozbuild
         export CARGO_HOME=$INITDIR
 
-        SHELL=/bin/sh ./mach build
-        SHELL=/bin/sh DESTDIR=$PKG ./mach install
+        SHELL=/bin/sh MACH_USE_SYSTEM_PYTHON=1 ./mach build
+        SHELL=/bin/sh MACH_USE_SYSTEM_PYTHON=1 DESTDIR=$PKG ./mach install
 
 	mkdir -pv $PKG/usr/share/applications  $PKG/usr/share/pixmaps
 
