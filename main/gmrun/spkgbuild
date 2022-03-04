@@ -2,14 +2,13 @@
 # depends	: gtk3 glib popt
 
 name=gmrun
-version=1.2w
+version=1.3w
 release=1
 source="https://github.com/wdlkmpx/gmrun/archive/$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
 
-	./autogen.sh
 	./configure --prefix=/usr --sysconfdir=/etc
 	make
 	make DESTDIR=$PKG install
