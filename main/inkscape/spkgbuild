@@ -2,17 +2,16 @@
 # depends	: gsl boost imagemagick6 gc lcms2 poppler-glib popt libxslt gtkmm3 double-conversion potrace gdl libsoup
 
 name=inkscape
-version=1.1.1
+version=1.1.2
 release=1
 source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz
-	poppler-21.11.0.patch"
+	poppler-22.03.0.patch"
 
 build() {
 ls
-	cd $name-${version}_2021-09-20_3bf5ae0d25
+	cd $name-${version}_*
 
-	# https://gitlab.com/inkscape/inkscape/-/merge_requests/3622
-	patch -Np1 -i ../poppler-21.11.0.patch
+	patch -Np1 -i ../poppler-22.03.0.patch
 
 	mkdir build
 	cd    build
