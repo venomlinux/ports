@@ -1,0 +1,32 @@
+# description	: Free and open source software for video recording and live streaming.
+# homepage	: https://obsproject.com/
+# depends	: ffmpeg-nvenc x264 swig qt5 python3 pulseaudio pipewire 
+# depends	: libxkbcommon v4l-utils libglvnd freetype2 fontconfig libx11 
+# depends	: libxcomposite libxinerama pciutils luajit vlc libxcb jack 
+# depends	: fdk-aac jansson wayland mbedtls libspeedxdps
+
+name=obs-studio-nvenc
+_name=obs-studio
+version=27.2.3
+noextract="dad962cc59340a03f081dc94b7f09cf04bd637fb.patch 29773661f945ee59e7eb44f78d960e0da102e833.patch"
+
+release=1
+source="https://cdn-fastly.obsproject.com/downloads/cef_binary_4638_linux64.tar.bz2
+		https://github.com/obsproject/obs-studio/commit/dad962cc59340a03f081dc94b7f09cf04bd637fb.patch
+		https://github.com/obsproject/obs-studio/commit/29773661f945ee59e7eb44f78d960e0da102e833.patch"
+
+build() {
+	git clone -b $version https://github.com/obsproject/$_name --recursive
+	cd $_name
+	git submodule update --init
+	git config user.email "venom@venom.pc"
+	git config user.name  "Venom Linux"
+	git am ../29773661f945ee59e7eb44f78d960e0da102e833.patch
+	git am ../dad962cc59340a03f081dc94b7f09cf04bd637fb.patch
+	sed -i 's+set(OBS_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/")+\n+g' cmake/Modules/ObsHelpers.cmake
+	mkdir build
+	cd build
+    cmake -DUNIX_STRUCTURE=1 -DBUILD_BROWSER=ON -DCEF_ROOT_DIR="../../cef_binary_4638_linux64" .. -GNinja  -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=$PKG/usr/ -DOBS_INSTALL_PREFIX=/usr/
+	ninja 
+	ninja install
+}

@@ -1,0 +1,17 @@
+# description	: An open source, portable, easy to use, readable and flexible SSL library
+# homepage	: tls.mbed.org
+# depends	: python3 perl
+
+name=mbedtls
+version=3.1.0
+release=1
+source="https://github.com/ARMmbed/$name/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	mkdir build 
+	cd build 
+	cmake -DCMAKE_BUILD_TYPE=RELEASE -DUSE_SHARED_MBEDTLS_LIBRARY=On -DENABLE_TESTING=Off .. -GNinja -DCMAKE_INSTALL_PREFIX=$PKG/usr/
+	cmake --build .
+	ninja install
+}

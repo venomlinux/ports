@@ -1,0 +1,14 @@
+# description	: FFmpeg nvidia headers
+# homepage	: https://ffmpeg.org/
+# depends	: nvidia
+
+name=nv-codec-headers
+version=11.1.5.1
+release=1
+source="https://github.com/FFmpeg/$name/releases/download/n$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make
+	make PREFIX=/usr DESTDIR=$PKG install
+}

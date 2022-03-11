@@ -2,7 +2,7 @@
 # depends	: dkms gtk3
 
 name=nvidia
-version=470.86
+version=510.54
 release=1
 source="http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
 	nvidia-drm-outputclass.conf
@@ -48,13 +48,17 @@ build() {
 	# driver component libraries
 	install -m 0755 libnvidia-cfg.so.$version $PKG/usr/lib/
 	install -m 0755 libnvidia-compiler.so.$version $PKG/usr/lib/
+	install -m 0755 libnvidia-compiler-next.so.$version $PKG/usr/lib/
 	install -m 0755 libnvidia-eglcore.so.$version $PKG/usr/lib/
 	install -m 0755 libnvidia-glcore.so.$version $PKG/usr/lib/
 	install -m 0755 libnvidia-glsi.so.$version $PKG/usr/lib/
 	install -m 0755 libnvidia-glvkspirv.so.$version $PKG/usr/lib/
 	install -m 0755 libnvidia-rtcore.so.$version $PKG/usr/lib/
-	install -m 0755 libnvidia-cbl.so.$version $PKG/usr/lib/
-
+	install -m 0755 libnvidia-ngx.so.$version $PKG/usr/lib/
+	install -m 0755 libnvidia-nvvm.so.4.0.0 $PKG/usr/lib/
+	install -m 0755 libnvidia-opticalflow.so.$version $PKG/usr/lib/
+	install -m 0755 libnvidia-vulkan-producer.so.$version $PKG/usr/lib/
+	
 	# vendor VDPAU library
 	install -D -m 0755 libvdpau_nvidia.so.$version $PKG/usr/lib/vdpau/libvdpau_nvidia.so.$version
 	ln -s libvdpau_nvidia.so.$version $PKG/usr/lib/vdpau/libvdpau_nvidia.so.1
@@ -103,7 +107,6 @@ build() {
 	# encoding/decoding libraries
 	install -m 0755 libnvcuvid.so.$version $PKG/usr/lib/
 	install -m 0755 libnvidia-encode.so.$version $PKG/usr/lib/
-	install -m 0755 libnvidia-ifr.so.$version $PKG/usr/lib/
 	install -m 0755 libnvidia-fbc.so.$version $PKG/usr/lib/
 
 	# OptiX ray tracing engine

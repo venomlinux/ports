@@ -1,0 +1,19 @@
+# description	: DSP library derived from speex
+# homepage	: https://gitlab.xiph.org/xiph/speexdsp
+# depends	: 
+
+name=libspeedxdsp
+uname=SpeexDSP
+cname=speexdsp
+version=1.2.0
+release=1
+source="https://gitlab.xiph.org/xiph/$cname/-/archive/${uname}-$version/$cname-$uname-$version.tar.gz"
+
+build() {
+	ls
+	cd $cname-${uname}-$version
+	./autogen.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
