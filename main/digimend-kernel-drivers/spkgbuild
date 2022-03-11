@@ -1,0 +1,12 @@
+# description	: DIGImend graphics tablet drivers for the Linux kernel
+# depends	: dkms
+
+name=digimend-kernel-drivers
+version=10
+release=1
+source="https://github.com/DIGImend/$name/releases/download/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make DESTDIR=$PKG dkms_install
+}
