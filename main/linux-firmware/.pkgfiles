@@ -1,4 +1,4 @@
-linux-firmware-20220209-1
+linux-firmware-20220310-1
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/firmware/
 drwxr-xr-x root/root    lib/firmware/3com/
@@ -36,6 +36,14 @@ drwxr-xr-x root/root    lib/firmware/amd/
 -rw-r--r-- root/root    lib/firmware/amd/amd_sev_fam17h_model3xh.sbin
 -rw-r--r-- root/root    lib/firmware/amd/amd_sev_fam19h_model0xh.sbin
 drwxr-xr-x root/root    lib/firmware/amdgpu/
+-rw-r--r-- root/root    lib/firmware/amdgpu/aldebaran_mec.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/aldebaran_mec2.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/aldebaran_rlc.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/aldebaran_sdma.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/aldebaran_smc.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/aldebaran_sos.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/aldebaran_ta.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/aldebaran_vcn.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/arcturus_asd.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/arcturus_gpu_info.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/arcturus_mec.bin
@@ -89,6 +97,7 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/cyan_skillfish2_rlc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/cyan_skillfish2_sdma.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/cyan_skillfish2_sdma1.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/dcn_3_1_6_dmcub.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/dimgrey_cavefish_ce.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/dimgrey_cavefish_dmcub.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/dimgrey_cavefish_me.bin
@@ -113,6 +122,12 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/fiji_smc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/fiji_uvd.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/fiji_vce.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_7_ce.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_7_me.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_7_mec.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_7_mec2.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_7_pfp.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_7_rlc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_asd.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_ce.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_dmcub.bin
@@ -321,6 +336,9 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/polaris12_smc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/polaris12_uvd.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/polaris12_vce.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_8_asd.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_8_ta.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_8_toc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/raven2_asd.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/raven2_ce.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/raven2_gpu_info.bin
@@ -357,6 +375,7 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/renoir_sdma.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/renoir_ta.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/renoir_vcn.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/sdma_5_2_7.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/si58_mc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/sienna_cichlid_ce.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/sienna_cichlid_dmcub.bin
@@ -554,17 +573,22 @@ drwxr-xr-x root/root    lib/firmware/ath10k/QCA4019/
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA4019/hw1.0/
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA4019/hw1.0/board-2.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA4019/hw1.0/firmware-5.bin
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA4019/hw1.0/notice_ath10k_firmware-5.txt
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA6174/
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA6174/hw2.1/
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA6174/hw2.1/board-2.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA6174/hw2.1/board.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA6174/hw2.1/firmware-5.bin
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA6174/hw2.1/notice_ath10k_firmware-5.txt
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA6174/hw3.0/
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA6174/hw3.0/board-2.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA6174/hw3.0/board.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA6174/hw3.0/firmware-4.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA6174/hw3.0/firmware-6.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA6174/hw3.0/firmware-sdio-6.bin
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA6174/hw3.0/notice_ath10k_firmware-4.txt
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA6174/hw3.0/notice_ath10k_firmware-6.txt
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA6174/hw3.0/notice_ath10k_firmware-sdio-6.txt
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA9377/
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA9377/hw1.0/
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9377/hw1.0/board-2.bin
@@ -572,34 +596,45 @@ drwxr-xr-x root/root    lib/firmware/ath10k/QCA9377/hw1.0/
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9377/hw1.0/firmware-5.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9377/hw1.0/firmware-6.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9377/hw1.0/firmware-sdio-5.bin
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA9377/hw1.0/notice_ath10k_firmware-5.txt
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA9377/hw1.0/notice_ath10k_firmware-6.txt
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA9377/hw1.0/notice_ath10k_firmware-sdio-5.txt
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA9887/
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA9887/hw1.0/
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9887/hw1.0/board.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9887/hw1.0/firmware-5.bin
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA9887/hw1.0/notice_ath10k_firmware-5.txt
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA9888/
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA9888/hw2.0/
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9888/hw2.0/board-2.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9888/hw2.0/firmware-5.bin
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA9888/hw2.0/notice_ath10k_firmware-5.txt
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA988X/
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA988X/hw2.0/
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA988X/hw2.0/board.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA988X/hw2.0/firmware-4.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA988X/hw2.0/firmware-5.bin
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA988X/hw2.0/notice_ath10k_firmware-4.txt
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA988X/hw2.0/notice_ath10k_firmware-5.txt
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA9984/
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA9984/hw1.0/
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9984/hw1.0/board-2.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA9984/hw1.0/firmware-5.bin
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA9984/hw1.0/notice_ath10k_firmware-5.txt
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA99X0/
 drwxr-xr-x root/root    lib/firmware/ath10k/QCA99X0/hw2.0/
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA99X0/hw2.0/board.bin
 -rw-r--r-- root/root    lib/firmware/ath10k/QCA99X0/hw2.0/firmware-5.bin
+-rw-r--r-- root/root    lib/firmware/ath10k/QCA99X0/hw2.0/notice_ath10k_firmware-5.txt
 drwxr-xr-x root/root    lib/firmware/ath10k/WCN3990/
 drwxr-xr-x root/root    lib/firmware/ath10k/WCN3990/hw1.0/
 -rw-r--r-- root/root    lib/firmware/ath10k/WCN3990/hw1.0/firmware-5.bin
+-rw-r--r-- root/root    lib/firmware/ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp
 -rw-r--r-- root/root    lib/firmware/ath10k/WCN3990/hw1.0/wlanmdsp.mbn
 drwxr-xr-x root/root    lib/firmware/ath11k/
 drwxr-xr-x root/root    lib/firmware/ath11k/IPQ6018/
 drwxr-xr-x root/root    lib/firmware/ath11k/IPQ6018/hw1.0/
+-rw-r--r-- root/root    lib/firmware/ath11k/IPQ6018/hw1.0/Notice.txt
 -rw-r--r-- root/root    lib/firmware/ath11k/IPQ6018/hw1.0/board-2.bin
 -rw-r--r-- root/root    lib/firmware/ath11k/IPQ6018/hw1.0/m3_fw.b00
 -rw-r--r-- root/root    lib/firmware/ath11k/IPQ6018/hw1.0/m3_fw.b01
@@ -618,6 +653,7 @@ drwxr-xr-x root/root    lib/firmware/ath11k/IPQ6018/hw1.0/
 -rw-r--r-- root/root    lib/firmware/ath11k/IPQ6018/hw1.0/q6_fw.mdt
 drwxr-xr-x root/root    lib/firmware/ath11k/IPQ8074/
 drwxr-xr-x root/root    lib/firmware/ath11k/IPQ8074/hw2.0/
+-rw-r--r-- root/root    lib/firmware/ath11k/IPQ8074/hw2.0/Notice.txt
 -rw-r--r-- root/root    lib/firmware/ath11k/IPQ8074/hw2.0/board-2.bin
 -rw-r--r-- root/root    lib/firmware/ath11k/IPQ8074/hw2.0/m3_fw.b00
 -rw-r--r-- root/root    lib/firmware/ath11k/IPQ8074/hw2.0/m3_fw.b01
@@ -636,9 +672,22 @@ drwxr-xr-x root/root    lib/firmware/ath11k/IPQ8074/hw2.0/
 -rw-r--r-- root/root    lib/firmware/ath11k/IPQ8074/hw2.0/q6_fw.mdt
 drwxr-xr-x root/root    lib/firmware/ath11k/QCA6390/
 drwxr-xr-x root/root    lib/firmware/ath11k/QCA6390/hw2.0/
+-rw-r--r-- root/root    lib/firmware/ath11k/QCA6390/hw2.0/Notice.txt
 -rw-r--r-- root/root    lib/firmware/ath11k/QCA6390/hw2.0/amss.bin
 -rw-r--r-- root/root    lib/firmware/ath11k/QCA6390/hw2.0/board-2.bin
 -rw-r--r-- root/root    lib/firmware/ath11k/QCA6390/hw2.0/m3.bin
+drwxr-xr-x root/root    lib/firmware/ath11k/WCN6855/
+drwxr-xr-x root/root    lib/firmware/ath11k/WCN6855/hw2.0/
+-rw-r--r-- root/root    lib/firmware/ath11k/WCN6855/hw2.0/Notice.txt
+-rw-r--r-- root/root    lib/firmware/ath11k/WCN6855/hw2.0/amss.bin
+-rw-r--r-- root/root    lib/firmware/ath11k/WCN6855/hw2.0/board-2.bin
+-rw-r--r-- root/root    lib/firmware/ath11k/WCN6855/hw2.0/m3.bin
+-rw-r--r-- root/root    lib/firmware/ath11k/WCN6855/hw2.0/regdb.bin
+drwxr-xr-x root/root    lib/firmware/ath11k/WCN6855/hw2.1/
+lrwxrwxrwx root/root    lib/firmware/ath11k/WCN6855/hw2.1/amss.bin -> ../hw2.0/amss.bin
+lrwxrwxrwx root/root    lib/firmware/ath11k/WCN6855/hw2.1/board-2.bin -> ../hw2.0/board-2.bin
+lrwxrwxrwx root/root    lib/firmware/ath11k/WCN6855/hw2.1/m3.bin -> ../hw2.0/m3.bin
+lrwxrwxrwx root/root    lib/firmware/ath11k/WCN6855/hw2.1/regdb.bin -> ../hw2.0/regdb.bin
 -rw-r--r-- root/root    lib/firmware/ath3k-1.fw
 drwxr-xr-x root/root    lib/firmware/ath6k/
 drwxr-xr-x root/root    lib/firmware/ath6k/AR6002/
@@ -1348,6 +1397,7 @@ lrwxrwxrwx root/root    lib/firmware/iwlwifi-7265D-10.ucode -> iwlwifi-7265-10.u
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-hr-b0-63.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-hr-b0-66.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-hr-b0-68.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-hr-b0-71.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-53.ucode
@@ -1357,6 +1407,7 @@ lrwxrwxrwx root/root    lib/firmware/iwlwifi-7265D-10.ucode -> iwlwifi-7265-10.u
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-63.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-66.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-68.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-b0-jf-b0-71.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-53.ucode
@@ -1366,6 +1417,7 @@ lrwxrwxrwx root/root    lib/firmware/iwlwifi-7265D-10.ucode -> iwlwifi-7265-10.u
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-63.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-66.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-68.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-hr-b0-71.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-53.ucode
@@ -1375,6 +1427,7 @@ lrwxrwxrwx root/root    lib/firmware/iwlwifi-7265D-10.ucode -> iwlwifi-7265-10.u
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-63.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-66.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-68.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-Qu-c0-jf-b0-71.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-53.ucode
@@ -1385,6 +1438,7 @@ lrwxrwxrwx root/root    lib/firmware/iwlwifi-7265D-10.ucode -> iwlwifi-7265-10.u
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-66.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-67.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-68.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-hr-b0-71.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-50.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-53.ucode
@@ -1394,6 +1448,7 @@ lrwxrwxrwx root/root    lib/firmware/iwlwifi-7265D-10.ucode -> iwlwifi-7265-10.u
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-63.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-66.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-68.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-QuZ-a0-jf-b0-71.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-46.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-48.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-50.ucode
@@ -1405,23 +1460,29 @@ lrwxrwxrwx root/root    lib/firmware/iwlwifi-7265D-10.ucode -> iwlwifi-7265-10.u
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-66.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-67.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-68.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-cc-a0-71.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf-a0-64.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf-a0-67.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf-a0-68.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf-a0-71.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf-a0.pnvm
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf4-a0-67.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf4-a0-68.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf4-a0-71.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf4-a0.pnvm
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-hr-b0-64.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-hr-b0-68.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-hr-b0-71.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-jf-b0-64.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-jf-b0-68.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-jf-b0-71.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-59.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-62.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-63.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-66.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-67.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-68.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-71.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm
 drwxr-xr-x root/root    lib/firmware/kaweth/
 -rw-r--r-- root/root    lib/firmware/kaweth/new_code.bin
@@ -1516,6 +1577,15 @@ drwxr-xr-x root/root    lib/firmware/mediatek/
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7916_rom_patch.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7916_wa.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/mt7916_wm.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7986_eeprom_mt7975_dual.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7986_eeprom_mt7976.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7986_eeprom_mt7976_dbdc.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7986_eeprom_mt7976_dual.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7986_rom_patch.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7986_rom_patch_mt7975.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7986_wa.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7986_wm.bin
+-rw-r--r-- root/root    lib/firmware/mediatek/mt7986_wm_mt7975.bin
 drwxr-xr-x root/root    lib/firmware/mediatek/mt8173/
 -rw-r--r-- root/root    lib/firmware/mediatek/mt8173/vpu_d.bin
 -rw-r--r-- root/root    lib/firmware/mediatek/mt8173/vpu_p.bin
@@ -1544,6 +1614,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2008.3326.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2010.1006.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2010.1232.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2010.1406.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2000.2308.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2000.2714.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2007.1168.mfa2
@@ -1558,6 +1629,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2008.3326.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2010.1006.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2010.1232.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2010.1406.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2007.1168.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1036.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1310.mfa2
@@ -1570,6 +1642,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.3326.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2010.1006.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2010.1232.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2010.1406.mfa2
 drwxr-xr-x root/root    lib/firmware/meson/
 drwxr-xr-x root/root    lib/firmware/meson/vdec/
 -rw-r--r-- root/root    lib/firmware/meson/vdec/g12a_h264.bin
@@ -2775,8 +2848,6 @@ drwxr-xr-x root/root    lib/firmware/sb16/
 -rw-r--r-- root/root    lib/firmware/sb16/ima_adpcm_playback.csp
 -rw-r--r-- root/root    lib/firmware/sb16/mulaw_main.csp
 -rw-r--r-- root/root    lib/firmware/sdd_sagrad_1091_1098.bin
-drwxr-xr-x root/root    lib/firmware/silabs/
--rw-r--r-- root/root    lib/firmware/silabs/wfm_wf200_C0.sec
 drwxr-xr-x root/root    lib/firmware/slicoss/
 -rw-r--r-- root/root    lib/firmware/slicoss/gbdownload.sys
 -rw-r--r-- root/root    lib/firmware/slicoss/gbrcvucode.sys
@@ -2888,6 +2959,8 @@ lrwxrwxrwx root/root    lib/firmware/vpu_p.bin -> mediatek/mt8173/vpu_p.bin
 drwxr-xr-x root/root    lib/firmware/vxge/
 -rw-r--r-- root/root    lib/firmware/vxge/X3fw-pxe.ncf
 -rw-r--r-- root/root    lib/firmware/vxge/X3fw.ncf
+drwxr-xr-x root/root    lib/firmware/wfx/
+-rw-r--r-- root/root    lib/firmware/wfx/wfm_wf200_C0.sec
 -rw-r--r-- root/root    lib/firmware/whiteheat.fw
 -rw-r--r-- root/root    lib/firmware/whiteheat_loader.fw
 -rw-r--r-- root/root    lib/firmware/wil6210.brd
