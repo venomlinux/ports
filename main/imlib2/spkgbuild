@@ -2,9 +2,10 @@
 # depends	: libxext libx11 libxcb libtiff libjpeg-turbo libpng freetype2
 
 name=imlib2
-version=1.8.0
-release=1
-source="https://sourceforge.net/projects/enlightenment/files/imlib2-src/$version/imlib2-$version.tar.xz"
+version=1.8.1
+release=2
+source="https://sourceforge.net/projects/enlightenment/files/imlib2-src/$version/imlib2-$version.tar.xz
+	imlib2-config.in"
 
 build() {
 	cd $name-$version
@@ -12,4 +13,14 @@ build() {
   	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
+
+	# temporary workaround for giblib to build
+	# taken from 1.7.4
+	sed \
+		-e 's,@prefix@,/usr,g' \
+		-e 's,@exec_prefix@,/usr,g' \
+		-e 's,@VERSION@,$version,g' \
+		-e 's,@libdir@,/usr/lib,g' \
+		$SRC/imlib2-config.in > $PKG/usr/bin/imlib2-config
+	chmod +x $PKG/usr/bin/imlib2-config
 }
