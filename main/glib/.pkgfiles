@@ -1,4 +1,4 @@
-glib-2.70.4-1
+glib-2.72.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/gapplication
@@ -21,14 +21,11 @@ drwxr-xr-x root/root    usr/include/gio-unix-2.0/
 drwxr-xr-x root/root    usr/include/gio-unix-2.0/gio/
 -rw-r--r-- root/root    usr/include/gio-unix-2.0/gio/gdesktopappinfo.h
 -rw-r--r-- root/root    usr/include/gio-unix-2.0/gio/gfiledescriptorbased.h
--rw-r--r-- root/root    usr/include/gio-unix-2.0/gio/gunixconnection.h
--rw-r--r-- root/root    usr/include/gio-unix-2.0/gio/gunixcredentialsmessage.h
 -rw-r--r-- root/root    usr/include/gio-unix-2.0/gio/gunixfdlist.h
 -rw-r--r-- root/root    usr/include/gio-unix-2.0/gio/gunixfdmessage.h
 -rw-r--r-- root/root    usr/include/gio-unix-2.0/gio/gunixinputstream.h
 -rw-r--r-- root/root    usr/include/gio-unix-2.0/gio/gunixmounts.h
 -rw-r--r-- root/root    usr/include/gio-unix-2.0/gio/gunixoutputstream.h
--rw-r--r-- root/root    usr/include/gio-unix-2.0/gio/gunixsocketaddress.h
 drwxr-xr-x root/root    usr/include/glib-2.0/
 drwxr-xr-x root/root    usr/include/glib-2.0/gio/
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gaction.h
@@ -75,6 +72,8 @@ drwxr-xr-x root/root    usr/include/glib-2.0/gio/
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gdbusproxy.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gdbusserver.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gdbusutils.h
+-rw-r--r-- root/root    usr/include/glib-2.0/gio/gdebugcontroller.h
+-rw-r--r-- root/root    usr/include/glib-2.0/gio/gdebugcontrollerdbus.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gdrive.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gdtlsclientconnection.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gdtlsconnection.h
@@ -177,6 +176,9 @@ drwxr-xr-x root/root    usr/include/glib-2.0/gio/
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gtlsinteraction.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gtlspassword.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gtlsserverconnection.h
+-rw-r--r-- root/root    usr/include/glib-2.0/gio/gunixconnection.h
+-rw-r--r-- root/root    usr/include/glib-2.0/gio/gunixcredentialsmessage.h
+-rw-r--r-- root/root    usr/include/glib-2.0/gio/gunixsocketaddress.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gvfs.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gvolume.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gvolumemonitor.h
@@ -275,6 +277,7 @@ drwxr-xr-x root/root    usr/include/glib-2.0/glib/deprecated/
 -rw-r--r-- root/root    usr/include/glib-2.0/gmodule.h
 drwxr-xr-x root/root    usr/include/glib-2.0/gobject/
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gbinding.h
+-rw-r--r-- root/root    usr/include/glib-2.0/gobject/gbindinggroup.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gboxed.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gclosure.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/genums.h
@@ -287,6 +290,7 @@ drwxr-xr-x root/root    usr/include/glib-2.0/gobject/
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gparam.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gparamspecs.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gsignal.h
+-rw-r--r-- root/root    usr/include/glib-2.0/gobject/gsignalgroup.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gsourceclosure.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gtype.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gtypemodule.h
@@ -300,20 +304,20 @@ drwxr-xr-x root/root    usr/lib/glib-2.0/
 drwxr-xr-x root/root    usr/lib/glib-2.0/include/
 -rw-r--r-- root/root    usr/lib/glib-2.0/include/glibconfig.h
 lrwxrwxrwx root/root    usr/lib/libgio-2.0.so -> libgio-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libgio-2.0.so.0 -> libgio-2.0.so.0.7000.4
--rwxr-xr-x root/root    usr/lib/libgio-2.0.so.0.7000.4
+lrwxrwxrwx root/root    usr/lib/libgio-2.0.so.0 -> libgio-2.0.so.0.7200.0
+-rwxr-xr-x root/root    usr/lib/libgio-2.0.so.0.7200.0
 lrwxrwxrwx root/root    usr/lib/libglib-2.0.so -> libglib-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libglib-2.0.so.0 -> libglib-2.0.so.0.7000.4
--rwxr-xr-x root/root    usr/lib/libglib-2.0.so.0.7000.4
+lrwxrwxrwx root/root    usr/lib/libglib-2.0.so.0 -> libglib-2.0.so.0.7200.0
+-rwxr-xr-x root/root    usr/lib/libglib-2.0.so.0.7200.0
 lrwxrwxrwx root/root    usr/lib/libgmodule-2.0.so -> libgmodule-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libgmodule-2.0.so.0 -> libgmodule-2.0.so.0.7000.4
--rwxr-xr-x root/root    usr/lib/libgmodule-2.0.so.0.7000.4
+lrwxrwxrwx root/root    usr/lib/libgmodule-2.0.so.0 -> libgmodule-2.0.so.0.7200.0
+-rwxr-xr-x root/root    usr/lib/libgmodule-2.0.so.0.7200.0
 lrwxrwxrwx root/root    usr/lib/libgobject-2.0.so -> libgobject-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libgobject-2.0.so.0 -> libgobject-2.0.so.0.7000.4
--rwxr-xr-x root/root    usr/lib/libgobject-2.0.so.0.7000.4
+lrwxrwxrwx root/root    usr/lib/libgobject-2.0.so.0 -> libgobject-2.0.so.0.7200.0
+-rwxr-xr-x root/root    usr/lib/libgobject-2.0.so.0.7200.0
 lrwxrwxrwx root/root    usr/lib/libgthread-2.0.so -> libgthread-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libgthread-2.0.so.0 -> libgthread-2.0.so.0.7000.4
--rwxr-xr-x root/root    usr/lib/libgthread-2.0.so.0.7000.4
+lrwxrwxrwx root/root    usr/lib/libgthread-2.0.so.0 -> libgthread-2.0.so.0.7200.0
+-rwxr-xr-x root/root    usr/lib/libgthread-2.0.so.0.7200.0
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/gio-2.0.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gio-unix-2.0.pc
@@ -339,8 +343,8 @@ drwxr-xr-x root/root    usr/share/gdb/
 drwxr-xr-x root/root    usr/share/gdb/auto-load/
 drwxr-xr-x root/root    usr/share/gdb/auto-load/usr/
 drwxr-xr-x root/root    usr/share/gdb/auto-load/usr/lib/
--rw-r--r-- root/root    usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7000.4-gdb.py
--rw-r--r-- root/root    usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7000.4-gdb.py
+-rw-r--r-- root/root    usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7200.0-gdb.py
+-rw-r--r-- root/root    usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7200.0-gdb.py
 drwxr-xr-x root/root    usr/share/gettext/
 drwxr-xr-x root/root    usr/share/gettext/its/
 -rw-r--r-- root/root    usr/share/gettext/its/gschema.its
@@ -351,6 +355,7 @@ drwxr-xr-x root/root    usr/share/glib-2.0/codegen/
 -rw-r--r-- root/root    usr/share/glib-2.0/codegen/codegen.py
 -rw-r--r-- root/root    usr/share/glib-2.0/codegen/codegen_docbook.py
 -rw-r--r-- root/root    usr/share/glib-2.0/codegen/codegen_main.py
+-rw-r--r-- root/root    usr/share/glib-2.0/codegen/codegen_rst.py
 -rw-r--r-- root/root    usr/share/glib-2.0/codegen/config.py
 -rw-r--r-- root/root    usr/share/glib-2.0/codegen/dbustypes.py
 -rw-r--r-- root/root    usr/share/glib-2.0/codegen/parser.py
