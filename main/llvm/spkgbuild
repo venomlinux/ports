@@ -24,6 +24,9 @@ build() {
       	      -DLLVM_LINK_LLVM_DYLIB=ON             \
 	      -DLLVM_ENABLE_RTTI=ON                 \
 	      -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF" \
+	      -DLLVM_INCLUDE_EXAMPLES=OFF \
+	      -DLLVM_INCLUDE_TESTS=OFF \
+	      -DLLVM_INCLUDE_BENCHMARKS=OFF \
 	      -Wno-dev
 	ninja
 	DESTDIR=$PKG ninja install
