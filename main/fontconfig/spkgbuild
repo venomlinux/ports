@@ -2,9 +2,9 @@
 # depends	: freetype2
 
 name=fontconfig
-version=2.13.1
-release=4
-source="https://www.freedesktop.org/software/fontconfig/release/$name-$version.tar.bz2"
+version=2.14.0
+release=1
+source="https://www.freedesktop.org/software/fontconfig/release/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
@@ -15,7 +15,6 @@ build() {
 	./configure --prefix=/usr        \
 	            --sysconfdir=/etc    \
 	            --localstatedir=/var \
-		    --disable-nls        \
 	            --disable-docs \
 		    --with-default-fonts=/usr/share/fonts
 	make
