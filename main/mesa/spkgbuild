@@ -2,7 +2,7 @@
 # depends	: python3-mako llvm elfutils bison flex libxext libxdamage libxshmfence libxxf86vm libxrandr libdrm libglvnd
 
 name=mesa
-version=21.3.7
+version=22.0.1
 release=1
 source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
 
@@ -25,7 +25,6 @@ build() {
 	      -Dllvm=enabled \
 	      -Dgallium-drivers=r300,r600,svga,swrast,radeonsi,nouveau \
 	      -Dvulkan-drivers=amd,intel \
-	      -Ddri-drivers=i915,i965,nouveau \
 	      ..
 	ninja
 	DESTDIR=$PKG ninja install
