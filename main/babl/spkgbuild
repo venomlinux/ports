@@ -8,6 +8,9 @@ source="https://download.gimp.org/pub/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
+
+	# https://gitlab.gnome.org/GNOME/babl/-/merge_requests/45
+	sed 's/Description/description/' -i meson.build
 	
 	mkdir builddir
 	cd builddir
