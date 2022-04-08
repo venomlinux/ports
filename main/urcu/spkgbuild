@@ -1,0 +1,14 @@
+# description	: LGPLv2.1 userspace RCU (read-copy-update) library
+# homepage	: https://lttng.org/urcu
+
+name=urcu
+version=0.13.1
+release=1
+source="https://lttng.org/files/urcu/userspace-rcu-$version.tar.bz2"
+
+build() {
+	cd userspace-rcu-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
