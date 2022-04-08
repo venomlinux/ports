@@ -1,15 +1,23 @@
 # description	: Display graphical dialog boxes from shell scripts
-# depends	: webkitgtk libnotify itstool gnome-common yelp-tools
+# depends	: webkitgtk libnotify yelp-tools meson
 
 name=zenity
-version=3.32.0
+version=3.42.0
 release=1
 source="https://ftp.gnome.org/pub/gnome/sources/zenity/${version%.*}/zenity-$version.tar.xz"
 
 build() {
 	cd $name-$version
-	NOCONFIGURE=1 ./autogen.sh
-	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-nls
-	make
-	make DESTDIR=$PKG install
+	
+	mkdir build
+        cd    build
+
+        meson \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		-D libnotify=true \
+		-D webkitgtk=true \
+		..
+        ninja
+        DESTDIR=$PKG ninja install
 }
