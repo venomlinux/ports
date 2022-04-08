@@ -3,7 +3,7 @@
 # depends	: zlib-32 libdrm-32 libxshmfence-32
 
 name=mesa-32
-version=21.3.7
+version=22.0.1
 release=1
 source="https://mesa.freedesktop.org/archive/mesa-$version.tar.xz
 	crossfile"
@@ -29,7 +29,6 @@ build() {
 	      -Degl=enabled \
 	      -Dosmesa=true \
 	      -Dgallium-nine=true \
-	      -Ddri-drivers=i915,i965,nouveau \
 	      -Dgallium-drivers=r300,r600,svga,swrast,radeonsi,nouveau \
 	      -Dvulkan-drivers=amd,intel \
 	      -Dglvnd=true \
