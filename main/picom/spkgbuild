@@ -2,11 +2,10 @@
 # depends	: libconfig dbus libev libxdg-basedir uthash xcb-util-renderutil xcb-util-image libxext pixman libglvnd
 
 name=picom
-version=8.2
-release=2
+version=9.1
+release=1
 backup="etc/xdg/picom.conf"
-source="$name-$version.tar.gz::https://github.com/yshui/picom/archive/v$version.tar.gz
-	$name.conf"
+source="$name-$version.tar.gz::https://github.com/yshui/picom/archive/v$version.tar.gz"
 
 build() {
 	cd $name-$version
@@ -17,7 +16,7 @@ build() {
 	ninja -C build
 	DESTDIR=$PKG ninja -C build install
 
-	#install -Dm644 $SRC/picom.conf $PKG/etc/xdg/picom.conf
+	sed 's/vsync = true/vsync = false/' -i picom.sample.conf
 	install -Dm644 picom.sample.conf $PKG/etc/xdg/picom.conf
 	install -Dm644 picom.sample.conf $PKG/etc/xdg/picom.conf.example
 }
