@@ -3,7 +3,7 @@
 
 name=mesa
 version=22.0.1
-release=1
+release=2
 source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
 
 build() {
@@ -12,19 +12,29 @@ build() {
 	mkdir build
 	cd    build
 	
-	meson --prefix=/usr \
-	      --sysconfdir=/etc \
-	      -Dvalgrind=disabled \
-	      -Dglx=dri \
-	      -Ddri3=enabled \
-	      -Degl=enabled \
-	      -Dosmesa=true \
-	      -Dgallium-nine=true \
-	      -Dplatforms=x11 \
-	      -Dglvnd=true \
-	      -Dllvm=enabled \
-	      -Dgallium-drivers=r300,r600,svga,swrast,radeonsi,nouveau \
-	      -Dvulkan-drivers=amd,intel \
+	meson \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--buildtype=plain \
+		--wrap-mode nodownload \
+		-D b_lto=true \
+		-D b_pie=true \
+		-D dri3=enabled \
+		-D egl=enabled \
+		-D llvm=enabled \
+		-D shared-llvm=enabled \
+		-D gbm=enabled \
+		-D gles1=disabled \
+		-D gles2=enabled \
+		-D glx=dri \
+		-D osmesa=true \
+		-D gallium-xa=enabled \
+		-D gallium-drivers=r300,r600,svga,swrast,radeonsi,nouveau,iris,virgl \
+		-D platforms=x11 \
+		-D shared-glapi=enabled \
+		-D vulkan-drivers=amd,intel \
+		-D glvnd=true \
+		-D gallium-vdpau=enabled \
 	      ..
 	ninja
 	DESTDIR=$PKG ninja install
