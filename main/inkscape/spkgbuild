@@ -1,17 +1,18 @@
 # description	: Scalable Vector Graphics editor
-# depends	: gsl boost imagemagick6 gc lcms2 poppler-glib popt libxslt gtkmm3 double-conversion potrace gdl libsoup
+# depends	: gsl boost gc lcms2 poppler-glib popt libxslt gtkmm3 double-conversion potrace gdl libsoup
 
 name=inkscape
 version=1.1.2
 release=1
 source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz
-	poppler-22.03.0.patch"
+	poppler-22.04.0.patch poppler-22.03.0.patch"
 
 build() {
-ls
 	cd $name-${version}_*
 
+	# fix the build with latest poppler
 	patch -Np1 -i ../poppler-22.03.0.patch
+	patch -Np1 -i ../poppler-22.04.0.patch
 
 	mkdir build
 	cd    build
@@ -19,8 +20,8 @@ ls
 	cmake -DCMAKE_INSTALL_PREFIX=/usr \
 	      -DCMAKE_BUILD_TYPE=Release  \
 	      -DPOPPLER_INCLUDE_DIR=/usr/include/poppler \
+	      -DWITH_INTERNAL_2GEOM=ON \
 	      ..
 	make
 	make DESTDIR=$PKG install
-
 }

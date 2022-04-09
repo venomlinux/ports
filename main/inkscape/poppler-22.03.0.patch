@@ -6,7 +6,7 @@ index e6204f650c..b2424e996e 100644
  
      // poppler does not use glib g_open. So on win32 we must use unicode call. code was copied from
      // glib gstdio.c
-+#if POPPLER_CHECK_VERSION(22, 3, 0)
++#if POPPLER_CHECK_VERSION(22, 4, 0)
 +    pdf_doc = std::make_shared<PDFDoc>(std::make_unique<GooString>(uri));   // TODO: Could ask for password
 +#else
      GooString *filename_goo = new GooString(uri);
