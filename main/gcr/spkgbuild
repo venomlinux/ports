@@ -4,20 +4,14 @@
 name=gcr
 version=3.38.1
 release=1
-source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
+source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz
+	fix-meson-invalid-kw-argument.patch"
 
 build() {
 	cd $name-$version
-
+	patch -Np1 -i ../fix-meson-invalid-kw-argument.patch
 	sed -i -r 's:"(/desktop):"/org/gnome\1:' schema/*.xml
-
-	mkdir build-glib
-        cd    build-glib
-
-        meson --prefix=/usr \
-              --libexecdir=lib \
-	      -Dgtk_doc=false
-	ninja
-	DESTDIR=$PKG ninja install
-
+	venom-meson -Dgtk_doc=false build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }
