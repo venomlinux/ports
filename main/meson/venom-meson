@@ -1,0 +1,11 @@
+#!/bin/sh -ex
+
+exec meson setup \
+  --prefix        /usr \
+  --sysconfdir    /etc \
+  --libexecdir    lib \
+  --buildtype     plain \
+  --wrap-mode     nodownload \
+  -D              b_lto=true \
+  -D              b_pie=true \
+  "$@"

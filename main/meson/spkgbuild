@@ -3,11 +3,15 @@
 
 name=meson
 version=0.62.0
-release=1
-source="https://github.com/mesonbuild/meson/releases/download/$version/$name-$version.tar.gz"
+release=2
+source="https://github.com/mesonbuild/meson/releases/download/$version/$name-$version.tar.gz
+	venom-meson"
 
 build() {
 	cd $name-$version
 	python3 setup.py build
 	python3 setup.py install --root=$PKG
+
+	# meson build wrapper
+	install -Dm755 ../venom-meson $PKG/usr/bin
 }
