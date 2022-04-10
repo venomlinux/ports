@@ -10,10 +10,14 @@ source="https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.
 build() {
 	cd $name-$version
 
-    patch -p1 < $SRC/polkit-duktape-js-backend.patch
-    
-    autoreconf -v
+	# faking gtkdocize avoid gtk-doc
+	mkdir bin
+	ln -s /bin/true bin/gtkdocize
+	export PATH=$PWD/bin:$PATH
 
+	patch -p1 < $SRC/polkit-duktape-js-backend.patch
+    
+	autoreconf -vfi
 	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
 	            --localstatedir=/var \
