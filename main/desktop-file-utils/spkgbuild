@@ -8,11 +8,7 @@ source="https://freedesktop.org/software/$name/releases/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
-	mkdir build-glib
-        cd    build-glib
-
-        meson --prefix=/usr ..
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

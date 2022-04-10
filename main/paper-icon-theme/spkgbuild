@@ -4,12 +4,11 @@
 name=paper-icon-theme
 version=1.5.0
 release=1
-options="!strip"
 source="$name-$version.tar.gz::https://github.com/snwh/$name/archive/v.$version.tar.gz"
 
 build() {
 	cd $name-v.$version
-
-	meson "build" --prefix=/usr
-	DESTDIR=$PKG ninja -C "build" install
+	venom-meson build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

@@ -8,11 +8,7 @@ source="https://ftp.gnome.org/pub/gnome/sources/libwnck/${version%.*}/libwnck-$v
 
 build() {
 	cd libwnck-$version
-	mkdir build
-	cd    build
-	
-	meson --prefix=/usr -Dbuildtype=release -Dgtk_doc=false ..
-	ninja
-	DESTDIR=$PKG ninja install
-
+	venom-meson -Dgtk_doc=false build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

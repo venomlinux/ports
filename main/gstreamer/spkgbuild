@@ -8,15 +8,10 @@ source="http://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
-	mkdir build
-        cd build
-
-        meson \
-		--prefix=/usr \
-		--libexecdir=lib \
-		-Dgst_debug=false \
-		-Dpackage-name="GStreamer $version (Venom Linux)"
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson \
+	-Dgst_debug=false \
+	-Dpackage-name="GStreamer $version (Venom Linux)" \
+	build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

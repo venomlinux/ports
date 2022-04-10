@@ -9,14 +9,10 @@ source="https://github.com/benhoyt/inih/archive/r$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-r$version
-
-	mkdir build
-	cd build
-
-	meson \
-		--prefix=/usr \
-		-Dwith_INIReader=true \
-		-Ddistro_install=true
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson \
+	-Dwith_INIReader=true \
+	-Ddistro_install=true \
+	build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

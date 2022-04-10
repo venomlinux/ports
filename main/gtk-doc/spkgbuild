@@ -9,13 +9,12 @@ KEEP_DOC="yes"
 
 build() {
 	cd $name-$version
-	
-	mkdir build
-	cd build
-
-	meson --prefix=/usr -Dtests=false -Dautotools_support=true -Dcmake_support=true
-	ninja
-        DESTDIR=$PKG ninja install
-
+	venom-meson \
+	-Dtests=false \
+	-Dautotools_support=true \
+	-Dcmake_support=true \
+	build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 	rm -r $PKG/usr/share/help
 }

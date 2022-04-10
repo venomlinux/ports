@@ -8,11 +8,7 @@ source="https://gitlab.freedesktop.org/vdpau/libvdpau/-/archive/$version/libvdpa
 
 build() {
 	cd $name-$version
-
-  	mkdir build
-	cd build
-
-	meson --prefix=/usr
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

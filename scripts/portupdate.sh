@@ -57,8 +57,8 @@ sudo $SCRIPTDIR/build.sh \
 		echo -n "Error occurs. Do you want to revert changes? Y/n "
 		if [ "$NOPROMPT" = 1 ]; then
 			echo
-			echo "Prompt skipped, continue in 5 second..."
-			sleep 5
+			echo "Prompt skipped, continue in 3 second..."
+			sleep 3
 			input=y
 		else					
 			read -n1 input

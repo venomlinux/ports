@@ -8,8 +8,8 @@ backup="etc/i3status.conf"
 source="https://i3wm.org/i3status/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version/meson
-	meson --prefix=/usr --buildtype=plain -Dmans=true .. build
+	cd $name-$version
+	venom-meson -Dmans=true build
 	meson compile -C build
-	meson install -C build --destdir "$PKG"
+	DESTDIR=$PKG meson install -C build
 }

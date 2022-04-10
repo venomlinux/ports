@@ -9,11 +9,7 @@ source="https://download.gnome.org/sources/gtksourceview/${version%.*}/gtksource
 
 build() {
 	cd gtksourceview-$version
-
-	mkdir build
-	cd build
-
-	meson --prefix=/usr --buildtype=release ..
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

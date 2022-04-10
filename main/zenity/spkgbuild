@@ -8,16 +8,10 @@ source="https://ftp.gnome.org/pub/gnome/sources/zenity/${version%.*}/zenity-$ver
 
 build() {
 	cd $name-$version
-	
-	mkdir build
-        cd    build
-
-        meson \
-		--prefix=/usr \
-		--sysconfdir=/etc \
-		-D libnotify=true \
-		-D webkitgtk=true \
-		..
-        ninja
-        DESTDIR=$PKG ninja install
+	venom-meson \
+	-Dlibnotify=true \
+	-Dwebkitgtk=true \
+	build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

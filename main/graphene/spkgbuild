@@ -8,11 +8,7 @@ source="https://github.com/ebassi/graphene/archive/$version/$name-$version.tar.g
 
 build() {
 	cd $name-$version
-
-	mkdir build
-	cd build
-
-	meson --prefix=/usr --libexecdir=lib -Dinstalled_tests=false
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson -Dinstalled_tests=false build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

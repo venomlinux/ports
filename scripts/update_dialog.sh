@@ -29,6 +29,11 @@ notifyerr() {
 	}
 }
 
+if [ ! -f $SCRIPTDIR/.outdate.sh.list ]; then
+	echo "'.outdate.sh.list' not exist, please run outdate.sh first."
+	exit 1
+fi
+
 total=0
 for i in $(cat $SCRIPTDIR/.outdate.sh.list | tr ' ' '?'); do
 	pkg=$(echo $i | cut -d '?' -f1)
@@ -59,11 +64,19 @@ for pkg in $(cat $outfile); do
 	NOPROMPT=1 $SCRIPTDIR/portupdate.sh $pkg $ver
 	if [ $? != 0 ]; then
 		echo $pkg >> $updatefail
+		f="$f $pkg"
 		notifyerr "error build: $pkg $ver"
 	else
 		echo $pkg >> $updateok
 		notify "build ok: $pkg $ver"
 	fi
 done
+
+if [ "$f" ]; then
+	echo "build failed:"
+	for i in $f; do
+		echo " $i"
+	done
+fi
 
 exit

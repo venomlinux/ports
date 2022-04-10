@@ -8,18 +8,12 @@ source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$versi
 
 build() {
 	cd $name-$version
-
-	mkdir build
-	cd build
-	
-	meson --prefix=/usr \
-	      --libdir=/usr/lib \
-	      -Dgssapi=disabled \
-	      -Dvapi=enabled \
-	      -Dbrotli=disabled \
-	      -Dsysprof=disabled \
-	..
-	ninja
-	DESTDIR=$PKG ninja install
-
+	venom-meson \
+	-Dgssapi=disabled \
+	-Dvapi=enabled \
+	-Dbrotli=disabled \
+	-Dsysprof=disabled \
+	build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

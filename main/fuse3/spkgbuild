@@ -8,14 +8,9 @@ source="https://github.com/libfuse/libfuse/releases/download/fuse-$version/fuse-
 
 build() {
 	cd fuse-$version
-
-	mkdir build
-	cd    build
-	
-	meson --prefix=/usr ..
-	ninja
-	DESTDIR=$PKG ninja install
-
+	venom-meson build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 	rm -r $PKG/dev $PKG/etc/fuse.conf
 	rm -fr $PKG/etc/init.d
 }

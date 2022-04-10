@@ -248,10 +248,6 @@ commit_port() {
 }
 
 port_push() {
-	#if git status | grep "Your branch is up to date"; then
-	#	return 0
-	#fi
-	
 	if git diff --name-only ${PORTREPO[@]} | grep -v REPO; then
 		echo
 		echo "Please commit above changes first."
@@ -262,12 +258,8 @@ port_push() {
 	$SCRIPTDIR/genportscsv.sh
 	
 	git add $SCRIPTDIR/ports.csv
+	git commit -m "ports csv updated"
 	
-	for r in ${PORTREPO[@]}; do
-		git add $r
-	done
-	
-	git commit -m "REPO updated"
 	git push
 }
 

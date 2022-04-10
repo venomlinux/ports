@@ -9,13 +9,7 @@ source="https://github.com/hughsie/appstream-glib/archive/appstream_glib_${_vers
 
 build() {
 	cd appstream-glib-appstream_glib_${_version}
-
-	meson \
-	  --prefix=/usr \
-	  --sysconfdir=/etc \
-	  -Drpm=false \
-	build
-	ninja -C build
-	DESTDIR=$PKG ninja -C build install
-
+	venom-meson -Drpm=false build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

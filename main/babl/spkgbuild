@@ -12,10 +12,7 @@ build() {
 	# https://gitlab.gnome.org/GNOME/babl/-/merge_requests/45
 	sed 's/Description/description/' -i meson.build
 	
-	mkdir builddir
-	cd builddir
-
-	meson --prefix=/usr
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

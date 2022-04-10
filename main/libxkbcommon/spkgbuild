@@ -8,14 +8,10 @@ source="https://xkbcommon.org/download/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
-	mkdir build
-	cd build
-
-	meson --prefix=/usr \
-	      --libexecdir=lib \
-	      -Denable-wayland=false \
-	      -Denable-docs=false
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson \
+	-Denable-wayland=false \
+	-Denable-docs=false \
+	build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

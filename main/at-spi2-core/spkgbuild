@@ -9,12 +9,9 @@ source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$versi
 build() {
 	cd $name-$version
 
-	mkdir build
-	cd    build
-
-	meson --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --libexecdir=/usr/lib/$name ..
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson --libexecdir=/usr/lib/$name build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 
 	# remove junk files
 	rm -fr $PKG/usr/lib/systemd/

@@ -8,11 +8,7 @@ source="http://wayland.freedesktop.org/releases/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-	   
-	mkdir builddir
-        cd builddir
-
-        meson --prefix=/usr -Dtests=false -Ddocumentation=false
-        ninja
-        DESTDIR=$PKG ninja install
+	venom-meson -Dtests=false -Ddocumentation=false build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

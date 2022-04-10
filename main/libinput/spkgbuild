@@ -8,17 +8,13 @@ source="https://www.freedesktop.org/software/libinput/libinput-$version.tar.xz"
 
 build() {
 	cd libinput-$version
-
-	mkdir build
-	cd build
-
-  	meson --prefix /usr \
-	      --libexecdir=/usr/lib \
-	      -Dudev-dir=/lib/udev \
-	      -Ddebug-gui=false \
-	      -Dtests=false \
-	      -Ddocumentation=false \
-	      -Dlibwacom=false
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson \
+	-Dudev-dir=/lib/udev \
+	-Ddebug-gui=false \
+	-Dtests=false \
+	-Ddocumentation=false \
+	-Dlibwacom=false \
+	build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

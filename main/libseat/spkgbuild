@@ -9,11 +9,7 @@ source="$name-$version.tar.gz::https://git.sr.ht/~kennylevinsen/seatd/archive/$v
 
 build() {
 	cd seatd-$version
-	
-	mkdir build
-	cd build
-
-	meson --prefix=/usr -Dbuiltin=enabled
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson -Dbuiltin=enabled build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

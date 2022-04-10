@@ -8,12 +8,7 @@ source="https://github.com/hellosiyan/Viewnior/archive/$name-$version.tar.gz"
 
 build() {
 	cd Viewnior-$name-$version
-	
-	mkdir build
-	cd    build
-
-	meson --prefix=/usr
-	ninja
-	DESTDIR=$PKG ninja install
-
+	venom-meson build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

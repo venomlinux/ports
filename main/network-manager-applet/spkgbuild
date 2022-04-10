@@ -8,15 +8,7 @@ source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$versi
 
 build() {
 	cd $name-$version
-
-	mkdir build
-	cd build
-	
-	meson --prefix=/usr \
-	      --sysconfdir=/etc \
-	      -Dselinux=false \
-	      -Dteam=false
-	ninja
-	DESTDIR=$PKG ninja install
-
+	venom-meson -Dselinux=false -Dteam=false build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

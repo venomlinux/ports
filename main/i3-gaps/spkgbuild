@@ -9,12 +9,7 @@ source="$name-$version.tar.gz::https://github.com/Airblader/i3/archive/$version.
 
 build() {
 	cd i3-$version
-
-	mkdir build
-	cd build
-
-	meson --prefix=/usr
-	ninja
-	DESTDIR=$PKG ninja install
-
+	venom-meson build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

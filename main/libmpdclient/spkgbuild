@@ -8,12 +8,8 @@ source="https://www.musicpd.org/download/$name/${version%.*}/$name-$version.tar.
 
 build() {
 	cd $name-$version
-	
-	mkdir builddir
-	cd builddir
-
-	meson --prefix=/usr
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 
 }

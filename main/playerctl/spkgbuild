@@ -8,13 +8,7 @@ source="https://github.com/acrisci/playerctl/archive/v$version/$name-$version.ta
 
 build() {
 	cd $name-$version
-
-	mkdir build
-	cd build
-
-	meson --prefix=/usr \
-	      -Dgtk-doc=false \
-	..
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson -Dgtk-doc=false build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

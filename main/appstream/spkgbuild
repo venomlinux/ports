@@ -8,12 +8,7 @@ source="https://www.freedesktop.org/software/appstream/releases/AppStream-$versi
 
 build() {
 	cd AppStream-$version
-
-	mkdir builddir
-        cd builddir
-
-        meson --prefix=/usr -Dapidocs=false -Dinstall-docs=false
-        ninja
-        DESTDIR=$PKG ninja install
-
+	venom-meson -Dapidocs=false -Dinstall-docs=false build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

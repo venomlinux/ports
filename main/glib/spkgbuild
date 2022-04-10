@@ -8,16 +8,10 @@ source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$versi
 
 build() {
 	cd $name-$version
-
-	mkdir build-glib
-	cd    build-glib
-	
-	meson --prefix=/usr \
-	      --libexecdir=lib \
-	      -Dgtk_doc=false \
-	      -Dselinux=disabled \
-	      ..
-	ninja
-	DESTDIR=$PKG ninja install
-
+	venom-meson \
+	-Dgtk_doc=false \
+	-Dselinux=disabled \
+	build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

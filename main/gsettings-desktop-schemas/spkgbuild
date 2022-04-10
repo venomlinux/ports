@@ -8,14 +8,8 @@ source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$versi
 
 build() {
 	cd $name-$version
-
 	sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in
-
-	mkdir build
-	cd build
-
-	meson --prefix=/usr ..
-	ninja
-	DESTDIR=$PKG ninja install
-
+	venom-meson build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

@@ -339,11 +339,13 @@ Options:
   -outputiso=<*.iso>    use custom name for iso (default: $OUTPUTISO)
   -jobs=<N>             define total cpu want to use (default: $JOBS)
   -pkg=<pkg1,pkg2,...>  define packages to install into rootfs (comma separated)
+  -pkg=<pkg>            define packages to rebuild (will defined to -pkg= automatically)
   -rootfs               create updated rootfs tarball
   -rebase               remove all installed packages in rootfs except 'base'
   -chroot               enter chroot into rootfs
   -sysup                full upgrade rootfs
   -revdep               fix any broken packages in rootfs
+  -skiprevdep           skip running revdep automatically after zap
   -zap                  remove and re-extract rootfs
   -iso                  make iso from rootfs
   -fetch                fetch latest rootfs tarball
@@ -374,6 +376,7 @@ parse_opts() {
 			-pkgdir=*) PKGDIR=${1#*=};;
 			-srcdir=*) SRCDIR=${1#*=};;
 			   -pkg=*) PKG=${1#*=};;
+		   -rebuild=*) REBUILDPKG=${1#*=}; PKG=${1#*=};;
 		 -outputiso=*) OUTPUTISO=${1#*=};;
 			  -jobs=*) JOBS=${1#*=};;
 			  -rootfs) RFS=1;;
@@ -448,9 +451,15 @@ main() {
 		chrootrun scratch install -y $(echo $PKG | tr ',' ' ') || die
 	}
 	
+	[ "$REBUILDPKG" ] && {
+		chrootrun revdep -r -y || die
+		chrootrun scratch build -f $REBUILDPKG || die
+		chrootrun scratch install -r $REBUILDPKG || die
+	}
+	
 	[ "$CHROOT" ] && {
 		msg "Entering chroot..."
-		chrootrun /bin/sh || die
+		chrootrun /bin/bash || die
 	}
 	
 	[ "$ISO" ] && {

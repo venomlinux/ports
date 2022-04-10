@@ -134,7 +134,7 @@ alter_per_url() {
 		*archive.xfce.org*)
 			url=http://archive.xfce.org/src/$(echo $url | cut -d / -f5)/$name/;;
 		*pub.mate-desktop.org*)
-			url=https://pub.mate-desktop.org/releases/1.24/;;
+			url=https://pub.mate-desktop.org/releases/1.26/;;
 	esac
 }
 

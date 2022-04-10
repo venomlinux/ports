@@ -9,11 +9,7 @@ source="https://xorg.freedesktop.org/releases/individual/lib/$name-$version.tar.
 
 build() {
 	cd $name-$version
-
-        mkdir build
-        cd    build
-
-        meson --prefix=/usr --sysconfdir=/etc ..
-        ninja
-        DESTDIR=$PKG ninja install
+	venom-meson build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

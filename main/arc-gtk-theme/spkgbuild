@@ -9,14 +9,8 @@ source="https://github.com/jnsh/$_name/archive/$version/$name-$version.tar.gz"
 
 build() {
 	cd $_name-$version
-
-	mkdir build
-	cd build
-
-	meson --prefix=/usr \
-	-Dthemes=gtk2,gtk3,metacity,plank,unity,xfwm \
-	..
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson -Dthemes=gtk2,gtk3,metacity,xfwm build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }
 
