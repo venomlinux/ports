@@ -3,7 +3,7 @@
 
 name=xf86-video-intel
 version=20210222
-release=1
+release=2
 source="http://anduin.linuxfromscratch.org/BLFS/xf86-video-intel/xf86-video-intel-$version.tar.xz"
 
 build() {
@@ -16,7 +16,8 @@ build() {
 		--localstatedir=/var \
 		--disable-static \
 		--enable-kms-only \
-		--enable-uxa
+		--enable-uxa \
+		--with-default-dri=3
 	make
 	make DESTDIR=$PKG install
 
