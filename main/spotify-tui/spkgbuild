@@ -1,0 +1,15 @@
+# description	: Spotify client for the terminal written in Rust
+# depends	: rust, openssl, libxcb
+
+name=spotify-tui
+version=0.25.0
+release=1
+source="https://github.com/Rigellute/${name}/archive/v${version}.tar.gz"
+
+build() {
+	cd $name-$version
+	cargo build --release --target-dir "target/"
+	install -D target/release/spt -t $PKG/usr/bin
+  	install -Dm 644 README.md -t $PKG/usr/share/doc/${name}
+  	install -Dm 644 LICENSE -t $PKG/usr/share/licenses/${name}
+}
