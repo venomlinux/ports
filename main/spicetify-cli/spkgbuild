@@ -1,0 +1,23 @@
+# description	: Command-line tool to customize Spotify client
+# depends	: git go
+
+name=spicetify-cli
+version=2.9.5
+release=1
+source="https://github.com/spicetify/spicetify-cli/archive/v${version}.tar.gz"
+
+build() {
+	cd $name-$version
+	export GOPATH=$SRC
+	go build -o spicetify
+	install -Dm755 ./spicetify $PKG/usr/share/${name}/spicetify
+  	cp -r ./Themes ./Extensions ./CustomApps ./jsHelper ./globals.d.ts ./css-map.json $PKG/usr/share/${name}
+
+	rm -f ./shortcut
+   	echo "#!/bin/sh
+	/usr/share/${name}/spicetify \"\$@\"" >> ./shortcut
+
+  	install -Dm755 ./shortcut $PKG/usr/bin/spicetify
+
+ 	go clean -modcache
+}
