@@ -1,8 +1,8 @@
 # description	: Provides a standard for creating app stores across distributions
-# depends	: lmdb meson glib libsoup yaml gobject-introspection stemmer libxslt itstool
+# depends	: lmdb meson glib libsoup yaml gobject-introspection stemmer libxslt itstool libxmlb
 
 name=appstream
-version=0.15.2
+version=0.15.3
 release=1
 source="https://www.freedesktop.org/software/appstream/releases/AppStream-$version.tar.xz"
 
@@ -11,4 +11,5 @@ build() {
 	venom-meson -Dapidocs=false -Dinstall-docs=false build
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
+	rm -rf $PKG/usr/share/installed-tests/
 }
