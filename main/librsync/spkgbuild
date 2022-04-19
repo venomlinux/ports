@@ -1,0 +1,23 @@
+# description	: Library for calculating and applying network deltas
+# homepage	: http://librsync.sourcefrog.net
+# depends	: popt cmake
+
+name=librsync
+version=2.3.2
+release=1
+source="https://github.com/$name/$name/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	mkdir build
+	cd build
+
+	cmake \
+	    -DCMAKE_BUILD_TYPE=Release \
+	    -DCMAKE_INSTALL_PREFIX=/usr \
+	    -DCMAKE_INSTALL_LIBDIR=lib \
+	    ..
+	make
+	make DESTDIR=$PKG install
+}
