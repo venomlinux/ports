@@ -1,4 +1,4 @@
-openssl-1.1.1l-1
+openssl-1.1.1n-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/ssl/
 drwxr-xr-x root/root    etc/ssl/certs/
@@ -666,6 +666,7 @@ lrwxrwxrwx root/root    usr/share/man/man3/BN_mod_mul.3ssl.gz -> BN_add.3ssl.gz
 -rw-r--r-- root/root    usr/share/man/man3/BN_mod_mul_montgomery.3ssl.gz
 -rw-r--r-- root/root    usr/share/man/man3/BN_mod_mul_reciprocal.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/BN_mod_sqr.3ssl.gz -> BN_add.3ssl.gz
+lrwxrwxrwx root/root    usr/share/man/man3/BN_mod_sqrt.3ssl.gz -> BN_add.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/BN_mod_sub.3ssl.gz -> BN_add.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/BN_mod_word.3ssl.gz -> BN_add_word.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/BN_mpi2bn.3ssl.gz -> BN_bn2bin.3ssl.gz
@@ -3486,6 +3487,7 @@ lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_init.3ssl.gz -> X509_S
 lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_lookup_certs_fn.3ssl.gz -> X509_STORE_set_verify_cb_func.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_lookup_crls_fn.3ssl.gz -> X509_STORE_set_verify_cb_func.3ssl.gz
 -rw-r--r-- root/root    usr/share/man/man3/X509_STORE_CTX_new.3ssl.gz
+lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_purpose_inherit.3ssl.gz -> X509_STORE_CTX_new.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_set0_crls.3ssl.gz -> X509_STORE_CTX_new.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_set0_param.3ssl.gz -> X509_STORE_CTX_new.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_set0_trusted_stack.3ssl.gz -> X509_STORE_CTX_new.3ssl.gz
@@ -3497,6 +3499,8 @@ lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_set_default.3ssl.gz ->
 lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_set_error.3ssl.gz -> X509_STORE_CTX_get_error.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_set_error_depth.3ssl.gz -> X509_STORE_CTX_get_error.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_set_ex_data.3ssl.gz -> BIO_get_ex_new_index.3ssl.gz
+lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_set_purpose.3ssl.gz -> X509_STORE_CTX_new.3ssl.gz
+lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_set_trust.3ssl.gz -> X509_STORE_CTX_new.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_set_verify.3ssl.gz -> X509_STORE_CTX_new.3ssl.gz
 -rw-r--r-- root/root    usr/share/man/man3/X509_STORE_CTX_set_verify_cb.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/X509_STORE_CTX_verify_cb.3ssl.gz -> X509_STORE_CTX_set_verify_cb.3ssl.gz
@@ -3851,6 +3855,8 @@ lrwxrwxrwx root/root    usr/share/man/man3/d2i_X509_REQ_fp.3ssl.gz -> d2i_X509.3
 lrwxrwxrwx root/root    usr/share/man/man3/d2i_X509_REVOKED.3ssl.gz -> d2i_X509.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/d2i_X509_SIG.3ssl.gz -> d2i_X509.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/d2i_X509_VAL.3ssl.gz -> d2i_X509.3ssl.gz
+lrwxrwxrwx root/root    usr/share/man/man3/d2i_X509_bio.3ssl.gz -> d2i_X509.3ssl.gz
+lrwxrwxrwx root/root    usr/share/man/man3/d2i_X509_fp.3ssl.gz -> d2i_X509.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/i2d_ACCESS_DESCRIPTION.3ssl.gz -> d2i_X509.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/i2d_ADMISSIONS.3ssl.gz -> d2i_X509.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/i2d_ADMISSION_SYNTAX.3ssl.gz -> d2i_X509.3ssl.gz
@@ -4045,6 +4051,8 @@ lrwxrwxrwx root/root    usr/share/man/man3/i2d_X509_REQ_fp.3ssl.gz -> d2i_X509.3
 lrwxrwxrwx root/root    usr/share/man/man3/i2d_X509_REVOKED.3ssl.gz -> d2i_X509.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/i2d_X509_SIG.3ssl.gz -> d2i_X509.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/i2d_X509_VAL.3ssl.gz -> d2i_X509.3ssl.gz
+lrwxrwxrwx root/root    usr/share/man/man3/i2d_X509_bio.3ssl.gz -> d2i_X509.3ssl.gz
+lrwxrwxrwx root/root    usr/share/man/man3/i2d_X509_fp.3ssl.gz -> d2i_X509.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/i2d_re_X509_CRL_tbs.3ssl.gz -> i2d_re_X509_tbs.3ssl.gz
 lrwxrwxrwx root/root    usr/share/man/man3/i2d_re_X509_REQ_tbs.3ssl.gz -> i2d_re_X509_tbs.3ssl.gz
 -rw-r--r-- root/root    usr/share/man/man3/i2d_re_X509_tbs.3ssl.gz
