@@ -1,4 +1,4 @@
-pipewire-0.3.49-1
+pipewire-0.3.50-1
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/udev/
 drwxr-xr-x root/root    lib/udev/rules.d/
@@ -184,6 +184,7 @@ drwxr-xr-x root/root    usr/include/spa-0.2/spa/utils/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/ansi.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/defs.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/dict.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/dll.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/hook.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/json-pod.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/json.h
@@ -202,19 +203,19 @@ drwxr-xr-x root/root    usr/lib/alsa-lib/
 drwxr-xr-x root/root    usr/lib/gstreamer-1.0/
 -rwxr-xr-x root/root    usr/lib/gstreamer-1.0/libgstpipewire.so
 lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so -> libpipewire-0.3.so.0
-lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.349.0
--rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.349.0
+lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.350.0
+-rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.350.0
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so -> libjack.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.349.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.349.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.350.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.350.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so -> libjacknet.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.349.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.349.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.350.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.350.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so -> libjackserver.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.349.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.349.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.350.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.350.0
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-access.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-adapter.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-client-device.so
@@ -360,6 +361,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/pw-cli.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/pw-dot.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/pw-jack.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/pw-link.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/pw-metadata.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/pw-mididump.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/pw-mon.1.gz
