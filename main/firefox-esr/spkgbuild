@@ -2,7 +2,7 @@
 # depends	: gtk3 gtk2 libxt dbus-glib alsa-lib libvpx libevent nss sqlite icu unzip zip diffutils gconf python2 yasm mesa inetutils autoconf2.13 rust cbindgen nodejs nasm which clang libxcomposite
 
 name=firefox-esr
-version=78.11.0
+version=91.8.0
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/firefox-${version}esr.source.tar.xz
         firefox.desktop
@@ -11,7 +11,7 @@ source="https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/fi
 build() {
 	cd firefox-$version
 
-	patch -Np1 -i ../fix-packed_simd-error.patch
+	#patch -Np1 -i ../fix-packed_simd-error.patch
 
 cat <<- EOF > .mozconfig
 	ac_add_options --prefix=/usr
@@ -55,6 +55,7 @@ EOF
 	export MOZBUILD_STATE_PATH=$PWD/mozbuild
 	export CARGO_HOME=$PWD/cargo
 	export MOZ_MAKE_FLAGS="$MAKEFLAGS"
+	export MACH_USE_SYSTEM_PYTHON=1
 
 	SHELL=/bin/sh ./mach build
 	SHELL=/bin/sh DESTDIR=$PKG ./mach install
