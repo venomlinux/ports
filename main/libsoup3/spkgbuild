@@ -1,0 +1,18 @@
+# description	: HTTP client/server library for GNOME
+# homepage	: https://wiki.gnome.org/Projects/libsoup
+# depends	: gobject-introspection vala libnghttp2 libpsl glib-networking
+
+name=libsoup3
+version=3.0.6
+release=1
+source="https://download.gnome.org/sources/libsoup/${version%.*}/libsoup-$version.tar.xz"
+
+build() {
+	cd libsoup-$version
+        venom-meson \
+	-Dhttp2_tests=disabled \
+	-Dautobahn=disabled \
+        build
+        meson compile -C build
+        DESTDIR=$PKG meson install -C build
+}
