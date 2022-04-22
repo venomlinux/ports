@@ -1,5 +1,5 @@
 # description: kodi
-# depends: fmt rapidjson jre tinyxml openssl bzip2 gnutls python libtiff libjpeg-turbo libgcrypt libvorbis libogg libmpeg2 libass libxml2 libxslt fribidi sqlite3 libpng libpcre freetype taglib libcdio libbluray jasper dbus libmicrohttpd swig mesa3d glew glu libnfs ffmpeg dcadec crossguid flatbuffers fstrcmp spdlog gtest
+# depends: openjdk-17-bin tinyxml2 openssl bzip2 gnutls python3 libtiff libjpeg-turbo libgcrypt libvorbis libogg libmpeg pcre libass libxml2 libxslt fribidi sqlite libpng freetype2 taglib libcdio jasper dbus libmicrohttpd swig glew glu libnfs ffmpeg fstrcmp
 
 name=kodi
 version=19.4
@@ -7,27 +7,12 @@ release=7
 source="https://github.com/xbmc/xbmc/archive/$version-Matrix.tar.gz"
 
 build(){
+	
 	cd xbmc-$version-*/
 
-	# catch pre-install skip error early
-	#install -d -o kodi -g kodi -m 755 $PKG/var/lib/kodi
-
-	#[ -r /usr/lib/pkgconfig/libpulse.pc ] && KODI_OPT+=' -DENABLE_PULSEAUDIO=On'
-	#[ -r /usr/include/bluetooth/bluetooth.h ] && KODI_EXTRA+=' -DENABLE_BLUETOOTH=On'
-
-	# Acceleration APIs
-	#[ -r /usr/lib/pkgconfig/libva.pc ] && KODI_EXTRA+=' -DENABLE_VAAPI=On'
-	#[ -r /usr/lib/pkgconfig/vdpau.pc ] && KODI_EXTRA+=' -DENABLE_VDPAU=On'
-
-	# Zeroconf support
-	#[ -r /usr/lib/pkgconfig/avahi-client.pc ] && KODI_EXTRA+=' -DENABLE_AVAHI=On'
-
-	# Support storing data in MySQL besides Sqlite3
-	#[ -x /usr/bin/mysql_config ] && KODI_EXTRA+=' -DENABLE_MYSQLCLIENT=On'
 
 	mkdir $SRC/build; cd $SRC/build
 
-	# KODI_DEPENDSBUILD builds tests for dependencies, fails for python INTL, why?
 	cmake -Wno-dev $SRC/xbmc-$version-*/ \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
@@ -62,6 +47,4 @@ build(){
 	make
 	make DESTDIR=$PKG install
 
-	#install -D $SRC/kodi.rc -m 755 $PKG/etc/rc.d/kodi
-	#rm -rf $PKG/usr/share/doc
 }
