@@ -1,33 +1,31 @@
-# description	: QtWebEngine integrates chromium's web capabilities into Qt
-# depends	: qt5 nss python2 libwebp libxslt opus ninja ffmpeg alsa-lib libxcomposite libxtst libxcursor nodejs
+# description   : QtWebEngine integrates chromium's web capabilities into Qt
+# depends       : qt5 nss python2 libwebp libxslt opus ninja ffmpeg alsa-lib libxcomposite libxtst libxcursor nodejs
 
 name=qtwebengine
-version=5.15.6
+version=5.15.8
 release=1
 source="https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-$version.tar.xz
-	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-5.15.7-1.patch
-	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-5.15.7-build_fixes-1.patch"
+        https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-build_fixes-1.patch"
 
 build() {
-	cd $name-$version
+        cd $name-$version
 
-	patch -Np1 -i ../qtwebengine-$version-5.15.7-1.patch
-	patch -Np1 -i ../qtwebengine-5.15.7-build_fixes-1.patch
+        patch -Np1 -i ../qtwebengine-$version-build_fixes-1.patch
 
-	mkdir -pv .git src/3rdparty/chromium/.git
+        mkdir -pv .git src/3rdparty/chromium/.git
 
-	find -type f -name "*.pr[io]" |
-	  xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
+        find -type f -name "*.pr[io]" |
+          xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
 
-	mkdir build
-	cd    build
+        mkdir build
+        cd    build
 
-	test -n $MAKEFLAGS && export NINJAFLAGS="$NINJAFLAGS $MAKEFLAGS"
-	
-	qmake .. -- -proprietary-codecs -system-ffmpeg -webengine-icu
-	make
-	make INSTALL_ROOT=$PKG install
+        test -n $MAKEFLAGS && export NINJAFLAGS="$NINJAFLAGS $MAKEFLAGS"
 
-	find $PKG/usr/ -name \*.prl \
-	   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+        qmake .. -- -proprietary-codecs -system-ffmpeg -webengine-icu
+        make
+        make INSTALL_ROOT=$PKG install
+
+        find $PKG/usr/ -name \*.prl \
+           -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 }
