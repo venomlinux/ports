@@ -1,14 +1,26 @@
-# description	: A simple (suckless) terminal (emmett1's fork)
-# depends	: libx11 libxft libxrender fontconfig freetype2 ohsnap
+# description	: A simple (suckless) terminal
+# homepage	: https://st.suckless.org/
+# depends	: libx11 libxft libxrender fontconfig freetype2
 
 name=st
-version=20200408
+version=0.8.5
 release=1
-_commit=9203c816d2bd58ce1971ae50e756b4eef18fa83c
-source="$name-$_commit.tar.gz::https://github.com/emmett1/st/archive/$_commit.tar.gz"
+source="https://dl.suckless.org/st/st-$version.tar.gz"
+
+_portdir=$PWD
 
 build() {
-	cd $name-$_commit
+	cd $name-$version
+
+	if [ -f $_portdir/config.h ]; then
+		cp $_portdir/config.h .
+	fi
+
+	for p in $_portdir/*.patch $_portdir/*.diff; do
+		[ -f $p ] || continue
+		patch -Np1 -i $p
+	done
+
 	make PREFIX=/usr
 	make PREFIX=/usr DESTDIR=$PKG install
 }
