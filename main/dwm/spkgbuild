@@ -1,14 +1,26 @@
-# description	: A dynamic window manager for X (emmett1's fork)
+# description	: A dynamic window manager for X
+# homepage	: https://dwm.suckless.org/
 # depends	: libx11 libxinerama fontconfig libxft dmenu ohsnap siji-font st
 
 name=dwm
-version=20200407
+version=6.3
 release=1
-_commit=168239d8a74d48d3e339fd50568144555ccbe311
-source="$name-$_commit.tar.gz::https://github.com/emmett1/dwm/archive/$_commit.tar.gz"
+source="https://dl.suckless.org/dwm/dwm-$version.tar.gz"
+
+_portdir=$PWD
 
 build() {
-	cd $name-$_commit
+	cd $name-$version
+
+	if [ -f $_portdir/config.h ]; then
+		cp $_portdir/config.h .
+	fi
+
+	for p in $_portdir/*.patch $_portdir/*.diff; do
+		[ -f $p ] || continue
+		patch -Np1 -i $p
+	done
+
 	make PREFIX=/usr
 	make PREFIX=/usr DESTDIR=$PKG install
 }
