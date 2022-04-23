@@ -1,0 +1,15 @@
+# description	: Turns on the numlock key in X11
+# homepage	: https://github.com/rg3/numlockx
+# depends	: libxtst libxext libx11 
+
+name=numlockx
+version=1.2
+release=1
+source="https://github.com/rg3/numlockx/releases/download/$version/numlockx-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
