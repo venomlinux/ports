@@ -3,7 +3,7 @@
 # depends	: zlib-32 libdrm-32 libxshmfence-32
 
 name=mesa-32
-version=22.0.1
+version=22.0.2
 release=1
 source="https://mesa.freedesktop.org/archive/mesa-$version.tar.xz
 	crossfile"
@@ -44,5 +44,6 @@ build() {
 	rm -r $PKG/usr/include \
 	      $PKG/usr/share/glvnd
 	rm $PKG/usr/share/drirc.d/00-mesa-defaults.conf
+	rm $PKG/usr/share/drirc.d/00-radv-defaults.conf
 }
 
