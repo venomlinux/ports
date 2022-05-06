@@ -4,10 +4,10 @@
 name=tldr
 version=1.4.3
 release=1
-source="https://github.com/tldr-pages/tldr-c-client/archive/refs/tags/v$version.tar.gz"
+source="https://github.com/tldr-pages/tldr-c-client/archive/v$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-c-client-$version
-    make
-    make PREFIX=$PKG/usr DESTDIR=$PKG install
+	make
+	make PREFIX=$PKG/usr DESTDIR=$PKG install
 }

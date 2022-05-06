@@ -1,13 +1,13 @@
 # description	: Fresh and simple personality icon theme
 
 name=vimix-icon-theme
-_version=2020-07-10
+_version=2021-11-09
 version=$(echo $_version | sed 's/-/\./g')
 release=1
-source="$name-$_commit.tar.gz::https://github.com/vinceliuice/$name/archive/$_version.tar.gz"
+source="https://github.com/vinceliuice/$name/archive/$_version/$name-$version.tar.gz"
 
 build() {
-	cd "$name-$_version"
+	cd $name-$_version
 	sed '/gtk-update-icon-cache/d' -i install.sh
 	install -dm755 "$PKG/usr/share/icons"
 	./install.sh -a -d "$PKG/usr/share/icons"

@@ -2,12 +2,11 @@
 # depends	: perl iw hdparm git util-linux usbutils pciutils ethtool 
 
 name=tlp
-version="1.3.1"
+version=1.3.1
 release=1
-source="https://github.com/linrunner/TLP/archive/$version.tar.gz"
+source="https://github.com/linrunner/TLP/archive/$version/$name-$version.tar.gz"
 
 build() {
 	cd TLP-$version
 	make DESTDIR=$PKG install
-
 }

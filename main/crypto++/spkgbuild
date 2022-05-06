@@ -3,11 +3,12 @@
 
 name=crypto++
 version=8.5.0
+_v=$(echo $version | sed 's/\./_/g')
 release=1
-source="https://github.com/weidai11/cryptopp/archive/refs/tags/CRYPTOPP_8_5_0.tar.gz"
+source="https://github.com/weidai11/cryptopp/archive/CRYPTOPP_${_v}.tar.gz"
 
 build() {
-	cd cryptopp-CRYPTOPP_8_5_0
+	cd cryptopp-CRYPTOPP_${_v}
 	make PREFIX="/usr" all libcryptopp.pc
 	make DESTDIR=$PKG PREFIX="/usr" install
 }
