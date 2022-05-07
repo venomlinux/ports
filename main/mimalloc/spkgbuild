@@ -1,0 +1,20 @@
+# description	: General-purpose allocator with excellent performance characteristics
+# homepage	: https://github.com/microsoft/mimalloc
+# depends	: cmake
+
+name=mimalloc
+version=2.0.6
+release=1
+source="https://github.com/microsoft/mimalloc/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	cmake -B build \
+	-DCMAKE_INSTALL_PREFIX=/usr \
+	-DMI_BUILD_STATIC=OFF \
+	-DMI_BUILD_OBJECT=OFF \
+	-DMI_INSTALL_TOPLEVEL=ON
+	cmake --build build
+	DESTDIR="$PKG" cmake --install build
+}
