@@ -1,0 +1,18 @@
+# description	: High level abstract threading library
+# homepage	: https://www.threadingbuildingblocks.org
+# depends	: hwloc cmake ninja
+
+name=tbb
+version=2021.5.0
+release=1
+source="https://github.com/oneapi-src/oneTBB/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd oneTBB-$version
+	cmake -GNinja \
+	-DCMAKE_INSTALL_PREFIX=/usr \
+	-DTBB4PY_BUILD=ON \
+	.
+	ninja all python_build
+	DESTDIR=$PKG ninja install
+}
