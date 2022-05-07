@@ -3,7 +3,7 @@
 
 name=llvm
 version=14.0.1
-release=1
+release=2
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
 	llvm-config.h"
 
@@ -17,16 +17,17 @@ build() {
 	cd       build
 	
 	cmake .. -G Ninja \
-	      -DCMAKE_INSTALL_PREFIX=/usr           \
-	      -DLLVM_ENABLE_FFI=ON                  \
-	      -DCMAKE_BUILD_TYPE=Release            \
-	      -DLLVM_BUILD_LLVM_DYLIB=ON            \
-      	      -DLLVM_LINK_LLVM_DYLIB=ON             \
-	      -DLLVM_ENABLE_RTTI=ON                 \
+	      -DCMAKE_INSTALL_PREFIX=/usr \
+	      -DLLVM_ENABLE_FFI=ON \
+	      -DCMAKE_BUILD_TYPE=Release \
+	      -DLLVM_BUILD_LLVM_DYLIB=ON \
+      	      -DLLVM_LINK_LLVM_DYLIB=ON \
+	      -DLLVM_ENABLE_RTTI=ON \
 	      -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF" \
 	      -DLLVM_INCLUDE_EXAMPLES=OFF \
 	      -DLLVM_INCLUDE_TESTS=OFF \
 	      -DLLVM_INCLUDE_BENCHMARKS=OFF \
+	      -DLLVM_BINUTILS_INCDIR=/usr/include \
 	      -Wno-dev
 	ninja
 	DESTDIR=$PKG ninja install
