@@ -1,0 +1,29 @@
+# description	: A Modern Linker
+# homepage	: https://github.com/rui314/mold
+# depends	: mimalloc tbb openssl zlib
+
+name=mold
+version=1.2.1
+release=1
+source="https://github.com/rui314/mold/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	[ -f /usr/bin/clang ] && {
+		export CC=clang
+		export CXX=clang++
+	}
+
+	# use /usr/lib instead of /usr/libexec
+	sed -i "s/libexec/lib/" Makefile
+
+	make \
+	    PREFIX=/usr \
+	    SYSTEM_MIMALLOC=1 \
+	    SYSTEM_TBB=1
+	make DESTDIR=$PKG \
+	    PREFIX=/usr \
+	    SYSTEM_MIMALLOC=1 \
+	    SYSTEM_TBB=1 install
+}
