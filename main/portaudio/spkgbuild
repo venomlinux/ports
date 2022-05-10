@@ -1,0 +1,14 @@
+# description : portaudio cross platform audio
+# depends	: alsa-lib
+
+name=portaudio
+version=19_20140130
+release=1
+source="http://www.$name.com/archives/pa_stable_v$version.tgz"
+
+build() {
+	cd $name
+    ./configure --prefix=/usr --enable-cxx --enable-static=no
+    make -j1
+	make DESTDIR=$PKG install
+}

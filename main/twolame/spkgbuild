@@ -1,0 +1,14 @@
+# description : twolame mpeg audio layer 2 encoder
+# depends	: 
+
+name=twolame
+version=0.3.13
+release=1
+source="http://downloads.sourceforge.net/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+    ./configure --prefix=/usr
+    make
+	make PREFIX=$PKG/usr DESTDIR=$PKG install
+}

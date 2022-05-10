@@ -1,0 +1,15 @@
+# description : portsmf 
+# depends	: 
+
+name=portsmf
+version=239
+release=1
+source="https://github.com/tenacityteam/$name/archive/refs/tags/$version.tar.gz"
+
+build() {
+	cd $name-$version
+	mkdir build
+	cmake -DCMAKE_INSTALL_PREFIX=/usr ./
+    make
+	make PREFIX=$PKG/usr DESTDIR=$PKG install
+}
