@@ -1,0 +1,15 @@
+# description	: pspg - advanced postgres pager
+# depends	: ncurses
+
+name=pspg
+version=5.5.3
+release=1
+source="https://github.com/okbob/pspg/archive/refs/tags/$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./autogen.sh
+	./configure --prefix=/usr 
+	make
+	make DESTDIR=$PKG install
+}
