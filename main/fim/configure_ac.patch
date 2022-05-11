@@ -1,0 +1,14 @@
+--- /var/cache/scratchpkg/work/fim/src/fim-0.5-rc3/configure.ac	2017-07-19 13:46:43.000000000 +0000
++++ ./configure.ac	2021-12-31 04:47:57.883055590 +0000
+@@ -614,6 +611,11 @@
+ AC_SUBST(LIBJPEG)
+ AM_CONDITIONAL(ENABLE_JPEG, test x$have_jpeg = xyes)
+ 
++fim_handle_jpeg=yes
++LIBJPEG='-ljpeg'
++LIBS="$LIBS $LIBJPEG"
++FIM_LIB_OBJECTS="$FIM_LIM_OBJECTS FbiStuffJpeg.o"
++
+ dnl ============= dvi file handling (via TeX-Guy)
+ dnl 
+ dnl AC_ARG_ENABLE(dvi, AC_HELP_STRING([--disable-dvi], [Disable dvi support.]),

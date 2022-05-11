@@ -1,0 +1,27 @@
+# description : fim - fbi improved image viewer
+# depends	: libexif giflib libjpeg-turbo sdl terminus-font
+
+name=fim
+version=0.5
+release=rc3
+source="https://download.savannah.gnu.org/releases/fbi-improved/$name-$version-$release.tar.gz
+        configure_ac.patch
+        browser_c.patch
+        browser_h.patch
+        fim.patch"
+
+build() {
+	cd $name-$version-$release
+    libtoolize
+    aclocal
+    autoheader
+    automake --add-missing
+    patch -p0 < $SRC/configure_ac.patch
+    autoreconf -v
+    ./configure --disable-sdl --enable-unicode --prefix=/usr
+    patch -p0 < $SRC/browser_c.patch
+    patch -p0 < $SRC/browser_h.patch
+    patch -p0 < $SRC/fim.patch
+    make
+	make PREFIX=$PKG/usr DESTDIR=$PKG install
+}
