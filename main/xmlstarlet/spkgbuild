@@ -1,0 +1,14 @@
+# description : xmlstarlet xml command line toolkit
+# depends	: libxml2 libxslt
+
+name=xmlstarlet
+version=1.6.1
+release=1
+source="http://downloads.sourceforge.net/sourceforge/xmlstar/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+        ./configure --prefix=/usr
+	make
+	make PREFIX=$PKG/usr DESTDIR=$PKG install
+}
