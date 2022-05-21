@@ -1,0 +1,17 @@
+# description	: An extremely fast and small background setter for X.
+# homepage	: http://github.com/Gottox/bgs
+# depends	: imlib2 libxinerama
+
+name=bgs
+version=0.8
+release=1
+source="http://github.com/Gottox/bgs/archive/v$version/$name-$version.tar.gz"
+
+_portdir=$PWD
+
+build() {
+	cd $name-$version
+
+	make PREFIX=/usr
+        make PREFIX=/usr DESTDIR=$PKG install
+}
