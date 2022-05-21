@@ -2,7 +2,7 @@
 # depends	: elfutils mkinitramfs openssl linux-firmware yaml
 
 name=linux
-version=5.12.1
+version=5.17.9
 release=1
 source="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$version.tar.xz
 	config"
@@ -10,16 +10,21 @@ NO_STRIP=yes
 
 build() {
 	cd linux-$version
-
+	
 	make mrproper
 
 	cp $SRC/config ./.config
 	make olddefconfig
 
 	sed '/^CONFIG_LOCALVERSION=/d' -i .config
-	echo 'CONFIG_LOCALVERSION="-Venom"' >> .config
+	echo 'CONFIG_LOCALVERSION="-venom"' >> .config
 
 	kernver=${version}$(grep CONFIG_LOCALVERSION= .config | cut -d '"' -f2)
+
+	for p in $_portdir/*.patch $_portdir/*.diff; do
+		[ -f $p ] || continue
+		patch -Np1 -i $p
+	done
 
 	#make menuconfig
 	make bzImage modules
