@@ -1,3 +1,4 @@
+iptables-1.8.8-1
 drwxr-xr-x root/root    sbin/
 lrwxrwxrwx root/root    sbin/ip6tables -> xtables-legacy-multi
 lrwxrwxrwx root/root    sbin/ip6tables-apply -> iptables-apply
@@ -37,9 +38,9 @@ lrwxrwxrwx root/root    usr/lib/libip6tc.so.2 -> libip6tc.so.2.0.0
 lrwxrwxrwx root/root    usr/lib/libipq.so -> libipq.so.0.0.0
 lrwxrwxrwx root/root    usr/lib/libipq.so.0 -> libipq.so.0.0.0
 -rwxr-xr-x root/root    usr/lib/libipq.so.0.0.0
-lrwxrwxrwx root/root    usr/lib/libxtables.so -> libxtables.so.12.4.0
-lrwxrwxrwx root/root    usr/lib/libxtables.so.12 -> libxtables.so.12.4.0
--rwxr-xr-x root/root    usr/lib/libxtables.so.12.4.0
+lrwxrwxrwx root/root    usr/lib/libxtables.so -> libxtables.so.12.6.0
+lrwxrwxrwx root/root    usr/lib/libxtables.so.12 -> libxtables.so.12.6.0
+-rwxr-xr-x root/root    usr/lib/libxtables.so.12.6.0
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/libip4tc.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/libip6tc.pc
@@ -47,13 +48,11 @@ drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/libiptc.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/xtables.pc
 drwxr-xr-x root/root    usr/lib/xtables/
--rwxr-xr-x root/root    usr/lib/xtables/libip6t_DNAT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_DNPT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_HL.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_LOG.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_MASQUERADE.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_NETMAP.so
--rwxr-xr-x root/root    usr/lib/xtables/libip6t_REDIRECT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_REJECT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_SNAT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_SNPT.so
@@ -69,12 +68,10 @@ drwxr-xr-x root/root    usr/lib/xtables/
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_rt.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_srh.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_CLUSTERIP.so
--rwxr-xr-x root/root    usr/lib/xtables/libipt_DNAT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_ECN.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_LOG.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_MASQUERADE.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_NETMAP.so
--rwxr-xr-x root/root    usr/lib/xtables/libipt_REDIRECT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_REJECT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_SNAT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_TTL.so
@@ -89,6 +86,7 @@ drwxr-xr-x root/root    usr/lib/xtables/
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_CONNMARK.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_CONNSECMARK.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_CT.so
+-rwxr-xr-x root/root    usr/lib/xtables/libxt_DNAT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_DSCP.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_HMARK.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_IDLETIMER.so
@@ -98,6 +96,7 @@ drwxr-xr-x root/root    usr/lib/xtables/
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_NFQUEUE.so
 lrwxrwxrwx root/root    usr/lib/xtables/libxt_NOTRACK.so -> libxt_CT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_RATEEST.so
+lrwxrwxrwx root/root    usr/lib/xtables/libxt_REDIRECT.so -> libxt_DNAT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_SECMARK.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_SET.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_SYNPROXY.so
