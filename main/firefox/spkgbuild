@@ -2,7 +2,7 @@
 # depends	: alsa-lib libnotify libidl2 python2 gtk2 gtk3 nss nspr icu libevent dbus-glib unzip zip autoconf2.13 yasm rust cbindgen nodejs clang nasm libxcomposite
 
 name=firefox
-version=100.0
+version=100.0.2
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	$name.desktop"
@@ -32,8 +32,8 @@ cat <<- EOF > .mozconfig
 	ac_add_options --enable-release
 	ac_add_options --enable-rust-simd
 	ac_add_options --enable-linker=gold
+	ac_add_options --enable-audio-backends=alsa
 	ac_add_options --disable-debug-symbols
-	ac_add_options --disable-pulseaudio
 	ac_add_options --enable-official-branding
 	ac_add_options --disable-tests
 	ac_add_options --disable-debug
