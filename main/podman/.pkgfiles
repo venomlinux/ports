@@ -1,4 +1,4 @@
-podman-3.3.1-1
+podman-4.1.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/podman
@@ -6,6 +6,9 @@ drwxr-xr-x root/root    usr/bin/
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/tmpfiles.d/
 -rw-r--r-- root/root    usr/lib/tmpfiles.d/podman.conf
+drwxr-xr-x root/root    usr/libexec/
+drwxr-xr-x root/root    usr/libexec/podman/
+-rwxr-xr-x root/root    usr/libexec/podman/rootlessport
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/man/
 drwxr-xr-x root/root    usr/share/man/man1/
@@ -17,6 +20,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/podman-container-attach.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-container-checkpoint.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-container-cleanup.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/podman-container-clone.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-container-commit.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-container-cp.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-container-create.1.gz
@@ -78,6 +82,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/podman-image-push.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-image-rm.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-image-save.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/podman-image-scp.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-image-search.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-image-sign.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-image-tag.1.gz
@@ -98,9 +103,11 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/podman-logout.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-logs.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-machine-init.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/podman-machine-inspect.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-machine-list.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-machine-ls.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-machine-rm.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/podman-machine-set.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-machine-ssh.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-machine-start.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-machine-stop.1.gz
@@ -132,6 +139,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/podman-pod-exists.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-pod-inspect.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-pod-kill.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/podman-pod-logs.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-pod-pause.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-pod-prune.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-pod-ps.1.gz
@@ -187,10 +195,14 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/podman-version.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-volume-create.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-volume-exists.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/podman-volume-export.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/podman-volume-import.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-volume-inspect.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-volume-ls.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/podman-volume-mount.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-volume-prune.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-volume-rm.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/podman-volume-unmount.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-volume.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-wait.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman.1.gz
