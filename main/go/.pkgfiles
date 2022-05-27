@@ -1,4 +1,4 @@
-go-1.18.1-1
+go-1.18.2-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 lrwxrwxrwx root/root    usr/bin/gofmt -> /usr/lib/go/bin/gofmt
@@ -2227,6 +2227,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/compile/internal/types2/testdata/fixe
 -rw-r--r-- root/root    usr/lib/go/src/cmd/compile/internal/types2/testdata/fixedbugs/issue51593.go2
 -rw-r--r-- root/root    usr/lib/go/src/cmd/compile/internal/types2/testdata/fixedbugs/issue51607.go2
 -rw-r--r-- root/root    usr/lib/go/src/cmd/compile/internal/types2/testdata/fixedbugs/issue51658.go2
+-rw-r--r-- root/root    usr/lib/go/src/cmd/compile/internal/types2/testdata/fixedbugs/issue52529.go2
 -rw-r--r-- root/root    usr/lib/go/src/cmd/compile/internal/types2/testdata/fixedbugs/issue6977.src
 -rw-r--r-- root/root    usr/lib/go/src/cmd/compile/internal/types2/testdata/manual.go2
 drwxr-xr-x root/root    usr/lib/go/src/cmd/compile/internal/types2/testdata/spec/
@@ -2943,6 +2944,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/testdata/script/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/bug.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_acl_windows.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_arm.txt
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_buildvcs_auto.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_cache_arch_mode.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_cache_compile.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_cache_disabled.txt
@@ -3368,6 +3370,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/testdata/script/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_retract_replace.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_retract.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_retract_versions.txt
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_run_issue52331.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_run_nonmain.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_run_path.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_run_pkgerror.txt
@@ -6344,6 +6347,7 @@ drwxr-xr-x root/root    usr/lib/go/src/go/types/testdata/fixedbugs/
 -rw-r--r-- root/root    usr/lib/go/src/go/types/testdata/fixedbugs/issue51593.go2
 -rw-r--r-- root/root    usr/lib/go/src/go/types/testdata/fixedbugs/issue51658.go2
 -rw-r--r-- root/root    usr/lib/go/src/go/types/testdata/fixedbugs/issue52031.go
+-rw-r--r-- root/root    usr/lib/go/src/go/types/testdata/fixedbugs/issue52529.go2
 -rw-r--r-- root/root    usr/lib/go/src/go/types/testdata/fixedbugs/issue6977.src
 -rw-r--r-- root/root    usr/lib/go/src/go/types/testdata/manual.go2
 drwxr-xr-x root/root    usr/lib/go/src/go/types/testdata/spec/
@@ -8279,9 +8283,9 @@ drwxr-xr-x root/root    usr/lib/go/src/runtime/debug/
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_aix_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_arm_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_darwin_test.go
+-rw-r--r-- root/root    usr/lib/go/src/runtime/export_debug_amd64_test.go
+-rw-r--r-- root/root    usr/lib/go/src/runtime/export_debug_arm64_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_debuglog_test.go
--rw-r--r-- root/root    usr/lib/go/src/runtime/export_debug_regabiargs_off_test.go
--rw-r--r-- root/root    usr/lib/go/src/runtime/export_debug_regabiargs_on_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_debug_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_linux_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_mmap_test.go
@@ -12024,6 +12028,7 @@ drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue5125.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5172.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue51839.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5231.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue52438.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5244.go
 drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue5259.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5259.dir/bug.go
@@ -12033,6 +12038,7 @@ drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue5260.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5260.dir/a.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5260.dir/b.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5260.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue52612.go
 drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue5291.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5291.dir/pkg1.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5291.dir/prog.go
@@ -12953,6 +12959,7 @@ drwxr-xr-x root/root    usr/lib/go/test/typeparam/issue51423.dir/
 -rw-r--r-- root/root    usr/lib/go/test/typeparam/issue51423.go
 -rw-r--r-- root/root    usr/lib/go/test/typeparam/issue51522a.go
 -rw-r--r-- root/root    usr/lib/go/test/typeparam/issue51522b.go
+-rw-r--r-- root/root    usr/lib/go/test/typeparam/issue51700.go
 -rw-r--r-- root/root    usr/lib/go/test/typeparam/issue51733.go
 -rw-r--r-- root/root    usr/lib/go/test/typeparam/issue51765.go
 drwxr-xr-x root/root    usr/lib/go/test/typeparam/issue51836.dir/
@@ -12960,6 +12967,12 @@ drwxr-xr-x root/root    usr/lib/go/test/typeparam/issue51836.dir/
 -rw-r--r-- root/root    usr/lib/go/test/typeparam/issue51836.dir/a.go
 -rw-r--r-- root/root    usr/lib/go/test/typeparam/issue51836.dir/p.go
 -rw-r--r-- root/root    usr/lib/go/test/typeparam/issue51836.go
+-rw-r--r-- root/root    usr/lib/go/test/typeparam/issue52026.go
+drwxr-xr-x root/root    usr/lib/go/test/typeparam/issue52117.dir/
+-rw-r--r-- root/root    usr/lib/go/test/typeparam/issue52117.dir/a.go
+-rw-r--r-- root/root    usr/lib/go/test/typeparam/issue52117.dir/b.go
+-rw-r--r-- root/root    usr/lib/go/test/typeparam/issue52117.go
+-rw-r--r-- root/root    usr/lib/go/test/typeparam/issue52228.go
 -rw-r--r-- root/root    usr/lib/go/test/typeparam/list2.go
 -rw-r--r-- root/root    usr/lib/go/test/typeparam/list.go
 drwxr-xr-x root/root    usr/lib/go/test/typeparam/listimp2.dir/
