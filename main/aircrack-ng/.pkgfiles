@@ -1,9 +1,11 @@
+aircrack-ng-1.7-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/aircrack-ng
 -rwxr-xr-x root/root    usr/bin/airdecap-ng
 -rwxr-xr-x root/root    usr/bin/airdecloak-ng
 -rwxr-xr-x root/root    usr/bin/airolib-ng
+-rwxr-xr-x root/root    usr/bin/buddy-ng
 -rwxr-xr-x root/root    usr/bin/ivstools
 -rwxr-xr-x root/root    usr/bin/kstats
 -rwxr-xr-x root/root    usr/bin/makeivs-ng
@@ -24,13 +26,13 @@ drwxr-xr-x root/root    usr/include/aircrack-ng/ce-wpa/
 -rw-r--r-- root/root    usr/include/aircrack-ng/ce-wpa/crypto_engine.h
 -rw-r--r-- root/root    usr/include/aircrack-ng/ce-wpa/jcommon.h
 -rw-r--r-- root/root    usr/include/aircrack-ng/ce-wpa/johnswap.h
--rw-r--r-- root/root    usr/include/aircrack-ng/ce-wpa/memdbg.h
 -rw-r--r-- root/root    usr/include/aircrack-ng/ce-wpa/memory.h
 -rw-r--r-- root/root    usr/include/aircrack-ng/ce-wpa/misc.h
 -rw-r--r-- root/root    usr/include/aircrack-ng/ce-wpa/pseudo_intrinsics.h
 -rw-r--r-- root/root    usr/include/aircrack-ng/ce-wpa/simd-intrinsics-load-flags.h
 -rw-r--r-- root/root    usr/include/aircrack-ng/ce-wpa/simd-intrinsics.h
 -rw-r--r-- root/root    usr/include/aircrack-ng/ce-wpa/wpapsk.h
+-rw-r--r-- root/root    usr/include/aircrack-ng/compat.h
 drwxr-xr-x root/root    usr/include/aircrack-ng/cowpatty/
 -rw-r--r-- root/root    usr/include/aircrack-ng/cowpatty/cowpatty.h
 drwxr-xr-x root/root    usr/include/aircrack-ng/cpu/
@@ -74,16 +76,16 @@ drwxr-xr-x root/root    usr/include/aircrack-ng/utf8/
 -rw-r--r-- root/root    usr/include/aircrack-ng/utf8/verifyssid.h
 -rw-r--r-- root/root    usr/include/aircrack-ng/version.h
 drwxr-xr-x root/root    usr/lib/
--rwxr-xr-x root/root    usr/lib/libaircrack-ce-wpa-1.6.0.so
--rwxr-xr-x root/root    usr/lib/libaircrack-ce-wpa-x86-avx-1.6.0.so
-lrwxrwxrwx root/root    usr/lib/libaircrack-ce-wpa-x86-avx.so -> libaircrack-ce-wpa-x86-avx-1.6.0.so
--rwxr-xr-x root/root    usr/lib/libaircrack-ce-wpa-x86-avx2-1.6.0.so
-lrwxrwxrwx root/root    usr/lib/libaircrack-ce-wpa-x86-avx2.so -> libaircrack-ce-wpa-x86-avx2-1.6.0.so
--rwxr-xr-x root/root    usr/lib/libaircrack-ce-wpa-x86-sse2-1.6.0.so
-lrwxrwxrwx root/root    usr/lib/libaircrack-ce-wpa-x86-sse2.so -> libaircrack-ce-wpa-x86-sse2-1.6.0.so
-lrwxrwxrwx root/root    usr/lib/libaircrack-ce-wpa.so -> libaircrack-ce-wpa-1.6.0.so
--rwxr-xr-x root/root    usr/lib/libaircrack-osdep-1.6.0.so
-lrwxrwxrwx root/root    usr/lib/libaircrack-osdep.so -> libaircrack-osdep-1.6.0.so
+-rwxr-xr-x root/root    usr/lib/libaircrack-ce-wpa-1.7.0.so
+-rwxr-xr-x root/root    usr/lib/libaircrack-ce-wpa-x86-avx-1.7.0.so
+lrwxrwxrwx root/root    usr/lib/libaircrack-ce-wpa-x86-avx.so -> libaircrack-ce-wpa-x86-avx-1.7.0.so
+-rwxr-xr-x root/root    usr/lib/libaircrack-ce-wpa-x86-avx2-1.7.0.so
+lrwxrwxrwx root/root    usr/lib/libaircrack-ce-wpa-x86-avx2.so -> libaircrack-ce-wpa-x86-avx2-1.7.0.so
+-rwxr-xr-x root/root    usr/lib/libaircrack-ce-wpa-x86-sse2-1.7.0.so
+lrwxrwxrwx root/root    usr/lib/libaircrack-ce-wpa-x86-sse2.so -> libaircrack-ce-wpa-x86-sse2-1.7.0.so
+lrwxrwxrwx root/root    usr/lib/libaircrack-ce-wpa.so -> libaircrack-ce-wpa-1.7.0.so
+-rwxr-xr-x root/root    usr/lib/libaircrack-osdep-1.7.0.so
+lrwxrwxrwx root/root    usr/lib/libaircrack-osdep.so -> libaircrack-osdep-1.7.0.so
 drwxr-xr-x root/root    usr/sbin/
 -rwxr-xr-x root/root    usr/sbin/airbase-ng
 -rwxr-xr-x root/root    usr/sbin/aireplay-ng
@@ -92,6 +94,7 @@ drwxr-xr-x root/root    usr/sbin/
 -rwxr-xr-x root/root    usr/sbin/airodump-ng-oui-update
 -rwxr-xr-x root/root    usr/sbin/airserv-ng
 -rwxr-xr-x root/root    usr/sbin/airtun-ng
+-rwxr-xr-x root/root    usr/sbin/airventriloquist-ng
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/man/
 drwxr-xr-x root/root    usr/share/man/man1/
@@ -99,6 +102,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/airdecap-ng.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/airdecloak-ng.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/airolib-ng.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/buddy-ng.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/ivstools.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/kstats.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/makeivs-ng.1.gz
