@@ -1,4 +1,4 @@
-tlp-1.3.1-1
+tlp-1.5.0-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/NetworkManager/
 drwxr-xr-x root/root    etc/NetworkManager/dispatcher.d/
@@ -27,6 +27,7 @@ drwxr-xr-x root/root    lib/udev/rules.d/
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/bluetooth
+lrwxrwxrwx root/root    usr/bin/nfc -> bluetooth
 -rwxr-xr-x root/root    usr/bin/run-on-ac
 lrwxrwxrwx root/root    usr/bin/run-on-bat -> run-on-ac
 -rwxr-xr-x root/root    usr/bin/tlp-rdw
@@ -39,6 +40,7 @@ drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/bash-completion/
 drwxr-xr-x root/root    usr/share/bash-completion/completions/
 lrwxrwxrwx root/root    usr/share/bash-completion/completions/bluetooth -> tlp
+lrwxrwxrwx root/root    usr/share/bash-completion/completions/nfc -> tlp
 -rw-r--r-- root/root    usr/share/bash-completion/completions/tlp
 -rw-r--r-- root/root    usr/share/bash-completion/completions/tlp-rdw
 lrwxrwxrwx root/root    usr/share/bash-completion/completions/tlp-stat -> tlp
@@ -47,6 +49,17 @@ lrwxrwxrwx root/root    usr/share/bash-completion/completions/wwan -> tlp
 drwxr-xr-x root/root    usr/share/metainfo/
 -rw-r--r-- root/root    usr/share/metainfo/de.linrunner.tlp.metainfo.xml
 drwxr-xr-x root/root    usr/share/tlp/
+drwxr-xr-x root/root    usr/share/tlp/bat.d/
+-rwxr-xr-x root/root    usr/share/tlp/bat.d/05-thinkpad
+-rwxr-xr-x root/root    usr/share/tlp/bat.d/10-thinkpad-legacy
+-rwxr-xr-x root/root    usr/share/tlp/bat.d/15-asus
+-rwxr-xr-x root/root    usr/share/tlp/bat.d/20-huawei
+-rwxr-xr-x root/root    usr/share/tlp/bat.d/25-lenovo
+-rwxr-xr-x root/root    usr/share/tlp/bat.d/30-samsung
+-rwxr-xr-x root/root    usr/share/tlp/bat.d/35-lg
+-rwxr-xr-x root/root    usr/share/tlp/bat.d/40-sony
+-rwxr-xr-x root/root    usr/share/tlp/bat.d/90-generic
+-rwxr-xr-x root/root    usr/share/tlp/bat.d/TEMPLATE
 -rw-r--r-- root/root    usr/share/tlp/defaults.conf
 drwxr-xr-x root/root    usr/share/tlp/func.d/
 -rwxr-xr-x root/root    usr/share/tlp/func.d/05-tlp-func-pm
@@ -59,6 +72,7 @@ drwxr-xr-x root/root    usr/share/tlp/func.d/
 -rwxr-xr-x root/root    usr/share/tlp/func.d/40-tlp-func-bay
 -rwxr-xr-x root/root    usr/share/tlp/func.d/45-tlp-func-gpu
 -rwxr-xr-x root/root    usr/share/tlp/func.d/tlp-func-stat
+-rw-r--r-- root/root    usr/share/tlp/rename.conf
 -rwxr-xr-x root/root    usr/share/tlp/tlp-func-base
 -rwxr-xr-x root/root    usr/share/tlp/tlp-pcilist
 -rwxr-xr-x root/root    usr/share/tlp/tlp-readconfs
