@@ -1,8 +1,8 @@
 # description	: Stand-alone browser based on the Mozilla codebase
-# depends	: alsa-lib libnotify libidl2 python2 gtk2 gtk3 nss nspr icu libevent dbus-glib unzip zip autoconf2.13 yasm rust cbindgen nodejs clang nasm libxcomposite
+# depends	: alsa-lib autoconf2.13 cbindgen clang dav1d dbus-glib ffmpeg gtk3 hicolor-icon-theme icu libevent libffi libjpeg-turbo libnotify libpng libvpx libxrender libxcomposite libsm libxt libxdamage libxscrnsaver libwebp libzlib lld llvm nasm nodejs nspr nss perl pixman pkg-config python3 rust yasm unzip zip
 
 name=firefox
-version=100.0.2
+version=101.0
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	$name.desktop"
@@ -19,28 +19,29 @@ cat <<- EOF > .mozconfig
 	ac_add_options --prefix=/usr
 	ac_add_options --enable-default-toolkit=cairo-gtk3
 	ac_add_options --enable-application=browser
-	ac_add_options --with-system-jpeg
-	ac_add_options --with-system-zlib
-	ac_add_options --with-system-png
-	ac_add_options --with-system-nspr
-	ac_add_options --with-system-nss
 	ac_add_options --enable-av1
 	ac_add_options --enable-system-ffi
 	ac_add_options --enable-system-pixman
 	ac_add_options --enable-alsa
+	ac_add_options --enable-ffmpeg
 	ac_add_options --enable-optimize
 	ac_add_options --enable-release
 	ac_add_options --enable-rust-simd
-	ac_add_options --enable-linker=gold
+	ac_add_options --enable-linker=lld
 	ac_add_options --enable-audio-backends=alsa
-	ac_add_options --disable-debug-symbols
 	ac_add_options --enable-official-branding
+	ac_add_options --disable-debug-symbols
 	ac_add_options --disable-tests
 	ac_add_options --disable-debug
 	ac_add_options --disable-updater
 	ac_add_options --disable-crashreporter
 	ac_add_options --disable-necko-wifi
 	ac_add_options --disable-elf-hack
+	ac_add_options --with-system-jpeg
+	ac_add_options --with-system-zlib
+	ac_add_options --with-system-png
+	ac_add_options --with-system-nspr
+	ac_add_options --with-system-nss
 	ac_add_options --without-wasm-sandboxed-libraries
 EOF
 
@@ -48,7 +49,7 @@ EOF
 	export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 	export CARGO_HOME=$INITDIR
 	export MOZ_NOSPAM=1
-	export MACH_USE_SYSTEM_PYTHON=1
+	export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=system
 
 	SHELL=/bin/sh ./mach build
 	SHELL=/bin/sh DESTDIR=$PKG ./mach install
@@ -67,7 +68,7 @@ END
   install -Dvm644 /dev/stdin "$distini" <<END
 [Global]
 id=venomlinux
-version=99.0.1
+version=101.0
 about=Mozilla Firefox for Venomlinux
 [Preferences]
 app.distributor=venomlinux
@@ -89,6 +90,3 @@ END
 		echo $i >> $PKG/etc/revdep.d/$name.conf
 	done
 }
-
-
-
