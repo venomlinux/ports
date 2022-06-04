@@ -2,10 +2,10 @@
 # depends	: elfutils mkinitramfs openssl linux-firmware yaml
 
 name=linux-lts
-version=5.10.71
+version=5.15.44
 release=1
 source="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$version.tar.xz
-	config"
+	https://raw.githubusercontent.com/void-linux/void-packages/master/srcpkgs/linux5.10/files/x86_64-dotconfig"
 NO_STRIP=yes
 
 build() {
@@ -13,15 +13,20 @@ build() {
 
 	make mrproper
 
-	cp $SRC/config ./.config
+	# thanks to voidlinux for kernel config
+	cp ../x86_64-dotconfig .config
 	make olddefconfig
 
 	sed '/^CONFIG_LOCALVERSION=/d' -i .config
 	echo 'CONFIG_LOCALVERSION="-Venom-LTS"' >> .config
 
+	sed '/^CONFIG_DEBUG_INFO=/d' -i .config
+	echo '# CONFIG_DEBUG_INFO is not set' >> .config
+
 	kernver=${version}$(grep CONFIG_LOCALVERSION= .config | cut -d '"' -f2)
 
 	#make menuconfig
+
 	make bzImage modules
 	make INSTALL_MOD_PATH=$PKG modules_install
 
