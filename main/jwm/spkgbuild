@@ -2,10 +2,10 @@
 # depends	: libxext libxmu libxinerama libxpm libjpeg-turbo libpng librsvg cairo libxft
 
 name=jwm
-version=2.4.1
+version=2.4.2
 release=1
 backup="etc/system.jwmrc"
-source="http://joewing.net/projects/jwm/releases/$name-$version.tar.xz
+source="https://github.com/joewing/jwm/releases/download/v$version/jwm-$version.tar.xz
 	jwm.desktop"
 
 build() {
@@ -20,8 +20,7 @@ build() {
 		--prefix=/usr \
 		--libexecdir=/usr/lib \
 		--sysconfdir=/etc \
-		--disable-fribidi \
-		--disable-nls
+		--disable-fribidi
 	make
 	make DESTDIR=$PKG install
 	install -Dm644 $SRC/jwm.desktop $PKG/usr/share/xsessions/jwm.desktop
