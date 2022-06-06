@@ -1,4 +1,4 @@
-nodejs-18.2.0-1
+nodejs-18.3.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 lrwxrwxrwx root/root    usr/bin/corepack -> ../lib/node_modules/corepack/dist/corepack.js
@@ -3880,9 +3880,7 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/lib/exec/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/exec/get-workspace-location-msg.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/lifecycle-cmd.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/npm.js
-drwxr-xr-x root/root    usr/lib/node_modules/npm/lib/search/
--rw-r--r-- root/root    usr/lib/node_modules/npm/lib/search/format-package-stream.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/lib/search/package-filter.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/lib/package-url-cmd.js
 drwxr-xr-x root/root    usr/lib/node_modules/npm/lib/utils/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/ansi-trim.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/audit-error.js
@@ -3903,10 +3901,9 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/lib/utils/config/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/exit-handler.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/explain-dep.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/explain-eresolve.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/file-exists.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/format-bytes.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/format-search-stream.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/get-identity.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/hosted-git-info-from-manifest.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/is-windows.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/log-file.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/log-shim.js
@@ -3916,7 +3913,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/lib/utils/config/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/ping.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/pulse-till-done.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/queryable.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/read-package-name.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/read-user-info.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/reify-finish.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/reify-output.js
@@ -4101,6 +4097,7 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/l
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/link.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/node.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/optional-set.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/override-resolves.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/override-set.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/peer-entry-sets.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/place-dep.js
@@ -4941,6 +4938,7 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/make-fetch-happen/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/make-fetch-happen/lib/fetch.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/make-fetch-happen/lib/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/make-fetch-happen/lib/options.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/make-fetch-happen/lib/pipeline.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/make-fetch-happen/lib/remote.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/make-fetch-happen/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/minimatch/
@@ -5556,9 +5554,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/smart-buffer/typin
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/smart-buffer/typings/utils.d.ts
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/socks-proxy-agent/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/socks-proxy-agent/dist/
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/socks-proxy-agent/dist/agent.d.ts
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/socks-proxy-agent/dist/agent.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/socks-proxy-agent/dist/agent.js.map
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/socks-proxy-agent/dist/index.d.ts
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/socks-proxy-agent/dist/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/socks-proxy-agent/dist/index.js.map
