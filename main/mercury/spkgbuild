@@ -1,7 +1,7 @@
 # description	: Mercury programming language compiler
 
 name=mercury
-version=22.01
+version=22.01.1
 release=1
 source="http://dl.mercurylang.org/release/${name}-srcdist-${version}.tar.gz"
 
@@ -9,6 +9,8 @@ build() {
 	cd $name-srcdist-$version
 
 	./configure --prefix=/usr -disable-most-grades
-	make
-	make DESTDIR=$PKG install
+	make PARALLEL="$MAKEFLAGS"
+	make PARALLEL="$MAKEFLAGS" DESTDIR=$PKG install
+
+	rm $PKG/usr/bin/*.bat
 }
