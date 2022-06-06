@@ -24,11 +24,11 @@ targets, as things break when this is done:
  4 files changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/compiler/rustc_session/src/config.rs b/compiler/rustc_session/src/config.rs
-index 85448b7fe72..fb7f79433e2 100644
+index 4182a5d07118..0556c95d5b5b 100644
 --- a/compiler/rustc_session/src/config.rs
 +++ b/compiler/rustc_session/src/config.rs
-@@ -1536,7 +1536,7 @@ fn parse_target_triple(matches: &getopts::Matches, error_format: ErrorOutputType
-                 early_error(error_format, &format!("target file {:?} does not exist", path))
+@@ -1847,7 +1847,7 @@ pub fn parse_target_triple(
+                 early_error(error_format, &format!("target file {path:?} does not exist"))
              })
          }
 -        Some(target) => TargetTriple::TargetTriple(target),
@@ -37,23 +37,23 @@ index 85448b7fe72..fb7f79433e2 100644
      }
  }
 diff --git a/compiler/rustc_target/src/spec/i686_unknown_linux_gnu.rs b/compiler/rustc_target/src/spec/i686_unknown_linux_gnu.rs
-index 9daf1d37dd2..b38e1888047 100644
+index 0998c618f31a..91c79c7e4ff0 100644
 --- a/compiler/rustc_target/src/spec/i686_unknown_linux_gnu.rs
 +++ b/compiler/rustc_target/src/spec/i686_unknown_linux_gnu.rs
 @@ -9,7 +9,7 @@ pub fn target() -> Target {
      base.stack_probes = StackProbeType::Call;
  
      Target {
--        llvm_target: "i686-unknown-linux-gnu".to_string(),
-+        llvm_target: "i686-pc-linux-gnu".to_string(),
+-        llvm_target: "i686-unknown-linux-gnu".into(),
++        llvm_target: "i686-pc-linux-gnu".into(),
          pointer_width: 32,
          data_layout: "e-m:e-p:32:32-p270:32:32-p271:32:32-p272:64:64-\
              f64:32:64-f80:32-n8:16:32-S128"
 diff --git a/compiler/rustc_target/src/spec/mod.rs b/compiler/rustc_target/src/spec/mod.rs
-index c9fffd213d7..7bed09dd880 100644
+index bd5b712c143c..a78d0c20aa5d 100644
 --- a/compiler/rustc_target/src/spec/mod.rs
 +++ b/compiler/rustc_target/src/spec/mod.rs
-@@ -1994,6 +1994,15 @@ pub fn from_path(path: &Path) -> Result<Self, io::Error> {
+@@ -2424,6 +2424,15 @@ pub fn from_path(path: &Path) -> Result<Self, io::Error> {
          Ok(TargetTriple::TargetPath(canonicalized_path))
      }
  
@@ -70,15 +70,15 @@ index c9fffd213d7..7bed09dd880 100644
      ///
      /// If this target is a path, the file name (without extension) is returned.
 diff --git a/compiler/rustc_target/src/spec/x86_64_unknown_linux_gnu.rs b/compiler/rustc_target/src/spec/x86_64_unknown_linux_gnu.rs
-index 04499bc5bbe..63f983bff0b 100644
+index e525cfdde14f..2dfe25f4f238 100644
 --- a/compiler/rustc_target/src/spec/x86_64_unknown_linux_gnu.rs
 +++ b/compiler/rustc_target/src/spec/x86_64_unknown_linux_gnu.rs
-@@ -9,7 +9,7 @@ pub fn target() -> Target {
-     base.stack_probes = StackProbeType::Call;
+@@ -15,7 +15,7 @@ pub fn target() -> Target {
+         | SanitizerSet::THREAD;
  
      Target {
--        llvm_target: "x86_64-unknown-linux-gnu".to_string(),
-+        llvm_target: "x86_64-pc-linux-gnu".to_string(),
+-        llvm_target: "x86_64-unknown-linux-gnu".into(),
++        llvm_target: "x86_64-pc-linux-gnu".into(),
          pointer_width: 64,
          data_layout: "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
-             .to_string(),
+             .into(),
