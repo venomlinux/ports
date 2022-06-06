@@ -1,0 +1,14 @@
+# description	: Meta port for base-minimal system
+# depends	: gcc linux-api-headers glibc binutils coreutils eudev util-linux kmod elfutils flex
+# depends       : autoconf automake bison meson cmake make pkgconf ncurses patch sed kdb
+# depends       : mand-db man-pages tzdata file iana-etc grep bash dash which  procps-ng 
+# depends	: diffutils gawk findutils less bzip gzip xz tar vim scratchpkg 
+# depends       : iproute2 dhcpcd sysklogd rc filesystem
+
+name=base-minimal
+version=20220606
+release=1
+
+build() {
+	mkdir -pv $PKG/usr
+}
