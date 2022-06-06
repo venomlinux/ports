@@ -1,20 +1,19 @@
 # description	: Improved screenlocker based upon XCB and PAM
-# depends	: xcb-util-image xcb-util-xrm libxkbcommon cairo linux-pam libev
+# depends	: xcb-util-image xcb-util-xrm libxkbcommon cairo linux-pam libev meson
 
 name=i3lock
-version=2.13
+version=2.14
 release=1
 backup="etc/pam.d/i3lock"
-source="https://i3wm.org/i3lock/$name-$version.tar.bz2"
+source="https://i3wm.org/i3lock/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
 	# Fix ticket FS#31544, sed line taken from gentoo
 	sed -i -e 's:login:system-auth:' pam/i3lock
-	autoreconf -fiv
 
-	./configure --prefix=/usr --sysconfdir=/etc
-	make
-	make DESTDIR=$PKG install
+	venom-meson build
+        meson compile -C build
+        DESTDIR=$PKG meson install -C build
 }
