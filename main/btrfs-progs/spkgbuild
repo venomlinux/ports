@@ -2,7 +2,7 @@
 # depends	: lzo zstd
 
 name=btrfs-progs
-version=5.16.2
+version=5.18
 release=1
 source="https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v$version.tar.xz"
 
@@ -18,9 +18,9 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	mkdir -p $PKG/usr/share/man/man5 $PKG/usr/share/man/man8
-	install -m644 Documentation/*.5 $PKG/usr/share/man/man5/
-	install -m644 Documentation/*.8 $PKG/usr/share/man/man8/
+	#mkdir -p $PKG/usr/share/man/man5 $PKG/usr/share/man/man8
+	#install -m644 Documentation/*.5 $PKG/usr/share/man/man5/
+	#install -m644 Documentation/*.8 $PKG/usr/share/man/man8/
 
 	# install bash completion (FS#44618)
 	install -Dm644 btrfs-completion $PKG/usr/share/bash-completion/completions/btrfs
