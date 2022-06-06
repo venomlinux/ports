@@ -2,17 +2,12 @@
 # depends	: gsl boost gc lcms2 poppler-glib popt libxslt gtkmm3 double-conversion potrace gdl libsoup
 
 name=inkscape
-version=1.1.2
+version=1.2
 release=1
-source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz
-	poppler-22.04.0.patch poppler-22.03.0.patch"
+source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz"
 
 build() {
 	cd $name-${version}_*
-
-	# fix the build with latest poppler
-	patch -Np1 -i ../poppler-22.03.0.patch
-	patch -Np1 -i ../poppler-22.04.0.patch
 
 	mkdir build
 	cd    build
