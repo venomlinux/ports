@@ -2,9 +2,10 @@
 # depends	: curl openssl zlib
 
 name=libcurl-compat
-version=7.82.0
+version=7.83.1
 release=1
 source="https://curl.haxx.se/download/curl-$version.tar.xz"
+libver=4.8.0
 
 build() {
 	cd curl-$version
@@ -23,10 +24,10 @@ build() {
 	make -C lib
 	make -C lib DESTDIR=$PKG install
 
-	mv $PKG/usr/lib/libcurl.so.4.7.0 $PKG/usr/lib/libcurl-compat.so.4.7.0
+	mv $PKG/usr/lib/libcurl.so.$libver $PKG/usr/lib/libcurl-compat.so.$libver
 	rm $PKG/usr/lib/libcurl.a* $PKG/usr/lib/libcurl.so*
 	for vers in 3 4.0.0 4.1.0 4.2.0 4.3.0 4.4.0; do
-	    ln -s libcurl-compat.so.4.6.0 $PKG/usr/lib/libcurl.so.${vers}
+	    ln -s libcurl-compat.so.$libver $PKG/usr/lib/libcurl.so.${vers}
 	done
 }
 
