@@ -30,9 +30,12 @@ build() {
 	            --enable-libvorbis   \
 	            --enable-libvpx      \
 	            --enable-libx264     \
-	            --enable-libx265	\
-		--enable-libaom \
-		--enable-libdav1d
+	            --enable-libx265	 \
+	            --enable-libaom      \
+                    --enable-libdav1d    \
+                    --enable-lto         \
+                    --enable-vaapi       \
+                    --enable-vdpau  
 	make
 	gcc tools/qt-faststart.c -o tools/qt-faststart
 	make DESTDIR=$PKG install
