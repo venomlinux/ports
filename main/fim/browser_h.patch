@@ -1,0 +1,14 @@
+--- /var/cache/scratchpkg/work/fim/src/fim-0.5-rc1/src/Browser.h	2016-01-18 07:50:36.000000000 +0000
++++ ./src/Browser.h	2021-12-31 01:39:09.502993903 +0000
+@@ -147,9 +147,9 @@
+ 	fim::string pop_current(const args_t &args);
+ 	bool present(const fim::string nf)const;
+ 	fim_int find_file_index(const fim::string nf)const;
+-#ifdef FIM_READ_DIRS
++//#ifdef FIM_READ_DIRS
+ 	bool push_dir(fim::string nf, fim_flags_t pf=FIM_FLAG_PUSH_REC);
+-#endif /* FIM_READ_DIRS */
++//#endif /* FIM_READ_DIRS */
+ 	bool push(fim::string nf, fim_flags_t pf=FIM_FLAG_PUSH_REC);
+ 
+ 	fim::string display(void);

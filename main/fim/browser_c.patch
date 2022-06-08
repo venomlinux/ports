@@ -1,0 +1,54 @@
+--- /var/cache/scratchpkg/work/fim/src/fim-0.5-rc1/src/Browser.cpp	2016-01-20 17:09:09.000000000 +0000
++++ ./src/Browser.cpp	2021-12-31 01:38:23.242995913 +0000
+@@ -944,7 +944,7 @@
+ 		return ip;
+ 	}
+ 
+-#ifdef FIM_READ_DIRS
++//#ifdef FIM_READ_DIRS
+ 	bool Browser::push_dir(fim::string nf, fim_flags_t pf)
+ 	{
+ 		// TODO: may introduce some more variable to control recursive push 	
+@@ -957,13 +957,13 @@
+ 		if(cc.getIntVariable(FIM_VID_PRELOAD_CHECKS)!=1)
+ 			goto nostat;
+ 		/*	we want a dir .. */
+-#ifdef HAVE_LIBGEN_H
+-		if( !is_dir( nf.c_str() ) )
+-			nf = fim_dirname(nf);
+-#else /* HAVE_LIBGEN_H */
+-		if( !is_dir( nf ))
+-			goto ret;
+-#endif /* HAVE_LIBGEN_H */
++//#ifdef HAVE_LIBGEN_H
++		//if( !is_dir( nf.c_str() ) )
++			//nf = fim_dirname(nf);
++//#else /* HAVE_LIBGEN_H */
++		//if( !is_dir( nf ))
++			//goto ret;
++//#endif /* HAVE_LIBGEN_H */
+ 
+ nostat:
+ 		if ( ! ( dir = opendir(nf.c_str() ) ))
+@@ -1015,7 +1015,7 @@
+ 		FIM_PR('.');
+ 		return retval;
+ 	}
+-#endif /* FIM_READ_DIRS */
++//#endif /* FIM_READ_DIRS */
+ 
+ 	bool Browser::push(fim::string nf, fim_flags_t pf)
+ 	{	
+@@ -1108,10 +1108,10 @@
+ 		//std::cout << "pushing " << nf << FIM_CNS_NEWLINE;
+ 		setGlobalVariable(FIM_VID_FILELISTLEN,n_files());
+ 		goto ret;
+-#ifdef FIM_READ_DIRS
++//#ifdef FIM_READ_DIRS
+ isdir:
+ 		retval = push_dir(nf,pf);
+-#endif /* FIM_READ_DIRS */
++//#endif /* FIM_READ_DIRS */
+ ret:
+ 		FIM_PR('.');
+ 		return retval;
