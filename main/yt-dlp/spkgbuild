@@ -1,0 +1,21 @@
+# description	: youtube-dl fork with additional features and fixes
+# depends	: python3
+
+name=yt-dlp
+version=2022.05.18
+release=1
+source="https://github.com/yt-dlp/yt-dlp/archive/$version/$name-$version.tar.gz"
+
+
+build() {
+	cd $name-$version
+
+	sed -i 's|etc/bash_completion.d|share/bash-completion/completions|' setup.py
+	sed -i 's|etc/fish/completions|share/fish/completions|' setup.py
+
+	python3 setup.py build
+	make completions
+
+	python3 setup.py install --prefix=/usr --root=$PKG
+
+}
