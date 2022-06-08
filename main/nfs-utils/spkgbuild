@@ -9,7 +9,7 @@ source="https://www.kernel.org/pub/linux/utils/$name/$version/$name-$version.tar
 build() {
 	cd $name-$version
 
-    ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/sbin --disable-nfsv4 --disable-gss
-    make
+        ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/sbin --disable-nfsv4 --disable-gss
+	make
 	make PREFIX=$PKG/usr DESTDIR=$PKG install
 }
