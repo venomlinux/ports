@@ -1,0 +1,13 @@
+# description : cli-visualizer
+# depends	: fftw ncurses
+
+name=cli-visualizer
+version=1.8
+release=8
+source="https://github.com/dpayne/$name/archive/v$version.tar.gz"
+
+build() {
+    cd $name-$version
+    cmake -DCMAKE_INSTALL_PREFIX=/usr ENABLE_PULSE=1 ./
+    make PREFIX=$PKG/usr DESTDIR=$PKG install
+}
