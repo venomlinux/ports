@@ -1,0 +1,24 @@
+# description: Network Sniffer with nice GTK+ UI
+# depends: gtk3 libpcap libpcre hicolor-icon-theme
+
+name=wireshark
+version=2.0.1
+release=1
+source="http://www.$name.org/download/src/all-versions/$name-$version.tar.bz2"
+
+build() {
+  cd $name-$version
+
+  ./configure --prefix=/usr \
+              --mandir=/usr/share/man \
+              --with-plugins=/usr/lib/$name/plugins \
+              --without-krb5 \
+              --without-lua \
+              --with-gtk3=yes \
+              --with-qt=no
+
+  make
+  make DESTDIR=$PKG install
+
+
+}
