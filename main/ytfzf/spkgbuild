@@ -1,0 +1,15 @@
+# description	: A posix script to find and watch youtube videos from the terminal.
+# homepage	: https://github.com/pystardust/ytfzf
+# depends	: jq curl mpv make yt-dlp dmenu fzf ueberzug
+
+name=ytfzf
+version=2.3
+release=1
+source="$name-$version.tar.gz::https://github.com/pystardust/ytfzf/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	
+	make PREFIX=/usr
+        make PREFIX=/usr DESTDIR=$PKG install
+}

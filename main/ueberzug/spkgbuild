@@ -1,0 +1,16 @@
+# description	: Command line util which allows to display images in combination with X11
+# homepage	: https://github.com/seebye/ueberzug
+# depends	: libxext python3-attrs python3-docopt 'python3-pillow python3-xlib python3-setuptools
+
+name=ueberzug
+version=18.1.9
+release=1
+noextract=""
+backup=""
+source="https://github.com/seebye/ueberzug/archive/$version.tar.gz"
+
+build() {
+	cd $name-$version
+	python3 setup.py build
+	python3 setup.py install --root="$PKG" --optimize=1 --skip-build
+}
