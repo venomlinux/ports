@@ -2,12 +2,15 @@
 # depends	: readline zlib bzip2
 
 name=pcre2
-version=10.37
+version=10.40
 release=1
-source="https://ftp.pcre.org/pub/pcre/$name-$version.tar.bz2"
+source="https://github.com/PCRE2Project/pcre2/archive/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
+	cd $name-$name-$version
+	
+	NOCONFIGURE=1 ./autogen.sh
+
 	./configure --prefix=/usr                       \
 	            --enable-unicode                    \
 		    --enable-jit                        \
