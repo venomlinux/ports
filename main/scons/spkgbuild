@@ -1,0 +1,19 @@
+# description	: scons
+# depends	: libxslt docbook-xsl python3
+
+name=scons
+version=4.2.0
+release=1
+source="https://downloads.sourceforge.net/$name/$name-$version.tar.gz"
+
+build() {
+	cd SCons-$version
+    
+    sed -i 's/env python/&3/' SCons/Utilities/*.py
+    sed -i 's:build/doc/man/::' setup.cfg
+    python3 setup.py install --prefix=/usr \
+        --root="$PKG" \
+        --optimize=1 \
+        --install-data=/usr/share/man/man1
+
+}
