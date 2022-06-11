@@ -3,11 +3,15 @@
 
 name=xf86-video-nouveau
 version=1.0.17
-release=1
-source="https://www.x.org/pub/individual/driver/$name-$version.tar.bz2"
+release=2
+source="https://www.x.org/pub/individual/driver/$name-$version.tar.bz2
+	xorg-server-21.1.diff"
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i ../xorg-server-21.1.diff
+
 	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
