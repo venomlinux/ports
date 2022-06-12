@@ -1,0 +1,14 @@
+# description	: Pythonic argument parser that will make you smile
+# homepage	: https://pypi.org/project/docopt
+# depends	: python3-setuptools
+
+name=python3-docopt
+version=0.6.2
+release=1
+source="https://files.pythonhosted.org/packages/a2/55/8f8cab2afd404cf578136ef2cc5dfb50baa1761b68c9da1fb1e4eed343c9/docopt-$version.tar.gz"
+
+build() {
+	cd docopt-$version
+	python3 setup.py build
+	python3 setup.py install --root=$PKG
+}
