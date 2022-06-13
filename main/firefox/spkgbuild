@@ -64,7 +64,7 @@ EOF
 	echo "Current RUSTFLAGS:\t\t${RUSTFLAGS:-no value set}"
 	
 	# python/mach/mach/mixin/process.py fails to detect SHELL
-	export SHELL='/usr/bin/bash'
+	export SHELL='/bin/bash'
 
 	SHELL=/bin/sh ./mach build
 	SHELL=/bin/sh DESTDIR=$PKG ./mach install
