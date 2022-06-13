@@ -1,8 +1,8 @@
 # description	: Stand-alone browser based on the Mozilla codebase
-# depends	: alsa-lib autoconf2.13 cbindgen clang dav1d dbus-glib ffmpeg gtk3 hicolor-icon-theme icu libevent libffi libjpeg-turbo libnotify libpng libvpx libxrender libxcomposite libsm libxt libxdamage libxscrnsaver libwebp lld llvm nasm nodejs nspr nss perl pixman pkgconf python3 rust yasm unzip zip zlib
+# depends	: alsa-lib autoconf2.13 cbindgen clang dav1d dbus-glib ffmpeg gtk3 hicolor-icon-theme icu libevent libffi libjpeg-turbo libnotify libpng libvpx libxrender libxcomposite libsm libxt libxdamage libxscrnsaver libwebp lld nasm nodejs nspr nss perl pixman pkgconf python3 rust yasm unzip zip zlib
 
 name=firefox
-version=101.0
+version=101.0.1
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	$name.desktop"
@@ -15,20 +15,22 @@ build() {
 cat <<- EOF > .mozconfig
 	mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-shared
 	unset MOZ_TELEMETRY_REPORTING
-	ac_add_options --enable-application=browser
 	ac_add_options --prefix=/usr
+	ac_add_options --enable-application=browser
 	ac_add_options --enable-default-toolkit=cairo-gtk3
 	ac_add_options --enable-application=browser
 	ac_add_options --enable-av1
 	ac_add_options --enable-system-ffi
 	ac_add_options --enable-system-pixman
 	ac_add_options --enable-alsa
+	ac_add_options --enable-audio-backends=alsa
+	ac_add_options --disable-pulseaudio
 	ac_add_options --enable-ffmpeg
 	ac_add_options --enable-optimize
 	ac_add_options --enable-release
 	ac_add_options --enable-rust-simd
 	ac_add_options --enable-linker=lld
-	ac_add_options --enable-audio-backends=alsa
+	ac_add_options --enable-lto=thin
 	ac_add_options --enable-official-branding
 	ac_add_options --disable-debug-symbols
 	ac_add_options --disable-tests
@@ -42,14 +44,27 @@ cat <<- EOF > .mozconfig
 	ac_add_options --with-system-png
 	ac_add_options --with-system-nspr
 	ac_add_options --with-system-nss
+	ac_add_options --with-system-libevent
+	ac_add_options --with-system-libvpx
+	ac_add_options --with-system-webp
 	ac_add_options --without-wasm-sandboxed-libraries
 EOF
 
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
-	export MOZBUILD_STATE_PATH=${PWD}/mozbuild
+	export MOZBUILD_STATE_PATH=${PWD}/.mozbuild
 	export CARGO_HOME=$INITDIR
 	export MOZ_NOSPAM=1
 	export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=system
+
+	# Show flags set at the beginning
+ 	echo "Current BINDGEN_CFLAGS:\t${BINDGEN_CFLAGS:-no value set}"
+	echo "Current CFLAGS:\t\t${CFLAGS:-no value set}"
+	echo "Current CXXFLAGS:\t\t${CXXFLAGS:-no value set}"
+	echo "Current LDFLAGS:\t\t${LDFLAGS:-no value set}"
+	echo "Current RUSTFLAGS:\t\t${RUSTFLAGS:-no value set}"
+	
+	# python/mach/mach/mixin/process.py fails to detect SHELL
+	export SHELL='/usr/bin/bash'
 
 	SHELL=/bin/sh ./mach build
 	SHELL=/bin/sh DESTDIR=$PKG ./mach install
@@ -68,7 +83,7 @@ END
   install -Dvm644 /dev/stdin "$distini" <<END
 [Global]
 id=venomlinux
-version=101.0
+version=$version
 about=Mozilla Firefox for Venomlinux
 [Preferences]
 app.distributor=venomlinux
@@ -87,6 +102,6 @@ END
 	# exclude library for revdep
 	mkdir -p $PKG/etc/revdep.d/
 	for i in libmozavutil.so liblgpllibs.so libmozgtk.so libmozsandbox.so libmozwayland.so libxul.so libmozsqlite3.so; do
-		echo $i >> $PKG/etc/revdep.d/$name.conf
-	done
+        	echo $i >> $PKG/etc/revdep.d/$name.conf
+        done	
 }
