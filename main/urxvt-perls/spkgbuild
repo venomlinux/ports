@@ -1,0 +1,18 @@
+# description	: Perl extensions for the rxvt-unicode terminal emulator 
+# homepage	: https://github.com/muennich/urxvt-perls
+# depends	: rxvt-unicode perl xsel
+
+name=urxvt-perls
+version=2.3
+release=1
+source="https://github.com/muennich/urxvt-perls/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	
+	install -dm755 "$PKG"/usr/lib/urxvt/perl
+	install -t "$PKG"/usr/lib/urxvt/perl -m644 keyboard-select 
+	install -t "$PKG"/usr/lib/urxvt/perl -m644 deprecated/clipboard
+	install -t "$PKG"/usr/lib/urxvt/perl -m644 deprecated/url-select
+
+}
