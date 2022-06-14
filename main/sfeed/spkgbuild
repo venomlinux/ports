@@ -1,0 +1,17 @@
+# description	: RSS and Atom parser
+# homepage	: https://git.codemadness.org/sfeed
+# depends	: ncurses
+
+name=sfeed
+version=1.5
+release=1
+source="https://codemadness.org/releases/$name/$name-$version.tar.gz"
+
+
+build() {
+	cd $name-$version
+
+
+	make PREFIX=/usr
+        make PREFIX=/usr DESTDIR=$PKG install
+}
