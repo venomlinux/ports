@@ -1,0 +1,16 @@
+# description	: Sophisticated calendar and alarm program
+# homepage	: https://dianne.skoll.ca/projects/remind/
+
+name=remind
+version=04.00.00
+release=1
+source="$name.tar.gz::https://git.skoll.ca/Skollsoft-Public/Remind/archive/$version.tar.gz"
+
+
+build() {
+	cd $name
+
+
+	make PREFIX=/usr
+	make PREFIX=/usr DESTDIR=$PKG install
+}
