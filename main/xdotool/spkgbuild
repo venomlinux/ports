@@ -9,8 +9,7 @@ source="https://github.com/jordansissel/$name/releases/download/v$version/$name-
 
 build() {
 	cd $name-$version
-
+	sed -i  's|(PREFIX)/man|(PREFIX)/share/man|g' Makefile
 	make PREFIX=/usr
 	make PREFIX=/usr DESTDIR=$PKG install
-	install -Dm755 xdotool.1 $PKG/usr/share/man/man1/xdotool.1
 }
