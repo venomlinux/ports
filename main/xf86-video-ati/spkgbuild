@@ -4,17 +4,19 @@
 name=xf86-video-ati
 version=19.1.0
 release=1
-source="https://www.x.org/pub/individual/driver/$name-$version.tar.bz2"
+source="https://www.x.org/pub/individual/driver/$name-$version.tar.bz2
+	xorg-abi.patch"
 
 build() {
 	cd $name-$version
 
-	export CFLAGS="$CFLAGS -fcommon"
+	patch -p1 -i $SRC/xorg-abi.patch
 
 	./configure --prefix=/usr \
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--disable-static
-	make
+
+	make CFLAGS="$CFLAGS -fcommon"
 	make DESTDIR=$PKG install
 }
