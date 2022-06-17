@@ -1,0 +1,28 @@
+# description: High quality, one-dimensional sample-rate conversion library
+# depends: cmake ffmpeg
+
+name=libsoxr
+version=0.1.3
+release=1
+source="https://downloads.sourceforge.net/soxr/soxr-$version-Source.tar.xz"
+
+build() {
+	[[ -e /usr/bin/ninja ]] && PKGMK_SOXR+=' -G Ninja'
+	cmake -S soxr-$version-Source -B build $PKGMK_SOXR \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-D BUILD_EXAMPLES=OFF \
+		-D BUILD_SHARED_LIBS=ON \
+		-D WITH_AVFFT=ON \
+		-D WITH_LSR_BINDINGS=ON \
+		-D WITH_OPENMP=ON \
+		-D WITH_PFFFT=ON \
+		-Wno-dev
+
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+
+	rm -r $PKG/usr/share/doc
+}

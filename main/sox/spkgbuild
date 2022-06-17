@@ -1,0 +1,15 @@
+# description : sox sound exchange, the Swiss Army knife of audio manipulation
+# depends	: libsoxr
+
+name=sox
+version=14.4.2
+release=1
+source="https://github.com/chirlu/$name/archive/refs/tags/$name-$version.tar.gz"
+
+build() {
+	cd $name-$name-$version
+	autoreconf -vis
+	./configure --prefix=/usr
+	make
+	make PREFIX=$PKG/usr DESTDIR=$PKG install
+}

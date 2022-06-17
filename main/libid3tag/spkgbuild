@@ -1,0 +1,37 @@
+# description	: High-quality MPEG audio decoder capable of 24-bit output
+# depends       : zlib
+
+name=libid3tag
+version=0.15.1b
+release=1
+source="https://sourceforge.net/projects/mad/files/$name/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+
+	sed "s@AM_CONFIG_HEADER@AC_CONFIG_HEADERS@g" -i configure.ac
+	touch NEWS AUTHORS ChangeLog
+	autoreconf -fi
+
+	./configure --prefix=/usr --disable-static
+	make
+	make DESTDIR=$PKG install
+
+	install -d $PKG/usr/lib/pkgconfig
+
+cat > $PKG/usr/lib/pkgconfig/id3tag.pc << "EOF"
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: id3tag
+Description: ID3 tag library
+Requires:
+Version: 0.15.1b
+Libs: -L${libdir} -lid3tag -lz
+Cflags: -I${includedir}
+EOF
+}
+

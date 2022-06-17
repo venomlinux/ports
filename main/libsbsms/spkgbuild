@@ -1,0 +1,15 @@
+# description : libsbsms 
+# depends	: 
+
+name=libsbsms
+version=2.3.0
+release=1
+source="https://github.com/claytonotey/$name/archive/refs/tags/$version.tar.gz"
+
+build() {
+	cd $name-$version
+	mkdir build
+	cmake -DCMAKE_INSTALL_PREFIX=/usr ./
+    make
+	make PREFIX=$PKG/usr DESTDIR=$PKG install
+}
