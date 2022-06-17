@@ -1,0 +1,15 @@
+# description	: Utility for performing actions on windows in X
+# home		: https://github.com/jordansissel/xdotool
+# depends	: libxinerama libxtst libxkbcommon perl
+
+name=xdotool
+version=3.20211022.1
+release=1
+source="https://github.com/jordansissel/$name/releases/download/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	sed -i  's|(PREFIX)/man|(PREFIX)/share/man|g' Makefile
+	make PREFIX=/usr
+	make PREFIX=/usr DESTDIR=$PKG install
+}
