@@ -9,8 +9,8 @@ source="$name-$version.tar.gz::https://git.skoll.ca/Skollsoft-Public/Remind/arch
 
 build() {
 	cd $name
+	./configure
+	sed -i 's|prefix=/usr/local|prefix=/usr|' src/Makefile
 
-
-	make PREFIX=/usr
-	make PREFIX=/usr DESTDIR=$PKG install
+	make  DESTDIR=$PKG install
 }
