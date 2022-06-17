@@ -1,0 +1,15 @@
+# description	: GTK user interface for TLP written in Python
+# homepage	: https://github.com/d4nj1/TLPUI
+# depends	: gtk+3 python3-setuptools tlp python3-gobject
+
+name=tlpui
+version=1.5.0
+release=1
+source="https://github.com/d4nj1/TLPUI/archive/refs/tags/$name-$version.tar.gz"
+
+build() {
+	cd TLPUI-$name-$version
+	python3 setup.py build
+	python3 setup.py install --root="$PKG" --optimize=1 --skip-build
+	install -Dm664 "$SRC/TLPUI-$name-$version/$name.desktop" "$PKG/usr/share/applications"  
+}
