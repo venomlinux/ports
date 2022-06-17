@@ -1,0 +1,19 @@
+# description	: Command line utilities to convert Microsoft Word documents.
+# homepage	: http://wvware.sourceforge.net/
+# depends	: libgsf glib
+
+name=wv
+version=1.2.9
+release=1
+source="http://www.abisource.com/downloads/$name/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	
+	./configure --prefix=/usr \
+	--mandir=/usr/share/man \
+	--disable-static
+	
+	make
+	make DESTDIR=$PKG install
+}
