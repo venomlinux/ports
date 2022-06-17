@@ -8,8 +8,8 @@ release=1
 source="https://github.com/tenacityteam/libid3tag/archive/$version/$name-$version.tar.gz"
 
 build() {
-#	PKGMK_LIBID3TAG+=' -G Ninja'
-	cmake -S $name-$version -B build $PKGMK_LIBID3TAG \
+
+	cmake -S $name-$version -B build \
 		-D CMAKE_INSTALL_PREFIX=/usr \
 		-D CMAKE_INSTALL_LIBDIR=lib \
 		-D CMAKE_BUILD_TYPE=Release \
