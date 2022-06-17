@@ -14,4 +14,13 @@ build() {
 
 	make PREFIX=/usr
         make PREFIX=/usr DESTDIR=$PKG install
+
+	for i in sfeed sfeed_atom sfeed_content sfeed_curses sfeed_frames sfeed_gopher sfeed_html \
+	sfeed_markread sfeed_mbox sfeed_opml_export sfeed_opml_import sfeed_plain sfeed_twtxt \
+	sfeed_update sfeed_web sfeed_xmlenc ; do
+	install -Dm755 $i.1 $PKG/usr/man/man1/$i.1
+	done
+	for i in sfeed sfeedrc ; do
+	install -Dm755 $i.5 $PKG/usr/man/man5/$i.5
+	done
 }
