@@ -1,37 +1,21 @@
-# description	: High-quality MPEG audio decoder capable of 24-bit output
-# depends       : zlib
+# description	: ID3 tag manipulation library 
+# homepage	: https://github.com/tenacityteam/libid3tag
+# depends	: zlib cmake
 
 name=libid3tag
-version=0.15.1b
+version=0.16.2
 release=1
-source="https://sourceforge.net/projects/mad/files/$name/$version/$name-$version.tar.gz"
+source="https://github.com/tenacityteam/libid3tag/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
 
-
-	sed "s@AM_CONFIG_HEADER@AC_CONFIG_HEADERS@g" -i configure.ac
-	touch NEWS AUTHORS ChangeLog
-	autoreconf -fi
-
-	./configure --prefix=/usr --disable-static
-	make
-	make DESTDIR=$PKG install
-
-	install -d $PKG/usr/lib/pkgconfig
-
-cat > $PKG/usr/lib/pkgconfig/id3tag.pc << "EOF"
-prefix=/usr
-exec_prefix=${prefix}
-libdir=${exec_prefix}/lib
-includedir=${prefix}/include
-
-Name: id3tag
-Description: ID3 tag library
-Requires:
-Version: 0.15.1b
-Libs: -L${libdir} -lid3tag -lz
-Cflags: -I${includedir}
-EOF
+	cmake -S $name-$version -B build \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_INSTALL_LIBDIR=lib \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
-
