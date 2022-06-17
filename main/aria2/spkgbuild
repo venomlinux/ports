@@ -1,0 +1,29 @@
+# description	: Download utility that supports HTTP(S), FTP, Bittorrent and MetaLink
+# homepage	: https://aria2.sourceforge.net
+# depends	: libxml2 sqlite c-ares ca-certificates libssh2
+
+name=aria2
+version=1.36.0
+release=1
+source="https://github.com/tatsuhiro-t/$name/releases/download/release-$version/$name-$version.tar.xz"
+
+build() {
+
+	cd $name-$version
+
+	./configure \
+	--prefix=/usr \
+	--enable-libaria2 \
+	--with-ca-bundle=/etc/ssl/certs/ca-certificates.crt
+
+
+	make
+	make check || echo "Ignoring test failures"
+	make DESTDIR=$PKG install
+
+	install -d "$PKG"/usr/share/bash-completions/completions
+	install -m644 "$PKG"/usr/share/doc/aria2/bash_completion/aria2c \
+	"$PKG"/usr/share/bash-completions/completions
+	rm -rf "$PKG"/usr/share/doc/aria2/bash_competion
+
+}
