@@ -12,4 +12,5 @@ build() {
 
 	make PREFIX=/usr
 	make PREFIX=/usr DESTDIR=$PKG install
+	install -Dm755 xdotool.1 $PKG/usr/share/man/man1/xdotool.1
 }
