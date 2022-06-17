@@ -1,0 +1,16 @@
+# description	: Fully featured yet light and fast cross platform word processor
+# homepage	: http://www.abisource.com
+# depends	: wv fribidi glib libgcrypt libxslt librsvg libgsf libpng libjpeg-turbo cairo gtk3 boost perl pkgconf
+
+name=abiword
+version=3.0.5
+release=1
+source="https://www.abisource.com/downloads/$name/$version/source/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+
+	make
+	make DESTDIR=$PKG install
+}
