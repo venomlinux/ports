@@ -1,0 +1,16 @@
+# description	: The Typesafe Callback Framework for C++
+# homepage      : https://libsigcplusplus.github.io/libsigcplusplus/
+# depends       : mm-common
+
+name=libsigc++3
+_name=libsigc++
+version=3.2.0
+release=1
+source="https://download.gnome.org/sources/$_name/${version%.*}/$_name-$version.tar.xz"
+
+build() {
+	cd $_name-$version
+	venom-meson build 
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
+}
