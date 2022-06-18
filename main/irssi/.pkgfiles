@@ -1,4 +1,4 @@
-irssi-1.2.3-1
+irssi-1.4.1-1
 drwxr-xr-x root/root    etc/
 -rw-r--r-- root/root    etc/irssi.conf.spkgnew
 drwxr-xr-x root/root    usr/
@@ -46,6 +46,7 @@ drwxr-xr-x root/root    usr/include/irssi/src/core/
 -rw-r--r-- root/root    usr/include/irssi/src/core/query-rec.h
 -rw-r--r-- root/root    usr/include/irssi/src/core/rawlog.h
 -rw-r--r-- root/root    usr/include/irssi/src/core/recode.h
+-rw-r--r-- root/root    usr/include/irssi/src/core/refstrings.h
 -rw-r--r-- root/root    usr/include/irssi/src/core/server-connect-rec.h
 -rw-r--r-- root/root    usr/include/irssi/src/core/server-rec.h
 -rw-r--r-- root/root    usr/include/irssi/src/core/server-setup-rec.h
@@ -106,6 +107,7 @@ drwxr-xr-x root/root    usr/include/irssi/src/fe-text/
 -rw-r--r-- root/root    usr/include/irssi/src/fe-text/statusbar-item.h
 -rw-r--r-- root/root    usr/include/irssi/src/fe-text/statusbar.h
 -rw-r--r-- root/root    usr/include/irssi/src/fe-text/term.h
+-rw-r--r-- root/root    usr/include/irssi/src/fe-text/textbuffer-formats.h
 -rw-r--r-- root/root    usr/include/irssi/src/fe-text/textbuffer-view.h
 -rw-r--r-- root/root    usr/include/irssi/src/fe-text/textbuffer.h
 drwxr-xr-x root/root    usr/include/irssi/src/irc/
@@ -157,25 +159,27 @@ drwxr-xr-x root/root    usr/lib/irssi/modules/
 -rw-r--r-- root/root    usr/lib/irssi/modules/libirc_proxy.a
 -rwxr-xr-x root/root    usr/lib/irssi/modules/libirc_proxy.so
 drwxr-xr-x root/root    usr/lib/perl5/
-drwxr-xr-x root/root    usr/lib/perl5/5.32/
-drwxr-xr-x root/root    usr/lib/perl5/5.32/x86_64-linux-thread-multi/
+drwxr-xr-x root/root    usr/lib/perl5/5.36/
+drwxr-xr-x root/root    usr/lib/perl5/5.36/x86_64-linux-thread-multi/
 drwxr-xr-x root/root    usr/lib/perl5/site_perl/
-drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.32/
-drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/
--r--r--r-- root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/Irssi.pm
-drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/Irssi/
--r--r--r-- root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/Irssi/Irc.pm
--r--r--r-- root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/Irssi/TextUI.pm
--r--r--r-- root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/Irssi/UI.pm
-drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/auto/
-drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/auto/Irssi/
-drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/auto/Irssi/Irc/
--r-xr-xr-x root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/auto/Irssi/Irc/Irc.so
--r-xr-xr-x root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/auto/Irssi/Irssi.so
-drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/auto/Irssi/TextUI/
--r-xr-xr-x root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/auto/Irssi/TextUI/TextUI.so
-drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/auto/Irssi/UI/
--r-xr-xr-x root/root    usr/lib/perl5/site_perl/5.32/x86_64-linux-thread-multi/auto/Irssi/UI/UI.so
+drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.36/
+drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/
+-r--r--r-- root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/Irssi.pm
+drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/Irssi/
+-r--r--r-- root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/Irssi/Irc.pm
+-r--r--r-- root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/Irssi/TextUI.pm
+-r--r--r-- root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/Irssi/UI.pm
+drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/auto/
+drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/auto/Irssi/
+drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/auto/Irssi/Irc/
+-r-xr-xr-x root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/auto/Irssi/Irc/Irc.so
+-r-xr-xr-x root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/auto/Irssi/Irssi.so
+drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/auto/Irssi/TextUI/
+-r-xr-xr-x root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/auto/Irssi/TextUI/TextUI.so
+drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/auto/Irssi/UI/
+-r-xr-xr-x root/root    usr/lib/perl5/site_perl/5.36/x86_64-linux-thread-multi/auto/Irssi/UI/UI.so
+drwxr-xr-x root/root    usr/lib/pkgconfig/
+-rw-r--r-- root/root    usr/lib/pkgconfig/irssi-1.pc
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/irssi/
 drwxr-xr-x root/root    usr/share/irssi/help/
