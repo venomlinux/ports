@@ -1,4 +1,4 @@
-protobuf-3.20.0-1
+protobuf-21.1-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/protoc
@@ -18,10 +18,11 @@ drwxr-xr-x root/root    usr/include/google/protobuf/compiler/
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/code_generator.h
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/command_line_interface.h
 drwxr-xr-x root/root    usr/include/google/protobuf/compiler/cpp/
--rw-r--r-- root/root    usr/include/google/protobuf/compiler/cpp/cpp_file.h
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/cpp/cpp_generator.h
--rw-r--r-- root/root    usr/include/google/protobuf/compiler/cpp/cpp_helpers.h
--rw-r--r-- root/root    usr/include/google/protobuf/compiler/cpp/cpp_names.h
+-rw-r--r-- root/root    usr/include/google/protobuf/compiler/cpp/file.h
+-rw-r--r-- root/root    usr/include/google/protobuf/compiler/cpp/generator.h
+-rw-r--r-- root/root    usr/include/google/protobuf/compiler/cpp/helpers.h
+-rw-r--r-- root/root    usr/include/google/protobuf/compiler/cpp/names.h
 drwxr-xr-x root/root    usr/include/google/protobuf/compiler/csharp/
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/csharp/csharp_doc_comment.h
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/csharp/csharp_generator.h
@@ -29,11 +30,10 @@ drwxr-xr-x root/root    usr/include/google/protobuf/compiler/csharp/
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/csharp/csharp_options.h
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/importer.h
 drwxr-xr-x root/root    usr/include/google/protobuf/compiler/java/
+-rw-r--r-- root/root    usr/include/google/protobuf/compiler/java/generator.h
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/java/java_generator.h
--rw-r--r-- root/root    usr/include/google/protobuf/compiler/java/java_kotlin_generator.h
--rw-r--r-- root/root    usr/include/google/protobuf/compiler/java/java_names.h
-drwxr-xr-x root/root    usr/include/google/protobuf/compiler/js/
--rw-r--r-- root/root    usr/include/google/protobuf/compiler/js/js_generator.h
+-rw-r--r-- root/root    usr/include/google/protobuf/compiler/java/kotlin_generator.h
+-rw-r--r-- root/root    usr/include/google/protobuf/compiler/java/names.h
 drwxr-xr-x root/root    usr/include/google/protobuf/compiler/objectivec/
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/objectivec/objectivec_generator.h
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/objectivec/objectivec_helpers.h
@@ -44,8 +44,9 @@ drwxr-xr-x root/root    usr/include/google/protobuf/compiler/php/
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/plugin.pb.h
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/plugin.proto
 drwxr-xr-x root/root    usr/include/google/protobuf/compiler/python/
+-rw-r--r-- root/root    usr/include/google/protobuf/compiler/python/generator.h
+-rw-r--r-- root/root    usr/include/google/protobuf/compiler/python/pyi_generator.h
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/python/python_generator.h
--rw-r--r-- root/root    usr/include/google/protobuf/compiler/python/python_pyi_generator.h
 drwxr-xr-x root/root    usr/include/google/protobuf/compiler/ruby/
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/ruby/ruby_generator.h
 -rw-r--r-- root/root    usr/include/google/protobuf/descriptor.h
@@ -57,6 +58,7 @@ drwxr-xr-x root/root    usr/include/google/protobuf/compiler/ruby/
 -rw-r--r-- root/root    usr/include/google/protobuf/dynamic_message.h
 -rw-r--r-- root/root    usr/include/google/protobuf/empty.pb.h
 -rw-r--r-- root/root    usr/include/google/protobuf/empty.proto
+-rw-r--r-- root/root    usr/include/google/protobuf/endian.h
 -rw-r--r-- root/root    usr/include/google/protobuf/explicitly_constructed.h
 -rw-r--r-- root/root    usr/include/google/protobuf/extension_set.h
 -rw-r--r-- root/root    usr/include/google/protobuf/extension_set_inl.h
@@ -99,6 +101,7 @@ drwxr-xr-x root/root    usr/include/google/protobuf/io/
 -rw-r--r-- root/root    usr/include/google/protobuf/port_def.inc
 -rw-r--r-- root/root    usr/include/google/protobuf/port_undef.inc
 -rw-r--r-- root/root    usr/include/google/protobuf/reflection.h
+-rw-r--r-- root/root    usr/include/google/protobuf/reflection_internal.h
 -rw-r--r-- root/root    usr/include/google/protobuf/reflection_ops.h
 -rw-r--r-- root/root    usr/include/google/protobuf/repeated_field.h
 -rw-r--r-- root/root    usr/include/google/protobuf/repeated_ptr_field.h
@@ -146,17 +149,17 @@ drwxr-xr-x root/root    usr/include/google/protobuf/util/
 -rw-r--r-- root/root    usr/include/google/protobuf/wrappers.proto
 drwxr-xr-x root/root    usr/lib/
 -rw-r--r-- root/root    usr/lib/libprotobuf-lite.a
-lrwxrwxrwx root/root    usr/lib/libprotobuf-lite.so -> libprotobuf-lite.so.31.0.0
-lrwxrwxrwx root/root    usr/lib/libprotobuf-lite.so.31 -> libprotobuf-lite.so.31.0.0
--rwxr-xr-x root/root    usr/lib/libprotobuf-lite.so.31.0.0
+lrwxrwxrwx root/root    usr/lib/libprotobuf-lite.so -> libprotobuf-lite.so.32.0.1
+lrwxrwxrwx root/root    usr/lib/libprotobuf-lite.so.32 -> libprotobuf-lite.so.32.0.1
+-rwxr-xr-x root/root    usr/lib/libprotobuf-lite.so.32.0.1
 -rw-r--r-- root/root    usr/lib/libprotobuf.a
-lrwxrwxrwx root/root    usr/lib/libprotobuf.so -> libprotobuf.so.31.0.0
-lrwxrwxrwx root/root    usr/lib/libprotobuf.so.31 -> libprotobuf.so.31.0.0
--rwxr-xr-x root/root    usr/lib/libprotobuf.so.31.0.0
+lrwxrwxrwx root/root    usr/lib/libprotobuf.so -> libprotobuf.so.32.0.1
+lrwxrwxrwx root/root    usr/lib/libprotobuf.so.32 -> libprotobuf.so.32.0.1
+-rwxr-xr-x root/root    usr/lib/libprotobuf.so.32.0.1
 -rw-r--r-- root/root    usr/lib/libprotoc.a
-lrwxrwxrwx root/root    usr/lib/libprotoc.so -> libprotoc.so.31.0.0
-lrwxrwxrwx root/root    usr/lib/libprotoc.so.31 -> libprotoc.so.31.0.0
--rwxr-xr-x root/root    usr/lib/libprotoc.so.31.0.0
+lrwxrwxrwx root/root    usr/lib/libprotoc.so -> libprotoc.so.32.0.1
+lrwxrwxrwx root/root    usr/lib/libprotoc.so.32 -> libprotoc.so.32.0.1
+-rwxr-xr-x root/root    usr/lib/libprotoc.so.32.0.1
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/protobuf-lite.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/protobuf.pc
