@@ -12,10 +12,7 @@ build() {
 	venom-meson \
 		    -D tests=false \
 		    -D doxygen=false \
-                    -D bluez5=disabled \
-		    -D ipv6=false \
-		    -D jack=disabled \
-		    -D systemd=disabled 
+                    -D bluez5=disabled 
 	ninja
 	DESTDIR=$PKG ninja install
 
