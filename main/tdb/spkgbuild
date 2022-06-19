@@ -1,0 +1,16 @@
+# description	: Trivial DataBase similar to gdbm
+# homepage	: https://tdb.samba.org/
+# depends	: python3
+
+name=tdb
+version=1.4.7
+release=1
+source="https://www.samba.org/ftp/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
