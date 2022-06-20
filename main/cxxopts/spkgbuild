@@ -1,0 +1,23 @@
+# description	: Lightweight C++ command line option parser
+# homepage	: https://github.com/jarro2783/cxxopts
+# depends	: cmake 
+
+name=cxxopts
+version=3.0.0
+release=1
+source="$name-$version.tar.gz::https://github.com/jarro2783/$name/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	    cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	    -DCMAKE_BUILD_TYPE='None' \
+	    -Wno-dev \
+	    -B build \
+	    -S .
+
+	    make VERBOSE=1 -C build
+	    make test
+	    make VERBOSE=1 DESTDIR="$PKG" install -C build
+
+}
