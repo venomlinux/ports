@@ -19,6 +19,9 @@ build() {
 	export SYSTEM_TBB=1
 	export LTO=1
 
+	# use /usr/lib instead of /usr/libexec
+        sed -i "s/libexec/lib/" Makefile
+
 	make \
 		CFLAGS="${CFLAGS}" \
 		CXXFLAGS="${CXXFLAGS}" \
