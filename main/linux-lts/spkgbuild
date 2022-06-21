@@ -16,6 +16,8 @@ build() {
 
 	if [ -f $_portdir/config ]; then
 	cp $_portdir/config .config
+	else
+	cp ../x86_64-dotconfig .config
 	fi
 	make olddefconfig
 
