@@ -2,19 +2,19 @@
 # depends	: elfutils mkinitramfs openssl linux-firmware yaml
 
 name=linux-lts
-version=5.15.44
+version=5.15.48
 release=1
-source="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$version.tar.xz
-	https://raw.githubusercontent.com/void-linux/void-packages/master/srcpkgs/linux5.10/files/x86_64-dotconfig"
+source="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$version.tar.xz"
 NO_STRIP=yes
+
+_portdir=$PWD
 
 build() {
 	cd linux-$version
 
 	make mrproper
 
-	# thanks to voidlinux for kernel config
-	cp ../x86_64-dotconfig .config
+	cp $_portdir/config .config
 	make olddefconfig
 
 	sed '/^CONFIG_LOCALVERSION=/d' -i .config
