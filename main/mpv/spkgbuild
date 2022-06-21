@@ -4,19 +4,23 @@
 name=mpv
 version=0.34.1
 release=1
-source="https://github.com/mpv-player/mpv/archive/v$version/$name-$version.tar.gz"
+source="https://github.com/mpv-player/mpv/archive/v$version/$name-$version.tar.gz
+https://waf.io/waf-2.0.9"
 
 build() {
 	cd $name-$version
-	./bootstrap.py
-	./waf configure \
+
+	install -m0755 $SRC/waf-2.0.9 waf
+
+	/usr/bin/python3 waf configure \
 	    --prefix=/usr \
 	    --confdir=/etc/mpv \
 	    --enable-cdda \
-	    --enable-dvb \
 	    --enable-libarchive \
+	    --enable-libmpv-shared \
 	    --enable-lua
-	./waf build
-	./waf install --destdir=$PKG
+
+	/usr/bin/python3 waf build
+	/usr/bin/python3 waf install --destdir=$PKG
 
 }
