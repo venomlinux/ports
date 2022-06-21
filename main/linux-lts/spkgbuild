@@ -16,6 +16,7 @@ build() {
 
 	if [ -f $_portdir/config ]; then
 	cp $_portdir/config .config
+	fi
 	make olddefconfig
 
 	sed '/^CONFIG_LOCALVERSION=/d' -i .config
