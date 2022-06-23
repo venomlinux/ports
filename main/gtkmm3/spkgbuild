@@ -1,15 +1,30 @@
 # description	: C++ interface to GTK+ 3
-# depends	: atkmm pangomm gtk3
+# homepage	: https://www.gtkmm.org
+# depends	: atkmm pangomm gtk3 libsigc++3 gdk-pixbuf libepoxy graphviz doxygen
 
 name=gtkmm3
-version=3.24.2
+version=3.24.6
 release=1
 source="https://ftp.gnome.org/pub/gnome/sources/gtkmm/${version%.*}/gtkmm-$version.tar.xz"
 
 build() {
-	cd gtkmm-$version
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
+
+cd gtkmm-$version
+
+sed -i 's/cairomm-1.0/cairomm-1.16/g' meson.build
+
+meson setup build \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --buildtype=plain \
+    -D b_lto=true \
+    -D b_pie=true \
+    -D build-demos=false \
+    -D build-tests=false
+
+
+meson compile -C build
+
+DESTDIR=$PKG meson install -C build
 
 }
