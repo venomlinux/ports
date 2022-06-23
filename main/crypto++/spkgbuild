@@ -2,11 +2,11 @@
 # homepage	: https://www.cryptopp.com/
 
 name=crypto++
-version=8.5.0
+version=8.6.0
 _v=$(echo $version | sed 's/\./_/g')
 release=1
-source="https://github.com/weidai11/cryptopp/archive/CRYPTOPP_${_v}.tar.gz"
-
+source="$name-$version.tar.gz::https://github.com/weidai11/cryptopp/archive/CRYPTOPP_${_v}.tar.gz"
+        
 build() {
 	cd cryptopp-CRYPTOPP_${_v}
 	make PREFIX="/usr" all libcryptopp.pc
