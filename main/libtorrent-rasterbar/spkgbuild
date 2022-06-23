@@ -2,16 +2,13 @@
 # depends	: openssl boost
 
 name=libtorrent-rasterbar
-version=1.2.11
+version=1.2.14
 release=1
-source="https://github.com/arvidn/libtorrent/releases/download/v$version/libtorrent-rasterbar-$version.tar.gz
-	libtorrent-rasterbar-cxx14-fix.patch"
+source="https://github.com/arvidn/libtorrent/releases/download/v$version/libtorrent-rasterbar-$version.tar.gz"
 
 build() {
 	cd $name-$version
 
-	# https://github.com/arvidn/libtorrent/issues/5024
-	patch -p1 -i $SRC/libtorrent-rasterbar-cxx14-fix.patch
 
 	./configure --prefix=/usr
 	make
