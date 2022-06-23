@@ -2,15 +2,13 @@
 # depends	: gnu-efi
 
 name=refind
-version=0.13.2
+version=0.13.3.1
 release=1
-source="https://downloads.sourceforge.net/$name/$version/$name-src-$version.tar.gz
-	gnu-efi.patch"
+source="https://downloads.sourceforge.net/$name/$version/$name-src-$version.tar.gz"
 
 build() {
         cd $name-$version
 
-	patch -Np1 -i ../gnu-efi.patch
 
 	make -j1
         make -j1 gnuefi
