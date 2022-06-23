@@ -3,19 +3,13 @@
 # depends	: cairomm glibmm pango
 
 name=pangomm
-version=2.42.2
+version=2.50.0
 release=1
-noextract=""
-backup=""
-source="https://ftp.gnome.org/pub/GNOME/sources/$name/${version%.*}/$name-$version.tar.xz
-	pango.patch"
+source="https://download.gnome.org/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
-	patch -d $name-$version -p1 -i $SRC/pango.patch	
 
-	meson setup build $name-$version --prefix=/usr \
-		--buildtype=plain
-
+	meson setup build $name-$version
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 }
