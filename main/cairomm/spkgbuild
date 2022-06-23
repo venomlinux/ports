@@ -6,9 +6,12 @@ version=1.16.1
 release=1
 source="https://cairographics.org/releases/$name-$version.tar.xz"
 
+
 build() {
 	cd $name-$version
-	venom-meson build
+	meson build --prefix=/usr \
+		--buildtype=plain
+
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 }
