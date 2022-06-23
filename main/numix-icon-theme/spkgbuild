@@ -2,14 +2,13 @@
 # depends	: gtk3
 
 name=numix-icon-theme
-version=20190106
+version=21.10.31
 release=1
 options="!strip"
-_commit=896d9100ec836245f4a4cf5e450ac5a3b0962e50
-source="$name-$_commit.tar.gz::https://github.com/numixproject/numix-icon-theme/archive/$_commit.tar.gz"
+source="$name-$version.tar.gz::https://github.com/numixproject/numix-icon-theme/archive/$version.tar.gz"
 
 build() {
-	cd $name-$_commit
+	cd $name-$version
 	install -dm 755 $PKG/usr/share/icons
 	cp -dr --no-preserve='ownership' Numix Numix-Light $PKG/usr/share/icons/
 }
