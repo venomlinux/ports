@@ -2,13 +2,13 @@
 # depends	 : 
 
 name=serd
-version=0.30.2
+version=0.30.12
 release=1
 source="https://download.drobilla.net/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
-    ./waf configure --prefix=/usr
-    ./waf build
-	./waf install --destdir=$PKG
+	 /usr/bin/python3   waf configure --prefix=/usr
+	 /usr/bin/python3  waf build
+ 	 /usr/bin/python3 waf install --destdir=$PKG
 }
