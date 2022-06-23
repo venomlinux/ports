@@ -2,12 +2,12 @@
 # depends	: alsa-lib
 
 name=portaudio
-version=19_20140130
+version=19.7.0
 release=1
-source="http://www.$name.com/archives/pa_stable_v$version.tgz"
+source="$name-$version.tar.gz::https://github.com/PortAudio/portaudio/archive/refs/tags/v$version.tar.gz"
 
 build() {
-	cd $name
+	cd $name-$version
     ./configure --prefix=/usr --enable-cxx --enable-static=no
     make -j1
 	make DESTDIR=$PKG install
