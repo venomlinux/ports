@@ -2,14 +2,13 @@
 # depends	: ncurses
 
 name=ncdu
-version=1.16
+version=2.1.2
 release=1
-source="http://dev.yorhel.nl/download/$name-$version.tar.gz"
+source="$name-$version.tar.gz::http://dev.yorhel.nl/download/$name-$version-linux-x86_64.tar.gz"
 
 build() {
-	cd $name-$version
 
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
+	mkdir -p $PKG/usr/bin
+
+	install -m 0755 ncdu $PKG/usr/bin
 }
