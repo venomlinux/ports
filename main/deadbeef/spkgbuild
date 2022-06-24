@@ -1,15 +1,52 @@
 # description	: A GTK+ audio player for GNU/Linux
-# depends	: alsa-lib desktop-file-utils jansson libmad gtk3
+# depends	: alsa-lib curl desktop-file-utils jansson gtk3 clang libdispatch libmad libtool libsamplerate yasm intltool gettext pkgconf ffmepg
 
 name=deadbeef
-version=1.8.4
+version=1.9.1
 release=1
 source="https://downloads.sourceforge.net/$name/$name-$version.tar.bz2"
 
 build() {
-	cd $name-$version
-	./configure --prefix=/usr \
-		    --disable-nls
+	cd $name-$version 
+	export CC=clang CXX=clang++
+	./configure \
+	 	--prefix=/usr \
+		--disable-static \
+		--disable-staticlink \
+		--disable-portable \
+		--disable-rpath \
+		--disable-libmad \
+		--disable-gtk2 \
+		--disable-adplug \
+		--disable-coreaudio \
+		--disable-dumb \
+		--disable-alac \
+		--disable-ffap \
+		--disable-gme \
+		--disable-mms \
+		--disable-mono2stereo \
+		--disable-psf \
+		--disable-rgscanner \
+		--disable-shn \
+		--disable-sid \
+		--disable-sndfile \
+		--disable-soundtouch \
+		--disable-src \
+		--disable-tta \
+		--disable-vfs-zip \
+		--disable-vtx \
+		--disable-wildmidi \
+		--disable-wma \
+		--enable-alsa \
+		--enable-vorbis \
+		--enable-threads \
+		--enable-flac \
+		--enable-ffmpeg \
+		--enable-gtk3 \
+		--enable-vfs-curl \
+		--enable-shared \
+		--enable-m3u \
+		--enable-pltbrowser 
 	make
 	make DESTDIR=$PKG install
 }
