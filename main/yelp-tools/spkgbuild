@@ -2,13 +2,14 @@
 # depends	: yelp-xsl libxslt
 
 name=yelp-tools
-version=3.38.0
+version=42.0
 release=1
 source="http://ftp.gnome.org/pub/gnome/sources/yelp-tools/${version%.*}/yelp-tools-$version.tar.xz"
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
+  venom-meson build -D help=true
+  meson compile -C build
+  meson test -C build --print-errorlogs
+  meson install -C build --destdir $PKG
 }
