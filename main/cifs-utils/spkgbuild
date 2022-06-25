@@ -1,0 +1,16 @@
+# description	: CIFS filesystem user-space tools
+# homepage	: https://wiki.samba.org/index.php/LinuxCIFS_utils
+# depends	: libcap linux-pam samba keyutils krb5
+
+name=cifs-utils
+version=6.15
+release=1
+source="https://download.samba.org/pub/linux-cifs/$name/$name-$version.tar.bz2"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --disable-systemd
+	make
+	make DESTDIR=$PKG install
+	chmod +s $PKG/sbin/mount.cifs
+}
