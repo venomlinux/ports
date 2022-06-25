@@ -1,0 +1,22 @@
+# description	: Grand central dispatch, from swift corelibs
+# homepage	: https://github.com/apple/swift-corelibs-libdispatch
+# depends	: clang libbsd
+
+name=libdispatch
+version=5.5.3
+release=1
+source="$name-$version.tar.gz::https://github.com/apple/swift-corelibs-libdispatch/archive/swift-${version%.*}-RELEASE.tar.gz"
+build() {
+
+     find swift-corelibs-* -name DispatchCompilerWarnings.cmake \
+    	-exec sed -i "/-Werror/d" '{}' \;
+     	    mkdir build && cd build
+     	        
+        cmake -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ \
+	       	-DCMAKE_BUILD_TYPE=Release \
+       		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DBlocksRuntime_INCLUDE_DIR=/usr/include \
+		-DCMAKE_BUILD_WITH_INSTALL_RPATH=on ../swift-corelibs-$name-*
+	ninja
+	DESTDIR=$PKG ninja install
+}
