@@ -1,14 +1,14 @@
 # description : lv2 open standard for audio plugins
-# depends	 : libsndfile
+# depends	 : libsndfile python3
 
 name=lv2
-version=1.18.2
+version=1.18.4
 release=1
 source="https://${name}plug.in/spec/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
-    ./waf configure --prefix=/usr
-    ./waf build
-	./waf install --destdir=$PKG
+	/usr/bin/python3 waf configure --prefix=/usr
+	/usr/bin/python3 waf build $MAKEFLAGS
+	/usr/bin/python3 waf install --destdir="$PKG"
 }
