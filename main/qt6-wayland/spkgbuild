@@ -1,0 +1,20 @@
+# description	    : Provides APIs for Wayland
+# homepage	    : https://www.qt.io/
+# depends	    : qt6-declarative wayland-protocols libxcomposite
+
+name=qt6-wayland
+version=6.3.1
+release=1
+source="https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtwayland-everywhere-src-$version.tar.xz"
+
+build() {
+
+
+	cmake -S qtwayland-everywhere-src-$version -B build -G Ninja \
+		-D QT_USE_CCACHE=ON \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS"
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
