@@ -1,0 +1,20 @@
+# description	    : Experimental module providing APIs and a host tool to host tool to perform graphics and compute shader conditioning for the upcoming Qt graphics abstraction layer
+# homepage	    : https://www.qt.io/
+# depends	    : qt6-base
+
+name=qt6-shadertools
+version=6.3.1
+release=1
+source="https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtshadertools-everywhere-src-$version.tar.xz"
+
+build() {
+
+	cmake -S qtshadertools-everywhere-src-$version -B build -G Ninja \
+		-D QT_USE_CCACHE=ON \
+		-D INSTALL_PUBLICBINDIR=usr/bin \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS"
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
