@@ -1,0 +1,19 @@
+# description	: Implements a typesafe callback system for standard C++
+# homepage	: https://libsigcplusplus.github.io/libsigcplusplus
+# depends 	: mm-common
+
+name=libsigc++3
+_name=libsigc++
+version=3.2.0
+release=1
+source="$name-$version.tar.xz::https://download.gnome.org/sources/libsigc++/${version%.*}/$_name-$version.tar.xz"
+
+build() {
+cd $_name-$version  
+meson setup build \
+    --prefix=/usr \
+    --buildtype=plain
+
+  meson compile -C build
+  DESTDIR=$PKG meson install -C build
+}
