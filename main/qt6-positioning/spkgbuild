@@ -1,0 +1,20 @@
+# description	    : Provides access to position, satellite and area monitoring classes
+# homepage	    : https://www.qt.io/
+# depend	    : qt6-declarative qt6-serialport
+
+name=qt6-positioning
+version=6.3.1
+release=1
+source="https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtpositioning-everywhere-src-$version.tar.xz"
+
+build() {
+
+	cmake -S qtpositioning-everywhere-src-$version -B build -G Ninja \
+		-D QT_USE_CCACHE=ON \
+		-D INSTALL_PUBLICBINDIR=usr/bin \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS"
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
