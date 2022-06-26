@@ -104,7 +104,7 @@ fetch_rootfs() {
 	url="https://github.com/venomlinux/ports/releases/download/v$RELEASE/venomlinux-rootfs-$RELEASE-$ARCH.tar.xz"
 
 	msg "Fetching rootfs tarball: $url"
-	wget -c --passive-ftp --no-directories --tries=3 --waitretry=3 --output-document=$TARBALLIMG.part $url
+	curl -L --fail --ftp-pasv --retry 3 --retry-delay 3 -o $TARBALLIMG.part $url
 	if [ "$?" = 0 ]; then
 		rm -f "$TARBALLIMG"
 		mv "$TARBALLIMG".part "$TARBALLIMG"
@@ -131,8 +131,16 @@ zap_rootfs() {
 	msg "Extracting tarball image: $TARBALLIMG"
 	tar -xf $TARBALLIMG -C $ROOTFS || die "Error extracting tarball image"
 	tmp_scratchpkgconf
-	#echo "$RELEASE" > "$ROOTFS"/etc/venom-release
+	set_release_info
+	generatelocales
 	unset ZAP
+}
+
+set_release_info() {
+	echo "$RELEASE" > "$ROOTFS"/etc/venom-release
+	sed -i "s/PRETTY_NAME=.*/PRETTY_NAME=\"Venom Linux $RELEASE\"/" "$ROOTFS"/etc/os-release
+	sed -i "s/VERSION=.*/VERSION=\"$RELEASE\"/" "$ROOTFS"/etc/os-release
+	sed -i "s/VERSION_ID=.*/VERSION_ID=\"$RELEASE\"/" "$ROOTFS"/etc/os-release
 }
 
 compress_rootfs() {
@@ -414,8 +422,6 @@ main() {
 	
 	[ "$ZAP" ] && zap_rootfs
 	
-	generatelocales
-	
 	[ "$REBASE" ] && {
 		msg "Running pkgbase..."
 		chrootrun pkgbase -y || die
@@ -427,11 +433,6 @@ main() {
 		tmp_scratchpkgconf
 		msg "Full upgrading..."
 		chrootrun scratch sysup -y --no-backup || die
-		[ -f $ROOTFS/etc/venom-release ] && {
-			if [ $(cat $ROOTFS/etc/venom-release) != "$RELEASE" ]; then
-				msgerr "venom-release $(cat $ROOTFS/etc/venom-release) != $RELEASE"
-			fi
-		}
 	}
 	
 	[ "$REVDEP" ] && {
@@ -482,7 +483,7 @@ SCRIPTDIR="$(dirname $(realpath $0))"
 parse_opts "$@"
 
 ARCH=$(uname -m)
-RELEASE=$(git branch --show-current)
+RELEASE=$(awk -F "/" '{print $NF}' $PORTSDIR/.git/HEAD)
 
 [ "$RELEASE" = master ] && {
 	RELEASE=current
