@@ -12,6 +12,8 @@ build() {
 
 	cd $name-$version
 
+	sed -i '/ROOT_CLIP_CHAIN/d' gfx/webrender_bindings/webrender_ffi.h
+
 cat <<- EOF > .mozconfig
 	mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-shared
 	unset MOZ_TELEMETRY_REPORTING
