@@ -11,6 +11,8 @@ source="https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/fi
 build() {
 	cd firefox-$version
 
+	sed -i '/ROOT_CLIP_CHAIN/d' gfx/webrender_bindings/webrender_ffi.h
+
 	#patch -Np1 -i ../fix-packed_simd-error.patch
 
 cat <<- EOF > .mozconfig
