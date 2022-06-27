@@ -3,11 +3,14 @@
 # depends	: alsa gtk3 cups libdrm libxtst mesa nss imagemagick7 gnome-keyring 
 
 name=microsoft-edge
-version=98.0.1108.62
+version=99.0.1150.55
 release=1
-source="https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_98.0.1108.62-1_amd64.deb"
+#source="https://packages.microsoft.com/repos/edge/pool/main/m/$name-stable/$name-stable_$version-$release_amd64.deb"
+source="https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-stable/microsoft-edge-stable_99.0.1150.55-1_amd64.deb"
+
 
 build() {
-	bsdtar -xf ${name}-stable_${version}-${release}_amd64.deb
+	bsdtar -xf microsoft-edge-stable_99.0.1150.55-1_amd64.deb
 	bsdtar -xf data.tar.xz -C $PKG
 }
+
