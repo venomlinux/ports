@@ -1,0 +1,19 @@
+# description	: Micro Terminal Multiplexer, a terminal multiplexer.
+# homepage	: https://github.com/deadpixi/mtm
+# depends	: ncurses 
+
+name=mtm
+version=1.2.1
+release=1
+source="$name-$version.tar.gz::https://github.com/deadpixi/$name/archive/$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	make HEADERS='-DNCURSESW_INCLUDE_H="<ncurses.h>"'
+
+	install -D -m 0755 $name $PKG/usr/bin/$name
+	install -D -m 0644 $name.1 $PKG/usr/share/man/man1/$name.1
+	install -d -m 0755 $PKG/usr/share/terminfo
+	tic -s -x -o $PKG/usr/share/terminfo $name.ti
+}
