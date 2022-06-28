@@ -1,8 +1,8 @@
 # description	: Vi Improved, a highly configurable, improved version of the vi text editor
-# depends	: acl gettext ncurses glib
+# depends	: acl gettext ncurses
 
 name=vim
-version=8.2.5119
+version=9.0.0001
 release=1
 source="https://github.com/vim/vim/archive/v$version/vim-v$version.tar.gz"
 
@@ -16,7 +16,7 @@ build() {
 		--enable-multibyte \
 		--disable-gui \
 		--with-tlib=ncursesw \
-		--without-x
+		--with-x
 	make
 	make DESTDIR=$PKG install
 
