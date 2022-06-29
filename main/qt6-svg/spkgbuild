@@ -1,0 +1,20 @@
+# description	    : Classes for displaying the contents of SVG files
+# homepage	    : https://www.qt.io/
+# depends	    : qt6-base
+
+name=qt6-svg
+version=6.3.1
+release=1
+source="https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtsvg-everywhere-src-$version.tar.xz"
+
+build() {
+
+	cmake -S qtsvg-everywhere-src-$version -B build -G Ninja \
+		-D INSTALL_PUBLICBINDIR=usr/bin \
+		-D QT_USE_CCACHE=ON \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS"
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}

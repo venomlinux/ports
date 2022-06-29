@@ -1,0 +1,21 @@
+# description	    : A cross-platform application and UI framework (Translations)
+# homepage	    : https://www.qt.io/
+# depends	    : qt6-tools
+
+name=qt6-translations
+version=6.3.1
+release=1
+source="https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qttranslations-everywhere-src-$version.tar.xz"
+
+build() {
+
+	
+	cmake -S qttranslations-everywhere-src-$version -B build -G Ninja \
+		-D QT_USE_CCACHE=ON \
+		-D INSTALL_PUBLICBINDIR=usr/bin \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS"
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
