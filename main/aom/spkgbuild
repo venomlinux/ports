@@ -3,20 +3,18 @@
 # depends	: cmake yasm
 
 name=aom
-version=2.0.2
+version=3.4.0
 release=1
 IGNORE_MDSUM=yes
-source="$name-$version.tar.gz::https://aomedia.googlesource.com/aom/+archive/cb1d48da8da2061e72018761788a18b8fa8013bb.tar.gz"
+source="$name-$version.tar.gz::https://storage.googleapis.com/aom-releases/libaom-$version.tar.gz"
 
 build() {
-	mkdir bld
-	cd bld
 	
-	cmake .. \
+	cmake -S libaom-$version -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DBUILD_SHARED_LIBS=1 \
 		-DENABLE_TESTS=0 \
 		-DENABLE_DOCS=0
-	make
-	make DESTDIR="$PKG" install
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
