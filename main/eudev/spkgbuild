@@ -2,13 +2,13 @@
 # depends	: util-linux kmod
 
 name=eudev
-version=3.2.10
+version=3.2.11
 release=1
-source="https://dev.gentoo.org/~blueness/$name/$name-$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/eudev-project/eudev/archive/v$version.tar.gz"
 
 build() {
 	cd $name-$version
-
+	NOCONFIGURE=1 ./autogen.sh
 	./configure --prefix=/usr           \
 	            --bindir=/sbin          \
 	            --sbindir=/sbin         \
