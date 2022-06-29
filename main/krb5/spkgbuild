@@ -2,18 +2,15 @@
 # depends	: e2fsprogs openssl lmdb
 
 name=krb5
-version=1.19.3
+version=1.20
 release=1
-source="https://web.mit.edu/kerberos/dist/krb5/${version%.*}/krb5-$version.tar.gz"
+source="https://kerberos.org/dist/$name/$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
 	
 	cd src
- 
-	# fixes Python detection
-	sed -i -e 's@\^u}@^u cols 300}@' tests/dejagnu/config/default.exp
-	
+ 	
 	# increases the width of the virtual terminal used for some tests to
 	# prevent some spurious text in the output which is taken as a failure
 	sed -i -e '/eq 0/{N;s/12 //}'    plugins/kdb/db2/libdb2/test/run.test
