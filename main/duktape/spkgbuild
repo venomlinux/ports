@@ -2,19 +2,19 @@
 # homepage	: https://duktape.org
 # depends	: setconf
 
-
 name=duktape
 version=2.7.0
 release=1
-source="https://$name.org/$name-$version.tar.xz duktape.pc"
+source="https://$name.org/$name-$version.tar.xz 
+	duktape.pc"
 
 build() {
 	cd $name-$version
-	cp Makefile.sharedlibrary Makefile
 
-	make
-	make PREFIX=/usr DESTDIR=$PKG install
-	
-	mkdir -p $PKG/usr/lib/pkgconfig
-	cp $SRC/$name.pc $PKG/usr/lib/pkgconfig/$name.pc
+	make -f ./Makefile.sharedlibrary
+
+	make -f ./Makefile.sharedlibrary install INSTALL_PREFIX=$PKG/usr
+
+	mkdir -p $PKG/usr/lib/pkgconfig/
+	sed "s/@VERSION@/$version/" "$SRC/$name.pc" > "$PKG/usr/lib/pkgconfig/$name.pc"
 }
