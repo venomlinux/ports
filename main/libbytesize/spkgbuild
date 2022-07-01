@@ -7,9 +7,8 @@ release=1
 source="https://github.com/storaged-project/$name/releases/download/$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
-	
-	./configure --prefix=/usr
+	cd $name-$version	
+	./configure --prefix=/usr --with-gtk-doc=no
 	make
 	make DESTDIR=$PKG install
 
