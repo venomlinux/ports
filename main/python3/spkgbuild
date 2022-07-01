@@ -2,7 +2,7 @@
 # depends	: libffi sqlite
 
 name=python3
-version=3.9.7
+version=3.9.13
 release=1
 source="https://www.python.org/ftp/python/$version/Python-$version.tar.xz
 	pyconfig.h"
@@ -10,7 +10,8 @@ source="https://www.python.org/ftp/python/$version/Python-$version.tar.xz
 build() {
 	cd Python-$version
 
-  	CXX="/usr/bin/g++"              \
+	rm -rv Lib/test Lib/*/test Lib/*/tests Lib/*/idle_test
+
 	./configure --prefix=/usr       \
 	            --enable-shared     \
 	            --with-system-expat \
