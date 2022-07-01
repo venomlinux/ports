@@ -1,14 +1,13 @@
 # description	: International Components for Unicode library
+# homepage	: https://github.com/unicode-org/icu
 
 name=icu
-version=69.1
-_version=$(echo $version | tr '.' '-')
-__version=$(echo $version | tr '.' '_')
+version=71.1
 release=1
-source="https://github.com/unicode-org/icu/releases/download/release-$_version/icu4c-$__version-src.tgz"
+source="$name-$version.tgz::https://github.com/unicode-org/$name/releases/download/release-${version%.*}-1/icu4c-${version%.*}_1-src.tgz"
 
 build() {
-	cd icu/source
+	cd $name/source
 
 	# icu tries to use clang by default
 	[ "$CC" ] || export CC=gcc
