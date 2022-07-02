@@ -5,7 +5,7 @@
 name=macchina
 version=6.0.6
 release=1
-source="$name-$version.tar.gz::https://github.com/Macchina-CLI/macchina/archive/v$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/Macchina-CLI/$name/archive/v$version.tar.gz"
 
 build() {
 	cd $name-$version
@@ -15,8 +15,8 @@ build() {
 	install -Dm 755 target/release/$name -t $PKG/usr/bin
 
 	install -Dm 644 LICENSE $PKG/usr/share/licenses/$name/LICENSE
-	install -Dm 644 doc/$name.1 -t "$PKG/usr/share/man/man1
-	install -Dm 644 doc/$name.7 -t "$PKG/usr/share/man/man7
+	install -Dm 644 doc/$name.1 -t $PKG/usr/share/man/man1
+	install -Dm 644 doc/$name.7 -t $PKG/usr/share/man/man7
 
 	install -d $PKG/usr/share/$name/themes
 	install -m 644 contrib/themes/* $PKG/usr/share/$name/themes
