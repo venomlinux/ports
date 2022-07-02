@@ -3,13 +3,13 @@
 # depends	: gcc glibc zlib unzip python3-setuptools python2-setuptools
 
 name=protobuf
-version=21.1
-_version=3.21.1
+version=21.2
+_version=3.21.2
 release=1
-source="$name-$_version.tar.gz::https://github.com/protocolbuffers/$name/releases/download/v$version/$name-all-$version.tar.gz"
+source="$name-$_version.tar.gz::https://github.com/protocolbuffers/$name/archive/refs/tags/v$version.tar.gz"
 
 build() {
-	cd $name-$_version
+	cd $name-$version
 	autoreconf -vfi
 	./configure --prefix=/usr
 	make
