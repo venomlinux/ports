@@ -12,11 +12,11 @@ build() {
 
 	cargo build --release --locked --target-dir=target
 
-	install -Dm 755 target/release/$name -t $PKG/usr/bin
+	install -D -m 755 target/release/$name -t $PKG/usr/bin
 
-	install -Dm 644 LICENSE $PKG/usr/share/licenses/$name/LICENSE
-	install -Dm 644 doc/$name.1 -t $PKG/usr/share/man/man1
-	install -Dm 644 doc/$name.7 -t $PKG/usr/share/man/man7
+	install -D -m 644 LICENSE $PKG/usr/share/licenses/$name/LICENSE
+	install -D -m 644 doc/$name.1 -t $PKG/usr/share/man/man1
+	install -D -m 644 doc/$name.7 -t $PKG/usr/share/man/man7
 
 	install -d $PKG/usr/share/$name/themes
 	install -m 644 contrib/themes/* $PKG/usr/share/$name/themes
