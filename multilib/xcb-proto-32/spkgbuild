@@ -1,7 +1,7 @@
 # description	: XML-XCB protocol descriptions
 
 name=xcb-proto-32
-version=1.14.1
+version=1.15.2
 release=1
 source="https://xorg.freedesktop.org/archive/individual/proto/xcb-proto-$version.tar.xz"
 
@@ -18,8 +18,12 @@ build() {
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--disable-static
-	make DESTDIR=$PWD/DESTDIR install
+	#make DESTDIR=$PWD/DESTDIR install
+	#mkdir -p $PKG/usr/lib32
+	#cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+	make
+	make DESTDIR=$PKG install
 	mkdir -p $PKG/usr/lib32
-	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+        cp -Rv $DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
 
