@@ -82,8 +82,8 @@ verifydeps() {
 verifypkgfiles() {
 	[ -f $portpath/.pkgfiles ] || return
 	. $portpath/spkgbuild
-	[ "$name-$version-$release" = $(head -n1 $portpath/.pkgfiles) ] || {
-		msg "looks like .pkgfiles outdaed please regenerate .pkgfiles using 'pkgbuild -p'"
+	[ "$name-$version-$release" = "$(head -n1 $portpath/.pkgfiles)" ] || {
+		msg "looks like .pkgfiles outdated please regenerate .pkgfiles using 'pkgbuild -p'"
 	}
 }
 
