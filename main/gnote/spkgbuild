@@ -1,0 +1,17 @@
+# description	: A note taking application
+# homepage	: https://wiki.gnome.org/Apps/Gnote
+# depends	: gtkmm3 pspell libxslt libsecret yelp-tools meson
+
+version=42.0
+release=1
+source="https://gitlab.gnome.org/GNOME/gnote/-/archive/$version/$name-$version.tar.gz"
+
+build() {
+
+  cd $name-$version
+
+  venom-meson . build
+  meson compile -C build
+  meson test -C build
+  meson install -C build --destdir "$PKG"
+}
