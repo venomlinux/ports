@@ -52,13 +52,11 @@ build() {
 	# /usr and /usr/local dirs
 	for d in bin include lib sbin src; do
 		mkdir -p $PKG/usr/$d
-		mkdir -p $PKG/usr/local/$d
 	done
 
 	# man page dirs
 	for d in 1 2 3 4 5 6 7 8; do
 		mkdir -p $PKG/usr/share/man/man$d
-		mkdir -p $PKG/usr/local/share/man/man$d
 	done
 
 	# /var dirs
