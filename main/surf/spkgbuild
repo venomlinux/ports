@@ -6,13 +6,19 @@ version=2.1
 release=1
 source="https://dl.suckless.org/$name/$name-$version.tar.gz"
 
+_portdir=$PWD
+
 build() {
 	cd $name-$version
 	
-	if [[ -f ../config.h ]]; then
-		echo "Found custom config.h in $(readlink -f ../), copying..."
-	        cp -v ../config.h $name-$version/config.h
-	fi
+	if [ -f $_portdir/config.h ]; then
+                cp $_portdir/config.h .
+        fi
+
+        for p in $_portdir/*.patch $_portdir/*.diff; do
+                [ -f $p ] || continue
+                patch -Np1 -i $p
+        done
 
 	make PREFIX=/usr
 	make PREFIX=/usr DESTDIR=$PKG install
