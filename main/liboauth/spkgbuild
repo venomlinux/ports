@@ -19,5 +19,4 @@ build() {
     sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
     make
     make DESTDIR="$PKG" install
-    install -Dt "$PKG/usr/share/licenses/$name" -m644 COPYING.MIT
 }
