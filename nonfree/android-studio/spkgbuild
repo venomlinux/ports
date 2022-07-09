@@ -2,18 +2,19 @@
 # depends	: which freetype2 libxrender libxtst alsa-lib 
 
 name=android-studio
-version=4.2.0.24
-_build=202.7322048
+version=4.2.1.15
+_build=2021.2.1.15
 release=1
 options="!strip"
-source="https://dl.google.com/dl/android/studio/ide-zips/$version/android-studio-ide-$_build-linux.tar.gz
+source="https://dl.google.com/dl/android/studio/ide-zips/$_build/android-studio-$_build-linux.tar.gz
 $name.desktop"
 
 build() {
 	cd $name
 
 	# Install the application
-	install -d $PKG/{opt/$name,usr/bin}
+	install -d $PKG/opt/$name
+	install -d $PKG/usr/bin
 	cp -a bin lib jre plugins license LICENSE.txt build.txt product-info.json $PKG/opt/$name
 	ln -s /opt/android-studio/bin/studio.sh $PKG/usr/bin/$name
 
