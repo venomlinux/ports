@@ -1,11 +1,12 @@
 # description	: Provides data for network services and protocols
 
 name=iana-etc
-version=20210222
+version=20220712
 release=1
-source="services protocols"
+source="services protocols update.sh"
 
 build() {
+
 	install -d -m 755 $PKG/etc
 	install -m 644 services $PKG/etc
 	install -m 644 protocols $PKG/etc
