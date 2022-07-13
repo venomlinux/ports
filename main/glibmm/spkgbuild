@@ -2,13 +2,14 @@
 # depends	: glib libsigc++ meson
 
 name=glibmm
-version=2.64.5
+_name=glibmm
+version=2.66.4
 release=1
-source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
+source="https://ftp.gnome.org/pub/gnome/sources/$_name/${version%.*}/$_name-$version.tar.xz"
 
 build() {
-	cd $name-$version
-	venom-meson build
+	cd $_name-$version
+	venom-meson build --wrap-mode nofallback
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 }
