@@ -2,12 +2,12 @@
 # homepage	: https://packages.qa.debian.org/d/debianutils.html
 
 name=run-parts
-version=4.11.2
+version=5.7
 release=1
-source="http://ftp.de.debian.org/debian/pool/main/d/debianutils/debianutils_$version.tar.xz"
+source="http://ftp.de.debian.org/debian/pool/main/d/debianutils/debianutils_$version.orig.tar.gz"
 
 build() {
-	cd debianutils
+	cd debianutils-$version
 	./configure --prefix=/usr --bindir=/bin
 	make
 	install -D -m755 run-parts $PKG/bin/run-parts
