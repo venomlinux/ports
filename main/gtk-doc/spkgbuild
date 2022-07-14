@@ -9,12 +9,15 @@ KEEP_DOC="yes"
 
 build() {
 	cd $name-$version
-	venom-meson \
+	
+	venom-meson build \
 	-Dtests=false \
 	-Dautotools_support=true \
-	-Dcmake_support=true \
-	build
+	-Dcmake_support=true 
+
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
+
 	rm -r $PKG/usr/share/help
+	rm -r $PKG/usr/share/gtk-doc/
 }
