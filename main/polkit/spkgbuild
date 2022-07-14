@@ -1,37 +1,24 @@
-# description	: Toolkit for defining and handling authorizations
-# depends	: glib duktape linux-pam gobject-introspection intltool
+# description	    : Toolkit for defining and handling authorizations
+# homepage	    : https://freedesktop.org/software/polkit
+# depends	    : glib duktape linux-pam gobjet-introspection intltool
 
 name=polkit
-version=0.120
+version=121
 release=1
-source="https://www.freedesktop.org/software/polkit/releases/$name-$version.tar.gz
-        polkit-duktape-js-backend.patch"
+source="https://freedesktop.org/software/polkit/releases/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
 
-	# faking gtkdocize avoid gtk-doc
-	mkdir bin
-	ln -s /bin/true bin/gtkdocize
-	export PATH=$PWD/bin:$PATH
+	cd $name-v.$version
 
-	patch -p1 < $SRC/polkit-duktape-js-backend.patch
-    
-	autoreconf -vfi
-	./configure --prefix=/usr \
-	            --sysconfdir=/etc \
-	            --localstatedir=/var \
-	            --disable-static \
-	            --enable-libsystemd-login=no \
-		    --with-authfw=pam \
-		    --enable-libelogind=no \
-		    --with-duktape=yes \
-		    --disable-man-pages
-	make
-	make DESTDIR=$PKG install
+  meson setup  build \
+    --prefix=/usr \
+    --buildtype=plain \
+    --wrap-mode nodownload \
+    -D b_lto=true \
+    -D b_pie=true
+  meson compile -C build
+  DESTDIR=$PKG meson install -C build
 
-	chown polkitd $PKG/etc/polkit-1/rules.d
-	chown polkitd $PKG/usr/share/polkit-1/rules.d
-	chmod 700 $PKG/etc/polkit-1/rules.d
-	chmod 700 $PKG/usr/share/polkit-1/rules.d
+
 }
