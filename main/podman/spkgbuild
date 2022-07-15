@@ -9,8 +9,12 @@ source="https://github.com/containers/podman/archive/v$version/$name-$version.ta
 
 build() {
 	cd $name-$version
+
 	export GOCACHE=$PWD/gocache
 	export GOPATH=$PWD/gopath
+
 	make BUILDTAGS="seccomp exclude_graphdriver_devicemapper exclude_graphdriver_btrfs"
 	make install PREFIX=/usr DESTDIR=$PKG
+
+	rm -r $PKG/usr/libexec
 }
