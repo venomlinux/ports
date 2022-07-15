@@ -20,5 +20,9 @@ build() {
   meson compile -C build
   DESTDIR=$PKG meson install -C build
 
+	chown polkitd $PKG/etc/polkit-1/rules.d
+	chown polkitd $PKG/usr/share/polkit-1/rules.d
+	chmod 700 $PKG/etc/polkit-1/rules.d
+	chmod 700 $PKG/usr/share/polkit-1/rules.d
 
 }
