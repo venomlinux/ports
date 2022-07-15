@@ -9,7 +9,12 @@ source="http://archive.xfce.org/src/apps/$name/${version%.*}/$name-$version.tar.
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr --disable-static --disable-nls
+	./configure --prefix=/usr \
+		 --disable-static \
+		 --disable-nls \
+		 --disable-debug \
+		 --disable-gstreamer \
+		 --disable-dependency-tracking
 	make
 	make DESTDIR=$PKG install
 

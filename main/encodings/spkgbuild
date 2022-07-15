@@ -2,13 +2,13 @@
 # depends	: util-macros mkfontscale
 
 name=encodings
-version=1.0.5
-release=2
-source="http://ftp.x.org/pub/individual/font/encodings-$version.tar.bz2"
+version=1.0.6
+release=1
+source="$name-$version.tar.gz::https://gitlab.freedesktop.org/xorg/font/$name/-/archive/$name-$version/$name-$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
-
+	cd $name-$name-$version
+	NOCONFIGURE=1 ./autogen.sh
   	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \

@@ -2,17 +2,15 @@
 # depends	: qt5 nss python2 libwebp libxslt opus ninja ffmpeg alsa-lib libxcomposite libxtst libxcursor nodejs
 
 name=qtwebengine
-version=5.15.6
+version=5.15.10
 release=1
 source="https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-$version.tar.xz
-	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-5.15.7-1.patch
-	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-5.15.7-build_fixes-1.patch"
+	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-5.15.10-build_fixes-1.patch"
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../qtwebengine-$version-5.15.7-1.patch
-	patch -Np1 -i ../qtwebengine-5.15.7-build_fixes-1.patch
+	patch -Np1 -i ../qtwebengine-5.15.10-build_fixes-1.patch
 
 	mkdir -pv .git src/3rdparty/chromium/.git
 
