@@ -1,0 +1,18 @@
+# description	: Tiling window manager based on binary space partitioning with rounded corners support
+# homepage	: https://github.com/phuhl/bspwm-rounded
+# depends	: libxcb xcb-util xcb-util-keysyms xcb-util-wm
+
+name=bspwm-rounded
+version=0.9.10
+release=1
+source="$name-$version.tar.gz::https://github.com/phuhl/bspwm-rounded/archive/refs/tags/$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	CFLAGS="$CFLAGS -fcommon"
+	make PREFIX=/usr
+	make PREFIX=/usr DESTDIR=$PKG install
+
+}
+

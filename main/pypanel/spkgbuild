@@ -8,5 +8,6 @@ source="https://downloads.sourceforge.net/pypanel/PyPanel-$version.tar.gz"
 
 build() {
 	cd PyPanel-$version
+	sed -i '70,76d' setup.py
 	python2 setup.py install --root=$PKG
 }

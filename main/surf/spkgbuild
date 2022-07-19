@@ -1,14 +1,25 @@
-# description	: WebKit based browser (emmett1's fork)
+# description	: WebKit based browser
 # depends	: webkitgtk gtk3 pango harfbuzz atk cairo gdk-pixbuf libsoup glib libx11 gcr p11-kit
 
 name=surf
-version=20200408
+version=2.1
 release=1
-_commit=0787787f863fe34531ee2670a9277e2b327a3b42
-source="$name-$_commit.tar.gz::https://github.com/emmett1/surf/archive/$_commit.tar.gz"
+source="https://dl.suckless.org/$name/$name-$version.tar.gz"
+
+_portdir=$PWD
 
 build() {
-	cd $name-$_commit
+	cd $name-$version
+	
+	if [ -f $_portdir/config.h ]; then
+                cp $_portdir/config.h .
+        fi
+
+        for p in $_portdir/*.patch $_portdir/*.diff; do
+                [ -f $p ] || continue
+                patch -Np1 -i $p
+        done
+
 	make PREFIX=/usr
 	make PREFIX=/usr DESTDIR=$PKG install
 }

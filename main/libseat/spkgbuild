@@ -3,13 +3,13 @@
 # depends	: meson
 
 name=libseat
-version=0.5.0
+version=0.7.0
 release=1
 source="$name-$version.tar.gz::https://git.sr.ht/~kennylevinsen/seatd/archive/$version.tar.gz"
 
 build() {
 	cd seatd-$version
-	venom-meson -Dbuiltin=enabled build
+	venom-meson  build
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 }

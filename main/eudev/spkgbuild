@@ -2,23 +2,27 @@
 # depends	: util-linux kmod
 
 name=eudev
-version=3.2.10
+version=3.2.11
 release=1
-source="https://dev.gentoo.org/~blueness/$name/$name-$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/eudev-project/eudev/archive/v$version.tar.gz"
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr           \
-	            --bindir=/sbin          \
-	            --sbindir=/sbin         \
-	            --libdir=/usr/lib       \
-	            --sysconfdir=/etc       \
-	            --libexecdir=/lib       \
-	            --with-rootprefix=      \
-	            --with-rootlibdir=/lib  \
-	            --enable-manpages       \
-	            --disable-static
+	scratch isinstalled libxslt && _opt="--enable-manpages"
+
+	autoreconf -f -i -s
+	./configure \
+		--prefix=/usr \
+		--bindir=/sbin \
+		--sbindir=/sbin \
+		--libdir=/usr/lib \
+		--sysconfdir=/etc \
+		--libexecdir=/lib \
+		--with-rootprefix= \
+		--with-rootlibdir=/lib \
+		--disable-static \
+		$_opt
 	make
 
 	mkdir -pv $PKG/lib/udev/rules.d

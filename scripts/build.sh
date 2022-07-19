@@ -454,8 +454,7 @@ main() {
 	
 	[ "$REBUILDPKG" ] && {
 		chrootrun revdep -r -y || die
-		chrootrun scratch build -f $REBUILDPKG || die
-		chrootrun scratch install -r $REBUILDPKG || die
+		chrootrun scratch install -fr $REBUILDPKG || die
 	}
 	
 	[ "$CHROOT" ] && {

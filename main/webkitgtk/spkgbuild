@@ -3,12 +3,15 @@
 # depends	: libwebp mesa ruby sqlite which enchant libxslt openjpeg2 libwpe bubblewrap xdg-dbus-proxy wpebackend-fdo libxcomposite libnotify libxt
 
 name=webkitgtk
-version=2.36.3
+version=2.36.4
 release=1
 source="https://webkitgtk.org/releases/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
+
+	# failed build with ccache, remove reom path
+	PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
 
 	mkdir build
 	cd build

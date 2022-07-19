@@ -1,0 +1,13 @@
+# description	: Neo Simple X Image Viewer
+# depends	: imlib2 libx11 libxft fontconfig libexif giflib
+
+name=nsxiv
+version=30
+release=1
+source="$name-$version.tar.gz::https://codeberg.org/nsxiv/nsxiv/archive/$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make
+	make PREFIX=/usr DESTDIR=$PKG install-all
+}

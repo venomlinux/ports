@@ -2,13 +2,12 @@
 # depends	: ncurses lua libxml2 libzip 
 
 name=sc-im
-version=20211201
+version=0.8.2
 release=1
-_commit=3323033e70b87434e125b66974a80b364da353c5
-source="$name-$_commit.tar.gz::https://github.com/andmarti1424/sc-im/archive/$_commit.tar.gz"
+source="$name-$version.tar.gz::https://github.com/andmarti1424/sc-im/archive/refs/tags/v$version.tar.gz"
 
 build() {
-	cd $name-$_commit/src
+	cd $name-$version/src
     sed -i 's|prefix  = /usr/local|prefix  = /usr|g' Makefile
     make
 	make PREFIX=$PKG/usr DESTDIR=$PKG install

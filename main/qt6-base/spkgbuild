@@ -1,0 +1,49 @@
+# description	    : A cross-platform application and UI framework
+# homepage	    : https://www.qt.io/
+# depends	    : ccache cups double-conversion gst-plugins-base libinput libxkbcommon shared-mime-info vulkan-headers libxi xcb-util-cursor xcb-util-keysyms xcb-util-wm
+# optional	    : gtk3 mariadb postgresql unixodbc pulseaudio pipewire md4c tslib xmlstarlet xdg-utils libproxy
+
+name=qt6-base
+version=6.3.1
+release=1
+source="https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtbase-everywhere-src-$version.tar.xz
+	qt6-base-cflags.patch qt6-base-nostrip.patch"
+
+build() {
+	patch -d qtbase-everywhere-src-$version -p1 -i $SRC/qt6-base-cflags.patch
+	patch -d qtbase-everywhere-src-$version -p1 -i $SRC/qt6-base-nostrip.patch
+
+
+	cmake -S qtbase-everywhere-src-$version -B build -G Ninja \
+		-D QT_USE_CCACHE=ON \
+		-D QT_AVOID_CMAKE_ARCHIVING_API=ON \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D INSTALL_BINDIR=lib/qt6/bin \
+		-D INSTALL_PUBLICBINDIR=usr/bin \
+		-D INSTALL_LIBEXECDIR=lib/qt6 \
+		-D INSTALL_DOCDIR=share/doc/qt6 \
+		-D INSTALL_ARCHDATADIR=lib/qt6 \
+		-D INSTALL_DATADIR=share/qt6 \
+		-D INSTALL_INCLUDEDIR=include/qt6 \
+		-D INSTALL_MKSPECSDIR=lib/qt6/mkspecs \
+		-D INSTALL_EXAMPLESDIR=share/doc/qt6/examples \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-D QT_DISABLE_RPATH=TRUE \
+		-D QT_FEATURE_openssl_linked=ON \
+		-D QT_FEATURE_system_sqlite=ON \
+		-Wno-dev
+
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+
+	rm -r $PKG/usr/share/doc
+
+	# Install useful symlinks
+	install -d $PKG/usr/bin
+	for file in $PKG/usr/lib/qt6/bin/*; do
+		ln -s ../lib/qt6/bin/$(basename $file) $PKG/usr/bin/$(basename $file)-qt6
+		#ln -s ../lib/qt6/bin/$(basename $file) $PKG/usr/bin/$(basename $file)
+	done
+}

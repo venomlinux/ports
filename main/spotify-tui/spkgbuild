@@ -8,7 +8,9 @@ source="https://github.com/Rigellute/$name/archive/v$version/$name-$version.tar.
 
 build() {
 	cd $name-$version
+
 	cargo build --release --target-dir "target/"
+
 	install -D target/release/spt -t $PKG/usr/bin
   	install -Dm 644 README.md -t $PKG/usr/share/doc/$name
 }

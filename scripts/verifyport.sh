@@ -79,6 +79,14 @@ verifydeps() {
 	fi
 }
 
+verifypkgfiles() {
+	[ -f $portpath/.pkgfiles ] || return
+	. $portpath/spkgbuild
+	[ "$name-$version-$release" = "$(head -n1 $portpath/.pkgfiles)" ] || {
+		msg "looks like .pkgfiles outdated please regenerate .pkgfiles using 'pkgbuild -p'"
+	}
+}
+
 runverify() {
 	while [ $1 ]; do
 		portpath="$(realpath $1)"
@@ -94,6 +102,7 @@ runverify() {
 		verifythisisnotarch
 		verifyforbiddendir
 		verifynotusedir
+		verifypkgfiles
 		shift
 	done
 }

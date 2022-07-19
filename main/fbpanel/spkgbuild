@@ -1,14 +1,32 @@
 # description	: Lightweight X11 desktop panel
-# depends	: python2 gtk2
+# depends	: python2 python3 gtk2
 
 name=fbpanel
 version=7.0
 release=1
-source="$name-$version.tar.gz::https://github.com/aanatoly/fbpanel/archive/$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/aanatoly/fbpanel/archive/$version.tar.gz
+	fbpanel-6.1-underlinking.patch
+	fbpanel-7.0-clang.patch
+	fbpanel-7.0-fno-common.patch
+	fbpanel-7.0-images.patch
+	fbpanel-7.0-python3-shebangs.patch
+	fbpanel-7.0-python3.10.patch
+	fbpanel-7.0-remove-gdk-pixbuf-xlib.h.patch
+"
+_portdir=$PWD
 
 build() {
 	cd $name-$version
+
+	2to3 -n -w --no-diffs configure .config/*.py
+
+	for p in $_portdir/*.patch $_portdir/*.diff; do
+		[ -f $p ] || continue
+		patch -Np1 -i $p
+	done
+
 	./configure --libexecdir /usr/lib/fbpanel --prefix /usr --mandir /usr/share/man/man1
+
 	make
 	make DESTDIR=$PKG install
 }

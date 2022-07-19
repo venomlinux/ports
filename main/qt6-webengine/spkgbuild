@@ -1,0 +1,29 @@
+# description	    : Provides support for web applications using the Chromium browser project
+# homepage	    : https://www.qt.io/
+# depends	    : ffmpeg icu libevent libva libvpx libwebp minizip nodejs nss pciutils python3-six qt6-tools qt6-webchannel pcre2 libxcomposite libxcursor libxkbfile
+# optional	    : dav1d fdk-aac gnutls graphite2 keyutils krb5 lame lcms2 libpcre2 libvdpau numactl pipewire x264 x265
+
+name=qt6-webengine
+version=6.3.1
+release=1
+source="https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtwebengine-everywhere-src-$version.tar.xz"
+
+build() {
+
+
+	PYTHON=/usr/bin/python3 \
+	cmake -S qtwebengine-everywhere-src-$version -B build -G Ninja \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-D QT_FEATURE_webengine_kerberos=ON \
+		-D QT_FEATURE_webengine_webrtc_pipewire=ON \
+		-D CMAKE_TOOLCHAIN_FILE=/usr/lib/cmake/Qt6/qt.toolchain.cmake \
+		-D QT_FEATURE_webengine_system_ffmpeg=ON \
+		-D QT_FEATURE_webengine_system_icu=ON \
+		-D QT_FEATURE_webengine_system_libevent=ON \
+		-D QT_FEATURE_webengine_proprietary_codecs=ON \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}

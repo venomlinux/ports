@@ -1,4 +1,4 @@
-gegl-0.4.36-1
+gegl-0.4.38-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/gegl
@@ -95,6 +95,8 @@ drwxr-xr-x root/root    usr/include/gegl-0.4/sc/
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/gegl-0.4/
 -rw-r--r-- root/root    usr/lib/gegl-0.4/dropshadow2.json
+-rwxr-xr-x root/root    usr/lib/gegl-0.4/ff-load.so
+-rwxr-xr-x root/root    usr/lib/gegl-0.4/ff-save.so
 -rwxr-xr-x root/root    usr/lib/gegl-0.4/gegl-common-cxx-x86_64-v2.so
 -rwxr-xr-x root/root    usr/lib/gegl-0.4/gegl-common-cxx-x86_64-v3.so
 -rwxr-xr-x root/root    usr/lib/gegl-0.4/gegl-common-cxx.so
@@ -128,22 +130,55 @@ drwxr-xr-x root/root    usr/lib/gegl-0.4/
 -rwxr-xr-x root/root    usr/lib/gegl-0.4/ppm-save.so
 -rwxr-xr-x root/root    usr/lib/gegl-0.4/rgbe-load.so
 -rwxr-xr-x root/root    usr/lib/gegl-0.4/rgbe-save.so
+-rwxr-xr-x root/root    usr/lib/gegl-0.4/sdl2-display.so
 -rwxr-xr-x root/root    usr/lib/gegl-0.4/seamless-clone-compose.so
 -rwxr-xr-x root/root    usr/lib/gegl-0.4/seamless-clone.so
+-rwxr-xr-x root/root    usr/lib/gegl-0.4/svg-load.so
 -rwxr-xr-x root/root    usr/lib/gegl-0.4/text.so
+-rwxr-xr-x root/root    usr/lib/gegl-0.4/tiff-load.so
+-rwxr-xr-x root/root    usr/lib/gegl-0.4/tiff-save.so
 -rwxr-xr-x root/root    usr/lib/gegl-0.4/transformops.so
+-rwxr-xr-x root/root    usr/lib/gegl-0.4/v4l.so
 -rwxr-xr-x root/root    usr/lib/gegl-0.4/vector-stroke.so
+-rwxr-xr-x root/root    usr/lib/gegl-0.4/webp-load.so
+-rwxr-xr-x root/root    usr/lib/gegl-0.4/webp-save.so
 drwxr-xr-x root/root    usr/lib/girepository-1.0/
 -rw-r--r-- root/root    usr/lib/girepository-1.0/Gegl-0.4.typelib
 lrwxrwxrwx root/root    usr/lib/libgegl-0.4.so -> libgegl-0.4.so.0
-lrwxrwxrwx root/root    usr/lib/libgegl-0.4.so.0 -> libgegl-0.4.so.0.435.1
--rwxr-xr-x root/root    usr/lib/libgegl-0.4.so.0.435.1
+lrwxrwxrwx root/root    usr/lib/libgegl-0.4.so.0 -> libgegl-0.4.so.0.437.1
+-rwxr-xr-x root/root    usr/lib/libgegl-0.4.so.0.437.1
 -rwxr-xr-x root/root    usr/lib/libgegl-npd-0.4.so
 -rwxr-xr-x root/root    usr/lib/libgegl-sc-0.4.so
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/gegl-0.4.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gegl-sc-0.4.pc
 drwxr-xr-x root/root    usr/share/
+drwxr-xr-x root/root    usr/share/gegl-0.4/
+drwxr-xr-x root/root    usr/share/gegl-0.4/lua/
+-rwxr-xr-x root/root    usr/share/gegl-0.4/lua/cairo.lua
+-rwxr-xr-x root/root    usr/share/gegl-0.4/lua/cairo_h.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_box-blur.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_c2g.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_crop.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_edge-neon.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_fill-path.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_gaussian-blur.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_linear-gradient.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_median-blur.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_radial-gradient.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_rectangle.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_rotate.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_snn-mean.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_stress.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_translate.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_unsharp-mask.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/gegl_vector-stroke.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/init.lua
+-rwxr-xr-x root/root    usr/share/gegl-0.4/lua/mime.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/mrg.lua
+-rwxr-xr-x root/root    usr/share/gegl-0.4/lua/mrl.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/preferences.lua
+-rw-r--r-- root/root    usr/share/gegl-0.4/lua/viewer.lua
 drwxr-xr-x root/root    usr/share/gir-1.0/
 -rw-r--r-- root/root    usr/share/gir-1.0/Gegl-0.4.gir
 drwxr-xr-x root/root    usr/share/vala/

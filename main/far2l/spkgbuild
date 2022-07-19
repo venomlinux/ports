@@ -3,17 +3,16 @@
 # depends	: gawk m4 wxgtk3 xerces-c spdlog uchardet libnfs libssh2 openssl samba neon libarchive pcre2 cmake 
 
 name=far2l
-version=2021.04.26.alpha
+version=2.4.0
 release=1
-source="https://github.com/elfmz/far2l/archive/refs/tags/v2021-04-26_alpha.tar.gz"
+source="$name-$version.tar.gz::https://github.com/elfmz/far2l/archive/v_$version.tar.gz"
 
 build() {
-	cd $name-2021-04-26_alpha
-
-	mkdir build
-	cd    build
+	cd $name-v_$version
 	
-	cmake -DCMAKE_INSTALL_PREFIX=/usr -DUSEWX=yes -DCMAKE_BUILD_TYPE=Release ..
-	make
-	make DESTDIR=$PKG install
+	cmake  -B build -DCMAKE_INSTALL_PREFIX=/usr -DUSEWX=yes -DCMAKE_BUILD_TYPE=Release
+
+	cmake --build  build
+
+	DESTDIR=$PKG cmake --install build
 }

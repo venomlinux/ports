@@ -1,5 +1,5 @@
 # description	: alsamixer alike for PulseAudio
-# depends	: gcc gnustep-make gnustep-base pulseaudio ncurses ninja
+# depends	: gnustep-make gnustep-base pulseaudio ncurses ninja
 
 name=pacmixer
 version=0.6.3
@@ -8,6 +8,8 @@ source="$name-$version.tar.gz::https://github.com/KenjiTakahashi/pacmixer/archiv
 
 build() {
 	cd $name-$version
+	# fix mk script not exit when ninja build fails
+	sed 's,ninja -v,ninja -v || exit 1,' -i mk
 	./mk
 	DESTDIR=$PKG PREFIX="/usr" ./mk install
 }

@@ -1,11 +1,10 @@
 # description	: Contains libraries and utilities used for parsing XML files
-# depends	: libxml2 icu-32
+# depends	: libxml2 xz-32 zlib-32 icu-32
 
 name=libxml2-32
-version=2.9.12
+version=2.9.14
 release=1
-source="http://xmlsoft.org/sources/libxml2-$version.tar.gz
-	libxml2-2.9.10-icu68.patch"
+source="https://download.gnome.org/sources/libxml2/$%7Bversion:0:3%7D/libxml2-$version.tar.xz"
 
 build() {
 	cd libxml2-$version
@@ -13,8 +12,6 @@ build() {
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
-
-	#patch -Np1 -i ../libxml2-2.9.10-icu68.patch
 
 	./configure --prefix=/usr \
 		    --libdir=/usr/lib32 \

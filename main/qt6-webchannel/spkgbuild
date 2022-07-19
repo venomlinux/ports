@@ -1,0 +1,22 @@
+# description	    : Provides access to QObject or QML objects from HTML clients for seamless integration of Qt applications with HTML/JavaScript clients
+# homepage	    : https://www.qt.io/
+# depends	    : qt6-websockets
+
+name=qt6-webchannel
+version=6.3.1
+release=1
+source="https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtwebchannel-everywhere-src-$version.tar.xz"
+
+build() {
+
+
+	cmake -S qtwebchannel-everywhere-src-$version -B build -G Ninja \
+		-D QT_USE_CCACHE=ON \
+		-D INSTALL_PUBLICBINDIR=usr/bin \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}

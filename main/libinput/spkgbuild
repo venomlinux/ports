@@ -2,15 +2,16 @@
 # depends	: eudev libevdev mtdev meson
 
 name=libinput
-version=1.19.4
+version=1.21.0
 release=1
-source="https://www.freedesktop.org/software/libinput/libinput-$version.tar.xz"
+source="https://gitlab.freedesktop.org/libinput/libinput/-/archive/$version/libinput-$version.tar.gz"
 
 build() {
 	cd libinput-$version
 	venom-meson \
 	-Dudev-dir=/lib/udev \
 	-Ddebug-gui=false \
+	-Db_ndebug=false \
 	-Dtests=false \
 	-Ddocumentation=false \
 	-Dlibwacom=false \

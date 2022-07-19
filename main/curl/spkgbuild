@@ -2,19 +2,21 @@
 # depends	: ca-certificates openssl zlib
 
 name=curl
-version=7.83.1
-release=1
+version=7.84.0
+release=2
 source="https://curl.haxx.se/download/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-  	./configure --prefix=/usr              \
-	            --disable-static           \
-	            --enable-threaded-resolver \
-		    --without-libidn2 \
-		    --with-openssl \
-		    --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt
+	./configure \
+		--prefix=/usr \
+		--disable-static \
+		--enable-threaded-resolver \
+		--without-libidn2 \
+		--without-nghttp2 \
+		--with-openssl \
+		--with-ca-bundle=/etc/ssl/certs/ca-certificates.crt
 	make
 	make DESTDIR=$PKG install
 }

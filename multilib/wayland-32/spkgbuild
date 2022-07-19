@@ -2,23 +2,27 @@
 # depends	: libffi-32 libxml2-32 wayland expat-32
 
 name=wayland-32
-version=1.20.0
+_name=wayland
+version=1.21.0
 release=1
-source="http://wayland.freedesktop.org/releases/wayland-$version.tar.xz"
+source="$name-$version.tar.gz::http://gitlab.freedesktop.org/$_name/$_name/-/archive/$version/$_name-$version.tar.gz"
 
 build() {
-	cd wayland-$version
+	cd $_name-$version
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	./configure --prefix=/usr    \
-		    --libdir=/usr/lib32 \
-	            --disable-static \
-	            --disable-documentation
-	make
-	make DESTDIR=$PWD/DESTDIR install
-	mkdir -p $PKG/usr/lib32
-	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+        venom-meson  build \
+		--libdir=/usr/lib32 \
+		-Dtests=false \
+		-Ddocumentation=false \
+		-Ddtd_validation=false 
+        
+	meson compile -C build
+        DESTDIR=$PKG meson install -C build
+
+	#mkdir -p $PKG/usr/lib32
+	#cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
