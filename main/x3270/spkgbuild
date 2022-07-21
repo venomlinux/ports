@@ -11,4 +11,5 @@ build() {
     ./configure --disable-tcl3270 --prefix=/usr
     make
     make PREFIX=$PKG/usr DESTDIR=$PKG install
+    rm -r $PKG/usr/etc
 }
