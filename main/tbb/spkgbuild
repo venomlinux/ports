@@ -9,22 +9,19 @@ source="https://github.com/oneapi-src/oneTBB/archive/v$version/$name-$version.ta
 
 build() {
 	cd oneTBB-$version
-  cmake -B build -G Ninja \
-    -D CMAKE_INSTALL_PREFIX=/usr \
-    -D CMAKE_BUILD_TYPE=Release \
-    -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
-    -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
-    -D TBB4PY_BUILD=ON \
-    -Wno-dev
-  cmake --build build --target all python_build
-  DESTDIR=$PKG cmake --install build
 
-  rm -r $PKG/usr/share/doc	
+	cmake -B build -G Ninja \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-D TBB4PY_BUILD=ON \
+		-D TBB_STRICT=OFF \
+		-D TBB_TEST=OFF \
+		-Wno-dev
 
-#cmake -GNinja \
-	#-DCMAKE_INSTALL_PREFIX=/usr \
-	#-DTBB4PY_BUILD=ON \
-	#.
-	#ninja all python_build
-	#DESTDIR=$PKG ninja install
+	cmake --build build --target all python_build
+	DESTDIR=$PKG cmake --install build
+
+	rm -r $PKG/usr/share/doc	
 }
