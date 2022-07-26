@@ -3,34 +3,32 @@
 # /etc/rc.d/iwd: start/stop wireless interface
 #
 
-SSD=/sbin/start-stop-daemon
 PROG=/usr/sbin/iwd
-PID=/var/run/iwd.pid
+PIDFILE=/var/run/iwd.pid
 OPTS=""
 
 case $1 in
 start)
-	$SSD --start -bmC --pidfile $PID --exec $PROG -- $OPTS
-	;;
-stop)
-	$SSD --stop --remove-pidfile --retry 10 --pidfile $PID
-	;;
-restart)
-	$0 stop
-	$0 start
-	;;
-status)
-	$SSD --status --pidfile $PID
-	case $? in
-	0) echo "$PROG is running with pid $(cat $PID)" ;;
-	1) echo "$PROG is not running but the pid file $PID exists" ;;
-	3) echo "$PROG is not running" ;;
-	4) echo "Unable to determine the program status" ;;
-	esac
-	;;
-*)
-	echo "Usage: $0 [start|stop|restart|status]"
-	;;
+case $1 in	
+	start)	
+		msg "Starting $PROGNAME..."	
+		start_daemon $PROG $OPTS
+		;;	
+	stop)	
+		msg "Stopping $PROGNAME..."	
+		stop_daemon $PROG
+		;;	
+	restart)	
+		$0 stop	
+		sleep 1	
+		$0 start	
+		;;	
+	status)
+		status_daemon $PROG
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
 esac
 
 # End of file
