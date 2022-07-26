@@ -1,7 +1,7 @@
 # description	: Full featured cross platform office suite (binary)
 # depends	: libxinerama libx11 libxcb glib desktop-file-utils shared-mime-info dbus gtk3 fontconfig cups gst-plugins-base
 
-name=libreoffice
+name=libreoffice-bin
 version=7.3.5
 release=1
 #lang="es" 
@@ -9,10 +9,10 @@ release=1
 # https://es.libreoffice.org/descarga/libreoffice/?type=rpm-x86_64&version=7.3.4&lang=pick
 # Uncomment lang variable and second URL to add it in source and install libreoffice and the language pack that you need.
 
-source="http://download.documentfoundation.org/$name/stable/$version/rpm/x86_64/LibreOffice_${version}_Linux_x86-64_rpm.tar.gz" #https://download.documentfoundation.org/libreoffice/stable/$version/rpm/x86_64/LibreOffice_${version}_Linux_x86-64_rpm_langpack_$lang.tar.gz"
+source="$name-$version.tar.gz::http://download.documentfoundation.org/libreoffice/stable/$version/rpm/x86_64/LibreOffice_${version}_Linux_x86-64_rpm.tar.gz" #$name-$version_$lang.tar.gz::https://download.documentfoundation.org/libreoffice/stable/$version/rpm/x86_64/LibreOffice_${version}_Linux_x86-64_rpm_langpack_$lang.tar.gz"
 
 build() {
-	for rpm in $SRC/LibreOffice_${version}*/RPMS/*; do
+	for rpm in $SRC//LibreOffice_${version}*/RPMS/*; do
 		bsdtar -xf $rpm -p -o -C $PKG
 	done
 	rm $PKG/opt/libreoffice*/CREDITS* \
