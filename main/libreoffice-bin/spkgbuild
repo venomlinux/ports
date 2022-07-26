@@ -12,7 +12,7 @@ release=1
 source="$name-$version.tar.gz::http://download.documentfoundation.org/libreoffice/stable/$version/rpm/x86_64/LibreOffice_${version}_Linux_x86-64_rpm.tar.gz" #$name-$version_$lang.tar.gz::https://download.documentfoundation.org/libreoffice/stable/$version/rpm/x86_64/LibreOffice_${version}_Linux_x86-64_rpm_langpack_$lang.tar.gz"
 
 build() {
-	for rpm in $SRC//LibreOffice_${version}*/RPMS/*; do
+	for rpm in $SRC/LibreOffice_${version}*/RPMS/*; do
 		bsdtar -xf $rpm -p -o -C $PKG
 	done
 	rm $PKG/opt/libreoffice*/CREDITS* \
