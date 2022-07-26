@@ -1,0 +1,7 @@
+url=http://download.documentfoundation.org/libreoffice/stable/
+
+port_getver() {
+	fetch \
+	| grep -Eo 'href="[0-9.]+' \
+	| sed 's/href="//'
+}
