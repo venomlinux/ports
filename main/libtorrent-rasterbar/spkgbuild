@@ -2,15 +2,25 @@
 # depends	: openssl boost
 
 name=libtorrent-rasterbar
-version=1.2.14
+version=2.0.7
 release=1
-source="https://github.com/arvidn/libtorrent/releases/download/v$version/libtorrent-rasterbar-$version.tar.gz"
+source="https://github.com/arvidn/libtorrent/releases/download/v$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
+   	
+	cd $name-$version 
+
+	PYTHON=/usr/bin/python3
 
 
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
-}
+    cmake -B build  \
+        -DCMAKE_INSTALL_PREFIX:PATH='/usr' \
+        -DCMAKE_SKIP_RPATH:BOOL='YES' \
+        -Dpython-bindings:BOOL='ON' \
+        -Dboost-python-module-name='python' \
+        -Dpython-egg-info='ON' \
+        -Wno-dev
+    make -C build
+
+    make -C build DESTDIR="$PKG" install
+} 

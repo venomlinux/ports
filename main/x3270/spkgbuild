@@ -1,14 +1,15 @@
 # description	: console emulator for IBM Mainframes
-# depends	: ncurses glibc
+# depends	: ncurses glibc libxaw bdftopcf mkfontscale
 
 name=x3270
-version=4.1
-release=ga12
-source="https://github.com/pmattes/$name/archive/refs/tags/$version$release.tar.gz"
+version=4.2
+release=ga4
+source="$name-$version.tar.gz::https://github.com/pmattes/$name/archive/refs/tags/$version$release.tar.gz"
 
 build() {
     cd $name-$version$release
     ./configure --disable-tcl3270 --prefix=/usr
     make
     make PREFIX=$PKG/usr DESTDIR=$PKG install
+    rm -r $PKG/usr/etc
 }

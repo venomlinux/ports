@@ -1,12 +1,16 @@
 # description	: Firmware files for Linux
 
 name=linux-firmware
-version=20220610
-release=1
-source="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-$version.tar.gz"
+version=20220708
+release=2
+source="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-$version.tar.gz 
+	WHENCE-Correct-dangling-symlinks.patch"
 
 build() {
 	cd $name-$version
+	
+	# Correct dangling symlinks. The symlink direction was wrong for some brcm firmware.
+	patch -Np1 -i ../WHENCE-Correct-dangling-symlinks.patch
 
 	make DESTDIR=$PKG install
 	#rm $PKG/lib/firmware/{Makefile,README,configure,GPL-3,*.txt,check_whence.py}

@@ -5,10 +5,10 @@
 name=python3-imdbpy
 version=2022.02.11
 release=1
-source="https://github.com/alberanid/imdbpy/releases/download/2021.04.18/IMDbPY-$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/cinemagoer/cinemagoer/archive/refs/tags/$version.tar.gz"
 
 build() {
-	cd IMDbPY-$version
+	cd cinemagoer-$version
 	python3 setup.py build
 	python3 setup.py install --skip-build --optimize=1 --root="${PKG}"
 	

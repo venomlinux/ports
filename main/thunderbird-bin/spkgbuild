@@ -1,0 +1,33 @@
+# description	    : Thunderbird binary
+# homepage	    : https://www.thunderbird.net/
+# depends	    : gtk3 dbus-glib
+
+name=thunderbird-bin
+version=102.0.3
+release=1
+source="https://ftp.mozilla.org/pub/thunderbird/releases/$version/linux-x86_64/en-US/thunderbird-$version.tar.bz2
+	policies.json 
+	thunderbird.desktop"
+
+build() {
+	cd thunderbird
+
+	install -d $PKG/usr/lib
+	install -d $PKG/usr/bin
+	mv $SRC/thunderbird $PKG/usr/lib/thunderbird
+	ln -s /usr/lib/thunderbird/thunderbird $PKG/usr/bin/thunderbird
+
+	# Disable autoupdate
+	install -d $PKG/usr/lib/thunderbird/distribution
+	install -m644 $SRC/policies.json $PKG/usr/lib/thunderbird/distribution/
+
+	install -d  $PKG/etc/revdep.d
+	echo "/usr/lib/thunderbird" > $PKG/etc/revdep.d/thunderbird-bin
+
+	install -m 0755 -d $PKG/usr/share/pixmaps
+	ln -s /usr/lib/thunderbird/chrome/icons/default/default32.png \
+		$PKG/usr/share/pixmaps/thunderbird.png
+
+	install -m 0644 -D $SRC/thunderbird.desktop \
+		$PKG/usr/share/applications/thunderbird.desktop
+}

@@ -1,0 +1,15 @@
+# description	    : CLI and curses mixer for Pulseaudio
+# homepage	    : https://github.com/GeorgeFilipkin/pulsemixer
+# depends	    : pulseaudio
+
+name=pulsemixer
+version=1.5.1
+release=1
+source="$name-$version.tar.gz::https://github.com/GeorgeFilipkin/pulsemixer/archive/$version.tar.gz"
+
+build() {
+	cd $name-$version	
+    install -m 755 -d $PKG/usr/bin
+    install -Dm 755 pulsemixer $PKG/usr/bin/
+}
+    

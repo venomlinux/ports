@@ -2,13 +2,14 @@
 # depends	 : libsndfile python3
 
 name=lv2
-version=1.18.4
+version=1.18.6
 release=1
-source="https://${name}plug.in/spec/$name-$version.tar.bz2"
+source="https://${name}plug.in/spec/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version
-	/usr/bin/python3 waf configure --prefix=/usr
-	/usr/bin/python3 waf build $MAKEFLAGS
-	/usr/bin/python3 waf install --destdir="$PKG"
+	venom-meson $name-$version build
+	
+	meson compile -C build
+
+	meson install -C build --destdir $PKG
 }

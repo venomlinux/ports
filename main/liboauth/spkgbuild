@@ -1,0 +1,24 @@
+# description	    : C library implementing OAuth Core RFC 5849
+# homepage	    : https://github.com/x42/liboauth
+# depends	    : curl nss m4
+
+name=liboauth
+version=1.0.3
+release=1
+source="$name-$version.tar.gz::https://github.com/x42/liboauth/archive/refs/tags/v$version.tar.gz
+	openssl.patch"
+
+build() {
+
+	cd $name-$version
+	
+	cd src && patch -Np1 < ../../openssl.patch
+	cd ..
+
+	autoreconf -fvi
+	./configure --prefix=/usr --disable-static --enable-nss
+	sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+
+	make
+	make DESTDIR="$PKG" install
+}

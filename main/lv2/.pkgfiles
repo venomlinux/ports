@@ -1,96 +1,143 @@
-lv2-1.18.4-1
+lv2-1.18.6-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/lv2_validate
 -rwxr-xr-x root/root    usr/bin/lv2specgen.py
 drwxr-xr-x root/root    usr/include/
-lrwxrwxrwx root/root    usr/include/lv2.h -> lv2/core/lv2.h
 drwxr-xr-x root/root    usr/include/lv2/
-lrwxrwxrwx root/root    usr/include/lv2/atom -> ../../lib/lv2/atom.lv2
-lrwxrwxrwx root/root    usr/include/lv2/buf-size -> ../../lib/lv2/buf-size.lv2
-lrwxrwxrwx root/root    usr/include/lv2/core -> ../../lib/lv2/core.lv2
-lrwxrwxrwx root/root    usr/include/lv2/data-access -> ../../lib/lv2/data-access.lv2
-lrwxrwxrwx root/root    usr/include/lv2/dynmanifest -> ../../lib/lv2/dynmanifest.lv2
-lrwxrwxrwx root/root    usr/include/lv2/event -> ../../lib/lv2/event.lv2
-lrwxrwxrwx root/root    usr/include/lv2/instance-access -> ../../lib/lv2/instance-access.lv2
-lrwxrwxrwx root/root    usr/include/lv2/log -> ../../lib/lv2/log.lv2
+drwxr-xr-x root/root    usr/include/lv2/atom/
+-rw-r--r-- root/root    usr/include/lv2/atom/atom.h
+-rw-r--r-- root/root    usr/include/lv2/atom/forge.h
+-rw-r--r-- root/root    usr/include/lv2/atom/util.h
+drwxr-xr-x root/root    usr/include/lv2/buf-size/
+-rw-r--r-- root/root    usr/include/lv2/buf-size/buf-size.h
+drwxr-xr-x root/root    usr/include/lv2/core/
+-rw-r--r-- root/root    usr/include/lv2/core/attributes.h
+-rw-r--r-- root/root    usr/include/lv2/core/lv2.h
+-rw-r--r-- root/root    usr/include/lv2/core/lv2_util.h
+drwxr-xr-x root/root    usr/include/lv2/data-access/
+-rw-r--r-- root/root    usr/include/lv2/data-access/data-access.h
+drwxr-xr-x root/root    usr/include/lv2/dynmanifest/
+-rw-r--r-- root/root    usr/include/lv2/dynmanifest/dynmanifest.h
+drwxr-xr-x root/root    usr/include/lv2/event/
+-rw-r--r-- root/root    usr/include/lv2/event/event-helpers.h
+-rw-r--r-- root/root    usr/include/lv2/event/event.h
+drwxr-xr-x root/root    usr/include/lv2/instance-access/
+-rw-r--r-- root/root    usr/include/lv2/instance-access/instance-access.h
+drwxr-xr-x root/root    usr/include/lv2/log/
+-rw-r--r-- root/root    usr/include/lv2/log/log.h
+-rw-r--r-- root/root    usr/include/lv2/log/logger.h
 drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/
 drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/
 drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/atom -> ../../../../../lib/lv2/atom.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/buf-size -> ../../../../../lib/lv2/buf-size.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/data-access -> ../../../../../lib/lv2/data-access.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/dynmanifest -> ../../../../../lib/lv2/dynmanifest.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/event -> ../../../../../lib/lv2/event.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/instance-access -> ../../../../../lib/lv2/instance-access.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/log -> ../../../../../lib/lv2/log.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/midi -> ../../../../../lib/lv2/midi.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/morph -> ../../../../../lib/lv2/morph.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/options -> ../../../../../lib/lv2/options.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/parameters -> ../../../../../lib/lv2/parameters.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/patch -> ../../../../../lib/lv2/patch.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/port-groups -> ../../../../../lib/lv2/port-groups.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/port-props -> ../../../../../lib/lv2/port-props.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/presets -> ../../../../../lib/lv2/presets.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/resize-port -> ../../../../../lib/lv2/resize-port.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/state -> ../../../../../lib/lv2/state.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/time -> ../../../../../lib/lv2/time.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/uri-map -> ../../../../../lib/lv2/uri-map.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/urid -> ../../../../../lib/lv2/urid.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/ext/worker -> ../../../../../lib/lv2/worker.lv2
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/atom/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/atom/atom.h
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/atom/forge.h
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/atom/util.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/buf-size/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/buf-size/buf-size.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/data-access/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/data-access/data-access.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/dynmanifest/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/dynmanifest/dynmanifest.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/event/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/event/event-helpers.h
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/event/event.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/instance-access/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/instance-access/instance-access.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/log/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/log/log.h
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/log/logger.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/midi/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/midi/midi.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/morph/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/morph/morph.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/options/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/options/options.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/parameters/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/parameters/parameters.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/patch/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/patch/patch.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/port-groups/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/port-groups/port-groups.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/port-props/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/port-props/port-props.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/presets/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/presets/presets.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/resize-port/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/resize-port/resize-port.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/state/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/state/state.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/time/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/time/time.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/uri-map/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/uri-map/uri-map.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/urid/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/urid/urid.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/ext/worker/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/ext/worker/worker.h
 drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/extensions/
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/extensions/ui -> ../../../../../lib/lv2/ui.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/extensions/units -> ../../../../../lib/lv2/units.lv2
-lrwxrwxrwx root/root    usr/include/lv2/lv2plug.in/ns/lv2core -> ../../../../lib/lv2/core.lv2
-lrwxrwxrwx root/root    usr/include/lv2/midi -> ../../lib/lv2/midi.lv2
-lrwxrwxrwx root/root    usr/include/lv2/morph -> ../../lib/lv2/morph.lv2
-lrwxrwxrwx root/root    usr/include/lv2/options -> ../../lib/lv2/options.lv2
-lrwxrwxrwx root/root    usr/include/lv2/parameters -> ../../lib/lv2/parameters.lv2
-lrwxrwxrwx root/root    usr/include/lv2/patch -> ../../lib/lv2/patch.lv2
-lrwxrwxrwx root/root    usr/include/lv2/port-groups -> ../../lib/lv2/port-groups.lv2
-lrwxrwxrwx root/root    usr/include/lv2/port-props -> ../../lib/lv2/port-props.lv2
-lrwxrwxrwx root/root    usr/include/lv2/presets -> ../../lib/lv2/presets.lv2
-lrwxrwxrwx root/root    usr/include/lv2/resize-port -> ../../lib/lv2/resize-port.lv2
-lrwxrwxrwx root/root    usr/include/lv2/state -> ../../lib/lv2/state.lv2
-lrwxrwxrwx root/root    usr/include/lv2/time -> ../../lib/lv2/time.lv2
-lrwxrwxrwx root/root    usr/include/lv2/ui -> ../../lib/lv2/ui.lv2
-lrwxrwxrwx root/root    usr/include/lv2/units -> ../../lib/lv2/units.lv2
-lrwxrwxrwx root/root    usr/include/lv2/uri-map -> ../../lib/lv2/uri-map.lv2
-lrwxrwxrwx root/root    usr/include/lv2/urid -> ../../lib/lv2/urid.lv2
-lrwxrwxrwx root/root    usr/include/lv2/worker -> ../../lib/lv2/worker.lv2
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/extensions/ui/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/extensions/ui/ui.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/extensions/units/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/extensions/units/units.h
+drwxr-xr-x root/root    usr/include/lv2/lv2plug.in/ns/lv2core/
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/lv2core/attributes.h
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/lv2core/lv2.h
+-rw-r--r-- root/root    usr/include/lv2/lv2plug.in/ns/lv2core/lv2_util.h
+drwxr-xr-x root/root    usr/include/lv2/midi/
+-rw-r--r-- root/root    usr/include/lv2/midi/midi.h
+drwxr-xr-x root/root    usr/include/lv2/morph/
+-rw-r--r-- root/root    usr/include/lv2/morph/morph.h
+drwxr-xr-x root/root    usr/include/lv2/options/
+-rw-r--r-- root/root    usr/include/lv2/options/options.h
+drwxr-xr-x root/root    usr/include/lv2/parameters/
+-rw-r--r-- root/root    usr/include/lv2/parameters/parameters.h
+drwxr-xr-x root/root    usr/include/lv2/patch/
+-rw-r--r-- root/root    usr/include/lv2/patch/patch.h
+drwxr-xr-x root/root    usr/include/lv2/port-groups/
+-rw-r--r-- root/root    usr/include/lv2/port-groups/port-groups.h
+drwxr-xr-x root/root    usr/include/lv2/port-props/
+-rw-r--r-- root/root    usr/include/lv2/port-props/port-props.h
+drwxr-xr-x root/root    usr/include/lv2/presets/
+-rw-r--r-- root/root    usr/include/lv2/presets/presets.h
+drwxr-xr-x root/root    usr/include/lv2/resize-port/
+-rw-r--r-- root/root    usr/include/lv2/resize-port/resize-port.h
+drwxr-xr-x root/root    usr/include/lv2/state/
+-rw-r--r-- root/root    usr/include/lv2/state/state.h
+drwxr-xr-x root/root    usr/include/lv2/time/
+-rw-r--r-- root/root    usr/include/lv2/time/time.h
+drwxr-xr-x root/root    usr/include/lv2/ui/
+-rw-r--r-- root/root    usr/include/lv2/ui/ui.h
+drwxr-xr-x root/root    usr/include/lv2/units/
+-rw-r--r-- root/root    usr/include/lv2/units/units.h
+drwxr-xr-x root/root    usr/include/lv2/uri-map/
+-rw-r--r-- root/root    usr/include/lv2/uri-map/uri-map.h
+drwxr-xr-x root/root    usr/include/lv2/urid/
+-rw-r--r-- root/root    usr/include/lv2/urid/urid.h
+drwxr-xr-x root/root    usr/include/lv2/worker/
+-rw-r--r-- root/root    usr/include/lv2/worker/worker.h
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/lv2/
 drwxr-xr-x root/root    usr/lib/lv2/atom.lv2/
--rw-r--r-- root/root    usr/lib/lv2/atom.lv2/atom-test-utils.c
--rw-r--r-- root/root    usr/lib/lv2/atom.lv2/atom-test.c
--rw-r--r-- root/root    usr/lib/lv2/atom.lv2/atom.h
 -rw-r--r-- root/root    usr/lib/lv2/atom.lv2/atom.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/atom.lv2/atom.ttl
--rw-r--r-- root/root    usr/lib/lv2/atom.lv2/forge-overflow-test.c
--rw-r--r-- root/root    usr/lib/lv2/atom.lv2/forge.h
 -rw-r--r-- root/root    usr/lib/lv2/atom.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/atom.lv2/util.h
 drwxr-xr-x root/root    usr/lib/lv2/buf-size.lv2/
--rw-r--r-- root/root    usr/lib/lv2/buf-size.lv2/buf-size.h
 -rw-r--r-- root/root    usr/lib/lv2/buf-size.lv2/buf-size.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/buf-size.lv2/buf-size.ttl
 -rw-r--r-- root/root    usr/lib/lv2/buf-size.lv2/manifest.ttl
 drwxr-xr-x root/root    usr/lib/lv2/core.lv2/
--rw-r--r-- root/root    usr/lib/lv2/core.lv2/attributes.h
--rw-r--r-- root/root    usr/lib/lv2/core.lv2/lv2.h
--rw-r--r-- root/root    usr/lib/lv2/core.lv2/lv2_util.h
 -rw-r--r-- root/root    usr/lib/lv2/core.lv2/lv2core.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/core.lv2/lv2core.ttl
 -rw-r--r-- root/root    usr/lib/lv2/core.lv2/manifest.ttl
 -rw-r--r-- root/root    usr/lib/lv2/core.lv2/meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/core.lv2/people.ttl
 drwxr-xr-x root/root    usr/lib/lv2/data-access.lv2/
--rw-r--r-- root/root    usr/lib/lv2/data-access.lv2/data-access.h
 -rw-r--r-- root/root    usr/lib/lv2/data-access.lv2/data-access.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/data-access.lv2/data-access.ttl
 -rw-r--r-- root/root    usr/lib/lv2/data-access.lv2/manifest.ttl
 drwxr-xr-x root/root    usr/lib/lv2/dynmanifest.lv2/
--rw-r--r-- root/root    usr/lib/lv2/dynmanifest.lv2/dynmanifest.h
 -rw-r--r-- root/root    usr/lib/lv2/dynmanifest.lv2/dynmanifest.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/dynmanifest.lv2/dynmanifest.ttl
 -rw-r--r-- root/root    usr/lib/lv2/dynmanifest.lv2/manifest.ttl
@@ -115,81 +162,64 @@ drwxr-xr-x root/root    usr/lib/lv2/eg-params.lv2/
 -rwxr-xr-x root/root    usr/lib/lv2/eg-params.lv2/params.so
 -rw-r--r-- root/root    usr/lib/lv2/eg-params.lv2/params.ttl
 drwxr-xr-x root/root    usr/lib/lv2/eg-sampler.lv2/
--rw-r--r-- root/root    usr/lib/lv2/eg-sampler.lv2/click.wav
 -rw-r--r-- root/root    usr/lib/lv2/eg-sampler.lv2/manifest.ttl
 -rwxr-xr-x root/root    usr/lib/lv2/eg-sampler.lv2/sampler.so
 -rw-r--r-- root/root    usr/lib/lv2/eg-sampler.lv2/sampler.ttl
--rwxr-xr-x root/root    usr/lib/lv2/eg-sampler.lv2/sampler_ui.so
 drwxr-xr-x root/root    usr/lib/lv2/eg-scope.lv2/
 -rwxr-xr-x root/root    usr/lib/lv2/eg-scope.lv2/examploscope.so
 -rw-r--r-- root/root    usr/lib/lv2/eg-scope.lv2/examploscope.ttl
--rwxr-xr-x root/root    usr/lib/lv2/eg-scope.lv2/examploscope_ui.so
 -rw-r--r-- root/root    usr/lib/lv2/eg-scope.lv2/manifest.ttl
 drwxr-xr-x root/root    usr/lib/lv2/event.lv2/
--rw-r--r-- root/root    usr/lib/lv2/event.lv2/event-helpers.h
--rw-r--r-- root/root    usr/lib/lv2/event.lv2/event.h
 -rw-r--r-- root/root    usr/lib/lv2/event.lv2/event.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/event.lv2/event.ttl
 -rw-r--r-- root/root    usr/lib/lv2/event.lv2/manifest.ttl
 drwxr-xr-x root/root    usr/lib/lv2/instance-access.lv2/
--rw-r--r-- root/root    usr/lib/lv2/instance-access.lv2/instance-access.h
 -rw-r--r-- root/root    usr/lib/lv2/instance-access.lv2/instance-access.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/instance-access.lv2/instance-access.ttl
 -rw-r--r-- root/root    usr/lib/lv2/instance-access.lv2/manifest.ttl
 drwxr-xr-x root/root    usr/lib/lv2/log.lv2/
--rw-r--r-- root/root    usr/lib/lv2/log.lv2/log.h
 -rw-r--r-- root/root    usr/lib/lv2/log.lv2/log.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/log.lv2/log.ttl
--rw-r--r-- root/root    usr/lib/lv2/log.lv2/logger.h
 -rw-r--r-- root/root    usr/lib/lv2/log.lv2/manifest.ttl
 drwxr-xr-x root/root    usr/lib/lv2/midi.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/midi.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/midi.lv2/midi.h
 -rw-r--r-- root/root    usr/lib/lv2/midi.lv2/midi.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/midi.lv2/midi.ttl
 drwxr-xr-x root/root    usr/lib/lv2/morph.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/morph.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/morph.lv2/morph.h
 -rw-r--r-- root/root    usr/lib/lv2/morph.lv2/morph.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/morph.lv2/morph.ttl
 drwxr-xr-x root/root    usr/lib/lv2/options.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/options.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/options.lv2/options.h
 -rw-r--r-- root/root    usr/lib/lv2/options.lv2/options.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/options.lv2/options.ttl
 drwxr-xr-x root/root    usr/lib/lv2/parameters.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/parameters.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/parameters.lv2/parameters.h
 -rw-r--r-- root/root    usr/lib/lv2/parameters.lv2/parameters.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/parameters.lv2/parameters.ttl
 drwxr-xr-x root/root    usr/lib/lv2/patch.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/patch.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/patch.lv2/patch.h
 -rw-r--r-- root/root    usr/lib/lv2/patch.lv2/patch.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/patch.lv2/patch.ttl
 drwxr-xr-x root/root    usr/lib/lv2/port-groups.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/port-groups.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/port-groups.lv2/port-groups.h
 -rw-r--r-- root/root    usr/lib/lv2/port-groups.lv2/port-groups.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/port-groups.lv2/port-groups.ttl
 drwxr-xr-x root/root    usr/lib/lv2/port-props.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/port-props.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/port-props.lv2/port-props.h
 -rw-r--r-- root/root    usr/lib/lv2/port-props.lv2/port-props.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/port-props.lv2/port-props.ttl
 drwxr-xr-x root/root    usr/lib/lv2/presets.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/presets.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/presets.lv2/presets.h
 -rw-r--r-- root/root    usr/lib/lv2/presets.lv2/presets.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/presets.lv2/presets.ttl
 drwxr-xr-x root/root    usr/lib/lv2/resize-port.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/resize-port.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/resize-port.lv2/resize-port.h
 -rw-r--r-- root/root    usr/lib/lv2/resize-port.lv2/resize-port.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/resize-port.lv2/resize-port.ttl
 drwxr-xr-x root/root    usr/lib/lv2/schemas.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/schemas.lv2/dcs.ttl
--rw-r--r-- root/root    usr/lib/lv2/schemas.lv2/dct.ttl
+-rw-r--r-- root/root    usr/lib/lv2/schemas.lv2/dcterms.ttl
 -rw-r--r-- root/root    usr/lib/lv2/schemas.lv2/doap.ttl
 -rw-r--r-- root/root    usr/lib/lv2/schemas.lv2/foaf.ttl
 -rw-r--r-- root/root    usr/lib/lv2/schemas.lv2/manifest.ttl
@@ -199,37 +229,30 @@ drwxr-xr-x root/root    usr/lib/lv2/schemas.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/schemas.lv2/xsd.ttl
 drwxr-xr-x root/root    usr/lib/lv2/state.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/state.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/state.lv2/state.h
 -rw-r--r-- root/root    usr/lib/lv2/state.lv2/state.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/state.lv2/state.ttl
 drwxr-xr-x root/root    usr/lib/lv2/time.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/time.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/time.lv2/time.h
 -rw-r--r-- root/root    usr/lib/lv2/time.lv2/time.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/time.lv2/time.ttl
 drwxr-xr-x root/root    usr/lib/lv2/ui.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/ui.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/ui.lv2/ui.h
 -rw-r--r-- root/root    usr/lib/lv2/ui.lv2/ui.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/ui.lv2/ui.ttl
 drwxr-xr-x root/root    usr/lib/lv2/units.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/units.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/units.lv2/units.h
 -rw-r--r-- root/root    usr/lib/lv2/units.lv2/units.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/units.lv2/units.ttl
 drwxr-xr-x root/root    usr/lib/lv2/uri-map.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/uri-map.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/uri-map.lv2/uri-map.h
 -rw-r--r-- root/root    usr/lib/lv2/uri-map.lv2/uri-map.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/uri-map.lv2/uri-map.ttl
 drwxr-xr-x root/root    usr/lib/lv2/urid.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/urid.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/urid.lv2/urid.h
 -rw-r--r-- root/root    usr/lib/lv2/urid.lv2/urid.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/urid.lv2/urid.ttl
 drwxr-xr-x root/root    usr/lib/lv2/worker.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/worker.lv2/manifest.ttl
--rw-r--r-- root/root    usr/lib/lv2/worker.lv2/worker.h
 -rw-r--r-- root/root    usr/lib/lv2/worker.lv2/worker.meta.ttl
 -rw-r--r-- root/root    usr/lib/lv2/worker.lv2/worker.ttl
 drwxr-xr-x root/root    usr/lib/pkgconfig/
@@ -282,5 +305,6 @@ drwxr-xr-x root/root    usr/share/lv2specgen/DTD/
 -rw-r--r-- root/root    usr/share/lv2specgen/DTD/xhtml-table-1.mod
 -rw-r--r-- root/root    usr/share/lv2specgen/DTD/xhtml-target-1.mod
 -rw-r--r-- root/root    usr/share/lv2specgen/DTD/xhtml-text-1.mod
+-rw-r--r-- root/root    usr/share/lv2specgen/pygments.css
 -rw-r--r-- root/root    usr/share/lv2specgen/style.css
 -rw-r--r-- root/root    usr/share/lv2specgen/template.html

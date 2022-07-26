@@ -1,8 +1,8 @@
 # description	: File and print services to SMB/CIFS clients and Windows networking to Linux clients
-# depends	: fuse3 gpgme python3 jansson libtirpc rpcsvc-proto perl-parse-yapp gnutls linux-pam dbus
+# depends	: fuse3 gpgme python3 jansson libtirpc rpcsvc-proto perl-parse-yapp gnutls linux-pam dbus perl-json
 
 name=samba
-version=4.15.5
+version=4.16.3
 release=1
 source="https://www.samba.org/ftp/samba/stable/$name-$version.tar.gz"
 
@@ -16,11 +16,11 @@ build() {
 	    --with-piddir=/run/samba \
 	    --with-pammodulesdir=/lib/security \
 	    --enable-fhs \
+            --without-json \
 	    --without-systemd \
 	    --without-ad-dc \
 	    --without-ads \
-	    --without-ldap \
-            --without-json
+	    --without-ldap 
 	make
 	make DESTDIR=$PKG install
 
