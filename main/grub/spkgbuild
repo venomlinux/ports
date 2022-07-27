@@ -3,13 +3,18 @@
 
 name=grub
 version=2.06
-release=1
+release=2
 backup="etc/default/grub"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	grub.default
 	detect-venom-fallback-initrd.patch"
 
 build() {
+	# workaround for https://savannah.gnu.org/bugs/?60458
+ 	# some more info: https://www.linuxquestions.org/questions/showthread.php?p=6257712
+	# grub 2.06 reboots immediately when compiled with -O2,	only affects legacy BIOS
+	export CFLAGS="-march=x86-64 -pipe -Os"
+
 	cd $name-$version
 
 	patch -Np1 -i $SRC/detect-venom-fallback-initrd.patch
