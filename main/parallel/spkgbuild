@@ -1,19 +1,15 @@
 # description	: A shell tool for executing jobs in parallel
 
 name=parallel
-version=20220622
+version=20220722
 release=1
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2
 	fix-makefile.patch"
 
 build() {
 	cd $name-$version
-
-	# DESTDIR support to makefile
-	patch -p1 < $SRC/fix-makefile.patch
-
+  
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
-
 }
