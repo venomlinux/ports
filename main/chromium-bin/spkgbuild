@@ -1,0 +1,30 @@
+# description	: Open source version of Google Chrome web browser (portable ungoogled binary version)
+# homepage	: https://chromium.woolyss.com/
+# depends	: alsa-lib cups desktop-file-utils gtk3 hicolor-icon-theme libgcrypt libva libxkbcommon nss pciutils
+
+name=chromium-bin
+_name=chromium
+version=103.0.5060.68.r1002911
+ver=${version%.*}
+sion=${version##*.}
+release=1
+source="$name-$version.tar.xz::https://github.com/macchrome/linchrome/releases/download/v${ver}-${sion}-portable-ungoogled-Lin64/ungoogled-chromium_${ver}_1.vaapi_linux.tar.xz
+	$_name.desktop"
+build() {
+	cd ungoogled-chromium_${ver}_1.vaapi_linux
+	install -d $PKG/opt/$_name
+	cp -ra * $PKG/opt/$_name
+	mv $PKG/opt/$_name/chrome_sandbox $PKG/opt/$_name/chrome-sandbox
+	chmod 4755 $PKG/opt/$_name/chrome-sandbox
+
+	install -d $PKG/usr/bin
+	ln -s /opt/$_name/chrome-wrapper $PKG/usr/bin/$_name
+
+	install -d $PKG/usr/share/applications
+	install -m644 $SRC/$_name.desktop $PKG/usr/share/applications/$_name
+
+	install -d $PKG/usr/share/pixmaps
+	install -m644 product_logo_48.png $PKG/usr/share/pixmaps/$_name.png
+
+	rm product_logo_48.png README
+}
