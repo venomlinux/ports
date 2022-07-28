@@ -2,12 +2,12 @@
 # depends	: python3
 
 name=iso-codes
-version=4.7.0
+version=4.11.0
 release=1
-source="https://salsa.debian.org/iso-codes-team/iso-codes/-/archive/iso-codes-$version/iso-codes-iso-codes-$version.tar.gz"
+source="$name-$version.tar.gz::https://salsa.debian.org/iso-codes-team/iso-codes/-/archive/v$version/iso-codes-v$version.tar.gz"
 
 build() {
-	cd $name-$name-$version
+	cd $name-v$version
 
 	./configure --prefix=/usr
 	make
