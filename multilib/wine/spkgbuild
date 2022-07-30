@@ -4,10 +4,7 @@
 name=wine
 version=7.14
 release=1
-source="https://dl.winehq.org/wine/source/${version%%.*}.x/$name-$version.tar.xz
-	https://dl.winehq.org/wine/wine-gecko/2.47.3/wine-gecko-2.47.3-x86.msi
-	https://dl.winehq.org/wine/wine-gecko/2.47.3/wine-gecko-2.47.3-x86_64.msi
-	https://dl.winehq.org/wine/wine-mono/7.3.0/wine-mono-7.3.0-x86.msi"
+source="https://dl.winehq.org/wine/source/${version%%.*}.x/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
@@ -34,15 +31,6 @@ build() {
 		--with-wine64=../build64
 	make
 	make DESTDIR=$PKG install
-
-	install -d $PKG/usr/share/wine/gecko
-	install -d $PKG/usr/share/wine/mono
-
-	install -t $PKG/usr/share/wine/gecko/ \
-		$SRC/wine-gecko-2.47.3-x86.msi \
-		$SRC/wine-gecko-2.47.3-x86_64.msi
-
-	install $SRC/wine-mono-7.3.0-x86.msi $PKG/usr/share/wine/mono/
 
 	rm -r $PKG/usr/share/man/??.UTF-8
 }
