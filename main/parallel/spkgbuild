@@ -3,8 +3,7 @@
 name=parallel
 version=20220722
 release=1
-source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2
-	fix-makefile.patch"
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
@@ -12,6 +11,12 @@ build() {
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
-	[ -f /usr/share/bash-completion/completions/parallel ] && rm -r  $PKG/usr/share/bash-completion
-	[ -f /usr/share/zsh/site-functions/_parallel ] && rm -r $PKG/usr/share/zsh
+	if [ -f /usr/share/bash-completion/completions/parallel ]
+	then
+		rm -r  $PKG/usr/share/bash-completion
+	fi
+	if [ -f /usr/share/zsh/site-functions/_parallel ]
+	then
+		 rm -r $PKG/usr/share/zsh
+	fi
 }
