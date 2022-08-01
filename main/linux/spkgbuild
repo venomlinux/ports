@@ -2,14 +2,14 @@
 # depends	: elfutils mkinitramfs openssl linux-firmware yaml cpio
 
 name=linux
-version=5.18.14
+version=5.19.0
 release=1
-source="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$version.tar.xz
+source="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${version%.0}.tar.xz
 	x86_64-dotconfig"
 NO_STRIP=yes
 
 build() {
-	cd linux-$version
+	cd linux-${version%.0}
 
 	make mrproper
 
@@ -67,7 +67,7 @@ build() {
 
 	rm $PKG/lib/modules/$kernver/build \
 	   $PKG/lib/modules/$kernver/source
-	mv $SRC/linux-$version $PKG/lib/modules/$kernver/build
+	mv $SRC/linux-${version%.0} $PKG/lib/modules/$kernver/build
 	ln -sv build $PKG/lib/modules/$kernver/source
 
 	# remove now broken symlinks
