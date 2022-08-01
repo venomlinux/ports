@@ -2,13 +2,12 @@
 # depends	: libusb libtiff libpng xz
 
 name=sane
-version=1.0.32
+version=1.1.1
 release=1
-source="https://gitlab.com/sane-project/backends/uploads/104f09c07d35519cc8e72e604f11643f/$name-backends-$version.tar.gz"
+source="https://gitlab.com/sane-project/backends/uploads/7d30fab4e115029d91027b6a58d64b43/$name-backends-$version.tar.gz"
 
 build() {
 	cd $name-backends-$version
-
     	./configure \
 		--prefix=/usr \
                 --localstatedir=/var \
