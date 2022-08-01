@@ -7,13 +7,11 @@ release=1
 source="https://github.com/harfbuzz/harfbuzz/releases/download/$version/harfbuzz-$version.tar.xz"
 
 build() {
-	cd $name-$version
-	venom-meson \
+	venom-meson $name-$version build \
 	-Ddocs=disabled \
 	-Dgraphite=auto \
 	-Dbenchmark=disabled \
-	-Dicu=disabled \
-	build
+	-Dicu=disabled 
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 }
