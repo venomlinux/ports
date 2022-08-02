@@ -4,7 +4,7 @@
 name=ffmpeg4
 _name=ffmpeg
 version=4.4.2
-release=2
+release=3
 source="https://ffmpeg.org/releases/$_name-$version.tar.xz"
 
 build() {
@@ -43,5 +43,8 @@ build() {
 	make tools/qt-faststart
 	make DESTDIR=$PKG install
 	rm -fr $PKG/usr/share/ffmpeg/examples
+
+	install -d $PKG/etc/ld.so.conf.d
+	echo '/usr/lib/ffmpeg4' > $PKG/etc/ld.so.conf.d/ffmpeg4.conf
 }
 
