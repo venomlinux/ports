@@ -11,7 +11,6 @@ source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.
 	VBoxClient-all
 	vboxclient.desktop
 	dkms.conf
-	buildmodules-vboxguest.sh
 	rc.vboxservice"
 
 build() {
@@ -55,7 +54,7 @@ build() {
 	mkdir -p $PKG/var/lib/dkms
 	sed -e "s/@name@/vboxguest/g" \
 	    -e "s/@version@/${version}_OSE/g" \
-	$SRC/buildmodules-vboxguest.sh > $PKG/var/lib/dkms/buildmodules-vboxguest.sh
+	/usr/lib/dkms/buildmodules-template.sh > $PKG/var/lib/dkms/buildmodules-vboxguest.sh
 
 	# load modules at boot time
 	install -d $PKG/etc/modules-load.d/
