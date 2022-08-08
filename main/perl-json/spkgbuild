@@ -1,0 +1,18 @@
+# description	    : JSON (JavaScript Object Notation) encoder/decoder
+# homepage	    : https://metacpan.org/pod/JSON
+
+name=perl-json
+version=4.09
+release=1
+source="https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-$version.tar.gz"
+
+build() {
+  cd JSON-$version
+  PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+  make
+  make install DESTDIR=$PKG
+  find $PKG -name .packlist -o \
+    -name perllocal.pod -o \
+    -name README -o \
+    -name '*.bs' | xargs rm
+}

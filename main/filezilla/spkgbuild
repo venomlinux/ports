@@ -1,16 +1,13 @@
 # description	: Fast and reliable FTP, FTPS and SFTP client
-# depends	: libfilezilla gnutls wxgtk3 libidn xdg-utils
+# depends	: libfilezilla wxgtk3 libidn xdg-utils
 
 name=filezilla
-version=3.60.1
+version=3.60.2
 release=1
-source="https://download.filezilla-project.org/client/FileZilla_${version}_src.tar.bz2
-	missing-list-include.patch"
+source="https://download.filezilla-project.org/client/FileZilla_${version}_src.tar.bz2"
 
 build() {
 	cd $name-$version
-
-	#patch -Np0 -i ../missing-list-include.patch
 
 	./configure \
 	    --prefix=/usr \

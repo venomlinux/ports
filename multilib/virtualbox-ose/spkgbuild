@@ -3,16 +3,15 @@
 
 name=virtualbox-ose
 _name=VirtualBox
-version=6.1.34
-release=1
+version=6.1.36
+release=2
 source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.tar.bz2
 	LocalConfig.kmk
 	virtualbox.60-vboxdrv.rules
 	005-gsoap-build.patch
 	008-no-vboxvideo.patch
 	013-Makefile.patch
-	dkms.conf
-	buildmodules-vboxhost.sh"
+	dkms.conf"
 
 build() {
 	cd $_name-$version
@@ -105,7 +104,7 @@ build() {
 	mkdir -p $PKG/var/lib/dkms
 	sed -e "s/@name@/vboxhost/g" \
 	    -e "s/@version@/${version}_OSE/g" \
-	$SRC/buildmodules-vboxhost.sh > $PKG/var/lib/dkms/buildmodules-vboxhost.sh
+	/usr/lib/dkms/buildmodules-template.sh > $PKG/var/lib/dkms/buildmodules-vboxhost.sh
 
 	# load modules at boot time
 	install -d $PKG/etc/modules-load.d/

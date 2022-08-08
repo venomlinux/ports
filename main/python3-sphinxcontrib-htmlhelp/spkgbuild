@@ -1,0 +1,18 @@
+# description	    : sphinx extension which renders HTML help files
+# homepage	    : https://github.com/sphinx-doc/sphinxcontrib-htmlhelp/
+# depends	    : python3-setuptools
+
+name=python3-sphinxcontrib-htmlhelp
+_name=sphinxcontrib-htmlhelp
+version=2.0.0
+release=2
+source="https://files.pythonhosted.org/packages/source/s/$_name/$_name-$version.tar.gz"
+
+build() {
+	cd $_name-$version
+
+	/usr/bin/python3 setup.py build
+	/usr/bin/python3 setup.py install --root=$PKG --optimize=1 --skip-build
+
+#	chmod -R go-w,a+r,u+w $PKG
+}

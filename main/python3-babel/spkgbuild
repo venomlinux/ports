@@ -1,0 +1,22 @@
+# description	    : A collection of tools for internationalizing Python applications
+# homepage	    : http://babel.pocoo.org/
+# depends	    : python3-pytz python3-setuptools
+
+name=python3-babel
+version=2.10.3
+release=1
+cldrver=41.0
+source="https://github.com/python-babel/babel/archive/v$version/$name-$version.tar.gz
+  https://unicode.org/Public/cldr/41/cldr-common-$cldrver.zip"
+
+
+build() {
+  cd babel-$version
+
+  /usr/bin/python3 setup.py import_cldr
+  /usr/bin/python3 setup.py build
+  /usr/bin/python3 setup.py install --root=$PKG \
+    --optimize=1 \
+    --skip-build
+  mv $PKG/usr/bin/pybabel $PKG/usr/bin/py3babel
+}

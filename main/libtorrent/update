@@ -1,7 +1,4 @@
+url=https://github.com/rakshasa/libtorrent/tags
 port_getver() {
-	fetch \
-	| grep archive \
-	| grep -Eo libtorrent-[0-9a-z_]+.tar.gz \
-	| sed 's/libtorrent-//;s/\.tar.*//;s/_/\./g' \
-	| grep -v ^1.2.*
+    getver_github | grep -v ^1
 }

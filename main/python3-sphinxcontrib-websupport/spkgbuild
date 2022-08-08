@@ -1,0 +1,22 @@
+# description	    : Python API to easily integrate Sphinx documentation into web applications.
+# homepage	    : https://github.com/sphinx-doc/sphinxcontrib-websupport/
+# depends	    : python3-setuptools
+
+name=python3-sphinxcontrib-websupport
+version=1.2.4
+release=1
+source="https://github.com/sphinx-doc/${name#*-}/archive/$version/${name#*-}-$version.tar.gz"
+
+build() {
+	cd ${name#python3-}-$version
+
+	sed -i setup.cfg \
+	       	-e '/tag_build =.*/d' \
+		-e 's,tag_date = true,tag_date = false,'
+
+	/usr/bin/python3 setup.py build
+	/usr/bin/python3 setup.py install --prefix=/usr --root=$PKG --optimize=1
+
+	find $PKG -name '*.txt' -exec chmod -x {} \;
+	find $PKG ! -type l -a \( -perm /go+w -o ! -perm /u+rw \) -exec chmod go-w,u+rw {} \;
+}
