@@ -2,11 +2,10 @@
 # depends	: dkms gtk3
 
 name=nvidia-470xx
-version=470.129.06
+version=470.141.03
 release=1
 source="http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
-	10-nvidia-drm-outputclass.conf
-	buildmodules-nvidia.sh"
+	10-nvidia-drm-outputclass.conf"
 
 build() {
 	install_lib() {	install -Dm0755 $1 $PKG/usr/lib/$2/${1##*/}; }
@@ -141,5 +140,5 @@ DEST_MODULE_LOCATION[3]="/kernel/drivers/video"' kernel/dkms.conf
 	mkdir -p $PKG/var/lib/dkms
 	sed -e "s/@name@/nvidia/g" \
 	    -e "s/@version@/$version/g" \
-	$SRC/buildmodules-nvidia.sh > $PKG/var/lib/dkms/buildmodules-nvidia.sh
+	/usr/lib/dkms/buildmodules-template.sh > $PKG/var/lib/dkms/buildmodules-$name.sh
 }
