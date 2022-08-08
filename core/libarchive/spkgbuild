@@ -1,0 +1,25 @@
+# description	: Reading/writing various compression formats
+# depends	: acl xz bzip2
+
+name=libarchive
+version=3.6.1
+release=1
+source="https://libarchive.org/downloads/libarchive-$version.tar.xz
+	$name-$version-glibc2.36-fix.patch::https://github.com/libarchive/libarchive/commit/a2f68263a1da5ad227bcb9cd8fa91b93c8b6c99f.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 < $SRC/$name-$version-glibc2.36-fix.patch
+
+  	./configure \
+		--prefix=/usr \
+		--without-xml2 \
+		--without-nettle \
+		--without-lz4 \
+		--without-zstd \
+		--without-openssl \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,59 @@
+# description	: The GNU compiler collection, which includes the C and C++ compilers
+# depends	: libmpc libmpfr libgmp zlib
+
+name=gcc
+version=12.1.1_20220730
+snapshot=${version#*_}
+release=1
+source="https://gcc.gnu.org/pub/gcc/snapshots/LATEST-${version%%.*}/gcc-${version%%.*}-$snapshot.tar.xz
+	c89 c99"
+
+bsdtar() {
+	tar $@
+}
+
+build() {
+	cd $name-${version%%.*}-$snapshot
+
+	# /lib is 64bit libraries directory
+	sed -e '/m64=/s/lib64/lib/' \
+	    -i.orig gcc/config/i386/t-linux64
+
+	# Do not run fixincludes
+	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+
+	mkdir -v build
+	cd       build
+
+	SED=sed \
+	../configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+		--enable-languages=c,c++,objc,obj-c++ \
+		--disable-bootstrap \
+		--disable-libmpx \
+		--with-system-zlib \
+		--disable-nls \
+		--with-pkgversion="Venom Linux ${version%%.*}-$snapshot" \
+		--enable-threads=posix \
+		--enable-__cxa_atexit \
+		--enable-default-pie \
+		--enable-default-ssp \
+		--enable-multilib
+	make
+	make -j1 DESTDIR=$PKG install
+
+	mkdir $PKG/lib
+	ln -sv ../usr/bin/cpp $PKG/lib/cpp
+	ln -sv gcc $PKG/usr/bin/cc
+
+	install -v -dm755 $PKG/usr/lib/bfd-plugins
+	ln -sfv ../../lib/gcc/$(gcc -dumpmachine)/$version/liblto_plugin.so \
+	        $PKG/usr/lib/bfd-plugins/
+
+	mkdir -pv $PKG/usr/share/gdb/auto-load/usr/lib
+	mv -v $PKG/usr/lib/*gdb.py $PKG/usr/share/gdb/auto-load/usr/lib
+
+	install -Dm755 $SRC/c89 $PKG/usr/bin/c89
+	install -Dm755 $SRC/c99 $PKG/usr/bin/c99
+}

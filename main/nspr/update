@@ -1,6 +1,0 @@
-url=$(dirname $(dirname $url))/
-url=$url/$(fetch \
-| grep releases \
-| grep -Eo v[0-9.]+/ \
-| sort -V \
-| tail -n1)src/

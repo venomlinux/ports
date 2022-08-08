@@ -1,0 +1,28 @@
+# description	: The Bourne-Again SHell
+# depends	: ncurses readline
+
+name=bash
+version=5.1.16
+majver=${version%%.*}
+basever=${version%.*}
+patchver=${version##*.}
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz
+	bashrc profile"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --without-bash-malloc \
+	            --with-installed-readline
+	make -j1
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/bin
+	mv $PKG/usr/bin/bash $PKG/bin
+
+	install -d $PKG/etc
+	install -m644 $SRC/bashrc $PKG/etc
+	install -m644 $SRC/profile $PKG/etc
+}
