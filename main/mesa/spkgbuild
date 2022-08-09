@@ -15,7 +15,7 @@ build() {
 
 	scratch isinstalled libvdpau && _opt="$_opt -D gallium-vdpau=enabled" || _opt="$_opt -D gallium-vdpau=disabled"
 	scratch isinstalled llvm && _opt="$_opt -D shared-llvm=enabled -D llvm=enabled" || _opt="$_opt -D shared-llvm=disabled -D llvm=disabled"
-	scratch isinstalled llvm || _gallium_drivers="$_gallium_drivers,radeonsi"
+	scratch isinstalled llvm && _gallium_drivers="$_gallium_drivers,radeonsi"
 	scratch isinstalled xf86-video-intel && _vulkan_drivers="$_vulkan_drivers intel"
 	scratch isinstalled xf86-video-amdgpu && _vulkan_drivers="$_vulkan_drivers amd"
 
