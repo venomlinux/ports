@@ -1,0 +1,17 @@
+# description	: A command-line tool for generating regular expressions from user-provided input strings 
+# homepage	: https://github.com/pemistahl/grex
+# depends	: rust
+
+name=grex
+version=1.4.0
+release=1
+source="$name-$version.tar.gz::https://github.com/pemistahl/grex/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	cargo fetch --locked --target "x86_64-unknown-linux-gnu"
+	cargo build --frozen --release
+	install -D -m 755 target/release/$name -t $PKG/usr/bin
+	install -D -m 644 README.md -t $PKG/usr/share/$name
+}
