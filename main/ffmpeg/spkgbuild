@@ -9,6 +9,21 @@ source="https://ffmpeg.org/releases/$name-$version.tar.xz"
 build() {
 	cd $name-$version
 
+	_opt=""
+
+	addopt() {
+		if [ "$_opt" = "" ]; then
+			scratch isinstalled $1 && _opt="--enable-$2" || _opt="--disable-$2"
+		elif [ ! "$_opt" = "" ]; then
+			scratch isinstalled $1 && _opt="$_opt --enable-$2" || _opt="$_opt --disable-$2"
+		fi
+	}
+
+	## $1 is package name
+	## $2 is feature
+	addopt libvdpau vdpau
+	addopt libva vaapi
+
 	# adds the ALSA library to the Flite LDFLAGS variable and
 	# enables the discovery of Flite
 	sed -i 's/-lflite"/-lflite -lasound"/' configure
@@ -32,10 +47,9 @@ build() {
 	            --enable-libx264     \
 	            --enable-libx265	 \
 	            --enable-libaom      \
-                    --enable-libdav1d    \
-                    --enable-lto         \
-                    --enable-vaapi       \
-                    --enable-vdpau  
+              --enable-libdav1d    \
+							$_opt                \
+              --enable-lto
 	make
 	gcc tools/qt-faststart.c -o tools/qt-faststart
 	make DESTDIR=$PKG install
@@ -43,4 +57,3 @@ build() {
 	install -m755 tools/qt-faststart $PKG/usr/bin
 
 }
-
