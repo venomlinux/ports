@@ -13,11 +13,18 @@ build() {
 	_vulkan_drivers=""
 	_gallium_drivers="r300,r600,svga,swrast,nouveau,iris,virgl,crocus"
 
-	scratch isinstalled libvdpau && _opt="$_opt -D gallium-vdpau=enabled" || _opt="$_opt -D gallium-vdpau=disabled"
+	scratch isinstalled libvdpau && _opt="-D gallium-vdpau=enabled" || _opt="-D gallium-vdpau=disabled"
 	scratch isinstalled llvm && _opt="$_opt -D shared-llvm=enabled -D llvm=enabled" || _opt="$_opt -D shared-llvm=disabled -D llvm=disabled"
 	scratch isinstalled llvm && _gallium_drivers="$_gallium_drivers,radeonsi"
-	scratch isinstalled xf86-video-intel && _vulkan_drivers="$_vulkan_drivers intel"
-	scratch isinstalled xf86-video-amdgpu && _vulkan_drivers="$_vulkan_drivers amd"
+
+	if [ "$_vulkan_drivers" = "" ]; then
+		scratch isinstalled xf86-video-intel && _vulkan_drivers="intel" || _vulkan_drivers=""
+		if [ ! "$_vulkan_drivers" = "" ]; then
+			scratch isinstalled xf86-video-amdgpu && _vulkan_drivers="$_vulkan_drivers,amd"
+		else
+			scratch isinstalled xf86-video-amdgpu && _vulkan_drivers="amd"
+		fi
+	fi
 
 	mkdir build
 	cd    build
@@ -40,7 +47,7 @@ build() {
 		-D gallium-drivers=$_gallium_drivers \
 		-D platforms=x11 \
 		-D shared-glapi=enabled \
-		-D vulkan-drivers="$_vulkan_drivers" \
+		-D vulkan-drivers=$_vulkan_drivers \
 		-D glvnd=true \
 		$_opt \
 	      ..
