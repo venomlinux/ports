@@ -7,16 +7,11 @@ source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
-  
+	
+	rm -rf /usr/share/bash-completion/completions/parallel
+	rm -rf /usr/share/zsh/site-functions/_parallel
+
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install
-	if [ -f /usr/share/bash-completion/completions/parallel ]
-	then
-		rm -r  $PKG/usr/share/bash-completion
-	fi
-	if [ -f /usr/share/zsh/site-functions/_parallel ]
-	then
-		 rm -r $PKG/usr/share/zsh
-	fi
 }
