@@ -1,0 +1,20 @@
+# description	: A shell parser, formatter, and interpreter with bash support
+# homepage	: https://github.com/mvdan/sh
+# depends	: go
+
+name=shfmt
+version=3.5.1
+release=1
+noextract=""
+backup=""
+source="https://github.com/mvdan/sh/archive/v$version/$name-v$version.tar.gz"
+
+build() {
+	cd sh-$version
+
+	go mod tidy
+
+	go build -ldflags "-X main.version=$version" -v ./cmd/shfmt
+
+	install -Dt $PKG/usr/bin shfmt
+}
