@@ -22,9 +22,9 @@ build() {
 	cd lang/python
 	make DESTDIR=$PKG install
 
-	install -d $PKG/usr/etc/gpgme
-	echo 'c cl cpp' > $PKG/usr/etc/gpgme/base
-	echo 'python3' > $PKG/usr/etc/gpgme/python
+	install -d $PKG/etc/gpgme
+	echo 'c cl cpp' > $PKG/etc/gpgme/base
+	echo 'python3' > $PKG/etc/gpgme/python
 
 	rm -r $PKG/usr/share/info
 	rm -rf $PKG/usr/lib/python2.7
