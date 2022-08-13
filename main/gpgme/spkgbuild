@@ -1,19 +1,31 @@
 # description	: C library that allows cryptography support to be added to a program
-# depends	: libassuan
+# depends	: gnupg swig
 
 name=gpgme
-version=1.17.1
+version=1.18.0
 release=1
-source="ftp://ftp.gnupg.org/gcrypt/gpgme/$name-$version.tar.bz2
-	support_closeform_for_glibc.patch"
+source="ftp://ftp.gnupg.org/gcrypt/gpgme/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
 
-	# glibc 2.34 fix
-	#patch -Np1 -i ../support_closeform_for_glibc.patch
+	export PYTHON='/usr/bin/python3'
+	./configure \
+		--prefix=/usr \
+		--disable-fd-passing \
+		--disable-gpgsm-test \
+		--enable-languages='cl cpp python'
 
-	./configure --prefix=/usr --disable-gpg-test
 	make
 	make DESTDIR=$PKG install
+
+	cd lang/python
+	make DESTDIR=$PKG install
+
+	install -d $PKG/etc/gpgme
+	echo 'c cl cpp' > $PKG/etc/gpgme/base
+	echo 'python3' > $PKG/etc/gpgme/python
+
+	rm -r $PKG/usr/share/info
+	rm -rf $PKG/usr/lib/python2.7
 }
