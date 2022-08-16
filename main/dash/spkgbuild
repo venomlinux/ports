@@ -1,4 +1,6 @@
 # description	: POSIX compliant shell
+# homepage	: http://gondor.apana.org.au/~herbert/dash/
+# depends       :
 
 name=dash
 version=0.5.11.5
@@ -7,11 +9,14 @@ source="http://gondor.apana.org.au/~herbert/dash/files/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-	./configure \
+
+	scratch isinstalled libedit && _opt="--with-libedit"
+
+	./configure  \
 		--prefix=/usr \
 		--bindir=/bin \
 		--mandir=/usr/share/man \
-		--with-libedit
+		$_opt
 	make
 	make DESTDIR=$PKG install
 	ln -s dash $PKG/bin/sh

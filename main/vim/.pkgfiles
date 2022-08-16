@@ -1,4 +1,4 @@
-vim-9.0.0055-1
+vim-9.0.0167-1
 drwxr-xr-x root/root    etc/
 -rw-r--r-- root/root    etc/vimrc
 drwxr-xr-x root/root    usr/
@@ -27,6 +27,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/autoload/
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/RstFold.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/ada.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/adacomplete.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/autoload/bitbake.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/ccomplete.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/clojurecomplete.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/context.vim
@@ -50,6 +51,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/autoload/dist/
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/netrw_gitignore.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/paste.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/phpcomplete.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/autoload/python.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/python3complete.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/pythoncomplete.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/rubycomplete.vim
@@ -88,6 +90,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/colors/
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/desert.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/elflord.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/evening.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/colors/habamax.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/industry.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/koehler.vim
 drwxr-xr-x root/root    usr/share/vim/vim90/colors/lists/
@@ -97,6 +100,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/colors/lists/
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/murphy.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/pablo.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/peachpuff.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/colors/quiet.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/ron.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/shine.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/slate.vim
@@ -380,6 +384,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/ftplugin/
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/bash.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/basic.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/bdf.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/bitbake.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/bst.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/btm.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/bzl.vim
@@ -408,6 +413,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/ftplugin/
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/debchangelog.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/debcontrol.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/denyhosts.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/desktop.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/dictconf.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/dictdconf.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/diff.vim
@@ -426,6 +432,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/ftplugin/
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/erlang.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/eruby.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/eterm.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/expect.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/falcon.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/fennel.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/fetchmail.vim
@@ -581,6 +588,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/ftplugin/
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/sshconfig.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/sudoers.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/svg.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/swayconfig.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/swift.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/swiftgyb.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/sysctl.vim
@@ -640,6 +648,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/indent/
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/bash.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/basic.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/bib.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/indent/bitbake.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/bst.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/bzl.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/c.vim
@@ -671,6 +680,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/indent/
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/erlang.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/eruby.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/eterm.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/indent/expect.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/falcon.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/fennel.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/fortran.vim
@@ -1312,6 +1322,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/syntax/
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/bdf.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/bib.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/bindzone.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/bitbake.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/blank.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/bsdl.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/bst.vim
@@ -1803,6 +1814,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/syntax/
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/sudoers.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/svg.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/svn.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/swayconfig.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/swift.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/swiftgyb.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/syncolor.vim

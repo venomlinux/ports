@@ -3,11 +3,16 @@
 
 name=ffmpegthumbnailer
 version=2.2.2
-release=1
-source="$name-$version.tar.gz::https://github.com/dirkvdb/$name/archive/$version.tar.gz"
+release=2
+source="$name-$version.tar.gz::https://github.com/dirkvdb/$name/archive/$version.tar.gz
+	ffmpegthumbnailer-ffmpeg5.patch::https://patch-diff.githubusercontent.com/raw/dirkvdb/ffmpegthumbnailer/pull/198.patch
+	https://github.com/dirkvdb/ffmpegthumbnailer/commit/efb5b618.patch"
 
 build() {
 	cd $name-$version
+
+	patch -p1 < ../ffmpegthumbnailer-ffmpeg5.patch # Fix build with FFmpeg 5
+	patch -p1 < ../efb5b618.patch # Fix build with FFmpeg 5
 
 	mkdir -p build
 	cd build

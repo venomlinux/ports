@@ -2,14 +2,12 @@
 # depends	: zlib lzo xz lz4 zstd
 
 name=squashfs-tools
-version=4.5
+version=4.5.1
 release=1
-source="https://downloads.sourceforge.net/squashfs/squashfs$version.tar.gz
-	squashfs-tools-$version-symlink_install.patch"
+source="https://downloads.sourceforge.net/squashfs/squashfs$version.tar.gz"
 
 build() {
-	cd $name-$version
-	patch -Np1 -i ../squashfs-tools-$version-symlink_install.patch
+	cd squashfs$version
 	make -C $name XZ_SUPPORT=1 LZO_SUPPORT=1 LZMA_XZ_SUPPORT=1 LZ4_SUPPORT=1 ZSTD_SUPPORT=1
 	make -C $name install INSTALL_DIR="$PKG/usr/bin"
 }

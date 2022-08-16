@@ -1,0 +1,21 @@
+# description : TypeScript is a language for application scale JavaScript development
+# homepage : http://typescriptlang.org/
+# depends : nodejs
+
+name=typescript
+version=4.7.4
+release=1
+source="https://registry.npmjs.org/$name/-/$name-$version.tgz"
+noextract="$name-$version.tgz"
+
+build() {
+  npm install -g --prefix "$PKG"/usr $name-$version.tgz
+
+  # Non-deterministic race in npm gives 777 permissions to random directories.
+  # See https://github.com/npm/npm/issues/9359 for details.
+  chmod -R u=rwX,go=rX "$PKG"
+
+  # npm installs package.json owned by build user
+  # https://bugs.archlinux.org/task/63396
+  chown -R root:root "$PKG"
+}

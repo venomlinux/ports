@@ -2,23 +2,18 @@
 # depends	: harfbuzz icu
 
 name=harfbuzz-icu
-version=4.4.1
+version=5.1.0
 release=1
 source="https://github.com/harfbuzz/harfbuzz/releases/download/$version/harfbuzz-$version.tar.xz"
 
 build() {
-	cd harfbuzz-$version
-
-	mkdir build
-        cd build
-
-        meson \
+        venom-meson harfbuzz-$version build \
                 --prefix=/usr \
                 -Ddocs=disabled \
 		-Dgraphite=auto \
 		-Dbenchmark=disabled
-        ninja
-        DESTDIR=$PWD/PKG ninja install
+        meson compile -C build
+        DESTDIR=$PWD/PKG meson install -C build
 
 	mkdir -p $PKG/usr/lib/pkgconfig $PKG/usr/include/harfbuzz
 	mv PKG/usr/include/harfbuzz/hb-icu.h $PKG/usr/include/harfbuzz/

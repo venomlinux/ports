@@ -1,0 +1,29 @@
+# description	    : Wireless daemon for Linux
+# homepage	    : https://iwd.wiki.kernel.org/
+# depends	    : readline dbus
+
+name=iwd
+version=1.29
+release=1
+source="https://www.kernel.org/pub/linux/network/wireless/$name-$version.tar.xz
+	iwd"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/sbin \
+		--localstatedir=/var \
+		--sysconfdir=/etc \
+		--disable-systemd-service
+
+	make
+	make DESTDIR=$PKG install
+
+	install -d -m 0700 $PKG/var/lib/iwd
+	install -d -m 0700 $PKG/etc/iwd
+
+	# rc script
+	install -D -m 0755 $SRC/iwd $PKG/etc/rc.d/iwd
+}

@@ -1,17 +1,34 @@
 # description	: OpenGL compatible 3D graphics library
-# depends	: python3-mako llvm elfutils bison flex libxext libxdamage libxshmfence libxxf86vm libxrandr libdrm libglvnd libvdpau libva
+# depends	: python3-mako elfutils bison flex libxext libxdamage libxshmfence libxxf86vm libxrandr libdrm libglvnd
 
 name=mesa
-version=22.1.4
+version=22.1.6
 release=1
 source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
+	_opt=""
+	_vulkan_drivers=""
+	_gallium_drivers="r300,r600,svga,swrast,nouveau,iris,virgl,crocus"
+
+	scratch isinstalled libvdpau && _opt="-D gallium-vdpau=enabled" || _opt="-D gallium-vdpau=disabled"
+	scratch isinstalled llvm && _opt="$_opt -D shared-llvm=enabled -D llvm=enabled" || _opt="$_opt -D shared-llvm=disabled -D llvm=disabled"
+	scratch isinstalled llvm && _gallium_drivers="$_gallium_drivers,radeonsi"
+
+	if [ "$_vulkan_drivers" = "" ]; then
+		scratch isinstalled xf86-video-intel && _vulkan_drivers="intel" || _vulkan_drivers=""
+		if [ ! "$_vulkan_drivers" = "" ]; then
+			scratch isinstalled xf86-video-amdgpu && _vulkan_drivers="$_vulkan_drivers,amd"
+		else
+			scratch isinstalled xf86-video-amdgpu && _vulkan_drivers="amd"
+		fi
+	fi
+
 	mkdir build
 	cd    build
-	
+
 	meson \
 		--prefix=/usr \
 		--sysconfdir=/etc \
@@ -21,20 +38,18 @@ build() {
 		-D b_pie=true \
 		-D dri3=enabled \
 		-D egl=enabled \
-		-D llvm=enabled \
-		-D shared-llvm=enabled \
 		-D gbm=enabled \
 		-D gles1=disabled \
 		-D gles2=enabled \
 		-D glx=dri \
 		-D osmesa=true \
 		-D gallium-xa=enabled \
-		-D gallium-drivers=r300,r600,svga,swrast,radeonsi,nouveau,iris,virgl,crocus \
+		-D gallium-drivers=$_gallium_drivers \
 		-D platforms=x11 \
 		-D shared-glapi=enabled \
-		-D vulkan-drivers=amd,intel \
+		-D vulkan-drivers=$_vulkan_drivers \
 		-D glvnd=true \
-		-D gallium-vdpau=enabled \
+		$_opt \
 	      ..
 	ninja
 	DESTDIR=$PKG ninja install
