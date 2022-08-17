@@ -1,10 +1,10 @@
 # description	: Official Telegram Desktop client
 # homepage	: https://desktop.telegram.org
 # depends	: minizip jemalloc openal range-v3 tg_owt qt6-imageformats qt6-svg qt6-wayland qt6-5compat rnnoise webkitgtk
-# ''
+
 
 name=telegram-desktop
-version=4.0.2
+version=4.1.1
 release=1
 source="https://github.com/telegramdesktop/tdesktop/releases/download/v$version/tdesktop-$version-full.tar.gz
 	small-sizes.patch
@@ -16,6 +16,8 @@ _portdir=$PWD
 
 build() {
 	cd tdesktop-$version-full
+
+	export PKG_CONFIG_PATH='/usr/lib/ffmpeg4/pkgconfig'
 
 	for p in $_portdir/*.patch $_portdir/*.diff; do
 		[ -f $p ] || continue
