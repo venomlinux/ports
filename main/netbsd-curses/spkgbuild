@@ -1,0 +1,14 @@
+# description	: Port of NetBSD's curses library for usage on all POSIX systems 
+# homepage	: https://github.com/sabotage-linux/netbsd-curses
+# depends	: bash
+
+name=netbsd-curses
+version=0.3.2
+release=1
+source="http://ftp.barfooze.de/pub/sabotage/tarballs/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	make PREFIX=/usr 
+	make PREFIX=/usr DESTDIR=$PKG install
+}
