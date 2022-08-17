@@ -5,10 +5,10 @@
 name=libgnomekbd
 version=3.28.0
 release=1
-source="https://gitlab.gnome.org/GNOME/libgnomekbd/-/archive/54da436258d79b683f57dfadf787bdf56ca58576/libgnomekbd-54da436258d79b683f57dfadf787bdf56ca58576.tar.bz2"
+source="https://gitlab.gnome.org/GNOME/libgnomekbd/-/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cd libgnomekbd-54da436258d79b683f57dfadf787bdf56ca58576
+	cd $name-$version
 	NOCONFIGURE=1 ./autogen.sh
 	./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-schemas-compile 
 	make
