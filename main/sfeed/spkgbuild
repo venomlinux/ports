@@ -3,15 +3,16 @@
 # depends	: ncurses
 
 name=sfeed
-version=1.5
+version=1.6
 release=1
-source="https://codemadness.org/releases/$name/$name-$version.tar.gz"
+source="https://codemadness.org/releases/$name/$name-$version.tar.gz
+	c99"
 
 
 build() {
 	cd $name-$version
-
 	sed -i 's|MANPREFIX = ${PREFIX}/man|MANPREFIX = ${PREFIX}/share/man|' Makefile
-	make PREFIX=/usr
+	cc=$SRC/c99
+	make CC=$cc PREFIX=/usr
         make PREFIX=/usr DESTDIR=$PKG install
 }
