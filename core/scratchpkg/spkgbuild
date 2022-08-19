@@ -13,16 +13,9 @@ scratchpkg_url=https://github.com/venomlinux/scratchpkg
 source="https://github.com/venomlinux/scratchpkg/archive/14271ec0fd8de311ffd3186f80478419323577da.tar.gz
 	$name.repo
 	$name.conf
-	portsync
 	temporary_workaround_for_coreutils.patch"
 
 build() {
-	if [ -f /etc/venom-release ]; then
-		prerelease=$(cat /etc/venom-release)
-	else
-		prerelease="unknown-release"
-	fi
-
 	cd $name-14271ec0fd8de311ffd3186f80478419323577da
 
 	for s in $SRC/*; do
@@ -34,7 +27,4 @@ build() {
 	DESTDIR=$PKG ./INSTALL.sh
 	install -m644 $SRC/$name.repo $PKG/etc/$name.repo
 	install -m644 $SRC/$name.conf $PKG/etc/$name.conf
-	install -m755 $SRC/portsync $PKG/usr/bin/portsync_old
-
-	sed "s/@RLS@/${prerelease}/g" -i $PKG/etc/$name.repo
 }
