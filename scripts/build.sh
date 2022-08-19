@@ -496,7 +496,7 @@ CCACHE_DIR="${CCACHEDIR:-/var/lib/ccache}"
 FILESDIR="$PORTSDIR/files"
 JOBS="${JOBS:-$(nproc)}"
 
-REPO="main multilib nonfree testing"
+REPO="core"
 REPOFILE="$FILESDIR/scratchpkg.repo"
 
 # iso
