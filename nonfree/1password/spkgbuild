@@ -3,7 +3,7 @@
 # depends	: hicolor-icon-theme cups libxkbcommon
 
 name=1password
-version=8.4.1
+version=8.8.0
 _tar="${name}-${version}.x64.tar.gz"
 release=1
 source="https://downloads.1password.com/linux/tar/stable/x86_64/${_tar}"
@@ -20,6 +20,7 @@ build() {
     # Install desktop file
     install -Dm0644 resources/${name}.desktop -t "${PKG}"/usr/share/applications/
     # Install system unlock PolKit policy file
+    cat com.1password.1Password.policy.tpl > com.1password.1Password.policy
     install -Dm0644 com.1password.1Password.policy -t "${PKG}"/usr/share/polkit-1/actions/
 
     # Move package contents to /opt/1Password

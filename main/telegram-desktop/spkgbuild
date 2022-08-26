@@ -1,33 +1,38 @@
 # description	: Official Telegram Desktop client
 # homepage	: https://desktop.telegram.org
-# depends	: minizip jemalloc openal range-v3 tg_owt qt5 rnnoise webkitgtk
+# depends	: minizip jemalloc openal range-v3 tg_owt qt6-imageformats qt6-svg qt6-wayland qt6-5compat rnnoise webkitgtk
+
 
 name=telegram-desktop
-version=2.8.11
+version=4.1.1
 release=1
-source="https://github.com/telegramdesktop/tdesktop/releases/download/v${version}/tdesktop-${version}-full.tar.gz
-	fix-webview-extern-C-linkage.patch::https://patch-diff.githubusercontent.com/raw/desktop-app/lib_webview/pull/9.patch"
+source="https://github.com/telegramdesktop/tdesktop/releases/download/v$version/tdesktop-$version-full.tar.gz
+	small-sizes.patch
+	add-libvpx.patch
+	cstdint.patch
+"
+_portdir=$PWD
+
 
 build() {
 	cd tdesktop-$version-full
 
-	echo "target_link_libraries(external_webrtc INTERFACE jpeg)" | tee -a cmake/external/webrtc/CMakeLists.txt
-	echo "find_package(X11 REQUIRED COMPONENTS Xcomposite Xdamage Xext Xfixes Xrender Xrandr Xtst)" | tee -a cmake/external/webrtc/CMakeLists.txt
-	echo "target_link_libraries(external_webrtc INTERFACE Xcomposite Xdamage Xext Xfixes Xrandr Xrender Xtst)" | tee -a cmake/external/webrtc/CMakeLists.txt
+	export PKG_CONFIG_PATH='/usr/lib/ffmpeg4/pkgconfig'
 
-	patch -b -d Telegram/lib_webview/ -Np1 -i $SRC/fix-webview-extern-C-linkage.patch
+	for p in $_portdir/*.patch $_portdir/*.diff; do
+		[ -f $p ] || continue
+		patch -Np1 -i $p
+	done
 
-	cmake . \
-		-B build \
-		-G Ninja \
+	cmake -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX="/usr" \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DTDESKTOP_API_ID=611335 \
 		-DTDESKTOP_API_HASH=d524b414d21f4d37f08684c1df41ac9c \
-		-DTDESKTOP_LAUNCHER_BASENAME="telegramdesktop" \
+		-DTDESKTOP_LAUNCHER_BASENAME="telegram-desktop" \
 		-DDESKTOP_APP_SPECIAL_TARGET="" \
 		-DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="true" \
 		-DDESKTOP_APP_DISABLE_SPELLCHECK="true"
-	ninja -C build
-	DESTDIR=$PKG ninja -C build install
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }

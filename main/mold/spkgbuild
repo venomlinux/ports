@@ -1,33 +1,31 @@
-# description	: A Modern Linker"
+# description	: A Modern Linker
 # homepage	: https://github.com/rui314/mold
 # depends	: cmake zlib mimalloc tbb
 
 name=mold
-version=1.3.1
-release=1
+version=1.4.1
+release=2
 source="$name-$version.tar.gz::https://github.com/rui314/mold/archive/v$version.tar.gz"
 
 build() {
 	cd $name-$version
 
-	[ -f /usr/bin/clang ] && {
+	scratch isinstalled clang && {
 		export CC=clang
 		export CXX=clang++
 	}
 
-	export SYSTEM_MIMALLOC=1
-	export SYSTEM_TBB=1
-	export LTO=1
+	export SYSTEM_MIMALLOC=1 
+	export SYSTEM_TBB=1 
+	export LTO=1 
 
 	# use /usr/lib instead of /usr/libexec
-        sed -i "s/libexec/lib/" Makefile
-
+	sed -i "s/libexec/lib/" Makefile
+ 
 	make \
-		CFLAGS="${CFLAGS}" \
-		CXXFLAGS="${CXXFLAGS}" \
 		PREFIX="/usr" \
-
+		STRIP="true" 
+ 
 	make DESTDIR=$PKG PREFIX="/usr" install
 }
-
 

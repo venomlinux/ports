@@ -1,0 +1,19 @@
+# description	    : linux port of openbsd ksh
+# homepage	    : https://github.com/dimkr/loksh/
+# depends	    : ncurses
+
+name=oksh
+version=7.1
+release=1
+source="https://github.com/ibara/oksh/releases/download/$name-$version/$name-$version.tar.gz"
+
+build() {
+ 	cd $name-$version
+	./configure \ #--enable-small \
+		--prefix=/ \
+		--bindir=/bin \
+		--enable-lto
+	make
+	make DESTDIR=$PKG install
+}
+

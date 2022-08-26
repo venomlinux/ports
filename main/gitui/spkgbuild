@@ -1,0 +1,24 @@
+# description	: Blazing fast terminal-ui for git written in rust
+# homepage	: https://github.com/Extrawurst/gitui
+# depends	: rust
+
+name=gitui
+version=0.21.0
+release=1
+noextract=""
+backup=""
+source="https://github.com/extrawurst/$name/archive/v$version/$name-v$version.tar.gz"
+
+_portdir=$PWD
+
+build() {
+	cd $name-$version
+
+	for p in $_portdir/*.patch $_portdir/*.diff; do
+		[ -f $p   ] || continue
+		patch -Np1 -i $p
+	done
+
+	cargo build --release --no-default-features
+	install -Dt $PKG/usr/bin target/release/$name
+}

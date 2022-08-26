@@ -1,0 +1,50 @@
+# description	: FFmpeg is a solution to record, convert and stream audio and video
+# depends	: libass fdk-aac freetype2 lame gnutls libtheora libvorbis libvpx opus x264 x265 alsa-lib libva libvdpau sdl2 yasm aom dav1d
+
+name=ffmpeg4
+_name=ffmpeg
+version=4.4.2
+release=3
+source="https://ffmpeg.org/releases/$_name-$version.tar.xz"
+
+build() {
+	cd $_name-$version
+
+	./configure \
+		--prefix=/usr        \
+		--incdir=/usr/include/$name \
+		--libdir=/usr/lib/$name \
+		--disable-doc \
+		--disable-programs \
+		--disable-stripping \
+		--disable-static \
+		--disable-debug \
+		--enable-gpl \
+		--enable-gnutls \
+		--enable-version3 \
+		--enable-nonfree \
+		--enable-shared \
+		--enable-libass \
+		--enable-libfdk-aac \
+		--enable-libfreetype \
+		--enable-libmp3lame \
+		--enable-libopus \
+		--enable-libtheora \
+		--enable-libvorbis \
+		--enable-libvpx \
+		--enable-libx264 \
+		--enable-libx265 \
+		--enable-libaom \
+		--enable-libdav1d \
+		--enable-lto \
+		--enable-vaapi \
+		--enable-vdpau  
+	make
+	make tools/qt-faststart
+	make DESTDIR=$PKG install
+	rm -fr $PKG/usr/share/ffmpeg/examples
+
+	install -d $PKG/etc/ld.so.conf.d
+	echo '/usr/lib/ffmpeg4' > $PKG/etc/ld.so.conf.d/ffmpeg4.conf
+}
+

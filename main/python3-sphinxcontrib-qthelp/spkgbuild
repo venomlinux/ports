@@ -1,0 +1,22 @@
+# description	    : sphinx extension which outputs QtHelp document
+# homepage	    : https://github.com/sphinx-doc/sphinxcontrib-qthelp/
+# depends	    : python3-setuptools
+
+name=python3-sphinxcontrib-qthelp
+version=1.0.3
+release=1
+source="https://github.com/sphinx-doc/${name#*-}/archive/$version/${name#*-}-$version.tar.gz"
+
+build() {
+	cd ${name#*-}-$version
+
+	sed -i '/^tag_build =/s/= .*$/=/' setup.cfg
+	sed -i '/^tag_date =/s/true/false/' setup.cfg
+
+	/usr/bin/python3 setup.py build
+	/usr/bin/python3 setup.py install \
+		--prefix=/usr \
+		--root=$PKG
+
+	chmod -R go-w,a+r,u+w $PKG
+}

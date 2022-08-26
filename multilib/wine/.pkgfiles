@@ -1,4 +1,7 @@
-wine-7.12-1
+wine-7.15-1
+drwxr-xr-x root/root    etc/
+drwxr-xr-x root/root    etc/revdep.d/
+-rw-r--r-- root/root    etc/revdep.d/wine.conf
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/function_grep.pl
@@ -36,6 +39,8 @@ drwxr-xr-x root/root    usr/include/wine/
 -rw-r--r-- root/root    usr/include/wine/iaccessible2.idl
 -rw-r--r-- root/root    usr/include/wine/itss.h
 -rw-r--r-- root/root    usr/include/wine/itss.idl
+-rw-r--r-- root/root    usr/include/wine/mfinternal.h
+-rw-r--r-- root/root    usr/include/wine/mfinternal.idl
 drwxr-xr-x root/root    usr/include/wine/msvcrt/
 -rw-r--r-- root/root    usr/include/wine/msvcrt/assert.h
 -rw-r--r-- root/root    usr/include/wine/msvcrt/complex.h
@@ -625,6 +630,8 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/mediaerr.h
 -rw-r--r-- root/root    usr/include/wine/windows/mediaobj.h
 -rw-r--r-- root/root    usr/include/wine/windows/mediaobj.idl
+-rw-r--r-- root/root    usr/include/wine/windows/medparam.h
+-rw-r--r-- root/root    usr/include/wine/windows/medparam.idl
 -rw-r--r-- root/root    usr/include/wine/windows/metahost.h
 -rw-r--r-- root/root    usr/include/wine/windows/metahost.idl
 -rw-r--r-- root/root    usr/include/wine/windows/mfapi.h
@@ -1456,6 +1463,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libadvpack.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libatl.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libatl100.a
+-rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libatl110.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libatl80.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libatlthunk.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libavicap32.a
@@ -1756,6 +1764,7 @@ lrwxrwxrwx root/root    usr/lib/wine/x86_64-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/msvcp120_app.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/msvcp140.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/msvcp140_1.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/msvcp140_2.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/msvcp140_atomic_wait.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/msvcp60.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/msvcp70.dll.so
@@ -1827,6 +1836,7 @@ lrwxrwxrwx root/root    usr/lib/wine/x86_64-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/olethk32.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/oleview.exe.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/opcservices.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/openal32.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/opengl32.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/packager.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/pdh.dll.so
@@ -2009,6 +2019,8 @@ lrwxrwxrwx root/root    usr/lib/wine/x86_64-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winemsibuilder.exe.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winepath.exe.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wineps.drv.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winepulse.drv.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winepulse.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wineusb.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wineusb.sys.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winevulkan.dll.so
@@ -2441,6 +2453,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/msvcp120_app.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/msvcp140.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/msvcp140_1.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/msvcp140_2.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/msvcp140_atomic_wait.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/msvcp60.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/msvcp70.dll
@@ -2509,6 +2522,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/olethk32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/oleview.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/opcservices.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/openal32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/opengl32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/packager.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/pdh.dll
@@ -2692,6 +2706,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winemsibuilder.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winepath.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wineps.drv
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winepulse.drv
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wineusb.sys
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winevulkan.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winex11.drv
@@ -3064,6 +3079,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-unix/
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libadvpack.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libatl.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libatl100.a
+-rw-r--r-- root/root    usr/lib32/wine/i386-unix/libatl110.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libatl80.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libatlthunk.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libavicap32.a
@@ -3370,6 +3386,7 @@ lrwxrwxrwx root/root    usr/lib32/wine/i386-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/msvcp120_app.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/msvcp140.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/msvcp140_1.dll.so
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/msvcp140_2.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/msvcp140_atomic_wait.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/msvcp60.dll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/msvcp70.dll.so
@@ -4111,6 +4128,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/msvcp120_app.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/msvcp140.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/msvcp140_1.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/msvcp140_2.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/msvcp140_atomic_wait.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/msvcp60.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/msvcp70.dll

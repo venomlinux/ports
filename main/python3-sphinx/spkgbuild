@@ -1,0 +1,24 @@
+# description	    : The Sphinx documentaion generator
+# homepage	    : https://www.sphinx-doc.org/en/master/
+# depends	    : python3-alabaster python3-docutils python3-imagesize python3-jinja2 python3-packaging python3-pygments python3-requests python3-snowballstemmer python3-sphinxcontrib-applehelp python3-sphinxcontrib-devhelp python3-sphinxcontrib-htmlhelp python3-sphinxcontrib-jsmath python3-sphinxcontrib-qthelp python3-sphinxcontrib-serializinghtml python3-sphinxcontrib-websupport
+
+name=python3-sphinx
+_name=Sphinx
+version=5.1.1
+release=1
+source="https://pypi.org/packages/source/S/$_name/$_name-$version.tar.gz"
+
+bsdtar() {
+tar $@;
+}
+
+build() {
+	cd $_name-$version
+	sed -i -e '/^tag_build = .*/d' -e 's,^\(tag_date =\).*$,\1 false,' setup.cfg
+
+	/usr/bin/python3 setup.py build
+	/usr/bin/python3 setup.py install --prefix=/usr --root=$PKG --optimize=1 --skip-build
+
+	# fix permissions
+	chmod -R go-w $PKG/*
+}

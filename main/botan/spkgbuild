@@ -1,0 +1,22 @@
+# description	: Crypto and TLS for Modern C++
+# homepage	: https://botan.randombit.net/
+# depends	: sqlite xz
+
+name=botan
+version=2.19.2
+release=1
+source="$name-$version.tar.xz::https://botan.randombit.net/releases/Botan-$version.tar.xz"
+
+build() {
+	cd Botan-$version
+
+	/usr/bin/python3 ./configure.py --prefix=/usr \
+		--with-bzip \
+		--with-zlib \
+		--with-sqlite3 \
+		--with-os-feature=getrandom
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share
+}

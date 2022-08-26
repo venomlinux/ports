@@ -2,18 +2,16 @@
 # depends	: glib libjpeg-turbo libpng libtiff shared-mime-info libx11 libxcb libxau jasper gobject-introspection
 
 name=gdk-pixbuf
-version=2.42.8
+version=2.42.9
 release=1
 source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version
-
-	mkdir build
-	cd build
-	
-	meson --prefix=/usr --libexecdir=/usr/lib/$name -Dinstalled_tests=false ..
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson $name-$version build \
+		--libexecdir=/usr/lib/$name \
+		-Dinstalled_tests=false \
+		-Dman=false
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 
 }

@@ -2,14 +2,12 @@
 # depends	: geany
 
 name=geany-themes
-version=20180117
+version=1.24
 release=1
-options="!strip"
-_commit=2379c6981fe257f779b214c0c54bf11fde2d75e8
-source="$name-$_commit.tar.gz::https://github.com/codebrainz/geany-themes/archive/$_commit.tar.gz"
+source="https://git.geany.org/$name/snapshot/$name-$version.tar.gz"
 
 build() {
-	cd $name-$_commit
+	cd $name-$version
 
 	mkdir -pv $PKG/usr/share/geany/colorschemes/
 	cp -v colorschemes/*.conf $PKG/usr/share/geany/colorschemes/

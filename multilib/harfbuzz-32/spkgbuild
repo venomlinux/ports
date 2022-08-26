@@ -2,21 +2,16 @@
 # depends	: harfbuzz glib-32 freetype2-32
 
 name=harfbuzz-32
-version=4.4.1
+version=5.1.0
 release=1
 source="https://github.com/harfbuzz/harfbuzz/releases/download/$version/harfbuzz-$version.tar.xz"
 
 build() {
-	cd harfbuzz-$version
-
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	mkdir build
-        cd build
-
-        meson \
+        venom-meson  harfbuzz-$version build \
                 --prefix=/usr \
 		--libdir=/usr/lib32 \
                 -Ddocs=disabled \
@@ -24,8 +19,9 @@ build() {
                 -Dbenchmark=disabled \
                 -Dicu=disabled \
 		-Dintrospection=disabled
-        ninja
-        DESTDIR=$PWD/DESTDIR ninja install
+        meson compile -C build
+        DESTDIR=$PWD/DESTDIR meson install -C build
+	
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

@@ -2,11 +2,11 @@
 # depends	: curl cmake python3 llvm libssh2
 
 name=rust
-version=1.61.0
+version=1.63.0
 release=1
-_date=2022-04-07
-_rust=1.60.0
-_cargo=1.60.0
+_date=2022-06-30
+_rust=1.62.0
+_cargo=$_rust
 _triplet=x86_64-unknown-linux-gnu
 
 source="https://static.rust-lang.org/dist/rustc-$version-src.tar.xz
@@ -27,11 +27,11 @@ build() {
 
 	# Patch bootstrap and cargo so credential helpers
 	# are in /usr/lib instead of /usr/libexec
-	patch -Np1 -i ../0001-bootstrap-Change-libexec-dir.patch
-	patch -d src/tools/cargo -Np1 < ../0001-cargo-Change-libexec-dir.patch
+	patch -Np1 -i $SRC/0001-bootstrap-Change-libexec-dir.patch
+	patch -d src/tools/cargo -Np1 -i $SRC/0001-cargo-Change-libexec-dir.patch
 
 	# Use our *-pc-linux-gnu targets, making LTO with clang simpler
-	patch -Np1 -i ../0002-compiler-Change-LLVM-targets.patch
+	patch -Np1 -i $SRC/0002-compiler-Change-LLVM-targets.patch
 
 	mkdir -p build/cache/$_date
 	cp $SRC/rust-std-$_rust-$_triplet.tar.xz build/cache/$_date/
@@ -39,6 +39,10 @@ build() {
 	cp $SRC/cargo-$_cargo-$_triplet.tar.xz build/cache/$_date/
 
 cat << EOF > config.toml
+[llvm]
+ninja = true
+link-shared = true
+
 [build]
 build = "$_triplet"
 host = [ "$_triplet" ]

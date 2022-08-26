@@ -1,0 +1,18 @@
+# description	    : Userland tools for the Flash-Friendly File System (F2FS)
+# homepage	    : https://f2fs.wiki.kernel.org/
+
+name=f2fs-tools
+version=1.15.0
+release=1
+source="https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	autoreconf -fi
+	./configure --prefix=/usr \
+	--sbindir=/usr/bin
+
+	make
+	make DESTDIR=$PKG \
+	sbindir=/usr/bin install
+}
