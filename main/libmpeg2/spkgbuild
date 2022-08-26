@@ -1,0 +1,20 @@
+# description	: MPEG1/MPEG2 decoder (includes libmpeg2)
+# homepage	: https://libmpeg2.sourceforge.io/
+# depends	: sdl
+
+name=libmpeg2
+version=0.5.1
+release=1
+source="https://libmpeg2.sourceforge.io/files/$name-$version.tar.gz"
+
+build () {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+		--with-gnu-ld \
+		--enable-shared \
+		--disable-nls
+
+	make
+	make DESTDIR=$PKG install
+}

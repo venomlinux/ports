@@ -1,0 +1,16 @@
+# description	    : Top like program to display I/O load.
+# homepage	    : https://github.com/Tomas-M
+
+name=iotop
+version=1.22
+release=2
+
+source="$name-$version.tar.gz::https://github.com/Tomas-M/$name/archive/refs/tags/v$version.tar.gz" 
+
+build() {
+
+	cd $name-$version
+
+	make
+	make DESTDIR=$PKG install
+}

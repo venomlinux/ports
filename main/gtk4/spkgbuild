@@ -3,18 +3,16 @@
 # depends	: meson gst-plugins-bad sassc gobject-introspection cairo pango gdk-pixbuf libxinerama libxcursor libepoxy libxi
 
 name=gtk4
-version=4.6.2
+version=4.7.2
 release=1
 source="https://gitlab.gnome.org/GNOME/gtk/-/archive/$version/gtk-$version.tar.bz2"
 
 build() {
-	cd gtk-$version
-        venom-meson \
+	venom-meson gtk-$version build \
 	-Dwayland-backend=false \
 	-Dbuild-tests=false \
 	-Dbuild-examples=false \
-	-Ddemos=false \
-	build
+	-Ddemos=false 
         meson compile -C build
         DESTDIR=$PKG meson install -C build
 }

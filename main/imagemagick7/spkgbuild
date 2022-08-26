@@ -2,15 +2,15 @@
 # depends	: fontconfig lcms2 libtool libxext libxt perl libxml2 librsvg
 
 name=imagemagick7
-version=7.1.0.43
+version=7.1.0.45
 _version=${version%.*}-${version##*.}
 release=1
-source="$name-$version.tar.gz::https://github.com/ImageMagick/ImageMagick/archive/$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/ImageMagick/ImageMagick/archive/$_version.tar.gz"
 
 KEEP_LIBTOOL="yes"
 
 build() {
-	cd ImageMagick-$version
+	cd ImageMagick-$_version
 	
 	./configure --prefix=/usr     \
 	            --sysconfdir=/etc \

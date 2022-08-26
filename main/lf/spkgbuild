@@ -1,0 +1,19 @@
+# description	: Terminal file manager
+# homepage	: https://github.com/gokcehan/lf
+# depends	: go
+
+name=lf
+version=27
+release=2
+noextract=""
+backup=""
+source="https://github.com/gokcehan/$name/archive/r$version/$name-r$version.tar.gz"
+
+build() {
+	cd $name-r$version
+
+	go mod tidy
+	go build -v -o bin/$name
+
+	install -Dt $PKG/usr/bin bin/$name
+}

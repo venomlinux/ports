@@ -1,0 +1,15 @@
+# description	    : World timezone definitions, modern and historical
+# homepage	    : https://pythonhosted.org/pytz/
+# depends	    : python3-setuptools
+
+version=2022.2.1
+release=1
+source="https://pypi.io/packages/source/p/pytz/pytz-$version.tar.gz"
+
+build() {
+  cd pytz-$version
+  /usr/bin/python3 setup.py build
+  /usr/bin/python3 setup.py install --root=$PKG \
+    --optimize=1 \
+    --skip-build
+}

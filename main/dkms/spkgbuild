@@ -2,12 +2,17 @@
 # depends	: bash kmod make patch
 
 name=dkms
-version=3.0.5
-release=1
+version=3.0.6
+release=2
 backup="etc/dkms/framework.conf"
-source="$name-$version.tar.gz::https://github.com/dell/dkms/archive/v$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/dell/dkms/archive/v$version.tar.gz
+	buildmodules-template.sh"
 
 build() {
 	cd $name-$version
+	sed 's/sha512/sha512sum/g' -i dkms.in
 	make DESTDIR=$PKG install
+
+	# venom's dkms scripts
+	install -m644 $SRC/buildmodules-template.sh $PKG/usr/lib/dkms/
 }

@@ -1,0 +1,5 @@
+port_getver() {
+	fetch \
+	| grep -Eo soxr-[0-9.]+-Source.tar.[bgx]z2? \
+	| sed 's/soxr-//;s/\-Source.tar.*//'
+}

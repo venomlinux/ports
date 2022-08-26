@@ -10,13 +10,15 @@ source="$name-$version.tar.gz::https://github.com/x42/liboauth/archive/refs/tags
 
 build() {
 
-  cd $name-$version
+	cd $name-$version
 	
 	cd src && patch -Np1 < ../../openssl.patch
 	cd ..
+
 	autoreconf -fvi
-    ./configure --prefix=/usr --disable-static --enable-nss
-    sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
-    make
-    make DESTDIR="$PKG" install
+	./configure --prefix=/usr --disable-static --enable-nss
+	sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+
+	make
+	make DESTDIR="$PKG" install
 }

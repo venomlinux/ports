@@ -2,7 +2,7 @@
 # depends	: alsa-lib gcc
 
 name=zita-alsa-pcmi
-version=0.4.0
+version=0.5.1
 release=1
 source="http://kokkinizita.linuxaudio.org/linuxaudio/downloads/$name-$version.tar.bz2"
 
@@ -27,7 +27,7 @@ build() {
 	ln -sv lib$name.so.$version lib$name.so
 
 	cd ../apps
-	CXXFLAGS="$CXXFLAGS -I../source" \
+	CXXFLAGS="$CXXFLAGS -fPIC -I../source" \
 	LDFLAGS="$LDFLAGS -L../source" \
 	make
 

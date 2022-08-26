@@ -2,13 +2,16 @@
 # homepage	: https://download.drobilla.net 
 
 name=serd
-version=0.30.12
+version=0.30.14
 release=1
-source="https://download.drobilla.net/$name-$version.tar.bz2"
+_commit=ed80ef443ae8ef57bcee778fb61f6c7f4faabe29
+source="$name-$version.tar.gz::https://gitlab.com/drobilla/$name/-/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
-	 /usr/bin/python3   waf configure --prefix=/usr
-	 /usr/bin/python3  waf build
- 	 /usr/bin/python3 waf install --destdir=$PKG
+	cd $name-v$version-${_commit}
+	mkdir build
+	cd build
+	venom-meson 
+	ninja
+	DESTDIR=$PKG ninja install
 }
