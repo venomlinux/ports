@@ -1,21 +1,17 @@
 # description	: Interface to enumerating power devices, listening to device events and querying history and statistics
-# depends	: dbus-glib libgudev libusb polkit gobject-introspection
+# depends	: dbus-glib libgudev libusb polkit gobject-introspection meson
 
 name=upower
-version=0.99.13
+version=1.90.0
 release=1
-source="https://gitlab.freedesktop.org/upower/upower/uploads/177df5b9f9b76f25a2ad9da41aa0c1fa/upower-$version.tar.xz"
+source="https://gitlab.freedesktop.org/$name/$name/-/archive/v$version/$name-v$version.tar.gz"
 
 build() {
-ls
-	cd $name-$version
 
-	./configure --prefix=/usr \
-	            --sysconfdir=/etc \
-		    --libexecdir=/usr/lib/$name \
-	            --localstatedir=/var \
-	            --enable-deprecated \
-	            --disable-static
-	make
-	make DESTDIR=$PKG install
+	venom-meson $name-v$version build \
+	-D gtk-doc=false \
+	-D systemdsystemunitdir=no 
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
+
 }
