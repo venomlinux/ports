@@ -1,0 +1,17 @@
+# description	    : Lightweight GTK frontend for iwd (WiFi)
+# homepage	    : https://github.com/J-Lentz/iwgtk
+# depends	    : scdoc adwaita-icon-theme iwd pkgconfig gettext gtk4
+# qrencode
+# Optional	    : For xfce -> libdbusmenu-gtk3
+
+name=iwgtk
+version=0.8
+release=1
+source="$name-$version.tar.gz::https://github.com/J-Lentz/iwgtk/archive/refs/tags/v$version.tar.gz"
+
+build() {
+
+	venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
+}
