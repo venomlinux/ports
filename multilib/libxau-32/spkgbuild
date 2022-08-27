@@ -4,7 +4,7 @@
 name=libxau-32
 version=1.0.10
 release=1
-source="libxau-$version.tar.xz::http://ftp.x.org/pub/individual/lib/libXau-$version.tar.xz"
+source="${name%-*}-$version.tar.xz::http://ftp.x.org/pub/individual/lib/libXau-$version.tar.xz"
 
 build() {
 	cd libXau-$version
