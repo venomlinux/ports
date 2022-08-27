@@ -2,28 +2,41 @@
 # depends	: gtk3 libxt dbus-glib alsa-lib libvpx libevent nss sqlite icu unzip zip diffutils gconf python3 yasm mesa inetutils autoconf2.13 rust cbindgen nodejs nasm which clang libxcomposite
 
 name=firefox-esr
-version=91.12.0
+version=102.2.0
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/firefox-${version}esr.source.tar.xz
-        firefox.desktop"
+        firefox.desktop
+        cbindgen-0.24.0.diff zstandard-0.18.0.diff update-packed_simd.diff arc4random.diff"
+
 
 build() {
 	cd firefox-$version
+    
+	# Unbreak build with cbindgen 0.24.0
+	patch -Np1 -i ../cbindgen-0.24.0.diff
 
-	sed -i '/ROOT_CLIP_CHAIN/d' gfx/webrender_bindings/webrender_ffi.h
+	# Unbreak build with python-zstandard 0.18.0
+	patch -Np1 -i ../zstandard-0.18.0.diff
+  
+	# Unbreak build with simd
+	patch -Np1 -i ../update-packed_simd.diff
+
+	# Fix arc4random
+	patch -Np1 -i ../arc4random.diff
 
 cat <<- EOF > .mozconfig
 	ac_add_options --prefix=/usr
 	ac_add_options --enable-default-toolkit=cairo-gtk3
+	ac_add_options --enable-audio-backends=alsa
 	ac_add_options --disable-pulseaudio
-	ac_add_options --enable-alsa
 	ac_add_options --enable-application=browser
 	ac_add_options --enable-rust-simd
 	ac_add_options --enable-av1
 	ac_add_options --enable-optimize
 	ac_add_options --enable-release
-	ac_add_options --enable-gold
+	ac_add_options --enable-linker=lld
 	ac_add_options --enable-official-branding
+	ac_add_options --disable-debug-symbols
 	ac_add_options --disable-debug
 	ac_add_options --disable-dmd
 	ac_add_options --disable-geckodriver
@@ -41,6 +54,7 @@ cat <<- EOF > .mozconfig
 	ac_add_options --with-system-jpeg
 	ac_add_options --with-system-libvpx
 	ac_add_options --with-system-nss
+	ac_add_options --without-wasm-sandboxed-libraries
 	ac_add_options --with-distribution-id=org.venomlinux
 EOF
 
@@ -54,7 +68,7 @@ EOF
 	export MOZBUILD_STATE_PATH=$PWD/mozbuild
 	export CARGO_HOME=$PWD/cargo
 	export MOZ_MAKE_FLAGS="$MAKEFLAGS"
-	export MACH_USE_SYSTEM_PYTHON=1
+	export MACH_BUILD_PYTHON_NATIVE_PACKAGE=system
 
 	SHELL=/bin/sh ./mach build
 	SHELL=/bin/sh DESTDIR=$PKG ./mach install
