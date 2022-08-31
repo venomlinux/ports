@@ -1,14 +1,14 @@
 # description	: A free and open source SVG icon theme for Linux, based on Paper Icon Set and Papirus
 
 name=pop-icon-theme
-version=20220805
-_commit=2ccaf627d2a28d993dd4014642753471ba0d93bd
+version=3.3.0
 release=1
-source="$name-$_commit.tar.gz::https://github.com/pop-os/icon-theme/archive/$_commit.tar.gz"
+source="$name-$version.tar.gz::https://github.com/pop-os/icon-theme/archive/refs/tags/v$version.tar.gz"
 
 build() {
 
-	cd icon-theme-$_commit
+	cd icon-theme-$version
 	venom-meson build
+	meson compile -C build
 	DESTDIR=$PKG ninja -C build install
 }
