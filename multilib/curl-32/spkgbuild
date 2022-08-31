@@ -2,12 +2,12 @@
 # depends	: curl openssl-32
 
 name=curl-32
-version=7.84.0
+version=7.85.0
 release=1
-source="https://curl.haxx.se/download/curl-$version.tar.xz"
+source="https://curl.haxx.se/download/${name%-*}-$version.tar.xz"
 
 build() {
-	cd curl-$version
+	cd ${name%-*}-$version
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
