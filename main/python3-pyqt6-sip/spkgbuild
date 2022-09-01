@@ -1,0 +1,27 @@
+# description		: The sip module support for PyQt6
+# homepage		: https://pypi.org/project/PyQt6-sip/
+# depends		: python3-setuptools python3-pip
+
+name=python3-pyqt6-sip
+version=13.4.0
+release=1
+source="https://files.pythonhosted.org/packages/39/fc/f889254efda90418e367df28da9d14ac64ca19a9d93f44355d21ac562b0f/PyQt6_sip-$version.tar.gz"
+
+build () {
+	cd PyQt6_sip-$version
+
+	if [ -f pyproject.toml -o -d pyqt6-sip.egg-info ]
+	then
+		if [ -d pyqt6-sip ]
+		then
+			/usr/bin/pip3 install --isolate --root=${PKG} \
+				--no-warn-script-location --ignore-installed --no-deps ${name#*3-}
+		else
+		/usr/bin/pip3 install --isolate --root=${PKG} \
+			--no-warn-script-location --ignore-installed --no-deps .
+		fi
+	else
+		/usr/bin/python3 setup.py build
+		/usr/bin/python3 setup.py install --prefix=/usr --root=$PKG
+	fi
+}
