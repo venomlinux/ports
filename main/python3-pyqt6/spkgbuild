@@ -1,0 +1,23 @@
+# description		: Python bindings for the Qt cross platform application toolkit
+# homepage		: https://pypi.org/project/PyQt6/
+# depends		: python3-dbus python3-setuptools python3-pip python3-pyqt6-sip qt6-declarative qt6-connectivity qt6-multimedia qt6-positioning qt6-quick3d qt6-remoteobjects qt6-sensors qt6-serialport qt6-shadertools qt6-svg qt6-tools qt6-webchannel qt6-websockets python3-pyopengl python3-toml python3-pyqt-builder python3-ply
+
+name=python3-pyqt6
+version=6.3.1
+release=1
+source="https://files.pythonhosted.org/packages/a3/ab/c5989de70eceed91abf5f828d99817462ff75f41558e9f5a6f5213f0932c/PyQt6-$version.tar.gz"
+
+build () {
+  cd PyQt6-$version
+  sip-build \
+    --confirm-license \
+    --no-make \
+    --qmake=/usr/lib/qt6/bin/qmake6
+  cd build
+  make
+  make INSTALL_ROOT=$PKG install
+
+  # compile Python bytecode
+  python3 -m compileall -d / $PKG/usr/lib
+  python3 -O -m compileall -d / $PKG/usr/lib
+}

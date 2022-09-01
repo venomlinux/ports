@@ -1,0 +1,13 @@
+# description		: The cross platform Python binding to OpenGL and related APIs
+# homepage		: http://pyopengl.sourceforge.net/
+# depends		: freeglut python3-setuptools
+
+name=python3-pyopengl
+version=3.1.6
+release=1
+source="https://pypi.python.org/packages/source/P/PyOpenGL/PyOpenGL-${version}.tar.gz"
+
+build() {
+    cd PyOpenGL-$version
+ 	python setup.py install --root=$PKG --optimize=1
+}
