@@ -1,0 +1,27 @@
+# description		: Python Lex & Yacc
+# homepage		: https://pypi.org/project/ply/
+# depends		: python3-setuptools python3-pip
+
+name=python3-ply
+version=3.11
+release=1
+source="https://files.pythonhosted.org/packages/e5/69/882ee5c9d017149285cab114ebeab373308ef0f874fcdac9beb90e0ac4da/ply-$version.tar.gz"
+
+build () {
+	cd ${name##python3-}-$version
+
+	if [ -f pyproject.toml -o -d ${name#*3-}.egg-info ]
+	then
+		if [ -d ${name#*3-} ]
+		then
+			/usr/bin/pip3 install --isolate --root=${PKG} \
+				--no-warn-script-location --ignore-installed --no-deps ${name#*3-}
+		else
+		/usr/bin/pip3 install --isolate --root=${PKG} \
+			--no-warn-script-location --ignore-installed --no-deps .
+		fi
+	else
+		/usr/bin/python3 setup.py build
+		/usr/bin/python3 setup.py install --prefix=/usr --root=$PKG
+	fi
+}
