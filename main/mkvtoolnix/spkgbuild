@@ -1,0 +1,27 @@
+# description	    : Tools to create, alter and inspect Matroska files.
+# homepage	    : https://mkvtoolnix.download/
+# depends	    : boost cmark docbook-xsl file flac libmatroska pcre2 libvorbis qt6-base qt6-multimedia qt6-svg ruby
+# optional	    : hicolor-icon-theme qt6
+
+name=mkvtoolnix
+version=70.0.0
+release=1
+source="https://mkvtoolnix.download/sources/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure  \
+		--prefix=/usr \
+		--disable-precompiled-headers \
+		--disable-update-check \
+		--enable-gui \
+		--disable-qt5 \
+		--enable-qt6
+
+	rake --multitask --jobs=${JOBS-1}
+	rake DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/locale
+	rm -rf $PKG/usr/share/doc
+}
