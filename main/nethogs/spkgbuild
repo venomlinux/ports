@@ -2,7 +2,7 @@
 # depends	: ncurses libpcap
 
 name=nethogs
-version=0.8.6
+version=0.8.7
 release=1
 source="$name-$version.tar.gz::https://github.com/raboof/nethogs/archive/v$version.tar.gz"
 
@@ -12,8 +12,9 @@ build() {
 	sed -i 's|/sbin|/bin|' src/MakeApp.mk
 	sed -i 's|/local||'  Makefile
 
-	unset CFLAGS
-	unset CXXFLAGS
+	export CFLAGS="${CFLAGS} -fPIC"
+	export CXXFLAGS="${CFLAGS}"
+	
 	make prefix=/usr
 	make prefix=/usr libnethogs
 
