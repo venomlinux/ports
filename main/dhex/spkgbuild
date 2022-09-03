@@ -10,7 +10,7 @@ build(){
 	cd ${name}_${version}
 
 	make all
-	install -d $PKG/usr/bin $PKG/usr/share/man/{man1,man5}
+	install -d $PKG/usr/bin $PKG/usr/share/man/man1 $PKG/usr/share/man/man5
 	install -m 0755 -t $PKG/usr/bin dhex
 	install -m 0644 -t $PKG/usr/share/man/man1 dhex.1
 	install -m 0644 -t $PKG/usr/share/man/man5 dhexrc.5 dhex_markers.5 dhex_searchlog.5
