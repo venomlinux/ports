@@ -16,5 +16,5 @@ build() {
     autoreconf -v
     ./configure --prefix=/usr
 	make PREFIX=/usr
-	make PREFIX=$PKG/usr DESTDIR=$PKG install
+	make PREFIX=/usr DESTDIR=$PKG install
 }
