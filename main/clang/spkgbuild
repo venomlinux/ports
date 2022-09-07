@@ -2,40 +2,27 @@
 # depends	: llvm
 
 name=clang
-version=14.0.6
+version=15.0.0
 release=1
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz"
 
 build() {
-	cd $name-$version.src
-
-	export CC=gcc
-	export CXX=g++
-
-	mkdir -v build
-	cd       build
 	
-	cmake .. -G Ninja \
-	    -DCMAKE_INSTALL_PREFIX=/usr \
-	    -DCMAKE_BUILD_TYPE=Release \
-	    -DLLVM_ENABLE_RTTI=ON \
-	    -DLLVM_ENABLE_EH=ON \
-	    -DCLANG_BUILD_EXAMPLES=OFF \
-	    -DCLANG_INCLUDE_DOCS=OFF \
-	    -DCLANG_INCLUDE_TESTS=OFF \
-	    -DLIBCLANG_BUILD_STATIC=ON \
+	cmake -S $name-$version.src -B build -G Ninja \
+	    -D CMAKE_INSTALL_PREFIX=/usr \
+	    -D CMAKE_INSTALL_LIBEXECDIR=/usr/lib/clang \
+	    -D CMAKE_BUILD_TYPE=Release \
+	    -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	    -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	    -D LLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF;NVPTX;WebAssembly" \
+	    -D LLVM_ENABLE_RTTI=ON \
+	    -D LLVM_ENABLE_EH=ON \
+	    -D CLANG_BUILD_EXAMPLES=OFF \
+	    -D CLANG_INCLUDE_DOCS=OFF \
+	    -D CLANG_INCLUDE_TESTS=OFF \
+	    -D LIBCLANG_BUILD_STATIC=ON \
+	    -D CLANG_BUILT_STANDALONE=ON \
 	    -Wno-dev
-	ninja
-	DESTDIR=$PKG ninja install	        
-
-	mkdir -p $PKG/usr/lib/clang
-	mv $PKG/usr/libexec/c++-analyzer \
-	   $PKG/usr/libexec/ccc-analyzer \
-	   $PKG/usr/libexec/analyze-cc \
-	   $PKG/usr/libexec/analyze-c++ \
-	   $PKG/usr/libexec/intercept-c++ \
-	   $PKG/usr/libexec/intercept-cc \
-	   $PKG/usr/lib/clang
-	rmdir $PKG/usr/libexec
-	sed -i 's|libexec|lib/clang|' $PKG/usr/bin/scan-build	
+  cmake --build build
+  DESTDIR=$PKG cmake --install build
 }
