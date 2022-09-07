@@ -2,12 +2,12 @@
 # depends	: python3-mako elfutils bison flex libxext libxdamage libxshmfence libxxf86vm libxrandr libdrm libglvnd
 
 name=mesa
-version=22.1.7
-release=1
-source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
+version=22.2.0
+release=rc3
+source="https://mesa.freedesktop.org/archive/$name-$version-$release.tar.xz"
 
 build() {
-	cd $name-$version
+	cd $name-$version-$release
 
 	_opt=""
 	_vulkan_drivers=""
