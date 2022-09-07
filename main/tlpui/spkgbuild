@@ -3,13 +3,14 @@
 # depends	: gtk3 python3-setuptools tlp python3-gobject3
 
 name=tlpui
-version=1.5.0
+_version=1.5.0-5
+version=1.5.0.5
 release=1
-source="https://github.com/d4nj1/TLPUI/archive/refs/tags/$name-$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/d4nj1/TLPUI/archive/refs/tags/$name-${_version}.tar.gz"
 
 build() {
-	cd TLPUI-$name-$version
+	cd TLPUI-$name-${_version}
 	python3 setup.py build
 	python3 setup.py install --root="$PKG" --optimize=1 --skip-build
-	install -Dm664 "$SRC/TLPUI-$name-$version/$name.desktop" "$PKG/usr/share/applications"  
+	install -Dm664 "$SRC/TLPUI-$name-${_version}/$name.desktop" "$PKG/usr/share/applications"  
 }
