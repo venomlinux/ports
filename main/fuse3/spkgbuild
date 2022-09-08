@@ -2,13 +2,13 @@
 # depends	: meson
 
 name=fuse3
-version=3.11.0
+version=3.12.0
 release=1
 source="https://github.com/libfuse/libfuse/releases/download/fuse-$version/fuse-$version.tar.xz"
 
 build() {
-	cd fuse-$version
-	venom-meson build
+	
+	venom-meson fuse-$version build
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 	rm -r $PKG/dev $PKG/etc/fuse.conf
