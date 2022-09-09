@@ -2,7 +2,7 @@
 # depends	: meson girara glib gettext cairo gtk3 file libseccomp pkgconf
 
 name=zathura
-version=0.4.9
+version=0.5.1
 release=1
 source="https://github.com/pwmt/zathura/archive/$version/$name-$version.tar.gz"
 build() {
@@ -17,7 +17,6 @@ build() {
                 --localstatedir=/var \
                 --buildtype=plain \
 		-Dconvert-icon=disabled \
-		-Dmagic=enabled \
 		-Dmanpages=disabled \
 		-Dseccomp=disabled \
 		-Dsqlite=disabled \
