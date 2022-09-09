@@ -7,8 +7,7 @@ release=rc3
 source="https://mesa.freedesktop.org/archive/$name-$version-$release.tar.xz"
 
 build() {
-	cd $name-$version-$release
-
+ 
 	_opt=""
 	_vulkan_drivers=""
 	_gallium_drivers="r300,r600,svga,swrast,nouveau,iris,virgl,crocus"
@@ -26,16 +25,7 @@ build() {
 		fi
 	fi
 
-	mkdir build
-	cd    build
-
-	meson \
-		--prefix=/usr \
-		--sysconfdir=/etc \
-		--buildtype=plain \
-		--wrap-mode nodownload \
-		-D b_lto=true \
-		-D b_pie=true \
+	venom-meson $name-$version-$release build $_opt \
 		-D dri3=enabled \
 		-D egl=enabled \
 		-D gbm=enabled \
@@ -48,11 +38,9 @@ build() {
 		-D platforms=x11 \
 		-D shared-glapi=enabled \
 		-D vulkan-drivers=$_vulkan_drivers \
-		-D glvnd=true \
-		$_opt \
-	      ..
-	ninja
-	DESTDIR=$PKG ninja install
+		-D glvnd=true 
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 
 	# indirect rendering symlink
 	ln -s libGLX_mesa.so.0 $PKG/usr/lib/libGLX_indirect.so.0
