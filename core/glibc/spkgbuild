@@ -3,10 +3,11 @@
 
 name=glibc
 version=2.36
-release=1
+release=2
 backup="etc/locales"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
-	genlocales nsswitch.conf ld.so.conf"
+	genlocales nsswitch.conf ld.so.conf
+	reenable_DT_HASH.patch"
 nostrip="lib.*/ld-.*\.so$
 	lib.*/libc-.*\.so$
 	lib.*/libpthread-.*\.so$
@@ -14,6 +15,11 @@ nostrip="lib.*/ld-.*\.so$
 
 build() {
 	cd $name-$version
+
+	# re-enable `--hash-style=both` for building shared objects due to issues with EPIC's EAC
+	# which relies on DT_HASH to be present in these libs.
+	# reconsider 2023-01
+	patch -Np1 -i ../reenable_DT_HASH.patch
 
 	_configure_flag="
 		--prefix=/usr \
