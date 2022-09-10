@@ -2,19 +2,16 @@
 # depends	: qt5 cmake
 
 name=grantlee
-version=5.2.0
+version=5.3.0
 release=1
-source="http://downloads.grantlee.org/$name-$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/steveire/grantlee/archive/v$version.tar.gz"
 
 build() {
-	cd $name-$version
 
-	mkdir build
-	cd    build
-	
-	cmake -DCMAKE_INSTALL_PREFIX=/usr \
-	      -DCMAKE_BUILD_TYPE=Release  \
-	      ..
-	make
-	make DESTDIR=$PKG install
+	cmake -B build -S $name-$version \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=Release  
+
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
