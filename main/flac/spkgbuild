@@ -2,16 +2,23 @@
 # depends	: libogg
 
 name=flac
-version=1.3.4
+version=1.4.0
 release=1
-source="https://downloads.xiph.org/releases/$name/$name-$version.tar.xz"
+source="$name-$version.tar.gz::https://github.com/xiph/flac/archive/$version.tar.gz"
 
 build() {
 	cd $name-$version
-
-	./configure --prefix=/usr \
-	            --disable-thorough-tests
-	make
+	
+	NOCONFIGURE=1 ./autogen.sh
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/share/man \
+		--disable-rpath \
+		--disable-thorough-tests \
+		--enable-ogg \
+		--enable-shared \
+		--enable-sse
+	make 
 	make DESTDIR=$PKG install
 
 }

@@ -2,9 +2,9 @@
 # depends	: libxau xorgproto-32
 
 name=libxau-32
-version=1.0.9
+version=1.0.10
 release=1
-source="http://ftp.x.org/pub/individual/lib/libXau-$version.tar.bz2"
+source="${name%-*}-$version.tar.xz::http://ftp.x.org/pub/individual/lib/libXau-$version.tar.xz"
 
 build() {
 	cd libXau-$version

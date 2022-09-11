@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 build_hook() {
 	add_module cdrom
@@ -13,7 +13,6 @@ build_hook() {
 }
 
 run_earlyhook() {
-	local mod
 	for mod in cdrom loop overlay; do
 		modprobe $mod 2>/dev/null
 	done

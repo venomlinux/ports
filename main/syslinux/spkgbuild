@@ -3,19 +3,27 @@
 
 name=syslinux
 version=6.03
-release=1
-options="!makeflags"
+release=3
 source="http://www.kernel.org/pub/linux/utils/boot/$name/$name-$version.tar.xz
-        $name-$version-sysmacros.patch"
+        $name-sysmacros.patch
+	fix-build-with-glibc-2.36.patch"
 
 build() {
 	cd $name-$version
 
-	export CFLAGS="$CFLAGS -fcommon"
+	mkdir venom
+	for i in chain.c32 isolinux.bin ldlinux.c32 libutil.c32 reboot.c32 vesamenu.c32 libcom32.c32 poweroff.c32; do
+		cp $(find bios -name $i) venom
+	done
 
-	patch -p1 -i $SRC/$name-$version-sysmacros.patch
+	patch -p1 -i $SRC/fix-build-with-glibc-2.36.patch
+	patch -p1 -i $SRC/$name-sysmacros.patch
+
+	export CFLAGS="$CFLAGS -fcommon"
 
 	make OPTFLAGS="$CFLAGS" installer
 	make OPTFLAGS="$CFLAGS" INSTALLROOT=$PKG MANDIR=/usr/share/man install
+
+	cp venom/* $PKG/usr/share/syslinux
 }
 

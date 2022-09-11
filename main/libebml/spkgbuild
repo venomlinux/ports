@@ -1,0 +1,27 @@
+# description		: A library for reading and writing files with the Extensible Binary Meta Language, a binary pendant to XML.
+# homepage		: https://github.com/Matroska-Org/libebml
+# depends		: cmake
+
+name=libebml
+version=1.4.2
+release=1
+source="https://dl.matroska.org/downloads/$name/$name-$version.tar.xz
+	libebml-limits.patch"
+
+build() {
+
+	cd $name-$version
+	patch -Np1 -i ../libebml-limits.patch
+
+	cmake -B build -G Ninja \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_INSTALL_LIBDIR=lib \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-D BUILD_SHARED_LIBS=ON \
+		-Wno-dev
+
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}

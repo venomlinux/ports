@@ -1,8 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
 build_hook() {
-	local bin dir
-	
 	for dir in bin dev lib/firmware run sys proc usr \
 		etc/modprobe.d etc/udev/rules.d; do
 		add_dir /$dir
@@ -21,4 +19,5 @@ build_hook() {
 	done
 
 	add_file /usr/share/terminfo/l/linux
+	add_file /lib/ld-linux-x86-64.so.2
 }

@@ -107,7 +107,7 @@ done
 
 sed -i "s/^#DAEMONS=.*/DAEMONS=\"$daemon\"/" /etc/rc.conf
 
-sed 's/current_theme.*/current_theme typogin/' -i /etc/slim.conf
+sed 's/current_theme.*/current_theme greeny_dark/' -i /etc/slim.conf
 sed 's/#default_user.*/default_user venom/' -i /etc/slim.conf
 sed 's/#auto_login.*/auto_login yes/' -i /etc/slim.conf
 

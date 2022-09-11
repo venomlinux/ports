@@ -669,20 +669,19 @@ install_now() {
 		#sed -e "s,.*autologin.*=.*,autologin=$USER," -i $VENOMROOT/etc/lxdm/lxdm.conf
 	fi
 	
-	print_info "Resolve temporary packages..."
-	scratch deplist $(cat $LISTPKG) $PKGKEEP linux linux-lts | awk '{print $2}' >> $PKGSTRIP
-	scratch installed | awk '{print $1}' >> $PKGINISO
+	#print_info "Resolve temporary packages..."
+	#scratch deplist $(cat $LISTPKG) $PKGKEEP linux linux-lts | awk '{print $2}' >> $PKGSTRIP
+	#scratch installed | awk '{print $1}' >> $PKGINISO
 	
-	for i in $(grep -Fxv -f $PKGSTRIP $PKGINISO); do
-		[ "$i" ] || continue
-		print_info "Removing temporary packages ($i)..."
-		run_chroot pkgdel $i &>/dev/null
-	done
+	#for i in $(grep -Fxv -f $PKGSTRIP $PKGINISO); do
+	#	[ "$i" ] || continue
+	#	print_info "Removing temporary packages ($i)..."
+	#	run_chroot pkgdel $i &>/dev/null
+	#done
 	
 	#mountpoint -q $VENOMROOT/boot/efi && umount $VENOMROOT/boot/efi
 	#mountpoint -q $VENOMROOT && umount $VENOMROOT
 	umount -R $VENOMROOT
-	rm -f $PKGSTRIP $PKGINISO
 	_dialog --msgbox "Installation done\nYou can reboot now" 7 30
 	exit 0
 }
@@ -731,11 +730,9 @@ Set necessary options before start the installation \n"
 
 if [ -f "/run/initramfs/ram/filesystem.sfs" ]; then
 	ROOTSFS="/run/initramfs/ram/filesystem.sfs"
-	LISTPKG="/run/initramfs/ram/pkglist"
 	CUSTOMDIR="/run/initramfs/ram/customize"
 else
 	ROOTSFS="/run/initramfs/medium/rootfs/filesystem.sfs"
-	LISTPKG="/run/initramfs/medium/rootfs/pkglist"
 	CUSTOMIZEDIR="/run/initramfs/medium/customize"
 fi
 
@@ -759,16 +756,8 @@ fi
 	exit  1
 }
 
-[ -f "$LISTPKG" ] || {
-	echo "list packages '$LISTPKG' not found!"
-	exit  1
-}
-
 VENOMROOT="/tmp/venominstall"
 YESNOSIZE="8 50"
-
-PKGINISO=$(mktemp /tmp/pkginiso.XXXXXXX)
-PKGSTRIP=$(mktemp /tmp/pkgstrip.XXXXXXX)
 
 EFI_SYSTEM=0
 

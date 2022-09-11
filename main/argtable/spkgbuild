@@ -1,0 +1,16 @@
+# description : argtable command line parser library
+# depends     : glibc
+
+name=argtable
+version=2.13
+release=1
+source="https://cytranet.dl.sourceforge.net/project/$name/$name/$name-$version/argtable2-13.tar.gz"
+
+build() {
+    cd argtable2-13
+
+    autoreconf -vfi
+    ./configure --prefix=/usr
+    make PREFIX=/usr
+    make PREFIX=/usr DESTDIR=$PKG install
+}

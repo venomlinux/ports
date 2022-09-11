@@ -3,7 +3,7 @@
 
 name=x265
 version=3.4
-release=1
+release=2
 source="http://anduin.linuxfromscratch.org/BLFS/x265/x265_${version}.tar.gz"
 
 build() {
@@ -12,7 +12,7 @@ build() {
 	mkdir bld
 	cd    bld
 
-	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	cmake -DHIGH_BIT_DEPTH=ON -DCMAKE_INSTALL_PREFIX=/usr \
 	      ../source
 	make
 	make DESTDIR=$PKG install

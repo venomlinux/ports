@@ -5,12 +5,14 @@ name=xf86-video-vmware
 version=13.3.0
 release=1
 source="http://ftp.x.org/pub/individual/driver/$name-$version.tar.bz2
-	gcc8.diff"
+	gcc8.diff
+	gcc12.1.diff"
 
 build() {
 	cd $name-$version
 
 	patch -Np0 -i $SRC/gcc8.diff
+	patch -Np1 -i $SRC/gcc12.1.diff
 
 	./configure \
 		--prefix=/usr \

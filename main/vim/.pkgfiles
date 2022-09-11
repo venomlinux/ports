@@ -1,4 +1,4 @@
-vim-9.0.0213-1
+vim-9.0.0412-1
 drwxr-xr-x root/root    etc/
 -rw-r--r-- root/root    etc/vimrc
 drwxr-xr-x root/root    usr/
@@ -62,6 +62,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/autoload/dist/
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/syntaxcomplete.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/tar.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/tohtml.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/autoload/typeset.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/vimball.vim
 drwxr-xr-x root/root    usr/share/vim/vim90/autoload/xml/
 -rw-r--r-- root/root    usr/share/vim/vim90/autoload/xml/html32.vim
@@ -96,6 +97,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/colors/
 drwxr-xr-x root/root    usr/share/vim/vim90/colors/lists/
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/lists/csscolors.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/lists/default.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/colors/lunaperche.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/morning.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/murphy.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/colors/pablo.vim
@@ -179,6 +181,10 @@ drwxr-xr-x root/root    usr/share/vim/vim90/compiler/
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/powershell.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/pylint.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/pyunit.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/compiler/raco.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/compiler/racomake.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/compiler/racosetup.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/compiler/racotest.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/rake.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/rhino.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/rspec.vim
@@ -229,6 +235,8 @@ drwxr-xr-x root/root    usr/share/vim/vim90/doc/
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/filetype.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/fold.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/ft_ada.txt
+-rw-r--r-- root/root    usr/share/vim/vim90/doc/ft_context.txt
+-rw-r--r-- root/root    usr/share/vim/vim90/doc/ft_mp.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/ft_ps1.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/ft_raku.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/ft_rust.txt
@@ -312,6 +320,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/doc/
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/todo.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/uganda.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/undo.txt
+-rw-r--r-- root/root    usr/share/vim/vim90/doc/userfunc.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/usr_01.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/usr_02.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/usr_03.txt
@@ -444,6 +453,8 @@ drwxr-xr-x root/root    usr/share/vim/vim90/ftplugin/
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/fstab.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/fvwm.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/gdb.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/gdscript.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/gdshader.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/gitcommit.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/gitconfig.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/gitrebase.vim
@@ -551,6 +562,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/ftplugin/
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/quake.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/r.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/racc.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/racket.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/raku.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/readline.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/registry.vim
@@ -686,6 +698,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/indent/
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/fortran.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/framescript.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/freebasic.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/indent/gdscript.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/gitconfig.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/gitolite.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/go.vim
@@ -735,6 +748,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/indent/
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/python.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/qb64.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/r.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/indent/racket.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/raku.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/raml.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/readline.vim
@@ -1464,6 +1478,9 @@ drwxr-xr-x root/root    usr/share/vim/vim90/syntax/
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/fvwm2m4.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/gdb.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/gdmo.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/gdresource.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/gdscript.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/gdshader.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/gedcom.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/gemtext.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/gift.vim
@@ -1705,6 +1722,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/syntax/
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/quake.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/r.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/racc.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/racket.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/radiance.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/raku.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/raml.vim
@@ -1760,6 +1778,13 @@ drwxr-xr-x root/root    usr/share/vim/vim90/syntax/
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/sgmldecl.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/sgmllnx.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/sh.vim
+drwxr-xr-x root/root    usr/share/vim/vim90/syntax/shared/
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/shared/README.txt
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/shared/context-data-context.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/shared/context-data-interfaces.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/shared/context-data-metafun.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/shared/context-data-tex.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/shared/typescriptcommon.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/sicad.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/sieve.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/sil.vim
@@ -1859,7 +1884,6 @@ drwxr-xr-x root/root    usr/share/vim/vim90/syntax/
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/tt2html.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/tt2js.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/typescript.vim
--rw-r--r-- root/root    usr/share/vim/vim90/syntax/typescriptcommon.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/typescriptreact.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/uc.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/udevconf.vim

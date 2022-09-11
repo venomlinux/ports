@@ -2,13 +2,12 @@
 # homepage	: https://download.drobilla.net 
 
 name=serd
-version=0.30.14
+version=0.30.16
 release=1
-_commit=ed80ef443ae8ef57bcee778fb61f6c7f4faabe29
-source="$name-$version.tar.gz::https://gitlab.com/drobilla/$name/-/archive/v$version/$name-$version.tar.gz"
+source="$name-$version.tar.gz::https://gitlab.com/drobilla/$name/-/archive/v$version/$name-v$version.tar.gz"
 
 build() {
-	cd $name-v$version-${_commit}
+	cd $name-v$version
 	mkdir build
 	cd build
 	venom-meson 

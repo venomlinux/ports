@@ -131,17 +131,18 @@ zap_rootfs() {
 	msg "Extracting tarball image: $TARBALLIMG"
 	tar -xf $TARBALLIMG -C $ROOTFS || die "Error extracting tarball image"
 	tmp_scratchpkgconf
-	set_release_info
+	chrootrun portsync || die 'failed sync ports'
+	#set_release_info
 	generatelocales
 	unset ZAP
 }
 
-set_release_info() {
-	echo "$RELEASE" > "$ROOTFS"/etc/venom-release
-	sed -i "s/PRETTY_NAME=.*/PRETTY_NAME=\"Venom Linux $RELEASE\"/" "$ROOTFS"/etc/os-release
-	sed -i "s/VERSION=.*/VERSION=\"$RELEASE\"/" "$ROOTFS"/etc/os-release
-	sed -i "s/VERSION_ID=.*/VERSION_ID=\"$RELEASE\"/" "$ROOTFS"/etc/os-release
-}
+#set_release_info() {
+	#echo "$RELEASE" > "$ROOTFS"/etc/venom-release
+	#sed -i "s/PRETTY_NAME=.*/PRETTY_NAME=\"Venom Linux $RELEASE\"/" "$ROOTFS"/etc/os-release
+	#sed -i "s/VERSION=.*/VERSION=\"$RELEASE\"/" "$ROOTFS"/etc/os-release
+	#sed -i "s/VERSION_ID=.*/VERSION_ID=\"$RELEASE\"/" "$ROOTFS"/etc/os-release
+#}
 
 compress_rootfs() {
 	pushd $ROOTFS >/dev/null
@@ -152,8 +153,9 @@ compress_rootfs() {
 	}
 	
 	msg "Copying ports and repofile..."
-	copy_ports
-	main_scratchpkgconf
+	
+	#copy_ports
+	#main_scratchpkgconf
 	
 	msg "Compressing rootfs: $ROOTFS ..."
 	tar --exclude="var/cache/scratchpkg/packages/*" \
@@ -183,8 +185,14 @@ check_rootfs() {
 	[ -d $ROOTFS/dev ] || zap_rootfs
 }
 
+restore_scratchpkgconf() {
+	mv "$ROOTFS"/etc/scratchpkg.repo.spkgnew "$ROOTFS"/etc/scratchpkg.repo
+	mv "$ROOTFS"/etc/scratchpkg.repo.spkgnew "$ROOTFS"/etc/scratchpkg.repo
+}
+
 tmp_scratchpkgconf() {
 	mv "$ROOTFS"/etc/scratchpkg.repo "$ROOTFS"/etc/scratchpkg.repo.spkgnew
+	echo "/usr/ports/core https://github.com/venomlinux/ports/tree/$RELEASE/core" > "$ROOTFS"/etc/scratchpkg.repo
 	for i in $REPO; do
 		echo "/usr/ports/$i" >> "$ROOTFS"/etc/scratchpkg.repo
 	done
@@ -192,33 +200,33 @@ tmp_scratchpkgconf() {
 	sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j$JOBS\"/" -i "$ROOTFS"/etc/scratchpkg.conf
 }
 
-main_scratchpkgconf() {
-	chrootrun scratch install -r -y --no-backup scratchpkg
+#main_scratchpkgconf() {
+	#chrootrun scratch install -r -y --no-backup scratchpkg
 	#if [ -f $ROOTFS/etc/scratchpkg.repo.spkgnew ]; then
 	#	mv $ROOTFS/etc/scratchpkg.repo.spkgnew $ROOTFS/etc/scratchpkg.repo
 	#fi
 	#if [ -f $ROOTFS/etc/scratchpkg.conf.spkgnew ]; then
 	#	mv $ROOTFS/etc/scratchpkg.conf.spkgnew $ROOTFS/etc/scratchpkg.conf
 	#fi
-}
+#}
 
-copy_ports() {
-	rm -fr $ROOTFS/usr/ports
-	mkdir -p $ROOTFS/usr/ports
-	[ -d $PORTSDIR/main ] || {
-		msg "main repo not exist"
-		return 1
-	}
-	msg "Copying main repo..."
-	cp -Ra $PORTSDIR/main $ROOTFS/usr/ports || exit 1
-	rm -f $ROOTFS/usr/ports/main/REPO
-	rm -f $ROOTFS/usr/ports/main/.httpup-repgen-ignore
-	rm -f $ROOTFS/usr/ports/main/*/update
-	chown -R 0:0 $ROOTFS/usr/ports/main
-}
+#copy_ports() {
+	#rm -fr $ROOTFS/usr/ports
+	#mkdir -p $ROOTFS/usr/ports
+	#[ -d $PORTSDIR/main ] || {
+		#msg "main repo not exist"
+		#return 1
+	#}
+	#msg "Copying main repo..."
+	#cp -Ra $PORTSDIR/main $ROOTFS/usr/ports || exit 1
+	#rm -f $ROOTFS/usr/ports/main/REPO
+	#rm -f $ROOTFS/usr/ports/main/.httpup-repgen-ignore
+	#rm -f $ROOTFS/usr/ports/main/*/update
+	#chown -R 0:0 $ROOTFS/usr/ports/main
+#}
 
 make_iso() {
-	ISOLINUX_FILES="chain.c32 isolinux.bin ldlinux.c32 libutil.c32 reboot.c32 vesamenu.c32 libcom32.c32 poweroff.c32"
+	ISOLINUX_FILES="chain.c32 isolinux.bin isolinux.bin ldlinux.c32 libutil.c32 reboot.c32 vesamenu.c32 libcom32.c32 poweroff.c32"
 	# prepare isolinux files
 	msg "Preparing isolinux..."
 	rm -fr "$ISODIR"
@@ -234,8 +242,8 @@ make_iso() {
 		chown -R 0:0 "$ISODIR/virootfs"
 	}
 	
-	main_scratchpkgconf
-	copy_ports
+	#main_scratchpkgconf
+	#copy_ports
 	#chrootrun scratch install -y scratchpkg
 	#sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j\$(nproc\)\"/" -i "$ROOTFS"/etc/scratchpkg.conf
 	
@@ -281,9 +289,9 @@ make_iso() {
 	rm -fr "$ISODIR/boot/efiboot"
 
 	# save list packages to iso
-	for pkg in base linux $(echo $PKG | tr ',' ' '); do
-		echo "$pkg" >> "$ISODIR/rootfs/pkglist"
-	done
+	#for pkg in base linux $(echo $PKG | tr ',' ' '); do
+	#	echo "$pkg" >> "$ISODIR/rootfs/pkglist"
+	#done
 
 	msg "Making iso: $OUTPUTISO ..."
 	rm -f "$OUTPUTISO" "$OUTPUTISO.md5"
@@ -441,6 +449,7 @@ main() {
 	}
 	
 	[ "$RFS" ] && {
+		restore_scratchpkgconf
 		compress_rootfs || die
 	}
 	
@@ -468,6 +477,7 @@ main() {
 			msg "Running revdep (for iso)..."
 			chrootrun revdep -y -r || die
 		}
+		restore_scratchpkgconf
 		make_iso
 	}
 	
@@ -482,11 +492,7 @@ SCRIPTDIR="$(dirname $(realpath $0))"
 parse_opts "$@"
 
 ARCH=$(uname -m)
-RELEASE=$(awk -F "/" '{print $NF}' $PORTSDIR/.git/HEAD)
-
-[ "$RELEASE" = master ] && {
-	RELEASE=current
-}
+RELEASE=$(cat $PORTSDIR/current-release)
 
 TARBALLIMG="$PORTSDIR/venomlinux-rootfs-$RELEASE-$ARCH.tar.xz"
 SRCDIR="${SRCDIR:-/var/cache/scratchpkg/sources}"

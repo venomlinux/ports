@@ -2,12 +2,17 @@
 # depends	: libmpfr
 
 name=gawk
-version=5.1.1
-release=1
-source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+version=5.2.0
+release=2
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
+	add-upref.patch"
 
 build() {
 	cd $name-$version
+
+	patch -p1 -i $SRC/add-upref.patch
+
+	export ac_cv_libsigsegv=no
 
 	# ensure some unneeded files are not installed
 	sed -i 's/extras//' Makefile.in

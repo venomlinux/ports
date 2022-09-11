@@ -3,25 +3,22 @@
 # optdepends	: libdrm cairo docbook-xml docbook-xml libxslt valgrind cunit
 
 name=libdrm-32
-version=2.4.112
+version=2.4.113
 release=1
-source="https://dri.freedesktop.org/libdrm/libdrm-$version.tar.xz"
+source="https://dri.freedesktop.org/libdrm/${name%-*}-$version.tar.xz"
 
 build() {
-	cd libdrm-$version
+	cd ${name%-*}-$version
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	mkdir build
-	cd build
-	meson --prefix=/usr \
-	      --libdir=/usr/lib32 \
-	      -Dudev=true \
-	      -Dcairo-tests=false
-	ninja
-	DESTDIR=$PWD/DESTDIR ninja install
+
+	venom-meson --libdir=/usr/lib32 -Dudev=true build
+	meson compile -C build
+	DESTDIR=$PWD/DESTDIR meson install -C build
+
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

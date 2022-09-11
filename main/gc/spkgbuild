@@ -2,15 +2,13 @@
 # depends	: libatomic_ops
 
 name=gc
-version=8.2.0
+version=8.2.2
 release=2
-source="https://github.com/ivmai/bdwgc/releases/download/v$version/$name-$version.tar.gz
-	gc-missing-header.patch::https://patch-diff.githubusercontent.com/raw/ivmai/bdwgc/pull/389.patch"
+source="https://github.com/ivmai/bdwgc/releases/download/v$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-
-	patch -p1 < ../gc-missing-header.patch # Install missing header
+	
 	./autogen.sh
 	
 	./configure --prefix=/usr      \

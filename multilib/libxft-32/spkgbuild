@@ -2,9 +2,9 @@
 # depends	: libxft libx11-32 libxrender-32 xorgproto-32 freetype2-32 fontconfig-32
 
 name=libxft-32
-version=2.3.4
+version=2.3.5
 release=1
-source="http://ftp.x.org/pub/individual/lib/libXft-$version.tar.bz2"
+source="${name%-*}-$version.tar.xz::http://ftp.x.org/pub/individual/lib/libXft-$version.tar.xz"
 
 build() {
 	cd libXft-$version
