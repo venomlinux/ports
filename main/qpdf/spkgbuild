@@ -1,14 +1,15 @@
 # description	: Utility that does structural, content-preserving transformations on PDF files 
-# depends	: gnutls zlib libjpeg-turbo openssl
+# depends	: gnutls zlib libjpeg-turbo openssl cmake
 
 name=qpdf
-version=10.6.3
+version=11.0.0
 release=1
 source="http://downloads.sourceforge.net/project/$name/$name/$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
+	cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=RelWithDebInfo
+	cmake --build build
+	DESTDIR="$PKG" cmake --install build
+
 }
