@@ -8,7 +8,7 @@ source="http://downloads.sourceforge.net/project/$name/$name/$version/$name-$ver
 
 build() {
 	cd $name-$version
-	cmake -S . -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
+	cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=RelWithDebInfo
 	cmake --build build
 	DESTDIR="$PKG" cmake --install build
 
