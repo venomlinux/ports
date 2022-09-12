@@ -152,7 +152,7 @@ compress_rootfs() {
 		mv "$TARBALLIMG" "$TARBALLIMG".bak
 	}
 	
-	msg "Copying ports and repofile..."
+	#msg "Copying ports and repofile..."
 	
 	#copy_ports
 	#main_scratchpkgconf
