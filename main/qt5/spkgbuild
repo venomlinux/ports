@@ -3,12 +3,27 @@
 # depends	: xcb-util-image xcb-util-keysyms xcb-util-renderutil libxcb fontconfig
 
 name=qt5
-version=5.15.5
+version=5.15.6
 release=1
-source="https://download.qt.io/official_releases/qt/${version%.*}/$version/single/qt-everywhere-opensource-src-$version.tar.xz"
+source="https://download.qt.io/official_releases/qt/${version%.*}/$version/single/qt-everywhere-opensource-src-$version.tar.xz
+qt-everywhere-opensource-src-5.15.6-kf5-1.patch
+qt5-cflags.patch
+qtbase-everywhere-src-5.11.1-python3.patch
+qtbase-everywhere-src-5.14.2-no_relocatable.patch
+qtbase-everywhere-src-5.15.2-libglvnd.patch
+qtbase-use-wayland-on-gnome.patch
+qt-everywhere-src-5.15.2-CVE-2021-3481-1.patch
+"
 
 build() {
 	cd qt-everywhere-src-$version
+
+	patch -p1 -i $SRC/qt-everywhere-opensource-src-$version-kf5-1.patch
+	patch -d qtbase -p1 -i $SRC/qt5-cflags.patch
+	patch -d qtbase -p1 -i $SRC/qtbase-everywhere-src-5.11.1-python3.patch
+	patch -d qtbase -p1 -i $SRC/qtbase-everywhere-src-5.14.2-no_relocatable.patch
+	patch -d qtbase -p1 -i $SRC/qtbase-everywhere-src-5.15.2-libglvnd.patch
+	patch -d qtbase -p1 -i $SRC/qtbase-use-wayland-on-gnome.patch	
 
 	# Build qmake using Venom {C,LD}FLAGS
 	# This also sets default {C,CXX,LD}FLAGS for projects built using qmake
