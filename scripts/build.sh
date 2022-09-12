@@ -186,18 +186,22 @@ check_rootfs() {
 }
 
 restore_scratchpkgconf() {
-	mv "$ROOTFS"/etc/scratchpkg.repo.spkgnew "$ROOTFS"/etc/scratchpkg.repo
+	mv "$ROOTFS"/etc/scratchpkg.conf.spkgnew "$ROOTFS"/etc/scratchpkg.conf
 	mv "$ROOTFS"/etc/scratchpkg.repo.spkgnew "$ROOTFS"/etc/scratchpkg.repo
 }
 
 tmp_scratchpkgconf() {
-	mv "$ROOTFS"/etc/scratchpkg.repo "$ROOTFS"/etc/scratchpkg.repo.spkgnew
-	echo "/usr/ports/core https://github.com/venomlinux/ports/tree/$RELEASE/core" > "$ROOTFS"/etc/scratchpkg.repo
-	for i in $REPO; do
-		echo "/usr/ports/$i" >> "$ROOTFS"/etc/scratchpkg.repo
-	done
-	cp "$ROOTFS"/etc/scratchpkg.conf "$ROOTFS"/etc/scratchpkg.conf.spkgnew
-	sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j$JOBS\"/" -i "$ROOTFS"/etc/scratchpkg.conf
+	if [ ! -f "$ROOTFS"/etc/scratchpkg.repo.spkgnew ]; then
+		mv "$ROOTFS"/etc/scratchpkg.repo "$ROOTFS"/etc/scratchpkg.repo.spkgnew
+		echo "/usr/ports/core https://github.com/venomlinux/ports/tree/$RELEASE/core" > "$ROOTFS"/etc/scratchpkg.repo
+		for i in $REPO; do
+			echo "/usr/ports/$i" >> "$ROOTFS"/etc/scratchpkg.repo
+		done
+	fi
+	if [ ! -f "$ROOTFS"/etc/scratchpkg.conf.spkgnew ]; then
+		cp "$ROOTFS"/etc/scratchpkg.conf "$ROOTFS"/etc/scratchpkg.conf.spkgnew
+		sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j$JOBS\"/" -i "$ROOTFS"/etc/scratchpkg.conf
+	fi
 }
 
 #main_scratchpkgconf() {
