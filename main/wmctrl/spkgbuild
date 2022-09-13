@@ -1,0 +1,23 @@
+# description	: Control your EWMH compliant window manager from command line
+# homepage	: http://tripie.sweb.cz/utils/wmctrl/
+# depends	: glib2 libxmu
+
+
+name=wmctrl
+version=1.07
+release=1
+source="http://tripie.sweb.cz/utils/wmctrl/dist/$name-$version.tar.gz
+        http://archive.debian.org/debian/pool/main/w/wmctrl/wmctrl_$version-6.diff.gz"
+
+build() {
+	cd $name-$version
+
+	for p in $_portdir/*.patch $_portdir/*.diff; do
+	[ -f $p ] || continue
+	patch -Np1 -i $p
+	done
+
+	./configure --bindir=/usr/bin --mandir=/usr/share/man
+	make
+	make DESTDIR=$PKG install
+}
