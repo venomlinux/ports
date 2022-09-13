@@ -1,0 +1,20 @@
+# description	: Turns your Realtek RTL2832U based DVB dongle into a SDR receiver
+# homepage	: https://gitea.osmocom.org/sdr/rtl-sdr.git
+
+
+name=rtl-sdr
+version=0.6.0
+release=1
+source="$name-$version.tar.gz::https://gitea.osmocom.org/sdr/$name/archive/$version.tar.gz
+	blacklist-dvb_usb_rtl28xxu.conf"
+
+build() {
+	cd $name
+	autoreconf -i
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+	make DESTDIR=$PKG install-udev-rules
+	install -d $PKG/etc/modprobe.d
+	install -Dm755 $SRC/blacklist-dvb_usb_rtl28xxu.conf $PKG/etc/modprobe.d
+}
