@@ -3,14 +3,19 @@
 # depends	: c-ares crypto++ curl libsodium libuv openssl readline sqlite zlib 
 
 name=megasdk
-version=4.2.0
+version=4.3.0
 release=1
 source="https://github.com/meganz/sdk/archive/refs/tags/v$version/megasdk-$version.tar.gz"
 
 build() {
 	cd sdk-$version
-	./autogen.sh
-	./configure --prefix=/usr --disable-doxygen-doc --without-freeimage
+
+	NOCONFIGURE=1 ./autogen.sh
+	./configure \
+		--prefix=/usr \
+		--disable-doxygen-doc \
+		--without-freeimage
+
 	make
 	make DESTDIR=$PKG install
 }
