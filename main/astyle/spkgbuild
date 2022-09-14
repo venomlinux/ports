@@ -1,0 +1,14 @@
+# description   : astyle A Free, Fast, and Small Automatic Formatter for C, C++, C++/CLI, Objective‑C, C#, and Java Source Code
+# depends       : glibc
+
+name=astyle
+version=3.1
+release=1
+source="https://cytranet.dl.sourceforge.net/project/$name/$name/$name"%20"$version/"$name"_"$version"_linux.tar.gz"
+
+build() {
+    cd $name
+    cmake -DCMAKE_INSTALL_PREFIX=/usr ./
+    make
+    make PREFIX=/usr DESTDIR=$PKG install
+}
