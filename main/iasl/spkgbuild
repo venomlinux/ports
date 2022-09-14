@@ -7,6 +7,7 @@ source="https://acpica.org/sites/acpica/files/acpica-unix-$version.tar.gz"
 
 build() {
 	cd acpica-unix-$version
+	export CFLAGS="$CFLAGS -Wno-dangling-pointer"
 	make
 	make DESTDIR=$PKG install
 }
