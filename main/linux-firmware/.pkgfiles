@@ -1,4 +1,4 @@
-linux-firmware-20220815-1
+linux-firmware-20220913-1
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/firmware/
 drwxr-xr-x root/root    lib/firmware/3com/
@@ -95,6 +95,7 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/cyan_skillfish2_rlc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/cyan_skillfish2_sdma.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/cyan_skillfish2_sdma1.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/dcn_3_1_5_dmcub.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/dcn_3_1_6_dmcub.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/dimgrey_cavefish_ce.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/dimgrey_cavefish_dmcub.bin
@@ -120,6 +121,12 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/fiji_smc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/fiji_uvd.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/fiji_vce.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_6_ce.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_6_me.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_6_mec.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_6_mec2.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_6_pfp.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_6_rlc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_7_ce.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_7_me.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/gc_10_3_7_mec.bin
@@ -334,6 +341,9 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/polaris12_smc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/polaris12_uvd.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/polaris12_vce.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_5_asd.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_5_ta.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_5_toc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_8_asd.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_8_ta.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_8_toc.bin
@@ -373,6 +383,7 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/renoir_sdma.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/renoir_ta.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/renoir_vcn.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/sdma_5_2_6.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/sdma_5_2_7.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/si58_mc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/sienna_cichlid_ce.bin
@@ -438,6 +449,7 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/vangogh_sdma.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/vangogh_toc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/vangogh_vcn.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/vcn_3_1_2.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/vega10_acg_smc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/vega10_asd.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/vega10_ce.bin
@@ -1562,6 +1574,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/lc_ini_bundle_2010_1006.bin
 -rw-r--r-- root/root    lib/firmware/mellanox/lc_ini_bundle_2010_1502.bin
 -rw-r--r-- root/root    lib/firmware/mellanox/lc_ini_bundle_2010_3020.bin
+-rw-r--r-- root/root    lib/firmware/mellanox/lc_ini_bundle_2010_3146.bin
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.1420.122.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.1530.152.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.1620.192.mfa2
@@ -1587,6 +1600,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2010.1406.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2010.1502.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2010.3020.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum-13.2010.3146.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2000.2308.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2000.2714.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2007.1168.mfa2
@@ -1604,6 +1618,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2010.1406.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2010.1502.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2010.3020.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum2-29.2010.3146.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2007.1168.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1036.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2008.1310.mfa2
@@ -1619,6 +1634,7 @@ drwxr-xr-x root/root    lib/firmware/mellanox/
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2010.1406.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2010.1502.mfa2
 -rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2010.3020.mfa2
+-rw-r--r-- root/root    lib/firmware/mellanox/mlxsw_spectrum3-30.2010.3146.mfa2
 drwxr-xr-x root/root    lib/firmware/meson/
 drwxr-xr-x root/root    lib/firmware/meson/vdec/
 -rw-r--r-- root/root    lib/firmware/meson/vdec/g12a_h264.bin
@@ -2395,15 +2411,7 @@ drwxr-xr-x root/root    lib/firmware/qca/
 -rw-r--r-- root/root    lib/firmware/qca/rampatch_usb_00130201.bin
 drwxr-xr-x root/root    lib/firmware/qcom/
 drwxr-xr-x root/root    lib/firmware/qcom/LENOVO/
-drwxr-xr-x root/root    lib/firmware/qcom/LENOVO/21BX/
--rw-r--r-- root/root    lib/firmware/qcom/LENOVO/21BX/adspr.jsn
--rw-r--r-- root/root    lib/firmware/qcom/LENOVO/21BX/adspua.jsn
--rw-r--r-- root/root    lib/firmware/qcom/LENOVO/21BX/battmgr.jsn
--rw-r--r-- root/root    lib/firmware/qcom/LENOVO/21BX/cdspr.jsn
--rwxr-xr-x root/root    lib/firmware/qcom/LENOVO/21BX/qcadsp8280.mbn
--rwxr-xr-x root/root    lib/firmware/qcom/LENOVO/21BX/qccdsp8280.mbn
--rwxr-xr-x root/root    lib/firmware/qcom/LENOVO/21BX/qcdxkmsuc8280.mbn
--rwxr-xr-x root/root    lib/firmware/qcom/LENOVO/21BX/qcslpi8280.mbn
+lrwxrwxrwx root/root    lib/firmware/qcom/LENOVO/21BX -> ../sc8280xp/LENOVO/21BX
 -rw-r--r-- root/root    lib/firmware/qcom/a300_pfp.fw
 -rw-r--r-- root/root    lib/firmware/qcom/a300_pm4.fw
 -rw-r--r-- root/root    lib/firmware/qcom/a330_pfp.fw
@@ -2432,6 +2440,17 @@ drwxr-xr-x root/root    lib/firmware/qcom/apq8096/
 -rw-r--r-- root/root    lib/firmware/qcom/apq8096/modemr.jsn
 -rw-r--r-- root/root    lib/firmware/qcom/leia_pfp_470.fw
 -rw-r--r-- root/root    lib/firmware/qcom/leia_pm4_470.fw
+drwxr-xr-x root/root    lib/firmware/qcom/sc8280xp/
+drwxr-xr-x root/root    lib/firmware/qcom/sc8280xp/LENOVO/
+drwxr-xr-x root/root    lib/firmware/qcom/sc8280xp/LENOVO/21BX/
+-rw-r--r-- root/root    lib/firmware/qcom/sc8280xp/LENOVO/21BX/adspr.jsn
+-rw-r--r-- root/root    lib/firmware/qcom/sc8280xp/LENOVO/21BX/adspua.jsn
+-rw-r--r-- root/root    lib/firmware/qcom/sc8280xp/LENOVO/21BX/battmgr.jsn
+-rw-r--r-- root/root    lib/firmware/qcom/sc8280xp/LENOVO/21BX/cdspr.jsn
+-rwxr-xr-x root/root    lib/firmware/qcom/sc8280xp/LENOVO/21BX/qcadsp8280.mbn
+-rwxr-xr-x root/root    lib/firmware/qcom/sc8280xp/LENOVO/21BX/qccdsp8280.mbn
+-rwxr-xr-x root/root    lib/firmware/qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn
+-rwxr-xr-x root/root    lib/firmware/qcom/sc8280xp/LENOVO/21BX/qcslpi8280.mbn
 drwxr-xr-x root/root    lib/firmware/qcom/sdm845/
 -rw-r--r-- root/root    lib/firmware/qcom/sdm845/a630_zap.mbn
 -rw-r--r-- root/root    lib/firmware/qcom/sdm845/adsp.mbn
