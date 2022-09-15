@@ -2,15 +2,15 @@
 # depends	: zlib
 
 name=libpng
-version=1.6.37
+version=1.6.38
 release=1
 source="https://downloads.sourceforge.net/$name/$name-$version.tar.xz
-	https://downloads.sourceforge.net/project/apng/libpng/libpng16/$name-$version-apng.patch.gz"
+	$name-apng.patch"
 
 build() {
 	cd $name-$version
 
-  	gzip -cd $SRC/$name-$version-apng.patch.gz | patch -p0
+  	patch -Np1 -i $SRC/$name-apng.patch
 
 	LIBS=-lpthread ./configure --prefix=/usr --disable-static
 	make
