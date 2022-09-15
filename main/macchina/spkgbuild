@@ -3,14 +3,14 @@
 # depends	: rust
 
 name=macchina
-version=6.0.6
+version=6.1.1
 release=1
 source="$name-$version.tar.gz::https://github.com/Macchina-CLI/$name/archive/v$version.tar.gz"
 
 build() {
 	cd $name-$version
 
-	cargo build --release --locked --target-dir=target
+	cargo build --release --target-dir=target
 
 	install -D -m 755 target/release/$name -t $PKG/usr/bin
 
