@@ -1,0 +1,16 @@
+# description	: butt (broadcast using this tool) is an easy to use, multi OS streaming tool
+# homepage	: https://danielnoethen.de/butt/
+# depends	: portaudio fltk lame libvorbis libogg flac opus libsamplerate fdk-aac libssl2 dbus
+
+name=butt
+version=0.1.35
+release=1
+source="$name-$version.tar.gz::https://sourceforge.net/projects/butt/files/butt/$name-$version/$name-$version.tar.gz/download"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
