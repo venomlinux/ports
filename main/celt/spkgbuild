@@ -3,11 +3,12 @@
 
 name=celt
 version=0.11.3
+commit=6c28805c56d562bec56cc0b31c0d5905ebb5a6ac
 release=1
-source="https://downloads.us.xiph.org/releases/$name/$name-$version.tar.gz"
-
+source="https://gitlab.xiph.org/xiph/celt/-/archive/v$version/$name-$version.tar.bz2"
 build() {
-	cd $name-$version
+	cd $name-v$version-$commit
+	NOCONFIGURE=1 ./autogen.sh
 	./configure --prefix=/usr --enable-custom-modes --disable-static
 	make
 	make DESTDIR=$PKG install
