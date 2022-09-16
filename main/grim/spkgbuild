@@ -1,0 +1,14 @@
+# description	    : Screenshot utility for Wayland
+# homepage	    : https://github.com/emersion/grim
+# depends	    : cairo libjpeg-turbo wayland meson pango scdoc wayland-protocols
+
+name=grim
+version=1.4.0
+release=1
+source="https://github.com/emersion/$name/releases/download/v$version/$name-$version.tar.gz"
+
+build() {
+    venom-meson $name-$version  build
+    meson compile -C build
+    DESTDIR=$PKG meson install -C build
+}
