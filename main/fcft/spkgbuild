@@ -13,12 +13,7 @@ build() {
     _opts=""
   scratch isinstalled harfbuzz && _opts=' -D grapheme-shaping=enabled -D run-shaping=enabled'
 
-  meson setup $name build $_opts \
-    --prefix=/usr \
-    --buildtype=plain \
-    --wrap-mode nodownload \
-    -D b_lto=true \
-    -D b_pie=true \
+  venom-meson setup $name build $_opts \
     -D test-text-shaping=true
   meson compile -C build
   DESTDIR=$PKG meson install -C build
