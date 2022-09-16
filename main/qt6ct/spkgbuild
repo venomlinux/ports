@@ -1,0 +1,17 @@
+# description	    : Qt 6 Configuration Utility
+# homepage	    : https://github.com/trialuser02/qt6ct
+# depends	    : cmake qt6-svg qt6-tools
+
+
+
+name=qt6ct
+version=0.5
+release=1
+source="https://github.com/trialuser02/$name/releases/download/$version/$name-$version.tar.xz"
+
+build() {
+  cmake -B build -S $name-$version \
+    -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+  DESTDIR=$PKG cmake --install build
+}
