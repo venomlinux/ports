@@ -14,12 +14,8 @@ build() {
 
   # doing the lto dance
   export CFLAGS='-march=x86-64 -O3 -Wno-missing-profile -Wno-error'
-  meson setup $name build $_opt \
-    --prefix=/usr \
-    --buildtype=release \
-    -D b_lto=true \
-    -D b_pgo=generate \
-    --wrap-mode=nodownload 
+ venom-meson setup $name build $_opt \
+    --buildtype=release 
 
   find -name "*.gcda" -delete
   meson compile -C build
