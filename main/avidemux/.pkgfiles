@@ -1,4 +1,4 @@
-avidemux-2.8.0-1
+avidemux-2.8.1-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/avidemux3_cli
@@ -78,14 +78,17 @@ drwxr-xr-x root/root    usr/include/avidemux/2.8/ADM_coreAudioEncoder/
 drwxr-xr-x root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/ADM_audioFilter.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/ADM_audioResample.h
+-rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/ADM_audioStretch.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/ADM_coreAudioFilterAPI6_export.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audioEncoderApi.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audio_encoderPlugin.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_SRC.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_bridge.h
+-rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_channels.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_conf.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_dolby.h
+-rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_eq.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_film2pal.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_internal.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_limiter.h
@@ -93,6 +96,7 @@ drwxr-xr-x root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_mixer.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_normalize.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_normalize_param.h
+-rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioFilter/audiofilter_stretch.h
 drwxr-xr-x root/root    usr/include/avidemux/2.8/ADM_coreAudioParser/
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioParser/ADM_a52info.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreAudioParser/ADM_aacLatm.h
@@ -151,15 +155,6 @@ drwxr-xr-x root/root    usr/include/avidemux/2.8/ADM_coreJobs/
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreJobs/ADM_coreJobs.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreJobs/ADM_coreJobs_export.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreJobs/sqlJobs.h
-drwxr-xr-x root/root    usr/include/avidemux/2.8/ADM_coreLibVA/
--rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreLibVA/ADM_coreLibVA.h
--rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreLibVA/ADM_coreLibVA_internal.h
-drwxr-xr-x root/root    usr/include/avidemux/2.8/ADM_coreLibVAEnc/
--rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreLibVAEnc/ADM_coreLibVA_bitstream.h
--rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreLibVAEnc/ADM_coreLibVA_buffer.h
--rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreLibVAEnc/ADM_coreLibVA_encodingContext.h
--rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreLibVAEnc/ADM_coreLibVA_h264Encoding.h
--rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreLibVAEnc/ADM_coreLibVA_hevcEncoding.h
 drwxr-xr-x root/root    usr/include/avidemux/2.8/ADM_coreMuxer/
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreMuxer/ADM_coreMuxer6_export.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreMuxer/ADM_coreMuxerFfmpeg.h
@@ -236,9 +231,6 @@ drwxr-xr-x root/root    usr/include/avidemux/2.8/ADM_coreUtils/
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreUtils/fourcc.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreUtils/prefs.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreUtils/prefs2_list.h
-drwxr-xr-x root/root    usr/include/avidemux/2.8/ADM_coreVdpau/
--rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreVdpau/ADM_coreVdpau.h
--rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreVdpau/ADM_coreVdpauInternal.h
 drwxr-xr-x root/root    usr/include/avidemux/2.8/ADM_coreVideoCodec/
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreVideoCodec/ADM_codec.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/ADM_coreVideoCodec/ADM_codecEmpty.h
@@ -421,7 +413,6 @@ drwxr-xr-x root/root    usr/include/avidemux/2.8/libavcodec/
 -rw-r--r-- root/root    usr/include/avidemux/2.8/libavcodec/codec_id.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/libavcodec/codec_par.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/libavcodec/packet.h
--rw-r--r-- root/root    usr/include/avidemux/2.8/libavcodec/vaapi.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/libavcodec/vdpau.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/libavcodec/version.h
 -rw-r--r-- root/root    usr/include/avidemux/2.8/libavcodec/videotoolbox.h
@@ -484,6 +475,8 @@ drwxr-xr-x root/root    usr/lib/ADM_plugins6/
 drwxr-xr-x root/root    usr/lib/ADM_plugins6/audioDecoder/
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/audioDecoder/libADM_ad_Mad.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/audioDecoder/libADM_ad_a52.so
+-rwxr-xr-x root/root    usr/lib/ADM_plugins6/audioDecoder/libADM_ad_alaw.so
+-rwxr-xr-x root/root    usr/lib/ADM_plugins6/audioDecoder/libADM_ad_faad.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/audioDecoder/libADM_ad_ima_adpcm.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/audioDecoder/libADM_ad_lav.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/audioDecoder/libADM_ad_ms_adpcm.so
@@ -563,12 +556,9 @@ drwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/libADM_ve_ffFlv1.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/libADM_ve_ffMpeg2.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/libADM_ve_ffMpeg4.so
--rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/libADM_ve_ffVaEncH264.so
--rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/libADM_ve_ffVaEncHEVC.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/libADM_ve_ffv1.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/libADM_ve_huff.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/libADM_ve_jpeg.so
--rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/libADM_ve_libva.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/libADM_ve_null.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/libADM_ve_utvideo.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoEncoders/libADM_ve_vp9.so
@@ -602,6 +592,7 @@ drwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/cli/
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/cli/libADM_vf_colorBalanceCli.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/cli/libADM_vf_colorTempCli.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/cli/libADM_vf_contrastCli.so
+-rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/cli/libADM_vf_cubicLUTCli.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/cli/libADM_vf_debandCli.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/cli/libADM_vf_delogoHQCli.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/cli/libADM_vf_eq2Cli.so
@@ -622,6 +613,7 @@ drwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/cli/
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/cli/libADM_vf_waveletSharpCli.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_DgBob.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_FluxSmooth.so
+-rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_aarotate.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_addBorders.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_admIvtc.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_ascii.so
@@ -630,6 +622,7 @@ drwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/cli/
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_blend.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_changeFps.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_colorYuv.so
+-rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_decimateFrame.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_denoise3d.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_denoise3dhq.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_dummy.so
@@ -658,10 +651,6 @@ drwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/cli/
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_swapUV.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_telecide.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_unstackField.so
--rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_vaapiFilter.so
--rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_vaapiFilterDeint.so
--rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_vdpauFilter.so
--rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_vdpauFilterDeint.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/libADM_vf_yadif.so
 drwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/qt5/
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/qt5/libADM_vf_HueQT5.so
@@ -686,6 +675,7 @@ drwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/qt5/
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/qt5/libADM_vf_colorTempQT5.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/qt5/libADM_vf_contrastQT5.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/qt5/libADM_vf_cropQT5.so
+-rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/qt5/libADM_vf_cubicLUTQT5.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/qt5/libADM_vf_debandQT5.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/qt5/libADM_vf_delogoHQQT5.so
 -rwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/qt5/libADM_vf_eq2QT5.so
@@ -729,8 +719,6 @@ drwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/qt5/
 -rwxr-xr-x root/root    usr/lib/libADM_coreImage6.so
 -rwxr-xr-x root/root    usr/lib/libADM_coreImageLoader6.so
 -rwxr-xr-x root/root    usr/lib/libADM_coreJobs.so
--rwxr-xr-x root/root    usr/lib/libADM_coreLibVA6.so
--rwxr-xr-x root/root    usr/lib/libADM_coreLibVAEnc6.so
 -rwxr-xr-x root/root    usr/lib/libADM_coreMuxer6.so
 -rwxr-xr-x root/root    usr/lib/libADM_coreScript.so
 -rwxr-xr-x root/root    usr/lib/libADM_coreSocket6.so
@@ -738,7 +726,6 @@ drwxr-xr-x root/root    usr/lib/ADM_plugins6/videoFilters/qt5/
 -rwxr-xr-x root/root    usr/lib/libADM_coreSubtitles6.so
 -rwxr-xr-x root/root    usr/lib/libADM_coreUI6.so
 -rwxr-xr-x root/root    usr/lib/libADM_coreUtils6.so
--rwxr-xr-x root/root    usr/lib/libADM_coreVDPAU6.so
 -rwxr-xr-x root/root    usr/lib/libADM_coreVideoCodec6.so
 -rwxr-xr-x root/root    usr/lib/libADM_coreVideoEncoder6.so
 -rwxr-xr-x root/root    usr/lib/libADM_coreVideoFilter6.so
