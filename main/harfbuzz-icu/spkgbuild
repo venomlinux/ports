@@ -2,16 +2,15 @@
 # depends	: harfbuzz icu
 
 name=harfbuzz-icu
-version=5.1.0
+version=5.2.0
 release=1
 source="https://github.com/harfbuzz/harfbuzz/releases/download/$version/harfbuzz-$version.tar.xz"
 
 build() {
         venom-meson harfbuzz-$version build \
-                --prefix=/usr \
-                -Ddocs=disabled \
-		-Dgraphite=auto \
-		-Dbenchmark=disabled
+                -D docs=disabled \
+		-D graphite=auto \
+		-D benchmark=disabled
         meson compile -C build
         DESTDIR=$PWD/PKG meson install -C build
 
