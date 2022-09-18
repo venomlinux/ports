@@ -3,18 +3,14 @@
 
 name=libnotify
 version=0.8.1
-release=1
+release=2
 source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version
-
-	mkdir build
-	cd    build
-
-	meson --prefix=/usr \
-	      -Dgtk_doc=false \
-	      -Ddocbook_docs=disabled
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson $name-$version build \
+		-D man=false \
+		-D gtk_doc=false \
+		-D docbook_docs=disabled
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }
