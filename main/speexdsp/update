@@ -1,0 +1,5 @@
+port_getver() {
+	fetch \
+	| grep -Eo speexdsp-[0-9.]+.tar.gz \
+	| sed 's/speexdsp-//;s/\.tar\.gz//'
+}
