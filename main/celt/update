@@ -1,0 +1,5 @@
+port_getver() {
+	fetch \
+	| grep -Eo celt-[0-9.]+.tar.gz \
+	| sed 's/celt-//;s/\.tar\.gz//'
+}
