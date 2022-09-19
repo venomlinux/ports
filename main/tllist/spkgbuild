@@ -1,0 +1,16 @@
+# description	    : A typed linked list C header file only library
+# homepage	    : https://codeberg.org/dnkl/tllist
+# Depends	    : meson ninja
+
+name=tllist
+version=1.1.0
+release=1
+source="$name-$version.tar.gz::https://codeberg.org/dnkl/tllist/archive/$version.tar.gz"
+
+build() {
+
+  venom-meson $name build 
+  meson compile -C build
+  DESTDIR=$PKG meson install -C build
+  rm -r $PKG/usr/share
+}
