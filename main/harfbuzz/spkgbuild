@@ -3,7 +3,7 @@
 
 name=harfbuzz
 version=5.2.0
-release=2
+release=3
 source="https://github.com/harfbuzz/harfbuzz/releases/download/$version/harfbuzz-$version.tar.xz"
 
 build() {
@@ -19,4 +19,5 @@ build() {
 	rm -f $PKG/usr/lib/libharfbuzz-icu.so.0
 	rm -f $PKG/usr/lib/pkgconfig/harfbuzz-icu.pc
 	rm -f $PKG/usr/lib/libharfbuzz-icu.so
+	rm -f $PKG/usr/lib/libharfbuzz-icu.so.0.50200.0
 }
