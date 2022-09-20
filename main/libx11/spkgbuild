@@ -3,18 +3,27 @@
 
 name=libx11
 version=1.8.1
-release=1
-source="http://ftp.x.org/pub/individual/lib/libX11-$version.tar.xz"
+release=2
+source="$name-$version.tar.xz::http://ftp.x.org/pub/individual/lib/libX11-$version.tar.xz"
 
 build() {
+
+	# https://gitlab.freedesktop.org/xorg/lib/libx11/-/issues/157
+	# https://bugs.gentoo.org/862115
+	# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1016363
+	# https://www.mail-archive.com/tech@openbsd.org/msg71386.html
+	# https://gitlab.freedesktop.org/mesa/demos/-/issues/27
+	# --disable-thread-safety-constructor as per LFS Debian Alpine OpenBSD
+
 	cd libX11-$version
 
 	./configure \
 		--prefix=/usr \
                 --sysconfdir=/etc \
                 --localstatedir=/var \
-                --disable-static
+                --disable-static \
+		--disable-specs \
+		--disable-thread-safety-constructor
 	make
 	make DESTDIR=$PKG install
-
 }
