@@ -3,7 +3,7 @@
 
 name=poppler-glib
 version=22.09.0
-release=1
+release=2
 source="https://poppler.freedesktop.org/poppler-$version.tar.xz"
 
 build() {
@@ -20,6 +20,7 @@ build() {
 	       -DENABLE_CPP=OFF \
 	       -DENABLE_GLIB=ON \
 	       -DENABLE_QT5=OFF \
+	       -DENABLE_QT6=OFF \
 	       -DENABLE_BOOST=OFF \
 	       .. 
 	make
