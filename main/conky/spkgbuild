@@ -2,7 +2,7 @@
 # depends	: lua imlib2 wireless_tools cmake man-db docbook2x libxdamage libxft libxinerama
 
 name=conky
-version=1.12.2
+version=1.13.1
 release=1
 source="https://github.com/brndnmtthws/conky/archive/v$version/$name-$version.tar.gz
 	latest-glibc-fix.patch"
@@ -10,7 +10,7 @@ source="https://github.com/brndnmtthws/conky/archive/v$version/$name-$version.ta
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../latest-glibc-fix.patch
+	#patch -Np1 -i ../latest-glibc-fix.patch
 
 	cmake \
 		-D RELEASE=ON \
