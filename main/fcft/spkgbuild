@@ -1,10 +1,10 @@
 # description	    : Simple library for font loading and glyph rasterization using FontConfig, FreeType and pixman.
 # homepage	    : https://codeberg.org/dnkl/fcft
 # depends	    : fontconfig scdoc tllist utf8proc wayland-protocols pixman
-# dptional	    : harfbuzz
+# optional	    : harfbuzz
 
 name=fcft
-version=3.1.4
+version=3.1.5
 release=1
 source="$name-$version.tar.gz::https://codeberg.org/dnkl/fcft/archive/$version.tar.gz"
 
@@ -13,7 +13,7 @@ build() {
     _opts=""
   scratch isinstalled harfbuzz && _opts=' -D grapheme-shaping=enabled -D run-shaping=enabled'
 
-  venom-meson setup $name build $_opts \
+  venom-meson $name build $_opts \
     -D test-text-shaping=true
   meson compile -C build
   DESTDIR=$PKG meson install -C build
