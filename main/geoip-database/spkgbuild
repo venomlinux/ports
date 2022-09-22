@@ -1,0 +1,22 @@
+# description	: GeoIP legacy country database (based on GeoLite2 data created by MaxMind)
+# homepage	: https://mailfud.org/geoip-legacy/
+
+name=geoip-database
+version=20220823
+release=1
+source="https://sources.archlinux.org/other/packages/$name/$version/GeoIP.dat.gz
+        https://sources.archlinux.org/other/packages/$name/$version/GeoIPv6.dat.gz
+        https://sources.archlinux.org/other/packages/$name/$version/GeoIPCity.dat.gz
+        https://sources.archlinux.org/other/packages/$name/$version/GeoIPCityv6.dat.gz
+        https://sources.archlinux.org/other/packages/$name/$version/GeoIPASNum.dat.gz
+        https://sources.archlinux.org/other/packages/$name/$version/GeoIPASNumv6.dat.gz"
+
+build() {
+	cd $SRC
+
+	gunzip *.gz
+
+	install -d $PKG/usr/share/GeoIP
+	install -Dm644 $SRC/GeoIP*.dat $PKG/usr/share/GeoIP
+
+}
