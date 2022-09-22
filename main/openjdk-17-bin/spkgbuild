@@ -18,5 +18,6 @@ build() {
 	cp -rv conf $PKG/usr/
 	cp -rv include $PKG/usr
 	cp -rv jmods $PKG/usr/
+	scratch isinstalled libzip && rm -rf $PKG/usr/lib/libzip.so
  
 }

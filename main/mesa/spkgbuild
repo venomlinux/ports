@@ -2,8 +2,8 @@
 # depends	: python3-mako elfutils bison flex libxext libxdamage libxshmfence libxxf86vm libxrandr libdrm libglvnd
 
 name=mesa
-version=22.1.7
-release=1
+version=22.2.0
+release=2
 source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
 
 build() {
@@ -38,6 +38,7 @@ build() {
 		-D platforms=x11 \
 		-D shared-glapi=enabled \
 		-D vulkan-drivers=$_vulkan_drivers \
+		-D video-codecs=vc1dec,h264dec,h264enc,h265dec,h265enc \
 		-D glvnd=true 
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build

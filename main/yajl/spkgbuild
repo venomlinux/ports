@@ -3,13 +3,18 @@
 
 name=yajl
 version=2.1.0
-release=1
-source="https://github.com/lloyd/$name/archive/$version/$name-$version.tar.gz"
+release=2
+source="$name-$version.tar.gz::https://github.com/lloyd/yajl/archive/$version.tar.gz"
 
 build() {
-	cd $name-$version
+	cmake -S $name-$version -B build \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
-	cmake -DCMAKE_INSTALL_PREFIX=/usr .
-	make
-	make DESTDIR=$PKG install
+	mv $PKG/usr/share/pkgconfig $PKG/usr/lib
+	rm -r $PKG/usr/share
 }

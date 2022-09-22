@@ -3,24 +3,26 @@
 
 name=libglvnd
 version=1.5.0
-release=1
-source="https://github.com/NVIDIA/libglvnd/archive/v$version/$name-v$version.tar.gz"
+release=2
+source="https://github.com/NVIDIA/libglvnd/archive/v$version/$name-v$version.tar.gz
+	https://gitlab.freedesktop.org/glvnd/libglvnd/-/commit/fd1df5e9891dec71013a272e7132f1a33e45f5b5.patch
+	0001-glx-Add-another-fallback-library-name.patch"
 
 build() {
-	cd libglvnd-$version
+	# https://src.fedoraproject.org/rpms/libglvnd
+	patch -Np1 -d $name-$version -i $SRC/0001-glx-Add-another-fallback-library-name.patch
 
-	autoreconf -if
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
+	# [PATCH] Update GL headers and XML files.
+	# Update the GL headers and XML files to the Khronos repository, from
+	# commit 11d7b7baebfc2b58116670cd17266f9c6a0d760b.
+	patch -Np1 -d $name-$version -i $SRC/fd1df5e9891dec71013a272e7132f1a33e45f5b5.patch
 
-	#
-	# build using meson is broken for now
-	#
-	#mkdir build
-	#cd build
-
-	#meson --prefix=/usr
-	#ninja
-	#DESTDIR=$PKG ninja install
+	venom-meson $name-$version build \
+		-D x11=enabled \
+		-D glx=enabled \
+		-D gles1=false \
+		-D egl=true \
+		-D tls=false
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

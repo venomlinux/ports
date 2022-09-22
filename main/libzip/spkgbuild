@@ -16,4 +16,7 @@ build() {
     ..
   make
   make DESTDIR="${PKG}" install
+  for i in openjdk-bin openjdk-17-bin; do
+      scratch isinstalled $i && rm -rf $PKG/usr/lib/libzip.so
+  done
 }

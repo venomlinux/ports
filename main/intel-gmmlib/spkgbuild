@@ -1,0 +1,16 @@
+# description	: Intel Graphics Memory Management Library
+# homepage	: https://github.com/intel/gmmlib/
+# depends	: cmake ninja
+name=intel-gmmlib
+version=22.2.0
+release=1
+source="https://github.com/intel/gmmlib/archive/$name-$version.tar.gz"
+
+build() {
+	cmake -B build -S gmmlib-$name-$version -G Ninja \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DRUN_TEST_SUITE=OFF
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
