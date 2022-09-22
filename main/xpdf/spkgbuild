@@ -23,11 +23,14 @@ build() {
 	cd build
 
 	cmake .. \
+	    -DCMAKE_BUILD_TYPE=Release \
 	    -DMULTITHREADED=ON \
 	    -DOPI_SUPPORT=ON \
 	    -DXPDFWIDGET_PRINTING=ON \
 	    -DSYSTEM_XPDFRC=/etc/xpdfrc \
 	    -DCMAKE_INSTALL_PREFIX=/usr \
+	    -DCMAKE_DISABLE_FIND_PACKAGE_Qt6Widgets=1 \
+	    -DA4_PAPER=ON \
 	    -DCMAKE_BUILD_TYPE=None \
 	    -Wno-dev
 	make
