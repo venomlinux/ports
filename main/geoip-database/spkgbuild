@@ -1,0 +1,20 @@
+# description	: GeoIP legacy country database (based on GeoLite2 data created by MaxMind)
+# homepage	: https://mailfud.org/geoip-legacy/
+
+name=geoip-database
+version=20220823
+release=1
+source="https://mailfud.org/geoip-legacy/GeoIP.dat.gz
+        https://mailfud.org/geoip-legacy/GeoIPv6.dat.gz
+        https://mailfud.org/geoip-legacy/GeoIPCity.dat.gz
+        https://mailfud.org/geoip-legacy/GeoIPCityv6.dat.gz
+        https://mailfud.org/geoip-legacy/GeoIPASNum.dat.gz
+        https://mailfud.org/geoip-legacy/GeoIPASNumv6.dat.gz"
+
+build() {
+	cd $SRC
+
+	install -d $PKG/usr/share/GeoIP
+	install -Dm644 $SRC/GeoIP*.dat $PKG/usr/share/GeoIP
+
+}
