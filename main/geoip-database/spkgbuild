@@ -4,17 +4,15 @@
 name=geoip-database
 version=20220823
 release=1
-source="https://sources.archlinux.org/other/packages/$name/$version/GeoIP.dat.gz
-        https://sources.archlinux.org/other/packages/$name/$version/GeoIPv6.dat.gz
-        https://sources.archlinux.org/other/packages/$name/$version/GeoIPCity.dat.gz
-        https://sources.archlinux.org/other/packages/$name/$version/GeoIPCityv6.dat.gz
-        https://sources.archlinux.org/other/packages/$name/$version/GeoIPASNum.dat.gz
-        https://sources.archlinux.org/other/packages/$name/$version/GeoIPASNumv6.dat.gz"
+source="https://mailfud.org/geoip-legacy/GeoIP.dat.gz
+        https://mailfud.org/geoip-legacy/GeoIPv6.dat.gz
+        https://mailfud.org/geoip-legacy/GeoIPCity.dat.gz
+        https://mailfud.org/geoip-legacy/GeoIPCityv6.dat.gz
+        https://mailfud.org/geoip-legacy/GeoIPASNum.dat.gz
+        https://mailfud.org/geoip-legacy/GeoIPASNumv6.dat.gz"
 
 build() {
 	cd $SRC
-
-	gunzip *.gz
 
 	install -d $PKG/usr/share/GeoIP
 	install -Dm644 $SRC/GeoIP*.dat $PKG/usr/share/GeoIP
