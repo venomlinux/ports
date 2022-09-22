@@ -14,6 +14,8 @@ source="https://mailfud.org/geoip-legacy/GeoIP.dat.gz
 build() {
 	cd $SRC
 
+	gunzip *.gz
+
 	install -d $PKG/usr/share/GeoIP
 	install -m644 -t $PKG/usr/share/GeoIP GeoIP.dat
 	install -m644 -t $PKG/usr/share/GeoIP GeoIPv6.dat
