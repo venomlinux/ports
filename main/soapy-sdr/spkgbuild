@@ -9,7 +9,7 @@ source="https://github.com/pothosware/SoapySDR/archive/$name-$version.tar.gz"
 
 build() {
 
-	[[ -e '/usr/bin/ninja' ]] && NINJA=' -G Ninja'
+	[ -e '/usr/bin/ninja' ] && NINJA=' -G Ninja'
 
 	cmake -S  SoapySDR-$name-$version			\
 		  -B build $NINJA				\
