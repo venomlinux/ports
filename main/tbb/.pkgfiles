@@ -1,4 +1,4 @@
-tbb-2021.5.0-1
+tbb-2021.6.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/include/oneapi/
@@ -25,6 +25,7 @@ drwxr-xr-x root/root    usr/include/oneapi/tbb/detail/
 -rw-r--r-- root/root    usr/include/oneapi/tbb/detail/_aligned_space.h
 -rw-r--r-- root/root    usr/include/oneapi/tbb/detail/_allocator_traits.h
 -rw-r--r-- root/root    usr/include/oneapi/tbb/detail/_assert.h
+-rw-r--r-- root/root    usr/include/oneapi/tbb/detail/_attach.h
 -rw-r--r-- root/root    usr/include/oneapi/tbb/detail/_concurrent_queue_base.h
 -rw-r--r-- root/root    usr/include/oneapi/tbb/detail/_concurrent_skip_list.h
 -rw-r--r-- root/root    usr/include/oneapi/tbb/detail/_concurrent_unordered_base.h
@@ -154,44 +155,44 @@ drwxr-xr-x root/root    usr/lib/cmake/TBB/
 lrwxrwxrwx root/root    usr/lib/libirml.so -> libirml.so.1
 -rwxr-xr-x root/root    usr/lib/libirml.so.1
 lrwxrwxrwx root/root    usr/lib/libtbb.so -> libtbb.so.12
-lrwxrwxrwx root/root    usr/lib/libtbb.so.12 -> libtbb.so.12.5
--rwxr-xr-x root/root    usr/lib/libtbb.so.12.5
+lrwxrwxrwx root/root    usr/lib/libtbb.so.12 -> libtbb.so.12.6
+-rwxr-xr-x root/root    usr/lib/libtbb.so.12.6
 lrwxrwxrwx root/root    usr/lib/libtbbmalloc.so -> libtbbmalloc.so.2
-lrwxrwxrwx root/root    usr/lib/libtbbmalloc.so.2 -> libtbbmalloc.so.2.5
--rwxr-xr-x root/root    usr/lib/libtbbmalloc.so.2.5
+lrwxrwxrwx root/root    usr/lib/libtbbmalloc.so.2 -> libtbbmalloc.so.2.6
+-rwxr-xr-x root/root    usr/lib/libtbbmalloc.so.2.6
 lrwxrwxrwx root/root    usr/lib/libtbbmalloc_proxy.so -> libtbbmalloc_proxy.so.2
-lrwxrwxrwx root/root    usr/lib/libtbbmalloc_proxy.so.2 -> libtbbmalloc_proxy.so.2.5
--rwxr-xr-x root/root    usr/lib/libtbbmalloc_proxy.so.2.5
+lrwxrwxrwx root/root    usr/lib/libtbbmalloc_proxy.so.2 -> libtbbmalloc_proxy.so.2.6
+-rwxr-xr-x root/root    usr/lib/libtbbmalloc_proxy.so.2.6
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/tbb.pc
-drwxr-xr-x root/root    usr/lib/python3.9/
-drwxr-xr-x root/root    usr/lib/python3.9/site-packages/
-drwxr-xr-x root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/B.py
-drwxr-xr-x root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/G-INFO/
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/G-INFO/PKG-INFO
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/G-INFO/SOURCES.txt
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/G-INFO/dependency_links.txt
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/G-INFO/native_libs.txt
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/G-INFO/not-zip-safe
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/G-INFO/top_level.txt
-drwxr-xr-x root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/__pycache__/
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/__pycache__/B.cpython-39.pyc
-drwxr-xr-x root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/__init__.py
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/__main__.py
-drwxr-xr-x root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/__pycache__/
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/__pycache__/__init__.cpython-39.pyc
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/__pycache__/__main__.cpython-39.pyc
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/__pycache__/_api.cpython-39.pyc
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/__pycache__/api.cpython-39.pyc
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/__pycache__/pool.cpython-39.pyc
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/__pycache__/test.cpython-39.pyc
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/_api.cpython-39-x86_64-linux-gnu.so
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/_api.py
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/api.py
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/pool.py
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/b/test.py
-drwxr-xr-x root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/pycache__/
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/TBB-0.2-py3.9-linux-x86_64.egg/pycache__/TBB.cpython-39.pyc
+drwxr-xr-x root/root    usr/lib/python3.10/
+drwxr-xr-x root/root    usr/lib/python3.10/site-packages/
+drwxr-xr-x root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/B.py
+drwxr-xr-x root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/G-INFO/
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/G-INFO/PKG-INFO
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/G-INFO/SOURCES.txt
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/G-INFO/dependency_links.txt
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/G-INFO/native_libs.txt
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/G-INFO/not-zip-safe
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/G-INFO/top_level.txt
+drwxr-xr-x root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/__pycache__/
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/__pycache__/B.cpython-310.pyc
+drwxr-xr-x root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/__init__.py
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/__main__.py
+drwxr-xr-x root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/__pycache__/
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/__pycache__/__init__.cpython-310.pyc
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/__pycache__/__main__.cpython-310.pyc
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/__pycache__/_api.cpython-310.pyc
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/__pycache__/api.cpython-310.pyc
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/__pycache__/pool.cpython-310.pyc
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/__pycache__/test.cpython-310.pyc
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/_api.cpython-310-x86_64-linux-gnu.so
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/_api.py
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/api.py
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/pool.py
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/b/test.py
+drwxr-xr-x root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/pycache__/
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/TBB-0.2-py3.10-linux-x86_64.egg/pycache__/TBB.cpython-310.pyc
 drwxr-xr-x root/root    usr/share/
