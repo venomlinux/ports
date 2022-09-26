@@ -1,0 +1,20 @@
+# description	: Audio compression format with lossless, lossy, and hybrid compression modes
+# homepage	: https://www.wavpack.com/
+
+
+name=wavpack
+version=5.5.0
+release=1
+
+source="https://www.wavpack.com/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--disable-static
+	make
+	make DESTDIR=$PKG install
+}
