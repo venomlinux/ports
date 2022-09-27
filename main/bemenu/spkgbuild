@@ -1,0 +1,16 @@
+# description	    : Dynamic menu library and client program inspired by dmenu with support for wayland compositors
+# homepage	    : https://github.com/Cloudef/bemenu/
+# depends	    : pango wlroots libxkbcommon wayland wayland-protocols libxinemara xcb-util-renderutil ncurses
+
+name=bemenu
+version=0.6.10
+release=1
+source="https://github.com/Cloudef/bemenu/archive/$version/$name-$version.tar.gz"
+
+build() {
+  TARGETS="clients curses man wayland x11"
+  BEMENU_INSTALL="install-bins install-libs install-man install-include install-pkgconfig install-curses install-x11  install-wayland"
+  cd bemenu-$version
+  make PREFIX=/usr $TARGETS
+  make PREFIX=/usr DESTDIR=$PKG ${BEMENU_INSTALL}
+}
