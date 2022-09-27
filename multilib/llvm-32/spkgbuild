@@ -2,11 +2,15 @@
 # depends	: libffi-32 libxml2-32 ncurses-32 llvm
 
 name=llvm-32
-version=14.0.6
+version=15.0.1
 release=1
-source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz"
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/cmake-$version.src.tar.xz
+"
 
 build() {
+	cp -r $SRC/cmake-$version.src/Modules/* ${name%-*}-$version.src/cmake/modules/.
+
 	cd llvm-$version.src
 
 	export CC="gcc -m32"
@@ -25,11 +29,11 @@ build() {
 	      -DLLVM_ENABLE_RTTI=ON                 \
 	      -DLLVM_LIBDIR_SUFFIX=32               \
 	      -DCMAKE_C_FLAGS:STRING=-m32           \
-              -DLLVM_TARGETS_TO_BUILD="X86;AMDGPU;BPF" \
 	      -DCMAKE_CXX_FLAGS:STRING=-m32         \
 	      -DLLVM_TARGET_ARCH:STRING=i686        \
 	      -DLLVM_DEFAULT_TARGET_TRIPLE="i686-pc-linux-gnu" \
 	      -DLLVM_INCLUDE_BENCHMARKS=OFF \
+	      -DLLVM_TARGETS_TO_BUILD='AMDGPU;BPF;NVPTX;WebAssembly;X86'\
 	      -Wno-dev
 	ninja
 	DESTDIR=$PKG ninja install
