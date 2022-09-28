@@ -2,12 +2,12 @@
 # depends	: libxml2 xz-32 zlib-32 icu-32
 
 name=libxml2-32
-version=2.9.14
+version=2.10.2
 release=1
-source="https://download.gnome.org/sources/libxml2/$%7Bversion:0:3%7D/libxml2-$version.tar.xz"
+source="https://download.gnome.org/sources/$name/${version%.*}/${name%-*}-$version.tar.xz"
 
 build() {
-	cd libxml2-$version
+	cd ${name%-*}-$version
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
