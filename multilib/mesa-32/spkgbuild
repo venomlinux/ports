@@ -4,21 +4,17 @@
 name=mesa-32
 version=22.2.0
 release=1
-source="https://mesa.freedesktop.org/archive/mesa-$version.tar.xz
+source="https://mesa.freedesktop.org/archive/${name%-*}-$version.tar.xz
 	crossfile"
 
 build() {
-	cd mesa-$version
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 	export LLVM_CONFIG="/usr/bin/llvm-config-32"
-
-	mkdir build
-	cd    build
 	
-	meson --prefix=/usr \
+	venom-meson ${name%-*}-$version build \
 	      --sysconfdir=/etc \
 	      --libdir=/usr/lib32 \
 	      --native-file $SRC/crossfile \
@@ -30,18 +26,17 @@ build() {
 	      -Dgallium-nine=true \
 	      -Dgallium-drivers=r300,r600,svga,swrast,radeonsi,nouveau \
 	      -Dvulkan-drivers=amd,intel \
+	      -Dvideo-codecs=vc1dec,h264dec,h264enc,h265dec,h265enc \
 	      -Dglvnd=true \
 	      -Dllvm=enabled \
-	      -Dplatforms=x11 \
-	      ..
-	ninja
-	DESTDIR=$PKG ninja install
+	      -Dplatforms=x11 
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 
 	# indirect rendering symlink
 	ln -s libGLX_mesa.so.0 $PKG/usr/lib32/libGLX_indirect.so.0
 
-	rm -r $PKG/usr/include \
-	      $PKG/usr/share/glvnd
+	rm -r $PKG/usr/include $PKG/usr/share/glvnd
 	rm $PKG/usr/share/drirc.d/00-mesa-defaults.conf
 	rm $PKG/usr/share/drirc.d/00-radv-defaults.conf
 }
