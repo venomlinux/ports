@@ -3,13 +3,12 @@
 
 name=glibmm
 _name=glibmm
-version=2.66.4
+version=2.66.5
 release=1
 source="https://ftp.gnome.org/pub/gnome/sources/$_name/${version%.*}/$_name-$version.tar.xz"
 
 build() {
-	cd $_name-$version
-	venom-meson build --wrap-mode nofallback
+	venom-meson $name-$version build
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 }
