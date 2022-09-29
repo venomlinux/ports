@@ -2,15 +2,12 @@
 # depends	: cairo libsigc++
 
 name=cairomm
-version=1.12.2
+version=1.14.0
 release=1
-source="https://cairographics.org/releases/$name-$version.tar.gz"
+source="https://cairographics.org/releases/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version
-
-	./configure --prefix=/usr
-	make
-	sed -i -e 's/^doc_subdirs/#&/' Makefile
-	make DESTDIR=$PKG install
+	venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }
