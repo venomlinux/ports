@@ -1,0 +1,30 @@
+# description	: Mozilla's JavaScript and WebAssembly Engine, written in C++ and Rust 
+# homepage	: https://spidermonkey.dev/
+# depends	: icu autoconf2.13 python3 rust clang lld
+
+name=js91
+version=91.13.0
+release=1
+source="https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/firefox-${version}esr.source.tar.xz"
+
+build() {
+	cd firefox-$version
+
+	mkdir obj
+	cd obj
+	
+	export SHELL=/bin/sh
+
+	sh ../js/src/configure.in --prefix=/usr    \
+                          --with-intl-api          \
+                          --with-system-zlib       \
+                          --with-system-icu        \
+                          --disable-jemalloc       \
+                          --disable-debug-symbols  \
+                          --enable-readline        
+	make
+	make DESTDIR=$PKG install
+
+	rm $PKG/usr/lib/libjs_static.ajs 
+	sed -i '/@NSPR_CFLAGS@/d' /usr/bin/js91-config
+}
