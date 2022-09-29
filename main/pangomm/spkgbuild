@@ -3,7 +3,7 @@
 # depends	: cairomm glibmm pango
 
 name=pangomm
-version=2.42.2
+version=2.46.3
 release=1
 source="https://ftp.gnome.org/pub/GNOME/sources/$name/${version%.*}/$name-$version.tar.xz
 	pango.patch"
@@ -11,9 +11,7 @@ source="https://ftp.gnome.org/pub/GNOME/sources/$name/${version%.*}/$name-$versi
 build() {
 	patch -d $name-$version -p1 -i $SRC/pango.patch	
 
-	meson setup build $name-$version --prefix=/usr \
-		--buildtype=plain
-
+	venom-meson $name-$version build
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 }
