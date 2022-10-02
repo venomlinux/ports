@@ -1,7 +1,1 @@
-url=$(dirname $url)
-url=$url/$(fetch \
-| grep folder \
-| sed 's,.*href=",,;s,\/.*,,' \
-| sort -V \
-| uniq \
-| tail -n1)
+url=https://download.gimp.org/pub/gegl/${version%.*}/
