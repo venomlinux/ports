@@ -1,14 +1,15 @@
 # description	: 2D graphics library with support for multiple output devices
-# depends	: pixman fontconfig freetype2 libpng libxcb libxrender libx11 libxext lzo zlib glib
+# depends	: pixman fontconfig freetype2 libpng libxcb libxrender libx11 libxext lzo zlib glib gtk-doc
 
 name=cairo
 version=1.17.6
 release=1
-source="https://gitlab.freedesktop.org/cairo/cairo/-/archive/$version/$name-$version.tar.bz2"
+source="https://gitlab.freedesktop.org/cairo/cairo/-/archive/$version/$name-$version.tar.bz2
+	fix-cairo-sphinx.patch"
 
 build() {
 	export XML_CATALOG_FILES=/etc/xml/catalog
-
+	patch -d $name-$version -p1 -i $SRC/fix-cairo-sphinx.patch
 	venom-meson $name-$version build \
 		-D spectre=disabled \
 		-D tee=enabled \
