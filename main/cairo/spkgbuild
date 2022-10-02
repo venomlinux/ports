@@ -2,17 +2,19 @@
 # depends	: pixman fontconfig freetype2 libpng libxcb libxrender libx11 libxext lzo zlib glib
 
 name=cairo
-version=1.16.0
+version=1.17.6
 release=1
-source="https://www.cairographics.org/releases/$name-$version.tar.xz"
+source="https://gitlab.freedesktop.org/cairo/cairo/-/archive/$version/$name-$version.tar.bz2"
 
 build() {
-	cd $name-$version
+	export XML_CATALOG_FILES=/etc/xml/catalog
 
-	./configure --prefix=/usr    \
-        	    --disable-static \
-	            --enable-tee
-	make
-	make DESTDIR=$PKG install
-
+	venom-meson $name-$version build \
+		-D spectre=disabled \
+		-D tee=enabled \
+		-D tests=disabled \
+		-D symbol-lookup=disabled \
+		-D gtk_doc=true
+	meson compile -C build
+	meson install -C build --destdir $PKG
 }
