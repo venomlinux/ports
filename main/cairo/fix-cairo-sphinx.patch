@@ -1,0 +1,12 @@
+diff -Nru cairo-1.17.6.orig/util/cairo-sphinx/meson.build cairo-1.17.6/util/cairo-sphinx/meson.build
+--- cairo-1.17.6.orig/util/cairo-sphinx/meson.build	2022-03-21 12:22:22.986979702 +0100
++++ cairo-1.17.6/util/cairo-sphinx/meson.build	2022-03-23 14:32:49.390005446 +0100
+@@ -19,7 +19,7 @@
+   include_directories: [incbase],
+   c_args: ['-DLIBDIR="@0@"'.format(libdir)] + pthread_c_args,
+   dependencies: deps + [glib_dep, rt_dep, libcairo_dep, cairoboilerplate_dep, libcairoscript_dep],
+-  link_with: [libcairosphinx],
++  link_with: [libcairo, libcairosphinx],
+   link_args: extra_link_args,
+   install: true,
+ )
