@@ -1,0 +1,9 @@
+url=https://archive.mozilla.org/pub/firefox/releases/91.13.0esr/source/
+
+port_getver() {	
+	fetch \
+	| grep -Eo releases/[0-9.]+esr/ \
+	| cut -d / -f2 \
+	| sed 's/esr//'
+}
+
