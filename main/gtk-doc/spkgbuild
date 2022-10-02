@@ -8,12 +8,10 @@ source="https://ftp.gnome.org/pub/gnome/sources/gtk-doc/${version%.*}/$name-$ver
 KEEP_DOC="yes"
 
 build() {
-	cd $name-$version
-	venom-meson \
-	-Dtests=false \
-	-Dautotools_support=true \
-	-Dcmake_support=true \
-	build
+	venom-meson $name-$version build \
+		-Dtests=false \
+		-Dautotools_support=true \
+		-Dcmake_support=true 
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 	rm -r $PKG/usr/share/help
