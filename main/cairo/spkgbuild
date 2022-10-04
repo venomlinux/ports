@@ -1,5 +1,5 @@
 # description	: 2D graphics library with support for multiple output devices
-# depends	: pixman fontconfig freetype2 libpng libxcb libxrender libx11 libxext lzo zlib glib gtk-doc
+# depends	: pixman fontconfig freetype2 libpng libxcb libxrender libx11 libxext lzo zlib glib
 
 name=cairo
 version=1.17.6
@@ -14,8 +14,7 @@ build() {
 		-D spectre=disabled \
 		-D tee=enabled \
 		-D tests=disabled \
-		-D symbol-lookup=disabled \
-		-D gtk_doc=true
+		-D symbol-lookup=disabled 
 	meson compile -C build
 	meson install -C build --destdir $PKG
 }
