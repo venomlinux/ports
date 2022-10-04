@@ -3,11 +3,14 @@
 
 name=asciidoc
 version=10.2.0
-release=1
+release=2
 source="https://github.com/asciidoc/$name-py3/archive/$version/$name-py3-$version.tar.gz"
 
 build() {
+	export XML_CATALOG_FILES=/etc/xml/catalog
+
 	cd $name-py-$version
+
 	autoconf
 	./configure --prefix=/usr --sysconfdir=/etc
 	make
