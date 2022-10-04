@@ -2,18 +2,20 @@
 # depends	: libxrandr libxft libsm libxinerama gdk-pixbuf-xlib mkfontscale libxcomposite libxfixes libxdamage libxpm asciidoc fribidi imlib2
 
 name=icewm
-version=2.9.9
+version=3.0.0
 release=1
 source="https://github.com/ice-wm/icewm/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
-
-	./autogen.sh
-	./configure \
-		--prefix=/usr \
-		--sysconfdir=/etc
-	make
-	make DESTDIR=$PKG install
+	cmake -B build -S $name-$version \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=Release  \
+		-DCFGDIR=/etc               \
+		-DENABLE_LTO=ON             \
+		-DCONFIG_GDK_PIXBUF_XLIB=ON \
+		-DCONFIG_IMLIB2=OFF         \
+		-DDOCDIR=/usr/share/doc/$name-$version 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
 }
