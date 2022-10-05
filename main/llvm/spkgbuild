@@ -2,7 +2,7 @@
 # depends	: cmake libffi python3 ninja libxml2
 
 name=llvm
-version=15.0.1
+version=15.0.2
 release=1
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/cmake-$version.src.tar.xz
@@ -27,7 +27,7 @@ build() {
 		-D LLVM_ENABLE_OCAMLDOC=OFF \
 		-D LLVM_INSTALL_UTILS=ON \
 		-D LLVM_ENABLE_LIBCXX=OFF \
-		-D LLVM_ENABLE_LLD=ON \
+		-D LLVM_ENABLE_LLD=$(scratch isinstalled lld && echo ON || echo OFF) \
 		-D LLVM_OPTIMIZED_TABLEGEN=ON \
 		-D LLVM_INCLUDE_BENCHMARKS=OFF \
 		-D LLVM_TARGETS_TO_BUILD='AMDGPU;BPF;NVPTX;WebAssembly;X86'\
