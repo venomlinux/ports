@@ -1,4 +1,4 @@
-wireshark-3.7.1-1
+wireshark-4.0.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/capinfos
@@ -58,6 +58,7 @@ drwxr-xr-x root/root    usr/include/wireshark/epan/dfilter/
 -rw-r--r-- root/root    usr/include/wireshark/epan/disabled_protos.h
 drwxr-xr-x root/root    usr/include/wireshark/epan/dissectors/
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/cond_ace_token_enum.h
+-rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/file-pcapng.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/file-rbm.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-6lowpan.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-a21.h
@@ -80,6 +81,7 @@ drwxr-xr-x root/root    usr/include/wireshark/epan/dissectors/
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-autosar-ipdu-multiplexer.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-bacapp.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-bacnet.h
+-rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-bblog.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-ber.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-bfd.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-bgp.h
@@ -404,6 +406,7 @@ drwxr-xr-x root/root    usr/include/wireshark/epan/dissectors/
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-tcap.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-tcp.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-tcpcl.h
+-rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-tecmp.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-tetra.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-thrift.h
 -rw-r--r-- root/root    usr/include/wireshark/epan/dissectors/packet-tls-utils.h
@@ -580,7 +583,6 @@ drwxr-xr-x root/root    usr/include/wireshark/wsutil/
 -rw-r--r-- root/root    usr/include/wireshark/wsutil/buffer.h
 -rw-r--r-- root/root    usr/include/wireshark/wsutil/codecs.h
 -rw-r--r-- root/root    usr/include/wireshark/wsutil/color.h
--rw-r--r-- root/root    usr/include/wireshark/wsutil/copyright_info.h
 -rw-r--r-- root/root    usr/include/wireshark/wsutil/cpu_info.h
 -rw-r--r-- root/root    usr/include/wireshark/wsutil/crash_info.h
 -rw-r--r-- root/root    usr/include/wireshark/wsutil/crc10.h
@@ -657,19 +659,17 @@ drwxr-xr-x root/root    usr/include/wireshark/wsutil/wmem/
 -rw-r--r-- root/root    usr/include/wireshark/wsutil/wslog.h
 -rw-r--r-- root/root    usr/include/wireshark/wsutil/xtea.h
 drwxr-xr-x root/root    usr/lib/
-lrwxrwxrwx root/root    usr/lib/libwireshark.so -> libwireshark.so.0
-lrwxrwxrwx root/root    usr/lib/libwireshark.so.0 -> libwireshark.so.0.0.0
--rwxr-xr-x root/root    usr/lib/libwireshark.so.0.0.0
-lrwxrwxrwx root/root    usr/lib/libwiretap.so -> libwiretap.so.0
-lrwxrwxrwx root/root    usr/lib/libwiretap.so.0 -> libwiretap.so.0.0.0
--rwxr-xr-x root/root    usr/lib/libwiretap.so.0.0.0
-lrwxrwxrwx root/root    usr/lib/libwsutil.so -> libwsutil.so.0
-lrwxrwxrwx root/root    usr/lib/libwsutil.so.0 -> libwsutil.so.0.0.0
--rwxr-xr-x root/root    usr/lib/libwsutil.so.0.0.0
+lrwxrwxrwx root/root    usr/lib/libwireshark.so -> libwireshark.so.16
+lrwxrwxrwx root/root    usr/lib/libwireshark.so.16 -> libwireshark.so.16.0.0
+-rwxr-xr-x root/root    usr/lib/libwireshark.so.16.0.0
+lrwxrwxrwx root/root    usr/lib/libwiretap.so -> libwiretap.so.13
+lrwxrwxrwx root/root    usr/lib/libwiretap.so.13 -> libwiretap.so.13.0.0
+-rwxr-xr-x root/root    usr/lib/libwiretap.so.13.0.0
+lrwxrwxrwx root/root    usr/lib/libwsutil.so -> libwsutil.so.14
+lrwxrwxrwx root/root    usr/lib/libwsutil.so.14 -> libwsutil.so.14.0.0
+-rwxr-xr-x root/root    usr/lib/libwsutil.so.14.0.0
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/wireshark.pc
-drwxr-xr-x root/root    usr/lib/sysusers.d/
--rw-r--r-- root/root    usr/lib/sysusers.d/wireshark.conf
 drwxr-xr-x root/root    usr/lib/wireshark/
 drwxr-xr-x root/root    usr/lib/wireshark/cmake/
 -rw-r--r-- root/root    usr/lib/wireshark/cmake/FindGLIB2.cmake
@@ -688,27 +688,27 @@ drwxr-xr-x root/root    usr/lib/wireshark/extcap/
 -rwxr-xr-x root/root    usr/lib/wireshark/extcap/randpktdump
 -rwxr-xr-x root/root    usr/lib/wireshark/extcap/udpdump
 drwxr-xr-x root/root    usr/lib/wireshark/plugins/
-drwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/
-drwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/codecs/
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/codecs/g711.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/codecs/l16mono.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/codecs/opus_dec.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/codecs/sbc.so
-drwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/ethercat.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/gryphon.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/irda.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/mate.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/opcua.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/profinet.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/stats_tree.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/transum.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/unistim.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/wimax.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/wimaxasncp.so
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/epan/wimaxmacphy.so
-drwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/wiretap/
--rwxr-xr-x root/root    usr/lib/wireshark/plugins/3.7/wiretap/usbdump.so
+drwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/
+drwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/codecs/
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/codecs/g711.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/codecs/l16mono.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/codecs/opus_dec.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/codecs/sbc.so
+drwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/ethercat.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/gryphon.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/irda.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/mate.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/opcua.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/profinet.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/stats_tree.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/transum.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/unistim.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/wimax.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/wimaxasncp.so
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/epan/wimaxmacphy.so
+drwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/wiretap/
+-rwxr-xr-x root/root    usr/lib/wireshark/plugins/4.0/wiretap/usbdump.so
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/applications/
 -rw-r--r-- root/root    usr/share/applications/org.wireshark.Wireshark.desktop
@@ -758,6 +758,7 @@ drwxr-xr-x root/root    usr/share/mime/
 drwxr-xr-x root/root    usr/share/mime/packages/
 -rw-r--r-- root/root    usr/share/mime/packages/org.wireshark.Wireshark.xml
 drwxr-xr-x root/root    usr/share/wireshark/
+-rw-r--r-- root/root    usr/share/wireshark/Acknowledgements.md
 -rw-r--r-- root/root    usr/share/wireshark/COPYING
 -rw-r--r-- root/root    usr/share/wireshark/cfilters
 -rw-r--r-- root/root    usr/share/wireshark/colorfilters
@@ -809,6 +810,7 @@ drwxr-xr-x root/root    usr/share/wireshark/dtds/
 -rw-r--r-- root/root    usr/share/wireshark/dtds/xcap-caps.dtd
 -rw-r--r-- root/root    usr/share/wireshark/dtds/xcap-error.dtd
 -rw-r--r-- root/root    usr/share/wireshark/enterprises.tsv
+-rw-r--r-- root/root    usr/share/wireshark/gpl-2.0-standalone.html
 -rw-r--r-- root/root    usr/share/wireshark/ipmap.html
 -rw-r--r-- root/root    usr/share/wireshark/manuf
 -rw-r--r-- root/root    usr/share/wireshark/pdml2html.xsl
