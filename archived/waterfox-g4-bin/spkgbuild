@@ -1,0 +1,60 @@
+# description	: Waterfox-g4 binary Fourth generation of customizable privacy-conscious web browser.
+# homepage	: https://www.waterfox.net
+# depends	: gtk3 gtk2 libxt startup-notification shared-mime-info dbus-glib ffmpeg 
+
+name=waterfox-g4-bin
+version=1.5
+release=1
+source="https://github.com/WaterfoxCo/Waterfox/releases/download/G4.$version/waterfox-G4.$version.en-US.linux-x86_64.tar.bz2"
+
+_portdir=$PWD
+
+
+build() {
+
+	# Create the necessary directories.
+	mkdir -pv "$PKG"/usr/share/applications
+	mkdir -pv "$PKG"/usr/bin
+	mkdir -pv "$PKG"/opt
+
+	# Install the desktop files.
+	install -m644 "$_portdir"/waterfox-g4.desktop "$PKG"/usr/share/applications/
+
+	# Copy the extracted directory to /opt/.
+	cp -r waterfox "$PKG"/opt/waterfox-g4
+
+	# Install icons
+    for i in 16 32 48 64 128; do
+        install -d "$PKG/usr/share/icons/hicolor/${i}x${i}/apps"
+        ln -Ts /opt/waterfox-g4/browser/chrome/icons/default/default$i.png \
+            "$PKG/usr/share/icons/hicolor/${i}x${i}/apps/waterfox-g4.png"
+    done
+
+    # Add additional useful settings
+    install -Dm644 /dev/stdin "$PKG/opt/waterfox-g4/browser/defaults/preferences/vendor.js" <<END
+// Disable default browser checking
+pref("browser.shell.checkDefaultBrowser", false);
+
+// Use LANG environment variable to choose locale
+pref("intl.locale.requested", "");
+
+// Automatic installation of updates won't work on root, so disable this
+pref("app.update.auto", false);
+
+// Use system-provided dictionaries
+pref("spellchecker.dictionary_path", "/usr/share/hunspell");
+END
+
+# Disable automatic updates and update notifications and allow only for manual update checking
+    install -Dm644 /dev/stdin "$PKG/opt/waterfox-g4/distribution/policies.json" <<END
+{
+    "policies": {
+        "AppAutoUpdate": false,
+        "ManualAppUpdateOnly": true
+    }
+}
+END
+
+	# Symlink the binary to /usr/bin/.
+	ln -s /opt/waterfox-g4/waterfox "$PKG"/usr/bin/waterfox-g4
+}

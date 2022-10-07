@@ -1,0 +1,59 @@
+export CC=clang
+export CXX=clang++
+
+ac_add_options --enable-optimize
+ac_add_options --enable-eme=widevine
+ac_add_options --target=x86_64-pc-linux-gnu
+ac_add_options --disable-pulseaudio
+ac_add_options --enable-alsa
+
+export MOZ_GECKO_PROFILER=
+export MOZ_ENABLE_PROFILER_SPS=
+export MOZ_PROFILING=
+
+mk_add_options AUTOCLOBBER=1
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/objdir
+
+ac_add_options --prefix=/usr
+ac_add_options --libdir=/usr/lib
+ac_add_options --disable-crashreporter
+ac_add_options --disable-js-shell
+ac_add_options --disable-profiling
+ac_add_options --disable-tests
+ac_add_options --disable-verify-mar
+
+ac_add_options --enable-application=browser
+ac_add_options --enable-release
+ac_add_options --disable-updater
+
+ac_add_options --with-app-name=waterfox
+ac_add_options --with-app-basename=Waterfox
+ac_add_options --with-branding=browser/branding/unofficial
+ac_add_options --with-distribution-id=org.waterfoxproject
+
+# System libraries
+ac_add_options --with-system-nspr
+ac_add_options --with-system-nss
+ac_add_options --with-system-jpeg
+ac_add_options --with-system-zlib
+ac_add_options --with-system-png
+ac_add_options --with-system-libevent
+ac_add_options --with-system-libvpx
+ac_add_options --with-system-icu
+ac_add_options --enable-system-ffi
+
+
+# Features
+ac_add_options --disable-libproxy
+ac_add_options --disable-eme
+ac_add_options --disable-webspeech
+ac_add_options --disable-necko-wifi
+ac_add_options --disable-webrtc
+ac_add_options --disable-elf-hack
+ac_add_options --disable-mobile-optimize
+ac_add_options --disable-debug
+ac_add_options --disable-debug-symbols
+
+# library and chrome format
+ac_add_options --enable-chrome-format=omni
+ac_add_options --x-libraries=/usr/lib
