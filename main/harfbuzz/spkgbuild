@@ -3,7 +3,7 @@
 
 name=harfbuzz
 version=5.3.0
-release=1
+release=2
 source="https://github.com/harfbuzz/harfbuzz/releases/download/$version/harfbuzz-$version.tar.xz"
 
 build() {
@@ -16,8 +16,8 @@ build() {
 	DESTDIR=$PKG meson install -C build
 
 	rm -f $PKG/usr/include/harfbuzz/hb-icu.h
-	rm -f $PKG/usr/lib/libharfbuzz-icu.so.0
-	rm -f $PKG/usr/lib/pkgconfig/harfbuzz-icu.pc
 	rm -f $PKG/usr/lib/libharfbuzz-icu.so
-	rm -f $PKG/usr/lib/libharfbuzz-icu.so.0.50200.0
+	rm -f $PKG/usr/lib/libharfbuzz-icu.so.0
+	rm -f $PKG/usr/lib/libharfbuzz-icu.so.0.50300.0
+	rm -f $PKG/usr/lib/pkgconfig/harfbuzz-icu.pc
 }
