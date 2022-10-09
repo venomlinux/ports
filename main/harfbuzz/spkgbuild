@@ -16,8 +16,6 @@ build() {
 	DESTDIR=$PKG meson install -C build
 
 	rm -f $PKG/usr/include/harfbuzz/hb-icu.h
-	rm -f $PKG/usr/lib/libharfbuzz-icu.so
-	rm -f $PKG/usr/lib/libharfbuzz-icu.so.0
-	rm -f $PKG/usr/lib/libharfbuzz-icu.so.0.50300.0
+	rm -f $PKG/usr/lib/libharfbuzz-icu*
 	rm -f $PKG/usr/lib/pkgconfig/harfbuzz-icu.pc
 }
