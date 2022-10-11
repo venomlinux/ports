@@ -2,7 +2,7 @@
 
 name=libgpg-error
 version=1.46
-release=1
+release=2
 source="ftp://ftp.gnupg.org/gcrypt/$name/$name-$version.tar.bz2"
 
 build() {
@@ -11,7 +11,10 @@ build() {
 	# allow building with gawk-5.0
 	sed -i 's/namespace/pkg_&/' src/Makefile.am src/Makefile.in src/mkstrtable.awk
 
-  	./configure --prefix=/usr --disable-nls
+  	./configure \
+		--prefix=/usr \
+		--disable-nls \
+		--enable-install-gpg-error-config
 	make
 	make DESTDIR=$PKG install
 
