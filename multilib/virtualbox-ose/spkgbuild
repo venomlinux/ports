@@ -3,22 +3,19 @@
 
 name=virtualbox-ose
 _name=VirtualBox
-version=6.1.38
+version=7.0.0
 release=1
 source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.tar.bz2
 	LocalConfig.kmk
 	virtualbox.60-vboxdrv.rules
-	005-gsoap-build.patch
-	008-no-vboxvideo.patch
-	013-Makefile.patch
 	dkms.conf"
 
 build() {
 	cd $_name-$version
 
-	for p in $SRC/*.patch; do
-		patch -Np0 -i $p
-	done
+#	for p in $SRC/*.patch; do
+#		patch -Np0 -i $p
+#	done
 
 	cp $SRC/LocalConfig.kmk .
 
@@ -46,11 +43,9 @@ build() {
 	install -dm0755 "$PKG/usr/bin"
 	install -m0755 VBox.sh "$PKG/usr/bin/VBox"
 	for i in VBoxHeadless VBoxManage VBoxSDL VirtualBox vboxwebsrv VBoxBalloonCtrl \
-		vboxheadless vboxmanage vboxsdl virtualbox vboxballoonctrl; do
+		vboxheadless vboxmanage vboxsdl virtualbox vboxballoonctrl ; do
 	    ln -s VBox "$PKG/usr/bin/$i"
 	done
-	install -m0755 VBoxTunctl "$PKG/usr/bin"
-	install -m0755 rdesktop-vrdp "$PKG/usr/bin"
 
 	# libraries
 	install -dm0755 "$PKG/usr/lib/virtualbox"
@@ -58,7 +53,7 @@ build() {
 	install -m0644 *.r0 VBoxEFI*.fd "$PKG/usr/lib/virtualbox"
 
 	## setuid root binaries
-	install -m4755 VBoxSDL VirtualBoxVM VBoxHeadless VBoxNetDHCP VBoxNetAdpCtl VBoxNetNAT -t "$PKG/usr/lib/virtualbox"
+	install -m4755 VirtualBoxVM VBoxHeadless VBoxNetDHCP VBoxNetAdpCtl VBoxNetNAT -t "$PKG/usr/lib/virtualbox"
 
 	## other binaries
 	install -m0755 VirtualBox VBoxManage VBoxSVC VBoxExtPackHelperApp VBoxXPCOMIPCD VBoxTestOGL VBoxBalloonCtrl -t "$PKG/usr/lib/virtualbox"
