@@ -1,0 +1,16 @@
+# description	: Client for PPP+SSL VPN tunnel services 
+# homepage	: https://github.com/adrienverge/openfortivpn
+# depends	: autoconf automake openssl
+
+name=openfortivpn
+version=1.19.0
+release=1
+source="$name-$version.tar.gz::https://github.com/adrienverge/openfortivpn/archive/v${version}.tar.gz"
+
+build() {
+	cd $name-$version
+	autoreconf -fi
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}
