@@ -2,13 +2,16 @@
 # homepage	: https://packages.debian.org/sid/ngetty
 
 name=ngetty
-version=1.1
+version=1.1.10
+_version=1.1-10
 release=1
-source="http://ftp.debian.org/debian/pool/main/n/${name}/${name}_${version}.orig.tar.gz"
+source="http://salsa.debian.org/debian/ngetty/-/archive/debian/${_version}/$name-debian-${_version}.tar.gz
+	Conf"
 
 build() {
-	cd $name-$version
-	
+	cd $name-debian-${_version}
+	cp $SRC/Conf .	
 	make
 	make DESTDIR=$PKG install
+	rm -f $PKG/etc/ngetty/sample.Conf
 }
