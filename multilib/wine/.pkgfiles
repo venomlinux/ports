@@ -1,4 +1,4 @@
-wine-7.18-1
+wine-7.19-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/revdep.d/
 -rw-r--r-- root/root    etc/revdep.d/wine.conf
@@ -1406,6 +1406,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libusp10.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libuuid.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libuxtheme.a
+-rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libvcruntime140.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libvdmdbg.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libversion.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libvulkan-1.a
@@ -1449,7 +1450,6 @@ lrwxrwxrwx root/root    usr/lib/wine/x86_64-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/nsiproxy.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/ntdll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/odbc32.so
--rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/openal32.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/opengl32.dll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/qcap.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/secur32.so
@@ -1457,7 +1457,6 @@ lrwxrwxrwx root/root    usr/lib/wine/x86_64-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winealsa.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winebus.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winegstreamer.so
--rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winepulse.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wineusb.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winevulkan.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winex11.so
@@ -1910,6 +1909,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/libusp10.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/libuuid.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/libuxtheme.a
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/libvcruntime140.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/libvdmdbg.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/libversion.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/libvulkan-1.a
@@ -2097,7 +2097,6 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/olethk32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/oleview.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/opcservices.dll
--rw-r--r-- root/root    usr/lib/wine/x86_64-windows/openal32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/opengl32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/packager.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/pdh.dll
@@ -2282,7 +2281,6 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winemsibuilder.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winepath.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wineps.drv
--rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winepulse.drv
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wineusb.sys
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winevulkan.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winex11.drv
@@ -2580,6 +2578,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-unix/
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libusp10.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libuuid.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libuxtheme.a
+-rw-r--r-- root/root    usr/lib32/wine/i386-unix/libvcruntime140.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libvdmdbg.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libversion.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-unix/libvulkan-1.a
@@ -3094,6 +3093,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/libusp10.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/libuuid.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/libuxtheme.a
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/libvcruntime140.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/libvdmdbg.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/libversion.a
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/libvulkan-1.a
