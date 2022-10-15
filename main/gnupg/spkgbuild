@@ -11,13 +11,12 @@ build() {
 	cd $name-$version
 
 	patch -Np1 -i $SRC/gnupg-2.2.40-fix-no-ldap-build.patch
-	scratch isinstalled openldap && GNUPG+=' --disable-ldap'
 
 	./configure $GPUPG \
 		--prefix=/usr \
 		--libexecdir=/usr/lib/$name \
-		--disable-nls \
-		--enable-symcryptrun
+		--disable-ldap \
+		--disable-nls 
 	make
 	make DESTDIR=$PKG install
 
