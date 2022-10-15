@@ -2,18 +2,29 @@
 # depends	: libassuan libgcrypt libgpg-error libksba npth pinentry
 
 name=gnupg
-version=2.3.7
+version=2.3.8
 release=1
-source="https://gnupg.org/ftp/gcrypt/$name/$name-$version.tar.bz2"
+source="https://gnupg.org/ftp/gcrypt/$name/$name-$version.tar.bz2
+	gnupg-2.2.40-fix-no-ldap-build.patch"
 
 build() {
 	cd $name-$version
 
-	./configure \
+	patch -Np1 -i $SRC/gnupg-2.2.40-fix-no-ldap-build.patch
+	scratch isinstalled openldap && GNUPG+=' --disable-ldap'
+
+	./configure $GPUPG \
 		--prefix=/usr \
 		--libexecdir=/usr/lib/$name \
+		--disable-nls \
 		--enable-symcryptrun
 	make
 	make DESTDIR=$PKG install
 
+	rm -rf $PKG/usr/share/info
+	rm -rf $PKG/usr/share/doc
+	rm -f $PKG/usr/share/gnupg/FAQ
+        rm -f $PKG/usr/share/gnupg/faq.html
+        rm -f $PKG/usr/share/gnupg/qualified.txt
+	rm -f $PKG/usr/share/gnupg/help*
 }
