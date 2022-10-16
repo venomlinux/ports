@@ -1,0 +1,16 @@
+# description	    : Simplified packaging of Python modules
+# homepage	    : https://github.com/takluyver/flit
+# depends	    : python3-docutils python3-requests python3-tomli python3-pip
+
+name=python3-flit-core
+version=3.7.1
+release=1
+source="https://github.com/takluyver/flit/archive/$version/flit-$version.tar.gz"
+
+build() {
+  rm flit-$version/tests/test_sdist.py
+
+  cd flit-$version/flit_core
+  /usr/bin/python3 build_dists.py
+  PIP_CONFIG_FILE=/dev/null /usr/bin/pip3 install --isolated --root=$PKG --ignore-installed --no-deps dist/*.whl
+}
