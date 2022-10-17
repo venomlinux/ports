@@ -1,15 +1,14 @@
 # description	: Linux man pages
 
 name=man-pages
-version=5.13
+version=6.00
 release=1
 source="https://www.kernel.org/pub/linux/docs/$name/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-	sed -i "s|prefix := /usr/local|prefix := /usr|g" Makefile
-	make DESTDIR=$PKG install
+	make prefix=/usr DESTDIR=$PKG install
 
 	# ship with tzdata
 	rm $PKG/usr/share/man/man5/tzfile.5 \
