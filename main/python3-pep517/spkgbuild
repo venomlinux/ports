@@ -1,6 +1,6 @@
 # description	    : Wrappers to build Python packages using PEP 517 hooks
 # homepage	    : https://github.com/pypa/pep517
-# depends	    : python3-tomli
+# depends	    : python3-pip
 
 name=python3-pep517
 version=0.13.0
@@ -11,9 +11,9 @@ build() {
   cd pep517-$version
 
   _pyver=$(/usr/bin/python3 -c 'import sys; print("%s.%s" % sys.version_info[:2])')
-  /usr/bin/python3 -m  build  --wheel --skip-dependency-check --no-isolation
-  /usr/bin/python3 -m installer --compile-bytecode 0 --destdir=$PKG dist/*.whl
 
+  /usr/bin/pip3 install --isolate --root=$PKG --ignore-installed --no-deps pep517    
+  
   rm -rf $PKG/usr/lib/python$_pyver/site-packages/pep517-$version.dist-info/INSTALLER
   rm -rf $PKG/usr/lib/python$_pyver/site-packages/pep517-$version.dist-info/REQUESTED
 }
