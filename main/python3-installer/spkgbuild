@@ -1,6 +1,6 @@
 # description	    : A low-level library for installing from a Python wheel distribution
 # homepage	    : https://github.com/pypa/installer
-# depends	    : python3-flit-core python3-installer python3-build
+# depends	    : python3-pip
 
 name=python3-installer
 version=0.5.1
@@ -12,8 +12,7 @@ build() {
 
   _pyver=$(/usr/bin/python3 -c 'import sys; print("%s.%s" % sys.version_info[:2])')
 
-    /usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
-    /usr/bin/python3 -m installer --compile-bytecode 0 --destdir=$PKG dist/*.whl
+  /usr/bin/pip3 install --isolate --root=$PKG --ignore-installed --no-deps installer  
 
   rm -rf $PKG/usr/lib/python$_pyver/site-packages/installer-$version.dist-info/REQUESTED
   rm -rf $PKG/usr/lib/python$_pyver/site-packages/installer-$version.dist-info/INSTALLER
