@@ -1,0 +1,6 @@
+port_getver() {
+	fetch \
+	| grep archive \
+	| grep -Eo PM[0-9a-z._]+Release.tar.gz \
+	| sed 's/PM//;s/_Release.*//'
+}
