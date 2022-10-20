@@ -3,7 +3,7 @@
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 
-repo="main multilib nonfree"
+repo="core"
 portscsv="$SCRIPTDIR/ports.csv"
 
 echo > $portscsv

@@ -272,7 +272,7 @@ main() {
 	fi
 }
 
-PORTREPO="main multilib nonfree"
+PORTREPO="core"
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 
