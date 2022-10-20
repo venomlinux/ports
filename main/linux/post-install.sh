@@ -24,3 +24,8 @@ for i in /lib/modules/*; do
 			rm -fr $i;;
 	esac
 done
+
+if [ $(command -v grub-mkconfig) ] ; then
+    echo "Updating grub config....."
+    grub-mkconfig -o /boot/grub/grub.cfg
+fi
