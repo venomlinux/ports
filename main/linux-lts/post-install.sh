@@ -1,9 +1,9 @@
 #!/bin/sh
 
-kernver=$(cat /lib/modules/KERNELVERSION)
+kernver=$(cat /lib/modules/KERNELVERSION-LTS)
 if [ $(command -v mkinitramfs) ]; then
 	echo "mkinitramfs: generating initramfs for kernel $kernver..."
-	mkinitramfs -q -k $kernver -o /boot/initrd-venom.img
+	mkinitramfs -q -k $kernver -o /boot/initrd-venom-lts.img
 fi
 
 depmod $kernver
@@ -24,3 +24,8 @@ for i in /lib/modules/*; do
 			rm -fr $i;;
 	esac
 done
+
+if [ $(command -v grub-mkconfig) ] ; then
+    echo "Updating grub config....."
+    grub-mkconfig -o /boot/grub/grub.cfg
+fi

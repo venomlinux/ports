@@ -37,8 +37,9 @@ build() {
 
 	mkdir -p $PKG/boot
 
-	cp  arch/x86/boot/bzImage $PKG/boot/vmlinuz-venom
-	echo $kernver > $PKG/lib/modules/KERNELVERSION
+	cp  arch/x86/boot/bzImage $PKG/boot/vmlinuz-venom-lts
+	echo $kernver > $PKG/lib/modules/KERNELVERSION-LTS
+	cp .config $PKG/boot/config-venom-lts
 
 	make clean
 	make prepare
