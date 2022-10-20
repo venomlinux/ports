@@ -41,7 +41,7 @@ getver_gnome() {
 	| grep -Eo $filename-[0-9.]+.tar.[bgx]z2? \
 	| sed "s/$filename-//;s/\.tar.*//" \
 	| grep -Ew "^[0-9]+\.[0-9]*[02468]\.*" \
-	| grep -Ev "*.[89][0-9].*"
+	| grep -Ev ".[89][0-9].*"
 }
 
 getver_gnome2() {
@@ -272,7 +272,7 @@ main() {
 	fi
 }
 
-PORTREPO="main multilib nonfree"
+PORTREPO="core"
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 
