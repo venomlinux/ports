@@ -3,7 +3,7 @@
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 
-repo="main multilib nonfree"
+repo="core"
 
 cd $PORTSDIR
 rm -f scripts/.allports

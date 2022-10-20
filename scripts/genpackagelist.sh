@@ -4,7 +4,7 @@
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 
-repo="main multilib nonfree testing"
+repo="core"
 
 echo -ne "[" > $SCRIPTDIR/packages.json
 
