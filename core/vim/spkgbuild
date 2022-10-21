@@ -2,7 +2,7 @@
 # depends	: acl gettext ncurses
 
 name=vim
-version=9.0.0424
+version=9.0.0806
 release=1
 source="https://github.com/vim/vim/archive/v$version/vim-v$version.tar.gz"
 
@@ -13,15 +13,24 @@ build() {
 
 	./configure \
 		--prefix=/usr \
+		--enable-cscope \
 		--enable-multibyte \
-		--disable-gui \
+		--with-ex-name=vim-ex \
 		--with-tlib=ncursesw \
+		--with-view-name=vim-view \
+		--disable-perlinterp \
+		--disable-pythoninterp \
+		--disable-rubyinterp \
+		--disable-netbeans \
+		--disable-gpm \
+		--disable-xim \
+		--disable-gui \
+		--disable-nls \
 		--without-x
 	make
 	make DESTDIR=$PKG install
 
 	mv $PKG/usr/share/man/man1 $SRC/man1
-	rm -r $PKG/usr/share/man/*
 	mv $SRC/man1 $PKG/usr/share/man/man1
 
 	# no desktop files and icons
