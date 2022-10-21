@@ -1,0 +1,47 @@
+# description	    : A tool for managing BTRFS and LVM snapshots. It can create, diff and restore snapshots and provides timelined auto-snapping.
+# homepage	    : http://snapper.io
+# depends	    : btrfs-progs libxml2 dbus boost acl json-c libxstl docbook-xsl linux-pam git ncurses e2fsprogs
+
+name=snapper
+version=0.10.3
+release=1
+source="https://github.com/openSUSE/snapper/archive/v$version/$name-$version.tar.gz
+	rc.snapperd
+        disable-locale-test.patch"
+
+build() {
+	    cd $name-$version
+
+	    export XML_CATALOG_FILES=/etc/xml/catalog
+
+	    patch -Np1 -i $SRC/disable-locale-test.patch
+
+	    # rename cron scripts
+	    sed -i -e 's@suse.de-@@g' scripts/Makefile.am
+
+	    # fix config location in cron scripts
+	    sed -i -e 's@/etc/sysconfig/@/etc/conf.d/@g' scripts/snapper-hourly
+	    sed -i -e 's@/etc/sysconfig/@/etc/conf.d/@g' scripts/snapper-daily
+
+	    # fix pam plugin install location
+	    sed -i -e 's@shell echo /@shell echo /usr/@g' pam/Makefile.am
+
+	aclocal
+	libtoolize --force --automake --copy
+	autoheader
+	automake --add-missing --copy
+	autoconf
+	./configure --prefix=/usr \
+		--sbindir=/usr/bin \
+		--with-conf=/etc/conf.d \
+		--with-pam-security=/usr/lib/security \
+		--disable-zypp \
+		--disable-systemd \
+		--disable-silent-rules
+	make
+	make DESTDIR=$PKG install
+	
+	# rc service
+	install -Dm755 $SRC/rc.snapperd $PKG/etc/rc.d/snapperd 
+	rm -rf $PKG/usr/lib/snapper/testsuite/
+}
