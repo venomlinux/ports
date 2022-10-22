@@ -1,0 +1,13 @@
+# description	    : Character encoding for the web.
+# homepage	    : https://github.com/gsnedders/python-webencodings
+# depends	    : python3-setuptools
+
+name=python3-webencodings
+version=0.5.1
+release=1
+source="https://github.com/gsnedders/python-webencodings/archive/v$version/$name-$version.tar.gz"
+
+build() {
+  cd python-webencodings-$version
+  /usr/bin/python3 setup.py install --root=$PKG
+}
