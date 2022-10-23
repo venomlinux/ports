@@ -1,4 +1,4 @@
-libtorrent-rasterbar-2.0.7-1
+libtorrent-rasterbar-2.0.8-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/include/libtorrent/
@@ -39,10 +39,12 @@ drwxr-xr-x root/root    usr/include/libtorrent/aux_/
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/disk_io_thread_pool.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/disk_job_fence.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/disk_job_pool.hpp
+-rw-r--r-- root/root    usr/include/libtorrent/aux_/drive_info.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/ed25519.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/escape_string.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/export.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/ffs.hpp
+-rw-r--r-- root/root    usr/include/libtorrent/aux_/file_descriptor.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/file_pointer.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/file_progress.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/file_view_pool.hpp
@@ -62,6 +64,7 @@ drwxr-xr-x root/root    usr/include/libtorrent/aux_/
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/merkle_tree.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/mmap.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/mmap_disk_job.hpp
+-rw-r--r-- root/root    usr/include/libtorrent/aux_/netlink_utils.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/noexcept_movable.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/numeric_cast.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/open_mode.hpp
@@ -106,6 +109,7 @@ drwxr-xr-x root/root    usr/include/libtorrent/aux_/
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/vector.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/win_cng.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/win_crypto_provider.hpp
+-rw-r--r-- root/root    usr/include/libtorrent/aux_/win_file_handle.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/win_util.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/aux_/windows.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/bdecode.hpp
@@ -137,6 +141,7 @@ drwxr-xr-x root/root    usr/include/libtorrent/extensions/
 -rw-r--r-- root/root    usr/include/libtorrent/extensions/ut_metadata.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/extensions/ut_pex.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/file.hpp
+-rw-r--r-- root/root    usr/include/libtorrent/file_layout.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/file_storage.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/fingerprint.hpp
 -rw-r--r-- root/root    usr/include/libtorrent/flags.hpp
@@ -279,21 +284,21 @@ drwxr-xr-x root/root    usr/lib/cmake/
 drwxr-xr-x root/root    usr/lib/cmake/LibtorrentRasterbar/
 -rw-r--r-- root/root    usr/lib/cmake/LibtorrentRasterbar/LibtorrentRasterbarConfig.cmake
 -rw-r--r-- root/root    usr/lib/cmake/LibtorrentRasterbar/LibtorrentRasterbarConfigVersion.cmake
--rw-r--r-- root/root    usr/lib/cmake/LibtorrentRasterbar/LibtorrentRasterbarTargets-noconfig.cmake
+-rw-r--r-- root/root    usr/lib/cmake/LibtorrentRasterbar/LibtorrentRasterbarTargets-release.cmake
 -rw-r--r-- root/root    usr/lib/cmake/LibtorrentRasterbar/LibtorrentRasterbarTargets.cmake
 lrwxrwxrwx root/root    usr/lib/libtorrent-rasterbar.so -> libtorrent-rasterbar.so.2.0
-lrwxrwxrwx root/root    usr/lib/libtorrent-rasterbar.so.2.0 -> libtorrent-rasterbar.so.2.0.7
--rwxr-xr-x root/root    usr/lib/libtorrent-rasterbar.so.2.0.7
+lrwxrwxrwx root/root    usr/lib/libtorrent-rasterbar.so.2.0 -> libtorrent-rasterbar.so.2.0.8
+-rwxr-xr-x root/root    usr/lib/libtorrent-rasterbar.so.2.0.8
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/libtorrent-rasterbar.pc
-drwxr-xr-x root/root    usr/lib/python3.9/
-drwxr-xr-x root/root    usr/lib/python3.9/site-packages/
--rwxr-xr-x root/root    usr/lib/python3.9/site-packages/libtorrent.cpython-39-x86_64-linux-gnu.so
-drwxr-xr-x root/root    usr/lib/python3.9/site-packages/libtorrent.egg-info/
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/libtorrent.egg-info/PKG-INFO
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/libtorrent.egg-info/SOURCES.txt
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/libtorrent.egg-info/dependency_links.txt
--rw-r--r-- root/root    usr/lib/python3.9/site-packages/libtorrent.egg-info/top_level.txt
+drwxr-xr-x root/root    usr/lib/python3.10/
+drwxr-xr-x root/root    usr/lib/python3.10/site-packages/
+-rwxr-xr-x root/root    usr/lib/python3.10/site-packages/libtorrent.cpython-310-x86_64-linux-gnu.so
+drwxr-xr-x root/root    usr/lib/python3.10/site-packages/libtorrent.egg-info/
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/libtorrent.egg-info/PKG-INFO
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/libtorrent.egg-info/SOURCES.txt
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/libtorrent.egg-info/dependency_links.txt
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/libtorrent.egg-info/top_level.txt
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/cmake/
 drwxr-xr-x root/root    usr/share/cmake/Modules/
