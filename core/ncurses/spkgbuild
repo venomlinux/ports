@@ -2,7 +2,7 @@
 
 name=ncurses
 version=6.3
-release=2
+release=3
 source="https://ftp.gnu.org/gnu//$name/$name-$version.tar.gz"
 
 build() {
@@ -22,13 +22,14 @@ build() {
 	make DESTDIR=$PKG install
 
 	mkdir -p $PKG/lib
-	mv -v $PKG/usr/lib/libncursesw.so.6* $PKG/lib
-	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libncursesw.so) $PKG/usr/lib/libncursesw.so
+	mv $PKG/usr/lib/libncursesw.so.* $PKG/lib
+	ln -sf ../../lib/libncursesw.so.$version $PKG/usr/lib/libncursesw.so
+	ln -s libncursesw.so.$version $PKG/lib/libncurses.so.${version%%.*}
 
 	# Create libtinfo symlinks.
 	ln -sfr $PKG/usr/lib/libncursesw.so \
 		$PKG/usr/lib/libtinfo.so
-	ln -sfr $PKG/usr/lib/libncursesw.so.${version} \
+	ln -sfr $PKG/lib/libncursesw.so.${version} \
 		$PKG/usr/lib/libtinfo.so.${version}
 	ln -sfr $PKG/usr/lib/libtinfo.so.${version} \
 		$PKG/usr/lib/libtinfo.so.6
