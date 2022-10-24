@@ -2,13 +2,13 @@
 # depends	: libx11
 
 name=tabbed
-version=0.6
-release=3
+version=0.7
+release=1
 source="http://dl.suckless.org/tools/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-
+	sed -i "/xembed.1/d" Makefile
 	make CC=gcc
 	make DESTDIR=$PKG PREFIX=/usr install
 }
