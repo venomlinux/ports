@@ -1,0 +1,19 @@
+# description	    : Qt5 addon library with a collection of non-GUI utilities
+# homepage	    : https://invent.kde.org/frameworks/kcoreaddons
+# depends	    : extra-cmake-modules qt5 share-mime-info clang doxygen
+
+
+name=kcoreaddons
+version=5.98.0
+release=1
+source="https://download.kde.org/stable/frameworks/${version%.*}/$name-$version.tar.xz"
+
+build() {
+  cmake -B build -S $name-$version \
+    -D_KDE4_DEFAULT_HOME_POSTFIX=4 \
+    -DBUILD_TESTING=OFF \
+    -DBUILD_QCH=ON
+  cmake --build build
+  DESTDIR=$PKG cmake --install build
+}
+
