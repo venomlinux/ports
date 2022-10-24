@@ -1,6 +1,6 @@
 # description	    : A cross-platform application and UI framework (Development Tools, QtHelp)
 # homepage	    : https://www.qt.io/
-# Depends	    : qt6-declarative ninja
+# depends	    : qt6-declarative ninja
 
 name=qt6-tools
 version=6.4.0
@@ -12,7 +12,7 @@ build() {
 	
 	cmake -S qttools-everywhere-src-$version -B build -G Ninja \
 		-D QT_USE_CCACHE=ON \
-		-D QT_USE_CLANG=OFF \
+		-D QT_FEATURE_clangcpp=OFF \
 		-D INSTALL_PUBLICBINDIR=usr/bin \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
