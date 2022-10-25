@@ -7,8 +7,10 @@ release=1
 source="https://github.com/swaywm/sway/releases/download/$version/sway-$version.tar.gz"
 
 build() {
-	mkdir -p build
-	meson --prefix="/usr" build "$name-$version" -D werror=false -D b_ndebug=true
-	ninja -C build
-	DESTDIR="$PKG" ninja -C build install
+
+	venom-meson $name-$version build \
+	   -D werror=false \
+	    -D b_ndebug=true
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }
