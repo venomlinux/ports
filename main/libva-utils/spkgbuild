@@ -6,21 +6,12 @@ version=2.16.0
 release=1
 source="https://github.com/intel/libva-utils/archive/$version/$name-$version.tar.gz"
 build() {
-	cd $name-$version
-	
-	mkdir build
-	cd build
-
-	meson \
-		--prefix=/usr \
+	venom-meson $name-$version build \
                 --libexecdir=/usr/lib/$name \
-                --localstatedir=/var \
-                --buildtype=plain \
 		-D drm=true \
 		-D x11=true \
 		-D wayland=false \
-		-D b_lto=true \
-		-D tests=false ..
-	meson compile 
-	DESTDIR=$PKG meson install
+		-D tests=false
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }
