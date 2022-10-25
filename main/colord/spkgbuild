@@ -7,23 +7,15 @@ release=1
 source="https://www.freedesktop.org/software/colord/releases/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version
-	
-	mkdir build
-	cd    build
-	
-	meson --prefix=/usr \
-	      --sysconfdir=/etc \
-	      --libexecdir=/usr/lib/$name \
-	      --localstatedir=/var \
-	      -Ddaemon_user=colord \
-	      -Dvapi=true \
-	      -Dsystemd=false \
-	      -Dlibcolordcompat=true \
-	      -Dargyllcms_sensor=false \
-	      -Dbash_completion=false \
-	      -Ddocs=false \
-	      -Dman=false ..
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson $name-$version build \
+	      -D daemon_user=colord \
+	      -D vapi=true \
+	      -D systemd=false \
+	      -D libcolordcompat=true \
+	      -D argyllcms_sensor=false \
+	      -D bash_completion=false \
+	      -D docs=false \
+	      -D man=false 
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }
