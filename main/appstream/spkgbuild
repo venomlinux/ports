@@ -7,12 +7,13 @@ release=1
 source="https://www.freedesktop.org/software/appstream/releases/AppStream-$version.tar.xz"
 
 build() {
-	cd AppStream-$version
-	meson --prefix=/usr --sysconfdir=/etc \
-	--libexecdir=lib --buildtype=plain \
-	-Db_lto=true -Db_pie=true \
-	-Dapidocs=false -Dinstall-docs=false build
+	export XML_CATALOG_FILES=/etc/xml/catalog
+
+	venom-meson AppStream-$version build \
+		-Dapidocs=false \
+		-Dinstall-docs=false
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
+
 	rm -rf $PKG/usr/share/installed-tests/
 }
