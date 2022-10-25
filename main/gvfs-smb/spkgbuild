@@ -11,9 +11,6 @@ build() {
 	[ -f /usr/lib/pkgconfig/libbluray.pc ] || _gvfs_opts="$_gvfs_opts -Dbluray=false"
 
 	_gvfs_build_opts="
-		meson \
-		--prefix=/usr \
-		--sysconfdir=/etc \
 		--libexecdir=/usr/lib/$name \
 		-Dsystemduserunitdir=no \
 		-Dtmpfilesdir=no \
@@ -22,8 +19,6 @@ build() {
 		$_gvfs_opts
 	"
 
-	cd gvfs-$version
-
 	for i in afc goa google gphoto2 mtp nfs smb; do
 		case $i in
 			${name#*-}) _opt="$_opt -D$i=true";;
@@ -31,12 +26,9 @@ build() {
 		esac
 	done
 
-	mkdir build
-	cd    build
-
-	$_gvfs_build_opts $_opt
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson gvfs-$version build $_gvfs_build_opts $_opt
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 
 	# remove gvfs conflicts
 	for f in $(scratch files gvfs | grep -v /$); do
