@@ -6,8 +6,7 @@ version="Next"
 release=1
 source="$name-$version.tar.gz::https://github.com/ibhagwan/picom/archive/vNext.tar.gz"
 build() {
-	cd picom-v$version
-	meson --prefix=/usr --buildtype=release . build
-	ninja -C build
-	DESTDIR=$PKG ninja -C build install
+	venom-meson picom-v$version build --buildtype=release 
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }
