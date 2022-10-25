@@ -8,14 +8,15 @@ source="https://www.freedesktop.org/software/colord/releases/$name-$version.tar.
 
 build() {
 	venom-meson $name-$version build \
-	      -D daemon_user=colord \
-	      -D vapi=true \
-	      -D systemd=false \
-	      -D libcolordcompat=true \
-	      -D argyllcms_sensor=false \
-	      -D bash_completion=false \
-	      -D docs=false \
-	      -D man=false 
+		--libexecdir=/usr/lib/$name \
+		-D daemon_user=colord \
+		-D vapi=true \
+		-D systemd=false \
+		-D libcolordcompat=true \
+		-D argyllcms_sensor=false \
+		-D bash_completion=false \
+		-D docs=false \
+		-D man=false 
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 }
