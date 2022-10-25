@@ -18,7 +18,6 @@ build() {
 		-Ddnssd=false \
 		$_gvfs_opts
 	"
-	cd gvfs-$version
 
 	for i in afc goa google gphoto2 mtp nfs smb; do
 		case $i in
@@ -27,7 +26,7 @@ build() {
 		esac
 	done
 
-	venom-meson build $_gvfs_build_opts $_opt
+	venom-meson gvfs-$version build $_gvfs_build_opts $_opt
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 
