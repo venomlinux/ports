@@ -9,15 +9,8 @@ source="https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/Net
 	rc.$name"
 
 build() {
-	cd NetworkManager-$version
 
-	mkdir build
-	cd    build
-
-	meson --prefix /usr              \
-	      --sysconfdir /etc          \
-	      --libexecdir lib           \
-	      --localstatedir /var       \
+	venom-meson NetworkManager-$version build \
 	      -Dlibaudit=no              \
 	      -Dlibpsl=false             \
 	      -Dnmtui=true               \
@@ -32,10 +25,9 @@ build() {
 	      -Dmodify_system=true       \
 	      -Ddocs=false               \
 	      -Dqt=false                 \
-	      -Dtests=no                 \
-	      ..
-	ninja
-	DESTDIR=$PKG ninja install
+	      -Dtests=no                 
+	meson compile -C build 
+	DESTDIR=$PKG meson install -C build
 
 mkdir -p $PKG/etc/NetworkManager
 cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"

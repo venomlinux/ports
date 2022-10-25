@@ -7,15 +7,10 @@ release=1
 source="http://xorg.freedesktop.org/archive/individual/data/xkeyboard-config/xkeyboard-config-$version.tar.xz"
 
 build() {
-	cd $name-$version
 
-  	mkdir bld
-        cd bld
-
-        meson \
-		--prefix=/usr \
+        venom-meson $name-$version build \
 		-Dcompat-rules=true \
 		-Dxorg-rules-symlinks=true
-        ninja
-        DESTDIR=$PKG ninja install
+        meson compile -C build
+        DESTDIR=$PKG meson install -C build
 }

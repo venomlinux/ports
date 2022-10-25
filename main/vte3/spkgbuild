@@ -13,9 +13,9 @@ build() {
 	patch -p1 -i $SRC/*.patch
 	cd ..
 
-       meson vte-$version build \
-	      --prefix=/usr \
-	      --libexecdir=/usr/lib \
+       venom-meson vte-$version build \
+	      -Db_lto=false \
+	      -Db_pie=false \
 	      -D_systemd=false
         meson compile -C build
         DESTDIR=$PKG meson install -C build

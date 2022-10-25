@@ -8,9 +8,8 @@ release=1
 source="https://github.com/linuxmint/xapp/archive/master.mint20/$name-$version.tar.gz"
 
 build() {
-	mkdir xapp-master.mint20/build
-	cd xapp-master.mint20/build
-	meson --prefix=/usr --libexecdir=lib --buildtype=plain 
-	samu
-	DESTDIR=$PKG samu install
+
+	meson xapp-master.mint20 build 
+	samu -C build
+	DESTDIR=$PKG samu -C build install
 }

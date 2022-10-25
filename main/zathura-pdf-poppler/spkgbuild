@@ -1,6 +1,6 @@
 # description	: PDF plug-in for zathura
 # homepage	: https://pwmt.org/projects/zathura-pdf-poppler
-# depends	: meson poppler poppler-glib zathura girara glib pkgconf
+# depends	: meson poppler poppler-glib zathura glib pkgconf
 
 name=zathura-pdf-poppler
 version=0.3.0
@@ -8,19 +8,8 @@ release=1
 source="https://github.com/pwmt/zathura-pdf-poppler/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
 
-	mkdir build
-	cd build
-
-	meson \
-                 --prefix=/usr \
-                 --libexecdir=/usr/lib/$name \
-                 --localstatedir=/var \
-                 --buildtype=plain \
-                 -D b_lto=true ..
-        meson compile
-
-
-	DESTDIR=$PKG meson install
+	venom-meson $name-$version build 
+        meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }

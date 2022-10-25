@@ -7,12 +7,9 @@ release=1
 source="https://ftp.gnome.org/pub/gnome/sources/pygobject/${version%.*}/pygobject-$version.tar.xz"
 
 build() {
-	cd pygobject-$version
 
-	mkdir build
-	cd build
-
-	meson --prefix=/usr -Dpython=python3 ..
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson pygobject-$version build \
+	    -Dpython=python3
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }
