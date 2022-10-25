@@ -1,5 +1,6 @@
 # description	: Server and user space API to deal with multimedia
 # depends	: meson alsa-lib gstreamer ffmpeg dbus gst-plugins-base bluez sbc jack
+# optionals	: wireplumber
 
 name=pipewire
 version=0.3.59
@@ -12,11 +13,12 @@ build() {
 	mkdir build
 	cd build
 
-	meson --prefix=/usr \
+	venom-meson $name-$version build \
 	      -Dsystemd=disabled \
 	      -Ddocs=disabled \
               -Dvulkan=disabled \
-              -Dexamples=disabled
-	ninja
-	DESTDIR=$PKG ninja install
+              -Dexamples=disabled \
+	      -Dsession-managers=[]
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }
