@@ -1,23 +1,22 @@
 # description	: Open-source initiative to provide a free software-based reference implementation of the JPEG-2000 codec
-# depends	: libjpeg-turbo cmake
+# depends	: cmake freeglut libjpeg-turbo libxmu
 
 name=jasper
-version=2.0.14
+version=3.0.6
 release=1
-source="https://www.ece.uvic.ca/~frodo/jasper/software/$name-$version.tar.gz"
+source="https://github.com/jasper-software/jasper/releases/download/version-$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
 
-	mkdir BUILD
-	cd    BUILD
-
-	cmake -DCMAKE_INSTALL_PREFIX=/usr    \
-	      -DCMAKE_BUILD_TYPE=Release     \
-	      -DCMAKE_SKIP_INSTALL_RPATH=YES \
-	      -DJAS_ENABLE_DOC=NO            \
-	      ..
-	make
-	make DESTDIR=$PKG install
+	cmake -S $name-$version -B build \
+	    -DCMAKE_INSTALL_PREFIX=/usr \
+	    -DCMAKE_C_FLAGS="$CFLAGS -ffat-lto-objects" \
+	    -DJAS_ENABLE_OPENGL=ON \
+	    -DJAS_ENABLE_LIBJPEG=ON \
+	    -DJAS_ENABLE_AUTOMATIC_DEPENDENCIES=OFF \
+	    -DCMAKE_SKIP_RPATH=ON \
+	    -DJAS_ENABLE_SHARED=ON
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
 }

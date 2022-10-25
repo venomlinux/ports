@@ -4,21 +4,28 @@
 
 name=pipewire
 version=0.3.59
-release=1
+release=2
 source="https://github.com/PipeWire/pipewire/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
-
-	mkdir build
-	cd build
 
 	venom-meson $name-$version build \
-	      -Dsystemd=disabled \
-	      -Ddocs=disabled \
-              -Dvulkan=disabled \
-              -Dexamples=disabled \
-	      -Dsession-managers=[]
+		-D session-managers="" \
+		-D systemd=disabled \
+		-D docs=disabled \
+	        -D vulkan=disabled \
+	        -D examples=disabled
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
+
+	# enable alsa by default
+	install -Dm644 /dev/null $PKG/usr/share/pipewire/media-session.d/with-alsa
+	mkdir -p $PKG/etc/alsa/conf.d
+	ln -st $PKG/etc/alsa/conf.d /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf
+	ln -st $PKG/etc/alsa/conf.d /usr/share/alsa/alsa.conf.d/50-pipewire.conf
+
+	# remove leftovers
+	rm -r $PKG/usr/share/locale
+
 }
+
