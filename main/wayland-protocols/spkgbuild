@@ -7,12 +7,9 @@ release=1
 source="https://gitlab.freedesktop.org/wayland/$name/-/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
 	   
-	mkdir builddir
-        cd builddir
-
-        meson --prefix=/usr -Dtests=false
-        ninja
-        DESTDIR=$PKG ninja install
+        venom-meson $name-$version build \
+	    -Dtests=false
+        meson compile -C build
+        DESTDIR=$PKG meson install -C build
 }
