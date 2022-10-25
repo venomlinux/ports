@@ -7,20 +7,11 @@ release=1
 source="https://pwmt.org/projects/girara/download/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version
-	
-	mkdir build
-	cd build
-
-	meson \
-		--prefix=/usr \
-                --libexecdir=/usr/lib/$name \
-                --localstatedir=/var \
-                --buildtype=plain \
-		-Djson=enabled \
-		-Ddocs=disabled \
-		-Dnotify=disabled \
-		-D b_lto=true ..
-	meson compile 
-	DESTDIR=$PKG meson install
+	venom-meson $name-$version build \
+		--libexecdir=/usr/lib/$name \
+		-D json=enabled \
+		-D docs=disabled \
+		-D notify=disabled 
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }
