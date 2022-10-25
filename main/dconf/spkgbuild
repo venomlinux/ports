@@ -7,8 +7,10 @@ release=1
 source="http://ftp.gnome.org/pub/gnome/sources/dconf/${version%.*}/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version
-	venom-meson --libexecdir=/usr/lib/$name build
+
+	export XML_CATALOG_FILES=/etc/xml/catalog
+	venom-meson $name-$version build \
+	--libexecdir=/usr/lib/$name
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 }
