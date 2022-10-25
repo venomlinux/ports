@@ -3,14 +3,15 @@
 
 name=mpv
 version=0.34.1
-release=1
+release=2
+_wver=2.0.24
 source="https://github.com/mpv-player/mpv/archive/v$version/$name-$version.tar.gz
-https://waf.io/waf-2.0.9"
+https://waf.io/waf-${_wver}"
 
 build() {
 	cd $name-$version
 
-	install -m0755 $SRC/waf-2.0.9 waf
+	install -m0755 $SRC/waf-${_wver} waf
 
 	/usr/bin/python3 waf configure \
 	    --prefix=/usr \
