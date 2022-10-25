@@ -1,0 +1,23 @@
+# description	    : Session/policy manager implementation for PipeWire
+# homepage	    : https://gitlab.freedesktop.org/pipewire/wireplumber
+# depends	    : cpptoml lua pipewire util-linux
+
+name=wireplumber
+version=0.4.12
+release=1
+source="https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/$version/$name-$version.tar.bz2"
+
+build() {
+
+	venom-meson $name-$version build \
+	    -D system-lua=true \
+	    -D system-lua-version=auto \
+	    -D introspection=disabled \
+	    -D doc=disabled \
+	    -D elogind=disabled \
+	    -D systemd=disabled
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
+
+	rm -r $PKG/usr/share/locale
+}
