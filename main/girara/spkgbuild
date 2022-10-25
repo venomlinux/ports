@@ -8,6 +8,7 @@ source="https://pwmt.org/projects/girara/download/$name-$version.tar.xz"
 
 build() {
 	venom-meson $name-$version build \
+		--libexecdir=/usr/lib/$name \
 		-D json=enabled \
 		-D docs=disabled \
 		-D notify=disabled 
