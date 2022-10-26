@@ -3,11 +3,12 @@
 
 name=argtable
 version=2.13
+_version=${version%.*}-${version##*.}
 release=1
-source="https://cytranet.dl.sourceforge.net/project/$name/$name/$name-$version/argtable2-13.tar.gz"
+source="https://cytranet.dl.sourceforge.net/project/$name/$name/$name-$version/${name}${_version}.tar.gz"
 
 build() {
-    cd argtable2-13
+    cd ${name}${_version}
 
     autoreconf -vfi
     ./configure --prefix=/usr
