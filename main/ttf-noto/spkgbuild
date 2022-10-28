@@ -12,18 +12,20 @@ source="$name-$version.tar.gz::https://github.com/googlei18n/noto-fonts/archive/
 build() {
 	cd $_name-*
 
-	rm hinted/ttf/NotoSansTifinagh/NotoSansTifinaghA*.ttf \
-	hinted/ttf/NotoSansTifinagh/NotoSansTifinaghG*.ttf \
-	hinted/ttf/NotoSansTifinagh/NotoSansTifinaghH*.ttf \
-	hinted/ttf/NotoSansTifinagh/NotoSansTifinaghR*.ttf \
-	hinted/ttf/NotoSansTifinagh/NotoSansTifinaghS*.ttf \
-	hinted/ttf/NotoSansTifinagh/NotoSansTifinaghT*.ttf \
-	unhinted/ttf/NotoSansTifinagh/NotoSansTifinaghA*.ttf \
-	unhinted/ttf/NotoSansTifinagh/NotoSansTifinaghG*.ttf \
-	unhinted/ttf/NotoSansTifinagh/NotoSansTifinaghH*.ttf \
-	unhinted/ttf/NotoSansTifinagh/NotoSansTifinaghR*.ttf \
-	unhinted/ttf/NotoSansTifinagh/NotoSansTifinaghS*.ttf \
-	unhinted/ttf/NotoSansTifinagh/NotoSansTifinaghT*.ttf
+	# Remove duplicated fonts
+	rm -f \
+		hinted/ttf/NotoSansTifinagh/NotoSansTifinaghA*.ttf \
+		hinted/ttf/NotoSansTifinagh/NotoSansTifinaghG*.ttf \
+		hinted/ttf/NotoSansTifinagh/NotoSansTifinaghH*.ttf \
+		hinted/ttf/NotoSansTifinagh/NotoSansTifinaghR*.ttf \
+		hinted/ttf/NotoSansTifinagh/NotoSansTifinaghS*.ttf \
+		hinted/ttf/NotoSansTifinagh/NotoSansTifinaghT*.ttf \
+		unhinted/ttf/NotoSansTifinagh/NotoSansTifinaghA*.ttf \
+		unhinted/ttf/NotoSansTifinagh/NotoSansTifinaghG*.ttf \
+		unhinted/ttf/NotoSansTifinagh/NotoSansTifinaghH*.ttf \
+		unhinted/ttf/NotoSansTifinagh/NotoSansTifinaghR*.ttf \
+		unhinted/ttf/NotoSansTifinagh/NotoSansTifinaghS*.ttf \
+		unhinted/ttf/NotoSansTifinagh/NotoSansTifinaghT*.ttf
 
 	install -Dm644 unhinted/ttf/*/*.ttf -t $PKG/usr/share/fonts/noto
 	install -Dm644 hinted/ttf/*/*.ttf -t $PKG/usr/share/fonts/noto
