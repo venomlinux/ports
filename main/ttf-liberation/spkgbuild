@@ -1,16 +1,17 @@
 # description	: Red Hats Liberation fonts
 # depends	: fontconfig encodings
 
-name=liberation-fonts
+name=ttf-liberation
+_name=liberation-fonts
 version=2.00.1
-release=4
-source="https://releases.pagure.org/liberation-fonts/liberation-fonts-ttf-$version.tar.gz \
-	30-0-liberation-mono.conf \
-        30-0-liberation-sans.conf \
+release=1
+source="https://releases.pagure.org/liberation-fonts/liberation-fonts-ttf-$version.tar.gz
+	30-0-liberation-mono.conf
+        30-0-liberation-sans.conf 
         30-0-liberation-serif.conf"
 
 build() {
-	cd $name-ttf-$version
+	cd $_name-ttf-$version
 	install -d $PKG/usr/share/fonts/TTF
 	cp *.ttf $PKG/usr/share/fonts/TTF/
 
