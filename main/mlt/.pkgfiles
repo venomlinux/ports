@@ -1,4 +1,4 @@
-mlt-7.8.0-1
+mlt-7.10.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 lrwxrwxrwx root/root    usr/bin/melt -> melt-7
@@ -75,15 +75,16 @@ drwxr-xr-x root/root    usr/lib/cmake/Mlt7/
 -rw-r--r-- root/root    usr/lib/cmake/Mlt7/Mlt7Targets-noconfig.cmake
 -rw-r--r-- root/root    usr/lib/cmake/Mlt7/Mlt7Targets.cmake
 lrwxrwxrwx root/root    usr/lib/libmlt++-7.so -> libmlt++-7.so.7
-lrwxrwxrwx root/root    usr/lib/libmlt++-7.so.7 -> libmlt++-7.so.7.8.0
--rwxr-xr-x root/root    usr/lib/libmlt++-7.so.7.8.0
+lrwxrwxrwx root/root    usr/lib/libmlt++-7.so.7 -> libmlt++-7.so.7.10.0
+-rwxr-xr-x root/root    usr/lib/libmlt++-7.so.7.10.0
 lrwxrwxrwx root/root    usr/lib/libmlt-7.so -> libmlt-7.so.7
-lrwxrwxrwx root/root    usr/lib/libmlt-7.so.7 -> libmlt-7.so.7.8.0
--rwxr-xr-x root/root    usr/lib/libmlt-7.so.7.8.0
+lrwxrwxrwx root/root    usr/lib/libmlt-7.so.7 -> libmlt-7.so.7.10.0
+-rwxr-xr-x root/root    usr/lib/libmlt-7.so.7.10.0
 drwxr-xr-x root/root    usr/lib/mlt-7/
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltavformat.so
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltcore.so
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltdecklink.so
+-rwxr-xr-x root/root    usr/lib/mlt-7/libmltfrei0r.so
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltgdk.so
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltjackrack.so
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltkdenlive.so
@@ -91,8 +92,10 @@ drwxr-xr-x root/root    usr/lib/mlt-7/
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltoldfilm.so
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltplus.so
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltplusgpl.so
+-rwxr-xr-x root/root    usr/lib/mlt-7/libmltqt.so
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltresample.so
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltrtaudio.so
+-rwxr-xr-x root/root    usr/lib/mlt-7/libmltsdl.so
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltsdl2.so
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltvorbis.so
 -rwxr-xr-x root/root    usr/lib/mlt-7/libmltxine.so
@@ -100,6 +103,10 @@ drwxr-xr-x root/root    usr/lib/mlt-7/
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/mlt++-7.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/mlt-framework-7.pc
+drwxr-xr-x root/root    usr/lib/python3.10/
+drwxr-xr-x root/root    usr/lib/python3.10/site-packages/
+-rwxr-xr-x root/root    usr/lib/python3.10/site-packages/_mlt7.so
+-rw-r--r-- root/root    usr/lib/python3.10/site-packages/mlt7.py
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/man/
 drwxr-xr-x root/root    usr/share/man/man1/
@@ -154,10 +161,18 @@ drwxr-xr-x root/root    usr/share/mlt-7/core/
 drwxr-xr-x root/root    usr/share/mlt-7/decklink/
 -rw-r--r-- root/root    usr/share/mlt-7/decklink/consumer_decklink.yml
 -rw-r--r-- root/root    usr/share/mlt-7/decklink/producer_decklink.yml
+drwxr-xr-x root/root    usr/share/mlt-7/frei0r/
+-rw-r--r-- root/root    usr/share/mlt-7/frei0r/blacklist.txt
+-rw-r--r-- root/root    usr/share/mlt-7/frei0r/filter_cairoblend_mode.yml
+-rw-r--r-- root/root    usr/share/mlt-7/frei0r/not_thread_safe.txt
+-rw-r--r-- root/root    usr/share/mlt-7/frei0r/param_name_map.yaml
+-rw-r--r-- root/root    usr/share/mlt-7/frei0r/resolution_scale.yml
 drwxr-xr-x root/root    usr/share/mlt-7/gdk/
 -rw-r--r-- root/root    usr/share/mlt-7/gdk/filter_rescale.yml
 -rw-r--r-- root/root    usr/share/mlt-7/gdk/producer_pango.yml
 -rw-r--r-- root/root    usr/share/mlt-7/gdk/producer_pixbuf.yml
+drwxr-xr-x root/root    usr/share/mlt-7/jackrack/
+-rw-r--r-- root/root    usr/share/mlt-7/jackrack/consumer_jack.yml
 drwxr-xr-x root/root    usr/share/mlt-7/kdenlive/
 -rw-r--r-- root/root    usr/share/mlt-7/kdenlive/filter_boxblur.yml
 -rw-r--r-- root/root    usr/share/mlt-7/kdenlive/filter_freeze.yml
@@ -191,8 +206,10 @@ drwxr-xr-x root/root    usr/share/mlt-7/plus/
 -rw-r--r-- root/root    usr/share/mlt-7/plus/filter_charcoal.yml
 -rw-r--r-- root/root    usr/share/mlt-7/plus/filter_chroma.yml
 -rw-r--r-- root/root    usr/share/mlt-7/plus/filter_chroma_hold.yml
+-rw-r--r-- root/root    usr/share/mlt-7/plus/filter_dance.yml
 -rw-r--r-- root/root    usr/share/mlt-7/plus/filter_dynamic_loudness.yml
 -rw-r--r-- root/root    usr/share/mlt-7/plus/filter_dynamictext.yml
+-rw-r--r-- root/root    usr/share/mlt-7/plus/filter_fft.yml
 -rw-r--r-- root/root    usr/share/mlt-7/plus/filter_invert.yml
 -rw-r--r-- root/root    usr/share/mlt-7/plus/filter_lift_gamma_gain.yml
 -rw-r--r-- root/root    usr/share/mlt-7/plus/filter_loudness.yml
@@ -431,10 +448,31 @@ drwxr-xr-x root/root    usr/share/mlt-7/profiles/
 -rw-r--r-- root/root    usr/share/mlt-7/profiles/vcd_pal
 -rw-r--r-- root/root    usr/share/mlt-7/profiles/vertical_hd_30
 -rw-r--r-- root/root    usr/share/mlt-7/profiles/vertical_hd_60
+drwxr-xr-x root/root    usr/share/mlt-7/qt/
+-rw-r--r-- root/root    usr/share/mlt-7/qt/filter_audiolevelgraph.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/filter_audiospectrum.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/filter_audiowaveform.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/filter_gpsgraphic.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/filter_gpstext.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/filter_lightshow.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/filter_qtblend.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/filter_qtcrop.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/filter_qtext.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/filter_typewriter.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/producer_kdenlivetitle.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/producer_qimage.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/producer_qtext.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/transition_qtblend.yml
+-rw-r--r-- root/root    usr/share/mlt-7/qt/transition_vqm.yml
 drwxr-xr-x root/root    usr/share/mlt-7/resample/
 -rw-r--r-- root/root    usr/share/mlt-7/resample/filter_resample.yml
 drwxr-xr-x root/root    usr/share/mlt-7/rtaudio/
 -rw-r--r-- root/root    usr/share/mlt-7/rtaudio/consumer_rtaudio.yml
+drwxr-xr-x root/root    usr/share/mlt-7/sdl/
+-rw-r--r-- root/root    usr/share/mlt-7/sdl/consumer_sdl.yml
+-rw-r--r-- root/root    usr/share/mlt-7/sdl/consumer_sdl_audio.yml
+-rw-r--r-- root/root    usr/share/mlt-7/sdl/consumer_sdl_preview.yml
+-rw-r--r-- root/root    usr/share/mlt-7/sdl/consumer_sdl_still.yml
 drwxr-xr-x root/root    usr/share/mlt-7/sdl2/
 -rw-r--r-- root/root    usr/share/mlt-7/sdl2/consumer_sdl2.yml
 -rw-r--r-- root/root    usr/share/mlt-7/sdl2/consumer_sdl2_audio.yml
@@ -442,7 +480,6 @@ drwxr-xr-x root/root    usr/share/mlt-7/vorbis/
 -rw-r--r-- root/root    usr/share/mlt-7/vorbis/producer_vorbis.yml
 drwxr-xr-x root/root    usr/share/mlt-7/xml/
 -rw-r--r-- root/root    usr/share/mlt-7/xml/consumer_xml.yml
--rw-r--r-- root/root    usr/share/mlt-7/xml/filter_gpstext.yml
 -rw-r--r-- root/root    usr/share/mlt-7/xml/mlt-xml.dtd
 -rw-r--r-- root/root    usr/share/mlt-7/xml/producer_xml-nogl.yml
 -rw-r--r-- root/root    usr/share/mlt-7/xml/producer_xml-string.yml
