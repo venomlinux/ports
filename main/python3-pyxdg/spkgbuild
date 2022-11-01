@@ -1,0 +1,14 @@
+# description	    : Python library to access freedesktop.org standards.
+# homepage	    : http://freedesktop.org/wiki/Software/pyxdg
+# depends	    : python3-setuptools
+
+name=python3-pyxdg
+version=0.28
+release=1
+source="https://files.pythonhosted.org/packages/source/p/pyxdg/pyxdg-$version.tar.gz"
+
+build() {
+	cd pyxdg-$version
+	/usr/bin/python3 setup.py build
+	/usr/bin/python3 setup.py install --prefix=/usr --root=$PKG --optimize=1
+}
