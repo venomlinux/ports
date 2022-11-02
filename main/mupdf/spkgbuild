@@ -2,22 +2,23 @@
 # depends	: glu libglvnd harfbuzz libjpeg-turbo libxi
 
 name=mupdf
-version=1.20.0
+version=1.20.3
 release=1
-source="https://mupdf.com/downloads/archive/$name-$version-source.tar.lz"
+source="https://mupdf.com/downloads/archive/$name-$version-source.tar.gz"
 
 build() {
 	cd $name-$version-source
+
 	export USE_SYSTEM_LIBS='yes'
 
-	make install \
-	prefix=$PKG/usr \
-	mandir=$PKG/usr/share/man \
-	XCFLAGS="-fpic -fcommon" \
-	USE_SYSTEM_JBIG2DEC='no' \
-	USE_SYSTEM_OPENJPEG='no' \
-	USE_SYSTEM_GLUT='no' \
-	USE_SYSTEM_GUMBO='no'
+	make install prefix=$PKG/usr \
+		mandir=$PKG/usr/share/man \
+		XCFLAGS="-fpic -fcommon" \
+		USE_SYSTEM_JBIG2DEC='no' \
+		USE_SYSTEM_OPENJPEG='no' \
+		USE_SYSTEM_GLUT='no' \
+		USE_SYSTEM_GUMBO='no'
 
 	ln -s mupdf-gl $PKG/usr/bin/mupdf
+	rm -r $PKG/usr/share/doc
 }
