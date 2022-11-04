@@ -1,8 +1,9 @@
-vscode-bin-1.72.2-1
+vscode-bin-1.73.0-1
 drwxr-xr-x root/root    opt/
 drwxr-xr-x root/root    opt/visual-studio-code/
 drwxr-xr-x root/root    opt/visual-studio-code/bin/
 -rwxr-xr-x root/root    opt/visual-studio-code/bin/code
+-rwxr-xr-x root/root    opt/visual-studio-code/bin/code-tunnel
 -rwxr-xr-x root/root    opt/visual-studio-code/chrome-sandbox
 -rw-r--r-- root/root    opt/visual-studio-code/chrome_100_percent.pak
 -rw-r--r-- root/root    opt/visual-studio-code/chrome_200_percent.pak
@@ -295,8 +296,6 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/github-a
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/github-authentication/dist/939.js
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/github-authentication/dist/939.js.LICENSE.txt
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/github-authentication/dist/extension.js
--rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/github-authentication/dist/nls.metadata.header.json
--rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/github-authentication/dist/nls.metadata.json
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/github-authentication/images/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/github-authentication/images/icon.png
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/github-authentication/media/
@@ -560,7 +559,6 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/markdown
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/schemas/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/schemas/package.schema.json
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/server/
--rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/server/.npmignore
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/server/README.md
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/server/dist/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/server/dist/node/
@@ -568,7 +566,9 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/markdown
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/server/dist/node/nls.metadata.header.json
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/server/dist/node/nls.metadata.json
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/server/package.json
--rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/server/yarn.lock
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/server/package/
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/server/package/README.md
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/markdown-language-features/server/package/package.json
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/markdown-math/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/markdown-math/README.md
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/markdown-math/dist/
@@ -641,8 +641,6 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/microsof
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/microsoft-authentication/dist/939.js
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/microsoft-authentication/dist/939.js.LICENSE.txt
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/microsoft-authentication/dist/extension.js
--rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/microsoft-authentication/dist/nls.metadata.header.json
--rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/microsoft-authentication/dist/nls.metadata.json
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/microsoft-authentication/media/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/microsoft-authentication/media/auth.css
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/microsoft-authentication/media/favicon.ico
@@ -981,6 +979,8 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/r/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/r/syntaxes/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/r/syntaxes/r.tmLanguage.json
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/razor/
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/razor/build/
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/razor/build/update-grammar.mjs
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/razor/language-configuration.json
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/razor/package.json
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/razor/package.nls.json
@@ -1178,6 +1178,7 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/typescri
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/typescript-language-features/dist/nls.metadata.json
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/typescript-language-features/media/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/typescript-language-features/media/icon.png
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/typescript-language-features/media/nodejsWalkthroughIcon.png
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/typescript-language-features/package.json
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/typescript-language-features/package.nls.json
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/typescript-language-features/resources/
@@ -1268,6 +1269,9 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.u
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/node-pty/lib/shared/conout.js
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/node-pty/lib/worker/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/node-pty/lib/worker/conoutSocketWorker.js
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/node-vsce-sign/
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/node-vsce-sign/bin/
+-rwxr--r-- root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/node-vsce-sign/bin/vsce-sign
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/spdlog/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/spdlog/build/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/spdlog/build/Release/
@@ -1372,6 +1376,9 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/platform/fil
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/platform/files/node/watcher/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/platform/files/node/watcher/watcherMain.js
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/platform/files/node/watcher/watcherMain.nls.js
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/platform/profiling/
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/platform/profiling/electron-sandbox/
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/platform/profiling/electron-sandbox/profileAnalysisWorker.js
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/platform/sharedProcess/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/platform/sharedProcess/electron-browser/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/platform/sharedProcess/electron-browser/sharedProcessWorkerMain.js
@@ -1406,7 +1413,8 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/co
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/audioCues/browser/media/error.mp3
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/audioCues/browser/media/foldedAreas.mp3
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/audioCues/browser/media/quickFixes.mp3
--rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/audioCues/browser/media/taskEnded.mp3
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/audioCues/browser/media/taskCompleted.mp3
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/audioCues/browser/media/taskFailed.mp3
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/audioCues/browser/media/terminalBell.mp3
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/audioCues/browser/media/warning.mp3
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/debug/
@@ -1505,11 +1513,6 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/co
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/welcomeOverlay/browser/media/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/welcomeOverlay/browser/media/commandpalette-dark.svg
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/welcomeOverlay/browser/media/commandpalette.svg
-drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/workspace/
-drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/workspace/browser/
-drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/workspace/browser/media/
--rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/workspace/browser/media/trusted-badge.png
--rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/contrib/workspace/browser/media/untrusted-status.png
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/extensionManagement/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/extensionManagement/common/
