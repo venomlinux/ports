@@ -1,0 +1,54 @@
+# description	    : Open Broadcaster Software Studio
+# homepage	    : https://obsproject.com/
+# depends	    : fdk-aac ffmpeg jansson libgmp mbedtls qt6-base qt6-svg speexdsp swig x264 luajit v4l-utils jack pipewire
+# optional	    : libva pulseaudio vlc wayland-protocols x265
+
+name=obs-studio
+version=28.1.1
+release=1
+source="https://github.com/obsproject/$name/archive/$version/$name-$version.tar.gz
+	7531.patch
+	disable-some-plugins.patch"
+
+build() {
+
+	scratch isinstalled ccache && PATH="$(echo ${PATH} | awk -v RS=: \
+		-v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
+
+	patch -Np1 -d $name-$version -i $SRC/disable-some-plugins.patch
+	patch -Np1 -d $name-$version -i $SRC/7531.patch
+
+	export QT_QPA_PLATFORMTHEME="qt5ct"
+	cmake -S $name-$version -B build -G Ninja $PKGMK_OBS \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_INSTALL_LIBDIR=lib \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-D OBS_VERSION_OVERRIDE="$version" \
+		-D UNIX_STRUCTURE=ON \
+		-D ENABLE_VLC=OFF \
+		-D ENABLE_AJA=OFF \
+		-D BUILD_VST=OFF \
+		-D BUILD_BROWSER=OFF \
+		-D ENABLE_PIPEWIRE=ON \
+		-D ENABLE_PULSEAUDIO=OFF \
+		-D ENABLE_WAYLAND=OFF \
+		-D ENABLE_DECKLINK=OFF \
+		-D ENABLE_NEW_MPEGTS_OUTPUT=OFF \
+		-D LIBOBS_PREFER_IMAGEMAGICK=OFF \
+		-Wno-dev
+
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+
+	find $PKG -type d -exec chmod g-w '{}' \;
+
+	rm $PKG/usr/share/obs/obs-studio/authors/AUTHORS
+
+	find $PKG/usr/share/obs \
+		-iname '*ini' \
+		! -iname 'en-*.ini' \
+		! -iname 'locale.ini' \
+		-exec rm '{}' \+
+}

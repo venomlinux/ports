@@ -1,0 +1,22 @@
+From 62afff9100d5929d72097fc1702b190e0311cc65 Mon Sep 17 00:00:00 2001
+From: Timo Gurr <timo.gurr@gmail.com>
+Date: Wed, 5 Oct 2022 13:11:12 +0200
+Subject: [PATCH] cmake: Fix FindGio.cmake to find libgio
+
+Find actual libgio-2.0.so instead of libgobject-2.0.so.
+---
+ cmake/Modules/FindGio.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cmake/Modules/FindGio.cmake b/cmake/Modules/FindGio.cmake
+index 8abcfc0a0adaa..1f606185d1d40 100644
+--- a/cmake/Modules/FindGio.cmake
++++ b/cmake/Modules/FindGio.cmake
+@@ -21,7 +21,7 @@ find_path(
+ 
+ find_library(
+   GIO_LIB
+-  NAMES ${_GIO_LIBRARIES} gio-2.0 libgio-2.0 gio-unix-2.0
++  NAMES gio-2.0 libgio-2.0 gio-unix-2.0
+   HINTS ${_GIO_LIBRARY_DIRS}
+   PATHS /usr/lib /usr/local/lib /opt/local/lib /sw/lib)
