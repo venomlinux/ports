@@ -1,0 +1,16 @@
+# description	    : An itsy bitsy floating window manager (220~ sloc!)
+# homepage	    : https://github.com/dylanaraps/sowm
+# depends	    : libx11
+
+name=sowm
+version=1.6
+release=1
+source="$name-$version.tar.gz::https://github.com/dylanaraps/$name/archive/refs/tags/$version.tar.gz"
+
+build() {
+
+	cd $name-$version
+	[ -f $SRC/config.h ] && cp $SRC/config.h .
+	make PREFIX=/usr
+	make DESTDIR=$PKG install
+}
