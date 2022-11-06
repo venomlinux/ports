@@ -1,0 +1,20 @@
+# description	    : TCommon base library for LXQt components
+# homepage	    : http://lxqt.org/
+# depends	    : kwindowsystem lxqt-build-tools libqtxdg polkit-qt5
+
+name=liblxqt
+version=1.2.0
+release=1
+source="https://github.com/lxqt/$name/releases/download/$version/$name-$version.tar.xz"
+
+build() {
+	mkdir -p build
+	cd build
+	cmake $SRC/$name-$version \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DPULL_TRANSLATIONS=no
+	make
+
+	make DESTDIR=$PKG install
+}
