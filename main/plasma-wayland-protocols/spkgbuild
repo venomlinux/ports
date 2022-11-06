@@ -1,0 +1,15 @@
+# description	    : Plasma Specific Protocols for Wayland
+# homepage	    : https://kde.org/plasma-desktop
+# depends	    : qt5 extra-cmake-modules
+
+name=plasma-wayland-protocols
+version=1.9.0
+release=1
+source="https://download.kde.org/stable/$name/$name-$version.tar.xz"
+
+build() {
+  cmake -B build -S $name-$version \
+      -DCMAKE_INSTALL_LIBDIR=lib 
+  cmake --build build
+  DESTDIR=$PKG cmake --install build
+}
