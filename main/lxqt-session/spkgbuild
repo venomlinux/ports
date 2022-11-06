@@ -1,0 +1,18 @@
+# description	    : The LXQt session
+# homepage	    : http://lxqt.org/
+# depends	    : liblxqt lxqt-themes lxqt-build-tools xdg-user-dirs
+
+name=lxqt-session
+version=1.2.0
+release=1
+source="https://downloads.lxqt.org/downloads/$name/$version/$name-$version.tar.xz"
+
+build() {
+	mkdir -p build
+	cd build
+	cmake $SRC/$name-$version \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DPULL_TRANSLATIONS=no
+	make
+	make DESTDIR=$PKG install
+}
