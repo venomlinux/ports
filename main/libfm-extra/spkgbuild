@@ -1,5 +1,6 @@
-# description	: Library and other files required by menu-cache-gen libexec of menu-cache
-# depends	: glib intltool
+# description	    : Extra library for file management
+# homepage	    : https://wiki.lxde.org/en/PCManFM
+# depends	    : glib intltool
 
 name=libfm-extra
 version=1.3.2
@@ -9,12 +10,25 @@ source="https://downloads.sourceforge.net/pcmanfm/libfm-$version.tar.xz"
 build() {
 	cd libfm-$version
 
-	./configure --prefix=/usr     \
-	            --sysconfdir=/etc \
-	            --with-extra-only \
-	            --with-gtk=no     \
-	            --disable-static
-	make
-	make DESTDIR=$PKG install
-}
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--with-extra-only \
+		--with-gtk=no
 
+	# https://bugzilla.gnome.org/show_bug.cgi?id=656231
+	sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
+
+	make
+	make DESTDIR="$SRC/libfm-extra" install
+
+	install -d $PKG/usr/include/libfm $PKG/usr/lib/pkgconfig
+	install -m 644 -t $PKG/usr/include/libfm $SRC/libfm-extra/usr/include/libfm/fm-extra.h
+	install -m 644 -t $PKG/usr/include/libfm $SRC/libfm-extra/usr/include/libfm/fm-version.h
+	install -m 644 -t $PKG/usr/include/libfm $SRC/libfm-extra/usr/include/libfm/fm-xml-file.h
+	install -m 644 -t $PKG/usr/lib $SRC/libfm-extra/usr/lib/libfm-extra.*
+	install -m 644 -t $PKG/usr/lib/pkgconfig $SRC/libfm-extra/usr/lib/pkgconfig/libfm-extra.pc
+
+	rm $PKG/usr/lib/libfm-extra.so.4
+	ln -s libfm-extra.so.4.1.3 $PKG/usr/lib/libfm-extra.so.4
+}
