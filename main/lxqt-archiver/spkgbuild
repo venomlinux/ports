@@ -1,0 +1,16 @@
+# description	    : A simple & lightweight desktop-agnostic Qt file archiver
+# homepage	    :https://lxqt.github.io
+# depends	    : qt5 libfm-qt glib json-glib
+
+name=lxqt-archiver
+version=0.7.0
+release=1
+source="https://github.com/lxqt/$name/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cmake $name-$version \
+		-DCMAKE_INSTALL_PREFIX=/usr 
+
+	make && make DESTDIR=$PKG install
+}
+
