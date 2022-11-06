@@ -1,0 +1,14 @@
+# description	: Set of C++ bindings for GLib
+# depends	: glib libsigc++3 meson
+
+name=glibmm2.68
+_name=glibmm
+version=2.68.1
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/$_name/${version%.*}/$_name-$version.tar.xz"
+
+build() {
+	venom-meson $_name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
+}
