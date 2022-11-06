@@ -1,0 +1,16 @@
+# description		: libqtxdg user tools
+# homepage		: https://github.com/lxqt/qtxdg-tools
+# depends		: qt5 libqtxdg lxqt-build-tools cmake
+
+name=qtxdg-tools
+version=3.10.0
+release=1
+source="https://github.com/lxqt/$name/releases/download/$version/$name-$version.tar.xz"
+
+build() {
+  cmake -B build -S $SRC/$name-$version \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib
+  cmake --build build
+  DESTDIR=$PKG cmake --install build
+}
