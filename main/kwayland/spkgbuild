@@ -1,0 +1,17 @@
+# description	    : Qt-style Client and Server library wrapper for the Wayland libraries
+# homepage	    : https://www.kde.org
+# depends	    : extra-cmake-modules doxygen qt5 wayland-protocols plasma-wayland-protocols
+
+name=kwayland
+version=5.99.0
+release=1
+source="https://download.kde.org/stable/frameworks/${version%.*}/$name-$version.tar.xz"
+
+build() {
+  cmake -B build -S $name-$version \
+    -DCMAKE_INSTALL_LIBEXECDIR=lib \
+    -DBUILD_TESTING=OFF \
+    -DBUILD_QCH=ON
+  cmake --build build
+  DESTDIR=$PKG cmake --install build
+}
