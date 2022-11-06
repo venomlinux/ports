@@ -1,0 +1,17 @@
+# description	    : LXQt power management daemon
+# homepage	    : http://lxqt.org/
+# depends	    : liblxqt hicolor-icon-theme kidletime solid
+
+name=lxqt-powermanagement
+version=1.2.0
+release=1
+source="https://github.com/lxqt/$name/releases/download/$version/$name-$version.tar.xz"
+
+build() {
+	mkdir -p build
+	cd build
+	cmake $SRC/$name-$version \
+		-DCMAKE_INSTALL_PREFIX=/usr 
+	make
+	make DESTDIR=$PKG install
+}
