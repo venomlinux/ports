@@ -1,0 +1,16 @@
+# description	    : Monitoring user activity
+# homepage	    : https://community.kde.org/Frameworks
+# depends	    : qt5 extra-cmake-modules doxygen
+
+name=kidletime
+version=5.99.0
+release=1
+source="https://download.kde.org/stable/frameworks/${version%.*}/$name-$version.tar.xz"
+
+build() {
+  cmake -B build -S $name-$version \
+    -DBUILD_TESTING=OFF \
+    -DBUILD_QCH=ON
+  cmake --build build
+  DESTDIR=$PKG cmake --install build
+}
