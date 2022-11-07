@@ -4,7 +4,7 @@
 # optional	    : libva pulseaudio vlc wayland-protocols x265
 
 name=obs-studio
-version=28.1.1
+version=28.1.2
 release=1
 source="https://github.com/obsproject/$name/archive/$version/$name-$version.tar.gz
 	7531.patch
@@ -36,7 +36,6 @@ build() {
 		-D ENABLE_WAYLAND=OFF \
 		-D ENABLE_DECKLINK=OFF \
 		-D ENABLE_NEW_MPEGTS_OUTPUT=OFF \
-		-D LIBOBS_PREFER_IMAGEMAGICK=OFF \
 		-Wno-dev
 
 	cmake --build build
