@@ -1,4 +1,4 @@
-texinfo-6.8-1
+texinfo-7.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/info
@@ -18,6 +18,8 @@ drwxr-xr-x root/root    usr/lib/texinfo/
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/info/
 -rw-r--r-- root/root    usr/share/info/info-stnd.info.gz
+-rw-r--r-- root/root    usr/share/info/texi2any_api.info.gz
+-rw-r--r-- root/root    usr/share/info/texi2any_internals.info.gz
 -rw-r--r-- root/root    usr/share/info/texinfo.info-1.gz
 -rw-r--r-- root/root    usr/share/info/texinfo.info-2.gz
 -rw-r--r-- root/root    usr/share/info/texinfo.info-3.gz
@@ -44,7 +46,10 @@ drwxr-xr-x root/root    usr/share/texinfo/Pod-Simple-Texinfo/Pod/
 drwxr-xr-x root/root    usr/share/texinfo/Pod-Simple-Texinfo/Pod/Simple/
 -rw-r--r-- root/root    usr/share/texinfo/Pod-Simple-Texinfo/Pod/Simple/Texinfo.pm
 drwxr-xr-x root/root    usr/share/texinfo/Texinfo/
+-rw-r--r-- root/root    usr/share/texinfo/Texinfo/Commands.pm
+-rw-r--r-- root/root    usr/share/texinfo/Texinfo/Commands.pod
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Common.pm
+-rw-r--r-- root/root    usr/share/texinfo/Texinfo/Config.pm
 drwxr-xr-x root/root    usr/share/texinfo/Texinfo/Convert/
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/Converter.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/DocBook.pm
@@ -52,21 +57,21 @@ drwxr-xr-x root/root    usr/share/texinfo/Texinfo/Convert/
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/IXIN.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/IXINSXML.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/Info.pm
--rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/Line.pm
+-rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/LaTeX.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/NodeNameNormalization.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/Paragraph.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/ParagraphNonXS.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/PlainTexinfo.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/Plaintext.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/Texinfo.pm
+-rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/TexinfoMarkup.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/TexinfoSXML.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/TexinfoXML.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/Text.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/TextContent.pm
--rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/UnFilled.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/Unicode.pm
+-rw-r--r-- root/root    usr/share/texinfo/Texinfo/Convert/Utils.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Documentlanguages.pm
--rw-r--r-- root/root    usr/share/texinfo/Texinfo/Encoding.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/MiscXS.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/ModulePath.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Parser.pm
@@ -74,18 +79,22 @@ drwxr-xr-x root/root    usr/share/texinfo/Texinfo/Convert/
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Report.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Structuring.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/Transformations.pm
+-rw-r--r-- root/root    usr/share/texinfo/Texinfo/Translations.pm
 drwxr-xr-x root/root    usr/share/texinfo/Texinfo/XS/
 drwxr-xr-x root/root    usr/share/texinfo/Texinfo/XS/parsetexi/
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/XS/parsetexi/Parsetexi.pm
 -rw-r--r-- root/root    usr/share/texinfo/Texinfo/XSLoader.pm
+drwxr-xr-x root/root    usr/share/texinfo/ext/
+-rw-r--r-- root/root    usr/share/texinfo/ext/epub3.pm
+-rw-r--r-- root/root    usr/share/texinfo/ext/latex2html.pm
+-rw-r--r-- root/root    usr/share/texinfo/ext/tex4ht.pm
 -rw-r--r-- root/root    usr/share/texinfo/htmlxref.cnf
 drwxr-xr-x root/root    usr/share/texinfo/init/
 -rw-r--r-- root/root    usr/share/texinfo/init/book.pm
 -rw-r--r-- root/root    usr/share/texinfo/init/chm.pm
+-rw-r--r-- root/root    usr/share/texinfo/init/documentation_examples.pm
 -rw-r--r-- root/root    usr/share/texinfo/init/highlight_syntax.pm
 -rw-r--r-- root/root    usr/share/texinfo/init/html32.pm
--rw-r--r-- root/root    usr/share/texinfo/init/latex2html.pm
--rw-r--r-- root/root    usr/share/texinfo/init/tex4ht.pm
 drwxr-xr-x root/root    usr/share/texinfo/js/
 -rw-r--r-- root/root    usr/share/texinfo/js/info.css
 -rw-r--r-- root/root    usr/share/texinfo/js/info.js
