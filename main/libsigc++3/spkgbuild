@@ -1,0 +1,13 @@
+# description	: Implements a typesafe callback system for standard C++
+
+name=libsigc++3
+bname=libsigc++
+version=3.2.0
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/$bname/${version%.*}/$bname-$version.tar.xz"
+
+build() {
+	venom-meson $bname-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
+}
