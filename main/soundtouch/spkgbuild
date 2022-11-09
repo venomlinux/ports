@@ -1,12 +1,12 @@
 # description	: open-source audio processing library that allows changing the sound tempo, pitch and playback rate parameters independently from each other
 
 name=soundtouch
-version=2.3.1
+version=2.3.2
 release=1
-source="https://www.surina.net/soundtouch/soundtouch-2.3.1.tar.gz"
+source="https://www.surina.net/$name/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
+	cd $name
 
 	./bootstrap
 	./configure --prefix=/usr
