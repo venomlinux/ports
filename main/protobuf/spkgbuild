@@ -10,7 +10,8 @@ source="$name-$_version.tar.gz::https://github.com/protocolbuffers/$name/archive
 
 build() {
 	cd $name-$version
-	autoreconf -vfi
+
+	NOCONFIGURE=1 ./autogen.sh
 	./configure --prefix=/usr
 	make
 	cd python

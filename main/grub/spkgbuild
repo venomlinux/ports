@@ -22,7 +22,7 @@ build() {
 	# fix os name
 	sed 's|GNU/Linux|Linux|' -i "util/grub.d/10_linux.in"
 
-	autoreconf -fiv
+	NOCONFIGURE=1 ./autogen.sh
 	./configure --prefix=/usr \
 	            --sbindir=/sbin \
 	            --sysconfdir=/etc \
