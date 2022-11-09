@@ -10,8 +10,7 @@ source="https://github.com/OlafvdSpek/${name}/archive/${name}-${version}.tar.gz"
 build() {
 	cd ${name}-${name}-${version}
 
-	autoreconf -fi
-
+	NOCONFIGURE=1 ./autogen.sh
 	./configure \
 		--prefix=/usr
 	make

@@ -4,15 +4,11 @@
 name=grsync
 version=1.3.0
 release=1
-source="http://www.opbyte.it/release/$name-$version.tar.gz
-        gtk3-port.patch"
+source="http://www.opbyte.it/release/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-
-	#patch -Np1 -i ../gtk3-port.patch
-	#autoreconf -fi
-
+	
 	./configure --prefix=/usr --disable-unity
 	make
 	make DESTDIR=$PKG install

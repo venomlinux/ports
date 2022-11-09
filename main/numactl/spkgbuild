@@ -8,7 +8,8 @@ source="$name-$version.tar.gz::https://github.com/numactl/numactl/archive/refs/t
 
 build() {
 	cd $name-$version
-	autoreconf -vfi
+	
+	NOCONFIGURE=1 ./autogen.sh
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install

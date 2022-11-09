@@ -12,7 +12,6 @@ build(){
 	patch < ../$name.datadir.patch || exit 1
 	sed -e 's/AM_CONFIG_HEADER(/AC_CONFIG_HEADERS(/' -i configure.ac
     
-	autoreconf -i -f
 	./configure --prefix=/usr \
 	            --mandir=/usr/share/man \
 	            --program-transform-name 's,2x-,2,'
