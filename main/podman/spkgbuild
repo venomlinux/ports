@@ -11,6 +11,9 @@ build() {
 	cd $name-$version
 	export GOCACHE=$PWD/gocache
 	export GOPATH=$PWD/gopath
-	make BUILDTAGS="seccomp exclude_graphdriver_devicemapper exclude_graphdriver_btrfs"
+	make  BUILDTAGS="seccomp exclude_graphdriver_devicemapper exclude_graphdriver_btrfs"
 	make install PREFIX=/usr DESTDIR=$PKG
+
+	# not use in venom: usr/libexec
+	rm -rf $PKG/usr/libexec
 }

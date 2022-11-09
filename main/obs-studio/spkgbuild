@@ -1,6 +1,6 @@
 # description	    : Open Broadcaster Software Studio
 # homepage	    : https://obsproject.com/
-# depends	    : fdk-aac ffmpeg jansson libgmp mbedtls qt6-base qt6-svg speexdsp swig x264 luajit v4l-utils jack pipewire
+# depends	    : fdk-aac ffmpeg jansson libgmp mbedtls qt6-base qt6-svg speexdsp swig x264 luajit v4l-utils jack pipewire pciutils
 # optional	    : libva pulseaudio vlc wayland-protocols x265
 
 name=obs-studio
@@ -19,9 +19,10 @@ build() {
 	patch -Np1 -d $name-$version -i $SRC/7531.patch
 
 	export QT_QPA_PLATFORMTHEME="qt5ct"
-	cmake -S $name-$version -B build -G Ninja $PKGMK_OBS \
+
+	cmake -S $name-$version -B build -G Ninja \
 		-D CMAKE_INSTALL_PREFIX=/usr \
-		-D CMAKE_INSTALL_LIBDIR=lib \
+		-D CMAKE_INSTALL_LIBDIR=/usr/lib \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
