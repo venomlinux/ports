@@ -2,13 +2,12 @@
 # depends	: fontconfig freetype2 libxcb rust libxkbcommon
 
 name=alacritty
-version=0.10.1
+version=0.11.0
 release=1
-source="https://github.com/alacritty/alacritty/archive/v$version/$name-$version.tar.gz"
-
+source="$name-$version.tar.gz::https://github.com/alacritty/alacritty/archive/refs/tags/v$version.tar.gz"
 build() {
 	cd $name-$version
-
+	
 	export CARGO_HOME="$PWD/cargo"
         mkdir -p $CARGO_HOME
 
@@ -29,5 +28,5 @@ build() {
 	install -Dm644 extra/alacritty.man $PKG/usr/share/man/man1/alacritty.1
 
 	# appdata
-	install -Dm644 extra/linux/io.alacritty.Alacritty.appdata.xml $PKG/usr/share/appdata/io.alacritty.Alacritty.appdata.xml
+	install -Dm644 extra/linux/org.alacritty.Alacritty.appdata.xml $PKG/usr/share/appdata/io.alacritty.Alacritty.appdata.xml
 }
