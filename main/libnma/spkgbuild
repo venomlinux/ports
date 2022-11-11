@@ -3,7 +3,7 @@
 
 name=libnma
 version=1.10.4
-release=1
+release=2
 source="https://github.com/GNOME/libnma/archive/$version/$name-$version.tar.gz"
 
 build() {
@@ -14,4 +14,7 @@ build() {
 		-D gtk_doc=false
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
+
+	# conflict with network-manager-applet
+	rm $PKG/usr/share/glib-2.0/schemas/org.gnome.nm-applet.gschema.xml
 }
