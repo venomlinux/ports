@@ -36,4 +36,5 @@ build() {
 
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/$name/run
+	ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 }
