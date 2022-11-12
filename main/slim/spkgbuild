@@ -3,11 +3,12 @@
 
 name=slim
 version=1.3.6
-release=4
+release=5
 backup="etc/slim.conf"
 source="https://sourceforge.net/projects/${name}.berlios/files/$name-$version.tar.gz
 	rc.slim
-	$name.pam"
+	$name.pam
+	run"
 
 build() {
 	cd $name-$version
@@ -32,4 +33,7 @@ build() {
 
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/$name/run
 }

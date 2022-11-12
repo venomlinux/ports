@@ -3,10 +3,11 @@
 
 name=networkmanager
 version=1.40.2
-release=1
+release=2
 backup="etc/NetworkManager/NetworkManager.conf"
 source="https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
-	rc.$name"
+	rc.$name
+	run"
 
 build() {
 
@@ -37,5 +38,8 @@ EOF
 
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/$name/run
 
 }

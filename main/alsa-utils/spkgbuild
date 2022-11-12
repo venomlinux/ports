@@ -3,9 +3,10 @@
 
 name=alsa-utils
 version=1.2.8
-release=1
+release=2
 source="ftp://ftp.alsa-project.org/pub/utils/$name-$version.tar.bz2
-	rc.alsa"
+	rc.alsa
+	run finish"
 
 build() {
 	cd $name-$version
@@ -19,4 +20,8 @@ build() {
 
 	# rc service
 	install -Dm755 $SRC/rc.alsa $PKG/etc/rc.d/alsa
+
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/alsa/run
+	install -Dm755 $SRC/finish $PKG/etc/sv/alsa/finish
 }
