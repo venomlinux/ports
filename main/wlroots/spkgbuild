@@ -2,14 +2,15 @@
 # depends	: libinput libxkbcommon pixman xcb-util-image xcb-util-wm meson ninja wayland-protocols xcb-util-errors mesa libseat
 
 name=wlroots
-version=0.15.1
+version=0.16.0
 release=1
-source="https://gitlab.freedesktop.org/wlroots/wlroots/-/archive/$version/wlroots-$version.tar.gz ffmpeg-5.patch"
+source="https://gitlab.freedesktop.org/wlroots/wlroots/-/archive/$version/wlroots-$version.tar.gz"
 
 build() {
-	cd $name-$version
-	patch -p1 -u < ../ffmpeg-5.patch
-	venom-meson build
+
+	venom-meson $name-$version build \
+	-Dwerror=false \
+	-Dexamples=false 
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 }
