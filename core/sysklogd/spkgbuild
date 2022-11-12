@@ -2,10 +2,11 @@
 
 name=sysklogd
 version=2.4.4
-release=1
+release=2
 backup="etc/syslog.conf"
 source="https://github.com/troglobit/sysklogd/releases/download/v$version/sysklogd-$version.tar.gz
-	rc.$name"
+	rc.$name
+	run"
 
 build() {
 	cd $name-$version
@@ -22,4 +23,7 @@ build() {
 
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+
+	# runit service
+	install -Dm755 $SRC/run $PKG/etc/sv/$name/run
 }
