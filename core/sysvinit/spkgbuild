@@ -2,7 +2,7 @@
 
 name=sysvinit
 version=3.04
-release=1
+release=2
 source="https://download.savannah.gnu.org/releases/$name/$name-$version.tar.xz"
 
 build() {
@@ -26,4 +26,16 @@ build() {
 	for xx in pidof logsave sulogin; do
 		rm $PKG/usr/share/man/man8/$xx.8
 	done
+
+	mv $PKG/sbin/init $PKG/sbin/sysvinit-init
+	ln -sf /sbin/sysvinit-init $PKG/sbin/telinit
+
+	if [ ! -e /sbin/init ] || [ "$(readlink /sbin/init)" = /sbin/sysvinit-init ]; then
+		ln -s /sbin/sysvinit-init $PKG/sbin/init
+	else
+		for i in shutdown reboot poweroff halt; do
+			rm $PKG/sbin/$i
+		done
+		rm $PKG/usr/share/man/man8/shutdown.8
+	fi
 }
