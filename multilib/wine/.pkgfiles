@@ -1,4 +1,4 @@
-wine-7.20-1
+wine-7.21-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/revdep.d/
 -rw-r--r-- root/root    etc/revdep.d/wine.conf
@@ -882,6 +882,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/schemadef.h
 -rw-r--r-- root/root    usr/include/wine/windows/schnlsp.h
 -rw-r--r-- root/root    usr/include/wine/windows/sddl.h
+-rw-r--r-- root/root    usr/include/wine/windows/sdkddkver.h
 -rw-r--r-- root/root    usr/include/wine/windows/secext.h
 -rw-r--r-- root/root    usr/include/wine/windows/security.h
 -rw-r--r-- root/root    usr/include/wine/windows/sensapi.h
@@ -1063,6 +1064,8 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/windows.gaming.input.forcefeedback.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.gaming.input.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.gaming.input.idl
+-rw-r--r-- root/root    usr/include/wine/windows/windows.gaming.ui.h
+-rw-r--r-- root/root    usr/include/wine/windows/windows.gaming.ui.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.globalization.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.globalization.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.h
@@ -1451,13 +1454,14 @@ lrwxrwxrwx root/root    usr/lib/wine/x86_64-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/nsiproxy.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/ntdll.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/odbc32.so
--rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/opengl32.dll.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/opengl32.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/qcap.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/secur32.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/win32u.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winealsa.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winebus.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winegstreamer.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winepulse.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wineusb.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winevulkan.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winex11.so
@@ -1502,6 +1506,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/cacls.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/cards.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/cdosys.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/certutil.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/cfgmgr32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/chcp.com
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/clock.exe
@@ -2167,6 +2172,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/servicemodelreg.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/services.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/setupapi.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/setx.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/sfc.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/sfc_os.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/shcore.dll
@@ -2258,6 +2264,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/win32u.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.devices.enumeration.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.gaming.input.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.gaming.ui.gamebar.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.globalization.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.media.devices.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.media.speech.dll
@@ -2282,6 +2289,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winemsibuilder.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winepath.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wineps.drv
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winepulse.drv
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wineusb.sys
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winevulkan.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winex11.drv
@@ -2622,7 +2630,7 @@ lrwxrwxrwx root/root    usr/lib32/wine/i386-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/nsiproxy.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/ntdll.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/odbc32.so
--rwxr-xr-x root/root    usr/lib32/wine/i386-unix/opengl32.dll.so
+-rwxr-xr-x root/root    usr/lib32/wine/i386-unix/opengl32.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/qcap.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/secur32.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/win32u.so
@@ -2672,6 +2680,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/cacls.exe
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/cards.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/cdosys.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/certutil.exe
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/cfgmgr32.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/chcp.com
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/clock.exe
@@ -3368,6 +3377,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/services.exe
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/setupapi.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/setupx.dll16
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/setx.exe
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/sfc.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/sfc_os.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/shcore.dll
@@ -3481,6 +3491,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windebug.dll16
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.devices.enumeration.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.gaming.input.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.gaming.ui.gamebar.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.globalization.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.media.devices.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.media.speech.dll
