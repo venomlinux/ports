@@ -8,17 +8,13 @@ release=1
 source="https://github.com/i-rinat/apulse/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
-
-	mkdir build
-        cd build
-
-        cmake \
-		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DCMAKE_BUILD_TYPE=Release \
-		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
-		..
-	make
-	make DESTDIR=$PKG install
+	cmake -B build -S ${name}-${version} \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+	        -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib \
+	        -DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS"
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
 }
