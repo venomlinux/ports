@@ -10,14 +10,15 @@ source="https://sourceware.org/pub/lvm2/LVM2.$version.tgz"
 
 build() {
 	cd LVM2.$version
-
-	CONFIG_SHELL=/bin/bash \
+	
+	CONFIG_SHELL=/bin/bash  \
 	./configure --prefix=/usr \
-		    --libexecdir=/usr/lib \
-	            --exec-prefix= \
-	            --enable-cmdlib \
-	            --enable-pkgconfig \
-	            --enable-udev_sync
-	make
-	make DESTDIR=$PKG install
+		--libdir=/usr/lib \
+		--libexecdir=/usr/lib \
+		--exec-prefix= \
+		--enable-cmdlib \
+		--enable-pkgconfig \
+		--enable-udev_sync
+	make 
+	make DESTDIR=$PKG install_lvm2 install_device-mapper
 }
