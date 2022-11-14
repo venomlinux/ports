@@ -4,7 +4,7 @@
 
 name=mold
 version=1.7.0
-release=2
+release=3
 source="$name-$version.tar.gz::https://github.com/rui314/mold/archive/v$version.tar.gz
 elf_amd64_only.patch
 "
@@ -25,7 +25,8 @@ build() {
 
 	cmake -B build \
 		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DCMAKE_INSTALL_LIBDIR=lib
+		-DCMAKE_INSTALL_LIBDIR=/usr/lib \
+	        -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib 
 	cmake --build   build
 	DESTDIR=$PKG cmake --install build
 }
