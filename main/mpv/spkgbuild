@@ -1,27 +1,18 @@
 # description	: A free, open source, and cross-platform media player
-# depends	: mesa lcms2 ffmpeg libass libarchive luajit libcdio-paranoia libxpresent
+# depends	: mesa meson lcms2 ffmpeg libass libarchive luajit libcdio-paranoia libxpresent
 
 name=mpv
 version=0.35.0
-release=2
-_wver=2.0.24
-source="https://github.com/mpv-player/mpv/archive/v$version/$name-$version.tar.gz
-https://waf.io/waf-${_wver}"
+release=3
+source="https://github.com/mpv-player/mpv/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
 
-	install -m0755 $SRC/waf-${_wver} waf
-
-	/usr/bin/python3 waf configure \
-	    --prefix=/usr \
-	    --confdir=/etc/mpv \
-	    --enable-cdda \
-	    --enable-libarchive \
-	    --enable-libmpv-shared \
-	    --enable-lua
-
-	/usr/bin/python3 waf build
-	/usr/bin/python3 waf install --destdir=$PKG
-
+	venom-meson $name-$version build \
+		-D libmpv=true \
+		-D libarchive=enabled \
+		-D cdda=enabled \
+		-D lua=luajit 
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 }
