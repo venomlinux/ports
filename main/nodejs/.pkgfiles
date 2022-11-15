@@ -1,4 +1,4 @@
-nodejs-19.0.1-1
+nodejs-19.1.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 lrwxrwxrwx root/root    usr/bin/corepack -> ../lib/node_modules/corepack/dist/corepack.js
@@ -3150,8 +3150,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/lib/utils/completion/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/lib/utils/config/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/config/definition.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/config/definitions.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/config/describe-all.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/config/flatten.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/config/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/did-you-mean.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/lib/utils/display.js
@@ -3255,6 +3253,8 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/man/man1/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/man/man5/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/man/man5/folders.5
 -rw-r--r-- root/root    usr/lib/node_modules/npm/man/man5/install.5
+-rw-r--r-- root/root    usr/lib/node_modules/npm/man/man5/npm-global.5
+-rw-r--r-- root/root    usr/lib/node_modules/npm/man/man5/npm-json.5
 -rw-r--r-- root/root    usr/lib/node_modules/npm/man/man5/npm-shrinkwrap-json.5
 -rw-r--r-- root/root    usr/lib/node_modules/npm/man/man5/npmrc.5
 -rw-r--r-- root/root    usr/lib/node_modules/npm/man/man5/package-json.5
@@ -3564,19 +3564,16 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/aggregate-error/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/aggregate-error/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/aggregate-error/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/aggregate-error/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/aggregate-error/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/ansi-regex/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ansi-regex/index.d.ts
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ansi-regex/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ansi-regex/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ansi-regex/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ansi-regex/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/ansi-styles/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ansi-styles/index.d.ts
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ansi-styles/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ansi-styles/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ansi-styles/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ansi-styles/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/aproba/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/aproba/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/aproba/index.js
@@ -3641,14 +3638,12 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/binary-extensions/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/binary-extensions/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/binary-extensions/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/binary-extensions/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/binary-extensions/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/brace-expansion/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/brace-expansion/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/brace-expansion/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/brace-expansion/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/builtins/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/builtins/License
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/builtins/Readme.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/builtins/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/builtins/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/cacache/
@@ -3676,7 +3671,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/chalk/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/chalk/index.d.ts
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/chalk/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/chalk/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/chalk/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/chalk/source/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/chalk/source/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/chalk/source/templates.js
@@ -3695,7 +3689,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/clean-stack/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/clean-stack/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/clean-stack/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/clean-stack/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/clean-stack/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/cli-columns/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/cli-columns/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/cli-columns/color.js
@@ -3744,7 +3737,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/color-support/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/columnify/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/columnify/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/columnify/Makefile
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/columnify/Readme.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/columnify/columnify.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/columnify/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/columnify/package.json
@@ -3780,7 +3772,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/debug/node_modules
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/debug/node_modules/ms/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/debug/node_modules/ms/license.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/debug/node_modules/ms/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/debug/node_modules/ms/readme.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/debug/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/debug/src/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/debug/src/browser.js
@@ -3800,13 +3791,11 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/delegates/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/delegates/History.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/delegates/License
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/delegates/Makefile
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/delegates/Readme.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/delegates/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/delegates/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/depd/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/depd/History.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/depd/LICENSE
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/depd/Readme.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/depd/index.js
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/depd/lib/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/depd/lib/browser/
@@ -3873,7 +3862,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/env-paths/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/env-paths/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/env-paths/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/env-paths/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/env-paths/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/err-code/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/err-code/bower.json
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/err-code/index.js
@@ -3936,7 +3924,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/has-flag/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/has-flag/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/has-flag/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/has-flag/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/has-flag/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/has-unicode/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/has-unicode/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/has-unicode/index.js
@@ -3952,6 +3939,7 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/hosted-git-info/li
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/hosted-git-info/lib/git-host-info.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/hosted-git-info/lib/git-host.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/hosted-git-info/lib/index.js
+-rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/hosted-git-info/lib/parse-url.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/hosted-git-info/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/http-cache-semantics/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/http-cache-semantics/LICENSE
@@ -3984,7 +3972,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/humanize-ms/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/humanize-ms/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/humanize-ms/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/iconv-lite/
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/iconv-lite/Changelog.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/iconv-lite/LICENSE
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/iconv-lite/encodings/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/iconv-lite/encodings/dbcs-codec.js
@@ -4026,7 +4013,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/indent-string/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/indent-string/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/indent-string/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/indent-string/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/indent-string/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/infer-owner/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/infer-owner/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/infer-owner/index.js
@@ -4056,7 +4042,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/ip-regex/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ip-regex/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ip-regex/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ip-regex/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ip-regex/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/ip/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/ip/lib/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ip/lib/ip.js
@@ -4076,7 +4061,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/is-fullwidth-code-
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/is-fullwidth-code-point/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/is-fullwidth-code-point/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/is-fullwidth-code-point/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/is-fullwidth-code-point/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/is-lambda/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/is-lambda/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/is-lambda/index.js
@@ -4265,7 +4249,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/minipass-pipeline/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/minipass-sized/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/minipass-sized/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/minipass-sized/index.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/minipass-sized/package-lock.json
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/minipass-sized/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/minipass/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/minipass/LICENSE
@@ -4300,7 +4283,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/ms/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ms/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ms/license.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ms/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/ms/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/mute-stream/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/mute-stream/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/mute-stream/mute.js
@@ -4521,7 +4503,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/npm-install-checks
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/npm-normalize-package-bin/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/npm-normalize-package-bin/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/npm-normalize-package-bin/index.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/npm-normalize-package-bin/package-lock.json
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/npm-normalize-package-bin/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/npm-package-arg/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/npm-package-arg/LICENSE
@@ -4594,7 +4575,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/p-map/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/p-map/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/p-map/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/p-map/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/p-map/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/pacote/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/pacote/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/pacote/README.md
@@ -4624,7 +4604,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/path-is-absolute/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/path-is-absolute/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/path-is-absolute/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/path-is-absolute/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/path-is-absolute/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/postcss-selector-parser/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/postcss-selector-parser/API.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/postcss-selector-parser/LICENSE-MIT
@@ -4671,7 +4650,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/proc-log/lib/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/promise-all-reject-late/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/promise-all-reject-late/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/promise-all-reject-late/index.js
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/promise-all-reject-late/package-lock.json
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/promise-all-reject-late/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/promise-call-limit/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/promise-call-limit/LICENSE
@@ -4822,7 +4800,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/safe-buffer/
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/safer-buffer/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/safer-buffer/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/safer-buffer/Porting-Buffer.md
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/safer-buffer/Readme.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/safer-buffer/dangerous.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/safer-buffer/package.json
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/safer-buffer/safer.js
@@ -4985,7 +4962,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/string-width/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/string-width/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/string-width/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/string-width/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/string-width/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/string_decoder/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/string_decoder/LICENSE
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/string_decoder/lib/
@@ -4996,13 +4972,11 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/strip-ansi/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/strip-ansi/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/strip-ansi/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/strip-ansi/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/strip-ansi/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/supports-color/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/supports-color/browser.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/supports-color/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/supports-color/license
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/supports-color/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/supports-color/readme.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/tar/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/tar/LICENSE
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/tar/index.js
@@ -5043,7 +5017,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/text-table/example
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/text-table/example/table.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/text-table/index.js
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/text-table/package.json
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/text-table/readme.markdown
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/tiny-relative-date/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/tiny-relative-date/LICENSE.md
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/tiny-relative-date/lib/
@@ -5098,7 +5071,6 @@ drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/walk-up-path/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/walk-up-path/package.json
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/wcwidth/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/wcwidth/LICENSE
--rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/wcwidth/Readme.md
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/wcwidth/combining.js
 drwxr-xr-x root/root    usr/lib/node_modules/npm/node_modules/wcwidth/docs/
 -rw-r--r-- root/root    usr/lib/node_modules/npm/node_modules/wcwidth/docs/index.md
