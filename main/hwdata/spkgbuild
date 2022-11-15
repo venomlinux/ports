@@ -1,0 +1,16 @@
+# description	    : hardware identification databases
+# homepage	    : https://github.com/vcrhonek/hwdata
+
+name=hwdata
+version=0.364
+release=1
+source="https://github.com/vcrhonek/hwdata/archive/v$version/$name-$version.tar.gz"
+
+build() {
+
+	cd $name-$version
+	    ./configure --prefix=/usr
+	    make DESTDIR=$PKG install
+	    scratch isinstalled usbutils && rm $PKG/usr/share/hwdata/usb.ids
+	    rm -rf $PKG/usr/lib
+}
