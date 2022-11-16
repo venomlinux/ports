@@ -4,12 +4,14 @@
 
 name=simplescreenrecorder
 version=0.4.4
-release=1
-source="https://github.com/MaartenBaert/ssr/archive/$version/ssr-$version.tar.gz"
+release=2
+source="https://github.com/MaartenBaert/ssr/archive/$version/ssr-$version.tar.gz
+	ffmpeg5.patch::https://patch-diff.githubusercontent.com/raw/MaartenBaert/ssr/pull/934.patch"
 
 build() {
 	cd ssr-$version
 
+	patch -p1 -i $SRC/ffmpeg5.patch
 	[ -e /usr/lib/pkgconfig/libpulse.pc ] || SSRCONF="$SSRCONF -DWITH_PULSEAUDIO=FALSE"
 	[ -e /usr/lib/pkgconfig/jack.pc ] || SSRCONF="$SSRCONF -DWITH_JACK=FALSE"
 
@@ -25,3 +27,4 @@ build() {
 	make DESTDIR=$PKG install
 }
 
+ffmpeg5.patch::https://patch-diff.githubusercontent.com/raw/MaartenBaert/ssr/pull/934.patch
