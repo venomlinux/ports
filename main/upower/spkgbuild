@@ -3,11 +3,12 @@
 
 name=upower
 version=1.90.0
-release=1
+release=2
 source="https://gitlab.freedesktop.org/$name/$name/-/archive/v$version/$name-v$version.tar.gz"
 
 build() {
 
+	export XML_CATALOG_FILES=/etc/xml/catalog 
 	venom-meson $name-v$version build \
 	-D gtk-doc=false \
 	-D systemdsystemunitdir=no 
