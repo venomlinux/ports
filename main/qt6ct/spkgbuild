@@ -8,8 +8,14 @@ release=1
 source="https://github.com/trialuser02/$name/releases/download/$version/$name-$version.tar.xz"
 
 build() {
-  cmake -B build -S $name-$version \
-    -DCMAKE_INSTALL_PREFIX=/usr
-  cmake --build build
-  DESTDIR=$PKG cmake --install build
+	cmake -S $name-$version -B build \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
