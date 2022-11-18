@@ -34,6 +34,7 @@ build() {
 	      -DLLVM_DEFAULT_TARGET_TRIPLE="i686-pc-linux-gnu" \
 	      -DLLVM_INCLUDE_BENCHMARKS=OFF \
 	      -DLLVM_TARGETS_TO_BUILD='AMDGPU;BPF;NVPTX;WebAssembly;X86'\
+	      -DLLVM_ENABLE_ZSTD=$(scratch isinstalled zstd-32 || echo OFF) \
 	      -Wno-dev
 	ninja
 	DESTDIR=$PKG ninja install
