@@ -7,14 +7,15 @@ release=1
 source="https://download.osgeo.org/$name/tiff-$version.tar.gz"
 
 build() {
-	cd tiff-$version
-
-	mkdir -p build
-	cd build
-	
-	cmake -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/libtiff \
-	      -DCMAKE_INSTALL_PREFIX=/usr -G Ninja ..
-	ninja
-	DESTDIR=$PKG ninja install
-
+	cmake -S tiff-$version -B build -G Ninja \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DCMAKE_INSTALL_DOCDIR=/usr/share/doc/libtiff \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
