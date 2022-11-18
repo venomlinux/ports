@@ -7,19 +7,20 @@ release=1
 source="https://github.com/uclouvain/openjpeg/archive/v$version/openjpeg-$version.tar.gz"
 
 build() {
-	cd openjpeg-$version
+	cmake -S openjpeg-$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DBUILD_SHARED_LIBS=ON \
+		-DBUILD_STATIC_LIBS=OFF \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
-	mkdir -v build
-	cd       build
-
-	cmake -DCMAKE_BUILD_TYPE=Release \
-	      -DCMAKE_INSTALL_PREFIX=/usr \
-	      -DBUILD_SHARED_LIBS=ON \
-	      -DBUILD_STATIC_LIBS=OFF ..
-	make
-	make DESTDIR=$PKG install
-
-	cd ../doc
+	cd $SRC/openjpeg-$version/doc
 	  for man in man/man?/* ; do
 	      install -v -D -m 644 $man $PKG/usr/share/$man
 	  done 
