@@ -11,7 +11,13 @@ backup="etc/btrfs-assistant.conf"
 
 build() {
 
-	cmake -B build -S $name-$version -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE='Release'
-	make -C build
-	make -C build DESTDIR=$PKG install
+	cmake -S $name-$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+	        -DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
