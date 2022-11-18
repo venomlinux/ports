@@ -15,16 +15,18 @@ build() {
 
 	sed -i 's/WinGC < 0/WinGC != 0/' panel.cpp
 
-	mkdir build
-	cd build
-
-	cmake \
+	cmake -B build \
 		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-DUSE_CONSOLEKIT=yes \
 		-DUSE_PAM=yes \
-		..
-	make
-	make DESTDIR=$PKG install
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
 	install -Dm644 $SRC/$name.pam $PKG/etc/pam.d/$name
 
