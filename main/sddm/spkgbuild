@@ -7,10 +7,12 @@ release=1
 backup="usr/share/sddm/scripts/Xsetup
 	etc/sddm.conf"
 source="https://github.com/sddm/sddm/releases/download/v$version/sddm-$version.tar.xz
+	qt5.15.patch
 	rc.$name"
 
 build() {
 	cd $name-$version
+	patch -p1 -i $SRC/qt5.15.patch
 
 	sed -e '/UPOWER_SERVICE)/ s:^://:' \
 	    -i src/daemon/PowerManager.cpp
@@ -29,7 +31,7 @@ build() {
 	      -Wno-dev ..
 	make
 	make DESTDIR=$PKG install
-	install -dm755 -o sddm -g sddm $PKG/var/lib/sddm
+	install -dm 755 -o sddm -g sddm $PKG/var/lib/sddm  
 
 	install -d $PKG/usr/lib/sddm/sddm.conf.d
 	$PKG/usr/bin/sddm --example-config > $PKG/etc/sddm.conf
