@@ -1,0 +1,15 @@
+# description	    : Use any linux distribution inside your terminal.
+# homepage	    : https://github.com/89luca89/distrobox
+# depends	    : podman
+
+name=distrobox
+version=1.4.1
+release=1
+url="https://github.com/89luca89/distrobox"
+source="$name-$version.tar.gz::https://github.com/89luca89/distrobox/archive/$version.tar.gz"
+
+build() {
+
+	cd $name-$version
+	./install -P $PKG/usr
+}
