@@ -7,13 +7,17 @@ release=1
 source="https://downloads.sourceforge.net/qbittorrent/qbittorrent-$version.tar.xz"
 
 build() {
-	cd qbittorrent-$version
-
-	cmake -B build-nox  \
-	    -DCMAKE_INSTALL_PREFIX=/usr \
-	    -DQT6=ON \
-	    -DGUI=OFF \
-	    -DSYSTEMD=OFF
-	cmake --build build-nox
-	DESTDIR="$PKG" cmake --install build-nox
+	cmake -S qbittorrent-$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DQT6=ON \
+		-DGUI=OFF \
+		-DSYSTEMD=OFF \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
