@@ -8,14 +8,17 @@ release=1
 source="https://github.com/keepassxreboot/${name}/releases/download/${version}/${name}-${version}-src.tar.xz"
 
 build() {
-	cd $name-$version
-    	cmake -S . -B build \
-        	-DCMAKE_BUILD_TYPE=Release \
-        	-DCMAKE_INSTALL_PREFIX=/usr \
-        	-DCMAKE_INSTALL_LIBDIR=lib \
+	cmake -S $name-$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
         	-DWITH_XC_UPDATECHECK=OFF \
 		-DWITH_XC_DOCS=OFF \
-		-DWITH_XC_YUBIKEY=OFF
-    	cmake --build build
-    	cmake --build build --target install -- DESTDIR="$PKG"
+		-DWITH_XC_YUBIKEY=OFF \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
