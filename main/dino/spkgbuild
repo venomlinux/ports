@@ -1,15 +1,21 @@
 # description	: Modern XMPP (Jabber) chat client written in Vala 
-# depends	: glib glib-networking gtk3 gpgme libgee libgcrypt libsignal-protocol-c libsoup sqlite qrencode gst-plugins-good gspell libsrtp libnice
+# depends	: glib glib-networking gtk3 gpgme libgee libgcrypt libsignal-protocol-c libsoup3 sqlite qrencode gst-plugins-good gspell libsrtp libnice
 
 name=dino
-version=0.3.0
+version=0.3.1
 release=1
 source="https://github.com/dino/dino/releases/download/v${version}/${name}-${version}.tar.gz"
 
 build() {
-	cmake -G Ninja -B build -S ${name}-${version} \
-		-DCMAKE_INSTALL_PREFIX=/usr
-	ninja -C build
-	DESTDIR="${PKG}" ninja -C build install
-
+	cmake -S $name-$version -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DUSE_SOUP3=yes \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
