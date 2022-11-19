@@ -15,15 +15,18 @@ build() {
 
 
 	# Provided by util-linux
-	for utlx in last lastb mesg utmpdump wall; do
+	for utlx in last lastb readbootlog mesg utmpdump wall; do
+		rm $PKG/usr/bin/$utlx
 		rm $PKG/usr/share/man/man1/$utlx.1
 	done
 
-	# Provided by procps
+	# Provided by procps, e2fsprogs, sulogin
 	rm $PKG/bin/pidof
-	rm $PKG/usr/share/man/man8/pidof.8
-
-	# Provided by e2fsprogs
 	rm $PKG/sbin/logsave
-	rm $PKG/usr/share/man/man8/logsave.8
+	rm $PKG/sbin/sulogin
+
+	for mn in pidof logsave sulogin; do
+		rm $PKG/usr/share/man/man8/$mn.8
+	done
+	
 }
