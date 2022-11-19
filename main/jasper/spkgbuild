@@ -9,13 +9,18 @@ source="https://github.com/jasper-software/jasper/releases/download/version-$ver
 build() {
 
 	cmake -S $name-$version -B build \
-	    -DCMAKE_INSTALL_PREFIX=/usr \
-	    -DCMAKE_C_FLAGS="$CFLAGS -ffat-lto-objects" \
-	    -DJAS_ENABLE_OPENGL=ON \
-	    -DJAS_ENABLE_LIBJPEG=ON \
-	    -DJAS_ENABLE_AUTOMATIC_DEPENDENCIES=OFF \
-	    -DCMAKE_SKIP_RPATH=ON \
-	    -DJAS_ENABLE_SHARED=ON
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS="$CFLAGS -ffat-lto-objects" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DJAS_ENABLE_OPENGL=ON \
+		-DJAS_ENABLE_LIBJPEG=ON \
+		-DJAS_ENABLE_AUTOMATIC_DEPENDENCIES=OFF \
+		-DCMAKE_SKIP_RPATH=ON \
+		-DJAS_ENABLE_SHARED=ON \
+		-Wno-dev
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
 

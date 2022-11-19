@@ -11,11 +11,13 @@ build() {
 
 	sed -i '/"lib64"/s/64//' kde-modules/KDEInstallDirs.cmake
 	
-	mkdir build
-	cd    build
-	
-	cmake -DCMAKE_INSTALL_PREFIX=/usr ..
-	make
-	make DESTDIR=$PKG install
+	cmake -B build \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
 

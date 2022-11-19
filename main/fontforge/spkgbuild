@@ -7,19 +7,18 @@ release=1
 source="https://github.com/fontforge/fontforge/releases/download/$version/fontforge-$version.tar.xz"
 
 build() {
-	cd $name-$version
-
-	mkdir build
-	cd build
-
-	cmake \
+	cmake  -S $name-$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-DENABLE_MAINTAINER_TOOLS=TRUE \
 		-DENABLE_FONTFORGE_EXTRAS=TRUE \
 		-DUNIX=TRUE \
-		..
-	make
-	make DESTDIR=$PKG install
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
 }

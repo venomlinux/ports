@@ -7,15 +7,15 @@ release=1
 source="https://files.dyne.org/frei0r/releases/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
-	
-	mkdir -vp build
-	cd        build
-	
-	cmake -DCMAKE_INSTALL_PREFIX=/usr    \
-	      -DCMAKE_BUILD_TYPE=Release     \
-	      -DOpenCV_DIR=/usr/share/OpenCV \
-	      -Wno-dev ..
-	make
-	make DESTDIR=$PKG install
+	cmake  -S $name-$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DOpenCV_DIR=/usr/share/OpenCV \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }

@@ -8,15 +8,16 @@ release=1
 source="https://github.com/htacg/tidy-html5/archive/$version/$name-$version.tar.gz"
 
 build() {
-  cd $name-html5-$version 
-  mkdir -p build
-  cd build
-  cmake ../ \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DCMAKE_BUILD_TYPE=Release
-  make
-
-  make DESTDIR="$PKG" install
+	cmake -S $name-html5-$version  -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
 # Compatibility symlinks until everything is ported
   ln -s tidybuffio.h "$PKG"/usr/include/buffio.h

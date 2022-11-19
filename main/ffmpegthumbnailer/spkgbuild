@@ -9,19 +9,20 @@ source="$name-$version.tar.gz::https://github.com/dirkvdb/$name/archive/$version
 	https://github.com/dirkvdb/ffmpegthumbnailer/commit/efb5b618.patch"
 
 build() {
-	cd $name-$version
 
-	patch -p1 < ../ffmpegthumbnailer-ffmpeg5.patch # Fix build with FFmpeg 5
-	patch -p1 < ../efb5b618.patch # Fix build with FFmpeg 5
+	patch -d $name-$version -Np1 -i $SRC/ffmpegthumbnailer-ffmpeg5.patch # Fix build with FFmpeg 5
+	patch -d $name-$version -Np1 -i $SRC/efb5b618.patch # Fix build with FFmpeg 5
 
-	mkdir -p build
-	cd build
-	cmake .. \
-		-DCMAKE_BUILD_TYPE=Release \
+	cmake  -S $name-$version -B build \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-DENABLE_GIO=ON \
-		-DENABLE_THUMBNAILER=ON
-	make
-	make DESTDIR=$PKG install
+		-DENABLE_THUMBNAILER=ON \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }

@@ -8,15 +8,18 @@ release=1
 source="https://libzip.org/download/${name}-${version}.tar.xz"
 
 build() {
-  cd "${name}-${version}"
+	cmake -S $name-$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
-  mkdir build && cd build
-  cmake -DCMAKE_INSTALL_PREFIX=/usr \
-    -DCMAKE_INSTALL_LIBDIR=lib \
-    ..
-  make
-  make DESTDIR="${PKG}" install
-  for i in openjdk-bin openjdk-17-bin; do
-      scratch isinstalled $i && rm -rf $PKG/usr/lib/libzip.so
-  done
+	if [scratch isinstalled openjdk-bin] || [scratch isinstalled openjdk-17-bin]; then
+		rm -rf $PKG/usr/lib/libzip.so
+	fi
 }

@@ -7,18 +7,15 @@ release=1
 source="https://github.com/midori-browser/core/releases/download/v$version/midori-v$version.tar.gz"
 
 build() {
-	cd $name-v$version
-
-	mkdir build
-	cd    build
-
-	cmake \
-	-DCMAKE_INSTALL_PREFIX=/usr \
-      	-DCMAKE_BUILD_TYPE=Release  \
-	-DCMAKE_C_FLAGS="$CFLAGS -fPIC -w" \
-	-DVALA_CFLAGS="$CFLAGS -fPIC -w" \
-      	..
-	make
-	make DESTDIR=$PKG install
-
+	cmake -S $name-v$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS -fPIC -w" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS -fPIC -w" \
+		-DVALA_CFLAGS="$CFLAGS -fPIC -w" \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }

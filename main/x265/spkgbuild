@@ -2,9 +2,9 @@
 # depends	: cmake nasm
 
 name=x265
-version=3.4
-release=2
-source="http://anduin.linuxfromscratch.org/BLFS/x265/x265_${version}.tar.gz"
+version=3.5
+release=1
+source="https://bitbucket.org/multicoreware/${name}_git/downloads/${name}_$version.tar.gz"
 
 build() {
 	cd ${name}_${version}
@@ -12,7 +12,14 @@ build() {
 	mkdir bld
 	cd    bld
 
-	cmake -DHIGH_BIT_DEPTH=ON -DCMAKE_INSTALL_PREFIX=/usr \
+	cmake   -DHIGH_BIT_DEPTH=ON \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev \
 	      ../source
 	make
 	make DESTDIR=$PKG install

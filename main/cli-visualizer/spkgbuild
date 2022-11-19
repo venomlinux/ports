@@ -7,7 +7,12 @@ release=8
 source="https://github.com/dpayne/$name/archive/v$version.tar.gz"
 
 build() {
-    cd $name-$version
-    cmake -DCMAKE_INSTALL_PREFIX=/usr ENABLE_PULSE=1 ./
-    make PREFIX=$PKG/usr DESTDIR=$PKG install
+	cmake -S $name-$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }

@@ -7,10 +7,14 @@ release=1
 source="https://wpewebkit.org/releases/$name-$version.tar.xz"
 
 build() {
-	cmake -H$name-$version -Bbuild \
-	    -DCMAKE_BUILD_TYPE=Plain \
-	    -DCMAKE_INSTALL_PREFIX=/usr \
-	    -DCMAKE_INSTALL_LIBDIR=/usr/lib
+	cmake -S $name-$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev	
 	cmake --build build
-	DESTDIR=$PKG cmake --build build --target install
+	DESTDIR=$PKG cmake --install build
 }

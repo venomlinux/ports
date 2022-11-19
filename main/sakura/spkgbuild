@@ -11,7 +11,15 @@ build() {
 	cd $name-$version
 	# Set default font size a bit smaller
 	sed -i 's|#define DEFAULT_FONT "Bitstream Vera Sans Mono 14"|#define DEFAULT_FONT "Dejavu Sans Mono Book 10"|g' src/sakura.c
-	cmake -DCMAKE_INSTALL_PREFIX=/usr .
-	make
-	make DESTDIR=$PKG install
+	
+	cmake -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }

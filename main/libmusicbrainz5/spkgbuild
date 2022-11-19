@@ -8,15 +8,17 @@ source="https://github.com/metabrainz/libmusicbrainz/releases/download/release-$
 	16.patch"
 
 build() {
-	cd libmusicbrainz-$version
+	patch -d libmusicbrainz-$version -Np1 -i $SRC/16.patch
 
-	patch -Np1 -i ../16.patch
-	
-	mkdir build
-	cd    build
-	
-	cmake -DCMAKE_INSTALL_PREFIX=/usr ..
-	make
-	make DESTDIR=$PKG install
+	cmake -S libmusicbrainz-$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
 

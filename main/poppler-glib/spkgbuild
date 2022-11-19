@@ -7,24 +7,24 @@ release=2
 source="https://poppler.freedesktop.org/poppler-$version.tar.xz"
 
 build() {
-	cd poppler-$version
-
-  	mkdir build
-	cd    build
-	
-	cmake  -DCMAKE_BUILD_TYPE=Release   \
-	       -DCMAKE_INSTALL_PREFIX=/usr  \
-	       -DTESTDATADIR=$PWD/testfiles \
-	       -DENABLE_UNSTABLE_API_ABI_HEADERS=OFF \
-	       -DENABLE_UTILS=OFF \
-	       -DENABLE_CPP=OFF \
-	       -DENABLE_GLIB=ON \
-	       -DENABLE_QT5=OFF \
-	       -DENABLE_QT6=OFF \
-	       -DENABLE_BOOST=OFF \
-	       .. 
-	make
-	make DESTDIR=$PKG install
+	cmake -S poppler-$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DTESTDATADIR=$PWD/testfiles \
+		-DENABLE_UNSTABLE_API_ABI_HEADERS=OFF \
+		-DENABLE_UTILS=OFF \
+		-DENABLE_CPP=OFF \
+		-DENABLE_GLIB=ON \
+		-DENABLE_QT5=OFF \
+		-DENABLE_QT6=OFF \
+		-DENABLE_BOOST=OFF \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
 	rm $PKG/usr/lib/libpoppler.so*
 	rm $PKG/usr/lib/pkgconfig/poppler.pc

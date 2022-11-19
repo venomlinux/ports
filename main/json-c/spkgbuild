@@ -7,15 +7,17 @@ release=1
 source="https://s3.amazonaws.com/json-c_releases/releases/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
-		
-	cmake . \
+	cmake -S $name-$version -B build \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
-	        -DCMAKE_INSTALL_LIBDIR=/usr/lib \
-	        -DCMAKE_BUILD_TYPE=Release \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 	        -DBUILD_TESTING=OFF \
-	        -DBUILD_SHARED_LIBS=ON
-	make
-	make DESTDIR=$PKG install
+	        -DBUILD_SHARED_LIBS=ON \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
 

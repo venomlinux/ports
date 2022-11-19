@@ -12,9 +12,15 @@ build() {
 	
 	cmake -S libaom-$version -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+	        -DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-DBUILD_SHARED_LIBS=1 \
 		-DENABLE_TESTS=0 \
-		-DENABLE_DOCS=0
+		-DENABLE_DOCS=0 \
+		-Wno-dev
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
 }

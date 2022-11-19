@@ -12,21 +12,21 @@ source="https://github.com/annulen/webkit/releases/download/qtwebkit-$_qtver/qtw
 	glib-2.68.patch"
 
 build() {
-	cd qtwebkit-$_qtver
+	patch  -d qtwebkit-$_qtver -p0 -i ../icu68.patch
+	patch  -d qtwebkit-$_qtver -p1 -i ../glib-2.68.patch
+	patch  -d qtwebkit-$_qtver -p1 -i ../qt5-webkit-bison-3.7.patch # Fix build with bison 3.7
+	patch  -d qtwebkit-$_qtver -p1 -i ../qt5-webkit-python-3.9.patch # Fix build with python 3.9
 
-	patch -p0 -i ../icu68.patch
-	patch -p1 -i ../glib-2.68.patch
-	patch -p1 -i ../qt5-webkit-bison-3.7.patch # Fix build with bison 3.7
-	patch -p1 -i ../qt5-webkit-python-3.9.patch # Fix build with python 3.9
-
-	mkdir -p build
-	cd build
-
-	cmake \
-	  -DCMAKE_INSTALL_PREFIX=/usr \
-	  -DCMAKE_BUILD_TYPE=Release \
-	  -DPORT=Qt \
-	  -DENABLE_TOOLS=OFF ..
-	make
-	make DESTDIR=$PKG install
+	cmake -S qtwebkit-$_qtver -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DPORT=Qt \
+		-DENABLE_TOOLS=OFF \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }

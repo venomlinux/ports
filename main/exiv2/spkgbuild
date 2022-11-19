@@ -1,5 +1,5 @@
 # description	: C++ library and a command line utility for managing image and video metadata
-# depends	: curl cmake
+# depends	: curl cmake ninja
 
 name=exiv2
 version=0.27.5
@@ -12,16 +12,17 @@ build() {
 	# disable building a sample program that fails
 	sed -i '/conntest/s/^/#/' samples/CMakeLists.txt
 
-	mkdir build
-	cd    build
-	
-	cmake -DCMAKE_INSTALL_PREFIX=/usr  \
-	      -DCMAKE_BUILD_TYPE=Release   \
-	      -DEXIV2_ENABLE_VIDEO=yes     \
-	      -DEXIV2_ENABLE_WEBREADY=yes  \
-	      -DEXIV2_ENABLE_CURL=yes      \
-	      -DEXIV2_BUILD_SAMPLES=no     \
-	      -G "Unix Makefiles" ..
-	make
-	make DESTDIR=$PKG install
+	cmake -B build -G Ninja \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DEXIV2_ENABLE_VIDEO=yes     \
+		-DEXIV2_ENABLE_WEBREADY=yes  \
+		-DEXIV2_ENABLE_CURL=yes      \
+		-DEXIV2_BUILD_SAMPLES=no     \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }

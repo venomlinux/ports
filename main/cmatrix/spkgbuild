@@ -8,18 +8,13 @@ release=1
 source="https://github.com/abishekvashok/cmatrix/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
-
-	mkdir build
-        cd build
-
-        cmake \
-		-DCMAKE_INSTALL_PREFIX=/usr \
+	cmake -S $name-$version -B build \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
-		..
-	make
-	make DESTDIR=$PKG install
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
-	install -Dm644 ../$name.1 $PKG/usr/share/man/man1/$name.1
+	install -Dm644 $SRC/$name-$version/$name.1 $PKG/usr/share/man/man1/$name.1
 }

@@ -11,10 +11,15 @@ source="https://download.kde.org/stable/frameworks/${version%.*}/$name-$version.
 build() {
 	cmake -B build -S $name-$version \
 		-DCMAKE_INSTALL_PREFIX=/usr\
-		-DCMAKE_INSTALL_LIBDIR=/usr/lib \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-D_KDE4_DEFAULT_HOME_POSTFIX=4 \
 		-DBUILD_TESTING=OFF \
-		-DBUILD_QCH=ON
+		-DBUILD_QCH=ON \
+		-Wno-dev 
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
 }

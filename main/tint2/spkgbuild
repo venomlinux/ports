@@ -7,13 +7,16 @@ release=1
 source="https://gitlab.com/o9000/tint2/-/archive/v$version/tint2-v$version.tar.gz"
 
 build() {
-	mkdir -p build
-	cd build
-	cmake "../tint2-v$version" \
-	   -DCMAKE_INSTALL_PREFIX=/usr \
-	   -DENABLE_TINT2CONF=1 \
-	   -GNinja
-	ninja
-	DESTDIR="$PKG" ninja install
+	cmake -S tint2-v$version -B build -G Ninja \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DENABLE_TINT2CONF=1 \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR="$PKG" cmake --install build
 
 }

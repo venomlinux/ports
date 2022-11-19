@@ -7,16 +7,24 @@ version=5.5.3
 release=1
 source="$name-$version.tar.gz::https://github.com/apple/swift-corelibs-libdispatch/archive/swift-${version%.*}-RELEASE.tar.gz"
 build() {
+	export CC=clang
+	export CXX=clang++
 
      find swift-corelibs-* -name DispatchCompilerWarnings.cmake \
     	-exec sed -i "/-Werror/d" '{}' \;
-     	    mkdir build && cd build
-     	        
-        cmake -G Ninja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ \
-	       	-DCMAKE_BUILD_TYPE=Release \
-       		-DCMAKE_INSTALL_PREFIX=/usr \
+   
+	mkdir build && cd build
+
+        cmake -G Ninja \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-DBlocksRuntime_INCLUDE_DIR=/usr/include \
-		-DCMAKE_BUILD_WITH_INSTALL_RPATH=on ../swift-corelibs-$name-*
+		-DCMAKE_BUILD_WITH_INSTALL_RPATH=on ../swift-corelibs-$name-* \
+		-Wno-dev
 	ninja
 	DESTDIR=$PKG ninja install
 }

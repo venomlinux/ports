@@ -12,20 +12,27 @@ build() {
 
 	export CXXFLAGS="$CXXFLAGS -ffat-lto-objects"
 
-	cmake \
-		-Bbuild-shared \
-		-GNinja \
+	cmake -B build-shared -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DBUILD_SHARED_LIBS=ON
-		ninja -Cbuild-shared
-	cmake \
-		-Bbuild-static \
-		-GNinja \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DBUILD_SHARED_LIBS=ON \
+		-Wno-dev
+	ninja -C build-shared
+	
+	cmake -B build-static -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DBUILD_SHARED_LIBS=OFF
-		ninja -Cbuild-static
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DBUILD_SHARED_LIBS=OFF \
+		-Wno-dev
+	ninja -C build-static
 
 	DESTDIR=$PKG ninja -C build-shared install
 	DESTDIR=$PKG ninja -C build-static install
