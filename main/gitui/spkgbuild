@@ -3,20 +3,15 @@
 # depends	: rust
 
 name=gitui
-version=0.21.0
+version=0.22.0
 release=1
 source="https://github.com/extrawurst/$name/archive/v$version/$name-v$version.tar.gz"
 
-_portdir=$PWD
+_cargo_opts="--frozen --no-default-features --features regex-onig"
 
 build() {
 	cd $name-$version
-
-	for p in $_portdir/*.patch $_portdir/*.diff; do
-		[ -f $p   ] || continue
-		patch -Np1 -i $p
-	done
-
-	cargo build --release --no-default-features
+	cargo fetch --locked
+	cargo build $_cargo_opts --release
 	install -Dt $PKG/usr/bin target/release/$name
 }
