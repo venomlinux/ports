@@ -1,29 +1,29 @@
 # description	: programs for controlling the startup, running, and shutdown of the system
 
 name=sysvinit
-version=3.04
+version=3.05
 release=1
-source="https://download.savannah.gnu.org/releases/$name/$name-$version.tar.xz"
+source="https://github.com/slicer69/sysvinit/releases/download/$version/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-	# glibc 2.36 fix
-	sed '54d' -i src/sulogin.c
+	find man -type d -name '??' -exec rm -r {} +
 
-	make -C src
-	make -C src ROOT=$PKG install
+	make
+	make ROOT=$PKG install
 
-	for xx in last lastb readbootlog mesg utmpdump wall; do
-		rm $PKG/usr/bin/$xx
+
+	# Provided by util-linux
+	for utlx in last lastb mesg utmpdump wall; do
+		rm $PKG/usr/share/man/man1/$utlx.1
 	done
+
+	# Provided by procps
 	rm $PKG/bin/pidof
-	rm $PKG/sbin/sulogin
+	rm $PKG/usr/share/man/man8/pidof.8
+
+	# Provided by e2fsprogs
 	rm $PKG/sbin/logsave
-	for xx in last lastb readbootlog mesg utmpdump wall; do
-		rm $PKG/usr/share/man/man1/$xx.1
-	done
-	for xx in pidof logsave sulogin; do
-		rm $PKG/usr/share/man/man8/$xx.8
-	done
+	rm $PKG/usr/share/man/man8/logsave.8
 }
