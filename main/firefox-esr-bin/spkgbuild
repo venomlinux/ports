@@ -1,4 +1,4 @@
-# description	: Standalone web browser from mozilla.org - Extended Support Release 
+# description	: Firefox binary - Extended Support Release patched for alsa support
 # depends	: gtk3 libxt nss dbus-glib  
 # optional	: apulse patchelf
 
@@ -17,8 +17,9 @@ build() {
 
 	cp -r firefox/ $PKG/opt/$name
 
-	# Patch alsa support, install apulse and patchelf and rebuild firefox-esr-bin again
-        scratch isinstalled apulse && patchelf --set-rpath /usr/lib/apulse $PKG/opt/firefox-esr-bin/libxul.so
+	# For apply ALSA support, apulse and patchelf must be installed
+        scratch isinstalled apulse && scratch isinstalled patchelf && \
+	patchelf --set-rpath /usr/lib/apulse $PKG/opt/firefox-esr-bin/libxul.so
 
 	ln -s /opt/$name/firefox $PKG/usr/bin/$name
 	install -m644 $name.desktop $PKG/usr/share/applications/
