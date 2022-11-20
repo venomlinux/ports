@@ -15,8 +15,9 @@ build() {
 	ln -s /usr/lib/firefox/firefox $PKG/usr/bin/firefox
 	mkdir -p $PKG/usr/lib/firefox/lib
 
-	# Patch alsa support, install apulse and patchelf and rebuild firefox-bin again
-	scratch isinstalled apulse && patchelf --set-rpath /usr/lib/apulse $PKG/usr/lib/firefox/libxul.so
+	# For apply ALSA support, apulse and patchelf must be installed
+	scratch isinstalled apulse && scratch isinstalled patchelf && \
+	patchelf --set-rpath /usr/lib/apulse $PKG/usr/lib/firefox/libxul.so 
 
 	mkdir -p $PKG/etc/revdep.d
 	echo "/usr/lib/firefox" > $PKG/etc/revdep.d/firefox-bin
