@@ -1,5 +1,6 @@
 # description	: Standalone web browser from mozilla.org - Extended Support Release 
 # depends	: gtk3 libxt nss dbus-glib  
+# optional	: apulse
 
 name=firefox-esr-bin
 version=102.5.0
@@ -16,7 +17,11 @@ build() {
 
 	cp -r firefox/ $PKG/opt/$name
 
+	# Patch alsa support, install apulse and rebuild firefox-esr-bin
+        scratch isinstalled apulse && patchelf --set-rpath /usr/lib/apulse $PKG/opt/firefox-esr-bin/libxul.so
+
 	ln -s /opt/$name/firefox $PKG/usr/bin/$name
 	install -m644 $name.desktop $PKG/usr/share/applications/
 	install -m644 firefox/browser/chrome/icons/default/default128.png $PKG/usr/share/pixmaps/$_pkgname.png}
+
 }
