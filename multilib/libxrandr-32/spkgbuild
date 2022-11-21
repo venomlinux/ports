@@ -4,7 +4,7 @@
 name=libxrandr-32
 version=1.5.3
 release=1
-source="http://ftp.x.org/pub/individual/lib/libXrandr-$version.tar.xz"
+source="${name%-*}-$version.tar.xz::http://ftp.x.org/pub/individual/lib/libXrandr-$version.tar.xz"
 
 build() {
 	cd libXrandr-$version

@@ -4,7 +4,7 @@
 name=libxvmc-32
 version=1.0.13
 release=1
-source="http://ftp.x.org/pub/individual/lib/libXvMC-$version.tar.xz"
+source="${name%-*}-$version.tar.xz::http://ftp.x.org/pub/individual/lib/libXvMC-$version.tar.xz"
 
 build() {
 	cd libXvMC-$version

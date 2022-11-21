@@ -4,7 +4,7 @@
 name=libxcursor-32
 version=1.2.1
 release=1
-source="http://ftp.x.org/pub/individual/lib/libXcursor-$version.tar.xz"
+source="${name%-*}-$version.tar.xz::http://ftp.x.org/pub/individual/lib/libXcursor-$version.tar.xz"
 
 build() {
 	cd libXcursor-$version
