@@ -4,7 +4,7 @@
 name=libxres-32
 version=1.2.1
 release=1
-source="http://ftp.x.org/pub/individual/lib/libXres-$version.tar.bz2"
+source="${name%-*}-$version.tar.bz2::http://ftp.x.org/pub/individual/lib/libXres-$version.tar.bz2"
 
 build() {
 	cd libXres-$version
