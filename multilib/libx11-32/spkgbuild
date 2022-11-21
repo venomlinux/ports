@@ -4,7 +4,7 @@
 name=libx11-32
 version=1.8.2
 release=1
-source="http://ftp.x.org/pub/individual/lib/libX11-$version.tar.xz"
+source="${name%-*}-$version.tar.xz::http://ftp.x.org/pub/individual/lib/libX11-$version.tar.xz"
 
 build() {
 	cd libX11-$version
