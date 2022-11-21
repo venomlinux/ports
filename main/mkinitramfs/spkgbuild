@@ -5,12 +5,13 @@ name=mkinitramfs
 version=20220427
 release=1
 backup="etc/mkinitramfs.conf"
-source="https://github.com/venomlinux/mkinitramfs/archive/8fae073690ac7ea49f0951ea3355b6196eca7a12.tar.gz
+commit=8fae073690ac7ea49f0951ea3355b6196eca7a12
+source="$name-$version.tar.gz::https://github.com/venomlinux/mkinitramfs/archive/$commit.tar.gz
 	mkinitramfs.conf
 	base.hook"
 
 build() {
-	cd $name-8fae073690ac7ea49f0951ea3355b6196eca7a12
+	cd $name-$commit
 	DESTDIR=$PKG ./INSTALL.sh
 	install -m644 $SRC/mkinitramfs.conf $PKG/etc/
 	install -m644 $SRC/base.hook $PKG/usr/share/mkinitramfs/hooks/base.hook
