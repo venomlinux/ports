@@ -4,12 +4,12 @@
 name=geoip-database
 version=20220823
 release=1
-source="https://mailfud.org/geoip-legacy/GeoIP.dat.gz
-        https://mailfud.org/geoip-legacy/GeoIPv6.dat.gz
-        https://mailfud.org/geoip-legacy/GeoIPCity.dat.gz
-        https://mailfud.org/geoip-legacy/GeoIPCityv6.dat.gz
-        https://mailfud.org/geoip-legacy/GeoIPASNum.dat.gz
-        https://mailfud.org/geoip-legacy/GeoIPASNumv6.dat.gz"
+source="${name%-*}.dat.gz::https://mailfud.org/geoip-legacy/GeoIP.dat.gz
+        ${name%-*}v6.dat.gz::https://mailfud.org/geoip-legacy/GeoIPv6.dat.gz
+        ${name%-*}city.dat.gz::https://mailfud.org/geoip-legacy/GeoIPCity.dat.gz
+        ${name%-*}cityv6.dat.gz::https://mailfud.org/geoip-legacy/GeoIPCityv6.dat.gz
+        ${name%-*}asnum.dat.gz::https://mailfud.org/geoip-legacy/GeoIPASNum.dat.gz
+        ${name%-*}asnumv6.dat.gz::https://mailfud.org/geoip-legacy/GeoIPASNumv6.dat.gz"
 
 build() {
 	cd $SRC

@@ -5,7 +5,7 @@
 name=foot
 version=1.13.1
 release=1
-source="https://codeberg.org/dnkl/foot/archive/$version.tar.gz"
+source="$name-$version.tar.gz::https://codeberg.org/dnkl/foot/archive/$version.tar.gz"
 
 build() {
 
@@ -38,7 +38,7 @@ build() {
       --cols=135 \
       $script_options \
       $tmp_file
-    build/pgo $tmp_file $tmp_file $tmp_file
+   # build/pgo $tmp_file $tmp_file $tmp_file
   fi
   rm $tmp_file
   meson configure -D b_pgo=use build

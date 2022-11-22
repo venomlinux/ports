@@ -4,7 +4,7 @@
 name=portsmf
 version=239
 release=1
-source="https://github.com/tenacityteam/$name/archive/refs/tags/$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/tenacityteam/$name/archive/refs/tags/$version.tar.gz"
 
 build() {
 	cmake -S $name-$version -B build \
