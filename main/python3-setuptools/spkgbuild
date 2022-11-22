@@ -4,7 +4,7 @@
 name=python3-setuptools
 version=65.6.0
 release=1
-source="https://files.pythonhosted.org/packages/source/s/${name#*-}/${name#*-}-$version.tar.gz"
+source="$name-$version.tar.gz::https://files.pythonhosted.org/packages/source/s/${name#*-}/${name#*-}-$version.tar.gz"
 
 build() {
 	cd setuptools-$version
