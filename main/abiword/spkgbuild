@@ -4,13 +4,34 @@
 
 name=abiword
 version=3.0.5
-release=1
-source="https://www.abisource.com/downloads/$name/$version/source/$name-$version.tar.gz"
+release=2
+source="$name-$version.tar.bz2::https://gitlab.gnome.org/World/AbiWord/-/archive/release-$version/AbiWord-release-$version.tar.bz2 enchant.patch"
+
+_plugins="applix babelfish bmp clarisworks collab docbook command eml epub \
+  freetranslation garble gdict gimp google hancom hrtext iscii kword  latex \
+  loadbindings mht mif mswrite openwriter openxml opml paint  passepartout \
+  pdb pdf presentation s5 sdw t602 urldict wikipedia wml xslfo"
 
 build() {
-	cd $name-$version
-	./configure --prefix=/usr
+	cd AbiWord-release-$version
 
+	patch -Np1 -i $SRC/enchant.patch
+
+	./autogen.sh
+	./configure \
+		--prefix=/usr \
+		--disable-maintainer-mode \
+		--enable-plugins="$_plugins" \
+		--disable-static \
+		--disable-default-plugins \
+		--disable-builtin-plugins \
+		--disable-collab-backend-telepathy \
+		--enable-clipart \
+		--enable-statusbar \
+		--enable-templates \
+		--with-gio \
+		--without-gnomevfs \
+		--without-gtk2 
 	make
 	make DESTDIR=$PKG install
 }
