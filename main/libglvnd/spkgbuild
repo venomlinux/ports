@@ -2,20 +2,15 @@
 # depends	: libxext libx11
 
 name=libglvnd
-version=1.5.0
-release=2
+version=1.6.0
+release=1
 source="https://github.com/NVIDIA/libglvnd/archive/v$version/$name-v$version.tar.gz
-	https://gitlab.freedesktop.org/glvnd/libglvnd/-/commit/fd1df5e9891dec71013a272e7132f1a33e45f5b5.patch
 	0001-glx-Add-another-fallback-library-name.patch"
 
 build() {
+	
 	# https://src.fedoraproject.org/rpms/libglvnd
 	patch -Np1 -d $name-$version -i $SRC/0001-glx-Add-another-fallback-library-name.patch
-
-	# [PATCH] Update GL headers and XML files.
-	# Update the GL headers and XML files to the Khronos repository, from
-	# commit 11d7b7baebfc2b58116670cd17266f9c6a0d760b.
-	patch -Np1 -d $name-$version -i $SRC/fd1df5e9891dec71013a272e7132f1a33e45f5b5.patch
 
 	venom-meson $name-$version build \
 		-D x11=enabled \
