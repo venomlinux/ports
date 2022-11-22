@@ -4,7 +4,7 @@
 name=python3-pyparsing
 version=3.0.9
 release=1
-source="https://files.pythonhosted.org/packages/source/p/${name#*-}/${name#*-}-$version.tar.gz"
+source="$name-$version.tar.gz::https://files.pythonhosted.org/packages/source/p/${name#*-}/${name#*-}-$version.tar.gz"
 
 build() {
 	cd ${name#*-}-$version

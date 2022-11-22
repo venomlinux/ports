@@ -5,7 +5,7 @@
 name=python3-pycparser
 version=2.21
 release=1
-source="https://github.com/eliben/${name#*-*}/archive/release_v$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/eliben/${name#*-*}/archive/release_v$version.tar.gz"
 
 build() {	
 	cd ${name#*-}-release_v$version
