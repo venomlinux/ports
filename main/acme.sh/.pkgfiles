@@ -1,4 +1,4 @@
-acme.sh-3.0.4-1
+acme.sh-3.0.5-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 lrwxrwxrwx root/root    usr/bin/acme.sh -> /usr/share/acme.sh/acme.sh
@@ -30,6 +30,7 @@ drwxr-xr-x root/root    usr/share/acme.sh/deploy/
 -rwxr-xr-x root/root    usr/share/acme.sh/deploy/openstack.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/deploy/panos.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/deploy/peplink.sh
+-rwxr-xr-x root/root    usr/share/acme.sh/deploy/proxmoxve.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/deploy/pureftpd.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/deploy/qiniu.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/deploy/routeros.sh
@@ -55,6 +56,7 @@ drwxr-xr-x root/root    usr/share/acme.sh/dnsapi/
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_aws.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_azion.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_azure.sh
+-rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_bunny.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_cf.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_clouddns.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_cloudns.sh
@@ -71,6 +73,7 @@ drwxr-xr-x root/root    usr/share/acme.sh/dnsapi/
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_dgon.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_dnshome.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_dnsimple.sh
+-rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_dnsservices.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_do.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_doapi.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_domeneshop.sh
@@ -109,6 +112,7 @@ drwxr-xr-x root/root    usr/share/acme.sh/dnsapi/
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_kas.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_kinghost.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_knot.sh
+-rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_la.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_leaseweb.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_lexicon.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_linode.sh
@@ -150,11 +154,13 @@ drwxr-xr-x root/root    usr/share/acme.sh/dnsapi/
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_porkbun.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_rackcorp.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_rackspace.sh
+-rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_rage4.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_rcode0.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_regru.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_scaleway.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_schlundtech.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_selectel.sh
+-rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_selfhost.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_servercow.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_simply.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_tele3.sh
@@ -164,16 +170,19 @@ drwxr-xr-x root/root    usr/share/acme.sh/dnsapi/
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_unoeuro.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_variomedia.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_veesp.sh
+-rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_vercel.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_vscale.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_vultr.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_websupport.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_world4you.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_yandex.sh
+-rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_yc.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_zilore.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_zone.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/dnsapi/dns_zonomi.sh
 drwxr-xr-x root/root    usr/share/acme.sh/notify/
 -rwxr-xr-x root/root    usr/share/acme.sh/notify/bark.sh
+-rwxr-xr-x root/root    usr/share/acme.sh/notify/callmebotWhatsApp.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/notify/cqhttp.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/notify/dingtalk.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/notify/discord.sh
@@ -188,6 +197,7 @@ drwxr-xr-x root/root    usr/share/acme.sh/notify/
 -rwxr-xr-x root/root    usr/share/acme.sh/notify/pushover.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/notify/sendgrid.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/notify/slack.sh
+-rwxr-xr-x root/root    usr/share/acme.sh/notify/slack_app.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/notify/smtp.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/notify/teams.sh
 -rwxr-xr-x root/root    usr/share/acme.sh/notify/telegram.sh
