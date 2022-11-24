@@ -4,7 +4,7 @@
 
 name=apulse
 version=0.1.13
-release=1
+release=2
 source="https://github.com/i-rinat/apulse/archive/v$version/$name-$version.tar.gz"
 
 build() {
@@ -16,5 +16,8 @@ build() {
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS"
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
-
+	
+	# exclude library for revdep
+	install -d $PKG/etc/revdep.d
+	echo "/usr/lib/apulse/" > $PKG/etc/revdep.d/$name.conf
 }
