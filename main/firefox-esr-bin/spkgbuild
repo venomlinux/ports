@@ -4,7 +4,7 @@
 
 name=firefox-esr-bin
 version=102.5.0
-release=1
+release=2
 source="https://ftp.mozilla.org/pub/firefox/releases/${version}esr/linux-x86_64/en-US/firefox-${version}esr.tar.bz2
 $name.desktop"
 
@@ -25,4 +25,9 @@ build() {
 	install -m644 $name.desktop $PKG/usr/share/applications/
 	install -m644 firefox/browser/chrome/icons/default/default128.png $PKG/usr/share/pixmaps/$_pkgname.png}
 
+	# Exclude library for revdep
+        mkdir -p $PKG/etc/revdep.d/
+        for i in libmozavutil.so liblgpllibs.so libmozgtk.so libmozsandbox.so libmozwayland.so libxul.so libmozsqlite3.so; do
+                echo $i >> $PKG/etc/revdep.d/$name.conf
+        done
 }
