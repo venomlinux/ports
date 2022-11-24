@@ -4,7 +4,7 @@
 
 name=firefox-bin
 version=107.0
-release=1
+release=2
 source="http://ftp.mozilla.org/pub/firefox/releases/$version/linux-x86_64/en-US/firefox-$version.tar.bz2
 	policies.json firefox.desktop"
 
@@ -19,9 +19,6 @@ build() {
 	scratch isinstalled apulse && scratch isinstalled patchelf && \
 	patchelf --set-rpath /usr/lib/apulse $PKG/usr/lib/firefox/libxul.so 
 
-	mkdir -p $PKG/etc/revdep.d
-	echo "/usr/lib/firefox" > $PKG/etc/revdep.d/firefox-bin
-
 	# We don't want these 'features'
 	rm -r $PKG/usr/lib/firefox/browser/features
 
@@ -35,5 +32,7 @@ build() {
 	ln -s /usr/lib/firefox/browser/chrome/icons/default/default32.png \
 		$PKG/usr/share/pixmaps/firefox.png
 
-
+	# Exclude library for revdep
+	install -d $PKG/etc/revdep.d
+	echo "/usr/lib/firefox/" > $PKG/etc/revdep.d/$name.conf
 }
