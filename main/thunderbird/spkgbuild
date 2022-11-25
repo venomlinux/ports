@@ -3,7 +3,7 @@
 
 name=thunderbird
 version=102.5.0
-release=1
+release=2
 source="https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz"
 
 build() {
@@ -15,43 +15,52 @@ build() {
 	
 	cat > mozconfig << "EOF"
 #ac_add_options --disable-dbus
-ac_add_options --enable-bootstrap
-ac_add_options --without-wasm-sandboxed-libraries
-ac_add_options --disable-necko-wifi
-#ac_add_options --enable-system-hunspell
-#ac_add_options --enable-startup-notification
-ac_add_options --disable-audio-backends
-#ac_add_options --disable-pulseaudio
-ac_add_options --enable-alsa
 #ac_add_options --disable-gconf
+#ac_add_options --disable-pulseaudio
 #ac_add_options --enable-calendar
+#ac_add_options --enable-startup-notification
+#ac_add_options --enable-system-hunspell
 #ac_add_options --enable-system-sqlite
-ac_add_options --with-system-libevent
 #ac_add_options --with-system-libvpx
-ac_add_options --with-system-nspr
-ac_add_options --with-system-nss
-ac_add_options --with-system-icu
-ac_add_options --prefix=/usr
-ac_add_options --enable-application=comm/mail
+ac_add_options --disable-audio-backends
 ac_add_options --disable-crashreporter
-ac_add_options --disable-updater
 ac_add_options --disable-debug
+ac_add_options --disable-necko-wifi
 ac_add_options --disable-tests
-ac_add_options --enable-optimize=-O2
-ac_add_options --enable-strip
+ac_add_options --disable-updater
+ac_add_options --enable-alsa
+ac_add_options --enable-application=comm/mail
+ac_add_options --enable-bootstrap
 ac_add_options --enable-install-strip
 ac_add_options --enable-official-branding
+ac_add_options --enable-optimize=-O2
+ac_add_options --enable-strip
 ac_add_options --enable-system-ffi
 ac_add_options --enable-system-pixman
+ac_add_options --prefix=/usr
 ac_add_options --with-system-bz2
+ac_add_options --with-system-icu
 ac_add_options --with-system-jpeg
+ac_add_options --with-system-libevent
+ac_add_options --with-system-nspr
+ac_add_options --with-system-nss
 ac_add_options --with-system-png
 ac_add_options --with-system-zlib
+ac_add_options --without-wasm-sandboxed-libraries
 EOF
 
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
         export MOZBUILD_STATE_PATH=${PWD}/mozbuild
-        export CARGO_HOME=$INITDIR
+	export CARGO_HOME=$INITDIR
+
+	# Remove an obsolete flag in python-3.11
+	grep -rl \"rU\" | xargs sed -i 's/"rU"/"r"/'
+
+	# Fix an issue with regular expressions in python-3.11
+	sed -e 's/?s)\./?s:.)/'               \
+	    -e '/?m)/{s/?m)/?m:/;s/\$"/$)"/}' \
+	    -e '/?s)%/{s/?s)/?s:/;s/?"/?)"/}' \
+	    -i xpcom/idl-parser/xpidl/xpidl.py
 
         SHELL=/bin/sh MACH_USE_SYSTEM_PYTHON=1 ./mach build
         SHELL=/bin/sh MACH_USE_SYSTEM_PYTHON=1 DESTDIR=$PKG ./mach install

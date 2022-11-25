@@ -5,12 +5,12 @@ name=gpgme
 version=1.18.0
 release=1
 source="ftp://ftp.gnupg.org/gcrypt/gpgme/$name-$version.tar.bz2
-	python310.patch"
+	python311.patch"
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../python310.patch
+	patch -Np1 -i $SRC/python311.patch
 
 	export PYTHON='/usr/bin/python3'
 	./configure \
