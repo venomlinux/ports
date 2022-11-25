@@ -1,5 +1,5 @@
 # description	: Toolkit for image loading and pixel buffer manipulation
-# depends	: glib libjpeg-turbo libpng libtiff shared-mime-info libx11 libxcb libxau jasper gobject-introspection
+# depends	: glib libpng libtiff shared-mime-info libx11 libxcb libxau jasper gobject-introspection
 
 name=gdk-pixbuf
 version=2.42.10
@@ -10,6 +10,7 @@ build() {
 	venom-meson $name-$version build \
 		--libexecdir=/usr/lib/$name \
 		-Dinstalled_tests=false \
+		--wrap-mode=nopromote \
 		-Dman=false
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
