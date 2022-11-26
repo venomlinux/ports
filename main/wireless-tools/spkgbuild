@@ -1,14 +1,15 @@
 # description	: Tools allowing to manipulate the Wireless Extensions
 
-name=wireless_tools
+name=wireless-tools
+_name=wireless_tools
 version=30.pre9
 _version=${version%.pre*}
 release=1
-source="https://hewlettpackard.github.io/wireless-tools/$name.$version.tar.gz"
+source="$name-$version.tar.gz::https://hewlettpackard.github.io/wireless-tools/$_name.$version.tar.gz"
 
 build() {
 ls
-	cd ${name}.${_version}
+	cd ${_name}.${_version}
 	sed '/BUILD_STATIC =/d' -i Makefile
 	make CFLAGS="${CFLAGS} -I." LDFLAGS="${LDFLAGS}"
 	make
