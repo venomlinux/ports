@@ -3,13 +3,13 @@
 name=cdparanoia
 version=10.2
 release=1
-source="https://downloads.xiph.org/releases/$name/$name-III-$version.src.tgz
-	http://www.linuxfromscratch.org/patches/blfs/svn/$name-III-$version-gcc_fixes-1.patch"
+source="$name-$version.tgz::https://downloads.xiph.org/releases/$name/$name-III-$version.src.tgz
+	$name-$version-gcc_fixes-1.patch::http://www.linuxfromscratch.org/patches/blfs/svn/$name-III-$version-gcc_fixes-1.patch"
 
 build() {
 	cd $name-III-$version
 
-	patch -Np1 -i ../$name-III-$version-gcc_fixes-1.patch
+	patch -Np1 -i ../$name-$version-gcc_fixes-1.patch
 
 	./configure --prefix=/usr --mandir=/usr/share/man
 	make -j1
