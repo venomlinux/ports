@@ -3,34 +3,37 @@
 name=go
 version=1.19.3
 release=1
-noextract="go1.16.linux-amd64.tar.gz"
-source="https://storage.googleapis.com/golang/go$version.src.tar.gz
-	https://storage.googleapis.com/golang/go1.16.linux-amd64.tar.gz"
-
+noextract="${name}-${version}.linux-amd64.tar.gz"
+source="$name-${version}.src.tar.gz::https://golang.org/dl/go${version}.src.tar.gz 
+	${name}-${version}.linux-amd64.tar.gz::https://golang.org/dl/go${version}.linux-amd64.tar.gz"
 unset LC_ALL
 NO_STRIP=yes
 
 build() {
-	mkdir go1.16
-	tar xf go1.16.linux-amd64.tar.gz -C go1.16 --strip-components 1
 
-	export GOCACHE=$PWD/gocache
-	export GOROOT=$SRC/$name-$version
-	export GOROOT_FINAL="/usr/lib/go"
-	export GOROOT_BOOTSTRAP="$PWD/go1.16"
+	install -d $name-${version}
+
+	tar -xf $SOURCE_DIR/$name-${version}.linux-amd64.tar.gz \
+	-C $SRC/$name-${version} --strip-components=1
+
+	tar -xf $SOURCE_DIR/$name-${version}.src.tar.gz \
+        -C $SRC
+
+	export GOCACHE=$SRC/go-build
+	export GOROOT_BOOTSTRAP=$SRC/$name-${version}
+	export GOROOT_FINAL=/usr/lib/go
 	export GOARCH=amd64
 	export GOOS=linux
-
-	cd $name/src
-
-	./make.bash --no-clean -v
-
-	rm -rf $SRC/go/pkg/obj/go-build/*
+	
+	cd go/src
+	./make.bash
 
 	install -d $PKG/usr/lib
-	cp -r $SRC/go $PKG/usr/lib/
-	
+	mv $SRC/go $PKG/usr/lib/
+
 	install -d $PKG/usr/bin
 	ln -s /usr/lib/go/bin/go $PKG/usr/bin/
-	ln -s /usr/lib/go/bin/gofmt $PKG/usr/bin/	
+	ln -s /usr/lib/go/bin/gofmt $PKG/usr/bin/
+
+	rm -rf $SRC/go/pkg/obj/go-build/*
 }
