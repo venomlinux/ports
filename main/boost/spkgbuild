@@ -5,7 +5,7 @@ name=boost
 version=1.80.0
 _version=$(echo $version | sed 's/\./_/g')
 release=1
-source="https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${_version}.tar.bz2"
+source="$name-$version.tar.bz2::https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${_version}.tar.bz2"
 
 build() {
 	cd boost_${_version}

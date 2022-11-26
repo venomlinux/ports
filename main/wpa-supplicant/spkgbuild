@@ -1,16 +1,17 @@
 # description	: Implements WPA key negotiation with a WPA Authenticator and Extensible Authentication Protocol (EAP) authentication with an Authentication Server
 # depends	: libnl openssl dbus dhcpcd
 
-name=wpa_supplicant
+name=wpa-supplicant
+_name=wpa_supplicant
 version=2.10
 release=1
 backup="etc/wpa_supplicant.conf"
-source="https://w1.fi/releases/$name-$version.tar.gz
+source="$name-$version.tar.gz::https://w1.fi/releases/$_name-$version.tar.gz
 	wpa_supplicant.conf
 	rc.wpa"
 
 build() {
-	cd $name-$version
+	cd $_name-$version
 
 	cat > wpa_supplicant/.config << "EOF"
 CONFIG_BACKEND=file
@@ -43,7 +44,7 @@ CONFIG_CTRL_IFACE_DBUS_NEW=y
 CONFIG_CTRL_IFACE_DBUS_INTRO=y
 EOF
 
-	cd $name
+	cd $_name
 	make BINDIR=/sbin LIBDIR=/lib
 
 	for xx in sbin usr/share/man/man5 usr/share/man/man8; do
