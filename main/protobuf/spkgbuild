@@ -1,21 +1,24 @@
 # description	: Protocol Buffers - Google's data interchange format 
+#
 # homepage	: https://developers.google.com/protocol-buffers/
 # depends	: gcc glibc zlib unzip python3-setuptools
 
 name=protobuf
 version=21.9
 _version=3.21.9
-release=1
-source="$name-$_version.tar.gz::https://github.com/protocolbuffers/$name/archive/refs/tags/v$version.tar.gz"
+release=2
+source="$name-$_version.tar.gz::https://github.com/protocolbuffers/$name/archive/refs/tags/v$version.tar.gz
+	fix-build-with-python-311.patch"
 
 build() {
-	cd $name-$version
+	patch -d $name-$version -Np1 -i $SRC/fix-build-with-python-311.patch
 
+	cd $name-$version
 	NOCONFIGURE=1 ./autogen.sh
 	./configure --prefix=/usr
 	make
 	cd python
-	python3 setup.py build --cpp_implementation
+	/usr/bin/python3 setup.py build --cpp_implementation
 	cd ..
 	make DESTDIR=$PKG install
 }
