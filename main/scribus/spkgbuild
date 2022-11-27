@@ -2,15 +2,25 @@
 # depends	: boost cups harfbuzz-icu hunspell poppler qt5
 
 name=scribus
-version=1.5.7
+version=1.5.8
 release=1
 source="https://downloads.sourceforge.net/$name/$name-$version.tar.xz
-	harfbuzz-3.0.0.patch"
+	poppler-22.02.0.patch::https://github.com/scribusproject/scribus/commit/85c0dff3422f.patch
+	poppler-22.02.0-fixup.patch::https://github.com/scribusproject/scribus/commit/f75c1613db67.patch
+	poppler-22.03.0.patch::https://github.com/scribusproject/scribus/commit/f19410ac3b27.patch
+	poppler-22.04.0.patch::https://github.com/scribusproject/scribus/commit/f2237b8f0b5c.patch
+	cmake-buildtype-none.patch
+	poppler.22.11.0.patch"
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../harfbuzz-3.0.0.patch
+	patch -Np1 -i $SRC/cmake-buildtype-none.patch
+	patch -Np1 -i $SRC/poppler-22.02.0.patch
+	patch -Np1 -i $SRC/poppler-22.02.0-fixup.patch
+	patch -Np1 -i $SRC/poppler-22.03.0.patch
+	patch -Np1 -i $SRC/poppler-22.04.0.patch
+	patch -Np1 -i $SRC/poppler.22.11.0.patch
 
 	sed \
 	    -e 's|#!/usr/bin/python|#!/usr/bin/python3|' \
@@ -23,6 +33,7 @@ build() {
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-D WANT_CPP17=ON \
 		-Wno-dev
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
