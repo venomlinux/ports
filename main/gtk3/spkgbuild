@@ -7,7 +7,7 @@ release=1
 source="$name-$version.tar.gz::https://gitlab.gnome.org/GNOME/gtk/-/archive/$version/gtk-$version.tar.gz"
 
 build() {
-11
+
 	venom-meson gtk-$version build \
 		-Dcolord=$(scratch isinstalled colord && echo yes || echo no) \
 		-Dwayland_backend=$(scratch isinstalled libxkbcommon && scratch isinstalled wayland-protocols && echo true || echo false) \
