@@ -1,0 +1,44 @@
+# description	: WebRTC library for Telegram-desktop
+# homepage	: https://github.com/desktop-app/tg_owt
+# depends	: cmake ninja pipewire pulseaudio libjpeg-turbo libxcomposite
+
+name=tg_owt
+version=20220623
+_commit=10d5f4bf77333ef6b43516f90d2ce13273255f41
+_libyuv_commit=ad890067f661dc747a975bc55ba3767fe30d4452
+_libvpx_commit=03265cd42b3783532de72f2ded5436652e6f5ce3
+_crc32c_commit=21fc8ef30415a635e7351ffa0e5d5367943d4a94
+release=1
+noextract="libvpx-${_libvpx_commit}.tar.gz
+	libyuv-${_libyuv_commit}.tar.gz
+	crc32c-${_crc32c_commit}.tar.gz"
+
+source="
+	$name-$version.tar.gz::https://github.com/desktop-app/tg_owt/archive/$_commit.tar.gz
+	libvpx-${_libvpx_commit}.tar.gz::https://chromium.googlesource.com/webm/libvpx/+archive/${_libvpx_commit}.tar.gz
+	libyuv-${_libyuv_commit}.tar.gz::https://chromium.googlesource.com/libyuv/libyuv/+archive/${_libyuv_commit}.tar.gz
+	crc32c-${_crc32c_commit}.tar.gz::https://github.com/google/crc32c/archive/${_crc32c_commit}.tar.gz
+	"
+
+build() {
+	cd $name-$_commit
+
+	mkdir -pv libyuv libvpx
+	bsdtar xzf $SRC/libyuv-${_libyuv_commit}.tar.gz -C libyuv
+	bsdtar xzf $SRC/libvpx-${_libvpx_commit}.tar.gz -C libvpx
+	bsdtar xzf $SRC/crc32c-${_crc32c_commit}.tar.gz --strip-components 1 -C src/third_party/crc32c/src 
+	
+	mv libyuv/* src/third_party/libyuv/
+	mv libvpx/* src/third_party/libvpx/
+
+	# path to openssl include is intentionally wrong, so that it will not mess up srtp include headers
+
+	cmake -B build -G Ninja . \
+		-DTG_OWT_PACKAGED_BUILD=True \
+		-DBUILD_SHARED_LIBS=OFF \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_BUILD_TYPE=MinSizeRel
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
