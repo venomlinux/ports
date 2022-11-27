@@ -1,0 +1,13 @@
+# description	: A utility to accurately report the in core memory usage for a program
+# homepage  : https://github.com/pixelb/ps_mem
+# depends	: python3
+
+name=ps_mem
+version=3.14
+release=1
+source="$name-$version.tar.gz::https://github.com/pixelb/$name/archive/v$version/$name-v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	python3 setup.py install --optimize=1 --root=$PKG
+}

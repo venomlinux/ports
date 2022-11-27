@@ -1,0 +1,18 @@
+# description	: Library for manipulating storage volume encryption keys and storing them separately from volumes to handle forgotten passphrases
+# depends	: cryptsetup glib gpgme python3 swig
+
+name=volume_key
+version=0.3.12
+release=2
+source="https://releases.pagure.org/volume_key/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	--disable-nls \
+	--with-python3
+	make
+	make DESTDIR=$PKG install
+	rm -rf $PKG/usr/lib/python2*
+}
