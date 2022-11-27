@@ -2,19 +2,25 @@
 # depends	: adwaita-icon-theme glib at-spi2-core pango fribidi cairo gdk-pixbuf libxinerama libxi libepoxy libxcursor libxcomposite
 
 name=gtk3
-version=3.24.34
+version=3.24.35
 release=1
-source="https://ftp.gnome.org/pub/gnome/sources/gtk+/${version%.*}/gtk+-$version.tar.xz"
+source="$name-$version.tar.gz::https://gitlab.gnome.org/GNOME/gtk/-/archive/$version/gtk-$version.tar.gz"
 
 build() {
-	cd gtk+-$version
+11
+	venom-meson gtk-$version build \
+		-Dcolord=$(scratch isinstalled colord && echo yes || echo no) \
+		-Dwayland_backend=$(scratch isinstalled libxkbcommon && scratch isinstalled wayland-protocols && echo true || echo false) \
+		-Dman=false \
+		-Dgtk_doc=false \
+		-Dexamples=false \
+		-Dtests=false \
+		-Dinstalled_tests=false \
+		-Ddemos=false
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 
-	./configure --prefix=/usr \
-	            --sysconfdir=/etc
-	make
-	make DESTDIR=$PKG install
-
-	cat > $PKG/etc/gtk-3.0/settings.ini << "EOF"
+cat > $PKG/etc/gtk-3.0/settings.ini << "EOF"
 [Settings]
 gtk-icon-theme-name = Adwaita
 gtk-theme-name = Adwaita
