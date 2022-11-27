@@ -3,10 +3,12 @@
 
 name=glibc
 version=2.36
-release=2
+release=3
 backup="etc/locales"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	genlocales nsswitch.conf ld.so.conf
+	glibc-2.35-make-4.4-MAKEFLAGS.patch
+	glibc-2.36-3.patch
 	reenable_DT_HASH.patch"
 nostrip="lib.*/ld-.*\.so$
 	lib.*/libc-.*\.so$
@@ -20,6 +22,8 @@ build() {
 	# which relies on DT_HASH to be present in these libs.
 	# reconsider 2023-01
 	patch -Np1 -i ../reenable_DT_HASH.patch
+	patch -Np1 -i ../glibc-2.35-make-4.4-MAKEFLAGS.patch
+	patch -Np1 -i ../glibc-2.36-3.patch
 
 	_configure_flag="
 		--prefix=/usr \
@@ -77,8 +81,9 @@ build() {
 	# 32bit
 	mkdir -v ../build32
 	cd ../build32
-	export CC="gcc -m32"
-	export CXX="g++ -m32"
+	export CC="gcc -m32 -mstackrealign"
+	export CXX="g++ -m32 -mstackrealign"
+	export CFLAGS="$CFLAGS -Wno-error=parentheses"
 	../configure \
 		--libdir=/usr/lib32 \
 		--libexecdir=/usr/lib32 \
