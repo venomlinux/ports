@@ -1,4 +1,4 @@
-wine-7.21-1
+wine-7.22-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/revdep.d/
 -rw-r--r-- root/root    etc/revdep.d/wine.conf
@@ -1176,6 +1176,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/wshisotp.h
 -rw-r--r-- root/root    usr/include/wine/windows/wsipx.h
 -rw-r--r-- root/root    usr/include/wine/windows/wsnwlink.h
+-rw-r--r-- root/root    usr/include/wine/windows/wspiapi.h
 -rw-r--r-- root/root    usr/include/wine/windows/wtsapi32.h
 -rw-r--r-- root/root    usr/include/wine/windows/wtypes.h
 -rw-r--r-- root/root    usr/include/wine/windows/wtypes.idl
@@ -1466,7 +1467,7 @@ lrwxrwxrwx root/root    usr/lib/wine/x86_64-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winevulkan.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winex11.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winspool.so
--rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wldap32.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wpcap.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/ws2_32.so
 drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/acledit.dll
@@ -2267,6 +2268,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.gaming.ui.gamebar.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.globalization.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.media.devices.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.media.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.media.speech.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.networking.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windowscodecs.dll
@@ -2301,6 +2303,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winmgmt.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winmm.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winnls32.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winprint.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winscard.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winspool.drv
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/winsta.dll
@@ -2326,6 +2329,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wow64cpu.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wow64win.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wpc.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wpcap.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/write.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/ws2_32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wscript.exe
@@ -2379,6 +2383,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/xinput1_3.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/xinput1_4.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/xinput9_1_0.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/xinputuap.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/xmllite.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/xolehlp.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/xpsprint.dll
@@ -2639,7 +2644,6 @@ lrwxrwxrwx root/root    usr/lib32/wine/i386-unix/libwine.so.1 -> libwine.so.1.0
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/winevulkan.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/winex11.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/winspool.so
--rwxr-xr-x root/root    usr/lib32/wine/i386-unix/wldap32.so
 -rwxr-xr-x root/root    usr/lib32/wine/i386-unix/ws2_32.so
 drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/acledit.dll
@@ -3494,6 +3498,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.gaming.ui.gamebar.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.globalization.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.media.devices.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.media.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.media.speech.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.networking.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windowscodecs.dll
@@ -3531,6 +3536,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/winnls.dll16
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/winnls32.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/winoldap.mod16
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/winprint.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/winscard.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/winsock.dll16
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/winspool.drv
@@ -3609,6 +3615,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/xinput1_3.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/xinput1_4.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/xinput9_1_0.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/xinputuap.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/xmllite.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/xolehlp.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/xpsprint.dll
