@@ -3,7 +3,7 @@
 
 name=grub
 version=2.06
-release=2
+release=3
 backup="etc/default/grub"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	grub.default
@@ -22,7 +22,7 @@ build() {
 	# fix os name
 	sed 's|GNU/Linux|Linux|' -i "util/grub.d/10_linux.in"
 
-	NOCONFIGURE=1 ./autogen.sh
+	autoreconf -fv
 	./configure --prefix=/usr \
 	            --sbindir=/sbin \
 	            --sysconfdir=/etc \
