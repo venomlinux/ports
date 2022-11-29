@@ -4,8 +4,8 @@
 name=teams
 version=1.5.00.23861
 release=1
-source="https://packages.microsoft.com/repos/ms-teams/pool/main/t/teams/${name}_${version}_amd64.deb"
+source="$name-$version.deb::https://packages.microsoft.com/repos/ms-teams/pool/main/t/teams/${name}_${version}_amd64.deb"
 
 build() {
-	bsdtar -O -xf "${name}_${version}_amd64.deb" data.tar.xz | bsdtar -C "${PKG}" -xJf -
+	bsdtar -O -xf "${name}-${version}.deb" data.tar.xz | bsdtar -C "${PKG}" -xJf -
 }
