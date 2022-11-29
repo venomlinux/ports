@@ -5,7 +5,7 @@ name=iridium
 version=2022.11.107
 release=1
 options="!strip"
-source="https://downloads.iridiumbrowser.de/epel8/$name-browser-$version-$release.el8.x86_64.rpm"
+source="$name-$version.rpm::https://downloads.iridiumbrowser.de/epel8/$name-browser-$version-$release.el8.x86_64.rpm"
 
 build() {
 	cp -R * $PKG

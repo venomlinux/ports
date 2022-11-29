@@ -4,10 +4,10 @@
 name=bitwarden-bin
 version=2022.8.1
 release=1
-source="https://github.com/bitwarden/clients/releases/download/desktop-v$version/Bitwarden-$version-amd64.deb"
+source="$name-$version.deb::https://github.com/bitwarden/clients/releases/download/desktop-v$version/Bitwarden-$version-amd64.deb"
 
 build() {
-	bsdtar -xf Bitwarden-$version-amd64.deb
+	bsdtar -xf $name-$version.deb
 	bsdtar -xf data.tar.xz -C $PKG/
 
 	# Symlink

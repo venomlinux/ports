@@ -4,7 +4,7 @@
 name=nvidia
 version=525.60.11
 release=1
-source="http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
+source="$name-$version.run::http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
 	10-nvidia-drm-outputclass.conf"
 
 build() {
@@ -13,7 +13,7 @@ build() {
 	install_file() { install -Dm${3:-0644} $1 $PKG/$2/${1##*/}; }
 	symlink_lib() { ln -s ${1%.so*}.$version $PKG/$1; }
 
-	sh NVIDIA-Linux-x86_64-$version.run --extract-only
+	sh $name-$version.run --extract-only
 	cd NVIDIA-Linux-x86_64-$version
 
 	# X driver and GLX extension

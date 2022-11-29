@@ -5,9 +5,9 @@
 name=vivaldi-stable
 version=5.5.2805.44
 release=1
-source="https://downloads.vivaldi.com/stable/vivaldi-stable_${version}-${release}_amd64.deb"
+source="$name-$version.deb::https://downloads.vivaldi.com/stable/vivaldi-stable_${version}-${release}_amd64.deb"
 
 build() {
-	bsdtar -xf vivaldi-stable_${version}-${release}_amd64.deb
+	bsdtar -xf ${name}-${version}.deb
 	bsdtar -xf data.tar.xz -C $PKG/
 }

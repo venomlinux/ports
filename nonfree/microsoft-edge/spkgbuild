@@ -5,11 +5,11 @@
 name=microsoft-edge
 version=107.0.1418.56
 release=1
-source="https://packages.microsoft.com/repos/edge/pool/main/m/$name-stable/$name-stable_${version}-${release}_amd64.deb"
+source="$name-$version.deb::https://packages.microsoft.com/repos/edge/pool/main/m/$name-stable/$name-stable_${version}-${release}_amd64.deb"
 
 
 build() {
-	bsdtar -xf $name-stable_${version}-${release}_amd64.deb
+	bsdtar -xf $name-${version}.deb
 	bsdtar -xf data.tar.xz -C $PKG
 }
 
