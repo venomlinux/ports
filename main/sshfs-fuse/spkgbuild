@@ -1,0 +1,19 @@
+# description	    : Remote filesystem in userspace using SSH
+# homepage	    : https://github.com/libfuse/sshfs 
+# depends 	    : fuse3 glib
+
+name=sshfs-fuse
+version=3.7.3
+release=1
+source="https://github.com/libfuse/sshfs/releases/download/sshfs-$version/sshfs-$version.tar.xz
+	sshfs.1"
+
+build() {
+	venom-meson  sshfs-$version  build \
+		--buildtype=release
+
+	meson compile -C build -j ${JOBS:-1}
+	DESTDIR=$PKG meson install -C build
+
+	install -D -m 0644 $SRC/sshfs.1 $PKG/usr/share/man/man1/sshfs.1
+}
