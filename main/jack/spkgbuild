@@ -3,15 +3,18 @@
 
 name=jack
 version=1.9.21
-release=1
+release=2
 backup="etc/security/limits.d/99-audio.conf"
 source="https://github.com/jackaudio/jack2/archive/v$version/$name-$version.tar.gz
+	python3.11.patch
 	99-audio.conf
         40-hpet-permissions.rules"
 
 build() {
 	cd ${name}2-$version
-
+	cd waflib
+	patch -Np1 -i $SRC/python3.11.patch
+	cd ..
 	./waf configure \
 		--prefix=/usr \
 		--alsa
