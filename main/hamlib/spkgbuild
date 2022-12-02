@@ -1,0 +1,26 @@
+# description	: Ham radio equipment control libraries
+# homepage	: https://hamlib.github.io
+# depends	: perl python3 lua tcl libxml2 libusb-compat libtool boost swig
+
+name=hamlib
+version=4.5
+release=1
+source="https://github.com/Hamlib/Hamlib/releases/download/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	export PYTHON_VERSION="3.11"
+	./configure \
+  		--prefix=/usr \
+  		--sbindir=/usr/bin \
+  		--with-perl-binding \
+  		--with-python-binding \
+  		--with-tcl-binding \
+  		--with-lua-binding \
+  		--with-xml-support \
+  		--disable-uhd
+
+	make
+	make DESTDIR=$PKG install
+}
