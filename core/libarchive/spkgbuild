@@ -3,7 +3,7 @@
 
 name=libarchive
 version=3.6.1
-release=2
+release=3
 source="https://libarchive.org/downloads/$name-$version.tar.xz
 	$name-$version-glibc2.36-fix.patch::https://github.com/libarchive/libarchive/commit/a2f68263a1da5ad227bcb9cd8fa91b93c8b6c99f.patch"
 
@@ -12,13 +12,12 @@ build() {
 
 	patch -Np1 < $SRC/$name-$version-glibc2.36-fix.patch
 
-  	    ./configure \
+	./configure \
 		--prefix=/usr \
 		--disable-bsdcat \
 		--without-lz4 \
 		--without-zstd \
 		--without-lzma \
-		--without-openssl \
 		--without-nettle \
 		--without-xml2 \
 		--disable-static
