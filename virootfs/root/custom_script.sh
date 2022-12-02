@@ -11,6 +11,9 @@ useradd -m -G users,wheel,audio,video -s /bin/bash $USER
 passwd -d $USER &>/dev/null
 passwd -d root &>/dev/null
 
+cp -r /etc/skel/.* /home/$USER
+chown -R $USER:$USER /home/$USER/*
+
 echo "root:root" | chpasswd -c SHA512
 echo "$USER:$PASSWORD" | chpasswd -c SHA512
 
@@ -83,17 +86,13 @@ fi
 
 echo venomlive > /etc/hostname
 
-if [ -x /etc/rc.d/lxdm ]; then
-	DM=lxdm
-elif [ -x /etc/rc.d/lightdm ]; then
-	DM=lightdm
-elif [ -x /etc/rc.d/sddm ]; then
-	DM=sddm
-elif [ -x /etc/rc.d/slim ]; then
-	DM=slim
-fi
+for i in lxdm lightdm sddm slim; do
+	if [ -x /etc/rc.d/$i ] || [ -d /etc/sv/$i ]; then
+		DM=$i
+	fi
+done
 
-if [ -x /etc/rc.d/networkmanager ]; then
+if [ -x /etc/rc.d/networkmanager ] || [ -d /etc/sv/networkmanager ]; then
 	NETWORK=networkmanager
 elif [ -x /etc/rc.d/network ]; then
 	NETWORK=network
@@ -102,6 +101,9 @@ fi
 for i in sysklogd dbus $DM $NETWORK bluetooth; do
 	if [ -x /etc/rc.d/$i ]; then
 		daemon="$daemon $i"
+	fi
+	if [ -d /etc/sv/$i ]; then
+		ln -s /etc/sv/$i /var/service
 	fi
 done
 
