@@ -4,12 +4,12 @@
 
 name=python3-sphinx-lv2-theme
 _name=sphinx_lv2_theme
-version=1.2.0
+version=1.2.2
 release=1
-source="$name-$version.tar.gz::https://files.pythonhosted.org/packages/21/09/54677fbcf1fe1dee7d45c8f6c6d73036493de1882f03f7ad4754d176a018/$_name-$version.tar.gz"
+source="$name-$version.tar.gz::https://gitlab.com/lv2/${_name}/-/archive/v$version/${_name}-v$version.tar.gz"
 
 build() {
-	cd $_name-$version
+	cd $_name-v$version
 	  python3 -m build --wheel --no-isolation
 	  python3 -m installer --destdir=$PKG dist/*.whl
 }
