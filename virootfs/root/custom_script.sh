@@ -11,8 +11,8 @@ useradd -m -G users,wheel,audio,video -s /bin/bash $USER
 passwd -d $USER &>/dev/null
 passwd -d root &>/dev/null
 
-cp -r /etc/skel/.* /home/$USER
-chown -R $USER:$USER /home/$USER/*
+cp -r /etc/skel/.* /etc/skel/* /home/$USER
+chown -R $USER:$USER /home/$USER/.* /home/$USER/*
 
 echo "root:root" | chpasswd -c SHA512
 echo "$USER:$PASSWORD" | chpasswd -c SHA512
