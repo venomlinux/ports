@@ -1,0 +1,27 @@
+# description	: A powerful cross-platform raw image processing program
+# homepage	: https://rawtherapee.com/
+# depends	: fftw gtkmm3 lcms2 lensfun libcanberra libiptcdata librsvg libwebp tdb
+# optional	: clang
+
+name=rawtherapee
+version=5.9
+release=1
+source="https://github.com/Beep6581/RawTherapee/releases/download/$version/$name-$version.tar.xz"
+
+build() {
+
+	# Build with Clang (recommended)
+	scratch isinstalled clang && \
+	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
+
+	cmake -S $name-$version -B build \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
