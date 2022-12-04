@@ -3,7 +3,7 @@
 
 name=virtualbox-bin
 _name=${name%-*}
-version=6.1.22.144080
+version=7.0.4.154605
 _version=${version%.*}
 _build=${version##*.}
 release=1
@@ -26,7 +26,7 @@ build() {
 	cd $PKG/opt/VirtualBox
 	tar xfj $SRC/VirtualBox.tar.bz2
 	rm -Rf $PKG/opt/VirtualBox/sdk
-	for i in VirtualBox VBoxManage VBoxSDl VBoxHeadless; do
+	for i in VirtualBox VBoxManage VBoxHeadless; do
 	    ln -s /opt/VirtualBox/VBox.sh $PKG/usr/bin/$i
 	done
 
@@ -38,7 +38,7 @@ build() {
 
 	ln -s /opt/VirtualBox/rdesktop-vrdp $PKG/usr/bin/rdesktop-vrdp
 	mv $PKG/opt/VirtualBox/virtualbox.desktop $PKG/usr/share/applications/virtualbox.desktop
-	for xx in VirtualBox VBoxSDL VBoxHeadless VBoxNetAdpCtl VBoxNetDHCP VBoxNetNAT VBoxVolInfo VirtualBoxVM; do
+	for xx in VirtualBox VBoxHeadless VBoxNetAdpCtl VBoxNetDHCP VBoxNetNAT VBoxVolInfo VirtualBoxVM; do
 		[ "$xx" == "VirtualBox" ] && chmod 0755 $PKG/opt/VirtualBox/$xx || chmod 4755 $PKG/opt/VirtualBox/$xx
 	done
 
