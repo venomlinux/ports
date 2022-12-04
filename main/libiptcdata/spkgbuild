@@ -1,0 +1,15 @@
+# description	: Library for manipulating the IPTC metadata 
+# homepage	: https://github.com/ianw/libiptcdata
+
+name=libiptcdata
+version=1.0.5
+_version=$(echo $version | sed 's/\./_/g')
+release=1
+source="https://github.com/ianw/libiptcdata/releases/download/release_${_version}/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
