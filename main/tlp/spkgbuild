@@ -5,7 +5,8 @@ name=tlp
 version=1.5.0
 release=1
 source="https://github.com/linrunner/TLP/archive/$version/$name-$version.tar.gz
-	run.tlpd"
+	run.tlpd
+	finish.tlpd"
 
 build() {
 	cd TLP-$version
@@ -16,6 +17,7 @@ build() {
 	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.tlpd $PKG/etc/sv/tlpd/run
+	    install -Dm755 $SRC/finish.tlpd $PKG/etc/sv/tlpd/finish
 	#else
 	# rc service
 	#    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
