@@ -5,6 +5,7 @@ name=openssh
 version=9.1p1
 release=1
 source="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
+	run.sshd
 	rc.sshd"
 
 build() {
@@ -27,6 +28,12 @@ build() {
 
 	install  -dm700 -o root -g sys $PKG/var/lib/sshd
 
+	# service files
+	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
+	# runit service
+	    install -Dm755 $SRC/run.shhd $PKG/etc/sv/shhd/run
+	else
 	# rc service
-	install -Dm755 $SRC/rc.sshd $PKG/etc/rc.d/sshd
+	    install -Dm755 $SRC/rc.sshd $PKG/etc/rc.d/sshd
+	fi
 }
