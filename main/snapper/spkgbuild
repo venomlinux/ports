@@ -46,6 +46,7 @@ build() {
 	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.snapperd $PKG/etc/sv/snapperd/run 
+	    ln -s /run/runit/supervise.snapperd $PKG/etc/sv/snapperd/supervise
 	else
 	# rc service
 	    install -Dm755 $SRC/rc.snapperd $PKG/etc/rc.d/snapperd
