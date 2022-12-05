@@ -3,7 +3,7 @@
 
 name=virtualbox-ose-guest
 _name=VirtualBox
-version=6.1.30
+version=7.0.4
 release=1
 source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.tar.bz2
 	60-vboxguest.rules
@@ -16,7 +16,7 @@ source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.
 build() {
 	cd $_name-$version
 
-	echo "VBOX_ONLY_ADDITIONS=1" >> LocalConfig.kmk
+	export VBOX_ONLY_ADDITIONS=1
 
 	./configure \
 		--disable-docs \
