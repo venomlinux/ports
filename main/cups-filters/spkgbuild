@@ -5,7 +5,8 @@ name=cups-filters
 version=1.28.16
 release=1
 source="https://www.openprinting.org/download/$name/$name-$version.tar.xz
-rc.cups-browsed"
+	run.cups-browsed
+	rc.cups-browsed"
 
 build() {
 	cd $name-$version
@@ -22,6 +23,13 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	install -D -m 0755 $SRC/rc.cups-browsed $PKG/etc/rc.d/rc.cups-browsed
 
+	# service files
+	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
+	# runit service
+	    install -Dm755 $SRC/run.cups-browsed $PKG/etc/sv/cups-browsed/run
+	else
+	# rc service
+	    install -Dm755 $SRC/rc.cups-browsed $PKG/etc/rc.d/rc.cups-browsed
+	fi
 }
