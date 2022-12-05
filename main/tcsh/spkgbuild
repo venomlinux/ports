@@ -2,7 +2,7 @@
 # depends	: ncurses
 
 name=tcsh
-version=6.24.04
+version=6.24.05
 release=1
 backup="etc/csh.cshrc
 	etc/csh.login"
@@ -13,8 +13,8 @@ source="http://fossies.org/linux/misc/$name-$version.tar.gz
 build() {
 	cd $name-$version
 
-	sed -i 's|SVID_SOURCE|DEFAULT_SOURCE|g' config/linux
-	sed -i 's|BSD_SOURCE|DEFAULT_SOURCE|g'  config/linux
+#	sed -i 's|SVID_SOURCE|DEFAULT_SOURCE|g' config/linux
+#	sed -i 's|BSD_SOURCE|DEFAULT_SOURCE|g'  config/linux
 
 	./configure --prefix=/usr --bindir=/bin
 	make
