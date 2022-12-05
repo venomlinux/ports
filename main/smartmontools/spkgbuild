@@ -4,6 +4,8 @@ name=smartmontools
 version=7.3
 release=1
 source="https://sourceforge.net/projects/$name/files/$name/$version/$name-$version.tar.gz
+	run.smartd
+	finish.smartd
 	rc.smartd"
 
 build() {
@@ -15,7 +17,13 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
+	# service files
+	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
+	# runit service
+	    install -Dm755 $SRC/run.smartd $PKG/etc/sv/$name/run
+	    install -Dm755 $SRC/finish.smartd $PKG/etc/sv/$name/finish
+	else
 	# rc service
-	install -Dm755 $SRC/rc.smartd $PKG/etc/rc.d/smartd
-
+	    install -Dm755 $SRC/rc.smartd $PKG/etc/rc.d/smartd
+	fi
 }
