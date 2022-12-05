@@ -5,8 +5,8 @@ name=light
 version=1.2.2
 release=2
 source="$name-$version.tar.gz::https://github.com/haikarainen/light/archive/v$version.tar.gz
-	run.$name
-	finish.$name
+	run.lightd
+	finish.lightd
 	rc.$name"
 
 build() {
@@ -23,8 +23,9 @@ build() {
 	# service files
 	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
-	    install -Dm755 $SRC/run.$name $PKG/etc/sv/lightd/run
-	    install -Dm755 $SRC/finish.$name $PKG/etc/sv/lightd/finish
+	    install -Dm755 $SRC/run.lightd $PKG/etc/sv/lightd/run
+	    install -Dm755 $SRC/finish.lightd $PKG/etc/sv/lightd/finish
+	    ln -s /run/runit/supervise.lightd $PKG/etc/sv/lightd/supervise
 	else
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
