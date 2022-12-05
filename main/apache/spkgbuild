@@ -42,6 +42,7 @@ build() {
 	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.httpd $PKG/etc/sv/httpd/run
+	    ln -s /run/runit/supervise.httpd $PKG/etc/sv/httpd/supervise
 	else
 	# rc service
 	    install -Dm755 $SRC/rc.httpd $PKG/etc/rc.d/httpd
