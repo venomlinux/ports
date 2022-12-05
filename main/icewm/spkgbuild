@@ -8,6 +8,7 @@ source="https://github.com/ice-wm/icewm/archive/$version/$name-$version.tar.gz"
 
 build() {
 	cmake -B build -S $name-$version \
+		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
 		-DCMAKE_BUILD_TYPE=Release \
