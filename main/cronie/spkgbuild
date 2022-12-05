@@ -39,6 +39,7 @@ build() {
 	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.crond $PKG/etc/sv/crond/run
+	    ln -s /run/runit/supervise.crond $PKG/etc/sv/crond/supervise
 	else
 	# rc service
 	    install -Dm755 $SRC/rc.crond $PKG/etc/rc.d/crond
