@@ -28,6 +28,7 @@ build() {
 	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.cups-browsed $PKG/etc/sv/cups-browsed/run
+	    ln -s /run/runit/supervise.cups-browsed  $PKG/etc/sv/cups-browsed/supervise
 	else
 	# rc service
 	    install -Dm755 $SRC/rc.cups-browsed $PKG/etc/rc.d/rc.cups-browsed
