@@ -69,8 +69,9 @@ EOF
 	# service files
 	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
-	    install -Dm755 $SRC/run.wpa $PKG/etc/sv/$name/run
-	    install -Dm755 $SRC/auto.wpa $PKG/etc/sv/$name/auto
+	    install -Dm755 $SRC/run.wpa $PKG/etc/sv/wpa/run
+	    install -Dm755 $SRC/auto.wpa $PKG/etc/sv/wpa/auto
+	    ln -s /run/runit/supervise.wpa $PKG/etc/sv/wpa/supervise
 	else
 	# rc service
 	    install -Dm755 $SRC/rc.wpa $PKG/etc/rc.d/wpa
