@@ -41,6 +41,7 @@ EOF
 	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.rsyncd $PKG/etc/sv/rsyncd/run
+	    ln -s /run/runit/supervise.rsyncd $PKG/etc/sv/rsyncd/supervise
 	else
 	# rc service
 	    install -Dm755 $SRC/rc.rsyncd $PKG/etc/rc.d/rsyncd
