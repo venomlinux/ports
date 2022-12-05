@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+sv check dbus >/dev/null || exit 1
+[ -f ./conf ] && . ./conf
+exec sddm 2>&1
