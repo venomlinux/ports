@@ -46,7 +46,7 @@ EOF
 	# service files
 	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
-	    install -Dm755 $SRC/run.cupsd $PKG/etc/sv/$name/run
+	    install -Dm755 $SRC/run.cupsd $PKG/etc/sv/cupsd/run
 	else
 	# rc service
 	    install -Dm755 $SRC/rc.cupsd $PKG/etc/rc.d/cupsd
