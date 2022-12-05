@@ -52,6 +52,7 @@ build() {
 	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
+	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 	else
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
