@@ -6,6 +6,7 @@ version=0.4.7.11
 release=1
 source="https://www.torproject.org/dist/$name-$version.tar.gz
 	rc.tor
+	run.tor
 	torrc"
 
 build() {
@@ -20,6 +21,12 @@ build() {
 
 	install -d $PKG/var/lib/tor -o tor -g tor
 
+	# service files
+	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
+	# runit service
+	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
+	else
 	# rc service
-	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	fi
 }
