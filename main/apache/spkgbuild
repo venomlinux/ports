@@ -6,7 +6,8 @@ version=2.4.54
 release=1
 source="https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 	httpd-blfs_layout-1.patch
-	rc.httpd"
+	rc.httpd
+	run.httpd"
 
 build() {
 	cd httpd-$version
@@ -37,6 +38,12 @@ build() {
 
 	rm -fr $PKG/var/run
 
+	# service files
+	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
+	# runit service
+	    install -Dm755 $SRC/run.httpd $PKG/etc/sv/httpd/run
+	else
 	# rc service
-	install -Dm755 $SRC/rc.httpd $PKG/etc/rc.d/httpd
+	    install -Dm755 $SRC/rc.httpd $PKG/etc/rc.d/httpd
+	fi
 }
