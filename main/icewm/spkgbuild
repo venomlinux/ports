@@ -2,12 +2,13 @@
 # depends	: libxrandr libxft libsm libxinerama gdk-pixbuf-xlib mkfontscale libxcomposite libxfixes libxdamage libxpm asciidoc fribidi imlib2
 
 name=icewm
-version=3.2.2
+version=3.2.3
 release=1
 source="https://github.com/ice-wm/icewm/archive/$version/$name-$version.tar.gz"
 
 build() {
 	cmake -B build -S $name-$version \
+		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
 		-DCMAKE_BUILD_TYPE=Release \
