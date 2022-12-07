@@ -1,0 +1,19 @@
+# description: Cross-platform audio output library and plugins.
+# depends: alsa-lib apulse
+
+name=libao
+version=1.2.2
+release=1
+source=https://github.com/xiph/$name/archive/$version/$name-$version.tar.gz
+
+build() {
+	cd $name-$version
+
+	./autogen.sh
+	./configure --prefix=/usr --enable-pulse=yes
+
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
+}
