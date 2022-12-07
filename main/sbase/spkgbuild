@@ -1,0 +1,15 @@
+# description	: Portable UNIX tools (suckless)
+# homepage	: https://github.com/michaelforney/sbase
+# depends	: 
+
+name=sbase
+version=20221126
+release=1
+source="$name-$version.tar.gz::https://github.com/michaelforney/sbase/archive/5e7afd0e9ea5b44f68ebf55555f03c41d8d21cdb.tar.gz"
+
+build() {
+	cd $name-5e7afd0e9ea5b44f68ebf55555f03c41d8d21cdb
+	make $name-box
+	install -Dm 755 $name-box $PKG/bin/$name-box
+	#make DESTDIR=$PKG PREFIX=/usr $name-box-install
+}
