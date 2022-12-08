@@ -139,9 +139,9 @@ if [ "$DAEMONS" ]; then
         done
 fi
 
-sh -c 'ubase-box respawn agetty tty1 9600' &
-sh -c 'ubase-box respawn agetty tty2 9600' &
-sh -c 'ubase-box respawn agetty tty3 9600' &
-sh -c 'ubase-box respawn agetty tty4 9600' &
-sh -c 'ubase-box respawn agetty tty5 9600' &
-sh -c 'ubase-box respawn agetty tty6 9600' &
+sh -c 'ubase-box respawn setsid agetty tty1 9600' &
+sh -c 'ubase-box respawn setsid agetty tty2 9600' &
+sh -c 'ubase-box respawn setsid agetty tty3 9600' &
+sh -c 'ubase-box respawn setsid agetty tty4 9600' &
+sh -c 'ubase-box respawn setsid agetty tty5 9600' &
+sh -c 'ubase-box respawn setsid agetty tty6 9600' &

@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# /etc/rc.shutdown: System Shutdown Script
+# /etc/sinit/rc.shutdown: Sinit Shutdown Script
 #
 
 . /etc/rc.conf
@@ -25,11 +25,11 @@ msg "Stopping udev..."
 udevadm control --exit
 
 msg "Sending all processes the TERM signal..."
-ubase-box killall5 -s TERM
+pkill --inverse -s0,1 -TERM
 sleep 3
 
 msg "Sending all processes the KILL signal..."
-ubase-box killall5 -s KILL
+pkill --inverse -s0,1 -KILL
 
 msg "Saving random seed..."
 dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 2>/dev/null
@@ -51,6 +51,8 @@ mount -o remount,ro /
 
 msg "Flushing filesystem buffers..."
 sync
+
+sleep 2
 
 case $1 in
 	poweroff) ubase-box halt -p;;
