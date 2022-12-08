@@ -1,0 +1,15 @@
+# description	: Set of C++ classes that provide a common API for realtime audio input/output
+# homepage	: http://www.music.mcgill.ca/~gary/rtaudio/
+# depends	: alsa-lib
+
+name=rtaudio
+version=5.2.0
+release=1
+source="http://www.music.mcgill.ca/~gary/$name/release/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
