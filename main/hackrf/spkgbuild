@@ -1,0 +1,24 @@
+# description	:  hackrf
+# homepage	: https://github.com/greatscottgadgets/hackrf
+# depends	: libusd fftw
+
+name=hackrf
+version=2022.09.1
+release=1
+source="$name-$version.tar.gz::https://github.com/greatscottgadgets/$name/archive/refs/tags/v$version.tar.gz
+	hackrf.conf"
+
+build() {
+	cd $name-$version/host
+	mkdir build
+    cd build
+    cmake ../ -DCMAKE_INSTALL_PREFIX=/usr \
+		  -DFFTW_INCLUDE_DIR=/usr/lib \
+		  -DFFTW_LIBRARY=/usr/includes
+
+	make
+	make DESTDIR=$PKG install
+	install -Dm644 ../libhackrf/53-hackrf.rules $PKG/usr/lib/udev/rules.d/53-hackrf.rules
+
+	install -Dm644 $SRC/hackrf.conf $PKG/etc/modprobe.d/hackrf.conf
+}
