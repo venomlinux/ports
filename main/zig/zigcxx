@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 args=""
 for arg in "$@"
 do
@@ -6,11 +6,11 @@ do
 
     option=${arg%=*}
     target=${arg#*=}
-    if [[ $option == "-march" || $option == "-mcpu" || $option == "-mtune" ]]; then
-        fixedTarget=${target//-/_}
+    if [ "$option" = "-march" ] || [ "$option" = "-mcpu" ]|| [ "$option" = "-mtune" ]; then
+        fixedTarget=$(echo "$target" | sed 's/-/_/g')
         parg="$option=$fixedTarget"
     fi
     args="$args $parg"
 done
-
+args=$(echo "$args" | sed '1s/^.//')
 zig c++ $args
