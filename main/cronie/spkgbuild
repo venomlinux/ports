@@ -35,13 +35,9 @@ build() {
 	install -Dm0644 contrib/0hourly $PKG/etc/cron.d/0hourly
 	install -Dm0755 contrib/0anacron $PKG/etc/cron.hourly/0anacron
 
-	# service files
-	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.crond $PKG/etc/sv/crond/run
 	    ln -s /run/runit/supervise.crond $PKG/etc/sv/crond/supervise
-	else
 	# rc service
 	    install -Dm755 $SRC/rc.crond $PKG/etc/rc.d/crond
-	fi
 }
