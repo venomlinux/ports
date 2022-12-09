@@ -20,14 +20,10 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# service files
-	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.lightd $PKG/etc/sv/lightd/run
 	    install -Dm755 $SRC/finish.lightd $PKG/etc/sv/lightd/finish
 	    ln -s /run/runit/supervise.lightd $PKG/etc/sv/lightd/supervise
-	else
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-	fi
 }
