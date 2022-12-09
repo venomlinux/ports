@@ -7,6 +7,8 @@ release=1
 backup="etc/wpa_supplicant.conf"
 source="https://w1.fi/releases/$name-$version.tar.gz
 	wpa_supplicant.conf
+	run.wpa
+	auto.wpa
 	rc.wpa"
 
 build() {
@@ -64,6 +66,10 @@ EOF
 	# wpa_supplicant.conf
 	install -Dm 600 $SRC/wpa_supplicant.conf $PKG/etc/wpa_supplicant.conf
 
+	# runit service
+	    install -Dm755 $SRC/run.wpa $PKG/etc/sv/wpa/run
+	    install -Dm755 $SRC/auto.wpa $PKG/etc/sv/wpa/auto
+	    ln -s /run/runit/supervise.wpa $PKG/etc/sv/wpa/supervise
 	# rc service
-	install -Dm755 $SRC/rc.wpa $PKG/etc/rc.d/wpa
+	    install -Dm755 $SRC/rc.wpa $PKG/etc/rc.d/wpa
 }

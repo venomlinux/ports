@@ -6,7 +6,8 @@ name=iwd
 version=2.0
 release=1
 source="https://www.kernel.org/pub/linux/network/wireless/$name-$version.tar.xz
-	iwd"
+	run.$name
+	rc.$name"
 
 build() {
 	cd $name-$version
@@ -24,6 +25,9 @@ build() {
 	install -d -m 0700 $PKG/var/lib/iwd
 	install -d -m 0700 $PKG/etc/iwd
 
-	# rc script
-	install -D -m 0755 $SRC/iwd $PKG/etc/rc.d/iwd
+	# runit service
+	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
+	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+	# rc service
+	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 }

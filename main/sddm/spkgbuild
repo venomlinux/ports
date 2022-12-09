@@ -8,6 +8,7 @@ backup="usr/share/sddm/scripts/Xsetup
 	etc/sddm.conf"
 source="https://github.com/sddm/sddm/releases/download/v$version/sddm-$version.tar.xz
 	qt5.15.patch
+	run.$name
 	rc.$name"
 
 build() {
@@ -94,6 +95,9 @@ session		required pam_unix.so
 session		optional pam_ck_connector.so
 EOF
 
+	# runit service
+	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
+	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 	# rc service
-	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 }

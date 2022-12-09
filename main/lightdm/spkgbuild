@@ -12,6 +12,7 @@ source="https://github.com/CanonicalLtd/lightdm/releases/download/$version/light
 	lightdm.rules
 	$name.pam
 	$name-autologin.pam
+	run.$name
 	rc.$name"
 
 build() {
@@ -47,6 +48,9 @@ build() {
 	install -dm755 -o lightdm -g lightdm $PKG/var/cache/lightdm
 	install -dm770 -o lightdm -g lightdm $PKG/var/log/lightdm
 
+	# runit service
+	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
+	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 	# rc service
-	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 }

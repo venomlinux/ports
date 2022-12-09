@@ -6,6 +6,7 @@ version=0.5.3
 release=2
 backup="etc/lxdm/lxdm.conf"
 source="https://downloads.sourceforge.net/$name/$name-$version.tar.xz
+	run.$name
 	rc.$name"
 
 build() {
@@ -42,6 +43,9 @@ sed -e 's/^bg/#&/'        \
 	make
 	make DESTDIR=$PKG install
 
+	# runit service
+	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
+	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 	# rc service
-	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 }

@@ -7,6 +7,7 @@ version=0.10.3
 release=1
 source="https://github.com/openSUSE/snapper/archive/v$version/$name-$version.tar.gz
 	rc.snapperd
+	run.snapperd
         disable-locale-test.patch"
 
 build() {
@@ -41,7 +42,11 @@ build() {
 	make
 	make DESTDIR=$PKG install
 	
+	# runit service
+	    install -Dm755 $SRC/run.snapperd $PKG/etc/sv/snapperd/run 
+	    ln -s /run/runit/supervise.snapperd $PKG/etc/sv/snapperd/supervise
 	# rc service
-	install -Dm755 $SRC/rc.snapperd $PKG/etc/rc.d/snapperd 
+	    install -Dm755 $SRC/rc.snapperd $PKG/etc/rc.d/snapperd
+
 	rm -rf $PKG/usr/lib/snapper/testsuite/
 }

@@ -6,6 +6,7 @@ version=3.2.7
 release=1
 backup="etc/rsyncd.conf"
 source="https://www.samba.org/ftp/rsync/src/$name-$version.tar.gz
+	run.rsyncd
 	rc.rsyncd"
 
 build() {
@@ -36,6 +37,9 @@ use chroot = yes
 
 EOF
 
+	# runit service
+	    install -Dm755 $SRC/run.rsyncd $PKG/etc/sv/rsyncd/run
+	    ln -s /run/runit/supervise.rsyncd $PKG/etc/sv/rsyncd/supervise
 	# rc service
-	install -Dm755 $SRC/rc.rsyncd $PKG/etc/rc.d/rsyncd
+	    install -Dm755 $SRC/rc.rsyncd $PKG/etc/rc.d/rsyncd
 }

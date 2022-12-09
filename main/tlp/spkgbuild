@@ -4,9 +4,20 @@
 name=tlp
 version=1.5.0
 release=1
-source="https://github.com/linrunner/TLP/archive/$version/$name-$version.tar.gz"
+source="https://github.com/linrunner/TLP/archive/$version/$name-$version.tar.gz
+	run.tlpd
+	finish.tlpd"
 
 build() {
 	cd TLP-$version
 	make DESTDIR=$PKG install
+
+
+	# runit service
+	    install -Dm755 $SRC/run.tlpd $PKG/etc/sv/tlpd/run
+	    install -Dm755 $SRC/finish.tlpd $PKG/etc/sv/tlpd/finish
+	    ln -s /run/runit/supervise.tlpd $PKG/etc/sv/tlpd/supervise
+	# rc service
+	#    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	fi
 }

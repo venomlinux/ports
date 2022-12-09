@@ -5,6 +5,7 @@ name=ntp
 version=4.2.8p15
 release=1
 source="https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-${version%.*}/$name-$version.tar.gz
+	run.ntpd
 	rc.ntpd"
 
 build() {
@@ -58,7 +59,9 @@ restrict 127.0.0.1
 restrict ::1
 EOF
 
+	# runit service
+	    install -Dm755 $SRC/run.ntpd $PKG/etc/sv/ntpd/run
+	    ln -s /run/runit/supervise.ntpd $PKG/etc/sv/ntpd/supervise
 	# rc service
-	install -Dm755 $SRC/rc.ntpd $PKG/etc/rc.d/ntpd
-
+	    install -Dm755 $SRC/rc.ntpd $PKG/etc/rc.d/ntpd
 }

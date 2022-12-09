@@ -7,6 +7,7 @@ version=2.88
 release=1
 backup="etc/dnsmasq.conf"
 source="http://www.thekelleys.org.uk/$name/$name-$version.tar.xz
+	run.$name
 	rc.$name"
 
 build() {
@@ -16,5 +17,10 @@ build() {
 	make PREFIX=$PKG/usr install-common
 	install -Dm 644 dnsmasq.conf.example $PKG/etc/dnsmasq.conf
 	install -Dm 644 trust-anchors.conf $PKG/usr/share/dnsmasq/trust-anchors.conf
-	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+
+	# runit service
+	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
+	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+	# rc service
+	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 }
