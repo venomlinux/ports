@@ -1,0 +1,15 @@
+# description	: suckless linux base utils
+# homepage	: https://github.com/michaelforney/ubase
+# depends	: 
+
+name=ubase
+version=20200605
+release=1
+source="$name-$version.tar.gz::https://github.com/michaelforney/ubase/archive/f152e7fc3bd1675060818ac224f96541a2d9d6e7.tar.gz"
+
+build() {
+	cd $name-f152e7fc3bd1675060818ac224f96541a2d9d6e7
+	make ubase-box
+	install -Dm 755 $name-box $PKG/bin/$name-box
+	#make DESTDIR=$PKG PREFIX=/usr ubase-box-install
+}

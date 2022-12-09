@@ -1,0 +1,20 @@
+# description   : Zig Language Compiler / C Compiler / C++ Compiler
+# homepage      : https://ziglang.org
+# depends       : cmake llvm clang lld ninja
+
+name=zig
+version=0.11.0
+_nightly=dev.618+096d3efae
+release=1
+source="https://ziglang.org/builds/zig-$version-$_nightly.tar.xz zigcc zigcxx"
+
+build() {
+	install_bin() { install -Dm0755 $1 $PKG/usr/bin/$2/${1##*/}; }
+	cd $name-$version-$_nightly
+	mkdir build
+	cd build
+	cmake -G Ninja  -DCMAKE_BUILD_TYPE=Release .. -DCMAKE_INSTALL_PREFIX=/usr -DZIG_VERSION=$version-$_nightly -DZIG_STATIC_LLVM=ON -DZIG_STATIC_ZLIB=ON -DZIG_USE_CCACHE=ON 
+	DESTDIR=$PKG ninja install
+	install_bin $SRC/zigcc 
+	install_bin $SRC/zigcxx
+}

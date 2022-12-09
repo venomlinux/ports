@@ -2,14 +2,11 @@
 # depends	: gsl boost gc lcms2 poppler-glib popt libxslt gtkmm3 double-conversion potrace gdl libsoup
 
 name=inkscape
-version=1.2.1
+version=1.2.2
 release=1
-source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz
-	poppler.22.09.0.patch"
+source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz"
 
 build() {
-	patch -d $name-${version}_* -Np1 -i $SRC/poppler.22.09.0.patch
-
 	cmake  -S $name-${version}_* -B build \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \

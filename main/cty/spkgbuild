@@ -1,0 +1,16 @@
+# description	: Databases of entities (countries), prefixes and callsigns that are used by amateur (ham) radio logging software
+# homepage	: http://www.country-files.com
+
+name=cty
+version=3239
+release=1
+source="http://www.country-files.com/$name/download/$version/$name-$version.zip"
+
+build() {
+	install -d $PKG/usr/share/cty/old
+	install -Dm644 $SRC/*.cty \
+		    $SRC/*.dat \
+		    $PKG/usr/share/cty
+
+	install -Dm644 $SRC/old/* $PKG/usr/share/cty/old
+}

@@ -1,0 +1,16 @@
+#!/bin/sh
+args=""
+for arg in "$@"
+do
+    parg="$arg"
+
+    option=${arg%=*}
+    target=${arg#*=}
+    if [ "$option" = "-march" ] || [ "$option" = "-mcpu" ]|| [ "$option" = "-mtune" ]; then
+        fixedTarget=$(echo "$target" | sed 's/-/_/g')
+        parg="$option=$fixedTarget"
+    fi
+    args="$args $parg"
+done
+args=$(echo "$args" | sed '1s/^.//')
+zig cc $args
