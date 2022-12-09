@@ -59,13 +59,9 @@ restrict 127.0.0.1
 restrict ::1
 EOF
 
-	# service files
-	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.ntpd $PKG/etc/sv/ntpd/run
 	    ln -s /run/runit/supervise.ntpd $PKG/etc/sv/ntpd/supervise
-	else
 	# rc service
 	    install -Dm755 $SRC/rc.ntpd $PKG/etc/rc.d/ntpd
-	fi
 }
