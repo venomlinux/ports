@@ -1,15 +1,15 @@
 # description	: Core utilities for Python packages
-# depends	: python3-setuptools python3-pyparsing python3-six
+# depends	: pytho3-installer python3-build python3-flit-core python3-pyparsing 
 
 name=python3-packaging
 _name=${name#*-}
 _n=${_name%${_name#?}}
-version=21.3
+version=22.0
 release=1
-source="$name-$version.tar.gz::https://files.pythonhosted.org/packages/source/$_n/${name#*-}/${name#*-}-$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/pypa/packaging/archive/refs/tags/$version.tar.gz"
 
 build() {
 	cd ${name#*-}-$version
-	python3 setup.py build
-	python3 setup.py install --root "$PKG"
+	python3 -m build --wheel --skip-dependency-check --no-isolation
+	python3 -m installer --destdir=$PKG dist/*.whl
 }
