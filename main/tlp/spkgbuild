@@ -13,13 +13,10 @@ build() {
 	make DESTDIR=$PKG install
 
 
-	# service files
-	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.tlpd $PKG/etc/sv/tlpd/run
 	    install -Dm755 $SRC/finish.tlpd $PKG/etc/sv/tlpd/finish
 	    ln -s /run/runit/supervise.tlpd $PKG/etc/sv/tlpd/supervise
-	#else
 	# rc service
 	#    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 	fi
