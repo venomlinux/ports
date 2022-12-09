@@ -21,13 +21,9 @@ build() {
 	ln -sfv libgpm.so.2.1.0 $PKG/usr/lib/libgpm.so
 	install -v -m644 conf/gpm-root.conf $PKG/etc
 
-	# service files
-	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
 	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
-	else
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-	fi
 }
