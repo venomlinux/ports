@@ -18,13 +18,9 @@ build() {
 	install -Dm 644 dnsmasq.conf.example $PKG/etc/dnsmasq.conf
 	install -Dm 644 trust-anchors.conf $PKG/usr/share/dnsmasq/trust-anchors.conf
 
-	# service files
-	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
 	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
-	else
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-	fi
 }
