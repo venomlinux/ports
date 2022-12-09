@@ -17,14 +17,10 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# service files
-	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.smartd $PKG/etc/sv/smartd/run
 	    install -Dm755 $SRC/finish.smartd $PKG/etc/sv/smartd/finish
 	    ln -s /run/runit/supervise.smartd $PKG/etc/sv/smartd/supervise
-	else
 	# rc service
 	    install -Dm755 $SRC/rc.smartd $PKG/etc/rc.d/smartd
-	fi
 }
