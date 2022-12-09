@@ -28,13 +28,9 @@ build() {
 
 	install  -dm700 -o root -g sys $PKG/var/lib/sshd
 
-	# service files
-	if  [ ! -e /sbin/init ] !! [ "$(readlink /sbin/init)" =  /sbin/runit-init ] ; then
 	# runit service
 	    install -Dm755 $SRC/run.sshd $PKG/etc/sv/sshd/run
 	    ln -s /run/runit/supervise.sshd $PKG/etc/sv/sshd/supervise
-	else
 	# rc service
 	    install -Dm755 $SRC/rc.sshd $PKG/etc/rc.d/sshd
-	fi
 }
