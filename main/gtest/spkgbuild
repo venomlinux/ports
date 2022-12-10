@@ -1,0 +1,22 @@
+# description	    : Google C++ test utility
+# homepage		    : https://github.com/google/googletest
+# depends	    : python3 cmake
+
+name=gtest
+version=1.10.0
+release=1
+source="$name-$version.tar.gz::https://github.com/google/googletest/archive/release-$version.tar.gz"
+
+build(){
+	cd googletest-release-$version
+	mkdir build; cd build
+	cmake ../ \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_SHARED_LIBS=On \
+		-DBUILD_GMOCK=On \
+		-DBUILD_GTEST=On
+	make
+	make DESTDIR=$PKG install
+}
