@@ -2,15 +2,12 @@
 # depends	: acl xz bzip2
 
 name=libarchive
-version=3.6.1
-release=3
-source="https://libarchive.org/downloads/$name-$version.tar.xz
-	$name-$version-glibc2.36-fix.patch::https://github.com/libarchive/libarchive/commit/a2f68263a1da5ad227bcb9cd8fa91b93c8b6c99f.patch"
+version=3.6.2
+release=1
+source="https://libarchive.org/downloads/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
-	patch -Np1 < $SRC/$name-$version-glibc2.36-fix.patch
 
 	./configure \
 		--prefix=/usr \
