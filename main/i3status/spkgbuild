@@ -9,6 +9,8 @@ source="https://i3wm.org/i3status/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
+
+	export XML_CATALOG_FILES=/etc/xml/catalog
 	venom-meson -Dmans=true build
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
