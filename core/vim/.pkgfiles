@@ -1,4 +1,4 @@
-vim-9.0.0977-1
+vim-9.0.1054-1
 drwxr-xr-x root/root    etc/
 -rw-r--r-- root/root    etc/vimrc
 drwxr-xr-x root/root    usr/
@@ -132,6 +132,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/compiler/
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/dartfmt.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/decada.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/dot.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/compiler/dotnet.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/erlang.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/eruby.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/eslint.vim
@@ -216,6 +217,10 @@ drwxr-xr-x root/root    usr/share/vim/vim90/compiler/
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/xmlwf.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/xo.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/yamllint.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/compiler/zig.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/compiler/zig_build.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/compiler/zig_build_exe.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/compiler/zig_test.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/compiler/zsh.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/defaults.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/delmenu.vim
@@ -369,6 +374,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/doc/
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/vi_diff.txt
 -rwxr-xr-x root/root    usr/share/vim/vim90/doc/vim2html.pl
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/vim9.txt
+-rw-r--r-- root/root    usr/share/vim/vim90/doc/vim9class.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/visual.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/windows.txt
 -rw-r--r-- root/root    usr/share/vim/vim90/doc/workshop.txt
@@ -660,6 +666,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/ftplugin/
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/xsd.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/xslt.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/yaml.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/zig.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/zimbu.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugin/zsh.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/ftplugof.vim
@@ -818,6 +825,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/indent/
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/xslt.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/yacc.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/yaml.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/indent/zig.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/zimbu.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indent/zsh.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/indoff.vim
@@ -1333,6 +1341,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/syntax/
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/netrw.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/nginx.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/ninja.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/nix.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/nosyntax.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/nqc.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/nroff.vim
@@ -1602,6 +1611,7 @@ drwxr-xr-x root/root    usr/share/vim/vim90/syntax/shared/
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/vue.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/wast.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/wdiff.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/wdl.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/web.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/webmacro.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/wget.vim
@@ -1631,7 +1641,9 @@ drwxr-xr-x root/root    usr/share/vim/vim90/syntax/shared/
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/yacc.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/yaml.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/z8a.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/zig.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/zimbu.vim
+-rw-r--r-- root/root    usr/share/vim/vim90/syntax/zir.vim
 -rw-r--r-- root/root    usr/share/vim/vim90/syntax/zsh.vim
 drwxr-xr-x root/root    usr/share/vim/vim90/tools/
 -rw-r--r-- root/root    usr/share/vim/vim90/tools/README.txt
