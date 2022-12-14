@@ -3,12 +3,12 @@
 
 name=libarchive
 version=3.6.2
-release=1
+release=2
 source="https://libarchive.org/downloads/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
+	
 	./configure \
 		--prefix=/usr \
 		--disable-bsdcat \
@@ -20,4 +20,8 @@ build() {
 		--disable-static
 	make
 	make DESTDIR=$PKG install
+
+	# Remove iconv from pc file
+	sed -i "s/iconv//" "$PKG/usr/lib/pkgconfig/libarchive.pc"
+
 }
