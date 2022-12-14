@@ -2,17 +2,12 @@
 # depends	: bash
 
 name=db
-version=5.3.28
+version=6.2.32
 release=1
 source="http://download.oracle.com/berkeley-db/${name}-${version}.tar.gz"
 
 build() {
-	cd $name-$version
-
-	# fix so that this will compile with current versions of g++
-	sed -i 's/\(__atomic_compare_exchange\)/\1_db/' src/dbinc/atomic.h
-
-	cd build_unix
+	cd $name-$version/build_unix
 
 	../dist/configure \
 		--prefix=/usr \
