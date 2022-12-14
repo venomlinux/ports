@@ -2,16 +2,16 @@
 # depends	: zlib bzip2 which icu python3
 
 name=boost
-version=1.80.0
+version=1.81.0
 _version=$(echo $version | sed 's/\./_/g')
-release=2
+release=1
 source="$name-$version.tar.bz2::https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${_version}.tar.bz2
 	fix-enum_type_object-python-3.11.patch"
 
 build() {
 	cd boost_${_version}
 
-	patch -Np1 -i ../fix-enum_type_object-python-3.11.patch	
+	#patch -Np1 -i ../fix-enum_type_object-python-3.11.patch	
 
 	./bootstrap.sh --prefix=/usr
 	./b2 ${MAKEFLAGS} stage --stagedir=$PKG/usr threading=multi link=shared
