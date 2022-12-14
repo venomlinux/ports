@@ -23,7 +23,10 @@ build() {
 	## $2 is feature
 	addopt libvdpau vdpau
 	addopt libva vaapi
-
+	addopt nvidia cuda
+	addopt nvidia cuvid 
+	addopt nv-codec-headers nvenc
+	
 	# adds the ALSA library to the Flite LDFLAGS variable and
 	# enables the discovery of Flite
 	sed -i 's/-lflite"/-lflite -lasound"/' configure
