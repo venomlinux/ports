@@ -2,12 +2,15 @@
 
 name=runit
 version=2.1.2
-release=3
+release=4
 source="http://smarden.org/runit/$name-$version.tar.gz
-	halt shutdown shutdown.8"
+	halt shutdown shutdown.8 chpst.patch sigcont.patch"
 
 build() {
 	cd admin/$name-$version
+
+	patch -Np1 -i $SRC/chpst.patch
+	patch -Np1 -i $SRC/sigcont.patch
 
 	# set default service path to /var/service
 	sed -i -e 's:^char \*varservice ="/service/";$:char \*varservice ="/var/service/";:' src/sv.c
