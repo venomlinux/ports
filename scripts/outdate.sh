@@ -131,6 +131,8 @@ alter_per_url() {
 			url=https://launchpad.net/$(echo $url | cut -d / -f4)/+download;;
 		*ftp.gnome.org*)
 			url=https://ftp.gnome.org/pub/gnome/sources/$filename/cache.json;;
+		**download.gnome.org**)
+			url=https://download.gnome.org/sources/$filename/cache.json;;
 		*archive.xfce.org*)
 			url=http://archive.xfce.org/src/$(echo $url | cut -d / -f5)/$name/;;
 		*pub.mate-desktop.org*)
@@ -186,7 +188,7 @@ check() {
 		case $url in
 			*github.com*|*gitlab.com*)
 				run_check getver_github;;
-			*ftp.gnome.org*)
+			*ftp.gnome.org*|*download.gnome.org*)
 				run_check getver_gnome;;
 			*archive.xfce.org*)
 				run_check getver_xfce4;;
