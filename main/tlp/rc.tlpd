@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# /etc/rc.d/rsync: start/stop RSYNC Server
+# /etc/rc.d/tlpd: start/stop TLP Service
 #
 
 . /etc/rc.subr
@@ -16,7 +16,7 @@ case $1 in
 		;;
 	stop)
 		msg "Stopping $NAME..."
-		stop_daemon $PROG
+		stop_daemon $PROG $OPTS
 		;;
 	restart)
 		$0 stop
@@ -25,6 +25,7 @@ case $1 in
 		;;
 	status)
 		status_daemon $PROG
+		tlp-stat -s
 		;;
 	*)
 		echo "usage: $0 [start|stop|restart|status]"
