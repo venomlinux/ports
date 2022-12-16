@@ -2,7 +2,7 @@
 # depends	: coreutils libarchive git
 
 name=scratchpkg
-version=20220918
+version=20221207
 release=1
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
@@ -10,13 +10,13 @@ backup="etc/scratchpkg.conf
 	etc/scratchpkg.mask
 	etc/revdep.conf"
 scratchpkg_url=https://github.com/venomlinux/scratchpkg
-source="$name-$version.tar.gz::https://github.com/venomlinux/scratchpkg/archive/2a3393f1e2393233a488cb2e20343e7ecee0b8f2.tar.gz
+source="$name-$version.tar.gz::https://github.com/venomlinux/scratchpkg/archive/5c91ed92d5fff0ca1cf9ffce79f1d15225ae7ae3.tar.gz
 	$name.repo
 	$name.conf
 	temporary_workaround_for_coreutils.patch"
 
 build() {
-	cd $name-2a3393f1e2393233a488cb2e20343e7ecee0b8f2
+	cd $name-5c91ed92d5fff0ca1cf9ffce79f1d15225ae7ae3
 
 	for s in $SRC/*; do
 		case $s in
