@@ -1,15 +1,19 @@
-snapper-0.10.3-1
+snapper-0.10.4-1
 drwxr-xr-x root/root    etc/
-drwxr-xr-x root/root    etc/conf.d/
--rw-r--r-- root/root    etc/conf.d/snapper.spkgnew
 drwxr-xr-x root/root    etc/cron.daily/
 -rwxr-xr-x root/root    etc/cron.daily/snapper
 drwxr-xr-x root/root    etc/cron.hourly/
 -rwxr-xr-x root/root    etc/cron.hourly/snapper
 drwxr-xr-x root/root    etc/logrotate.d/
 -rw-r--r-- root/root    etc/logrotate.d/snapper
+drwxr-xr-x root/root    etc/rc.d/
+-rwxr-xr-x root/root    etc/rc.d/snapperd
 drwxr-xr-x root/root    etc/snapper/
 drwxr-xr-x root/root    etc/snapper/configs/
+drwxr-xr-x root/root    etc/sv/
+drwxr-xr-x root/root    etc/sv/snapperd/
+-rwxr-xr-x root/root    etc/sv/snapperd/run
+lrwxrwxrwx root/root    etc/sv/snapperd/supervise -> /run/runit/supervise.snapperd
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/mksubvolume
@@ -39,29 +43,6 @@ drwxr-xr-x root/root    usr/lib/security/
 drwxr-xr-x root/root    usr/lib/snapper/
 -rwxr-xr-x root/root    usr/lib/snapper/installation-helper
 -rwxr-xr-x root/root    usr/lib/snapper/systemd-helper
-drwxr-xr-x root/root    usr/lib/snapper/testsuite/
--rw-r--r-- root/root    usr/lib/snapper/testsuite/CAUTION
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/ascii-file
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/directory1
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/error1
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/error2
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/error4
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/missing-directory1
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/owner1
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/owner2
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/owner3
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/permissions1
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/permissions2
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/permissions3
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/run-all
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/setup-and-run-all
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/simple1
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/test-btrfsutils
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/ug-tests
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/xattrs1
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/xattrs2
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/xattrs3
--rwxr-xr-x root/root    usr/lib/snapper/testsuite/xattrs4
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/bash-completion/
 drwxr-xr-x root/root    usr/share/bash-completion/completions/
