@@ -2,12 +2,12 @@
 # homepage	: https://download.java.net
 
 name=openjdk-bin
-version=19
+version=19.0.1
 release=1
-source="https://download.java.net/java/GA/jdk19/877d6127e982470ba2a7faa31cc93d04/36/GPL/openjdk-19_linux-x64_bin.tar.gz"
+source="https://download.java.net/java/GA/jdk19.0.1/afdd2e245b014143b62ccb916125e3ce/10/GPL/openjdk-${version}_linux-x64_bin.tar.gz"
 
 build() {
-	cd jdk-19
+	cd jdk-$version
 	mkdir -p $PKG/usr/lib
 	mkdir -p $PKG/usr/bin
 	mkdir -p $PKG/usr/conf
