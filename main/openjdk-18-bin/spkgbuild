@@ -2,12 +2,13 @@
 # homepage	: https://download.java.net
 
 name=openjdk-18-bin
-version=18
+version=18.0.2.1+1
 release=1
-source="https://download.java.net/java/GA/jdk18/43f95e8614114aeaa8e8a5fcf20a682d/36/GPL/openjdk-18_linux-x64_bin.tar.gz"
+#source="https://download.java.net/java/GA/jdk18/43f95e8614114aeaa8e8a5fcf20a682d/36/GPL/openjdk-18_linux-x64_bin.tar.gz"
+source="$name-$version.tar.gz::https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.2.1%2B1/OpenJDK18U-jdk_x64_linux_hotspot_18.0.2.1_1.tar.gz"
 
 build() {
-	cd jdk-18
+	cd jdk-$version
 	mkdir -p $PKG/usr/lib
 	mkdir -p $PKG/usr/bin
 	mkdir -p $PKG/usr/conf
