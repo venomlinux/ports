@@ -1,0 +1,17 @@
+# description	: Intelligent WHOIS client
+# homepage	: https://github.com/rfc1036/whois
+# depends	: libidn2 libxcrypt
+
+name=whois
+version=5.5.14
+release=1
+source="https://github.com/rfc1036/whois/archive/v5.5.14.tar.gz"
+
+build() {
+	cd $name-$version
+
+	make CONFIG_FILE='/etc/whois.conf' whois
+
+	make DESTDIR=$PKG install
+	install -Dm644 whois.conf -t $PKG/etc
+}
