@@ -230,6 +230,9 @@ tmp_scratchpkgconf() {
 #}
 
 make_iso() {
+	msg "Running revdep (before makeiso)..."
+	chrootrun revdep -y -r || die
+
 	ISOLINUX_FILES="chain.c32 isolinux.bin isolinux.bin ldlinux.c32 libutil.c32 reboot.c32 vesamenu.c32 libcom32.c32 poweroff.c32"
 	# prepare isolinux files
 	msg "Preparing isolinux..."
