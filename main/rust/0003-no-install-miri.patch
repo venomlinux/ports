@@ -1,0 +1,11 @@
+--- rustc-1.66.0-src/src/bootstrap/install.rs.orig	2022-12-12 17:02:12.000000000 +0100
++++ rustc-1.66.0-src/src/bootstrap/install.rs	2022-12-18 00:01:24.076587533 +0100
+@@ -130,7 +130,7 @@
+         impl $name {
+             #[allow(dead_code)]
+             fn should_build(config: &Config) -> bool {
+-                config.extended && config.tools.as_ref()
++                $path_or_alias != "miri" && config.extended && config.tools.as_ref()
+                     .map_or(true, |t| t.contains($path_or_alias))
+             }
+         }
