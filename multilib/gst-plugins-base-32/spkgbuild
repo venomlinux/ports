@@ -2,30 +2,26 @@
 # depends	: gst-plugins-base gstreamer-32
 
 name=gst-plugins-base-32
-version=1.20.4
+version=1.20.5
 release=1
 source="http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-$version.tar.xz"
 
 build() {
-	cd gst-plugins-base-$version
-
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	mkdir build
-        cd build
-
-        meson \
-		--prefix=/usr \
+        venom-meson gst-plugins-base-$version build \
 		--libdir=/usr/lib32 \
 		--libexecdir=/usr/lib32 \
 		-Ddebug=false \
 		-Ddoc=disabled \
+		-Dexamples=disabled \
+		-Dqt5=disabled \
 		-Dintrospection=disabled \
 		-Dpackage-name="GStreamer Base Plugins $version (Venom Linux)"
-	ninja
-	DESTDIR=$PWD/DESTDIR ninja install
+	meson compile -C build
+	DESTDIR=$PWD/DESTDIR meson install -C build
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
