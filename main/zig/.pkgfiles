@@ -1,4 +1,4 @@
-zig-0.11.0-1
+zig-0.11.0-2
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/zig
@@ -7582,8 +7582,39 @@ drwxr-xr-x root/root    usr/lib/zig/libc/mingw/libsrc/
 drwxr-xr-x root/root    usr/lib/zig/libc/mingw/math/
 -rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/abs64.c
 drwxr-xr-x root/root    usr/lib/zig/libc/mingw/math/arm-common/
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/acosh.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/acoshf.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/acoshl.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/asinh.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/asinhf.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/asinhl.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/atanh.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/atanhf.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/atanhl.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/copysignl.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/expm1.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/expm1f.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/expm1l.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/ilogb.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/ilogbf.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/ilogbl.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/ldexpl.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/log1p.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/log1pf.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/log1pl.c
 -rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/log2.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/logb.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/logbf.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/logbl.c
 -rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/pow.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/powf.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/powl.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/remainder.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/remainderf.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/remainderl.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/remquol.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/s_remquo.c
+-rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/s_remquof.c
 -rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm-common/scalbn.c
 drwxr-xr-x root/root    usr/lib/zig/libc/mingw/math/arm/
 -rw-r--r-- root/root    usr/lib/zig/libc/mingw/math/arm/_chgsignl.S
@@ -14180,8 +14211,14 @@ drwxr-xr-x root/root    usr/lib/zig/std/build/
 -rw-r--r-- root/root    usr/lib/zig/std/build/CheckObjectStep.zig
 -rw-r--r-- root/root    usr/lib/zig/std/build/EmulatableRunStep.zig
 -rw-r--r-- root/root    usr/lib/zig/std/build/FmtStep.zig
+-rw-r--r-- root/root    usr/lib/zig/std/build/InstallArtifactStep.zig
+-rw-r--r-- root/root    usr/lib/zig/std/build/InstallDirStep.zig
+-rw-r--r-- root/root    usr/lib/zig/std/build/InstallFileStep.zig
 -rw-r--r-- root/root    usr/lib/zig/std/build/InstallRawStep.zig
+-rw-r--r-- root/root    usr/lib/zig/std/build/LibExeObjStep.zig
+-rw-r--r-- root/root    usr/lib/zig/std/build/LogStep.zig
 -rw-r--r-- root/root    usr/lib/zig/std/build/OptionsStep.zig
+-rw-r--r-- root/root    usr/lib/zig/std/build/RemoveDirStep.zig
 -rw-r--r-- root/root    usr/lib/zig/std/build/RunStep.zig
 -rw-r--r-- root/root    usr/lib/zig/std/build/TranslateCStep.zig
 -rw-r--r-- root/root    usr/lib/zig/std/build/WriteFileStep.zig
@@ -14226,6 +14263,7 @@ drwxr-xr-x root/root    usr/lib/zig/std/compress/deflate/
 drwxr-xr-x root/root    usr/lib/zig/std/compress/deflate/testdata/
 -rw-r--r-- root/root    usr/lib/zig/std/compress/deflate/token.zig
 -rw-r--r-- root/root    usr/lib/zig/std/compress/gzip.zig
+drwxr-xr-x root/root    usr/lib/zig/std/compress/testdata/
 -rw-r--r-- root/root    usr/lib/zig/std/compress/zlib.zig
 -rw-r--r-- root/root    usr/lib/zig/std/comptime_string_map.zig
 -rw-r--r-- root/root    usr/lib/zig/std/crypto.zig
@@ -14519,6 +14557,7 @@ drwxr-xr-x root/root    usr/lib/zig/std/os/linux/errno/
 drwxr-xr-x root/root    usr/lib/zig/std/os/plan9/
 -rw-r--r-- root/root    usr/lib/zig/std/os/plan9/x86_64.zig
 -rw-r--r-- root/root    usr/lib/zig/std/os/posix_spawn.zig
+-rw-r--r-- root/root    usr/lib/zig/std/os/ptrace.zig
 -rw-r--r-- root/root    usr/lib/zig/std/os/test.zig
 -rw-r--r-- root/root    usr/lib/zig/std/os/uefi.zig
 drwxr-xr-x root/root    usr/lib/zig/std/os/uefi/
