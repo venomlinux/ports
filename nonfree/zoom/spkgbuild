@@ -1,0 +1,21 @@
+# description	    : Video Conferencing and Web Conferencing Service
+# homepage	    : https://zoom.us/
+# depends	    : fontconfig libxslt mesa nss dbus
+# depends	    : libsm libx11 libxtst libxcb libxcomposite
+# depends	    : libxfixes libxi libxcursor libxkbcommon libxrender libxshmfence xdb-util-image
+# depends	    : xcb-util-keysyms qtwebengine
+
+name=zoom
+version=5.12.9
+_build=367
+release=1
+source="$name-$version.${_build}.tar.xz::https://cdn.zoom.us/prod/$version.${_build}/zoom_x86_64.pkg.tar.xz"
+
+build() {
+
+  sed -i 's/Zoom\.png/Zoom/g' "$SRC/usr/share/applications/Zoom.desktop"
+  sed -i 's/StartupWMClass=Zoom/StartupWMClass=zoom/g' "$SRC/usr/share/applications/Zoom.desktop"
+
+  cp -dpr --no-preserve=ownership opt usr $PKG
+
+}
