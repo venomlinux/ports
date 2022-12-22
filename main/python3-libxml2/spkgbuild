@@ -13,4 +13,6 @@ build() {
 	cd python
 	/usr/bin/python3 setup.py build
 	/usr/bin/python3 setup.py install --root=$PKG
+	/usr/bin/python2 setup.py build
+	/usr/bin/python3 setup.py install --root=$PKG
 }
