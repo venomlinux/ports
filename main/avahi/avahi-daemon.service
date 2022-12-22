@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+# /etc/rc.d/avahi-daemon: start/stop avahi daemon
+#
+
+SSD=/sbin/start-stop-daemon
+PROG=/usr/sbin/avahi-daemon
+NAME=avahi-daemon
+RUNDIR=/run/avahi-daemon
+PID=$RUNDIR/pid
+USER=avahi
+GROUP=avahi
+OPTS="-D"
+
+case $1 in
+  start)
+    [ -d "$RUNDIR" ] || install -o $USER -g $GROUP -d "$RUNDIR"
+    $SSD --start --pidfile $PID --user $USER --exec $PROG -- $OPTS
+    ;;
+  stop)
+    $SSD --stop --retry 10 --name $NAME --pidfile $PID
+    ;;
+  restart)
+    $0 stop
+    $0 start
+    ;;
+  status)
+    $SSD --status --name $NAME --pidfile $PID
+    case $? in
+      0) echo "$PROG is running with pid $(cat $PID)" ;;
+      1) echo "$PROG is not running but the pid file $PID exists" ;;
+      3) echo "$PROG is not running" ;;
+      4) echo "Unable to determine the program status" ;;
+    esac
+    ;;
+  *)
+    echo "usage: $0 [start|stop|restart|status]"
+    ;;
+esac
+
+# End of file
