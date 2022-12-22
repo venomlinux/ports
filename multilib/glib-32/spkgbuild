@@ -2,9 +2,10 @@
 # depends	: glib pcre2-32 libffi-32 util-linux-32 elfutils-32 zlib-32
 
 name=glib-32
-version=2.74.3
+version=2.74.4
 release=1
 source="https://ftp.gnome.org/pub/gnome/sources/glib/${version%.*}/${name%-*}-$version.tar.xz
+	missing-include.patch
 	multilib.patch"
 
 build() {
@@ -14,6 +15,7 @@ build() {
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	patch -d ${name%-*}-$version -p1 -i $SRC/multilib.patch
+	patch -d ${name%-*}-$version -p1 -i $SRC/missing-include.patch
 
 	venom-meson ${name%-*}-$version build \
 		--libdir=/usr/lib32 \
