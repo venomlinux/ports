@@ -3,11 +3,9 @@
 # depends	: cmake zlib mimalloc tbb
 
 name=mold
-version=1.7.1
+version=1.8.0
 release=1
-source="$name-$version.tar.gz::https://github.com/rui314/mold/archive/v$version.tar.gz
-elf_amd64_only.patch
-"
+source="$name-$version.tar.gz::https://github.com/rui314/mold/archive/v$version.tar.gz"
 
 build() {
 	cd $name-$version
@@ -20,8 +18,6 @@ build() {
 	export SYSTEM_MIMALLOC=1 
 	export SYSTEM_TBB=1 
 	export LTO=1 
-
-	patch -Np1 -i $SRC/elf_amd64_only.patch
 
 	cmake -B build \
 		-DCMAKE_INSTALL_PREFIX=/usr \
