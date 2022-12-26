@@ -3,11 +3,17 @@
 name=unzip
 version=6.0
 _version=$(echo $version | sed 's/\.//')
-release=1
-source="https://downloads.sourceforge.net/infozip/${name}${_version}.tar.gz"
+release=2
+source="https://downloads.sourceforge.net/infozip/${name}${_version}.tar.gz
+	CVE-2021-4217.patch
+	CVE-2022-0529.patch
+	CVE-2022-0530.patch"
 
 build() {
 	cd ${name}${_version}
+	for i in $SRC/*.patch ; do
+	    patch -Np1 < $i
+	done
 
   	make -f unix/Makefile generic
 	make prefix=$PKG/usr MANDIR=$PKG/usr/share/man/man1 \
