@@ -2,14 +2,16 @@
 # depends	: curl json-c libxml2 sqlite stfl asciidoc rust
 
 name=newsboat
-version=2.29
+version=2.30
 release=1
 source="https://newsboat.org/releases/$version/newsboat-$version.tar.xz
+	https://github.com/newsboat/newsboat/commit/e435697820.patch
 	newsboat.1.gz
 	podboat.1.gz"
 
 build() {
 	cd $name-$version
+	patch -Np1 < $SRC/e435697820.patch
 	#./config.sh
 	make prefix=/usr newsboat podboat
 	install -d \
@@ -18,3 +20,4 @@ build() {
 	install -m 0755 newsboat podboat $PKG/usr/bin
 	install -m 0644 $SRC/*.1.gz $PKG/usr/share/man/man1
 }
+https://github.com/newsboat/newsboat/commit/e435697820.patch
