@@ -1,4 +1,4 @@
-man-pages-6.01-1
+man-pages-6.02-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/man/
@@ -569,7 +569,6 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/FD_ISSET.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/FD_SET.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/FD_ZERO.3.gz
--rw-r--r-- root/root    usr/share/man/man3/FILE.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/HUGE_VAL.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/HUGE_VALF.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/HUGE_VALL.3.gz
@@ -649,6 +648,7 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/TAILQ_REMOVE.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/TAILQ_SWAP.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/_Generic.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/_Static_assert.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/__after_morecore_hook.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/__fbufsize.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/__flbf.3.gz
@@ -1890,6 +1890,7 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/sscanf.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/ssignal.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/stailq.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/static_assert.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/statvfs.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/stdarg.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/stderr.3.gz
@@ -1898,6 +1899,8 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/stdio_ext.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/stdout.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/stpcpy.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/stpecpy.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/stpecpyx.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/stpncpy.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/strcasecmp.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/strcasestr.3.gz
@@ -2056,6 +2059,8 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/updwtmpx.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/uselocale.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/usleep.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/ustpcpy.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/ustr2stp.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/utmpname.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/utmpxname.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/va_arg.3.gz
@@ -2183,12 +2188,17 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/yn.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/ynf.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/ynl.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/zustr2stp.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/zustr2ustp.3.gz
 drwxr-xr-x root/root    usr/share/man/man3const/
 -rw-r--r-- root/root    usr/share/man/man3const/EOF.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/EXIT_FAILURE.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/EXIT_SUCCESS.3const.gz
 -rw-r--r-- root/root    usr/share/man/man3const/NULL.3const.gz
 drwxr-xr-x root/root    usr/share/man/man3head/
 -rw-r--r-- root/root    usr/share/man/man3head/sysexits.h.3head.gz
 drwxr-xr-x root/root    usr/share/man/man3type/
+-rw-r--r-- root/root    usr/share/man/man3type/FILE.3type.gz
 -rw-r--r-- root/root    usr/share/man/man3type/aiocb.3type.gz
 -rw-r--r-- root/root    usr/share/man/man3type/blkcnt_t.3type.gz
 -rw-r--r-- root/root    usr/share/man/man3type/blksize_t.3type.gz
@@ -2490,6 +2500,7 @@ drwxr-xr-x root/root    usr/share/man/man7/
 -rw-r--r-- root/root    usr/share/man/man7/socket.7.gz
 -rw-r--r-- root/root    usr/share/man/man7/spufs.7.gz
 -rw-r--r-- root/root    usr/share/man/man7/standards.7.gz
+-rw-r--r-- root/root    usr/share/man/man7/string_copying.7.gz
 -rw-r--r-- root/root    usr/share/man/man7/suffixes.7.gz
 -rw-r--r-- root/root    usr/share/man/man7/svipc.7.gz
 -rw-r--r-- root/root    usr/share/man/man7/symlink.7.gz
