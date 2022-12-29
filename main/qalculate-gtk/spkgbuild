@@ -1,0 +1,15 @@
+# description	: GTK frontend for libqalculate
+# homepage	: https://qalculate.github.io/
+# depends	: libqalculate gtk3 intltool python
+
+name=qalculate-gtk
+version=4.5.0
+release=1
+source="https://github.com/Qalculate/qalculate-gtk/releases/download/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --libexecdir=/usr/lib
+	make
+	make DESTDIR=$PKG install
+}
