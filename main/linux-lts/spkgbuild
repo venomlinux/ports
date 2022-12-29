@@ -3,7 +3,7 @@
 
 name=linux-lts
 version=5.15.85
-release=1
+release=2
 source="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-$version.tar.xz
 	x86_64-dotconfig"
 NO_STRIP=yes
@@ -37,8 +37,8 @@ build() {
 
 	mkdir -p $PKG/boot
 
-	cp  arch/x86/boot/bzImage $PKG/boot/vmlinuz-venom
-	echo $kernver > $PKG/lib/modules/KERNELVERSION
+	cp  arch/x86/boot/bzImage $PKG/boot/vmlinuz-$version
+	echo $kernver > $PKG/lib/modules/$kernver/venomkernel
 
 	make clean
 	make prepare
