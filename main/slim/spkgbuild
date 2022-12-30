@@ -2,12 +2,13 @@
 # depends	: libx11 libxft libxrender libxrandr libxmu freetype2 libjpeg-turbo libpng zlib consolekit2 linux-pam
 
 name=slim
-version=1.3.6
-release=5
+version=1.3.9
+release=1
 backup="etc/slim.conf"
-source="https://sourceforge.net/projects/${name}.berlios/files/$name-$version.tar.gz
+source="https://sourceforge.net/projects/${name}-fork/files/$name-$version.tar.gz
 	rc.slim
 	$name.pam
+	greeny_dark
 	run"
 
 build() {
@@ -29,10 +30,8 @@ build() {
 	DESTDIR=$PKG cmake --install build
 
 	install -Dm644 $SRC/$name.pam $PKG/etc/pam.d/$name
-
-	# remove systemd crap
-	rm -r $PKG/lib
-
+        install -Dm755 $SRC/greeny_dark $PKG/usr/$name/themes/greeny_dark
+	
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 
