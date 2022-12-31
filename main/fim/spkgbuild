@@ -3,11 +3,11 @@
 
 name=fim
 version=0.6
-release=trunk
-source="https://download.savannah.gnu.org/releases/fbi-improved/$name-$version-$release.tar.gz"
+release=1
+source="https://download.savannah.gnu.org/releases/fbi-improved/$name-$version-trunk.tar.gz"
 
 build() {
-	cd $name-$version-$release
+	cd $name-$version-trunk
 
 	sed -i -e 's/#define FIM_WANT_BACKGROUND_LOAD.*//' src/fim.h
 	sed -i -e 's/void exit/FIM_NORETURN void exit/' src/CommandConsole.h

@@ -2,27 +2,18 @@
 # depends	: gtk3 libxt dbus-glib alsa-lib libvpx libevent nss sqlite icu unzip zip diffutils gconf python3 yasm mesa inetutils autoconf2.13 rust cbindgen nodejs nasm which clang libxcomposite
 
 name=firefox-esr
-version=102.5.0
+version=102.6.0
 release=1
 source="https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/firefox-${version}esr.source.tar.xz
         firefox.desktop
-        cbindgen-0.24.0.diff zstandard-0.18.0.diff update-packed_simd.diff arc4random.diff"
+        python3.11.patch"
 
 
 build() {
 	cd firefox-$version
     
-	# Unbreak build with cbindgen 0.24.0
-	patch -Np1 -i ../cbindgen-0.24.0.diff
-
-	# Unbreak build with python-zstandard 0.18.0
-	 patch -Np1 -i ../zstandard-0.18.0.diff
-  
-	# Unbreak build with simd
-	#patch -Np1 -i ../update-packed_simd.diff
-
-	# Fix arc4random
-	patch -Np1 -i ../arc4random.diff
+	# Python 3.11 patch
+	patch -Np1 -i ../python3.11.patch
 
 cat <<- EOF > .mozconfig
 	ac_add_options --prefix=/usr

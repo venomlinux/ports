@@ -158,7 +158,7 @@ compress_rootfs() {
 	#main_scratchpkgconf
 	
 	msg "Compressing rootfs: $ROOTFS ..."
-	tar --exclude="var/cache/scratchpkg/packages/*" \
+	XZ_DEFAULTS='-T0' tar --exclude="var/cache/scratchpkg/packages/*" \
 		--exclude="var/cache/scratchpkg/sources/*" \
 		--exclude="var/cache/scratchpkg/work/*" \
 		--exclude="*.spkgnew" \
