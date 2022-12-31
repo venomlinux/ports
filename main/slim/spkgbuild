@@ -30,8 +30,7 @@ build() {
 	DESTDIR=$PKG cmake --install build
 
 	install -Dm644 $SRC/$name.pam $PKG/etc/pam.d/$name
-        install -Dm755 $SRC/greeny_dark $PKG/usr/$name/themes/greeny_dark
-	
+        	
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 
