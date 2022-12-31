@@ -1,25 +1,23 @@
 # description	: An advanced and well-established feature-rich text mode web browser
-# depends	: expat openssl zlib
+# depends	: expat openssl zlib libidn gpm
 
 name=elinks
-version=0.15.1
+version=0.16.0
 release=1
 source="https://github.com/rkd77/elinks/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
 
-	 [ -x configure ] || sh autogen.sh
+	export XML_CATALOG_FILES=/etc/xml/catalog
 
-	./configure \
-		--prefix=/usr \
-                --sysconfdir=/etc \
-                --enable-256-colors \
-                --enable-html-highlight \
-                --with-zlib \
-                --without-x \
-                --without-bzlib \
-                --without-lua
-	make CFLAGS="$CFLAGS -Wno-all"
-	make DESTDIR=$PKG install
+	venom-meson $name-$version build \
+		-Dgettext=true \
+		-Dhtml-highlight=true \
+		-Dbacktrace=false \
+		-D256-colors=true \
+		-Dtrue-color=true \
+		-Dtre=false 
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
+
 }
