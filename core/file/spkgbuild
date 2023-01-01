@@ -3,7 +3,7 @@
 
 name=file
 version=5.44
-release=1
+release=2
 source="ftp://ftp.astron.com/pub/$name/$name-$version.tar.gz"
 
 build() {
@@ -13,7 +13,8 @@ build() {
 		--prefix=/usr \
 		--enable-fsect-man5 \
                 --enable-static \
-                --disable-libseccomp
+                --disable-libseccomp \
+		--disable-zstdlib
 	make
 	make DESTDIR=$PKG install
 }
