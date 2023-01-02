@@ -11,13 +11,13 @@ source="https://sourceforge.net/projects/${name}-fork/files/$name-$version.tar.g
 	panel.png
 	$name.theme
 	$name.pam
-	$name.conf
 	run"
 
 build() {
 	cd $name-$version
 
 	sed -i 's/WinGC < 0/WinGC != 0/' panel.cpp
+	sed -i '/current_theme       default/c\current_theme       greeny_dark' $name.conf
 
 	cmake -B build \
 		-DCMAKE_INSTALL_PREFIX=/usr \
@@ -33,7 +33,6 @@ build() {
 	DESTDIR=$PKG cmake --install build
 
 	install -Dm644 $SRC/$name.pam $PKG/etc/pam.d/$name
-	install -Dm644 $SRC/$name.conf $PKG/etc/$name.conf.spkgnew
 	install -Dm644 $SRC/$name.theme $PKG/usr/share/$name/themes/greeny_dark/$name.theme
     	install -Dm644 $SRC/background.png $PKG/usr/share/$name/themes/greeny_dark/background.png
     	install -Dm644 $SRC/panel.png $PKG/usr/share/$name/themes/greeny_dark/panel.png
