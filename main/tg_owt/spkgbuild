@@ -3,14 +3,16 @@
 # depends	: cmake ninja pipewire pulseaudio libjpeg-turbo libxcomposite
 
 name=tg_owt
-version=20220623
-_commit=10d5f4bf77333ef6b43516f90d2ce13273255f41
-_libyuv_commit=ad890067f661dc747a975bc55ba3767fe30d4452
+version=20221208
+_commit=9b70d7679e86e6c216127d5a6a06ef5aa4f54793
+_libyuv_commit=00950840d1c9bcbb3eb6ebc5aac5793e71166c8b
 _libvpx_commit=03265cd42b3783532de72f2ded5436652e6f5ce3
+_abseil_commit=8c0b94e793a66495e0b1f34a5eb26bd7dc672db0
 _crc32c_commit=21fc8ef30415a635e7351ffa0e5d5367943d4a94
 release=1
 noextract="libvpx-${_libvpx_commit}.tar.gz
 	libyuv-${_libyuv_commit}.tar.gz
+	abseil-${_abseil_commit}.tar.gz
 	crc32c-${_crc32c_commit}.tar.gz"
 
 source="
@@ -18,6 +20,7 @@ source="
 	libvpx-${_libvpx_commit}.tar.gz::https://chromium.googlesource.com/webm/libvpx/+archive/${_libvpx_commit}.tar.gz
 	libyuv-${_libyuv_commit}.tar.gz::https://chromium.googlesource.com/libyuv/libyuv/+archive/${_libyuv_commit}.tar.gz
 	crc32c-${_crc32c_commit}.tar.gz::https://github.com/google/crc32c/archive/${_crc32c_commit}.tar.gz
+	abseil-${_abseil_commit}.tar.gz::https://github.com/abseil/abseil-cpp/archive/${_abseil_commit}.tar.gz
 	"
 
 build() {
@@ -27,6 +30,7 @@ build() {
 	bsdtar xzf $SRC/libyuv-${_libyuv_commit}.tar.gz -C libyuv
 	bsdtar xzf $SRC/libvpx-${_libvpx_commit}.tar.gz -C libvpx
 	bsdtar xzf $SRC/crc32c-${_crc32c_commit}.tar.gz --strip-components 1 -C src/third_party/crc32c/src 
+	bsdtar xzf $SRC/abseil-${_abseil_commit}.tar.gz --strip-components 1 -C src/third_party/abseil-cpp
 	
 	mv libyuv/* src/third_party/libyuv/
 	mv libvpx/* src/third_party/libvpx/
