@@ -17,7 +17,7 @@ source="https://sourceforge.net/projects/${name}-fork/files/$name-$version.tar.g
 build() {
 	cd $name-$version
 
-	sed -i '/current_theme       default/c\current_theme       greeny_dark' $name.conf
+	sed -i 's/\(current_theme\)\(\s*\)\(default\)/\1\2greeny_dark/' $name.conf
 	
 	patch -Np1 -i $SRC/passwd_feedback_position.patch
 
