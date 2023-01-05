@@ -1,14 +1,13 @@
-# description	: A monitor of resources 
+# description	: A monitor for system resources 
 # homepage	: https://github.com/aristocratos/btop
-# depends	: 
 
 name=btop
 version=1.2.13
 release=1
-source="https://github.com/aristocratos/${name}/archive/refs/tags/v${version}.tar.gz"
+source="$name-$version::https://github.com/aristocratos/${name}/archive/refs/tags/v${version}.tar.gz"
 
 build() {
 	cd $name-$version
-	make
-	make DESTDIR=$PKG install
+	make PREFIX=/usr
+	make DESTDIR=$PKG PREFIX=/usr install
 }
