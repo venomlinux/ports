@@ -1,0 +1,16 @@
+# description	: Modernized fork of NEdit with unicode support and AA text rendering 
+# homepage	: https://sourceforge.net/projects/xnedit
+# depends	: tcl motif pcre libxrender libxpm
+
+name=xnedit
+version=1.4.1
+release=1
+noextract=""
+backup=""
+source="https://sourceforge.net/projects/xnedit/files/$name-$version.tar.gz"
+
+build() {
+	cd $name
+	make linux
+	make DESTDIR=$PKG install
+}
