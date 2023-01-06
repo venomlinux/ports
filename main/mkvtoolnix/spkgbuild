@@ -4,12 +4,15 @@
 # optional	    : hicolor-icon-theme qt6
 
 name=mkvtoolnix
-version=72.0.0
+version=73.0.0
 release=1
-source="https://mkvtoolnix.download/sources/$name-$version.tar.xz"
+source="https://mkvtoolnix.download/sources/$name-$version.tar.xz
+	ruby3.2.patch"
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i $SRC/ruby3.2.patch
 
 	./configure  \
 		--prefix=/usr \
