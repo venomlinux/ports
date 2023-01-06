@@ -1,0 +1,14 @@
+# description	: A monitor for system resources
+# homepage	: https://github.com/aristocratos/btop
+# depends : coreutils
+
+name=btop
+version=1.2.13
+release=1
+source="$name-$version.tar.gz::https://github.com/aristocratos/${name}/archive/refs/tags/v${version}.tar.gz"
+
+build() {
+	cd $name-$version
+	make PREFIX=/usr
+	make DESTDIR=$PKG PREFIX=/usr install
+}
