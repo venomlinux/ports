@@ -3,7 +3,7 @@
 
 name=slim
 version=1.3.9
-release=2
+release=3
 backup="etc/slim.conf"
 source="https://sourceforge.net/projects/${name}-fork/files/$name-$version.tar.gz
 	rc.slim
@@ -11,13 +11,15 @@ source="https://sourceforge.net/projects/${name}-fork/files/$name-$version.tar.g
 	panel.png
 	$name.theme
 	$name.pam
-	$name.conf
+	passwd_feedback_position.patch
 	run"
 
 build() {
 	cd $name-$version
 
-	sed -i 's/WinGC < 0/WinGC != 0/' panel.cpp
+	sed -i 's/\(current_theme\)\(\s*\)\(default\)/\1\2greeny_dark/' $name.conf
+	
+	patch -Np1 -i $SRC/passwd_feedback_position.patch
 
 	cmake -B build \
 		-DCMAKE_INSTALL_PREFIX=/usr \
@@ -33,7 +35,6 @@ build() {
 	DESTDIR=$PKG cmake --install build
 
 	install -Dm644 $SRC/$name.pam $PKG/etc/pam.d/$name
-	install -Dm644 $SRC/$name.conf $PKG/etc/$name.conf.spkgnew
 	install -Dm644 $SRC/$name.theme $PKG/usr/share/$name/themes/greeny_dark/$name.theme
     	install -Dm644 $SRC/background.png $PKG/usr/share/$name/themes/greeny_dark/background.png
     	install -Dm644 $SRC/panel.png $PKG/usr/share/$name/themes/greeny_dark/panel.png
