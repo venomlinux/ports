@@ -13,4 +13,7 @@ build() {
 	venom-meson $name-$version build
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
+
+	# remove systemd
+	rm -rf $PKG/usr/lib/systemd
 }
