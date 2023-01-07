@@ -3,7 +3,7 @@
 # depends	: xcb-util-image xcb-util-keysyms xcb-util-renderutil libxcb fontconfig
 
 name=qt5
-version=5.15.7
+version=5.15.8
 release=1
 source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/single/qt-everywhere-opensource-src-$version.tar.xz
 qt-everywhere-opensource-src-${version}-kf5-1.patch::https://www.linuxfromscratch.org/patches/blfs/svn/qt-everywhere-opensource-src-${version}-kf5-1.patch"
@@ -12,6 +12,8 @@ build() {
 	cd qt-everywhere-src-$version
 
 	patch -Np1 -i $SRC/qt-everywhere-opensource-src-${version}-kf5-1.patch
+
+	mkdir -pv qtbase/.git
 
 	# Build qmake using Venom {C,LD}FLAGS
 	# This also sets default {C,CXX,LD}FLAGS for projects built using qmake
