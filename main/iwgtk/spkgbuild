@@ -4,7 +4,7 @@
 # Optional	    : For xfce -> libdbusmenu-gtk3
 
 name=iwgtk
-version=0.8
+version=0.9
 release=1
 source="$name-$version.tar.gz::https://github.com/J-Lentz/iwgtk/archive/refs/tags/v$version.tar.gz"
 
@@ -13,4 +13,7 @@ build() {
 	venom-meson $name-$version build
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
+
+	# remove systemd
+	rm -rf $PKG/usr/lib/systemd
 }
