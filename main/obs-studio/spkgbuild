@@ -4,10 +4,9 @@
 # optional	    : libva pulseaudio vlc wayland-protocols x265
 
 name=obs-studio
-version=28.1.2
+version=29.0.0
 release=1
 source="https://github.com/obsproject/$name/archive/$version/$name-$version.tar.gz
-	7531.patch
 	disable-some-plugins.patch"
 
 build() {
@@ -16,7 +15,6 @@ build() {
 		-v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
 
 	patch -Np1 -d $name-$version -i $SRC/disable-some-plugins.patch
-	patch -Np1 -d $name-$version -i $SRC/7531.patch
 
 	export QT_QPA_PLATFORMTHEME="qt5ct"
 
