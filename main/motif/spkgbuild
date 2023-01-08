@@ -1,0 +1,15 @@
+# description	: The Motif toolkit
+# homepage	: https://sourceforge.net/projects/motif/
+# depends	:libxmu libxt libxext libx11 fontconfig freetype2 libxft libpng libjpeg-turbo
+
+name=motif
+version=2.3.8
+release=1
+source="https://sourceforge.net/projects/motif/files/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --mandir=/usr/share/man --libdir=/usr/lib --enable-xft  --enable-jpeg --enable-png
+	make
+	make DESTDIR=$PKG install
+}
