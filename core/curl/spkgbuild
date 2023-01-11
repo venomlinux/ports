@@ -3,7 +3,7 @@
 
 name=curl
 version=7.87.0
-release=2
+release=3
 source="https://curl.haxx.se/download/$name-$version.tar.xz"
 
 build() {
@@ -15,6 +15,7 @@ build() {
 		--enable-threaded-resolver \
 		--without-libidn2 \
 		--without-nghttp2 \
+		--without-libpsl \
 		--without-zstd \
 		--with-openssl \
 		--with-ca-bundle=/etc/ssl/certs/ca-certificates.crt
