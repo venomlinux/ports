@@ -3,43 +3,37 @@
 
 name=mesa
 version=22.3.3
-release=1
-source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
+release=2
+source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz
+	0001-anv-force-MEDIA_INTERFACE_DESCRIPTOR_LOAD-reemit-aft.patch"
 
 build() {
 
-	_opt=""
-	_vulkan_drivers=""
-	_gallium_drivers="r300,r600,svga,swrast,nouveau,iris,virgl,crocus"
+	scratch isinstalled vulkan-loader && OPT_MESA_GALLIUM='zink,'
+	scratch isinstalled libvdpau && OPT_MESA_VDPAU='-D gallium-vdpau=enabled' || OPT_MESA_VDPAU='-D gallium-vdpau=disabled'
+	scratch isinstalled libvdpau && OPT_MESA_VAAPI='-D gallium-va=enabled' || OPT_MESA_VAAPI='-D gallium-va=disabled'
+	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' || OPT_MESA_PLATFORMS='x11'
 
-	scratch isinstalled libvdpau && _opt="-D gallium-vdpau=enabled" || _opt="-D gallium-vdpau=disabled"
-	scratch isinstalled llvm && _opt="$_opt -D shared-llvm=enabled -D llvm=enabled" || _opt="$_opt -D shared-llvm=disabled -D llvm=disabled"
-	scratch isinstalled llvm && _gallium_drivers="$_gallium_drivers,radeonsi"
+	patch -Np1 -d mesa-$version -i $SRC/0001-anv-force-MEDIA_INTERFACE_DESCRIPTOR_LOAD-reemit-aft.patch
 
-	if [ "$_vulkan_drivers" = "" ]; then
-		scratch isinstalled xf86-video-intel && _vulkan_drivers="intel" || _vulkan_drivers=""
-		if [ ! "$_vulkan_drivers" = "" ]; then
-			scratch isinstalled xf86-video-amdgpu && _vulkan_drivers="$_vulkan_drivers,amd"
-		else
-			scratch isinstalled xf86-video-amdgpu && _vulkan_drivers="amd"
-		fi
-	fi
-
-	venom-meson $name-$version build $_opt \
+	venom-meson $name-$version build \
 		-D dri3=enabled \
 		-D egl=enabled \
+		-D llvm=enabled \
+		-D shared-llvm=enabled \
 		-D gbm=enabled \
 		-D gles1=disabled \
 		-D gles2=enabled \
 		-D glx=dri \
 		-D osmesa=true \
 		-D gallium-xa=enabled \
-		-D gallium-drivers=$_gallium_drivers \
-		-D platforms=x11 \
+		-D gallium-drivers=${OPT_MESA_GALLIUM}crocus,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,i915 \
+		-D platforms=${OPT_MESA_PLATFORMS} \
 		-D shared-glapi=enabled \
-		-D vulkan-drivers=$_vulkan_drivers \
+		-D vulkan-drivers=amd,intel \
+		-D vulkan-layers=device-select,intel-nullhw,overlay \
 		-D video-codecs=vc1dec,h264dec,h264enc,h265dec,h265enc \
-		-D glvnd=true 
+		$OPT_MESA_VDPAU $OPT_MESA_VAAPI -D glvnd=true
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 
