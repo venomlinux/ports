@@ -3,7 +3,7 @@
 
 name=curl-32
 version=7.87.0
-release=1
+release=2
 source="https://curl.haxx.se/download/${name%-*}-$version.tar.xz"
 
 build() {
@@ -19,6 +19,7 @@ build() {
 		    --libdir=/usr/lib32 \
 		    --enable-threaded-resolver \
 		    --without-libidn2 \
+		    --without-brotli \
 		    --without-libpsl \
 		    --without-zstd \
 		    --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt \
