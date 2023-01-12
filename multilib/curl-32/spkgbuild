@@ -2,7 +2,7 @@
 # depends	: curl openssl-32
 
 name=curl-32
-version=7.86.0
+version=7.87.0
 release=1
 source="https://curl.haxx.se/download/${name%-*}-$version.tar.xz"
 
@@ -19,6 +19,8 @@ build() {
 		    --libdir=/usr/lib32 \
 		    --enable-threaded-resolver \
 		    --without-libidn2 \
+		    --without-libpsl \
+		    --without-zstd \
 		    --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt \
 		    --with-openssl \
 		$_opt
