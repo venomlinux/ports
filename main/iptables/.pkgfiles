@@ -1,4 +1,4 @@
-iptables-1.8.8-1
+iptables-1.8.9-1
 drwxr-xr-x root/root    sbin/
 lrwxrwxrwx root/root    sbin/ip6tables -> xtables-legacy-multi
 lrwxrwxrwx root/root    sbin/ip6tables-apply -> iptables-apply
@@ -38,9 +38,9 @@ lrwxrwxrwx root/root    usr/lib/libip6tc.so.2 -> libip6tc.so.2.0.0
 lrwxrwxrwx root/root    usr/lib/libipq.so -> libipq.so.0.0.0
 lrwxrwxrwx root/root    usr/lib/libipq.so.0 -> libipq.so.0.0.0
 -rwxr-xr-x root/root    usr/lib/libipq.so.0.0.0
-lrwxrwxrwx root/root    usr/lib/libxtables.so -> libxtables.so.12.6.0
-lrwxrwxrwx root/root    usr/lib/libxtables.so.12 -> libxtables.so.12.6.0
--rwxr-xr-x root/root    usr/lib/libxtables.so.12.6.0
+lrwxrwxrwx root/root    usr/lib/libxtables.so -> libxtables.so.12.7.0
+lrwxrwxrwx root/root    usr/lib/libxtables.so.12 -> libxtables.so.12.7.0
+-rwxr-xr-x root/root    usr/lib/libxtables.so.12.7.0
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/libip4tc.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/libip6tc.pc
@@ -50,11 +50,8 @@ drwxr-xr-x root/root    usr/lib/pkgconfig/
 drwxr-xr-x root/root    usr/lib/xtables/
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_DNPT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_HL.so
--rwxr-xr-x root/root    usr/lib/xtables/libip6t_LOG.so
--rwxr-xr-x root/root    usr/lib/xtables/libip6t_MASQUERADE.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_NETMAP.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_REJECT.so
--rwxr-xr-x root/root    usr/lib/xtables/libip6t_SNAT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_SNPT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_ah.so
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_dst.so
@@ -69,11 +66,8 @@ drwxr-xr-x root/root    usr/lib/xtables/
 -rwxr-xr-x root/root    usr/lib/xtables/libip6t_srh.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_CLUSTERIP.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_ECN.so
--rwxr-xr-x root/root    usr/lib/xtables/libipt_LOG.so
--rwxr-xr-x root/root    usr/lib/xtables/libipt_MASQUERADE.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_NETMAP.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_REJECT.so
--rwxr-xr-x root/root    usr/lib/xtables/libipt_SNAT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_TTL.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_ULOG.so
 -rwxr-xr-x root/root    usr/lib/xtables/libipt_ah.so
@@ -86,19 +80,23 @@ drwxr-xr-x root/root    usr/lib/xtables/
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_CONNMARK.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_CONNSECMARK.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_CT.so
--rwxr-xr-x root/root    usr/lib/xtables/libxt_DNAT.so
+lrwxrwxrwx root/root    usr/lib/xtables/libxt_DNAT.so -> libxt_NAT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_DSCP.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_HMARK.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_IDLETIMER.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_LED.so
+-rwxr-xr-x root/root    usr/lib/xtables/libxt_LOG.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_MARK.so
+lrwxrwxrwx root/root    usr/lib/xtables/libxt_MASQUERADE.so -> libxt_NAT.so
+-rwxr-xr-x root/root    usr/lib/xtables/libxt_NAT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_NFLOG.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_NFQUEUE.so
 lrwxrwxrwx root/root    usr/lib/xtables/libxt_NOTRACK.so -> libxt_CT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_RATEEST.so
-lrwxrwxrwx root/root    usr/lib/xtables/libxt_REDIRECT.so -> libxt_DNAT.so
+lrwxrwxrwx root/root    usr/lib/xtables/libxt_REDIRECT.so -> libxt_NAT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_SECMARK.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_SET.so
+lrwxrwxrwx root/root    usr/lib/xtables/libxt_SNAT.so -> libxt_NAT.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_SYNPROXY.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_TCPMSS.so
 -rwxr-xr-x root/root    usr/lib/xtables/libxt_TCPOPTSTRIP.so
@@ -180,3 +178,5 @@ drwxr-xr-x root/root    usr/share/man/man8/
 -rw-r--r-- root/root    usr/share/man/man8/iptables-restore.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/iptables-save.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/iptables.8.gz
+drwxr-xr-x root/root    usr/share/xtables/
+-rw-r--r-- root/root    usr/share/xtables/iptables.xslt
