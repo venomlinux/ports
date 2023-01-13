@@ -1,18 +1,24 @@
-mesa-32-22.3.2-1
+mesa-32-22.3.3-1
 drwxr-xr-x root/root    usr/
+drwxr-xr-x root/root    usr/bin/
+-r-xr-xr-x root/root    usr/bin/mesa-overlay-control.py
 drwxr-xr-x root/root    usr/lib32/
 drwxr-xr-x root/root    usr/lib32/d3d/
 lrwxrwxrwx root/root    usr/lib32/d3d/d3dadapter9.so -> d3dadapter9.so.1
 lrwxrwxrwx root/root    usr/lib32/d3d/d3dadapter9.so.1 -> d3dadapter9.so.1.0.0
 -rwxr-xr-x root/root    usr/lib32/d3d/d3dadapter9.so.1.0.0
 drwxr-xr-x root/root    usr/lib32/dri/
-hrwxr-xr-x root/root    usr/lib32/dri/kms_swrast_dri.so link to usr/lib32/dri/vmwgfx_dri.so
-hrwxr-xr-x root/root    usr/lib32/dri/nouveau_dri.so link to usr/lib32/dri/vmwgfx_dri.so
-hrwxr-xr-x root/root    usr/lib32/dri/r300_dri.so link to usr/lib32/dri/vmwgfx_dri.so
-hrwxr-xr-x root/root    usr/lib32/dri/r600_dri.so link to usr/lib32/dri/vmwgfx_dri.so
-hrwxr-xr-x root/root    usr/lib32/dri/radeonsi_dri.so link to usr/lib32/dri/vmwgfx_dri.so
-hrwxr-xr-x root/root    usr/lib32/dri/swrast_dri.so link to usr/lib32/dri/vmwgfx_dri.so
--rwxr-xr-x root/root    usr/lib32/dri/vmwgfx_dri.so
+hrwxr-xr-x root/root    usr/lib32/dri/crocus_dri.so link to usr/lib32/dri/zink_dri.so
+hrwxr-xr-x root/root    usr/lib32/dri/iris_dri.so link to usr/lib32/dri/zink_dri.so
+hrwxr-xr-x root/root    usr/lib32/dri/kms_swrast_dri.so link to usr/lib32/dri/zink_dri.so
+hrwxr-xr-x root/root    usr/lib32/dri/nouveau_dri.so link to usr/lib32/dri/zink_dri.so
+hrwxr-xr-x root/root    usr/lib32/dri/r300_dri.so link to usr/lib32/dri/zink_dri.so
+hrwxr-xr-x root/root    usr/lib32/dri/r600_dri.so link to usr/lib32/dri/zink_dri.so
+hrwxr-xr-x root/root    usr/lib32/dri/radeonsi_dri.so link to usr/lib32/dri/zink_dri.so
+hrwxr-xr-x root/root    usr/lib32/dri/swrast_dri.so link to usr/lib32/dri/zink_dri.so
+hrwxr-xr-x root/root    usr/lib32/dri/virtio_gpu_dri.so link to usr/lib32/dri/zink_dri.so
+hrwxr-xr-x root/root    usr/lib32/dri/vmwgfx_dri.so link to usr/lib32/dri/zink_dri.so
+-rwxr-xr-x root/root    usr/lib32/dri/zink_dri.so
 lrwxrwxrwx root/root    usr/lib32/libEGL_mesa.so -> libEGL_mesa.so.0
 lrwxrwxrwx root/root    usr/lib32/libEGL_mesa.so.0 -> libEGL_mesa.so.0.0.0
 -rwxr-xr-x root/root    usr/lib32/libEGL_mesa.so.0.0.0
@@ -23,6 +29,9 @@ lrwxrwxrwx root/root    usr/lib32/libGLX_mesa.so.0 -> libGLX_mesa.so.0.0.0
 lrwxrwxrwx root/root    usr/lib32/libOSMesa.so -> libOSMesa.so.8
 lrwxrwxrwx root/root    usr/lib32/libOSMesa.so.8 -> libOSMesa.so.8.0.0
 -rwxr-xr-x root/root    usr/lib32/libOSMesa.so.8.0.0
+-rwxr-xr-x root/root    usr/lib32/libVkLayer_INTEL_nullhw.so
+-rwxr-xr-x root/root    usr/lib32/libVkLayer_MESA_device_select.so
+-rwxr-xr-x root/root    usr/lib32/libVkLayer_MESA_overlay.so
 lrwxrwxrwx root/root    usr/lib32/libgbm.so -> libgbm.so.1
 lrwxrwxrwx root/root    usr/lib32/libgbm.so.1 -> libgbm.so.1.0.0
 -rwxr-xr-x root/root    usr/lib32/libgbm.so.1.0.0
@@ -43,6 +52,11 @@ drwxr-xr-x root/root    usr/lib32/pkgconfig/
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/drirc.d/
 drwxr-xr-x root/root    usr/share/vulkan/
+drwxr-xr-x root/root    usr/share/vulkan/explicit_layer.d/
+-rw-r--r-- root/root    usr/share/vulkan/explicit_layer.d/VkLayer_INTEL_nullhw.json
+-rw-r--r-- root/root    usr/share/vulkan/explicit_layer.d/VkLayer_MESA_overlay.json
 drwxr-xr-x root/root    usr/share/vulkan/icd.d/
 -rw-r--r-- root/root    usr/share/vulkan/icd.d/intel_icd.i686.json
 -rw-r--r-- root/root    usr/share/vulkan/icd.d/radeon_icd.i686.json
+drwxr-xr-x root/root    usr/share/vulkan/implicit_layer.d/
+-rw-r--r-- root/root    usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
