@@ -2,42 +2,51 @@
 # depends	: llvm-32 mesa libglvnd-32 libxdamage-32 libxfixes-32 libxxf86vm-32 libxv-32 libxvmc-32 libxrandr-32 zlib-32 libdrm-32 libxshmfence-32 glslang
 
 name=mesa-32
-version=22.3.2
+version=22.3.3
 release=1
 source="https://mesa.freedesktop.org/archive/${name%-*}-$version.tar.xz
 	crossfile"
 
 build() {
-
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_LIBDIR='/usr/lib32/pkgconfig:/usr/share/pkgconfig'
 	export LLVM_CONFIG="/usr/bin/llvm-config-32"
-	
+  
+	scratch isinstalled vulkan-icd-loader-32 && OPT_MESA_GALLIUM='zink,'
+	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' ||  OPT_MESA_PLATFORMS='x11'
+  
 	venom-meson ${name%-*}-$version build \
-	      --sysconfdir=/etc \
-	      --libdir=/usr/lib32 \
-	      --native-file $SRC/crossfile \
-	      -Dvalgrind=disabled \
-	      -Ddri3=enabled \
-	      -Dglx=dri \
-	      -Degl=enabled \
-	      -Dosmesa=true \
-	      -Dgallium-nine=true \
-	      -Dgallium-drivers=r300,r600,svga,swrast,radeonsi,nouveau \
-	      -Dvulkan-drivers=amd,intel \
-	      -Dvideo-codecs=vc1dec,h264dec,h264enc,h265dec,h265enc \
-	      -Dglvnd=true \
-	      -Dllvm=enabled \
-	      -Dplatforms=x11 
-	meson compile -C build
+		--sysconfdir=/etc \
+		--libdir=/usr/lib32 \
+		--native-file $SRC/crossfile \
+		-D valgrind=disabled \
+		-D dri3=enabled \
+		-D egl=enabled \
+		-D llvm=enabled \
+		-D shared-llvm=enabled \
+		-D gbm=enabled \
+		-D gles1=disabled \
+		-D gles2=enabled \
+		-D glx=dri \
+		-D osmesa=true \
+		-D osmesa=true \
+		-D gallium-nine=true \
+		-D gallium-xa=enabled \
+		-D gallium-drivers=${OPT_MESA_GALLIUM}crocus,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl \
+		-D platforms=${OPT_MESA_PLATFORMS} \
+		-D shared-glapi=enabled \
+		-D vulkan-drivers=amd,intel \
+		-D vulkan-layers=device-select,intel-nullhw,overlay \
+		-D video-codecs=vc1dec,h264dec,h264enc,h265dec,h265enc \
+		-D glvnd=true
+	meson compile -C build -j ${JOBS:-1}
 	DESTDIR=$PKG meson install -C build
 
 	# indirect rendering symlink
 	ln -s libGLX_mesa.so.0 $PKG/usr/lib32/libGLX_indirect.so.0
-
+  
 	rm -r $PKG/usr/include $PKG/usr/share/glvnd
 	rm $PKG/usr/share/drirc.d/00-mesa-defaults.conf
 	rm $PKG/usr/share/drirc.d/00-radv-defaults.conf
 }
-
