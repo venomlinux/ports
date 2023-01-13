@@ -3,7 +3,7 @@
 
 name=mesa-32
 version=22.3.3
-release=1
+release=2
 source="https://mesa.freedesktop.org/archive/${name%-*}-$version.tar.xz
 	crossfile"
 
@@ -49,4 +49,16 @@ build() {
 	rm -r $PKG/usr/include $PKG/usr/share/glvnd
 	rm $PKG/usr/share/drirc.d/00-mesa-defaults.conf
 	rm $PKG/usr/share/drirc.d/00-radv-defaults.conf
+	
+	[ -f "/usr/bin/mesa-overlay-control.py" ] && \
+		rm $PKG/usr/bin/mesa-overlay-control.py
+
+	[ -f "/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json" ] && \
+		rm $PKG/usr/share/vulkan/implicit_layer.d/VkLayer_MESA_device_select.json
+
+	[ -f "/usr/share/vulkan/explicit_layer.d/VkLayer_INTEL_nullhw.json" ] && \
+		rm $PKG/usr/share/vulkan/explicit_layer.d/VkLayer_INTEL_nullhw.json
+
+	[ -f "/usr/share/vulkan/explicit_layer.d/VkLayer_MESA_overlay.json" ] && \
+		rm $PKG/usr/share/vulkan/explicit_layer.d/VkLayer_MESA_overlay.json
 }
