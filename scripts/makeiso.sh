@@ -20,7 +20,7 @@ ROOTFS="$PWD/rootfs"
 MUST_PKG="wpa_supplicant os-prober grub"                         # must have pkg in the iso
 XORG_PKG="xorg xorg-video-drivers xf86-input-libinput"           # xorg stuff in the iso
 MAIN_PKG="sudo alsa-utils gparted dosfstools mtools gvfs networkmanager ntfs-3g neofetch xdg-user-dirs polkit-gnome ffmpeg geany firefox slim"
-OPENBOX_PKG="openbox lxappearance lxappearance-obconf obconf obmenu-generator gmrun pcmanfm l3afpad feh tint2 consolekit2 irssi mc htop"
+OPENBOX_PKG="openbox lxappearance lxappearance-obconf obconf obmenu-generator gmrun pcmanfm leafpad feh tint2 consolekit2 irssi mc htop"
 THEME_PKG="arcbox paper-icon-theme osx-arc-theme ttf-liberation picom dunst neofetch dfc"
 # theme: arc-gtk-theme xfce4-whiskermenu-plugin pop-icon-theme
 
