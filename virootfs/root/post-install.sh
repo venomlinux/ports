@@ -15,9 +15,6 @@ for i in $(find $VIROOTFS -type f | sed "s,$VIROOTFS,,"); do
     install -D $VIROOTFS/$i $VENOMROOTFS/$i
 done
 
-# change slim theme
-sed 's/current_theme.*/current_theme greeny_dark/' -i $VENOMROOTFS/etc/slim.conf
-
 # remove install venom entry from ob menu
 sed '/Install Venom/d' -i $VENOMROOTFS/etc/skel/.config/obmenu-generator/schema.pl
 
