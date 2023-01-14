@@ -1,0 +1,17 @@
+# description	: A command-line port of the rar compression utility
+# homepage	: https://www.rarlab.com
+
+name=rar
+version=6.12
+_version=612
+release=1
+noextract=""
+backup="etc/rarfiles.lst"
+source="$name-$version.tar.gz::https://www.rarlab.com/rar/rarlinux-x64-${_version}.tar.gz"
+
+build() {
+	cd $name
+	install -Dm755 rar          $PKG/usr/bin/rar
+	install -Dm755 default.sfx  $PKG/usr/lib/default.sfx
+	install -Dm644 rarfiles.lst $PKG/etc/rarfiles.lst
+}
