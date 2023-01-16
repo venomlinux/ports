@@ -9,7 +9,9 @@ source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz"
 build() {
 	cd $name-$version
 
-	sed -i /frame1/,+19d src/obconf.glade
+  # Hide theme preview as it's broken with GTK+ 3
+  # https://sourceforge.net/p/lxde/bugs/768/
+        sed -i /frame1/,+19d src/obconf.glade
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
