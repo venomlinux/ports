@@ -1,5 +1,5 @@
 # description	: A proprietary music streaming service
-# depends	: alsa-lib gtk2 glib nss libxtst libx11 openssl libcurl-gnutls gconf libarchive
+# depends	: alsa-lib gtk2 glib nss libxtst libx11 openssl libcurl-gnutls gconf libarchive cups
 
 name=spotify
 version=1.1.84.716.gc5f8b819
@@ -18,6 +18,5 @@ build() {
 		install -D $PKG/usr/share/spotify/icons/spotify-linux-$size.png \
 			$PKG/usr/share/icons/hicolor/${size}x${size}/apps/spotify.png
 	done
-	tar -xvf data.tar.gz 
 	
 }
