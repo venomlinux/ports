@@ -3,12 +3,13 @@
 
 name=lxappearance-obconf
 version=0.2.3
-release=1
+release=2
 source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
+	sed -i /frame1/,+19d src/obconf.glade
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
