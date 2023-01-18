@@ -2,7 +2,7 @@
 # depends	: libxt libxext libx11 
 
 name=libxpm
-version=3.5.14
+version=3.5.15
 release=1
 source="$name-$version.tar.xz::http://ftp.x.org/pub/individual/lib/libXpm-$version.tar.xz"
 
@@ -13,6 +13,7 @@ build() {
 		--prefix=/usr \
                 --sysconfdir=/etc \
                 --localstatedir=/var \
+		--disable-open-zfile \
                 --disable-static
 	make
 	make DESTDIR=$PKG install
