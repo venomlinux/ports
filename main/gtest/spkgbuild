@@ -3,12 +3,12 @@
 # depends	    : python3 cmake
 
 name=gtest
-version=1.12.1
+version=1.13.0
 release=1
-source="$name-$version.tar.gz::https://github.com/google/googletest/archive/release-$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/google/googletest/archive/v$version.tar.gz"
 
 build(){
-	cd googletest-release-$version
+	cd googletest-$version
 	mkdir build; cd build
 	cmake ../ \
 		-DCMAKE_BUILD_TYPE=Release \
