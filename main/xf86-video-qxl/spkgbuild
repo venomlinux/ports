@@ -1,0 +1,29 @@
+# description	: Xorg X11 qxl video driver
+# homepage	: https://www.x.org
+# depends	: spice libxfont2 python3 xorg-server spice-protocol xorgproto
+
+
+name=xf86-video-qxl
+version=0.1.5
+release=1
+_commit=52e975263fe88105d151297768c7ac675ed94122
+source="https://www.x.org/releases/individual/driver/$name-$version.tar.bz2
+	convert-xspice-python3.patch
+	get-boolean-option.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/convert-xspice-python3.patch  
+	patch -Np1 -i $SRC/get-boolean-option.patch
+
+	./configure\
+	    --prefix=/usr \
+	    --sysconfdir=/etc \
+	    --mandir=/usr/share/man \
+	    --infodir=/usr/share/info \
+	    --localstatedir=/var \
+	    --enable-xspice=yes
+	make
+	make DESTDIR=$PKG install
+}
