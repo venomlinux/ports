@@ -1,14 +1,22 @@
 # description	    : A simple, correct PEP517 package builder
 # homepage	    : https://github.com/pypa/build
-# depends	    : python3-setuptools python3-packaging python3-pep517 python3-tomli python3-wheel python3-pyproject-hooks
+# depends	    : python3-packaging python3-pep517 python3-wheel python3-pyproject-hooks
 
 name=python3-build
 version=0.10.0
-release=2
-source="h$name-$version.tar.gz::https://pypi.python.org/packages/source/b/build/build-$version.tar.gz"
+release=3
+source="$name-$version.tar.gz::https://pypi.python.org/packages/source/b/build/build-$version.tar.gz"
 
 build() {
-	cd build-$version
-	python3 -m build --wheel --skip-dependency-check --no-isolation
-	python3 -m installer --destdir=$PKG dist/*.whl
+  cd build-$version
+
+    for i in build flit-core installer; do
+      /usr/bin/pip3 install --root=$SRC/tmp $i
+    done
+
+    PYTHON_VERSION=$(python3 -c 'import sys; print("%s.%s" % sys.version_info[:2])')
+    export PYTHONPATH=$SRC/tmp/usr/lib/python${PYTHON_VERSION}/site-packages
+
+  /usr/bin/python3 -m build --wheel --skip-dependency-check --no-isolation
+  /usr/bin/python3 -m installer --compile-bytecode 2 --destdir=$PKG dist/*.whl
 }
