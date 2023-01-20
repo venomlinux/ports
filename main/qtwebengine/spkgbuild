@@ -1,31 +1,47 @@
 # description	: QtWebEngine integrates chromium's web capabilities into Qt
 # depends	: qt5 nss libwebp libxslt opus ninja ffmpeg alsa-lib libxcomposite libxtst libxcursor nodejs
+# optional	: krb5 jsoncpp snappy
 
 name=qtwebengine
-version=5.15.10
+version=5.15.12
 release=1
 source="https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-$version.tar.xz
-	https://www.linuxfromscratch.org/patches/blfs/11.2/qtwebengine-5.15.10-build_fixes-1.patch"
+	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-build_fixes-1.patch
+	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-ffmpeg5_fixes-1.patch"
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i ../qtwebengine-5.15.10-build_fixes-1.patch
+	# Fix several issues and to force it to use python3
+	patch -Np1 -i $SRC/qtwebengine-$version-build_fixes-1.patch
 
+	# Fix build with ffmpeg-5
+	patch -Np1 -i $SRC/qtwebengine-$version-ffmpeg5_fixes-1.patch
+	
+	# Create the required .git directories
 	mkdir -pv .git src/3rdparty/chromium/.git
+	
+	# change to current version of QT5
+	sed -e '/^MODULE_VERSION/s/5.*/5.15.8/' -i .qmake.conf
 
-	find -type f -name "*.pr[io]" |
-	  xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
+	# Local headers
+	find -type f -name "*.pr[io]" | xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
+	
+	# Fix the build tools so they can be run with Python-3.11+
+	sed -e 's/\^(?i)/(?i)^/' -i src/3rdparty/chromium/tools/metrics/ukm/ukm_model.py 
+	sed -e "s/'rU'/'r'/" -i src/3rdparty/chromium/tools/grit/grit/util.py
+	
+	# Fix NINJAJOBS environment variable
+	sed -i 's/NINJAJOBS/NINJA_JOBS/' src/core/gn_run.pro
 
+	# Install qtwebengine
 	mkdir build
 	cd    build
-
-	test -n $MAKEFLAGS && export NINJAFLAGS="$NINJAFLAGS $MAKEFLAGS"
-	
-	qmake .. -- -proprietary-codecs -system-ffmpeg -webengine-icu
+	qmake .. -- -proprietary-codecs -system-ffmpeg -system-opus -system-webp -webengine-icu
 	make
 	make INSTALL_ROOT=$PKG install
 
+	# Remove references to the build directory from installed library dependency (prl)
 	find $PKG/usr/ -name \*.prl \
 	   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 }
