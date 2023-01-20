@@ -3,64 +3,56 @@
 # depends	: containerd runc btrfs-progs cgroupfs-mount
 
 name=docker
-version=20.10.22
+version=20.10.23
 release=1
+# from https://github.com/moby/moby:	grep libnetwork vendor.conf
+_libnetwork_commit=dcdf8f176d1e13ad719e913e796fb698d846de98
 source="https://github.com/moby/moby/archive/v${version}/moby-${version}.tar.gz \
-    https://github.com/docker/cli/archive/v${version}/cli-${version}.tar.gz \
-    http://jaeger.morpheus.net/linux/crux/files/$name-man-pages-$version.tar.xz \
-    http://jaeger.morpheus.net/linux/crux/files/libnetwork-dcdf8f1.tar.xz \
-    rc.$name $name.conf
-    btrfs-graphdriver.patch"
+	https://github.com/docker/cli/archive/v${version}/cli-${version}.tar.gz \
+	libnetwork-$_libnetwork_commit.tar.gz::https://github.com/docker/libnetwork/archive/$_libnetwork_commit.tar.gz\
+	rc.$name $name.conf"
 
 build() {
-    SHELL=/bin/bash
-	patch -p1 -d $SRC/moby-$version -i $SRC/btrfs-graphdriver.patch
+	export GO111MODULE=auto
+	export GOPATH=$SRC
+	export DOCKER_GITCOMMIT=42c8b31
+	export DOCKER_BUILDTAGS='seccomp'
+	export DISABLE_WARN_OUTSIDE_CONTAINER=1
+  
+	mkdir -p src/github.com/docker
 
-    export GO111MODULE=auto
-    export GOPATH=$SRC
-    export DOCKER_GITCOMMIT=42c8b31
-    export DOCKER_BUILDTAGS='seccomp'
-    export DISABLE_WARN_OUTSIDE_CONTAINER=1
-   
-    mkdir -p src/github.com/docker
+	cd src/github.com/docker
+	ln -s $SRC/cli-$version cli
+	cd cli
+	make VERSION=$version dynbinary
 
-    cd src/github.com/docker
-    ln -s $SRC/cli-$version cli
-    cd cli
-    make VERSION=$version dynbinary
-
-    cd $SRC/src/github.com/docker
-    ln -s $SRC/moby-$version docker
-    cd docker
-    VERSION=$version hack/make.sh dynbinary
+	cd $SRC/src/github.com/docker
+	ln -s $SRC/moby-$version docker
+	cd docker
+	VERSION=$version hack/make.sh dynbinary
     
-    install -D -m 0755 $SRC/cli-$version/build/$name $PKG/usr/bin/$name
-    install -D -m 0755 $SRC/moby-$version/bundles/dynbinary-daemon/dockerd-$version \
-        $PKG/usr/bin/dockerd
+	install -D -m 0755 $SRC/cli-$version/build/$name $PKG/usr/bin/$name
+	install -D -m 0755 $SRC/moby-$version/bundles/dynbinary-daemon/dockerd-$version \
+        	$PKG/usr/bin/dockerd
 
-    (cd ..; \
-        GOROOT=/usr/lib/go GOPATH=${WORK_DIR}/$name go build -o $PKG/usr/bin/$name-proxy \
-            libnetwork-dcdf8f1/cmd/proxy)
+	(cd ..; \
+		GOROOT=/usr/lib/go GOPATH=${WORK_DIR}/$name go build -o $PKG/usr/bin/$name-proxy \
+	            libnetwork-$_libnetwork_commit/cmd/proxy)
 
-    for M in 1 5 8; do
-        install -d -m 0755 $PKG/usr/share/man/man${M}
-        install -m 0644 $SRC/man${M}/* $PKG/usr/share/man/man${M}/
-    done
+	install -D -m 0755 $SRC/rc.$name \
+		$PKG/etc/rc.d/$name
+	install -D -m 0644 $SRC/$name.conf \
+		$PKG/etc/$name.conf
 
-    install -D -m 0755 $SRC/rc.$name \
-        $PKG/etc/rc.d/$name
-    install -D -m 0644 $SRC/$name.conf \
-        $PKG/etc/$name.conf
+	ln -s containerd $PKG/usr/bin/docker-containerd
+	ln -s containerd-shim $PKG/usr/bin/docker-containerd-shim
+	ln -s ctr $PKG/usr/bin/docker-containerd-ctr
+	ln -s runc $PKG/usr/bin/docker-runc
 
-    ln -s containerd $PKG/usr/bin/docker-containerd
-    ln -s containerd-shim $PKG/usr/bin/docker-containerd-shim
-    ln -s ctr $PKG/usr/bin/docker-containerd-ctr
-    ln -s runc $PKG/usr/bin/docker-runc
-
-    install -D -m 0755 $SRC/moby-$version/contrib/check-config.sh \
-        $PKG/usr/share/$name/check-config.sh
-    install -D -m 0644 $SRC/moby-$version/contrib/udev/80-$name.rules \
-        $PKG/etc/udev/rules.d/80-$name.rules
-    install -D -m 0644 $SRC/cli-$version/contrib/completion/bash/docker \
-        $PKG/etc/bash_completion.d/docker
+	install -D -m 0755 $SRC/moby-$version/contrib/check-config.sh \
+		$PKG/usr/share/$name/check-config.sh
+	install -D -m 0644 $SRC/moby-$version/contrib/udev/80-$name.rules \
+		$PKG/etc/udev/rules.d/80-$name.rules
+	install -D -m 0644 $SRC/cli-$version/contrib/completion/bash/docker \
+		$PKG/etc/bash_completion.d/docker
 }
