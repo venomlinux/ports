@@ -3,8 +3,9 @@
 
 name=ffmpeg
 version=5.1.2
-release=1
-source="https://ffmpeg.org/releases/$name-$version.tar.xz"
+release=2
+source="https://ffmpeg.org/releases/$name-$version.tar.xz
+	ffmpeg-5.1.2-chromium_method-1.patch"
 
 build() {
 	cd $name-$version
@@ -27,9 +28,13 @@ build() {
 	addopt nvidia cuvid 
 	addopt nv-codec-headers nvenc
 	
+	# Adds an API necessary for some packages to build
+	patch -Np1 -i $SRC/ffmpeg-5.1.2-chromium_method-1.patch
+
 	# adds the ALSA library to the Flite LDFLAGS variable and
 	# enables the discovery of Flite
 	sed -i 's/-lflite"/-lflite -lasound"/' configure
+
 
 	./configure --prefix=/usr        \
 	            --enable-gpl         \
