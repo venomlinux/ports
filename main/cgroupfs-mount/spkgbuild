@@ -1,0 +1,14 @@
+# description	: Scripts to mount the cgroupfs hierarchy
+# homepage	: https://github.com/tianon/cgroupfs-mount
+
+name=cgroupfs-mount
+version=1.4
+release=1
+source="https://github.com/tianon/${name}/archive/$version/$name-$version.tar.gz"
+
+build() {
+    cd $name-$version
+
+    install -D -m 755 cgroupfs-mount $PKG/usr/bin/cgroupfs-mount
+    install -D -m 755 cgroupfs-umount $PKG/usr/bin/cgroupfs-umount
+}

@@ -1,0 +1,25 @@
+# description	: A lightweight universal runtime container
+# hompeage	: https://github.com/opencontainers/runc
+# depends	: go libseccomp
+
+name=runc
+version=1.1.4
+release=1
+source="https://github.com/opencontainers/runc/archive/v${version}/$name-${version}.tar.gz
+	http://jaeger.morpheus.net/linux/crux/files/$name-man-pages-$version.tar.xz"
+
+build() {
+    mkdir -pv src/github.com/opencontainers
+    cd src/github.com/opencontainers
+    ln -sf $SRC/$name-$version $name
+    cd $name
+    export GOPATH=$SRC
+    export BUILDTAGS="seccomp"
+    # use the long commit hash here
+    make COMMIT=5fd4c4d144137e991c4acebb2146ab1483a97925
+
+    install -D -m 0755 $name $PKG/usr/bin/$name
+    install -d -m 0755 $PKG/usr/share/man/man8
+    install -m 0644 $SRC/man8/* $PKG/usr/share/man/man8/
+}
+

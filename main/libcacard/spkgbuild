@@ -1,0 +1,15 @@
+# description	: Common Access Card library thar provides emulation of smart cards to a virtual card reader running in a guest virtual machine.
+# homepage	: https://www.spice-space.org/page/Libcacard 
+# depends	: nss glib
+
+name=libcacard
+version=2.8.1
+release=1
+source="https://www.spice-space.org/download/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,13 @@
+# description	: Library for the dynamic creation of images
+# depends	: libxpm libjpeg-turbo freetype2
+
+name=libgd
+version=2.3.3
+release=1
+source=https://github.com/libgd/libgd/releases/download/gd-$version/$name-$version.tar.xz
+
+build () {
+    cd $name-$version
+    ./configure --prefix=/usr
+    make DESTDIR=$PKG install
+}

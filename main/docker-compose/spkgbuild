@@ -1,0 +1,17 @@
+# description	: Compose is a tool for defining and running multi-container Docker applications
+# homepage	: https://docs.docker.com/compose/
+# depends	: go
+
+name=docker-compose
+version=2.15.1
+release=1
+source="https://github.com/docker/compose/archive/v$version/$name-$version.tar.gz"
+
+build() {
+ export CGO_CFLAGS="${CFLAGS}"
+ export CGO_CPPFLAGS="${CXXFLAGS}"
+ export CGO_CXXFLAGS="${CXXFLAGS}"
+ cd compose-$version
+ go build -trimpath -o ${name} ./cmd
+ install -Dm0755 ${name} ${PKG}/usr/bin/${name}
+}
