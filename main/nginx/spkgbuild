@@ -1,0 +1,37 @@
+# description	: Lightweight HTTP server and IMAP/POP3 proxy server
+# homepage	: http://nginx.org/
+# depends	: pcre2 zlib openssl
+
+name=nginx
+version=1.23.3
+release=1
+source="http://nginx.org/download/$name-$version.tar.gz
+nginx.conf rc.nginx"
+
+build() {
+    cd $name-$version
+    ./configure --prefix=/etc/nginx \
+				--sbin-path=/usr/sbin/nginx \
+				--conf-path=/etc/nginx/nginx.conf \
+				--error-log-path=/var/log/nginx/error.log \
+				--http-log-path=/var/log/nginx/access.log \
+				--pid-path=/var/run/nginx.pid \
+				--lock-path=/var/lock/nginx.pid \
+				--with-http_ssl_module \
+				--with-pcre \
+				--user=nginx \
+				--group=nginx
+    make
+    make DESTDIR=$PKG install
+
+    install -d -m 0755 $PKG/var/log/nginx
+    install -D -m 0644 -o root -g root $SRC/nginx.conf \
+			$PKG/etc/nginx/nginx.conf
+
+    install -D -m 0755 -o root -g root $SRC/rc.nginx \
+			$PKG/etc/rc.d/nginx
+
+    find $PKG/etc/nginx -name "*.default" -delete
+
+    chown nginx:nginx $PKG/var/log/nginx
+}
