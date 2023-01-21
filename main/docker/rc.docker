@@ -40,8 +40,8 @@ case $1 in
   status)
     status_daemon $PROG
     case $? in
-      0) echo "$PROG is running with pid $(cat $PID)" ;;
-      1) echo "$PROG is not running but the pid file $PID exists" ;;
+      0) echo "$PROG is running with pid $(cat $PIDFILE)" ;;
+      1) echo "$PROG is not running but the pid file $PIDFILE exists" ;;
       3) echo "$PROG is not running" ;;
       4) echo "Unable to determine the program status" ;;
     esac
