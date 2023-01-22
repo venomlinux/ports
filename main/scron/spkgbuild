@@ -4,10 +4,13 @@
 name=scron
 version=0.4
 release=1
-source="https://dl.2f30.org/releases/$name-$version.tar.gz"
+source="https://dl.2f30.org/releases/$name-$version.tar.gz
+rc.crond"
 
 build() {
     cd $name-$version
     make
     make DESTDIR=$PKG PREFIX=/usr install
+
+	install -Dm755 $SRC/rc.crond $PKG/etc/rc.d/crond
 }
