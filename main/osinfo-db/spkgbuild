@@ -1,0 +1,13 @@
+# description	: The osinfo database
+# homepage	: https://libosinfo.org/
+# depends	: osinfo-db-tools
+
+name=osinfo-db
+version=20221130
+release=1
+source="https://releases.pagure.org/libosinfo/$name-$version.tar.xz"
+noextract="$name-$version.tar.xz"
+
+build() {
+	osinfo-db-import --root $PKG --system $name-$version.tar.xz
+}

@@ -1,0 +1,23 @@
+# description	: A desktop user interface for managing virtual machines through libvirt
+# homepage	: https://virt-manager.org/
+# depends	: libosinfo qemu python3-gobject3 libvirt-glib libvirt-python vte3 gtk-vnc gtksourceview4 dmidecode dnsmasq iptables
+
+name=virt-manager
+version=4.1.0
+release=1
+source="https://releases.pagure.org/virt-manager/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	cat >> setup.cfg <<EOD
+[options]
+packages = find:
+EOD
+	/usr/bin/python3 setup.py configure --prefix=/usr --default-hvs=qemu
+	/usr/bin/python3 setup.py build
+	/usr/bin/python3 setup.py --no-update-icon-cache --no-compile-schemas \
+		install --root $PKG
+
+	rm -r $PKG/usr/share/locale
+}
+
