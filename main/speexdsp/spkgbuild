@@ -3,10 +3,11 @@
 name=speexdsp
 version=1.2.1
 release=1
-source="https://downloads.xiph.org/releases/speex/$name-$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/xiph/speexdsp/archive/refs/tags/SpeexDSP-1.2.1.tar.gz"
 
 build() {
-	cd $name-$version
+	cd $name-SpeexDSP-$version
+	./autogen.sh
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
