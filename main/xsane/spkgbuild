@@ -1,0 +1,31 @@
+# description	: Scanner frontend and GIMP plugin for sane
+# homepage	: http://www.sane-project.org
+# depends	: gimp sane
+
+name=xsane
+version=0.999
+release=1
+source="https://fossies.org/linux/misc/$name-$version.tar.gz"
+
+build () {
+    cd $name-$version
+    
+    # http://www.linuxfromscratch.org/blfs/view/svn/pst/xsane.html
+    sed -i -e 's/png_ptr->jmpbuf/png_jmpbuf(png_ptr)/' src/xsane-save.c
+    
+    ./configure --prefix=/usr \
+                --mandir=/usr/share/man \
+                --disable-nls \
+                --enable-gtk2 \
+                --enable-gimp2
+    make
+    make DESTDIR=$PKG install
+
+    rm -r $PKG/usr/sbin
+    rm -r $PKG/usr/share/sane/xsane/doc
+    rm $PKG/usr/share/sane/xsane/xsane-gpl.txt
+
+    install -d $PKG/usr/lib/gimp/2.0/plug-ins
+    ln -s /usr/bin/xsane $PKG/usr/lib/gimp/2.0/plug-ins
+}
+
