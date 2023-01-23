@@ -1,0 +1,40 @@
+#!/bin/sh
+#
+# /etc/rc.d/virtlogd: start/stop virtlogd daemon
+#
+
+. /etc/rc.subr
+
+PROG=/usr/sbin/virtlogd
+PIDFILE=/var/run/virtlogd.pid
+OPTS="-d"
+
+case $1 in
+  start)
+    msg "Starting virtlogd daemon..."
+    start_daemon -p $PIDFILE $PROG $OPTS
+    ;;
+  stop)
+    msg "Stopping virtlogd daemon..."
+    stop_daemon -p $PIDFILE $PROG
+    ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+  status)
+    status_daemon $PROG
+    case $? in
+    0) echo "$PROG is running with pid $(cat $PIDFILE)" ;;
+    1) echo "$PROG is not running but the pid file $PIDFILE exists" ;;
+    3) echo "$PROG is not running" ;;
+    4) echo "Unable to determine the program status" ;;
+    esac
+    ;;
+  *)
+    echo "usage: $0 [start|stop|restart|status]"
+    ;;
+esac
+
+# End of file
