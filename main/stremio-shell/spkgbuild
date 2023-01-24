@@ -1,0 +1,34 @@
+# description	: Watch videos, movies, TV series and TV channels instantly.
+# homepage	: https://www.stremio.com
+# depends	: nodejs ffmpeg qtwebengine qt5 mpv openssl librsvg cmake wget openssl cmake
+
+name=stremio-shell
+version=4.4.159
+release=1
+noextract="server.js stremio.asar qthelper.hpp"
+_singleapplication_hash=f1e15081dc57a9c03f7f4f165677f18802e1437a
+source="$name-$version.tar.gz::https://github.com/Stremio/stremio-shell/archive/v${version}.tar.gz
+ https://github.com/itay-grudev/SingleApplication/archive/${_singleapplication_hash}.tar.gz
+ https://raw.githubusercontent.com/mpv-player/mpv/v0.32.0/libmpv/qthelper.hpp
+ https://dl.strem.io/four/v${version}/server.js
+ https://dl.strem.io/four/v${version}/stremio.asar
+ mpv-0.35.patch"
+
+build() {
+	cd $name-$version
+
+	rm -r deps/singleapplication
+	mv $SRC/SingleApplication-${_singleapplication_hash} deps/singleapplication
+	mkdir -pv deps/libmpv/include
+	cp -a /usr/include/mpv deps/libmpv/include
+	cp $SRC/qthelper.hpp deps/libmpv/include/mpv/
+
+	patch -Np1 -i $SRC/mpv-0.35.patch
+
+	qmake
+	make -f release.makefile PREFIX=$PKG
+	make -f release.makefile PREFIX=$PKG install
+
+	mkdir -pv $PKG/usr/bin
+	ln -s /opt/stremio/stremio $PKG/usr/bin/stremio
+}
