@@ -2,18 +2,14 @@
 # depends	: libfilezilla wxgtk3 libidn xdg-utils
 
 name=filezilla
-version=3.62.2
+version=3.63.0
 release=1
-source="$name-$version.tar.bz2::https://download.filezilla-project.org/client/FileZilla_${version}_src.tar.bz2
-	wxwidgets-3.2.patch"
+source="$name-$version.tar.bz2::https://download.filezilla-project.org/client/FileZilla_${version}_src.tar.bz2"
 
 build() {
 	cd $name-$version
 
-	# Allow building with wxWidgets 3.2
-	patch -Np1 -i $SRC/wxwidgets-3.2.patch
-	
-	autoreconf -vif
+#	autoreconf -vif
 	./configure \
 	    --prefix=/usr \
 	    --disable-manualupdatecheck \
