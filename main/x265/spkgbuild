@@ -1,28 +1,37 @@
 # description	: Library for encoding video streams into the H.265/HEVC format
-# depends	: cmake nasm
+# depends	: cmake nasm ninja numactl
 
 name=x265
 version=3.5
-release=1
+release=2
 source="$name-$version.tar.gz::https://bitbucket.org/multicoreware/${name}_git/downloads/${name}_$version.tar.gz"
 
 build() {
 	cd ${name}_${version}
 
-	mkdir bld
-	cd    bld
+	venom_opts=' -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=Release -DCMAKE_VERBOSE_MAKEFILE=ON 
+	-DHIGH_BIT_DEPTH=TRUE  -DEXPORT_C_API=FALSE -DENABLE_CLI=FALSE  -DENABLE_SHARED=FALSE 
+	-DCMAKE_C_FLAGS_RELEASE=${CFLAGS} -DCMAKE_CXX_FLAGS_RELEASE=${CXXFLAGS}	-Wno-dev'
 
-	cmake   -DHIGH_BIT_DEPTH=ON \
-		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DCMAKE_INSTALL_LIBDIR=lib \
-		-DCMAKE_INSTALL_LIBEXECDIR=lib \
-		-DCMAKE_BUILD_TYPE=Release \
-		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
-		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
-		-Wno-dev \
-	      ../source
-	make
-	make DESTDIR=$PKG install
+	cmake -B build-12 -S source -G Ninja $venom_opts -DMAIN12=TRUE -DCMAKE_ASM_NASM_FLAGS_RELEASE=" -wno-macro-params-legacy"
+	cmake --build build-12
 
-	rm $PKG/usr/lib/libx265.a
+	cmake -B build-10 -S source -G Ninja $venom_opts  -DCMAKE_ASM_NASM_FLAGS_RELEASE=" -wno-macro-params-legacy"
+	cmake --build build-10
+
+	ln -s ../build-10/libx265.a build/libx265_main10.a
+	ln -s ../build-12/libx265.a build/libx265_main12.a
+
+	cmake -B build -S source -G Ninja $venom_opts \
+		-DCMAKE_ASM_NASM_FLAGS_RELEASE=" -wno-macro-params-legacy" \
+		-DENABLE_SHARED=TRUE \
+		-DEXTRA_LIB='x265_main10.a;x265_main12.a' \
+		-DEXTRA_LINK_FLAGS='-L.' \
+		-DLINKED_10BIT=TRUE \
+		-DLINKED_12BIT=TRUE \
+		-DENABLE_HDR10_PLUS=TRUE
+	cmake --build build
+
+	DESTDIR=$PKG cmake --install build
 }
+
