@@ -4,7 +4,7 @@
 
 name=stremio-shell
 version=4.4.159
-release=1
+release=2
 noextract="server.js stremio.asar qthelper.hpp"
 _singleapplication_hash=f1e15081dc57a9c03f7f4f165677f18802e1437a
 source="$name-$version.tar.gz::https://github.com/Stremio/stremio-shell/archive/v${version}.tar.gz
@@ -29,6 +29,15 @@ build() {
 	make -f release.makefile PREFIX=$PKG
 	make -f release.makefile PREFIX=$PKG install
 
+	# Link stremio in PATH
 	mkdir -pv $PKG/usr/bin
 	ln -s /opt/stremio/stremio $PKG/usr/bin/stremio
+
+	# Move .desktop file to proper location
+	mkdir -pv $PKG/usr/share/applications
+	mv $PKG/opt/stremio/smartcode-stremio.desktop $PKG/usr/share/applications
+
+	# Move icons to proper location
+	mkdir -pv $PKG/usr/share/icons
+	mv $PKG/opt/stremio/icons/* $PKG/usr/share/icons
 }
