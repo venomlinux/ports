@@ -38,6 +38,6 @@ build() {
 	mv $PKG/opt/stremio/smartcode-stremio.desktop $PKG/usr/share/applications
 
 	# Move icons to proper location
-	mkdir -pv $PKG/usr/share/icons
-	mv $PKG/opt/stremio/icons/* $PKG/usr/share/icons
+	mkdir -pv $PKG/usr/share/icons/$name
+	mv $PKG/opt/stremio/icons/* $PKG/usr/share/icons/$name
 }
