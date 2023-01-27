@@ -2,10 +2,10 @@
 # depends	: curl cmake python3 llvm libssh2
 
 name=rust
-version=1.66.1
+version=1.67.0
 release=1
-_date=2022-11-03
-_rust=1.65.0
+_date=2023-01-10
+_rust=1.66.1
 _cargo=$_rust
 _triplet=x86_64-unknown-linux-gnu
 
@@ -14,8 +14,8 @@ source="https://static.rust-lang.org/dist/rustc-$version-src.tar.xz
 	https://static.rust-lang.org/dist/$_date/rustc-$_rust-$_triplet.tar.xz
 	https://static.rust-lang.org/dist/$_date/cargo-$_cargo-$_triplet.tar.xz
 	0001-bootstrap-Change-libexec-dir.patch
-	0002-compiler-Change-LLVM-targets.patch
-	0003-no-install-miri.patch"
+	0002-compiler-Change-LLVM-targets.patch"
+
 noextract="rust-std-$_rust-$_triplet.tar.xz
 	rustc-$_rust-$_triplet.tar.xz
 	cargo-$_cargo-$_triplet.tar.xz"
@@ -31,9 +31,6 @@ build() {
 
 	# Use our *-pc-linux-gnu targets, making LTO with clang simpler
 	patch -Np1 -i $SRC/0002-compiler-Change-LLVM-targets.patch
-	
-	# Stable build of 1.66.0 fails due to 'missing miri' #105816
-	patch -Np1 -i $SRC/0003-no-install-miri.patch
 
 	mkdir -p build/cache/$_date
 	cp $SRC/rust-std-$_rust-$_triplet.tar.xz build/cache/$_date/
