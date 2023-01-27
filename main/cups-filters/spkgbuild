@@ -2,15 +2,15 @@
 # depends	: ghostscript poppler qpdf mupdf ttf-dejavu
 
 name=cups-filters
-version=1.28.16
+version=1.28.17
 release=1
-source="https://www.openprinting.org/download/$name/$name-$version.tar.xz
+source="$name-$version.tar.gz::https://github.com/OpenPrinting/cups-filters/archive/$version.tar.gz
 	run.cups-browsed
 	rc.cups-browsed"
 
 build() {
 	cd $name-$version
-
+	./autogen.sh
 	./configure --prefix=/usr \
 		--sysconfdir=/etc \
 		--without-php \
