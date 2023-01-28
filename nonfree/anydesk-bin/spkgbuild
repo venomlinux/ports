@@ -1,0 +1,20 @@
+# description	    : The Fast Remote Desktop Application
+# homepage	    : https://anydesk.com
+# depends	    : gtkglext hicolor-icon-theme
+
+name=anydesk-bin
+version=6.2.1
+release=1
+source="https://download.anydesk.com/linux/anydesk-$version-1.el8.x86_64.rpm"
+
+build() {
+
+    mv usr/lib64 usr/lib
+    cp usr/libexec/* usr/lib/anydesk/
+    sed -i 's|/usr/lib64/anydesk /usr/libexec/anydesk $@|/usr/lib/anydesk /usr/lib/anydesk/anydesk $@|g' usr/bin/anydesk
+    rm -rf usr/libexec
+    mv * $PKG/
+    rm -rf $PKG/etc/systemd
+    mkdir -pv $PKG/etc/revdep.d
+    echo "/usr/lib/anydesk/" > $PKG/etc/revdep.d/anydesk.conf
+}
