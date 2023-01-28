@@ -15,6 +15,6 @@ build() {
     rm -rf usr/libexec
     mv * $PKG/
     rm -rf $PKG/etc/systemd
-    mkdir -pv $PKG/etc/revdep.d
+    install -d $PKG/etc/revdep.d
     echo "/usr/lib/anydesk/" > $PKG/etc/revdep.d/anydesk.conf
 }
