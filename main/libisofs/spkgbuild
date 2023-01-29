@@ -4,11 +4,11 @@
 name=libisofs
 version=1.5.4
 release=1
-source="http://files.libburnia-project.org/releases/$name-$version.tar.gz"
+source="https://files.libburnia-project.org/releases/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
-
+	cd $name
+	./bootstrap
 	./configure --prefix=/usr --disable-static
 	make
 	make DESTDIR=$PKG install
