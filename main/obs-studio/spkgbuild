@@ -5,7 +5,7 @@
 
 name=obs-studio
 version=29.0.0
-release=1
+release=2
 source="https://github.com/obsproject/$name/archive/$version/$name-$version.tar.gz
 	disable-some-plugins.patch"
 
@@ -16,11 +16,12 @@ build() {
 
 	patch -Np1 -d $name-$version -i $SRC/disable-some-plugins.patch
 
-	export QT_QPA_PLATFORMTHEME="qt5ct"
+	export QT_QPA_PLATFORMTHEME="qt6ct"
 
 	cmake -S $name-$version -B build -G Ninja \
 		-D CMAKE_INSTALL_PREFIX=/usr \
-		-D CMAKE_INSTALL_LIBDIR=/usr/lib \
+		-D CMAKE_INSTALL_LIBDIR=lib \
+		-D CMAKE_INSTALL_LIBEXECDIR=lib \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
@@ -29,8 +30,9 @@ build() {
 		-D UNIX_STRUCTURE=ON \
 		-D ENABLE_VLC=OFF \
 		-D ENABLE_AJA=OFF \
-		-D BUILD_VST=OFF \
-		-D BUILD_BROWSER=OFF \
+		-D ENABLE_VST=OFF \
+		-D ENABLE_BROWSER=OFF \
+		-D ENABLE_LIBFDK=ON \
 		-D ENABLE_PIPEWIRE=ON \
 		-D ENABLE_PULSEAUDIO=OFF \
 		-D ENABLE_WAYLAND=OFF \
