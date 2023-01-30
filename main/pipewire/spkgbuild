@@ -3,18 +3,18 @@
 
 name=pipewire
 version=0.3.65
-release=1
-source="https://github.com/PipeWire/pipewire/archive/$version/$name-$version.tar.gz"
+release=2
+source="https://github.com/PipeWire/pipewire/archive/$version/$name-$version.tar.gz
+	venom-pipewire-launcher"
 
 build() {
 
 	venom-meson $name-$version build \
-		--wrap-mode=nopromote \
-		-D session-managers="" \
 		-D systemd=disabled \
 		-D docs=disabled \
 	        -D vulkan=disabled \
-	        -D examples=disabled
+	        -D examples=disabled \
+		-D session-managers=[]
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
 
@@ -23,6 +23,9 @@ build() {
 	mkdir -p $PKG/etc/alsa/conf.d
 	ln -st $PKG/etc/alsa/conf.d /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf
 	ln -st $PKG/etc/alsa/conf.d /usr/share/alsa/alsa.conf.d/50-pipewire.conf
+
+	# install venom pipewire launcher
+	install -Dm755 $SRC/venom-pipewire-launcher $PKG/usr/bin/venom-pipewire-launcher
 
 	# remove leftovers
 	rm -r $PKG/usr/share/locale
