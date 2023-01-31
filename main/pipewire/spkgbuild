@@ -3,9 +3,10 @@
 
 name=pipewire
 version=0.3.65
-release=2
+release=3
 source="https://github.com/PipeWire/pipewire/archive/$version/$name-$version.tar.gz
-	venom-pipewire-launcher"
+	venom-pipewire-launcher
+	pipewire.desktop"
 
 build() {
 
@@ -27,6 +28,9 @@ build() {
 	# install venom pipewire launcher
 	install -Dm755 $SRC/venom-pipewire-launcher $PKG/usr/bin/venom-pipewire-launcher
 
+	# install desktop file
+	install -Dm644 $SRC/pipewire.desktop -t $PKG/etc/xdg/autostart/
+	
 	# remove leftovers
 	rm -r $PKG/usr/share/locale
 
