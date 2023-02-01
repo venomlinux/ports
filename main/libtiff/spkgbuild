@@ -3,10 +3,14 @@
 
 name=libtiff
 version=4.5.0
-release=1
-source="https://download.osgeo.org/$name/tiff-$version.tar.gz"
+release=2
+source="https://download.osgeo.org/$name/tiff-$version.tar.gz
+	CVE-2022-48281.patch"
 
 build() {
+	# https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-48281
+	patch -d tiff-$version -Np1 -i $SRC/CVE-2022-48281.patch
+
 	cmake -S tiff-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
