@@ -1,9 +1,14 @@
-podman-4.3.1-1
+podman-4.4.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/podman
 -rwxr-xr-x root/root    usr/bin/podman-remote
 drwxr-xr-x root/root    usr/lib/
+drwxr-xr-x root/root    usr/lib/systemd/
+drwxr-xr-x root/root    usr/lib/systemd/system-generators/
+lrwxrwxrwx root/root    usr/lib/systemd/system-generators/podman-system-generator -> ../../../libexec/podman/quadlet
+drwxr-xr-x root/root    usr/lib/systemd/user-generators/
+lrwxrwxrwx root/root    usr/lib/systemd/user-generators/podman-user-generator -> ../../../libexec/podman/quadlet
 drwxr-xr-x root/root    usr/lib/tmpfiles.d/
 -rw-r--r-- root/root    usr/lib/tmpfiles.d/podman.conf
 drwxr-xr-x root/root    usr/share/
@@ -97,6 +102,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/podman-init.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-inspect.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-kill.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/podman-kube-apply.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-kube-down.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-kube-generate.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-kube-play.1.gz
@@ -135,6 +141,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/podman-network-prune.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-network-reload.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-network-rm.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/podman-network-update.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-network.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-pause.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-play-kube.1.gz
@@ -182,6 +189,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/podman-system-connection-rename.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-system-connection.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-system-df.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/podman-system-events.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-system-info.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-system-migrate.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/podman-system-prune.1.gz
