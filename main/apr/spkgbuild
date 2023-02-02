@@ -2,13 +2,12 @@
 # depends	: util-linux
 
 name=apr
-version=1.7.1
+version=1.7.2
 release=1
 source="https://archive.apache.org/dist/apr/$name-$version.tar.bz2"
 
 build() {
-	# broken tarball link, but same contents
-	cd $name-$version-rc2
+	cd $name-$version
 	./configure --prefix=/usr    \
 	            --disable-static \
 	            --with-installbuilddir=/usr/share/apr-1/build
