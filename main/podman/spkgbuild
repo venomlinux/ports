@@ -3,7 +3,7 @@
 # depends	: go-md2man libseccomp libassuan libgpg-error gpgme
 
 name=podman
-version=4.3.1
+version=4.4.0
 release=1
 source="https://github.com/containers/podman/archive/v$version/$name-$version.tar.gz"
 
@@ -14,6 +14,7 @@ build() {
 	make  BUILDTAGS="seccomp exclude_graphdriver_devicemapper exclude_graphdriver_btrfs"
 	make install PREFIX=/usr DESTDIR=$PKG
 
-	# not use in venom: usr/libexec
+	# not use in venom: usr/libexec usr/lib/systemd
 	rm -rf $PKG/usr/libexec
+	rm -rf $PKG/usr/lib/systemd
 }
