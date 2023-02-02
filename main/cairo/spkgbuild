@@ -2,19 +2,18 @@
 # depends	: pixman fontconfig freetype2 libpng libxcb libxrender libx11 libxext lzo zlib glib
 
 name=cairo
-version=1.17.6
+version=1.17.8
 release=1
-source="https://gitlab.freedesktop.org/cairo/cairo/-/archive/$version/$name-$version.tar.bz2
-	fix-cairo-sphinx.patch"
+source="https://gitlab.freedesktop.org/cairo/cairo/-/archive/$version/$name-$version.tar.bz2"
 
 build() {
 	export XML_CATALOG_FILES=/etc/xml/catalog
-	patch -d $name-$version -p1 -i $SRC/fix-cairo-sphinx.patch
+
 	venom-meson $name-$version build \
+		-D dwrite=disabled \
 		-D spectre=disabled \
-		-D tee=enabled \
-		-D tests=disabled \
-		-D symbol-lookup=disabled 
+		-D symbol-lookup=disabled \
+		-D tests=disabled
 	meson compile -C build
 	meson install -C build --destdir $PKG
 }
