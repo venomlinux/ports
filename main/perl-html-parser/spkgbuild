@@ -2,14 +2,14 @@
 # depends	: perl-html-tagset
 
 name=perl-html-parser
-version=3.72
+version=3.81
 release=1
-source="$name-$version.tar.gz::https://www.cpan.org/authors/id/G/GA/GAAS/HTML-Parser-$version.tar.gz"
+source="$name-$version.tar.gz::https://www.cpan.org/modules/by-module/HTML/HTML-Parser-$version.tar.gz"
 
 build() {
 	cd HTML-Parser-$version
 	perl Makefile.PL INSTALLDIRS=vendor
-	make
+	make OPTIMIZE="$CFLAGS"
 	make DESTDIR=$PKG install
 	find $PKG -name *.pod -delete
 }
