@@ -12,6 +12,7 @@ source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz
 
 build() {
 
+	scratch isinstalled vulkan-icd-loader && OPT_MESA_GALLIUM='zink,'
 	scratch isinstalled libvdpau && OPT_MESA_VDPAU='-D gallium-vdpau=enabled' || OPT_MESA_VDPAU='-D gallium-vdpau=disabled'
 	scratch isinstalled libva && OPT_MESA_VAAPI='-D gallium-va=enabled' || OPT_MESA_VAAPI='-D gallium-va=disabled'
 	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' || OPT_MESA_PLATFORMS='x11'
@@ -32,7 +33,7 @@ build() {
 		-D glx=dri \
 		-D osmesa=true \
 		-D gallium-xa=enabled \
-		-D gallium-drivers=zink,crocus,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,i915 \
+		-D gallium-drivers=${OPT_MESA_GALLIUM}crocus,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,i915 \
 		-D platforms=${OPT_MESA_PLATFORMS} \
 		-D shared-glapi=enabled \
 		-D vulkan-drivers=amd,intel \
