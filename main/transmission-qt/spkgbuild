@@ -1,27 +1,29 @@
-# description	: Fast, easy, and free BitTorrent client (QT GUI)
-# depends	: curl libevent openssl qt5 desktop-file-utils intltool
+# description	: Fast, easy, and free BitTorrent client (CLI tools, daemon and web client)
+# depends	: curl libevent openssl qt5 desktop-file-utils intltool cmake ninja
 
 name=transmission-qt
-version=3.00
+version=4.0.0
 release=1
-source="https://github.com/transmission/transmission-releases/raw/master/transmission-$version.tar.xz"
+source="https://github.com/${name%-*}/${name%-*}/releases/download/$version/${name%-*}-$version.tar.xz"
 
 build() {
-	cd transmission-$version
 
-	# fix icon
-	sed -i '/^Icon=/ s/$/-qt/' qt/transmission-qt.desktop
+	cmake -S ${name%-*}-$version -B build -G Ninja \
+	-DCMAKE_INSTALL_PREFIX=/usr \
+	-DCMAKE_INSTALL_LIBDIR=lib \
+	-DCMAKE_INSTALL_LIBEXECDIR=lib \
+	-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DENABLE_GTK=OFF \
+	-DENABLE_QT=ON \
+	-DENABLE_UTILS=ON \
+	-DENABLE_DAEMON=ON \
+	-DENABLE_WEB=ON \
+	-DENABLE_CLI=ON \
+	-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
-	./configure --prefix=/usr
-	make
-	cd qt
-	  qmake qtr.pro
-	  make
-	cd -
-	make -C qt INSTALL_ROOT=$PKG/usr install
-
-	install -Dm644 qt/icons/transmission.png \
-	    $PKG/usr/share/pixmaps/transmission-qt.png
-	install -Dm644 qt/transmission-qt.desktop \
-	    $PKG/usr/share/applications/transmission-qt.desktop
+	install -d $PKG/var/lib/transmission -o transmission -g transmission
 }
