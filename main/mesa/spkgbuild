@@ -3,21 +3,25 @@
 # optional	: libva libvdpau wayland-protocols
 
 name=mesa
-version=22.3.4
+version=22.3.5
 release=1
 source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz
-	0001-anv-force-MEDIA_INTERFACE_DESCRIPTOR_LOAD-reemit-aft.patch"
+	0001-anv-force-MEDIA_INTERFACE_DESCRIPTOR_LOAD-reemit-aft.patch
+	0002-iris-Retry-DRM_IOCTL_I915_GEM_EXECBUFFER2-on-ENOMEM.patch
+    0003-Revert-iris-Avoid-abort-if-kernel-can-t-allocate-mem.patch"
 
 build() {
 
-	scratch isinstalled vulkan-icd-loader && OPT_MESA_GALLIUM='zink,'
 	scratch isinstalled libvdpau && OPT_MESA_VDPAU='-D gallium-vdpau=enabled' || OPT_MESA_VDPAU='-D gallium-vdpau=disabled'
 	scratch isinstalled libva && OPT_MESA_VAAPI='-D gallium-va=enabled' || OPT_MESA_VAAPI='-D gallium-va=disabled'
 	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' || OPT_MESA_PLATFORMS='x11'
 
 	patch -Np1 -d mesa-$version -i $SRC/0001-anv-force-MEDIA_INTERFACE_DESCRIPTOR_LOAD-reemit-aft.patch
-
+	patch -Np1 -d mesa-$version -i $SRC/0002-iris-Retry-DRM_IOCTL_I915_GEM_EXECBUFFER2-on-ENOMEM.patch
+	patch -Np1 -d mesa-$version -i $SRC/0003-Revert-iris-Avoid-abort-if-kernel-can-t-allocate-mem.patch
+	
 	venom-meson $name-$version build \
+		-D b_lto=false \
 		-D dri3=enabled \
 		-D egl=enabled \
 		-D llvm=enabled \
@@ -28,7 +32,7 @@ build() {
 		-D glx=dri \
 		-D osmesa=true \
 		-D gallium-xa=enabled \
-		-D gallium-drivers=${OPT_MESA_GALLIUM}crocus,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,i915 \
+		-D gallium-drivers=zink,crocus,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,i915 \
 		-D platforms=${OPT_MESA_PLATFORMS} \
 		-D shared-glapi=enabled \
 		-D vulkan-drivers=amd,intel \
