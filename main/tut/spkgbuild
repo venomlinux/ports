@@ -1,0 +1,27 @@
+# description	    : A TUI for Mastodon with vim inspired keys
+# homepage	    : https://github.com/RasmusLindroth/tut
+# depends	    : go
+
+name=tut
+version=2.0.1
+release=1
+source="$name-$version.tar.gz::https://github.com/RasmusLindroth/$name/archive/refs/tags/$version.tar.gz"
+
+build() {
+	cd $name-$version
+	go build \
+	-gcflags "all=-trimpath=$PWD" \
+	-asmflags "all=-trimpath=$PWD" \
+	-ldflags "-extldflags $LDFLAGS" \
+	-o $name .
+
+	install -Dm644 config.example.toml $PKG/usr/share/doc/$name/config.example.toml
+	install -Dm644 config/toot.tmpl $PKG/usr/share/doc/$name/toot.tmpl
+	install -Dm644 config/user.tmpl $PKG/usr/share/doc/$name/user.tmpl
+	install -d $PKG/usr/share/doc/$PKGname/themes/
+	install -Dm644 config/themes/* $PKG/usr/share/doc/$name/themes/
+	install -Dm644 docs/man/tut.1 $PKG/usr/share/man/man1/tut.1
+	install -Dm644 docs/man/tut.5 $PKG/usr/share/man/man5/tut.5
+	install -Dm644 docs/man/tut.7 $PKG/usr/share/man/man7/tut.7
+	install -Dm755 $name $PKG/usr/bin/$name
+}
