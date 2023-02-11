@@ -1,0 +1,15 @@
+# description	: unofficial client of whatsapp
+# homepage	: https://gitlab.com/zerkc/whatsdesk/
+# depends	: libxscrnsaver nss libxtst libnotify libappindicator
+
+name=whatsdesk-bin
+version=0.3.9
+release=1
+source="${name}-${version}_amd64.deb::https://zerkc.gitlab.io/whatsdesk/whatsdesk_${version}_amd64.deb"
+
+build () {
+	bsdtar -xvf ${name}-${version}_amd64.deb -C $SRC
+	bsdtar -xv -C ${PKG} -f ${SRC}/data.tar.xz
+	mkdir -p ${PKG}/usr/bin/
+	ln -s /opt/whatsdesk/whatsdesk ${PKG}/usr/bin/whatsdesk
+}
