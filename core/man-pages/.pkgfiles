@@ -1,4 +1,4 @@
-man-pages-6.02-1
+man-pages-6.03-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/man/
@@ -699,6 +699,9 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/aligned_alloc.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/alloca.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/alphasort.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/arc4random.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/arc4random_buf.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/arc4random_uniform.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/argz.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/argz_add.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/argz_add_sep.3.gz
@@ -1597,6 +1600,7 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/pow10.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/pow10f.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/pow10l.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/powerof2.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/powf.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/powl.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/printf.3.gz
@@ -1729,6 +1733,9 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/regex.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/regexec.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/regfree.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/register_printf_modifier.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/register_printf_specifier.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/register_printf_type.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/registerrpc.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/remainder.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/remainderf.3.gz
@@ -1763,6 +1770,7 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/round.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/roundf.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/roundl.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/roundup.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/rpc.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/rpmatch.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/rresvport.3.gz
@@ -2195,7 +2203,22 @@ drwxr-xr-x root/root    usr/share/man/man3const/
 -rw-r--r-- root/root    usr/share/man/man3const/EXIT_FAILURE.3const.gz
 -rw-r--r-- root/root    usr/share/man/man3const/EXIT_SUCCESS.3const.gz
 -rw-r--r-- root/root    usr/share/man/man3const/NULL.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_CHAR.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_DOUBLE.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_FLAG_LONG.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_FLAG_LONG_DOUBLE.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_FLAG_LONG_LONG.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_FLAG_PTR.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_FLAG_SHORT.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_FLOAT.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_INT.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_LAST.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_POINTER.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_STRING.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_WCHAR.3const.gz
+-rw-r--r-- root/root    usr/share/man/man3const/PA_WSTRING.3const.gz
 drwxr-xr-x root/root    usr/share/man/man3head/
+-rw-r--r-- root/root    usr/share/man/man3head/printf.h.3head.gz
 -rw-r--r-- root/root    usr/share/man/man3head/sysexits.h.3head.gz
 drwxr-xr-x root/root    usr/share/man/man3type/
 -rw-r--r-- root/root    usr/share/man/man3type/FILE.3type.gz
@@ -2238,6 +2261,10 @@ drwxr-xr-x root/root    usr/share/man/man3type/
 -rw-r--r-- root/root    usr/share/man/man3type/off64_t.3type.gz
 -rw-r--r-- root/root    usr/share/man/man3type/off_t.3type.gz
 -rw-r--r-- root/root    usr/share/man/man3type/pid_t.3type.gz
+-rw-r--r-- root/root    usr/share/man/man3type/printf_arginfo_size_function.3type.gz
+-rw-r--r-- root/root    usr/share/man/man3type/printf_function.3type.gz
+-rw-r--r-- root/root    usr/share/man/man3type/printf_info.3type.gz
+-rw-r--r-- root/root    usr/share/man/man3type/printf_va_arg_function.3type.gz
 -rw-r--r-- root/root    usr/share/man/man3type/ptrdiff_t.3type.gz
 -rw-r--r-- root/root    usr/share/man/man3type/regex_t.3type.gz
 -rw-r--r-- root/root    usr/share/man/man3type/regmatch_t.3type.gz
