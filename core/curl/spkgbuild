@@ -3,11 +3,14 @@
 
 name=curl
 version=7.88.0
-release=1
-source="https://curl.haxx.se/download/$name-$version.tar.xz"
+release=2
+source="https://curl.haxx.se/download/$name-$version.tar.xz
+	revert-broken-http2.patch"
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i $SRC/revert-broken-http2.patch
 
 	./configure \
 		--prefix=/usr \
