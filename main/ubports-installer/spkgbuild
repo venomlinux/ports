@@ -1,0 +1,19 @@
+# description	: A simple tool to install Ubuntu Touch on UBports devices
+# homepage	: https://github.com/ubports/ubports-installer
+# depends	: android-tools android-udev electron-bin e2fsprogs heimdall
+
+name=ubports-installer
+version=0.9.7_beta
+_version=$(echo $version | sed 's/_/-/g')
+release=1
+options="!strip !emptydirs"
+source="$name-${version}_amd64.deb::https://github.com/ubports/ubports-installer/releases/download/$_version/ubports-installer_${_version}_linux_amd64.deb"
+
+build() {
+	bsdtar -xvf ${name}-${version}_amd64.deb -C $SRC
+	bsdtar -xvf $SRC/data.tar.xz -C $PKG
+	
+	mkdir -p $PKG/usr/bin
+	ln -s /opt/ubports-installer/ubports-installer \
+	      $PKG/usr/bin/ubports-installer
+}
