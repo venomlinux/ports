@@ -3,20 +3,16 @@
 
 name=xf86-video-ati
 version=19.1.0
-release=1
-source="https://www.x.org/pub/individual/driver/$name-$version.tar.bz2
-	xorg-abi.patch"
+release=2
+_commitid="5eba006e4129e8015b822f9e1d2f1e613e252cda"
+source="https://gitlab.freedesktop.org/xorg/driver/xf86-video-ati/-/archive/$_commitid/xf86-video-ati-$_commitid.tar.gz"
 
 build() {
-	cd $name-$version
-
-	patch -p1 -i $SRC/xorg-abi.patch
-
-	./configure --prefix=/usr \
-		--sysconfdir=/etc \
-		--localstatedir=/var \
-		--disable-static
-
-	make CFLAGS="$CFLAGS -fcommon"
+	cd $name-$_commitid
+	./autogen.sh
+	./configure \
+		--prefix=/usr \
+		--enable-glamor
+	make
 	make DESTDIR=$PKG install
 }
