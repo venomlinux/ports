@@ -3,7 +3,7 @@
 
 name=elfutils-32
 version=0.188
-release=1
+release=2
 source="https://sourceware.org/ftp/elfutils/$version/elfutils-$version.tar.bz2"
 
 build() {
@@ -13,7 +13,16 @@ build() {
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	./configure --prefix=/usr --libdir=/usr/lib32 --disable-textrelcheck --disable-debuginfod
+	# https://sourceware.org/PR23914
+	sed -i 's:-Werror::' */Makefile.in
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32 \
+		--sysconfdir=/etc \
+		--program-prefix="eu-" \
+		--disable-debuginfod \
+		--enable-deterministic-archives
 	make
 	make DESTDIR=$PWD/DESTDIR install
 	mkdir -p $PKG/usr/lib32
