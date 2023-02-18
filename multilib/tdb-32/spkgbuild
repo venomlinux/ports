@@ -1,0 +1,22 @@
+# description	: Trivial DataBase similar to gdbm
+# homepage	: https://tdb.samba.org/
+# depends	: python3-32
+
+name=tdb-32
+version=1.4.8
+release=1
+source="https://www.samba.org/ftp/$name/${name%-*}-$version.tar.gz"
+
+build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	cd ${name%-*}-$version
+	./configure --prefix=/usr --libdir=/usr/lib32
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
