@@ -1,0 +1,17 @@
+# description	: Implements the user-space interfaces to the POSIX 1003.1e capabilities available in Linux kernels
+# depends	: attr-32
+
+name=libcap-32
+version=2.67
+release=1
+source="https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/${name%-*}-$version.tar.xz"
+
+build() {
+	cd ${name%-*}-$version
+
+	sed -i "/^CFLAGS/s/-O2/$CFLAGS/" Make.Rules
+
+	make -C libcap GOLANG=no RAISE_SETFCAP=no PKGCONFIGDIR=/usr/lib32/pkgconfig
+	make -C libcap GOLANG=no RAISE_SETFCAP=no DESTDIR=$PKG prefix=/usr lib=lib32 install
+	rm -r $PKG/usr/include
+}

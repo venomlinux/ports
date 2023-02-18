@@ -1,0 +1,23 @@
+# description	: Speech processing library that goes along with the Speex codec
+# depends	: speexdsp
+
+name=speexdsp-32
+version=1.2.1
+release=1
+source="${name%-*}-$version.tar.gz::https://github.com/xiph/speexdsp/archive/refs/tags/SpeexDSP-1.2.1.tar.gz"
+
+build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	cd ${name%-*}-SpeexDSP-$version
+
+	./autogen.sh
+	./configure --prefix=/usr --libdir=/usr/lib32
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
