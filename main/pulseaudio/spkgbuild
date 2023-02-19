@@ -7,14 +7,12 @@ release=1
 source="https://www.freedesktop.org/software/pulseaudio/releases/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version
-	mkdir build && cd build
-	venom-meson \
+	venom-meson $name-$version build \
 		    -D tests=false \
 		    -D doxygen=false \
                     -D bluez5=disabled 
-	ninja
-	DESTDIR=$PKG ninja install
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
 
         # remove the D-Bus configuration file for the system wide daemon to avoid creating unnecessary system users and groups
 	rm -fv $PKG/etc/dbus-1/system.d/pulseaudio-system.conf
