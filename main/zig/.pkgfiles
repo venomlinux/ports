@@ -1,4 +1,4 @@
-zig-0.11.0-4
+zig-0.11.0-5
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/zig
@@ -30,10 +30,6 @@ drwxr-xr-x root/root    usr/lib/zig/compiler_rt/
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/addtf3.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/addxf3.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/arm.zig
--rw-r--r-- root/root    usr/lib/zig/compiler_rt/ashldi3_test.zig
--rw-r--r-- root/root    usr/lib/zig/compiler_rt/ashlti3_test.zig
--rw-r--r-- root/root    usr/lib/zig/compiler_rt/ashrdi3_test.zig
--rw-r--r-- root/root    usr/lib/zig/compiler_rt/ashrti3_test.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/atomics.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/aulldiv.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/aullrem.zig
@@ -183,8 +179,6 @@ drwxr-xr-x root/root    usr/lib/zig/compiler_rt/
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/log.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/log10.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/log2.zig
--rw-r--r-- root/root    usr/lib/zig/compiler_rt/lshrdi3_test.zig
--rw-r--r-- root/root    usr/lib/zig/compiler_rt/lshrti3_test.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/memcmp.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/memcpy.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/memmove.zig
@@ -235,11 +229,14 @@ drwxr-xr-x root/root    usr/lib/zig/compiler_rt/
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/popcountdi2_test.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/popcountsi2_test.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/popcountti2_test.zig
+-rw-r--r-- root/root    usr/lib/zig/compiler_rt/powiXf2.zig
+-rw-r--r-- root/root    usr/lib/zig/compiler_rt/powiXf2_test.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/rem_pio2.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/rem_pio2_large.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/rem_pio2f.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/round.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/shift.zig
+-rw-r--r-- root/root    usr/lib/zig/compiler_rt/shift_test.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/sin.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/sincos.zig
 -rw-r--r-- root/root    usr/lib/zig/compiler_rt/sqrt.zig
@@ -14186,6 +14183,9 @@ drwxr-xr-x root/root    usr/lib/zig/libunwind/src/
 drwxr-xr-x root/root    usr/lib/zig/std/
 -rw-r--r-- root/root    usr/lib/zig/std/Build.zig
 drwxr-xr-x root/root    usr/lib/zig/std/Build/
+-rw-r--r-- root/root    usr/lib/zig/std/Build/Cache.zig
+drwxr-xr-x root/root    usr/lib/zig/std/Build/Cache/
+-rw-r--r-- root/root    usr/lib/zig/std/Build/Cache/DepTokenizer.zig
 -rw-r--r-- root/root    usr/lib/zig/std/Build/CheckFileStep.zig
 -rw-r--r-- root/root    usr/lib/zig/std/Build/CheckObjectStep.zig
 -rw-r--r-- root/root    usr/lib/zig/std/Build/CompileStep.zig
@@ -14269,11 +14269,22 @@ drwxr-xr-x root/root    usr/lib/zig/std/compress/deflate/
 drwxr-xr-x root/root    usr/lib/zig/std/compress/deflate/testdata/
 -rw-r--r-- root/root    usr/lib/zig/std/compress/deflate/token.zig
 -rw-r--r-- root/root    usr/lib/zig/std/compress/gzip.zig
+-rw-r--r-- root/root    usr/lib/zig/std/compress/lzma.zig
+drwxr-xr-x root/root    usr/lib/zig/std/compress/lzma/
+-rw-r--r-- root/root    usr/lib/zig/std/compress/lzma/decode.zig
+drwxr-xr-x root/root    usr/lib/zig/std/compress/lzma/decode/
+-rw-r--r-- root/root    usr/lib/zig/std/compress/lzma/decode/lzbuffer.zig
+-rw-r--r-- root/root    usr/lib/zig/std/compress/lzma/decode/rangecoder.zig
+-rw-r--r-- root/root    usr/lib/zig/std/compress/lzma/test.zig
+drwxr-xr-x root/root    usr/lib/zig/std/compress/lzma/testdata/
+-rw-r--r-- root/root    usr/lib/zig/std/compress/lzma/vec2d.zig
+-rw-r--r-- root/root    usr/lib/zig/std/compress/lzma2.zig
+drwxr-xr-x root/root    usr/lib/zig/std/compress/lzma2/
+-rw-r--r-- root/root    usr/lib/zig/std/compress/lzma2/decode.zig
 drwxr-xr-x root/root    usr/lib/zig/std/compress/testdata/
 -rw-r--r-- root/root    usr/lib/zig/std/compress/xz.zig
 drwxr-xr-x root/root    usr/lib/zig/std/compress/xz/
 -rw-r--r-- root/root    usr/lib/zig/std/compress/xz/block.zig
--rw-r--r-- root/root    usr/lib/zig/std/compress/xz/lzma.zig
 -rw-r--r-- root/root    usr/lib/zig/std/compress/xz/test.zig
 drwxr-xr-x root/root    usr/lib/zig/std/compress/xz/testdata/
 -rw-r--r-- root/root    usr/lib/zig/std/compress/zlib.zig
@@ -14302,11 +14313,13 @@ drwxr-xr-x root/root    usr/lib/zig/std/crypto/aes/
 -rw-r--r-- root/root    usr/lib/zig/std/crypto/aes_gcm.zig
 -rw-r--r-- root/root    usr/lib/zig/std/crypto/aes_ocb.zig
 -rw-r--r-- root/root    usr/lib/zig/std/crypto/argon2.zig
+-rw-r--r-- root/root    usr/lib/zig/std/crypto/ascon.zig
 -rw-r--r-- root/root    usr/lib/zig/std/crypto/bcrypt.zig
 -rw-r--r-- root/root    usr/lib/zig/std/crypto/benchmark.zig
 -rw-r--r-- root/root    usr/lib/zig/std/crypto/blake2.zig
 -rw-r--r-- root/root    usr/lib/zig/std/crypto/blake3.zig
 -rw-r--r-- root/root    usr/lib/zig/std/crypto/chacha20.zig
+-rw-r--r-- root/root    usr/lib/zig/std/crypto/cmac.zig
 -rw-r--r-- root/root    usr/lib/zig/std/crypto/ecdsa.zig
 -rw-r--r-- root/root    usr/lib/zig/std/crypto/errors.zig
 -rw-r--r-- root/root    usr/lib/zig/std/crypto/ghash_polyval.zig
@@ -14651,6 +14664,7 @@ drwxr-xr-x root/root    usr/lib/zig/std/os/windows/
 -rw-r--r-- root/root    usr/lib/zig/std/process.zig
 -rw-r--r-- root/root    usr/lib/zig/std/rand.zig
 drwxr-xr-x root/root    usr/lib/zig/std/rand/
+-rw-r--r-- root/root    usr/lib/zig/std/rand/Ascon.zig
 -rw-r--r-- root/root    usr/lib/zig/std/rand/Gimli.zig
 -rw-r--r-- root/root    usr/lib/zig/std/rand/Isaac64.zig
 -rw-r--r-- root/root    usr/lib/zig/std/rand/Pcg.zig
