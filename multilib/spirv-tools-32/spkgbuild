@@ -1,0 +1,42 @@
+# description	: API and commands for processing SPIR-V modules
+# homepage	: https://www.khronos.org/vulkan/
+# depends	: spirv-tools
+
+name=spirv-tools-32
+version=2022.4
+release=1
+source="https://github.com/KhronosGroup/SPIRV-Tools/archive/v$version/SPIRV-Tools-v$version.tar.gz"
+
+build() {
+
+	cmake -B build-static -G Ninja -S SPIRV-Tools-$version \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_INSTALL_LIBDIR=lib32 \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_C_FLAGS_RELEASE="${CFLAGS}" \
+		-D CMAKE_CXX_FLAGS_RELEASE="${CXXFLAGS}" \
+		-D SPIRV_WERROR=OFF \
+		-D SPIRV-Headers_SOURCE_DIR=/usr \
+		-D PYTHON_EXECUTABLE=/usr/bin/python3 \
+		-D BUILD_SHARED_LIBS=OFF 
+	cmake --build build-static
+
+	cmake -B build-shared -G Ninja -S SPIRV-Tools-$version \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_INSTALL_LIBDIR=lib32 \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_C_FLAGS_RELEASE="${CFLAGS}" \
+		-D CMAKE_CXX_FLAGS_RELEASE="${CXXFLAGS}" \
+		-D SPIRV_WERROR=OFF \
+		-D SPIRV-Headers_SOURCE_DIR=/usr \
+		-D PYTHON_EXECUTABLE=/usr/bin/python3 \
+		-D BUILD_SHARED_LIBS=ON 
+	cmake --build build-shared
+
+	DESTDIR=$PKG cmake --build build-static --target install
+	DESTDIR=$PKG cmake --build build-shared --target install
+
+	rm -r $PKG/usr/bin
+	rm -r $PKG/usr/include
+
+}

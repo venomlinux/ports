@@ -1,0 +1,21 @@
+# description	: headers for mingw-w64 toolchain
+# homepage	: http://mingw-w64.org/
+
+name=mingw-w64-headers
+version=10.0.0
+release=1
+source="https://sourceforge.net/projects/mingw-w64/files/mingw-w64/mingw-w64-release/mingw-w64-v$version.tar.bz2"
+
+build() {
+	for T in i686-w64-mingw32 x86_64-w64-mingw32; do
+		mkdir build-$T
+		cd build-$T
+		../mingw-w64-v$version/mingw-w64-headers/configure --prefix=/usr/$T --host=$T
+		make DESTDIR=$PKG install
+		cd ..
+	done
+
+	ln -sv x86_64-w64-mingw32 $PKG/usr/mingw
+	ln -sv lib $PKG/usr/x86_64-w64-mingw32/lib64
+}
+

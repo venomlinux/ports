@@ -1,0 +1,67 @@
+# description	: WINE with staging patches
+# homepage	: https://wiki.winehq.org/Wine-Staging
+# depends: fontconfig-32 freeglut-32 gnutls-32 lcms2-32 mpg123-32 openal-32 libxcomposite-32 libxcursor-32 libxinerama-32 libxrandr-32 libxxf86dga-32 vkd3d-32 libgcrypt-32 mingw-w64-gcc
+
+name=wine-staging
+version=8.1
+release=1
+source="https://dl.winehq.org/wine/source/8.x/wine-${version}.tar.xz 
+	https://github.com/$name/$name/archive/v$version/$name-$version.tar.gz 
+	https://dl.winehq.org/wine/wine-gecko/2.47.3/wine-gecko-2.47.3-x86.msi 
+	https://dl.winehq.org/wine/wine-gecko/2.47.3/wine-gecko-2.47.3-x86_64.msi 
+	https://github.com/madewokherd/wine-mono/releases/download/wine-mono-7.4.1/wine-mono-7.4.1-x86.msi"
+
+build() {
+	# apply staging patches
+	cd $name-$version
+	./patches/patchinstall.sh DESTDIR=../wine-${version} --all
+	cd ..
+
+	install -d wine32 wine64
+
+	export CPPFLAGS="${CPPFLAGS} -D_FORTIFY_SOURCE=0"
+
+	cd wine64
+
+	../wine-${version}/configure \
+		--prefix=/usr \
+		--libdir=/usr/lib \
+		--enable-win64
+
+	make depend
+	make
+	make DESTDIR=$PKG install
+
+	cd ../wine32
+	CFLAGS="${CFLAGS} -m32"
+	CXXFLAGS="${CXXFLAGS} -m32"
+	LDFLAGS="${LDFLAGS} -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	../wine-${version}/configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32 \
+		--x-includes=/usr/include/X11 \
+		--x-libraries=/usr/lib32 \
+		--cache-file=config.cache \
+		--with-wine64=../wine64
+
+	make depend
+	make
+	make DESTDIR=$PKG install
+
+	install -d $PKG/usr/share/wine/gecko
+	install -d $PKG/usr/share/wine/mono
+
+	install -t $PKG/usr/share/wine/gecko/ \
+		$SRC/wine-gecko-2.47.3-x86.msi \
+		$SRC/wine-gecko-2.47.3-x86_64.msi
+
+	install $SRC/wine-mono-7.4.1-x86.msi $PKG/usr/share/wine/mono/
+
+	rm -r $PKG/usr/share/man/??.UTF-8
+
+	install -d $PKG/etc/revdep.d
+	echo "/usr/lib/wine/x86_64-unix/\n/usr/lib32/wine/i386-unix/" > $PKG/etc/revdep.d/${name}.conf
+}
+

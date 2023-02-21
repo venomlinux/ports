@@ -1,0 +1,25 @@
+# description	: GNU binutils for mingw-w64 toolchain
+# homepage	: https://www.gnu.org/software/binutils/
+
+name=mingw-w64-binutils
+version=2.39
+release=1
+source="http://ftpmirror.gnu.org/gnu/binutils/binutils-$version.tar.xz"
+options="!strip"
+
+build() {
+	for T in i686-w64-mingw32 x86_64-w64-mingw32; do
+		mkdir build-$T
+		cd build-$T
+		../binutils-$version/configure \
+			--prefix=/usr \
+			--target=$T \
+			--disable-nls \
+			--disable-multilib
+		make
+		make DESTDIR=$PKG install
+		cd ..
+	done
+	rm -r $PKG/usr/share/info
+	rm $PKG/usr/lib/bfd-plugins/libdep.so
+}
