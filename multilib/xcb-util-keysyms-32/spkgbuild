@@ -1,0 +1,19 @@
+# description	: XCB utilities library
+# homepage	: https://xcb.freedesktop.org/
+# depends	: libxcb-32 xcb-util-keysyms
+
+name=xcb-util-keysyms-32
+version=0.4.1
+release=1
+source="https://xcb.freedesktop.org/dist/xcb-util-keysyms-$version.tar.xz"
+
+build() {
+	cd xcb-util-keysyms-$version
+
+	./configure --prefix=/usr --libdir=/usr/lib32
+
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/include
+}
