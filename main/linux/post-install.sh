@@ -9,9 +9,11 @@ fi
 depmod $kernver
 
 # run all dkms scripts
-for i in /var/lib/dkms/buildmodules-*.sh; do
-	sh $i
-done
+if [ $(command -v dkms) ]; then
+	for i in /var/lib/dkms/buildmodules-*.sh; do
+		sh $i
+	done
+fi
 
 # removing other venom's kernel
 for i in /lib/modules/*; do
