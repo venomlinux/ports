@@ -2,21 +2,14 @@
 # depends	: gegl appstream-glib json-glib gtk2 mypaint-brushes1 gexiv2 poppler-glib glib-networking gtk3 librsvg libgudev
 
 name=gimp
-version=2.10.32
-release=2
-source="https://download.gimp.org/pub/$name/v${version%.*}/$name-$version.tar.bz2
-	babl.patch
-	fix-new-cairo-curves.patch
-	int-conv.patch"
+version=2.10.34
+release=1
+source="https://download.gimp.org/pub/$name/v${version%.*}/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
 	
-	patch -Np1 -i $SRC/babl.patch
-	patch -Np1 -i $SRC/fix-new-cairo-curves.patch
-	patch -Np1 -i $SRC/int-conv.patch
-
-	  ./configure \
+	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--libexecdir=/usr/lib/$name \
