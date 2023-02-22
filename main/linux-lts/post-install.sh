@@ -20,7 +20,7 @@ for i in /lib/modules/*; do
 	[ -d $i ] || continue
 	case ${i##*/} in
 		$kernver) continue;;
-		*-Venom)
+		*-Venom-LTS)
 			[ -d $i/build/include ] && continue
 			echo "post-install: removing kernel ${i##*/}"
 			rm -fr $i;;
