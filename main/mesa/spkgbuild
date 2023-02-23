@@ -3,12 +3,9 @@
 # optional	: libva libvdpau wayland-protocols
 
 name=mesa
-version=22.3.6
+version=23.0.0
 release=1
-source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz
-	0001-anv-force-MEDIA_INTERFACE_DESCRIPTOR_LOAD-reemit-aft.patch
-	0002-iris-Retry-DRM_IOCTL_I915_GEM_EXECBUFFER2-on-ENOMEM.patch
-    0003-Revert-iris-Avoid-abort-if-kernel-can-t-allocate-mem.patch"
+source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
 
 build() {
 
@@ -17,10 +14,6 @@ build() {
 	scratch isinstalled libva && OPT_MESA_VAAPI='-D gallium-va=enabled' || OPT_MESA_VAAPI='-D gallium-va=disabled'
 	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' || OPT_MESA_PLATFORMS='x11'
 
-	patch -Np1 -d mesa-$version -i $SRC/0001-anv-force-MEDIA_INTERFACE_DESCRIPTOR_LOAD-reemit-aft.patch
-	patch -Np1 -d mesa-$version -i $SRC/0002-iris-Retry-DRM_IOCTL_I915_GEM_EXECBUFFER2-on-ENOMEM.patch
-	patch -Np1 -d mesa-$version -i $SRC/0003-Revert-iris-Avoid-abort-if-kernel-can-t-allocate-mem.patch
-	
 	venom-meson $name-$version build \
 		-D b_lto=false \
 		-D dri3=enabled \
