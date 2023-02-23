@@ -3,13 +3,11 @@
 # optional	: libva libvdpau-32 wayland-protocols wayland-32
 
 name=mesa-32
-version=22.3.5
+version=23.0.0
 release=1
 source="https://mesa.freedesktop.org/archive/${name%-*}-$version.tar.xz
-	crossfile
-	0001-anv-force-MEDIA_INTERFACE_DESCRIPTOR_LOAD-reemit-aft.patch
-        0002-iris-Retry-DRM_IOCTL_I915_GEM_EXECBUFFER2-on-ENOMEM.patch
-	0003-Revert-iris-Avoid-abort-if-kernel-can-t-allocate-mem.patch"
+	crossfile"
+
 
 
 build() {
@@ -21,10 +19,6 @@ build() {
 	scratch isinstalled vulkan-icd-loader-32 && OPT_MESA_GALLIUM='zink,'
 	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' ||  OPT_MESA_PLATFORMS='x11'
   
-	patch -Np1 -d ${name%-*}-$version -i $SRC/0001-anv-force-MEDIA_INTERFACE_DESCRIPTOR_LOAD-reemit-aft.patch
-	patch -Np1 -d ${name%-*}-$version -i $SRC/0002-iris-Retry-DRM_IOCTL_I915_GEM_EXECBUFFER2-on-ENOMEM.patch
-	patch -Np1 -d ${name%-*}-$version -i $SRC/0003-Revert-iris-Avoid-abort-if-kernel-can-t-allocate-mem.patch
-
 	venom-meson ${name%-*}-$version build \
 		--sysconfdir=/etc \
 		--libdir=/usr/lib32 \
