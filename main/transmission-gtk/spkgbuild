@@ -17,7 +17,6 @@ build() {
 	-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DINSTALL_DOC=ON \
-	-DINSTALL_LIB=OFF \
 	-DENABLE_TESTS=OFF \
 	-DENABLE_NLS=OFF \
 	-DENABLE_GTK=ON \
@@ -29,6 +28,6 @@ build() {
 
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
-
+	rm -r $PKG/usr/share/transmission
 	install -d $PKG/var/lib/transmission -o transmission -g transmission
 }
