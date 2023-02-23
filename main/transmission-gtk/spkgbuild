@@ -3,7 +3,7 @@
 # depends	: curl libevent openssl gtk3 hicolor-icon-theme desktop-file-utils intltool cmake ninja
 
 name=transmission-gtk
-version=4.0.0
+version=4.0.1
 release=1
 source="https://github.com/${name%-*}/${name%-*}/releases/download/$version/${name%-*}-$version.tar.xz"
 
@@ -16,15 +16,18 @@ build() {
 	-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 	-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 	-DCMAKE_BUILD_TYPE=Release \
+	-DINSTALL_DOC=ON \
+	-DENABLE_TESTS=OFF \
+	-DENABLE_NLS=OFF \
 	-DENABLE_GTK=ON \
+	-DENABLE_WEB=OFF \
 	-DENABLE_QT=OFF \
-	-DENABLE_UTILS=ON \
-	-DENABLE_DAEMON=ON \
-	-DENABLE_WEB=ON \
-	-DENABLE_CLI=ON \
-	-Wno-dev
+	-DENABLE_DAEMON=OFF \
+	-DENABLE_CLI=OFF \
+	-DENABLE_UTILS=OFF
+
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
-
+	rm -r $PKG/usr/share/transmission
 	install -d $PKG/var/lib/transmission -o transmission -g transmission
 }
