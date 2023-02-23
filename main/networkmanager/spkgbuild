@@ -12,7 +12,7 @@ source="$name-$version.tar.xz::https://ftp.gnome.org/pub/gnome/sources/NetworkMa
 
 build() {
 
-	scratch isinstalled modemanager && OPT='-Dmodem_manager=true'
+	scratch isinstalled modemmanager && OPT='-Dmodem_manager=true' || OPT='-Dmodem_manager=false'
 	venom-meson NetworkManager-$version build \
 	      -Dlibaudit=no              \
 	      -Dlibpsl=false             \
