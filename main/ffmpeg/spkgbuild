@@ -3,8 +3,9 @@
 
 name=ffmpeg
 version=5.1.2
-release=2
+release=3
 source="https://ffmpeg.org/releases/$name-$version.tar.xz
+	vulkan-h264-ext.patch
 	ffmpeg-5.1.2-chromium_method-1.patch"
 
 build() {
@@ -27,6 +28,9 @@ build() {
 	addopt nvidia cuda
 	addopt nvidia cuvid 
 	addopt nv-codec-headers nvenc
+
+	# vulkan h264 extension fix
+	patch -Np1 -i $SRC/vulkan-h264-ext.patch
 	
 	# Adds an API necessary for some packages to build
 	patch -Np1 -i $SRC/ffmpeg-5.1.2-chromium_method-1.patch
@@ -34,7 +38,6 @@ build() {
 	# adds the ALSA library to the Flite LDFLAGS variable and
 	# enables the discovery of Flite
 	sed -i 's/-lflite"/-lflite -lasound"/' configure
-
 
 	./configure --prefix=/usr        \
 	            --enable-gpl         \
