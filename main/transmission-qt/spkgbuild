@@ -1,8 +1,8 @@
 # description	: Fast, easy, and free BitTorrent client (CLI tools, daemon and web client)
-# depends	: curl libevent openssl qt5 desktop-file-utils intltool cmake ninja
+# depends	: curl libevent qt6-base qt6-svg qt6-tools desktop-file-utils intltool cmake ninja
 
 name=transmission-qt
-version=4.0.0
+version=4.0.1
 release=1
 source="https://github.com/${name%-*}/${name%-*}/releases/download/$version/${name%-*}-$version.tar.xz"
 
@@ -15,15 +15,22 @@ build() {
 	-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 	-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 	-DCMAKE_BUILD_TYPE=Release \
+	-DRUN_CLANG_TIDY=OFF \
+	-DENABLE_TESTS=OFF \
+	-DENABLE_NLS=OFF \
+	-DINSTALL_DOC=ON \
 	-DENABLE_GTK=OFF \
 	-DENABLE_QT=ON \
-	-DENABLE_UTILS=ON \
-	-DENABLE_DAEMON=ON \
-	-DENABLE_WEB=ON \
-	-DENABLE_CLI=ON \
-	-Wno-dev
+	-DUSE_QT_VERSION=6 \
+	-DENABLE_UTILS=OFF \
+	-DENABLE_DAEMON=OFF \
+	-DENABLE_WEB=OFF \
+	-DENABLE_CLI=OFF 
+
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
 
+	rm -r $PKG/usr/share/doc
+	rm -r $PKG/usr/share/transmission
 	install -d $PKG/var/lib/transmission -o transmission -g transmission
 }
