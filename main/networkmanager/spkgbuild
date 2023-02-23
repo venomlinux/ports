@@ -1,8 +1,9 @@
 # description	: Network connection manager and user applications
-# depends	: modemmanager gobject-introspection vala glib libndp eudev curl util-linux nss nspr readline newt intltool libxslt dbus polkit python3-gobject3 gnutls
+# depends	: gobject-introspection vala glib libndp eudev curl util-linux nss nspr readline newt intltool libxslt dbus polkit python3-gobject3 gnutls
+# optionals	: modemmanager
 
 name=networkmanager
-version=1.42.0
+version=1.42.2
 release=1
 backup="etc/NetworkManager/NetworkManager.conf"
 source="$name-$version.tar.xz::https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
@@ -11,6 +12,7 @@ source="$name-$version.tar.xz::https://ftp.gnome.org/pub/gnome/sources/NetworkMa
 
 build() {
 
+	scratch isinstalled modemanager && OPT='-Dmodem_manager=true'
 	venom-meson NetworkManager-$version build \
 	      -Dlibaudit=no              \
 	      -Dlibpsl=false             \
@@ -20,13 +22,14 @@ build() {
 	      -Dselinux=false            \
 	      -Dudev_dir=/lib/udev       \
 	      -Dsession_tracking=no      \
-	      -Dmodem_manager=true       \
 	      -Dsystemdsystemunitdir=no  \
 	      -Dsystemd_journal=false    \
 	      -Dmodify_system=true       \
 	      -Ddocs=false               \
 	      -Dqt=false                 \
-	      -Dtests=no                 
+	      -Dtests=no		 \
+	      $OPT
+
 	meson compile -C build 
 	DESTDIR=$PKG meson install -C build
 
