@@ -1,0 +1,36 @@
+# description	: Open source web browser based on Firefox focusing on efficiency
+# depends	: desktop-file-utils nss gtk3 libxt ffmpeg mailcap alsa-lib dbus-glib
+
+name=palemoon
+version=32.0.1
+release=1
+source="palemoon.desktop
+		https://rm-eu.palemoon.org/release/palemoon-${version}.linux-x86_64-gtk3.tar.xz" # EU link
+#       https://rm-us.palemoon.org/release/palemoon-${version}.linux-x86_64-gtk3.tar.xz # US link
+rev_ex_libs="libxul.so libmozsqlite3.so libmozavutil.so liblgpllibs.so libmozgtk.so"
+
+build() {
+	cd ${name}
+
+	install -d $PKG/usr/bin
+	install -d $PKG/usr/lib
+	cp -r $SRC/$name/ $PKG/usr/lib/${name}
+	ln -s ../lib/$name/$name $PKG/usr/bin/${name}
+    install -Dm644 $SRC/palemoon.desktop "$PKG/usr/share/applications/palemoon.desktop"
+
+	# icons
+    install -Dm644 $SRC/${name}/browser/chrome/icons/default/default16.png \
+    "$PKG/usr/share/icons/hicolor/16x16/apps/${name}.png"
+    install -Dm644 $SRC/${name}/browser/chrome/icons/default/default32.png \
+    "$PKG/usr/share/icons/hicolor/32x32/apps/${name}.png"
+    install -Dm644 $SRC/${name}/browser/chrome/icons/default/default48.png \
+    "$PKG/usr/share/icons/hicolor/48x48/apps/${name}.png"
+    install -Dm644 $SRC/${name}/browser/icons/mozicon128.png \
+    "$PKG/usr/share/icons/hicolor/128x128/apps/${name}.png"
+
+	# exclude library for revdep
+        mkdir -p $PKG/etc/revdep.d/
+        for i in $rev_ex_libs; do
+                echo $i >> $PKG/etc/revdep.d/$name.conf
+        done
+}
