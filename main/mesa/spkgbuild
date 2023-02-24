@@ -15,7 +15,6 @@ build() {
 	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' || OPT_MESA_PLATFORMS='x11'
 
 	venom-meson $name-$version build \
-		-D b_lto=false \
 		-D dri3=enabled \
 		-D egl=enabled \
 		-D llvm=enabled \
