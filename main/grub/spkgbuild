@@ -3,11 +3,12 @@
 
 name=grub
 version=2.06
-release=3
+release=4
 backup="etc/default/grub"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	grub.default
-	detect-venom-fallback-initrd.patch"
+	detect-venom-fallback-initrd.patch
+	https://www.linuxfromscratch.org/patches/blfs/svn/grub-2.06-upstream_fixes-1.patch"
 
 build() {
 	# workaround for https://savannah.gnu.org/bugs/?60458
@@ -19,20 +20,26 @@ build() {
 
 	patch -Np1 -i $SRC/detect-venom-fallback-initrd.patch
 
-	# fix os name
+	# Fix an issue causing grub-install to fail when the /boot partition 
+	# (or the root partition if /boot is not a separate partition) 
+	# is created by e2fsprogs-1.47.0 or later:
+	patch -Np1 -i $SRC/grub-2.06-upstream_fixes-1.patch
+	
+	# Fix os name
 	sed 's|GNU/Linux|Linux|' -i "util/grub.d/10_linux.in"
 
 	autoreconf -fv
 	./configure --prefix=/usr \
-	            --sbindir=/sbin \
-	            --sysconfdir=/etc \
-	            --disable-efiemu \
-	            --disable-werror \
-		    --enable-grub-mount
+		--sbindir=/sbin \
+		--sysconfdir=/etc \
+		--disable-efiemu \
+		--disable-werror \
+		--enable-device-mapper \
+		--enable-grub-mount
 	make
 	make DESTDIR=$PKG install
 
 
-	# borrow from Arch
+	# Borrow from Arch
 	install -D -m0644 $SRC/grub.default $PKG/etc/default/grub
 }
