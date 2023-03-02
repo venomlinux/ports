@@ -9,7 +9,7 @@ source="https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/$name-v
 build() {
 	cd $name-v$version
 
-	autoreconf -fv
+	NOCONFIGURE=1 ./autogen.sh
 	./configure \
 		--prefix=/usr \
 		--bindir=/sbin \
