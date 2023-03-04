@@ -1,0 +1,532 @@
+#!/bin/sh -e
+
+showdisk() {
+	lsblk -nrp -o NAME,SIZE,TYPE,FSTYPE | grep -w disk | awk '{print $1}'
+}
+
+showswap() {
+	fdisk -l | grep ^\/dev | grep swap | awk '{print $1}'
+}
+
+showpartition() {
+	fdisk -l | grep ^\/dev | grep -Ev '(swap|Extended|EFI|BIOS|Empty)' | awk '{print $1}'
+}
+
+showkeymap() {
+	find /usr/share/keymaps/ -type f -iname "*.map.gz" -printf "%f\n" | sed 's|.map.gz||g' | sort
+}
+
+showlocale() {
+	grep "UTF-8" /etc/locales | awk '{print $1}' | sed 's/^#//;s/\.UTF-8//'
+}
+
+get_partition_info() {
+	lsblk -nrp -o NAME,SIZE,FSTYPE,LABEL | grep -w $1
+}
+
+title() {
+	cprint "VENOM LINUX INSTALLER"
+	printline
+	echo
+}
+
+cclear() {
+	clear
+	title
+}
+
+prompt_user() {
+	echo
+	cols=$(tput cols)
+	text=$@
+	length=${#text}
+	pad=$(( (cols - length) / 2 ))
+	printf "%*s%s" $pad "" "$text"
+}
+
+cprint() {
+	cols=$(tput cols)
+	text=$@
+	length=${#text}
+	pad=$(( (cols - length) / 2 ))
+	printf "%*s%s\n" $pad "" "$text"
+}
+
+printline() {
+	cols=$(tput cols)
+	printf "%${cols}s\n" "" | tr " " "*"
+}
+
+config_rootpart() {
+	print_partitioning_tips
+	unset root_partition_var disk disktool swap_partition_var filesystem_var
+	while [ ! "$disktool" ]; do
+		cclear
+		cprint "1. cfdisk"
+		cprint "2. fdisk"
+		cprint "0. skip"
+		prompt_user "Select tool for partitioning or skip: "
+		read input
+		case $input in
+			1) disktool=cfdisk;;
+			2) disktool=fdisk;;
+			0) disktool=skip;;
+		esac
+	done
+	if [ "$disktool" != "skip" ]; then
+		while [ ! "$disk" ]; do
+			cclear
+			count=0
+			for i in $(showdisk); do
+				count=$((count+1))
+				ii=$(get_partition_info $i)
+				cprint "$count. $ii"
+			done
+			prompt_user "Enter disk [1-$count]: "
+			read input
+			[ "$input" = 0 ] && continue
+			[ "$input" -gt "$count" ] && continue
+			disk=$(showdisk | head -n$input | tail -n1)
+		done
+		$disktool $disk
+	fi
+	while [ ! "$root_partition_var" ]; do
+		cclear
+		count=0
+		for i in $(showpartition); do
+			count=$((count+1))
+			ii=$(get_partition_info $i)
+			cprint "$count. $ii"
+		done
+		prompt_user "Enter partition [1-$count]: "
+		read input
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "$count" ] && continue
+		root_partition_var=$(showpartition | head -n$input | tail -n1)
+	done
+	while [ ! "$filesystem_var" ]; do
+		fs="ext4 ext3 ext2 btrfs reiserfs xfs"
+		cclear
+		count=0
+		for i in $fs; do
+			count=$((count+1))
+			cprint "$count. $i"
+		done
+		prompt_user "Choose filesystem type for '$root_partition_var' [1-$count]: "
+		read input
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "$count" ] && continue
+		filesystem_var=$(echo $fs | tr ' ' '\n' | head -n$input | tail -n1)
+	done
+	if [ "$(showswap)" ]; then
+		while [ ! "$swap_partition_var" ]; do
+			cclear
+			count=0
+			for i in $(showswap); do
+				count=$((count+1))
+				ii=$(get_partition_info $i)
+				cprint "$count. $ii"
+			done
+			cprint "0. skip"
+			prompt_user "Choose partition type for swap [1-$count]: "
+			read input
+			[ "$input" -gt "$count" ] && continue
+			swap_partition_var=$(showswap | head -n$input | tail -n1)
+			[ "$input" = 0 ] && {
+				swap_partition_var=skip
+				continue
+			}
+		done
+	else
+		swap_partition_var=skip
+	fi
+			
+}
+
+config_keymap() {
+	unset keymap keymappart
+	while [ ! "$keymappart" ]; do
+		cclear
+		prompt_user "Enter part of your keymap (Eg: us): "
+		read input
+		keymappart=$(showkeymap | grep $input)
+	done
+	while [ ! "$keymap" ]; do
+		cclear
+		count=0
+		for i in $keymappart; do
+			count=$((count+1))
+			cprint "$count. $i"
+		done
+		prompt_user "Enter keymap [1-$count]: "
+		read input
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "$count" ] && continue
+		keymap=$(echo $keymappart | tr ' ' '\n' | head -n$input | tail -n1)
+	done
+}
+
+config_locale() {
+	unset localepart locale_var
+	while [ ! "$localepart" ]; do
+		cclear
+		prompt_user "Enter part of your locale (Eg: en): "
+		read input
+		localepart=$(showlocale | grep -i $input)
+	done
+	while [ ! "$locale_var" ]; do
+		cclear
+		count=0
+		for i in $localepart; do
+			count=$((count+1))
+			cprint "$count. $i"
+		done
+		prompt_user "Enter locale [1-$count]: "
+		read input
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "$count" ] && continue
+		locale_var=$(echo $localepart | tr ' ' '\n' | head -n$input | tail -n1)
+	done
+}
+
+config_hostname() {
+	cclear
+	if [ "$hostname" ]; then
+		_preset=$hostname
+	else
+		_preset=venom
+	fi
+	prompt_user "Enter hostname [$_preset]: "
+	read input
+	if [ "$input" ]; then
+		hostname=$input
+	else
+		hostname=$_preset
+	fi
+}
+
+config_useraccount() {
+	unset user_pswd_var
+	while [ ! "$user_pswd_var" ]; do
+		cclear
+		if [ "$user_var" ]; then
+			_preset=$user_var
+		else
+			_preset=venom
+		fi
+		prompt_user "Enter username [$_preset]: "
+		read input
+		if [ "$input" ]; then
+			user_var=$input
+		else
+			user_var=$_preset
+		fi
+		prompt_user "Enter password for user '$user_var' (hidden): "
+		stty -echo
+		read input
+		echo
+		prompt_user "Enter password for user '$user_var' again (hidden): "
+		read input2
+		stty echo
+		echo
+		if [ "$input" = "$input2" ]; then
+			user_pswd_var=$input
+		else
+			cprint "Password does not match!. Try again."
+			sleep 1
+		fi
+	done
+}
+
+config_rootpswd() {
+	unset root_pswd_var
+	while [ ! "$root_pswd_var" ]; do
+		cclear
+		prompt_user "Enter password for root (hidden): "
+		stty -echo
+		read input
+		echo
+		prompt_user "Enter password for root again (hidden): "
+		read input2
+		stty echo
+		echo
+		if [ "$input" = "$input2" ]; then
+			root_pswd_var=$input
+		else
+			cprint "Password does not match!. Try again."
+			sleep 1
+		fi
+	done
+}
+
+config_bootloader() {
+	unset bootloader_disk_var
+	while [ ! "$bootloader_disk_var" ]; do
+		cclear
+		count=0
+		for i in $(showdisk); do
+			count=$((count+1))
+			ii=$(get_partition_info $i)
+			cprint "$count. $ii"
+		done
+		cprint "0. skip"
+		prompt_user "Enter disk [0-$count]: "
+		read input
+		[ "$input" -gt "$count" ] && continue
+		if [ "$input" = 0 ]; then
+			bootloader_disk_var=skip
+		else
+			bootloader_disk_var=$(showdisk | head -n$input | tail -n1)
+		fi
+	done
+}
+
+config_timezone() {
+	unset timezone_var location country listloc listc countrypart
+	# location
+	for l in /usr/share/zoneinfo/*; do
+		[ -d $l ] || continue
+		l=${l##*/}
+		case $l in
+			Etc|posix|right) continue;;
+		esac
+		listloc="$listloc $l"
+	done
+	while [ ! "$location" ]; do		
+		cclear
+		count=0
+		for l in $listloc; do
+			count=$((count+1))
+			cprint "$count. $l"
+		done
+		prompt_user "Enter location [1-$count]: "
+		read input
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "$count" ] && continue
+		location=$(echo $listloc | tr ' ' '\n' | head -n$input | tail -n1)
+	done
+	# country
+	for c in /usr/share/zoneinfo/$location/*; do
+		c=${c##*/}
+		listc="$listc $c"
+	done
+	while [ ! "$countrypart" ]; do
+		cclear
+		prompt_user "Enter part of your country name (Eg: us): "
+		read input
+		countrypart=$(echo $listc | tr ' ' '\n' | grep -i $input)
+	done
+	while [ ! "$country" ]; do		
+		cclear
+		count=0
+		for c in $countrypart; do
+			count=$((count+1))
+			cprint "$count. $c"
+		done
+		prompt_user "Enter country [1-$count]: "
+		read input
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "$count" ] && continue
+		country=$(echo $countrypart | tr ' ' '\n' | head -n$input | tail -n1)
+	done
+	timezone_var=$location/$country
+}
+
+start_install() {
+	cclear
+	
+	umount -f $ROOT
+	
+	echo "Create filesystem $filesystem_var on $root_partition_var"
+	case $filesystem_var in
+		ext4|ext3|ext2) mkfs.$filesystem_var -F -L Venom $root_partition_var;;
+		xfs) mkfs.xfs -f -m crc=0 -L Venom $root_partition_var;;
+		reiserfs) mkreiserfs -q -l Venom $root_partition_var;;
+		btrfs) mkfs.btrfs -f -L Venom $root_partition_var;;
+	esac
+	
+	if [ "$swap_partition_var" != skip ]; then
+		echo "Making swap partition on $swap_partition_var"
+		mkswap $swap_partition_var
+	fi
+	
+	rm -fr $ROOT
+	mkdir -p $ROOT
+	
+	echo "Mounting $root_partition_var on $ROOT"
+	mount $root_partition_var $ROOT
+	
+	echo "Installing system to $root_partition_var"
+	unsquashfs -f -i -d $ROOT $ROOTSFS
+	
+	if [ -f /root/pre-install.sh ]; then
+		echo "running pre-install.sh script"
+		sh /root/pre-install.sh
+	fi
+
+	if [ -x $ROOT/etc/rc.d/networkmanager ]; then
+		network=networkmanager
+	elif [ -x $ROOT/etc/rc.d/network ]; then
+		network=network
+	fi
+	
+	if [ -x $ROOT/etc/rc.d/lxdm ]; then
+		dm=lxdm
+	elif [ -x $ROOT/etc/rc.d/lightdm ]; then
+		dm=lightdm
+	elif [ -x $ROOT/etc/rc.d/sddm ]; then
+		dm=sddm
+	elif [ -x $ROOT/etc/rc.d/slim ]; then
+		dm=slim
+	fi
+
+	echo "Applying saved settings..."
+
+	daemons="sysklogd dbus $dm alsa bluetooth gpm $network"
+
+	# enable services
+	for d in $daemons; do
+		if [ -x $ROOT/etc/rc.d/$d ]; then
+			if [ "$dd" ]; then
+				dd="$dd $d"
+			else
+				dd="$d"
+			fi
+		fi
+	done
+	
+	# hostname
+	echo "$hostname_var" > $ROOT/etc/hostname
+	
+	# hardware clock
+	sed "s;#HARDWARECLOCK=.*;HARDWARECLOCK=\"$clock_var\";" -i $ROOT/etc/rc.conf
+	
+	# timezone
+	sed "s;#TIMEZONE=.*;TIMEZONE=\"$timezone_var\";" -i $ROOT/etc/rc.conf
+	
+	# keymap
+	sed "s;#KEYMAP=.*;KEYMAP=\"$keymap_var\";" -i $ROOT/etc/rc.conf
+	
+	# daemons
+	sed "s;#DAEMONS=.*;DAEMONS=\"$dd\";" -i $ROOT/etc/rc.conf
+		
+	# fstab
+	echo "Setup fstab"
+	echo "# <device> <dir> <type> <options> <dump> <fsck>" > $ROOT/etc/fstab
+	echo "UUID=$(blkid -o value -s UUID "$root_partition_var") / $filesystem_var defaults 1 1" >> $ROOT/etc/fstab
+	# EFI partition
+	#echo "UUID=$(blkid -o value -s UUID "$efi_partition_var") /boot/efi vfat defaults 0 2" >> $ROOT/etc/fstab
+	
+	# swap
+	if [ "$swap_partition_var" != skip ]; then
+		echo "UUID=$(blkid -o value -s UUID "$swap_partition_var") swap swap pri=1 0 0" >> $ROOT/etc/fstab
+	fi
+
+	# create user
+	useradd -R $ROOT -m -G users,wheel,audio,video -s /bin/bash $user_var
+	echo "$user_var:$user_pswd_var" | chpasswd -R $ROOT -c SHA512
+
+	# root pswd
+	echo "root:$root_pswd_var" | chpasswd -R $ROOT -c SHA512
+
+	# locale
+	sed "s/#$locale_var/$locale_var/" -i $ROOT/etc/locales
+	echo "LANG=$locale_var.UTF-8" > $ROOT/etc/locale.conf
+	xchroot $ROOT genlocales
+
+	# initramfs
+	xchroot $ROOT mkinitramfs
+
+	# grub
+	# EFI
+	#run_chroot grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=venom_grub --recheck $bootloader_disk_var
+	# mbr
+	echo GRUB_DISABLE_OS_PROBER=false >> $ROOT/etc/default/grub
+	xchroot $ROOT grub-install --target=i386-pc $bootloader_disk_var
+	xchroot $ROOT grub-mkconfig -o /boot/grub/grub.cfg
+	
+	while [ ! "$done" ]; do
+		cclear	
+		cprint "Installation complete!"
+		echo
+		cprint "1. exit installer"
+		cprint "2. chroot into installed system"
+		cprint "3. reboot"
+		cprint "4. poweroff"
+		prompt_user "choose option: "
+		read input
+		case $input in
+			1) umount $ROOT; exit 0;;
+			2) xchroot $ROOT;;
+			3) umount $ROOT; reboot;;
+			4) umount $ROOT; poweroff;;
+		esac
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "4" ] && continue
+		done=$input
+	done
+}
+
+print_partitioning_tips() {
+	cclear
+	cprint "# Partitioning Tips #"
+	echo
+	cprint "For BIOS systems, MBR or GPT partition tables are supported. To use GPT"
+	cprint "partition in BIOS system 1MB partition must be created and set as 'BIOS"
+	cprint "boot'. For EFI systems, GPT partition is required and a FAT32 partition"
+	cprint "with at least 100MB set as 'EFI System' must be created. This partition"
+	cprint "will be used as 'EFI System Partition' with '/boot/efi' as mountpoint."
+	prompt_user "Press ENTER to continue..."
+	read input
+}
+
+print_selection() {
+	cprint "1. partitions: $root_partition_var $filesystem_var $([ $swap_partition_var ] && echo swap=$swap_partition_var)"
+	cprint "2. keymap: $keymap"
+	cprint "3. timezone: $timezone_var"
+	cprint "4. locale: $locale_var"
+	cprint "5. hostname: $hostname"
+	cprint "6. user account: $user_var $(echo $user_pswd_var | tr '[:alpha:]' '*' | tr '[:alnum:]' '*')"
+	cprint "7. root account: $(echo $root_pswd_var | tr '[:alpha:]' '*' | tr '[:alnum:]' '*')"
+	cprint "8. bootloader: $bootloader_disk_var"
+	cprint "9. Starts Installation"
+	cprint "0. exit installer"
+	echo
+}
+
+main() {
+	while true; do
+		cclear
+		print_selection
+		prompt_user "Enter choice [1-9]: "
+		read input
+		case $input in
+			1) config_rootpart;;
+			2) config_keymap;;
+			3) config_timezone;;
+			4) config_locale;;
+			5) config_hostname;;
+			6) config_useraccount;;
+			7) config_rootpswd;;
+			8) config_bootloader;;
+			9) start_install;;
+			0) exit;;
+		esac
+	done
+}
+
+ROOT=/mnt/install
+
+if [ -f "/run/initramfs/ram/filesystem.sfs" ]; then
+	ROOTSFS="/run/initramfs/ram/filesystem.sfs"
+else
+	ROOTSFS="/run/initramfs/medium/rootfs/filesystem.sfs"
+fi
+
+if [ -e /sys/firmware/efi/systab ]; then
+	EFI_SYSTEM=1
+fi
+
+main
+
+exit 0

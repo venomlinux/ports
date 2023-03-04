@@ -552,11 +552,6 @@ install_now() {
 		countsfs=$(( countsfs + 1 ))
 		echo " $(( 100*countsfs/totalsfs ))% $line"
 	done ) | _dialog --progressbox "unsquash filesystem to $partition_var..." 20 70
-	
-	if [ -f /root/post-install.sh ]; then
-		print_info "Running post-install script..."
-		VIROOTFS=$VIROOTFS VENOMROOTFS=$VENOMROOTFS sh /root/post-install.sh &>/null
-	fi
 
 	if [ -x $VENOMROOT/etc/rc.d/networkmanager ]; then
 		network=networkmanager
@@ -654,19 +649,9 @@ install_now() {
 		run_chroot grub-mkconfig -o /boot/grub/grub.cfg &>/dev/null || print_error_msg "Error generating grub config"
 	fi
 	
-	if [ $(type -p startxfce4) ]; then
-		SSN=$(type -p startxfce4)
-	elif [ $(type -p mate-session) ]; then
-		SSN=$(type -p mate-session)
-	elif [ $(type -p startlxqt) ]; then
-		SSN=$(type -p startlxqt)
-	elif [ $(type -p startlxde) ]; then
-		SSN=$(type -p startlxde)
-	fi
-
-	if [ -x $(type -p lxdm) ] && [ "$SSN" ]; then
-		sed -e "s,.*session.*=.*,session=$SSN," -i $VENOMROOT/etc/lxdm/lxdm.conf
-		#sed -e "s,.*autologin.*=.*,autologin=$USER," -i $VENOMROOT/etc/lxdm/lxdm.conf
+	if [ -f /root/post-install.sh ]; then
+		print_info "Running post-install script..."
+		VIROOTFS=$VIROOTFS VENOMROOTFS=$VENOMROOTFS sh /root/post-install.sh &>/null
 	fi
 	
 	#print_info "Resolve temporary packages..."
