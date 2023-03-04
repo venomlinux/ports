@@ -5,8 +5,9 @@
 
 name=obs-studio
 version=29.0.2
-release=1
+release=2
 source="https://github.com/obsproject/$name/archive/$version/$name-$version.tar.gz
+	ffmpeg6.patch
 	disable-some-plugins.patch"
 
 build() {
@@ -15,6 +16,7 @@ build() {
 		-v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
 
 	patch -Np1 -d $name-$version -i $SRC/disable-some-plugins.patch
+	patch -Np1 -d $name-$version -i $SRC/ffmpeg6.patch
 
 	export QT_QPA_PLATFORMTHEME="qt6ct"
 
