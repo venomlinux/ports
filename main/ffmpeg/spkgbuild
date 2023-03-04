@@ -2,10 +2,9 @@
 # depends	: libass fdk-aac freetype2 lame gnutls libtheora libvorbis libvpx opus x264 x265 alsa-lib sdl2 yasm aom dav1d
 
 name=ffmpeg
-version=5.1.2
-release=3
+version=6.0
+release=1
 source="https://ffmpeg.org/releases/$name-$version.tar.xz
-	vulkan-h264-ext.patch
 	ffmpeg-5.1.2-chromium_method-1.patch"
 
 build() {
@@ -28,9 +27,9 @@ build() {
 	addopt nvidia cuda
 	addopt nvidia cuvid 
 	addopt nv-codec-headers nvenc
+	addopt amf-headers amf
+	addopt svt-av1 libsvtav1
 
-	# vulkan h264 extension fix
-	patch -Np1 -i $SRC/vulkan-h264-ext.patch
 	
 	# Adds an API necessary for some packages to build
 	patch -Np1 -i $SRC/ffmpeg-5.1.2-chromium_method-1.patch
@@ -45,8 +44,17 @@ build() {
 	            --enable-version3    \
 	            --enable-nonfree     \
 	            --disable-static     \
+		    --enable-lto         \
 	            --enable-shared      \
 	            --disable-debug      \
+		    --disable-libcelt    \
+		    --disable-optimizations \
+		    --disable-stripping  \
+		    --enable-swresample  \
+		    --enable-avfilter    \
+		    --enable-pic         \
+		    --enable-postproc    \
+		    --enable-pthreads    \
 	            --enable-libass      \
 	            --enable-libfdk-aac  \
 	            --enable-libfreetype \
@@ -58,9 +66,8 @@ build() {
 	            --enable-libx264     \
 	            --enable-libx265	 \
 	            --enable-libaom      \
-              --enable-libdav1d    \
-							$_opt                \
-              --enable-lto
+		    --enable-libdav1d    \
+		    $_opt                
 	make
 	gcc tools/qt-faststart.c -o tools/qt-faststart
 	make DESTDIR=$PKG install
