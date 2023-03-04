@@ -2,15 +2,12 @@
 # depends	: lzo zstd
 
 name=btrfs-progs
-version=6.2
-release=2
+version=6.2.1
+release=1
 source="https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/$name-v$version.tar.xz"
 
 build() {
 	cd $name-v$version
-
-	# tarball didn't put this in the correct place
-	cp config.h.in include/
 
 	./configure \
 		--prefix=/usr \
