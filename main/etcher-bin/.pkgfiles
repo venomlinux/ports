@@ -1,4 +1,4 @@
-etcher-bin-1.14.3-1
+etcher-bin-1.18.4-1
 drwxr-xr-x root/root    opt/
 drwxr-xr-x root/root    opt/balenaEtcher/
 -rw-r--r-- root/root    opt/balenaEtcher/LICENSE.electron.txt
@@ -8,6 +8,7 @@ drwxr-xr-x root/root    opt/balenaEtcher/
 -rwxr-xr-x root/root    opt/balenaEtcher/chrome-sandbox
 -rw-r--r-- root/root    opt/balenaEtcher/chrome_100_percent.pak
 -rw-r--r-- root/root    opt/balenaEtcher/chrome_200_percent.pak
+-rwxr-xr-x root/root    opt/balenaEtcher/chrome_crashpad_handler
 -rw-r--r-- root/root    opt/balenaEtcher/icudtl.dat
 -rwxr-xr-x root/root    opt/balenaEtcher/libEGL.so
 -rwxr-xr-x root/root    opt/balenaEtcher/libGLESv2.so
@@ -15,6 +16,7 @@ drwxr-xr-x root/root    opt/balenaEtcher/
 -rwxr-xr-x root/root    opt/balenaEtcher/libvk_swiftshader.so
 -rwxr-xr-x root/root    opt/balenaEtcher/libvulkan.so.1
 drwxr-xr-x root/root    opt/balenaEtcher/locales/
+-rw-r--r-- root/root    opt/balenaEtcher/locales/af.pak
 -rw-r--r-- root/root    opt/balenaEtcher/locales/am.pak
 -rw-r--r-- root/root    opt/balenaEtcher/locales/ar.pak
 -rw-r--r-- root/root    opt/balenaEtcher/locales/bg.pak
@@ -65,6 +67,7 @@ drwxr-xr-x root/root    opt/balenaEtcher/locales/
 -rw-r--r-- root/root    opt/balenaEtcher/locales/th.pak
 -rw-r--r-- root/root    opt/balenaEtcher/locales/tr.pak
 -rw-r--r-- root/root    opt/balenaEtcher/locales/uk.pak
+-rw-r--r-- root/root    opt/balenaEtcher/locales/ur.pak
 -rw-r--r-- root/root    opt/balenaEtcher/locales/vi.pak
 -rw-r--r-- root/root    opt/balenaEtcher/locales/zh-CN.pak
 -rw-r--r-- root/root    opt/balenaEtcher/locales/zh-TW.pak
@@ -86,9 +89,6 @@ drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/lib/gui/app/css
 drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/media/
 -rw-r--r-- root/root    opt/balenaEtcher/resources/app/generated/media/icon.png
 drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/
-drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/@balena/
-drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/@balena/node-crc-utils/
--rw-r--r-- root/root    opt/balenaEtcher/resources/app/generated/modules/@balena/node-crc-utils/crc32.wasm
 drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/@ronomon/
 drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/@ronomon/direct-io/
 -rw-r--r-- root/root    opt/balenaEtcher/resources/app/generated/modules/@ronomon/direct-io/binding.node
@@ -96,9 +96,6 @@ drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/driveli
 drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/drivelist/build/
 drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/drivelist/build/Release/
 -rw-r--r-- root/root    opt/balenaEtcher/resources/app/generated/modules/drivelist/build/Release/drivelist.node
-drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/ext2fs/
-drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/ext2fs/lib/
--rw-r--r-- root/root    opt/balenaEtcher/resources/app/generated/modules/ext2fs/lib/libext2fs.wasm
 drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/lzma-native/
 drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/lzma-native/prebuilds/
 drwxr-xr-x root/root    opt/balenaEtcher/resources/app/generated/modules/lzma-native/prebuilds/binding/
@@ -145,32 +142,27 @@ drwxr-xr-x root/root    opt/balenaEtcher/resources/app/lib/shared/catalina-sudo/
 -rwxr-xr-x root/root    opt/balenaEtcher/resources/app/lib/shared/catalina-sudo/sudo-askpass.osascript-zh.js
 -rw-r--r-- root/root    opt/balenaEtcher/resources/app/package.json
 -rw-r--r-- root/root    opt/balenaEtcher/snapshot_blob.bin
-drwxr-xr-x root/root    opt/balenaEtcher/swiftshader/
--rwxr-xr-x root/root    opt/balenaEtcher/swiftshader/libEGL.so
--rwxr-xr-x root/root    opt/balenaEtcher/swiftshader/libGLESv2.so
 -rw-r--r-- root/root    opt/balenaEtcher/v8_context_snapshot.bin
 -rw-r--r-- root/root    opt/balenaEtcher/vk_swiftshader_icd.json
 drwxr-xr-x root/root    usr/
+drwxr-xr-x root/root    usr/bin/
+lrwxrwxrwx root/root    usr/bin/balena-etcher -> /opt/balenaEtcher/balena-etcher
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/.build-id/
+drwxr-xr-x root/root    usr/lib/.build-id/0c/
+lrwxrwxrwx root/root    usr/lib/.build-id/0c/c0a6654ccba2233fe9ae923ec3b41fbff88ecf -> ../../../../opt/balenaEtcher/libGLESv2.so
 drwxr-xr-x root/root    usr/lib/.build-id/32/
-lrwxrwxrwx root/root    usr/lib/.build-id/32/d69723f0375cd1939f51b9f212e1be869275af -> ../../../../opt/balenaEtcher/libGLESv2.so
-drwxr-xr-x root/root    usr/lib/.build-id/3c/
-lrwxrwxrwx root/root    usr/lib/.build-id/3c/f3dce1c9e94bdf4e5ae52a57a14e8b02f3e2cf -> ../../../../opt/balenaEtcher/swiftshader/libEGL.so
-drwxr-xr-x root/root    usr/lib/.build-id/4b/
-lrwxrwxrwx root/root    usr/lib/.build-id/4b/d1434c7f9139c9e65deb95dad4693bf522e713 -> ../../../../opt/balenaEtcher/chrome-sandbox
+lrwxrwxrwx root/root    usr/lib/.build-id/32/dd851d017dce968296854d769ce2eff5c7b530 -> ../../../../opt/balenaEtcher/libvulkan.so.1
+drwxr-xr-x root/root    usr/lib/.build-id/42/
+lrwxrwxrwx root/root    usr/lib/.build-id/42/05ff88f87056d6a17255e362a8e13370ff7d5a -> ../../../../opt/balenaEtcher/libffmpeg.so
+lrwxrwxrwx root/root    usr/lib/.build-id/42/49e6911dafa4ae6641c876a0e3e2f42774868e -> ../../../../opt/balenaEtcher/libEGL.so
 drwxr-xr-x root/root    usr/lib/.build-id/63/
-lrwxrwxrwx root/root    usr/lib/.build-id/63/a48eae3f41e679c8ca2735c8250de0c7d9f587 -> ../../../../opt/balenaEtcher/libvk_swiftshader.so
-drwxr-xr-x root/root    usr/lib/.build-id/ba/
-lrwxrwxrwx root/root    usr/lib/.build-id/ba/ced248fd6f456e45c904f72299073c22f5b064 -> ../../../../opt/balenaEtcher/libffmpeg.so
-drwxr-xr-x root/root    usr/lib/.build-id/de/
-lrwxrwxrwx root/root    usr/lib/.build-id/de/95722a2dd82ddae1c67bb86600eab2733a2b6e -> ../../../../opt/balenaEtcher/balena-etcher.bin
-drwxr-xr-x root/root    usr/lib/.build-id/e8/
-lrwxrwxrwx root/root    usr/lib/.build-id/e8/75bf159c6409cfeb2471b9e8f4bb917b67a4e0 -> ../../../../opt/balenaEtcher/swiftshader/libGLESv2.so
-drwxr-xr-x root/root    usr/lib/.build-id/f9/
-lrwxrwxrwx root/root    usr/lib/.build-id/f9/5ad887e13e9f4ceb539f8b9375c198875cf2e0 -> ../../../../opt/balenaEtcher/libvulkan.so.1
-drwxr-xr-x root/root    usr/lib/.build-id/fc/
-lrwxrwxrwx root/root    usr/lib/.build-id/fc/45cc0e8eeb65dbed3d516283e3b7903f59fc1f -> ../../../../opt/balenaEtcher/libEGL.so
+lrwxrwxrwx root/root    usr/lib/.build-id/63/e217fb9027ae8d5a8d70bd647853da7daea90a -> ../../../../opt/balenaEtcher/libvk_swiftshader.so
+drwxr-xr-x root/root    usr/lib/.build-id/a2/
+lrwxrwxrwx root/root    usr/lib/.build-id/a2/562c52725bb7caa27cd0de814ec368b8c45e7f -> ../../../../opt/balenaEtcher/chrome-sandbox
+drwxr-xr-x root/root    usr/lib/.build-id/a5/
+lrwxrwxrwx root/root    usr/lib/.build-id/a5/924fba24e3ec19cd288fb611d5662b38cb10db -> ../../../../opt/balenaEtcher/chrome_crashpad_handler
+lrwxrwxrwx root/root    usr/lib/.build-id/a5/d78522a85bda84f552056496d8b2033003de50 -> ../../../../opt/balenaEtcher/balena-etcher.bin
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/applications/
 -rw-r--r-- root/root    usr/share/applications/balena-etcher.desktop
