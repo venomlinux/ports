@@ -1,6 +1,6 @@
 # description	: A C library for reading, creating, and modifying zip archives 
 # homepage	: https://libzip.org
-# depends	: cmake zlib bzip2 openssl gnutls
+# depends	: cmake ninja zlib bzip2 openssl gnutls
 
 name=libzip
 version=1.9.2
@@ -8,7 +8,7 @@ release=1
 source="https://libzip.org/download/${name}-${version}.tar.xz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

@@ -9,14 +9,15 @@ source="$name-$version.tar.gz::https://www.doxygen.nl/files/$name-$version.src.t
 
 build() {
 
-   cmake -S ${name}-${version} -B build -G Ninja \
-    -D CMAKE_INSTALL_PREFIX=/usr \
-    -D CMAKE_BUILD_TYPE=Release \
-    -D CMAKE_CXX_FLAGS_RELEASE="${CXXFLAGS}" \
-    -D CMAKE_C_FLAGS_RELEASE="${CFLAGS}" \
-    -Wno-dev
-  cmake --build build
-  DESTDIR=$PKG cmake --install build
-  install -D -m 0755 $SRC/${name}-${version}/doc/${name}.1 \
-     $PKG/usr/share/man/man1/${name}.1
+	cmake -S ${name}-${version} -B build -G Ninja \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="${CXXFLAGS}" \
+		-D CMAKE_C_FLAGS_RELEASE="${CFLAGS}" \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+
+	install -D -m 0755 $SRC/${name}-${version}/doc/${name}.1 \
+				$PKG/usr/share/man/man1/${name}.1
 }

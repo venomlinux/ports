@@ -1,6 +1,6 @@
 # description	: An offspring of rxvt-unicode that handles pty/tty/utmp/wtmp/lastlog handling in mostly OS-independent ways
 # homepage	: http://dist.schmorp.de/libptytty/
-# depends	: cmake
+# depends	: cmake ninja
 
 name=libptytty
 version=2.0
@@ -8,7 +8,7 @@ release=1
 source="http://dist.schmorp.de/libptytty/libptytty-2.0.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

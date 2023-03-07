@@ -1,6 +1,6 @@
 # description	: LIBNFS is a client library for accessing NFS shares over a network.
 # homepage	: https://github.com/sahlberg/libnfs
-# depends	: cmake
+# depends	: cmake ninja
 
 name=libnfs
 version=5.0.2
@@ -8,7 +8,7 @@ release=1
 source="https://github.com/sahlberg/libnfs/archive/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$name-$version -B build \
+	cmake -S $name-$name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

@@ -1,6 +1,6 @@
 # description	: Terminal based 'The Matrix' like implementation
 # homepage	: https://github.com/abishekvashok/cmatrix
-# depends	: cmake ncurses
+# depends	: cmake ninja ncurses
 
 name=cmatrix
 version=2.0
@@ -8,7 +8,7 @@ release=1
 source="https://github.com/abishekvashok/cmatrix/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \

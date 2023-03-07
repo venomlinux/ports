@@ -1,5 +1,5 @@
 # description	: Parses so-called cue sheets and handles the parsed data
-# depends	: cmake
+# depends	: cmake ninja
 
 name=libcue
 version=2.2.1
@@ -9,7 +9,7 @@ source="$name-$version.tar.gz::https://github.com/lipnitsk/libcue/archive/v$vers
 build() {
 	export CFLAGS="$CFLAGS -fPIC"
 
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
