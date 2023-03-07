@@ -1,5 +1,5 @@
 # description	: Open source multimedia framework, designed and developed for television broadcasting
-# depends	: qt5 frei0r-plugins
+# depends	: cmake ninja qt5 frei0r-plugins
 
 name=mlt
 version=7.14.0
@@ -7,7 +7,7 @@ release=1
 source="https://github.com/mltframework/mlt/releases/download/v$version/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
