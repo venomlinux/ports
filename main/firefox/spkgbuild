@@ -3,14 +3,22 @@
 
 name=firefox
 version=110.0.1
-release=1
+release=2
 source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
-	$name.desktop"
+	$name.desktop
+	libwebrtc-screen-cast-sync.patch
+	squashed-ffmpeg-6.0-update.patch"
 
 build() {
 	INITDIR=$PWD
 
 	cd $name-$version
+
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=1790496
+	patch -Np1 -i $SRC/libwebrtc-screen-cast-sync.patch
+
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=1819374
+	patch -Np1 -i $SRC/squashed-ffmpeg-6.0-update.patch
 
 cat <<- EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-shared
