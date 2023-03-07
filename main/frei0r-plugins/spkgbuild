@@ -1,5 +1,5 @@
 # description	: Minimalistic plugin API for video effects
-# depends	: gavl cmake
+# depends	: cmake ninja gavl
 
 name=frei0r-plugins
 version=1.8.0
@@ -7,7 +7,7 @@ release=1
 source="https://files.dyne.org/frei0r/releases/$name-$version.tar.gz"
 
 build() {
-	cmake  -S $name-$version -B build \
+	cmake  -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

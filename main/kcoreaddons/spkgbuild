@@ -1,6 +1,6 @@
 # description	    : Qt5 addon library with a collection of non-GUI utilities
 # homepage	    : https://invent.kde.org/frameworks/kcoreaddons
-# depends	    : extra-cmake-modules qt5 shared-mime-info clang doxygen
+# depends	    : extra-cmake-modules ninja qt5 shared-mime-info clang doxygen
 
 
 name=kcoreaddons
@@ -9,7 +9,7 @@ release=3
 source="https://download.kde.org/stable/frameworks/${version%.*}/$name-$version.tar.xz"
 
 build() {
-	cmake -B build -S $name-$version \
+	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr\
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
