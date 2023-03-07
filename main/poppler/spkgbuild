@@ -1,5 +1,5 @@
 # description	: PDF rendering library and command line tools used to manipulate PDF files
-# depends	: cmake fontconfig cairo libjpeg-turbo libpng nss openjpeg2 poppler-data
+# depends	: cmake fontconfig cairo libjpeg-turbo libpng nss openjpeg2 poppler-data ninja
 
 name=poppler
 version=23.03.0
@@ -7,7 +7,7 @@ release=1
 source="https://poppler.freedesktop.org/$name-$version.tar.xz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
