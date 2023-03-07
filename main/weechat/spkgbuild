@@ -1,5 +1,5 @@
 # description	: The extensible chat client
-# depends	: cmake ncurses curl zlib libgcrypt gnutls guile tcl lua ruby zstd
+# depends	: cmake ncurses curl zlib libgcrypt gnutls guile tcl lua ruby zstd ninja
 
 name=weechat
 version=3.8
@@ -7,7 +7,7 @@ release=1
 source="https://weechat.org/files/src/weechat-$version.tar.xz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
        		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

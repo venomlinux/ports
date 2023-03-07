@@ -1,6 +1,6 @@
 # description	: A terminal integrated SSH/Telnet client
 # homepage	: https://www.chiark.greenend.org.uk/~sgtatham/putty/
-# depends	: cmake gtk3
+# depends	: cmake gtk3 ninja
 
 name=putty
 version=0.78
@@ -10,7 +10,7 @@ source="https://the.earth.li/~sgtatham/putty/$version/$name-$version.tar.gz
 
 build() {
 
-cmake -S $name-$version -B build \
+cmake -S $name-$version -B build -G Ninja \
      -DCMAKE_INSTALL_PREFIX=/usr \
      -DCMAKE_INSTALL_LIBDIR=lib \
      -DCMAKE_INSTALL_LIBEXECDIR=lib \
