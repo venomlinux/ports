@@ -342,7 +342,7 @@ start_install() {
 		ext4|ext3|ext2) mkfs.$filesystem_var -F -L Venom $root_partition_var;;
 		xfs) mkfs.xfs -f -m crc=0 -L Venom $root_partition_var;;
 		reiserfs) mkreiserfs -q -l Venom $root_partition_var;;
-		btrfs) mkfs.btrfs -f -L Venom $root_partition_var;;
+		btrfs) mkfs.btrfs --csum xxhash -f -L Venom $root_partition_var ;;
 	esac
 	
 	if [ "$swap_partition_var" != skip ]; then
@@ -353,9 +353,30 @@ start_install() {
 	rm -fr $ROOT
 	mkdir -p $ROOT
 	
-	echo "Mounting $root_partition_var on $ROOT"
-	mount $root_partition_var $ROOT
-	
+	case $filesystem_var in
+	    ext4|ext3|ext2|xfs|reiserfs)
+					echo "Mounting $root_partition_var on $ROOT"
+					mount $root_partition_var $ROOT ;;
+				btrfs)	
+					echo "Mounting $root_partition_var and subvolumes on $ROOT"
+					btrfs_opts="defaults,noatime,commit=120"
+					mount -o $btrfs_opts $root_partition_var /mnt
+					btrfs subvol create /mnt/@
+					btrfs subvol create /mnt/@home
+					btrfs subvol create /mnt/@snapshots
+					btrfs subvol create /mnt/@scratchpkg
+					umount -R /mnt
+					mount -o $btrfs_opts,subvol=@ $root_partition_var $ROOT
+					mkdir -pv /mnt/home
+					mkdir -pv /mnt/.snapshots
+					mkdir -pv /mnt/var/cache/scratchpkg
+					mount -o $btrfs_opts,subvol=@home $root_partition_var $ROOT/home
+					mount -o $btrfs_opts,subvol=@snapshots $root_partition_var $ROOT/.snapshots
+					mount -o $btrfs_opts,subvol=@scratchpkg $root_partition_var $ROOT/var/cache/scratchpkg ;;
+	esac
+
+
+
 	echo "Installing system to $root_partition_var"
 	unsquashfs -f -i -d $ROOT $ROOTSFS
 	
@@ -412,8 +433,19 @@ start_install() {
 		
 	# fstab
 	echo "Setup fstab"
-	echo "# <device> <dir> <type> <options> <dump> <fsck>" > $ROOT/etc/fstab
-	echo "UUID=$(blkid -o value -s UUID "$root_partition_var") / $filesystem_var defaults 1 1" >> $ROOT/etc/fstab
+	case $filesystem_var in
+			ext4|ext3|ext2|xfs|reiserfs)
+
+						    echo "# <device> <dir> <type> <options> <dump> <fsck>" > $ROOT/etc/fstab
+						    echo "UUID=$(blkid -o value -s UUID "$root_partition_var") / $filesystem_var defaults 1 1" >> $ROOT/etc/fstab ;;
+					      btrfs)
+						    echo "# <device> <dir> <type> <options> <dump> <fsck>" > $ROOT/etc/fstab
+						    echo "UUID=$(blkid -o value -s UUID "$root_partition_var") / $filesystem_var defaults,noatime,commit=120,subvol=@ 1 1" >> $ROOT/etc/fstab ;;
+						    echo "UUID=$(blkid -o value -s UUID "$root_partition_var") /home $filesystem_var defaults,noatime,commit=120,subvol=@home 0 0" >> $ROOT/etc/fstab ;;
+						    echo "UUID=$(blkid -o value -s UUID "$root_partition_var") /.snapshots $filesystem_var defaults,noatime,commit=120,subvol=@snapshots 0 0" >> $ROOT/etc/fstab ;;
+						    echo "UUID=$(blkid -o value -s UUID "$root_partition_var") /var/cache/scratchpkg $filesystem_var defaults,noatime,commit=120,subvol=@scratchpkg 0 0" >> $ROOT/etc/fstab ;;
+	esac
+
 	# EFI partition
 	#echo "UUID=$(blkid -o value -s UUID "$efi_partition_var") /boot/efi vfat defaults 0 2" >> $ROOT/etc/fstab
 	
