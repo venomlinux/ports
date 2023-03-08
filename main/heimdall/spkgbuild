@@ -1,6 +1,6 @@
 # description	: Tool suite used to flash firmware (ROMs) onto Samsung Galaxy S devices
 # homepage	: https://glassechidna.com.au/heimdall/ 
-# depends	: cmake qt5 android-udev 
+# depends	: cmake ninja qt5 android-udev 
 
 name=heimdall
 version=1.4.2
@@ -9,12 +9,18 @@ source="$name-$version.tar.gz::https://gitlab.com/BenjaminDobell/Heimdall/-/arch
 	heimdall.desktop"
 
 build() {
-	cmake -S Heimdall-v$version -DCMAKE_INSTALL_PREFIX=/usr
-	make
+	cmake -S Heimdall-v$version -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
 	# Install heimdall command line tool
 	install -d $PKG/usr/bin
-	install -Dm755 bin/* $PKG/usr/bin/
+	install -Dm755 build/bin/* $PKG/usr/bin/
 	install -Dm644 Heimdall-v$version/heimdall/60-heimdall.rules \
 			 $PKG/usr/lib/udev/rules.d/60-heimdall.rules
 
