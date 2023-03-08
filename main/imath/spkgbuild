@@ -1,6 +1,6 @@
 # description	: C++ and python library of 2D and 3D vector, matrix, and math operations for computer graphics
 # homepage	: https://github.com/AcademySoftwareFoundation/Imath
-# depends	: cmake
+# depends	: cmake ninja
 
 name=imath
 version=3.1.7
@@ -8,7 +8,7 @@ release=1
 source="https://github.com/AcademySoftwareFoundation/Imath/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cmake  -S Imath-$version -B build \
+	cmake  -S Imath-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

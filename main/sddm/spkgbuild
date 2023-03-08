@@ -1,5 +1,5 @@
 # description	: Lightweight display manager based upon Qt and QML
-# depends	: extra-cmake-modules qt5 linux-pam upower consolekit2 libxcb
+# depends	: extra-cmake-modules ninja qt5 linux-pam upower consolekit2 libxcb
 
 name=sddm
 version=0.19.0
@@ -21,17 +21,15 @@ build() {
 	sed -e '/\$@$/s/exec/& ck-launch-session/' \
 	    -i data/scripts/Xsession
 
-	mkdir build
-	cd    build
-	
-	cmake -DCMAKE_INSTALL_PREFIX=/usr \
+	cmake -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
 	      -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib/sddm \
 	      -DCMAKE_BUILD_TYPE=Release \
 	      -DENABLE_JOURNALD=OFF \
 	      -DDBUS_CONFIG_FILENAME=sddm_org.freedesktop.DisplayManager.conf \
-	      -Wno-dev ..
-	make
-	make DESTDIR=$PKG install
+	      -Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 	install -dm 755 -o sddm -g sddm $PKG/var/lib/sddm  
 
 	install -d $PKG/usr/lib/sddm/sddm.conf.d
