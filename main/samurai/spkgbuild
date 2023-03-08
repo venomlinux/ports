@@ -17,5 +17,6 @@ build() {
 	make samu
 	make PREFIX=/usr DESTDIR=$PKG install
 
-	ln -s /usr/bin/samu $PKG/usr/bin/ninja
+	scratch isinstalled ninja || \
+		ln -s /usr/bin/samu $PKG/usr/bin/ninja
 }
