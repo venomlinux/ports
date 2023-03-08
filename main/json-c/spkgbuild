@@ -1,5 +1,5 @@
 # description	: JSON implementation in C
-# depends	: cmake
+# depends	: cmake ninja
 
 name=json-c
 version=0.16
@@ -7,7 +7,7 @@ release=1
 source="https://s3.amazonaws.com/json-c_releases/releases/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
