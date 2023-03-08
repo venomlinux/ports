@@ -16,7 +16,7 @@ build() {
 	install -d $PKG/usr/lib
 	cp -r $SRC/${_name}/ $PKG/usr/lib/${_name}
 	ln -s ../lib/${_name}/${_name} $PKG/usr/bin/${_name}
-    install -Dm644 $SRC/*.desktop "$PKG/usr/share/applications/*.desktop"
+    install -Dm644 $SRC/${_name}.desktop "$PKG/usr/share/applications/${_name}.desktop"
 
 	# icons
     install -Dm644 $SRC/${_name}/browser/chrome/icons/default/default16.png \
