@@ -4,10 +4,10 @@
 _name=palemoon
 name=${_name}-bin
 version=32.0.1
-release=1
-source="palemoon.desktop
-		$name-$version.tar.xz::https://rm-eu.palemoon.org/release/${_name}-${version}.linux-x86_64-gtk3.tar.xz" # EU link
-#       $name-$version.tar.xz::https://rm-us.palemoon.org/release/${_name}-${version}.linux-x86_64-gtk3.tar.xz # US link
+release=2
+source="${_name}.desktop
+		$name-$version.tar.xz::https://rm-eu.palemoon.org/release/palemoon-${version}.linux-x86_64-gtk3.tar.xz" # EU link
+#       $name-$version.tar.xz::https://rm-us.palemoon.org/release/palemoon-${version}.linux-x86_64-gtk3.tar.xz # US link
 rev_ex_libs="libxul.so libmozsqlite3.so libmozavutil.so liblgpllibs.so libmozgtk.so"
 
 build() {
@@ -16,7 +16,7 @@ build() {
 	install -d $PKG/usr/lib
 	cp -r $SRC/${_name}/ $PKG/usr/lib/${_name}
 	ln -s ../lib/${_name}/${_name} $PKG/usr/bin/${_name}
-    install -Dm644 $SRC/palemoon.desktop "$PKG/usr/share/applications/palemoon.desktop"
+    install -Dm644 $SRC/*.desktop "$PKG/usr/share/applications/*.desktop"
 
 	# icons
     install -Dm644 $SRC/${_name}/browser/chrome/icons/default/default16.png \
