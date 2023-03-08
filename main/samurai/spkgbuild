@@ -3,11 +3,19 @@
 
 name=samurai
 version=1.2
-release=1
-source="https://github.com/michaelforney/${name}/releases/download/${version}/${name}-${version}.tar.gz"
+release=2
+source="https://github.com/michaelforney/${name}/releases/download/${version}/${name}-${version}.tar.gz
+	CVE-2021-30218.patch  
+	CVE-2021-30219.patch"
 
 build() {
 	cd $name-$version
+	
+	patch -Np1 -i $SRC/CVE-2021-30218.patch  
+	patch -Np1 -i $SRC/CVE-2021-30219.patch
+
 	make samu
 	make PREFIX=/usr DESTDIR=$PKG install
+
+	ln -s /usr/bin/samu $PKG/usr/bin/ninja
 }
