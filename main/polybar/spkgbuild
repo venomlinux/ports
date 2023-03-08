@@ -1,5 +1,5 @@
 # description	: A fast and easy-to-use status bar
-# depends	: cmake cairo libxcb xcb-proto xcb-util-image xcb-util-wm python3-sphinx python3-babel
+# depends	: cmake ninja cairo libxcb xcb-proto xcb-util-image xcb-util-wm python3-sphinx python3-babel
 
 name=polybar
 version=3.6.3
@@ -7,13 +7,13 @@ release=1
 source="https://github.com/$name/$name/releases/download/$version/$name-$version.tar.gz"
 
 build() {
-	cd $name-$version
-	mkdir build && cd build
-	cmake \
+	cmake $name-$version -B build -G Ninja \
 		 -DCMAKE_INSTALL_PREFIX=/usr \
-		 -DCMAKE_BUILD_TYPE=release \
-		 -DPYTHON_EXECUTABLE=/usr/bin/python3 ..
-	 make
-	 DESTDIR=$PKG make install
-
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DPYTHON_EXECUTABLE=/usr/bin/python3 \
+		-Wno-dev
+	 cmake --build build
+	 DESTDIR=$PKG cmake --install build
 }
