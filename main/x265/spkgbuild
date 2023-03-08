@@ -7,7 +7,7 @@ release=1
 source="$name-$version.tar.gz::https://bitbucket.org/multicoreware/${name}_git/downloads/${name}_$version.tar.gz"
 
 build() {
-	cmake -S ${name}_${version}/source  -B build -G Ninja \
+	cmake -S ${name}_${version}/source -B build -G Ninja \
 		-DHIGH_BIT_DEPTH=ON \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \

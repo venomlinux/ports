@@ -12,7 +12,7 @@ build() {
 	# failed build with ccache, remove reom path
 	PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
 
-	cmake -S $name-$version -B build -G Ninja\
+	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX:PATH=/usr \
 		-DCMAKE_INSTALL_LIBDIR:PATH=/usr/lib \
