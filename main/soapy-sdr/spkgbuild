@@ -1,6 +1,6 @@
 # description	: An opensource API and runtime library for interfacing with SDR devices
 # homepage	: http://www.pothosware.com/
-# depends	: cmake
+# depends	: cmake ninja
 
 name=soapy-sdr
 version=0.8.1
@@ -8,16 +8,15 @@ release=1
 source="https://github.com/pothosware/SoapySDR/archive/$name-$version.tar.gz"
 
 build() {
-
-	[ -e '/usr/bin/ninja' ] && NINJA=' -G Ninja'
-
-	cmake -S  SoapySDR-$name-$version			\
-		  -B build $NINJA				\
-		  -D CMAKE_BUILD_TYPE=Release			\
-		  -D CMAKE_INSTALL_PREFIX=/usr			\
-
+	cmake -S  SoapySDR-$name-$version -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev 
 	cmake --build build
-
 	DESTDIR=$PKG cmake --install build
 }
 
