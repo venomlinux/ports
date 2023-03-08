@@ -1,6 +1,6 @@
 # description	: PulseAudio emulation for ALSA.
 # homepage	: https://github.com/i-rinat/apulse
-# depends	: alsa-lib-32 cmake glib-32
+# depends	: alsa-lib-32 cmake ninja glib-32
 
 name=apulse-32
 version=0.1.13
@@ -10,7 +10,7 @@ source="https://github.com/i-rinat/apulse/archive/v$version/${name%-*}-v$version
 build() {
 	sed -i -e '/^set(APULSEPATH /s|lib|&32|' ${name%-*}-$version/CMakeLists.txt
 
-	cmake -S${name%-*}-$version -Bbuild -GNinja \
+	cmake -S ${name%-*}-$version -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_BUILD_TYPE=Release
 
