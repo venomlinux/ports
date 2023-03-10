@@ -1,6 +1,6 @@
 # description	: A terminal emulator based on GTK and VTE
 # homepage	: https://launchpad.net/sakura
-# depends	: vte3 libxft cmake
+# depends	: vte3 libxft cmake ninja
 
 name=sakura
 version=3.8.6
@@ -12,7 +12,7 @@ build() {
 	# Set default font size a bit smaller
 	sed -i 's|#define DEFAULT_FONT "Bitstream Vera Sans Mono 14"|#define DEFAULT_FONT "Dejavu Sans Mono Book 10"|g' src/sakura.c
 	
-	cmake -B build \
+	cmake -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

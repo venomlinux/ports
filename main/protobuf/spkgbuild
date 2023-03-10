@@ -1,6 +1,6 @@
 # description	: Protocol Buffers - Google's data interchange format 
 # homepage	: https://developers.google.com/protocol-buffers/
-# depends	: cmake zlib
+# depends	: cmake zlib ninja
 
 name=protobuf
 version=21.12
@@ -8,7 +8,7 @@ release=1
 source="https://github.com/protocolbuffers/$name/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

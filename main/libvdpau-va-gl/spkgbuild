@@ -1,5 +1,5 @@
 # description	: Library which implements the VDPAU library
-# depends	: ffmpeg libvdpau libva cmake
+# depends	: cmake ninja ffmpeg libvdpau libva
 
 name=libvdpau-va-gl
 version=0.4.2
@@ -7,7 +7,7 @@ release=1
 source="https://github.com/i-rinat/$name/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
         	-DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

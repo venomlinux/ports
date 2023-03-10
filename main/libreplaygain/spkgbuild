@@ -1,5 +1,5 @@
 # description	: A library to adjust audio gain
-# depends	: cmake
+# depends	: cmake ninja 
 
 name=libreplaygain
 version=475
@@ -7,7 +7,7 @@ release=1
 source="http://files.musepack.net/source/${name}_r${version}.tar.gz"
 
 build() {
-	cmake -S ${name}_r${version} -B build \
+	cmake -S ${name}_r${version} -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

@@ -1,5 +1,5 @@
 # description	: Lightweight video thumbnailer that can be used by file managers
-# depends	: ffmpeg libjpeg-turbo libpng cmake
+# depends	: cmake ninja ffmpeg libjpeg-turbo libpng
 
 name=ffmpegthumbnailer
 version=2.2.2
@@ -13,7 +13,7 @@ build() {
 	patch -d $name-$version -Np1 -i $SRC/ffmpegthumbnailer-ffmpeg5.patch # Fix build with FFmpeg 5
 	patch -d $name-$version -Np1 -i $SRC/efb5b618.patch # Fix build with FFmpeg 5
 
-	cmake  -S $name-$version -B build \
+	cmake  -S $name-$version -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

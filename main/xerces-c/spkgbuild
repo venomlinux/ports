@@ -1,6 +1,6 @@
 # description	: Apache Xerces-C validating XML parser
 # homepage	: xerces.apache.org
-# depends	: cmake
+# depends	: cmake ninja
 
 name=xerces-c
 version=3.2.4
@@ -8,7 +8,7 @@ release=1
 source="https://github.com/apache/xerces-c/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

@@ -1,6 +1,6 @@
 # description	: OpenAL Soft is a software implementation of the OpenAL 3D audio API
 # homepage	: https://github.com/kcat/openal-soft
-# depends	: cmake sdl2 libsndfile ffmpeg alsa-lib qt5 zlib
+# depends	: cmake ninja sdl2 libsndfile ffmpeg alsa-lib qt5 zlib
 
 name=openal
 version=1.23.0
@@ -8,7 +8,7 @@ release=2
 source="https://github.com/kcat/openal-soft/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cmake -S openal-soft-$version -B build \
+	cmake -S openal-soft-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
         	-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

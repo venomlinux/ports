@@ -1,5 +1,5 @@
 # description	: A feature-rich screen recorder that supports X11 and OpenGL
-# depends	: ffmpeg glu mesa qt5 cmake libxi libxinerama v4l-utils
+# depends	: ffmpeg glu mesa qt5 cmake libxi libxinerama v4l-utils ninja
 # optdepends	: pulseaudio jack
 
 name=simplescreenrecorder
@@ -15,7 +15,7 @@ build() {
 	
 	patch -d ssr-$version -Np1 -i $SRC/ffmpeg5.patch
 	
-	cmake -S ssr-$version -B build \
+	cmake -S ssr-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

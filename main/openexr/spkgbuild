@@ -1,5 +1,5 @@
 # description	: OpenEXR is a high dynamic-range (HDR) image file format originally developed by Industrial Light & Magic for use in computer imaging applications.
-# depends	: cmake zlib imath
+# depends	: cmake ninja zlib imath
 
 name=openexr
 version=3.1.5
@@ -7,7 +7,7 @@ release=1
 source="https://github.com/AcademySoftwareFoundation/$name/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
