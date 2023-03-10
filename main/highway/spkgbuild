@@ -1,0 +1,23 @@
+# description	: Performance-portable, length-agnostic SIMD with runtime dispatch
+# homepage	: https://github.com/google/highway
+# depends	: cmake ninja gtest
+
+name=highway
+version=1.0.3
+release=1
+source="https://github.com/google/highway/archive/$version/$name-$version.tar.gz 
+	highway.patch"
+
+build() {
+
+	patch -d $name-$version -Np1 -i $SRC/highway.patch
+
+	cmake -S $name-$version -B build -G Ninja \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DHWY_SYSTEM_GTEST=ON \
+		-DBUILD_SHARED_LIBS=ON \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
