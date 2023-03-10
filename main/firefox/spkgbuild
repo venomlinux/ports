@@ -3,11 +3,12 @@
 
 name=firefox
 version=110.0.1
-release=2
+release=3
 source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
 	$name.desktop
 	libwebrtc-screen-cast-sync.patch
-	squashed-ffmpeg-6.0-update.patch"
+	squashed-ffmpeg-6.0-update.patch
+	use-correct-FFVPX-headers-from-ffmpeg-6.patch"
 
 build() {
 	INITDIR=$PWD
@@ -19,6 +20,9 @@ build() {
 
 	# https://bugzilla.mozilla.org/show_bug.cgi?id=1819374
 	patch -Np1 -i $SRC/squashed-ffmpeg-6.0-update.patch
+
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=1820416
+	patch -Np1 -i $SRC/use-correct-FFVPX-headers-from-ffmpeg-6.patch
 
 cat <<- EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-shared
