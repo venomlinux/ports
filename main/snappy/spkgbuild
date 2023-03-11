@@ -3,17 +3,15 @@
 # depends	: cmake ninja
 
 name=snappy
-version=1.1.9
+version=1.1.10
 release=1
 source="https://github.com/google/snappy/archive/$version/$name-$version.tar.gz
   snappy-thirdparty.patch
-  snappy-inline.patch
   snappy-do-not-disable-rtti.patch"
 
 build() {
 
 	patch -d $name-$version -Np1 -i $SRC/snappy-thirdparty.patch
-	patch -d $name-$version -Np1 -i $SRC/snappy-inline.patch
 	patch -d $name-$version -Np1 -i $SRC/snappy-do-not-disable-rtti.patch
 
 	cmake -S $name-$version -B build -G Ninja \
