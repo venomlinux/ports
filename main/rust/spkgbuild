@@ -2,10 +2,10 @@
 # depends	: curl cmake python3 llvm libssh2
 
 name=rust
-version=1.67.1
+version=1.68.0
 release=1
-_date=2023-01-10
-_rust=1.66.1
+_date=2023-02-09
+_rust=1.67.1
 _cargo=$_rust
 _triplet=x86_64-unknown-linux-gnu
 
@@ -13,6 +13,7 @@ source="https://static.rust-lang.org/dist/rustc-$version-src.tar.xz
 	https://static.rust-lang.org/dist/$_date/rust-std-$_rust-$_triplet.tar.xz
 	https://static.rust-lang.org/dist/$_date/rustc-$_rust-$_triplet.tar.xz
 	https://static.rust-lang.org/dist/$_date/cargo-$_cargo-$_triplet.tar.xz
+	0001-cargo-Change-libexec-dir.patch
 	0001-bootstrap-Change-libexec-dir.patch
 	0002-compiler-Change-LLVM-targets.patch"
 
@@ -20,13 +21,14 @@ noextract="rust-std-$_rust-$_triplet.tar.xz
 	rustc-$_rust-$_triplet.tar.xz
 	cargo-$_cargo-$_triplet.tar.xz"
 
-NO_STRIP="yes"
+options="!emptydirs !strip"
 
 build() {
 	cd rustc-$version-src
 
 	# Patch bootstrap and cargo so credential helpers
 	# are in /usr/lib instead of /usr/libexec
+	patch -d src/tools/cargo -Np1 < $SRC/0001-cargo-Change-libexec-dir.patch
 	patch -Np1 -i $SRC/0001-bootstrap-Change-libexec-dir.patch
 
 	# Use our *-pc-linux-gnu targets, making LTO with clang simpler
@@ -42,38 +44,46 @@ cat << EOF > config.toml
 ninja = true
 link-shared = true
 
-[build]
-build = "$_triplet"
-host = [ "$_triplet" ]
-target = [ "$_triplet" ]
-docs = false
-extended = true
-submodules = false
-python = "python3"
-locked-deps = true
-vendor = true
-
 [install]
 prefix = "/usr"
 
 [rust]
 codegen-units-std = 1
-debuginfo-level = 2
-backtrace = true
-channel = "stable"
-rpath = false
+debuginfo-level-std = 2
 codegen-tests = false
-jemalloc = false
+backtrace-on-ice = true
+remap-debuginfo = true
+jemalloc = true
+description = "Venom"
+channel = "stable"
+parallel-compiler = false
+rpath = false
+optimize = true
+
+[build]
+target = [ "$_triplet" ]
+tools = ["cargo", "clippy", "rustfmt", "analysis", "src", "rust-demangler", "rust-analyzer"]
+docs = false
+extended = true
+sanitizers = true
+profiler = true
+submodules = false
+locked-deps = true
+vendor = true
+python = "/usr/bin/python3"
 
 [target.$_triplet]
+cc = "/usr/bin/gcc"
+cxx = "/usr/bin/g++"
+ar = "/usr/bin/gcc-ar"
+ranlib = "/usr/bin/gcc-ranlib"
 llvm-config = "/usr/bin/llvm-config"
-crt-static = false
 EOF
 
 	mkdir "$SRC/rust"
 	export CARGO_HOME="$SRC/rust"
 	export RUST_BACKTRACE=1
-	export RUSTFLAGS="$RUSTFLAGS -C link-args=-lffi"
+
 	python3 ./x.py build $MAKEFLAGS
 	DESTDIR=$PKG python3 ./x.py install -v
 
