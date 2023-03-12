@@ -3,7 +3,7 @@
 
 name=curl
 version=7.88.1
-release=1
+release=2
 source="https://curl.haxx.se/download/$name-$version.tar.xz"
 
 build() {
@@ -13,12 +13,14 @@ build() {
 		--prefix=/usr \
 		--disable-static \
 		--enable-threaded-resolver \
-		--without-libidn2 \
-		--without-nghttp2 \
-		--without-libpsl \
-		--without-zstd \
+		--with-ca-bundle=/etc/ssl/certs/ca-certificates.crt \
 		--with-openssl \
-		--with-ca-bundle=/etc/ssl/certs/ca-certificates.crt
+		--without-brotli \
+		--without-libidn2 \
+		--without-libpsl \
+		--without-librtmp \
+		--without-nghttp2 \
+		--without-zstd 
 	make
 	make DESTDIR=$PKG install
 }
