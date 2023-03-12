@@ -1,4 +1,4 @@
-glib-2.74.6-1
+glib-2.76.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/gapplication
@@ -98,6 +98,7 @@ drwxr-xr-x root/root    usr/include/glib-2.0/gio/
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/ginitable.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/ginputstream.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gio-autocleanups.h
+-rw-r--r-- root/root    usr/include/glib-2.0/gio/gio-visibility.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gio.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gioenums.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gio/gioenumtypes.h
@@ -225,6 +226,7 @@ drwxr-xr-x root/root    usr/include/glib-2.0/glib/deprecated/
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/gkeyfile.h
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/glib-autocleanups.h
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/glib-typeof.h
+-rw-r--r-- root/root    usr/include/glib-2.0/glib/glib-visibility.h
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/glist.h
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/gmacros.h
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/gmain.h
@@ -234,6 +236,7 @@ drwxr-xr-x root/root    usr/include/glib-2.0/glib/deprecated/
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/gmessages.h
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/gnode.h
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/goption.h
+-rw-r--r-- root/root    usr/include/glib-2.0/glib/gpathbuf.h
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/gpattern.h
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/gpoll.h
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/gprimes.h
@@ -275,6 +278,8 @@ drwxr-xr-x root/root    usr/include/glib-2.0/glib/deprecated/
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/gversionmacros.h
 -rw-r--r-- root/root    usr/include/glib-2.0/glib/gwin32.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gmodule.h
+drwxr-xr-x root/root    usr/include/glib-2.0/gmodule/
+-rw-r--r-- root/root    usr/include/glib-2.0/gmodule/gmodule-visibility.h
 drwxr-xr-x root/root    usr/include/glib-2.0/gobject/
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gbinding.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gbindinggroup.h
@@ -285,6 +290,7 @@ drwxr-xr-x root/root    usr/include/glib-2.0/gobject/
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/glib-types.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gmarshal.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gobject-autocleanups.h
+-rw-r--r-- root/root    usr/include/glib-2.0/gobject/gobject-visibility.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gobject.h
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gobjectnotifyqueue.c
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gparam.h
@@ -301,24 +307,26 @@ drwxr-xr-x root/root    usr/include/glib-2.0/gobject/
 -rw-r--r-- root/root    usr/include/glib-2.0/gobject/gvaluetypes.h
 drwxr-xr-x root/root    usr/lib/
 -rwxr-xr-x root/root    usr/lib/gio-launch-desktop
+drwxr-xr-x root/root    usr/lib/gio/
+drwxr-xr-x root/root    usr/lib/gio/modules/
 drwxr-xr-x root/root    usr/lib/glib-2.0/
 drwxr-xr-x root/root    usr/lib/glib-2.0/include/
 -rw-r--r-- root/root    usr/lib/glib-2.0/include/glibconfig.h
 lrwxrwxrwx root/root    usr/lib/libgio-2.0.so -> libgio-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libgio-2.0.so.0 -> libgio-2.0.so.0.7400.6
--rwxr-xr-x root/root    usr/lib/libgio-2.0.so.0.7400.6
+lrwxrwxrwx root/root    usr/lib/libgio-2.0.so.0 -> libgio-2.0.so.0.7600.0
+-rwxr-xr-x root/root    usr/lib/libgio-2.0.so.0.7600.0
 lrwxrwxrwx root/root    usr/lib/libglib-2.0.so -> libglib-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libglib-2.0.so.0 -> libglib-2.0.so.0.7400.6
--rwxr-xr-x root/root    usr/lib/libglib-2.0.so.0.7400.6
+lrwxrwxrwx root/root    usr/lib/libglib-2.0.so.0 -> libglib-2.0.so.0.7600.0
+-rwxr-xr-x root/root    usr/lib/libglib-2.0.so.0.7600.0
 lrwxrwxrwx root/root    usr/lib/libgmodule-2.0.so -> libgmodule-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libgmodule-2.0.so.0 -> libgmodule-2.0.so.0.7400.6
--rwxr-xr-x root/root    usr/lib/libgmodule-2.0.so.0.7400.6
+lrwxrwxrwx root/root    usr/lib/libgmodule-2.0.so.0 -> libgmodule-2.0.so.0.7600.0
+-rwxr-xr-x root/root    usr/lib/libgmodule-2.0.so.0.7600.0
 lrwxrwxrwx root/root    usr/lib/libgobject-2.0.so -> libgobject-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libgobject-2.0.so.0 -> libgobject-2.0.so.0.7400.6
--rwxr-xr-x root/root    usr/lib/libgobject-2.0.so.0.7400.6
+lrwxrwxrwx root/root    usr/lib/libgobject-2.0.so.0 -> libgobject-2.0.so.0.7600.0
+-rwxr-xr-x root/root    usr/lib/libgobject-2.0.so.0.7600.0
 lrwxrwxrwx root/root    usr/lib/libgthread-2.0.so -> libgthread-2.0.so.0
-lrwxrwxrwx root/root    usr/lib/libgthread-2.0.so.0 -> libgthread-2.0.so.0.7400.6
--rwxr-xr-x root/root    usr/lib/libgthread-2.0.so.0.7400.6
+lrwxrwxrwx root/root    usr/lib/libgthread-2.0.so.0 -> libgthread-2.0.so.0.7600.0
+-rwxr-xr-x root/root    usr/lib/libgthread-2.0.so.0.7600.0
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/gio-2.0.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gio-unix-2.0.pc
@@ -344,8 +352,8 @@ drwxr-xr-x root/root    usr/share/gdb/
 drwxr-xr-x root/root    usr/share/gdb/auto-load/
 drwxr-xr-x root/root    usr/share/gdb/auto-load/usr/
 drwxr-xr-x root/root    usr/share/gdb/auto-load/usr/lib/
--rw-r--r-- root/root    usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7400.6-gdb.py
--rw-r--r-- root/root    usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7400.6-gdb.py
+-rw-r--r-- root/root    usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7600.0-gdb.py
+-rw-r--r-- root/root    usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7600.0-gdb.py
 drwxr-xr-x root/root    usr/share/gettext/
 drwxr-xr-x root/root    usr/share/gettext/its/
 -rw-r--r-- root/root    usr/share/gettext/its/gschema.its
@@ -356,6 +364,7 @@ drwxr-xr-x root/root    usr/share/glib-2.0/codegen/
 -rw-r--r-- root/root    usr/share/glib-2.0/codegen/codegen.py
 -rw-r--r-- root/root    usr/share/glib-2.0/codegen/codegen_docbook.py
 -rw-r--r-- root/root    usr/share/glib-2.0/codegen/codegen_main.py
+-rw-r--r-- root/root    usr/share/glib-2.0/codegen/codegen_md.py
 -rw-r--r-- root/root    usr/share/glib-2.0/codegen/codegen_rst.py
 -rw-r--r-- root/root    usr/share/glib-2.0/codegen/config.py
 -rw-r--r-- root/root    usr/share/glib-2.0/codegen/dbustypes.py
