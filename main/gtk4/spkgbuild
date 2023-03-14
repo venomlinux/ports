@@ -1,17 +1,14 @@
 # description	: A multi-platform toolkit for creating graphical user interfaces, version 4
 # homepage	: https://www.gtk.org/
-# depends	: pango graphene iso-codes libxkbcommon python3-gobject3 adwaita-icon-theme librsvg gst-plugins-bad gdk-pixbuf libepoxy
+# depends	: pango graphene iso-codes libxkbcommon python3-gobject3 adwaita-icon-theme librsvg gst-plugins-bad gdk-pixbuf libepoxy sassc
 
 name=gtk4
-version=4.10.0
-release=2
-source="https://gitlab.gnome.org/GNOME/gtk/-/archive/$version/gtk-$version.tar.bz2
-	$name-4.10-wlroots-crash.patch::https://gitlab.gnome.org/GNOME/gtk/-/commit/51902bbce8f93060af8dc8b91199a66c75a29315.patch
-	$name-4.10-fix-combobox.patch::https://gitlab.gnome.org/GNOME/gtk/-/commit/5822ba76d0edadec80921cf698e215e25c2cc532.patch"
+version=4.10.1
+release=1
+source="https://gitlab.gnome.org/GNOME/gtk/-/archive/$version/gtk-$version.tar.bz2"
 
 build() {
-	patch -d gtk-$version -Np1 -i $SRC/$name-4.10-wlroots-crash.patch
-	patch -d gtk-$version -Np1 -i $SRC/$name-4.10-fix-combobox.patch
+	export XML_CATALOG_FILES=/etc/xml/catalog
 	
 	venom-meson gtk-$version build \
 		-Dbroadway-backend=true \
