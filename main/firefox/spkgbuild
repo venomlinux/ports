@@ -3,14 +3,22 @@
 
 name=firefox
 version=111.0
-release=1
-source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz
-	$name.desktop"
+release=2
+source="https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz 
+	$name.desktop
+	0001-Squashed-ffmpeg-6.0-update.patch
+	0002-Use-correct-FFVPX-headers-from-ffmpeg-6.patch"
 
 build() {
 	INITDIR=$PWD
 
 	cd $name-$version
+	
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=1819374
+	patch -Np1 -i $SRC/0001-Squashed-ffmpeg-6.0-update.patch
+
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=1820416
+	patch -Np1 -i $SRC/0002-Use-correct-FFVPX-headers-from-ffmpeg-6.patch
 
 cat <<- EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-shared
