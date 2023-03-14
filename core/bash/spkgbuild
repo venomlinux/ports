@@ -6,17 +6,20 @@ version=5.2.15
 majver=${version%%.*}
 basever=${version%.*}
 patchver=${version##*.}
-release=1
+release=2
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz
 	bashrc profile"
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr \
-	            --without-bash-malloc \
-	            --with-installed-readline
-	make -j1
+	./configure \
+		--prefix=/usr \
+		--with-curses \
+		--enable-readline \
+		--without-bash-malloc \
+		--with-installed-readline
+	make
 	make DESTDIR=$PKG install
 
 	mkdir -p $PKG/bin
