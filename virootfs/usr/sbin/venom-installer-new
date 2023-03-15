@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 showdisk() {
-	lsblk -nrp -o NAME,SIZE,TYPE,FSTYPE | grep -w disk | awk '{print $1}'
+	lsblk -nrp -o NAME,TYPE | grep -w disk | awk '{print $1}'
 }
 
 showswap() {
@@ -21,7 +21,7 @@ showlocale() {
 }
 
 get_partition_info() {
-	lsblk -nrp -o NAME,SIZE,FSTYPE,LABEL | grep -w $1
+	lsblk -nrp -o NAME,SIZE,FSTYPE,LABEL | grep -v ventoy | grep -w $1
 }
 
 title() {
@@ -57,90 +57,159 @@ printline() {
 	printf "%${cols}s\n" "" | tr " " "*"
 }
 
-config_rootpart() {
-	print_partitioning_tips
-	unset root_partition_var disk disktool swap_partition_var filesystem_var
-	while [ ! "$disktool" ]; do
-		cclear
-		cprint "1. cfdisk"
-		cprint "2. fdisk"
-		cprint "0. skip"
-		prompt_user "Select tool for partitioning or skip: "
-		read input
-		case $input in
-			1) disktool=cfdisk;;
-			2) disktool=fdisk;;
-			0) disktool=skip;;
-		esac
-	done
-	if [ "$disktool" != "skip" ]; then
-		while [ ! "$disk" ]; do
-			cclear
-			count=0
-			for i in $(showdisk); do
-				count=$((count+1))
-				ii=$(get_partition_info $i)
-				cprint "$count. $ii"
-			done
-			prompt_user "Enter disk [1-$count]: "
-			read input
-			[ "$input" = 0 ] && continue
-			[ "$input" -gt "$count" ] && continue
-			disk=$(showdisk | head -n$input | tail -n1)
-		done
-		$disktool $disk
-	fi
-	while [ ! "$root_partition_var" ]; do
+choose_part() {
+	unset part createpart filesystem_var
+	case $1 in
+		1) grep_regex=EFI;;
+		2) grep_regex=BIOS;;
+		3) grep_regex=swap;;
+		*) grep_regex="-Ev (swap|Extended|EFI|BIOS|Empty)"
+	esac
+	while [ ! "$part" ]; do
 		cclear
 		count=0
-		for i in $(showpartition); do
+		for i in $(fdisk -l | grep ^\/dev | grep -v ventoy | grep $grep_regex | awk '{print $1}' | sort); do
 			count=$((count+1))
 			ii=$(get_partition_info $i)
 			cprint "$count. $ii"
 		done
-		prompt_user "Enter partition [1-$count]: "
+		prompt_user "Choose partition [1-$count]: "
 		read input
 		[ "$input" = 0 ] && continue
 		[ "$input" -gt "$count" ] && continue
-		root_partition_var=$(showpartition | head -n$input | tail -n1)
+		part=$(fdisk -l | grep ^\/dev | grep -v ventoy | grep $grep_regex | awk '{print $1}' | sort | head -n$input | tail -n1)
+		case $1 in
+			1|2);;
+			3) 
+				while [ ! "$createpart" ]; do
+					cclear
+					cprint "1. create swap"
+					cprint "0. skip create swap"
+					prompt_user "Create swap partition for '$part'?: "
+					read input
+					[ "$input" = 0 ] && createpart=$input
+					[ "$input" = 1 ] && createpart=$input
+				done;;
+			*)
+				while [ ! "$createpart" ]; do
+					cclear
+					cprint "1. create filesystem"
+					cprint "0. skip create filesystem"
+					prompt_user "Create filesystem for '$part'?: "
+					read input
+					[ "$input" = 0 ] && createpart=$input
+					[ "$input" = 1 ] && createpart=$input
+				done
+				if [ "$createpart" -gt 0 ]; then
+					while [ ! "$filesystem_var" ]; do
+						fs="ext4 ext3 ext2 btrfs reiserfs xfs"
+						cclear
+						count=0
+						for i in $fs; do
+							count=$((count+1))
+							cprint "$count. $i"
+						done
+						prompt_user "Choose filesystem type for '$part' [1-$count]: "
+						read input
+						[ "$input" = 0 ] && continue
+						[ "$input" -gt "$count" ] && continue
+						filesystem_var=$(echo $fs | tr ' ' '\n' | head -n$input | tail -n1)
+					done
+				else
+					filesystem_var=skip
+				fi;;
+		esac
 	done
-	while [ ! "$filesystem_var" ]; do
-		fs="ext4 ext3 ext2 btrfs reiserfs xfs"
+	case $1 in
+		1) efi_var=$part;;
+		2) biosboot_var=$part;;
+		3) swap_var=$part:$createpart:swap;;
+		4) root_var=$part:$createpart:$filesystem_var;;
+		5) home_var=$part:$createpart:$filesystem_var;;
+	esac
+}
+
+modify_disk() {
+	unset disk disktool
+	while [ ! "$disk" ]; do
 		cclear
 		count=0
-		for i in $fs; do
+		for i in $(showdisk); do
 			count=$((count+1))
-			cprint "$count. $i"
+			ii=$(get_partition_info $i)
+			cprint "$count. $ii"
 		done
-		prompt_user "Choose filesystem type for '$root_partition_var' [1-$count]: "
+		prompt_user "Enter disk [1-$count]: "
 		read input
 		[ "$input" = 0 ] && continue
 		[ "$input" -gt "$count" ] && continue
-		filesystem_var=$(echo $fs | tr ' ' '\n' | head -n$input | tail -n1)
+		disk=$(showdisk | head -n$input | tail -n1)
 	done
-	if [ "$(showswap)" ]; then
-		while [ ! "$swap_partition_var" ]; do
-			cclear
-			count=0
-			for i in $(showswap); do
-				count=$((count+1))
-				ii=$(get_partition_info $i)
-				cprint "$count. $ii"
-			done
-			cprint "0. skip"
-			prompt_user "Choose partition type for swap [1-$count]: "
-			read input
-			[ "$input" -gt "$count" ] && continue
-			swap_partition_var=$(showswap | head -n$input | tail -n1)
-			[ "$input" = 0 ] && {
-				swap_partition_var=skip
-				continue
-			}
-		done
+	while [ ! "$disktool" ]; do
+		cclear
+		cprint "1. cfdisk"
+		cprint "2. fdisk"
+		prompt_user "Select tool for partitioning disk $disk: "
+		read input
+		case $input in
+			1) disktool=cfdisk;;
+			2) disktool=fdisk;;
+		esac
+	done
+	$disktool $disk
+}
+
+config_rootpart() {
+	unset partstatus
+	print_partitioning_tips
+	while [ ! "$partstatus" ]; do
+		cclear
+		cprint "*** NOTE ***"
+		cprint "* 'EFI' only required on UEFI boot, atleast 100MB"
+		cprint "* 'BIOS boot' only required on BIOS boot + gpt disk, atleast 1MB"
+		cprint "* '/' is required to start installation"
+		echo
+		cprint "1. EFI: $efi_var"
+		cprint "2. BIOS boot: $biosboot_var"
+		cprint "3. swap: $swap_var"
+		cprint "4. /: $root_var"
+		cprint "5. /home: $home_var"
+		cprint "0. done"
+		cprint "00. modify disk"
+		prompt_user "Choose above to configure: "
+		read input
+		case $input in
+			1|2|3|4|5) choose_part $input;;
+			0) partstatus=done;;
+			00) modify_disk;;
+		esac
+	done
+	if [ "$root_var" ]; then
+		if [ "$EFI_SYSTEM" = 1 ]; then
+			if [ "$(lsblk -nrp -o PTTYPE ${root_var%%:*})" != gpt ]; then
+				cprint "Disk type for root (${root_var%%:*}) partition not 'gpt'!"
+				partstatus=error
+				sleep 2
+			fi
+			if [ ! "$efi_var" ]; then
+				cprint "'EFI' partition not configured!"
+				partstatus=error
+				sleep 2
+			fi
+		else
+			if [ "$(lsblk -nrp -o PTTYPE ${root_var%%:*})" = gpt ]; then
+				if [ ! "$biosboot_var" ]; then
+					cprint "'BIOS boot' partition not configured!"
+					partstatus=error
+					sleep 2
+				fi
+			fi
+		fi
 	else
-		swap_partition_var=skip
+		cprint "'/' is not set!"
+		partstatus=error
+		sleep 2
 	fi
-			
 }
 
 config_keymap() {
@@ -149,7 +218,7 @@ config_keymap() {
 		cclear
 		prompt_user "Enter part of your keymap (Eg: us): "
 		read input
-		keymappart=$(showkeymap | grep $input)
+		keymappart=$(showkeymap | grep $input) || true
 	done
 	while [ ! "$keymap" ]; do
 		cclear
@@ -172,7 +241,7 @@ config_locale() {
 		cclear
 		prompt_user "Enter part of your locale (Eg: en): "
 		read input
-		localepart=$(showlocale | grep -i $input)
+		localepart=$(showlocale | grep -i $input) || true
 	done
 	while [ ! "$locale_var" ]; do
 		cclear
@@ -335,33 +404,65 @@ config_timezone() {
 start_install() {
 	cclear
 	
-	umount -f $ROOT
+	swap_part=$(echo $swap_var | cut -d : -f1)
+	swap_part_create=$(echo $swap_var | cut -d : -f2)
+	root_part=$(echo $root_var | cut -d : -f1)
+	root_part_create=$(echo $root_var | cut -d : -f2)
+	root_part_fs=$(echo $root_var | cut -d : -f3)
+	home_part=$(echo $home_var | cut -d : -f1)
+	home_part_create=$(echo $home_var | cut -d : -f2)
+	home_part_fs=$(echo $home_var | cut -d : -f3)
 	
-	echo "Create filesystem $filesystem_var on $root_partition_var"
-	case $filesystem_var in
-		ext4|ext3|ext2) mkfs.$filesystem_var -F -L Venom $root_partition_var;;
-		xfs) mkfs.xfs -f -m crc=0 -L Venom $root_partition_var;;
-		reiserfs) mkreiserfs -q -l Venom $root_partition_var;;
-		btrfs) mkfs.btrfs -f -L Venom $root_partition_var;;
-	esac
+	mountpoint -q $ROOT && umount -f $ROOT
 	
-	if [ "$swap_partition_var" != skip ]; then
-		echo "Making swap partition on $swap_partition_var"
-		mkswap $swap_partition_var
+	if [ "$root_part_create" = 1 ]; then
+		echo "Create filesystem $root_part_fs on $root_part"
+		case $root_part_fs in
+			ext4|ext3|ext2) mkfs.$filesystem_var -F -L Venom $root_part;;
+			xfs) mkfs.xfs -f -m crc=0 -L Venom $root_part;;
+			reiserfs) mkreiserfs -q -l Venom $root_part;;
+			btrfs) mkfs.btrfs -f -L Venom $root_part;;
+		esac
+	fi
+	
+	if [ "$home_part_create" = 1 ]; then
+		echo "Create filesystem $home_part_fs on $home_part"
+		case $home_part_fs in
+			ext4|ext3|ext2) mkfs.$home_part_fs -F -L Home $home_part;;
+			xfs) mkfs.xfs -f -m crc=0 -L Home $home_part;;
+			reiserfs) mkreiserfs -q -l Home $home_part;;
+			btrfs) mkfs.btrfs -f -L Home $home_part;;
+		esac
+	fi
+	
+	if [ "$swap_part_create" = 1 ]; then
+		echo "Making swap partition on $swap_part"
+		mkswap $swap_part
+	fi
+	
+	if [ "$EFI_SYSTEM" = 1 ]; then
+		echo "Formatting partition $efi_var to fat32"
+		mkfs.vfat -F32 $efi_var
 	fi
 	
 	rm -fr $ROOT
 	mkdir -p $ROOT
 	
-	echo "Mounting $root_partition_var on $ROOT"
-	mount $root_partition_var $ROOT
+	echo "Mounting $root_part on $ROOT"
+	mount $root_part $ROOT
+	
+	if [ "$EFI_SYSTEM" = 1 ]; then
+		echo "Mounting $efi_var on $ROOT/boot/efi"
+		mkdir -p $ROOT/boot/efi
+		mount $efi_var $ROOT/boot/efi
+	fi
 	
 	echo "Installing system to $root_partition_var"
 	unsquashfs -f -i -d $ROOT $ROOTSFS
 	
 	if [ -f /root/pre-install.sh ]; then
 		echo "running pre-install.sh script"
-		sh /root/pre-install.sh
+		sh /root/post-install.sh
 	fi
 
 	if [ -x $ROOT/etc/rc.d/networkmanager ]; then
@@ -413,13 +514,20 @@ start_install() {
 	# fstab
 	echo "Setup fstab"
 	echo "# <device> <dir> <type> <options> <dump> <fsck>" > $ROOT/etc/fstab
-	echo "UUID=$(blkid -o value -s UUID "$root_partition_var") / $filesystem_var defaults 1 1" >> $ROOT/etc/fstab
+	echo "UUID=$(blkid -o value -s UUID "$root_part") / $root_part_fs defaults 1 1" >> $ROOT/etc/fstab
+	
 	# EFI partition
-	#echo "UUID=$(blkid -o value -s UUID "$efi_partition_var") /boot/efi vfat defaults 0 2" >> $ROOT/etc/fstab
+	if [ "$EFI_SYSTEM" = 1 ]; then
+		echo "UUID=$(blkid -o value -s UUID "$efi_var") /boot/efi vfat defaults 0 2" >> $ROOT/etc/fstab
+	fi
 	
 	# swap
 	if [ "$swap_partition_var" != skip ]; then
-		echo "UUID=$(blkid -o value -s UUID "$swap_partition_var") swap swap pri=1 0 0" >> $ROOT/etc/fstab
+		echo "UUID=$(blkid -o value -s UUID "$swap_part") swap swap pri=1 0 0" >> $ROOT/etc/fstab
+	fi
+	
+	if [ "$home_part" ]; then
+		echo "UUID=$(blkid -o value -s UUID "$home_part") $home_part $home_part_fs defaults 0 0" >> $ROOT/etc/fstab
 	fi
 
 	# create user
@@ -438,11 +546,14 @@ start_install() {
 	xchroot $ROOT mkinitramfs
 
 	# grub
-	# EFI
-	#run_chroot grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=venom_grub --recheck $bootloader_disk_var
-	# mbr
 	echo GRUB_DISABLE_OS_PROBER=false >> $ROOT/etc/default/grub
-	xchroot $ROOT grub-install --target=i386-pc $bootloader_disk_var
+	if [ "$EFI_SYSTEM" = 1 ]; then
+		# EFI
+		xchroot $ROOT grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=venom_grub --recheck $bootloader_disk_var
+	else
+		# mbr
+		xchroot $ROOT grub-install --target=i386-pc $bootloader_disk_var
+	fi
 	xchroot $ROOT grub-mkconfig -o /boot/grub/grub.cfg
 	
 	while [ ! "$done" ]; do
@@ -456,10 +567,10 @@ start_install() {
 		prompt_user "choose option: "
 		read input
 		case $input in
-			1) umount $ROOT; exit 0;;
+			1) umount -R $ROOT; exit 0;;
 			2) xchroot $ROOT;;
-			3) umount $ROOT; reboot;;
-			4) umount $ROOT; poweroff;;
+			3) umount -R $ROOT; reboot;;
+			4) umount -R $ROOT; poweroff;;
 		esac
 		[ "$input" = 0 ] && continue
 		[ "$input" -gt "4" ] && continue
@@ -481,7 +592,7 @@ print_partitioning_tips() {
 }
 
 print_selection() {
-	cprint "1. partitions: $root_partition_var $filesystem_var $([ $swap_partition_var ] && echo swap=$swap_partition_var)"
+	cprint "1. partitions: $partstatus"
 	cprint "2. keymap: $keymap"
 	cprint "3. timezone: $timezone_var"
 	cprint "4. locale: $locale_var"
@@ -514,6 +625,11 @@ main() {
 		esac
 	done
 }
+
+if [ "$(id -u)" != 0 ]; then
+	echo "root access required to install!"
+	exit 1
+fi
 
 ROOT=/mnt/install
 
