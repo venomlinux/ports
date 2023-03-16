@@ -415,6 +415,9 @@ start_install() {
 	
 	mountpoint -q $ROOT && umount -f $ROOT
 	
+	rm -fr $ROOT
+	mkdir -p $ROOT
+	
 	if [ "$root_part_create" = 1 ]; then
 		echo "Create filesystem $root_part_fs on $root_part"
 		case $root_part_fs in
@@ -425,6 +428,9 @@ start_install() {
 		esac
 	fi
 	
+	echo "Mounting $root_part on $ROOT"
+	mount $root_part $ROOT
+	
 	if [ "$home_part_create" = 1 ]; then
 		echo "Create filesystem $home_part_fs on $home_part"
 		case $home_part_fs in
@@ -433,6 +439,9 @@ start_install() {
 			reiserfs) mkreiserfs -q -l Home $home_part;;
 			btrfs) mkfs.btrfs -f -L Home $home_part;;
 		esac
+		echo "Mount $home_part to $ROOT/home"
+		mkdir -p $ROOT/home
+		mount $home_part $ROOT/home
 	fi
 	
 	if [ "$swap_part_create" = 1 ]; then
@@ -443,15 +452,6 @@ start_install() {
 	if [ "$EFI_SYSTEM" = 1 ]; then
 		echo "Formatting partition $efi_var to fat32"
 		mkfs.vfat -F32 $efi_var
-	fi
-	
-	rm -fr $ROOT
-	mkdir -p $ROOT
-	
-	echo "Mounting $root_part on $ROOT"
-	mount $root_part $ROOT
-	
-	if [ "$EFI_SYSTEM" = 1 ]; then
 		echo "Mounting $efi_var on $ROOT/boot/efi"
 		mkdir -p $ROOT/boot/efi
 		mount $efi_var $ROOT/boot/efi
@@ -527,7 +527,7 @@ start_install() {
 	fi
 	
 	if [ "$home_part" ]; then
-		echo "UUID=$(blkid -o value -s UUID "$home_part") $home_part $home_part_fs defaults 0 0" >> $ROOT/etc/fstab
+		echo "UUID=$(blkid -o value -s UUID "$home_part") /home $home_part_fs defaults 0 0" >> $ROOT/etc/fstab
 	fi
 
 	# create user
