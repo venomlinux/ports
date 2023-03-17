@@ -2,14 +2,21 @@
 # depends	: enchant libpeas gtksourceview4 iso-codes itstool
 
 name=pluma
-version=1.26.0
+version=1.27.0
 release=1
 source="https://pub.mate-desktop.org/releases/${version%.*}/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --libexecdir=/usr/lib/$name
+
+	# skip broken translations
+	rm -r help/ru
+
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib/$name \
+		--enable-gtk-doc=no \
+		--enable-python
 	make
 	make DESTDIR=$PKG install
-
 }
