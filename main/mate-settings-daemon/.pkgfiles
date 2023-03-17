@@ -1,4 +1,4 @@
-mate-settings-daemon-1.26.0-1
+mate-settings-daemon-1.27.0-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/mate-settings-daemon/
 drwxr-xr-x root/root    etc/mate-settings-daemon/xrandr/
@@ -48,6 +48,8 @@ drwxr-xr-x root/root    usr/lib/mate-settings-daemon/
 -rwxr-xr-x root/root    usr/lib/mate-settings-daemon/libmpris.so
 -rw-r--r-- root/root    usr/lib/mate-settings-daemon/librfkill.a
 -rwxr-xr-x root/root    usr/lib/mate-settings-daemon/librfkill.so
+-rw-r--r-- root/root    usr/lib/mate-settings-daemon/libsmartcard.a
+-rwxr-xr-x root/root    usr/lib/mate-settings-daemon/libsmartcard.so
 -rw-r--r-- root/root    usr/lib/mate-settings-daemon/libsound.a
 -rwxr-xr-x root/root    usr/lib/mate-settings-daemon/libsound.so
 -rw-r--r-- root/root    usr/lib/mate-settings-daemon/libtyping-break.a
@@ -62,8 +64,10 @@ drwxr-xr-x root/root    usr/lib/mate-settings-daemon/
 -rw-r--r-- root/root    usr/lib/mate-settings-daemon/media-keys.mate-settings-plugin
 -rw-r--r-- root/root    usr/lib/mate-settings-daemon/mouse.mate-settings-plugin
 -rw-r--r-- root/root    usr/lib/mate-settings-daemon/mpris.mate-settings-plugin
+-rwxr-xr-x root/root    usr/lib/mate-settings-daemon/msd-datetime-mechanism
 -rwxr-xr-x root/root    usr/lib/mate-settings-daemon/msd-locate-pointer
 -rw-r--r-- root/root    usr/lib/mate-settings-daemon/rfkill.mate-settings-plugin
+-rw-r--r-- root/root    usr/lib/mate-settings-daemon/smartcard.mate-settings-plugin
 -rw-r--r-- root/root    usr/lib/mate-settings-daemon/sound.mate-settings-plugin
 -rw-r--r-- root/root    usr/lib/mate-settings-daemon/typing-break.mate-settings-plugin
 -rw-r--r-- root/root    usr/lib/mate-settings-daemon/xrandr.mate-settings-plugin
@@ -78,6 +82,10 @@ drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/dbus-1/
 drwxr-xr-x root/root    usr/share/dbus-1/services/
 -rw-r--r-- root/root    usr/share/dbus-1/services/org.mate.SettingsDaemon.service
+drwxr-xr-x root/root    usr/share/dbus-1/system-services/
+-rw-r--r-- root/root    usr/share/dbus-1/system-services/org.mate.SettingsDaemon.DateTimeMechanism.service
+drwxr-xr-x root/root    usr/share/dbus-1/system.d/
+-rw-r--r-- root/root    usr/share/dbus-1/system.d/org.mate.SettingsDaemon.DateTimeMechanism.conf
 drwxr-xr-x root/root    usr/share/glib-2.0/
 drwxr-xr-x root/root    usr/share/glib-2.0/schemas/
 -rw-r--r-- root/root    usr/share/glib-2.0/schemas/org.mate.SettingsDaemon.plugins.a11y-keyboard.gschema.xml
@@ -152,3 +160,6 @@ drwxr-xr-x root/root    usr/share/mate-settings-daemon/icons/hicolor/64x64/devic
 -rw-r--r-- root/root    usr/share/mate-settings-daemon/icons/hicolor/64x64/devices/kbd-scrolllock-off.png
 -rw-r--r-- root/root    usr/share/mate-settings-daemon/icons/hicolor/64x64/devices/kbd-scrolllock-on.png
 -rw-r--r-- root/root    usr/share/mate-settings-daemon/msd-a11y-preferences-dialog.ui
+drwxr-xr-x root/root    usr/share/polkit-1/
+drwxr-xr-x root/root    usr/share/polkit-1/actions/
+-rw-r--r-- root/root    usr/share/polkit-1/actions/org.mate.settingsdaemon.datetimemechanism.policy
