@@ -2,16 +2,29 @@
 # depends	: cmake ninja libffi python3 libxml2
 
 name=llvm
-version=15.0.7
+version=16.0.0
 release=1
-source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/cmake-$version.src.tar.xz
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/llvm-${version}.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/cmake-${version}.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/third-party-${version}.src.tar.xz
 llvm-config.h"
+noextract="cmake-${version}.src.tar.xz third-party-${version}.src.tar.xz"
 
 build() {
-	cp -r $SRC/cmake-$version.src/Modules/* $name-$version.src/cmake/modules/.
+	cd $name-$version.src
 
-	cmake -S $name-$version.src -B build -G Ninja \
+	# The upstream expects them extracted at the same level as the llvm tarball, and 
+	# the extracted directories renamed to cmake and third-party:
+	tar -xf $SRC/cmake-${version}.src.tar.xz
+	tar -xf $SRC/third-party-${version}.src.tar.xz
+	sed "/LLVM_COMMON_CMAKE_UTILS/s@../cmake@cmake-${version}.src@" -i CMakeLists.txt                 
+	sed "/LLVM_THIRD_PARTY_DIR/s@../third-party@third-party-${version}.src@" \
+		-i cmake/modules/HandleLLVMOptions.cmake
+
+	# Fix Python scripts which use /usr/bin/env python to access the system Python:
+	grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
+
+	cmake -B build -G Ninja \
 		-D CMAKE_INSTALL_PREFIX=/usr \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \

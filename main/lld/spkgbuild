@@ -3,15 +3,19 @@
 # depends	: llvm
 
 name=lld
-version=15.0.7
+version=16.0.0
 release=1
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/lld-$version.src.tar.xz
-	0002-PATCH-lld-Import-compact_unwind_encoding.h-from-libu.patch"
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/cmake-$version.src.tar.xz"
+noextract="cmake-$version.src.tar.xz"
 
 build() {
 	cd $name-$version.src
 
-	patch -Np2 -i ../0002-PATCH-lld-Import-compact_unwind_encoding.h-from-libu.patch
+	# The upstream expects it to be extracted at the same level as the llvm tarball, and 
+	# the extracted directory renamed to cmake
+	tar -xf ../cmake-${version}.src.tar.xz
+	sed '/LLVM_COMMON_CMAKE_UTILS/s@../cmake@cmake-16.0.0.src@' -i CMakeLists.txt
 
 	cmake -B build -G Ninja \
 		-D CMAKE_INSTALL_PREFIX=/usr \
