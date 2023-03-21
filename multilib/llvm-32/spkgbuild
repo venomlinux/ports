@@ -2,25 +2,34 @@
 # depends	: libffi-32 libxml2-32 ncurses-32 llvm
 
 name=llvm-32
-version=15.0.7
+version=16.0.0
 release=1
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/llvm-$version.src.tar.xz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/cmake-$version.src.tar.xz
-"
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/cmake-${version}.src.tar.xz
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/third-party-${version}.src.tar.xz"
+noextract="cmake-${version}.src.tar.xz third-party-${version}.src.tar.xz"
 
 build() {
-	cp -r $SRC/cmake-$version.src/Modules/* ${name%-*}-$version.src/cmake/modules/.
-
-	cd llvm-$version.src
-
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	mkdir -v build
-	cd       build
+	cd llvm-$version.src
+
+	# The upstream expects them extracted at the same level as the llvm tarball, and 
+	# the extracted directories renamed to cmake and third-party:
+	tar -xf $SRC/cmake-${version}.src.tar.xz
+	tar -xf $SRC/third-party-${version}.src.tar.xz
+	sed "/LLVM_COMMON_CMAKE_UTILS/s@../cmake@cmake-${version}.src@" -i CMakeLists.txt                 
+	sed "/LLVM_THIRD_PARTY_DIR/s@../third-party@third-party-${version}.src@" \
+		-i cmake/modules/HandleLLVMOptions.cmake
+
+	# Fix Python scripts which use /usr/bin/env python to access the system Python:
+	grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
+
+
 	
-	cmake .. -G Ninja \
+	cmake -B build -G Ninja \
 	      -DCMAKE_INSTALL_PREFIX=/usr           \
 	      -DLLVM_ENABLE_FFI=ON                  \
 	      -DCMAKE_BUILD_TYPE=Release            \
@@ -36,8 +45,8 @@ build() {
 	      -DLLVM_TARGETS_TO_BUILD='AMDGPU;BPF;NVPTX;WebAssembly;X86'\
 	      -DLLVM_ENABLE_ZSTD=$(scratch isinstalled zstd-32 || echo OFF) \
 	      -Wno-dev
-	ninja
-	DESTDIR=$PKG ninja install
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
 	# keep 32bit header and config
 	mkdir -p $SRC/keep
