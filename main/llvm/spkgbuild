@@ -45,7 +45,26 @@ build() {
 		-D LLVM_INCLUDE_BENCHMARKS=OFF \
 		-Wno-dev
 
-	cmake --build build
+	jobs=
+	while : ; do
+		echo "Try ${jobs:-default} parallel jobs ..."
+
+		cmake --build build -j $jobs && break
+
+		# Try few parallel jobs to avoid OOM
+		if [ -z "$jobs" ]; then
+			jobs=$(expr $(free -g | grep Mem: | awk '{print $2}') / 2 + 1)
+			continue
+		elif [ $jobs -gt 2 ]; then
+			jobs=$(expr $jobs - 2)
+			continue
+		elif [ $jobs = 1 ]; then
+			exit 1
+		else
+			jobs=1
+		fi
+	done
+
 	DESTDIR=$PKG cmake --install build
 
 	# multilib stub
