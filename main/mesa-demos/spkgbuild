@@ -1,10 +1,10 @@
 # description	: Mesa demos and tools incl. glxinfo + glxgears
-# depends	: glew freeglut mesa freetype2
+# depends	: glew freeglut mesa freetype2 libdecor
 
 name=mesa-demos
-version=8.5.0
+version=9.0.0
 release=1
-source="https://archive.mesa3d.org/demos/$version/$name-$version.tar.bz2"
+source="https://archive.mesa3d.org/demos/$name-$version.tar.xz"
 
 build() {
 	venom-meson $name-$version build \
