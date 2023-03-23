@@ -3,7 +3,7 @@
 
 name=cups-filters
 version=1.28.17
-release=1
+release=2
 source="$name-$version.tar.gz::https://github.com/OpenPrinting/cups-filters/archive/$version.tar.gz
 	run.cups-browsed
 	rc.cups-browsed"
@@ -11,15 +11,18 @@ source="$name-$version.tar.gz::https://github.com/OpenPrinting/cups-filters/arch
 build() {
 	cd $name-$version
 	./autogen.sh
-	./configure --prefix=/usr \
-		--sysconfdir=/etc \
-		--without-php \
+	CXXFLAGS="$CXXFLAGS -std=c++17"  \
+	./configure \
+		--prefix=/usr        \
+		--sysconfdir=/etc    \
+		--localstatedir=/var \
+		--without-rcdir      \
+		--disable-static     \
 		--disable-avahi \
 		--disable-dbus \
 		--disable-braille \
 		--without-rcdir \
 		--with-browseremoteprotocols=cups
-
 	make
 	make DESTDIR=$PKG install
 
