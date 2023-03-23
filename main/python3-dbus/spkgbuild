@@ -7,9 +7,10 @@ release=1
 source="$name-$version.tar.gz::http://dbus.freedesktop.org/releases/dbus-python/dbus-python-$version.tar.gz"
 
 build() {
+	export PYTHON=/usr/bin/python3
+
 	cd dbus-python-$version
 
-	PYTHON=/usr/bin/python3    \
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install

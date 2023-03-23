@@ -9,7 +9,8 @@ source="ftp://ftp.gnupg.org/gcrypt/gpgme/$name-$version.tar.bz2"
 build() {
 	cd $name-$version
 
-	export PYTHON='/usr/bin/python3'
+	export PYTHON=/usr/bin/python3
+
 	./configure \
 		--prefix=/usr \
 		--disable-fd-passing \
