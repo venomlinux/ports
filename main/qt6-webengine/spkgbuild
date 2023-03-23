@@ -10,7 +10,7 @@ source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${ver
 
 build() {
 
-	PYTHON=/usr/bin/python3 
+	export PYTHON=/usr/bin/python3 
 
 	cmake -B build -S qtwebengine-everywhere-src-$version -G Ninja \
 		-DCMAKE_MESSAGE_LOG_LEVEL=STATUS \
