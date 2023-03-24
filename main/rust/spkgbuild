@@ -2,7 +2,7 @@
 # depends	: curl cmake python3 llvm libssh2
 
 name=rust
-version=1.68.0
+version=1.68.1
 release=1
 _date=2023-02-09
 _rust=1.67.1
@@ -40,51 +40,39 @@ build() {
 	cp $SRC/cargo-$_cargo-$_triplet.tar.xz build/cache/$_date/
 
 cat << EOF > config.toml
+
 [llvm]
-ninja = true
+targets = "X86"
 link-shared = true
+
+[build]
+docs = false
+extended = true
+locked-deps = true
+vendor = true
+python = "/usr/bin/python3"
+tools = ["cargo", "clippy", "rustfmt"]
 
 [install]
 prefix = "/usr"
 
 [rust]
-codegen-units-std = 1
-debuginfo-level-std = 2
-codegen-tests = false
-backtrace-on-ice = true
-remap-debuginfo = true
-jemalloc = true
 description = "Venom"
 channel = "stable"
-parallel-compiler = false
-rpath = false
-optimize = true
-
-[build]
-target = [ "$_triplet" ]
-tools = ["cargo", "clippy", "rustfmt", "analysis", "src", "rust-demangler", "rust-analyzer"]
-docs = false
-extended = true
-sanitizers = true
-profiler = true
-submodules = false
-locked-deps = true
-vendor = true
-python = "/usr/bin/python3"
 
 [target.$_triplet]
-cc = "/usr/bin/gcc"
-cxx = "/usr/bin/g++"
-ar = "/usr/bin/gcc-ar"
-ranlib = "/usr/bin/gcc-ranlib"
 llvm-config = "/usr/bin/llvm-config"
+
 EOF
 
 	mkdir "$SRC/rust"
 	export CARGO_HOME="$SRC/rust"
 	export RUST_BACKTRACE=1
 
-	python3 ./x.py build $MAKEFLAGS
+	{ [ ! -e /usr/include/libssh2.h ] || \
+	export LIBSSH2_SYS_USE_PKG_CONFIG=1; }
+	python3 ./x.py build
+
 	DESTDIR=$PKG python3 ./x.py install -v
 
 	rm -rf $PKG/usr/lib/rustlib/components
