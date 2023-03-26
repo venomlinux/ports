@@ -2,15 +2,12 @@
 # depends	: lzo zstd
 
 name=btrfs-progs
-version=6.2.1
-release=2
-source="https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/$name-v$version.tar.xz
-	blake2b.patch"
+version=6.2.2
+release=1
+source="https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/$name-v$version.tar.xz"
 
 build() {
 	cd $name-v$version
-
-	patch -Np1 -i $SRC/blake2b.patch
 
 	./configure \
 		--prefix=/usr \
