@@ -126,7 +126,7 @@ zap_rootfs() {
 		fetch_rootfs
 	}
 	msg "Removing existing rootfs: $ROOTFS"
-	rm -fr $ROOTFS
+	rm -fr $ROOTFS/*
 	mkdir -p $ROOTFS
 	msg "Extracting tarball image: $TARBALLIMG"
 	tar -xf $TARBALLIMG -C $ROOTFS || die "Error extracting tarball image"
@@ -193,7 +193,7 @@ restore_scratchpkgconf() {
 tmp_scratchpkgconf() {
 	if [ ! -f "$ROOTFS"/etc/scratchpkg.repo.spkgnew ]; then
 		mv "$ROOTFS"/etc/scratchpkg.repo "$ROOTFS"/etc/scratchpkg.repo.spkgnew
-		echo "/usr/ports/core https://github.com/venomlinux/ports/tree/$RELEASE/core" > "$ROOTFS"/etc/scratchpkg.repo
+		echo "/usr/ports/core https://github.com/venomlinux/ports/tree/venom${RELEASE%%.*}/core" > "$ROOTFS"/etc/scratchpkg.repo
 		for i in $REPO; do
 			echo "/usr/ports/$i" >> "$ROOTFS"/etc/scratchpkg.repo
 		done
@@ -515,7 +515,7 @@ REPOFILE="$FILESDIR/scratchpkg.repo"
 # iso
 ISODIR="${ISODIR:-/tmp/venomiso}"
 ISOLABEL="VENOMLIVE_$(date +"%Y%m%d")"
-ISO_PKG="linux-lts,dialog,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,syslinux"
+ISO_PKG="linux-lts,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,syslinux"
 OUTPUTISO="${OUTPUTISO:-$PORTSDIR/venomlinux-$RELEASE-$ARCH.iso}"
 
 trap "interrupted" 1 2 3 15

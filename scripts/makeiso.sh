@@ -11,6 +11,11 @@ as_root()
 	fi
 }
 
+case ${0##*/} in
+	*-runit.sh) INIT=runit;;
+	*) INIT=svsv;;
+esac
+
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
 ROOTFS="$PWD/rootfs"
@@ -25,16 +30,19 @@ THEME_PKG="arcbox paper-icon-theme osx-arc-theme ttf-liberation picom dunst neof
 # theme: arc-gtk-theme xfce4-whiskermenu-plugin pop-icon-theme
 
 RELEASE=$(cat $PORTSDIR/current-release)
-outputiso="$PORTSDIR/venomlinux-$RELEASE-$(uname -m)-$(date +%Y%m%d).iso"
+outputiso="$PORTSDIR/venomlinux-$RELEASE-$INIT-$(uname -m)-$(date +%Y%m%d).iso"
 pkgs="$(echo $MUST_PKG $XORG_PKG $MAIN_PKG $OPENBOX_PKG $THEME_PKG | tr ' ' ',')"
 
 as_root $SCRIPTDIR/build.sh \
 	-zap || exit 1
 
 echo 'rust rust-bin' | as_root tee -a $ROOTFS/etc/scratchpkg.alias
-#echo 'rc runit-rc' | as_root tee -a $ROOTFS/etc/scratchpkg.alias
 
-#as_root xchroot $ROOTFS scratch remove -y sysvinit rc
+if [ "$INIT" = runit ]; then
+	echo 'rc runit-rc' | as_root tee -a $ROOTFS/etc/scratchpkg.alias
+	as_root $ROOTFS/usr/bin/xchroot $ROOTFS scratch remove -y sysvinit rc
+	pkgs="$pkgs,runit-rc"
+fi
 
 as_root $SCRIPTDIR/build.sh \
 	-rebase \

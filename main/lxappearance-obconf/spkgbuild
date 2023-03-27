@@ -9,11 +9,10 @@ source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz"
 build() {
 	cd $name-$version
 
-  # Hide theme preview as it's broken with GTK+ 3
-  # https://sourceforge.net/p/lxde/bugs/768/
-        sed -i /frame1/,+19d src/obconf.glade
-	./configure --prefix=/usr --disable-static
+	# Hide theme preview as it's broken with GTK+ 3
+	# https://sourceforge.net/p/lxde/bugs/768/
+	sed -i /frame1/,+19d src/obconf.glade
+	./configure --prefix=/usr --disable-static --enable-gtk3
 	make
 	make DESTDIR=$PKG install
-
 }

@@ -1,5 +1,22 @@
 #!/bin/sh
 
+_unmount() {
+	while true; do
+		mountpoint -q $1 || break
+		umount $1 2>/dev/null
+	done
+}
+
+_chroot() {
+	mount --bind /dev $newroot/dev
+	mount -t proc proc $newroot/proc
+	mount -t sysfs sysfs $newroot/sys
+	chroot $newroot $@
+	_unmount $newroot/sys
+	_unmount $newroot/proc
+	_unmount $newroot/dev
+}
+
 build_hook() {
 	add_module cdrom
 	add_module loop
@@ -10,6 +27,7 @@ build_hook() {
 	add_binary /lib/udev/cdrom_id
 	add_binary blockdev
 	add_binary losetup
+	add_binary mountpoint
 }
 
 run_earlyhook() {
@@ -86,7 +104,7 @@ mount_venomiso() {
 	if [ -f $newroot/root/custom_script.sh ]; then
 		msg "running custom_script.sh script..."
 		chmod +x $newroot/root/custom_script.sh
-		chroot $newroot bash /root/custom_script.sh 2>/dev/null
+		_chroot /root/custom_script.sh 2>/dev/null
 	fi
 	
 	if [ "$ram" = y ]; then

@@ -3,7 +3,7 @@
 # this script execute to apply changes to installed system from data from venom-installer
 #
 # list variable:
-#  $ROOT - directory where system is installed
+#  $ROOT       - directory where system is installed
 #  $HOSTNAME   - hostname
 #  $TIMEZONE   - timezone (xxxx/yyyy)
 #  $KEYMAP     - keymap
@@ -42,6 +42,9 @@ for d in $daemons; do
 			dd="$d"
 		fi
 	fi
+	if [ -d $ROOT/etc/sv/$d ]; then
+		ln -s /etc/sv/$d $ROOT/etc/runit/runsvdir/default
+	fi
 done
 
 # hostname
@@ -49,12 +52,17 @@ echo "$HOSTNAME" > $ROOT/etc/hostname
 
 # hardware clock
 #sed "s;#HARDWARECLOCK=.*;HARDWARECLOCK=\"$clock_var\";" -i $ROOT/etc/rc.conf
+# temporarily set default to localtime
+sed "s;#HARDWARECLOCK=.*;HARDWARECLOCK=\"localtime\";" -i $ROOT/etc/rc.conf
+sed "s;#HARDWARECLOCK=.*;HARDWARECLOCK=\"localtime\";" -i $ROOT/etc/runit/runit.conf
 
 # timezone
 sed "s;#TIMEZONE=.*;TIMEZONE=\"$TIMEZONE\";" -i $ROOT/etc/rc.conf
+sed "s;#TIMEZONE=.*;TIMEZONE=\"$TIMEZONE\";" -i $ROOT/etc/runit/runit.conf
 
 # keymap
 sed "s;#KEYMAP=.*;KEYMAP=\"$KEYMAP\";" -i $ROOT/etc/rc.conf
+sed "s;#KEYMAP=.*;KEYMAP=\"$KEYMAP\";" -i $ROOT/etc/runit/runit.conf
 
 # daemons
 sed "s;#DAEMONS=.*;DAEMONS=\"$dd\";" -i $ROOT/etc/rc.conf

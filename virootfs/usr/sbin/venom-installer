@@ -1,757 +1,640 @@
-#!/bin/bash
-
-_dialog() {
-	dialog --no-mouse "$@" 3>&1 1>&2 2>&3
-	return $?
-}
-
-_dialog_choose_fs() {
-	_dialog --menu "Select filesystem" 0 60 0 \
-		ext4 "Ext4 Journaling Filesystem" \
-		ext3 "Ext3 Journaling Filesystem" \
-		ext2 "Standard Linux ext2 Filesystem" \
-		btrfs "Btrfs Copy-on-Write B-tree Filesystem" \
-		reiserfs "ReiserFS Journaling Filesystem" \
-		xfs "SGI's Journaling Filesystem" || return 1
-}
-
-unmount() {
-	while true; do
-		mountpoint -q $1 || break
-		umount $1 2>/dev/null
-	done
-}
-
-print_msg() {
-	_dialog --clear --msgbox "$@" 8 60
-}
-
-print_info() {
-	_dialog --infobox "$@" 3 50
-}
-
-print_error_msg() {
-	print_msg "$@"
-	umount -R $VENOMROOT
-	#mountpoint -q $VENOMROOT/boot/efi && umount $VENOMROOT/boot/efi
-	#mountpoint -q $VENOMROOT && umount $VENOMROOT
-	exit 1
-}
-
-mount_pseudofs() {
-	mount --bind /dev $VENOMROOT/dev
-	mount -t devpts devpts $VENOMROOT/dev/pts -o gid=5,mode=620
-	mount -t proc proc $VENOMROOT/proc
-	mount -t sysfs sysfs $VENOMROOT/sys
-	if [ "$EFI_SYSTEM" = 1 ]; then
-		mount --bind /sys/firmware/efi/efivars $VENOMROOT/sys/firmware/efi/efivars
-	fi
-	mount -t tmpfs tmpfs $VENOMROOT/run
-	# workaround on stupid 'WARNING: Device /dev/XXXX not initialized in udev database even after waiting 10000000 microseconds.'
-	mkdir -p $VENOMROOT/run/udev
-	mount --bind /run/udev $VENOMROOT/run/udev
-}
-
-umount_pseudofs() {
-	unmount $VENOMROOT/dev/pts
-	unmount $VENOMROOT/dev
-	unmount $VENOMROOT/run/udev
-	unmount $VENOMROOT/run
-	unmount $VENOMROOT/proc
-	if [ "$EFI_SYSTEM" = 1 ]; then
-		unmount $VENOMROOT/sys/firmware/efi/efivars
-	fi
-	unmount $VENOMROOT/sys
-}
-
-run_chroot() {
-	mount_pseudofs
-	chroot $VENOMROOT "$@"
-	retval=$?
-	umount_pseudofs
-	return $retval
-}
-
-_exit() {
-	_dialog --yesno "Exit installation?" 8 50 && {
-		clear; exit 0
-	}
-}
+#!/bin/sh -e
 
 showdisk() {
-	lsblk -nrp -o NAME,SIZE,TYPE,FSTYPE | grep -w disk | awk '{print $1}'
+	lsblk -nrp -o NAME,TYPE | grep -w disk | awk '{print $1}'
 }
 
 showswap() {
 	fdisk -l | grep ^\/dev | grep swap | awk '{print $1}'
 }
 
-showefi() {
-	fdisk -l | grep ^\/dev | grep EFI | awk '{print $1}'
-}
-
 showpartition() {
-	fdisk -l | grep ^\/dev | grep -Ev '(swap|Extended|EFI|BIOS)' | awk '{print $1}'
+	fdisk -l | grep ^\/dev | grep -Ev '(swap|Extended|EFI|BIOS|Empty)' | awk '{print $1}'
 }
 
-get_partition_size() {
-	lsblk -nrp -o NAME,SIZE,TYPE,FSTYPE | grep -w $1 | awk '{print $2}'
+showkeymap() {
+	find /usr/share/keymaps/ -type f -iname "*.map.gz" -printf "%f\n" | sed 's|.map.gz||g' | sort
 }
 
-get_partition_fstype() {
-	local fstype
-	fstype=$(lsblk -nrp -o NAME,SIZE,TYPE,FSTYPE | grep -w $1 | awk '{print $4}')
-	echo ${fstype:-none}
+showlocale() {
+	grep "UTF-8" /etc/locales | awk '{print $1}' | sed 's/^#//;s/\.UTF-8//'
 }
 
-get_disk_type() {
-	local disktype
-	disktype=$(lsblk -nrp -o NAME,SIZE,TYPE,PTTYPE | grep -w $1 | awk '{print $4}')
-	echo ${disktype:-none}
+get_partition_info() {
+	echo -n "$1 - "
+	lsblk -nrp -o NAME,SIZE,FSTYPE,LABEL | grep -v ventoy | grep -w $1 | cut -d ' ' -f2-
 }
 
-print_partitioning_tips() {
-	_dialog --clear --title "  Partitioning Tips  " --msgbox "\n
-For BIOS systems, MBR or GPT partition tables are supported.
-To use GPT partition in BIOS system 1MB partition must be created and set as 'BIOS boot'.\n\n
-For EFI systems, GPT partition is required and a FAT32 partition with at least 100MB set as 'EFI System'
-must be created. This partition will be used as 'EFI System Partition' with '/boot/efi' as mountpoint." 14 70
+title() {
+	cprint "VENOM LINUX INSTALLER"
+	printline
+	echo
 }
 
-menu_keymap() {
-	local _keymaps="$(find /usr/share/keymaps/ -type f -iname "*.map.gz" -printf "%f\n" | sed 's|.map.gz||g' | sort)"
-	local _KEYMAPS=
-	
-	for f in ${_keymaps}; do
-		_KEYMAPS="${_KEYMAPS} ${f} -"
-	done
-	keymap_var=$(_dialog --menu "Select your keymap" 0 50 0 ${_KEYMAPS}) || return 1	
-	return 0
+cclear() {
+	clear
+	title
 }
 
-menu_timezone() {
-	local location
-	local _locations
-	local area
-	local areas="Africa America Antarctica Arctic Asia Atlantic Australia Europe Indian Pacific"
-
-	for a in $areas; do
-		_areas="$_areas $a -"
-	done
-	area=$(_dialog --menu "Select your area" 0 50 0 ${_areas}) || return 1
-
-	for l in $(find /usr/share/zoneinfo/$area -type f -printf '%P\n' | sort); do
-		_locations="$_locations $l -"
-	done
-	location=$(_dialog --menu "Select your location" 0 50 0 ${_locations}) || return 1
-
-	timezone_var=$area/$location	
-	return 0
+prompt_user() {
+	echo
+	cols=$(tput cols)
+	text=$@
+	length=${#text}
+	pad=$(( (cols - length) / 2 ))
+	printf "%*s%s" $pad "" "$text"
 }
 
-menu_hostname() {
-	local _preset
-	if [ -z "$hostname_var" ]; then
-		_preset=venom
-	else
-		_preset=$hostname_var
-	fi
-	hostname_var=$(_dialog --inputbox "Enter hostname:" 0 50 $_preset) || return 1	
-	return 0
+cprint() {
+	cols=$(tput cols)
+	text=$@
+	length=${#text}
+	pad=$(( (cols - length) / 2 ))
+	printf "%*s%s\n" $pad "" "$text"
 }
 
-menu_rootpasswd() {
-	while true; do
-		rootpasswd=$(_dialog --insecure --passwordbox "Enter password for root:" 0 50) || return 1
-		if [ $? != 0 ]; then
-			break
-		fi
-		rootpasswdc=$(_dialog --insecure --passwordbox "Enter password confirmation for root:" 0 50) || return 1
-		if [ $? != 0 ]; then
-			break
-		fi
-		if [ -z "$rootpasswd" ]; then
-			print_info "Password cant empty, try again!"
-			sleep 2
-		elif [ "$rootpasswd" != "$rootpasswdc" ]; then
-			print_info "Password does not match, try again!"
-			sleep 2
-		else
-			break
-		fi
-	done	
-	return 0
+printline() {
+	cols=$(tput cols)
+	printf "%${cols}s\n" "" | tr " " "*"
 }
 
-menu_useraccount() {
-	local _preset
-	if [ -z $user_var ]; then
-		_preset=venom
-	else
-		_preset=$user_var
-	fi
-	user_var=$(_dialog --inputbox "Enter login name:" 0 50 $_preset) || return 1
-	if [ $? = 0 ]; then
-		while true; do
-			passwd=$(_dialog --insecure --passwordbox "Enter password for $user_var:" 0 50) || return 1
-			if [ $? != 0 ]; then
-				break
-			fi
-			passwdc=$(_dialog --insecure --passwordbox "Enter password confirmation for $user_var:" 0 50) || return 1
-			if [ $? != 0 ]; then
-				break
-			fi
-			if [ -z "$passwd" ]; then
-				print_info "Password cant empty, try again!"
-				sleep 2
-			elif [ "$passwd" != "$passwdc" ]; then
-				print_info "Password does not match, try again!"
-				sleep 2
-			else
-				break
-			fi
+choose_part() {
+	unset part createpart filesystem_var
+	case $1 in
+		1) grep_regex=EFI;;
+		2) grep_regex=BIOS;;
+		3) grep_regex=swap;;
+		*) grep_regex="-Ev (swap|Extended|EFI|BIOS|Empty)"
+	esac
+	[ "$root_var" ] && exclude_root="grep -v ^${root_var%%:*}" || exclude_root=cat
+	[ "$home_var" ] && exclude_home="grep -v ^${home_var%%:*}" || exclude_home=cat
+	while [ ! "$part" ]; do
+		cclear
+		count=0
+		for i in $(fdisk -l | grep ^\/dev | grep -v ventoy | grep $grep_regex | awk '{print $1}' | sort | $exclude_root | $exclude_home); do
+			count=$((count+1))
+			ii=$(get_partition_info $i)
+			cprint "$count. $ii"
 		done
-	else
-		return
-	fi	
-	return 0
-}
-
-setup_efi_partition() {
-	local efimenu
-	format_efi=0
-	
-	if [ "$(showefi)" ]; then
-		for e in $(showefi); do
-			efimenu="$efimenu $e $(get_partition_size $e)"
-		done
-		efi_var=$(_dialog --menu "Choose EFI partition" 0 50 0 ${efimenu}) || return 1
-		# check if EFI partition is ok, ask if user want to re-format it, else dont ask, just format it
-		if [ "$(get_partition_fstype $efi_var)" = "vfat" ]; then
-			_dialog --yesno "Format EFI partition ($efi_var)?" $YESNOSIZE && format_efi=1
-		else
-			format_efi=1
-		fi
-	else
-		_dialog --msgbox "EFI Partition is not set, Please configure partition again!" 6 50
-		return 1
-	fi
-	return 0
-}
-
-setup_root_partition() {
-	local partmenu
-	formatrootpartition=0
-	
-	# select partition to install venom
-	for p in $(showpartition); do
-		partmenu="$partmenu $p size:$(get_partition_size $p),fstype:$(get_partition_fstype $p)"
-	done
-	partition_var=$(_dialog --menu "Choose partition for root (/)" 0 60 0 ${partmenu}) || return 1
-
-	if [ "$(get_partition_fstype $partition_var)" != "none" ]; then
-		_dialog --yesno "Do you want to format $partition_var?" $YESNOSIZE && formatrootpartition=1
-	else
-		formatrootpartition=1
-	fi
-	
-	if [ "$formatrootpartition" = 1 ]; then
-		filesystem_var=$(_dialog_choose_fs) || return 1
-	else
-		filesystem_var=$(get_partition_fstype $partition_var)
-	fi
-	return 0
-}
-
-setup_swap_partition() {
-	local swapmenu
-	format_swap=0
-	
-	if [ "$(showswap)" ]; then
-		_dialog --yesno "Swap partition found, do you want to use it?" $YESNOSIZE
-		if [ $? = 0 ]; then
-			for s in $(showswap); do
-				swapmenu="$swapmenu $s $(get_partition_size $s)"
-			done
-			swap_var=$(_dialog --menu "Choose swap partition" 0 50 0 ${swapmenu})
-			if [ "$(get_partition_fstype $swap_var)" = "swap" ]; then
-				_dialog --yesno "Format swap partition ($swap_var)?" $YESNOSIZE && format_swap=1
-			else
-				format_swap=1
-			fi
-		else
-			swap_var=SKIP
-		fi
-	else
-		swap_var=SKIP
-	fi
-	return 0
-}
-
-setup_other_partition() {
-	local donepart="$partition_var"
-	local donemountpoint="/"
-	
-	unset allotherpartitions
-	
-	while true; do
-		unset partmenu mountpoint otherpart otherpartfs
-		otherpartformat=0
-		for p in $(showpartition); do
-			if ! echo $donepart | tr ' ' '\n' | grep -qx $p; then
-				partmenu="$partmenu $p size:$(get_partition_size $p),fstype:$(get_partition_fstype $p)"
-			fi
-		done
-		[ "$partmenu" ] || break
-		_dialog --yesno "Do you want to setup another partition?" $YESNOSIZE || break
-		otherpart=$(_dialog --menu "Choose partition" 0 60 0 ${partmenu}) || return 1
-		
-		while true; do
-			mountpoint=$(_dialog --inputbox "Enter mount point" 0 60 /) || return 1
-			if echo $donemountpoint | tr ' ' '\n' | grep -qx $mountpoint; then
-				print_msg "Mount point '$mountpoint' already used, enter other mount point."
-			else
-				break
-			fi
-		done
-		
-		if [ "$(get_partition_fstype $otherpart)" != "none" ]; then
-			_dialog --yesno "Do you want to format $otherpart?" $YESNOSIZE && otherpartformat=yes
-		else
-			otherpartformat=yes
-		fi
-		
-		if [ "$otherpartformat" = "yes" ]; then
-			otherpartfs=$(_dialog_choose_fs) || return 1
-		else
-			otherpartfs=$(get_partition_fstype $otherpart)
-		fi
-		donepart="$donepart $otherpart"
-		donemountpoint="$donemountpoint $mountpoint"
-		allotherpartitions="$allotherpartitions $otherpart:$mountpoint:$otherpartfs:$otherpartformat"
-	done
-
-	[ "$allotherpartitions" ] && _dialog --msgbox "partition:mountpoint:filesystem:format
-
-$(echo $allotherpartitions | tr ' ' '\n')
-" 0 0
-
-	return 0
-}
-
-menu_partition() {
-	local dd
-	local parttool
-	local disk_part
-	
-	print_partitioning_tips
-
-	_dialog --yesno "Modify disk partition?" $YESNOSIZE
-	if [ "$?" = 0 ]; then
-		parttool=$(_dialog --menu "Choose partitioning tool" 0 50 0 cfdisk - fdisk -) || return 1
-		for d in $(showdisk); do
-			dd="$dd $d $(get_partition_size $d)"
-		done
-		disk_part=$(_dialog --menu "Choose disk to modify partition" 0 50 0 ${dd}) || return 1
-		$parttool $disk_part || return 1
-	fi
-	
-	# check if partition is created
-	[ "$(showpartition)" ] || {
-		_dialog --msgbox "No partition found\nPlease create partition first" 7 50
-		return 1
-	}
-
-	# EFI partition setup
-	[ "$EFI_SYSTEM" = 1 ] && {
-		setup_efi_partition || return 1
-	}
-
-	setup_root_partition || return 1
-	setup_swap_partition || return 1
-	setup_other_partition || return 1
-	return 0
-}
-
-menu_bootloader() {
-	local d
-	local dd
-	local dsize
-	
-	_dialog --yesno "Do you want install grub bootloader?" $YESNOSIZE
-	if [ $? = 0 ]; then
-		for d in $(showdisk); do
-			dd="$dd $d $(get_partition_size $d)"
-		done
-		grub_var=$(_dialog --menu "Choose disk to install grub" 0 50 0 ${dd}) || return 1
-	else
-		grub_var=SKIP
-	fi	
-	return 0
-}
-
-menu_locale() {
-	local locales
-	local _locale
-	
-	if [ -f "/etc/locales" ]; then
-		locales=$(grep "UTF-8" /etc/locales | awk '{print $1}' | sed 's/^#//;s/\.UTF-8//')
-		for l in $locales; do
-			_locale="$_locale $l -"
-		done
-		locale_var=$(_dialog --menu "Select locale" 0 50 0 ${_locale}) || return 1
-	else
-		locale_var=SKIP
-	fi
-		
-	clock_var=$(_dialog --menu "Select time" 0 50 0 UTC - localtime -) || return 1	
-	return 0
-}
-
-view_settings() {
-	_dialog --title "  Saved settings for installation  " --msgbox "
-Keymap    : $keymap_var
-Timezone  : $timezone_var
-Hostname  : $hostname_var
-User      : $user_var
-UserPswd  : $([ $passwd ] && echo -done-)
-Rootpswd  : $([ $rootpasswd ] && echo -done-)
-Root      : $partition_var $filesystem_var $(get_disk_type $partition_var)
-Locale    : $locale_var
-Time      : $clock_var
-EFI       : $([ $EFI_SYSTEM != 1 ] && echo SKIP || echo $efi_var) $([ $format_efi = 1 ] && echo re-format)
-Swap      : $swap_var $([ $format_swap = 1 ] && echo re-format)
-Grub      : $grub_var
-" 0 0
-}
-
-check_settings() {
-	local notset
-	
-	[ "$keymap_var" ] || notset="Keyboard"
-	[ "$partition_var" ] || notset="$notset Partition"
-	[ "$timezone_var" ] || notset="$notset Timezone"
-	[ "$hostname_var" ] || notset="$notset Hostname"
-	[ "$user_var" ] || notset="$notset UserAccount"
-	[ "$rootpasswd" ] || notset="$notset RootPassword"
-	[ "$grub_var" ] || notset="$notset Bootloader"
-	[ "$clock_var" ] || notset="$notset Locale"
-	
-	if [ "$notset" ]; then
-		notset=$(echo $notset | tr ' ' '\n')
-		_dialog --title "  This options is not set  " --msgbox "$notset" 0 0
-		return 1
-	fi
-}
-
-check_disk() {
-	if [ "$EFI_SYSTEM" = 1 ]; then
-		if [ "$(get_disk_type $partition_var)" = "dos" ]; then
-			print_msg "gpt disk required for UEFI system"
-			return 1
-		fi
-		if [ ! "$(fdisk -l | grep ^\/dev | grep "EFI System")" ]; then
-			print_msg "For UEFI system, a FAT32 partition with at least 100MB set as 'EFI System' must be created"
-			return 1
-		fi
-	else
-		if [ "$(get_disk_type $partition_var)" = "gpt" ]; then
-			if [ ! "$(fdisk -l | grep ^\/dev | grep "BIOS boot")" ]; then
-				print_msg "To use GPT partition in BIOS system 1MB partition must be created and set as 'BIOS boot'"
-				return 1
-			fi
-		fi
-	fi
-}
-
-install_now() {
-	check_settings || return 1
-	check_disk || return 1
-	
-	umount -R $VENOMROOT
-	#mountpoint -q $VENOMROOT/boot/efi && umount $VENOMROOT/boot/efi
-	#mountpoint -q $VENOMROOT && umount $VENOMROOT
-	
-	_dialog --yesno "Continue with installation?" $YESNOSIZE || return 1
-	
-	# format root partition
-	if [ "$formatrootpartition" = 1 ]; then
-		print_info "Formatting partition $partition_var to $filesystem_var"
-		case $filesystem_var in
-			ext4|ext3|ext2) mkfs.$filesystem_var -F -L Venom $partition_var &>/dev/null
-			      PKGKEEP+=" e2fsprogs" ;;
-			xfs) mkfs.xfs -f -m crc=0 -L Venom $partition_var &>/dev/null
-			       PKGKEEP+=" xfsprogs" ;;
-			reiserfs) mkreiserfs -q -l Venom $partition_var &>/dev/null
-			       PKGKEEP+=" reiserfsprogs" ;;
-			btrfs) mkfs.btrfs -f -L Venom $partition_var &>/dev/null
-			       PKGKEEP+=" btrfs-progs" ;;
-		esac
-		if [ $? != 0 ]; then
-			print_error_msg "Failed create '$filesystem_var' filesystem on '$partition_var'"
-		fi
-	fi
-
-	# make EFI partition
-	if [ "$EFI_SYSTEM" = 1 ]; then
-		if [ "$format_efi" = 1 ]; then
-			print_info "Formatting partition $efi_var to fat32"
-			mkfs.vfat -F32 $efi_var &>/dev/null || print_error_msg "Failed create fat32 filesystem on $efi_var"
-		fi
-		PKGKEEP+=" grub-efi"
-	fi
-	
-	# make swap
-	if [ "$format_swap" = 1 ] && [ "$swap_var" ]; then
-		print_info "Formatting partition $swap_var to swap"
-		mkswap $swap_var &>/dev/null || print_error_msg "Failed create 'swap' on '$swap_var'"
-	fi
-	
-	rm -fr $VENOMROOT
-	mkdir -p $VENOMROOT
-
-	mount $partition_var $VENOMROOT || print_error_msg "Error mount '$partition_var'"
-	
-	# make partition for other partition
-	if [ "$allotherpartitions" ]; then
-		for p in $allotherpartitions; do
-			echo $p | while IFS=: read -r vdev vmount vfs vformat; do
-				if [ "$vformat" = yes ]; then
-					print_info "Formatting partition $vdev to $vfs"
-					case $vfs in
-						ext4|ext3|ext2) mkfs.$vfs -F $vdev &>/dev/null
-							  PKGKEEP+=" e2fsprogs" ;;
-						xfs) mkfs.xfs -f -m crc=0 $vdev &>/dev/null
-							   PKGKEEP+=" xfsprogs" ;;
-						reiserfs) mkreiserfs -q $vdev &>/dev/null
-							   PKGKEEP+=" reiserfsprogs" ;;
-						btrfs) mkfs.btrfs -f $vdev &>/dev/null
-							   PKGKEEP+=" btrfs-progs" ;;
-					esac
-					if [ $? != 0 ]; then
-						print_error_msg "Failed create '$vfs' filesystem on '$vdev'"
-					fi
+		cprint "0. back"
+		prompt_user "Choose partition [1-$count]: "
+		read input
+		[ "$input" = 0 ] && break
+		[ "$input" -gt "$count" ] && continue
+		part=$(fdisk -l | grep ^\/dev | grep -v ventoy | grep $grep_regex | awk '{print $1}' | sort | $exclude_root | $exclude_home | head -n$input | tail -n1)
+		case $1 in
+			1|2);;
+			3) 	if [ "$(lsblk -nrp -o FSTYPE $part)" = swap ]; then
+					while [ ! "$createpart" ]; do
+						cclear
+						cprint "1. create swap"
+						cprint "0. skip create swap"
+						prompt_user "Create swap partition for '$part'?: "
+						read input
+						[ "$input" = 0 ] && createpart=$input
+						[ "$input" = 1 ] && createpart=$input
+					done
+				else
+					createpart=1
+				fi;;
+			*)	if [ "$(lsblk -nrp -o FSTYPE $part)" ]; then
+					while [ ! "$createpart" ]; do
+						cclear
+						cprint "1. create filesystem"
+						cprint "0. skip create filesystem"
+						prompt_user "Create filesystem for '$part'?: "
+						read input
+						[ "$input" = 0 ] && createpart=$input
+						[ "$input" = 1 ] && createpart=$input
+					done
+				else
+					createpart=1
 				fi
-				mkdir -p $VENOMROOT$vmount || print_error_msg "Error create '$VENOMROOT$vmount' directory"
-				print_info "Mounting '$vdev'..."
-				mount $vdev $VENOMROOT$vmount || "Error mount '$vdev' to '$VENOMROOT$vmount'"
-			done
+				if [ "$createpart" -gt 0 ]; then
+					while [ ! "$filesystem_var" ]; do
+						fs="ext4 ext3 ext2 btrfs reiserfs xfs"
+						cclear
+						count=0
+						for i in $fs; do
+							count=$((count+1))
+							cprint "$count. $i"
+						done
+						prompt_user "Choose filesystem type for '$part' [1-$count]: "
+						read input
+						[ "$input" = 0 ] && continue
+						[ "$input" -gt "$count" ] && continue
+						filesystem_var=$(echo $fs | tr ' ' '\n' | head -n$input | tail -n1)
+					done
+				else
+					filesystem_var=skip
+				fi;;
+		esac
+	done
+	if [ "$part" ]; then
+		case $1 in
+			1) efi_var=$part;;
+			2) biosboot_var=$part;;
+			3) swap_var=$part:$createpart;;
+			4) root_var=$part:$filesystem_var;;
+			5) home_var=$part:$filesystem_var;;
+		esac
+	fi
+}
+
+modify_disk() {
+	unset disk disktool
+	while [ ! "$disk" ]; do
+		cclear
+		count=0
+		for i in $(showdisk); do
+			count=$((count+1))
+			ii=$(get_partition_info $i)
+			cprint "$count. $ii"
 		done
-	fi
+		prompt_user "Enter disk [1-$count]: "
+		read input
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "$count" ] && continue
+		disk=$(showdisk | head -n$input | tail -n1)
+	done
+	while [ ! "$disktool" ]; do
+		cclear
+		cprint "1. cfdisk"
+		cprint "2. fdisk"
+		prompt_user "Select tool for partitioning disk $disk: "
+		read input
+		case $input in
+			1) disktool=cfdisk;;
+			2) disktool=fdisk;;
+		esac
+	done
+	$disktool $disk
+}
 
-	if [ "$EFI_SYSTEM" = 1 ]; then
-		mkdir -p $VENOMROOT/boot/efi || print_error_msg "Error create '$VENOMROOT/boot/efi' directory"
-		print_info "Mounting '$efi_var'..."
-		mount $efi_var $VENOMROOT/boot/efi || print_error_msg "Error mount '$efi_var'"
-	fi
-
-	totalsfs=$(unsquashfs -l $ROOTSFS | wc -l)
-	countsfs=0
-	
-	( unsquashfs -f -i -d $VENOMROOT $ROOTSFS | sed "s:$VENOMROOT::" | while read -r line; do
-		countsfs=$(( countsfs + 1 ))
-		echo " $(( 100*countsfs/totalsfs ))% $line"
-	done ) | _dialog --progressbox "unsquash filesystem to $partition_var..." 20 70
-
-	if [ -x $VENOMROOT/etc/rc.d/networkmanager ]; then
-		network=networkmanager
-	elif [ -x $VENOMROOT/etc/rc.d/network ]; then
-		network=network
-	fi
-	
-	if [ -x $VENOMROOT/etc/rc.d/lxdm ]; then
-		dm=lxdm
-	elif [ -x $VENOMROOT/etc/rc.d/lightdm ]; then
-		dm=lightdm
-	elif [ -x $VENOMROOT/etc/rc.d/sddm ]; then
-		dm=sddm
-	elif [ -x $VENOMROOT/etc/rc.d/slim ]; then
-		dm=slim
-	fi
-
-	print_info "Applying saved settings..."
-
-	daemons="sysklogd dbus $dm alsa bluetooth gpm $network"
-
-	# enable services
-	for d in $daemons; do
-		if [ -x $VENOMROOT/etc/rc.d/$d ]; then
-			if [ "$dd" ]; then
-				dd="$dd $d"
-			else
-				dd="$d"
+config_rootpart() {
+	unset partstatus
+	print_partitioning_tips
+	while [ ! "$partstatus" ]; do
+		cclear
+		cprint "*** NOTE ***"
+		cprint "* 'EFI' only required on UEFI boot, atleast 100MB"
+		cprint "* 'BIOS boot' only required on BIOS boot + gpt disk, atleast 1MB"
+		cprint "* '/' is required to start installation"
+		echo
+		cprint "1. EFI - $efi_var"
+		cprint "2. BIOS boot - $biosboot_var"
+		cprint "3. swap - $swap_var"
+		cprint "4. / - $root_var"
+		cprint "5. /home - $home_var"
+		cprint "0. done"
+		cprint "00. modify disk"
+		prompt_user "Choose above to configure: "
+		read input
+		case $input in
+			1|2|3|4|5) choose_part $input;;
+			0) partstatus=done;;
+			00) modify_disk;;
+		esac
+	done
+	if [ "$root_var" ]; then
+		if [ "$EFI_SYSTEM" = 1 ]; then
+			if [ "$(lsblk -nrp -o PTTYPE ${root_var%%:*})" != gpt ]; then
+				cprint "Disk type for root (${root_var%%:*}) partition not 'gpt'!"
+				partstatus=error
+				sleep 2
+			fi
+			if [ ! "$efi_var" ]; then
+				cprint "'EFI' partition not configured!"
+				partstatus=error
+				sleep 2
+			fi
+		else
+			if [ "$(lsblk -nrp -o PTTYPE ${root_var%%:*})" = gpt ]; then
+				if [ ! "$biosboot_var" ]; then
+					cprint "'BIOS boot' partition not configured!"
+					partstatus=error
+					sleep 2
+				fi
 			fi
 		fi
+	else
+		cprint "'/' is not set!"
+		partstatus=error
+		sleep 2
+	fi
+}
+
+config_keymap() {
+	unset KEYMAP keymappart
+	while [ ! "$keymappart" ]; do
+		cclear
+		prompt_user "Enter part of your keymap (Eg: us): "
+		read input
+		keymappart=$(showkeymap | grep $input) || true
 	done
-	
-	# hostname
-	echo "$hostname_var" > $VENOMROOT/etc/hostname
-	
-	# hardware clock
-	sed "s;#HARDWARECLOCK=.*;HARDWARECLOCK=\"$clock_var\";" -i $VENOMROOT/etc/rc.conf
-	
-	# timezone
-	sed "s;#TIMEZONE=.*;TIMEZONE=\"$timezone_var\";" -i $VENOMROOT/etc/rc.conf
-	
-	# keymap
-	sed "s;#KEYMAP=.*;KEYMAP=\"$keymap_var\";" -i $VENOMROOT/etc/rc.conf
-	
-	# daemons
-	sed "s;#DAEMONS=.*;DAEMONS=\"$dd\";" -i $VENOMROOT/etc/rc.conf
-
-	# fstab
-	print_info "Setup fstab..."
-	echo "# <device> <dir> <type> <options> <dump> <fsck>" > $VENOMROOT/etc/fstab
-	echo "UUID=$(blkid -o value -s UUID "$partition_var") / $filesystem_var defaults 1 1" >> $VENOMROOT/etc/fstab
-
-	if [ "$EFI_SYSTEM" = 1 ]; then
-		echo "UUID=$(blkid -o value -s UUID "$efi_var") /boot/efi vfat defaults 0 2" >> $VENOMROOT/etc/fstab
-	fi
-
-	if [ "$swap_var" != SKIP ]; then
-		echo "UUID=$(blkid -o value -s UUID "$swap_var") swap swap pri=1 0 0" >> $VENOMROOT/etc/fstab
-	fi
-	
-	if [ "$allotherpartitions" ]; then
-		for p in $allotherpartitions; do
-			echo $p | while IFS=: read -r vdev vmount vfs vformat; do
-				echo "UUID=$(blkid -o value -s UUID $vdev) $vmount $vfs defaults 0 0" >> $VENOMROOT/etc/fstab
-			done
+	while [ ! "$KEYMAP" ]; do
+		cclear
+		count=0
+		for i in $keymappart; do
+			count=$((count+1))
+			cprint "$count. $i"
 		done
+		prompt_user "Enter keymap [1-$count]: "
+		read input
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "$count" ] && continue
+		KEYMAP=$(echo $keymappart | tr ' ' '\n' | head -n$input | tail -n1)
+	done
+}
+
+config_locale() {
+	unset localepart LOCALE
+	while [ ! "$localepart" ]; do
+		cclear
+		prompt_user "Enter part of your locale (Eg: en): "
+		read input
+		localepart=$(showlocale | grep -i $input) || true
+	done
+	while [ ! "$LOCALE" ]; do
+		cclear
+		count=0
+		for i in $localepart; do
+			count=$((count+1))
+			cprint "$count. $i"
+		done
+		prompt_user "Enter locale [1-$count]: "
+		read input
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "$count" ] && continue
+		LOCALE=$(echo $localepart | tr ' ' '\n' | head -n$input | tail -n1)
+	done
+}
+
+config_hostname() {
+	cclear
+	if [ "$HOSTNAME" ]; then
+		_preset=$HOSTNAME
+	else
+		_preset=venom
 	fi
-	
-	print_info "Creating user ($user_var)..."
-	useradd -R $VENOMROOT -m -G users,wheel,audio,video -s /bin/bash $user_var || print_error_msg "Error configure user '$user_var'"
-	print_info "Setting user password ($user_var)..."
-	echo "$user_var:$passwd" | chpasswd -R $VENOMROOT -c SHA512 || print_error_msg "Error setting user password"
-	print_info "Setting root password..."
-	echo "root:$rootpasswd" | chpasswd -R $VENOMROOT -c SHA512 || print_error_msg "Error setting root password"
-	
-	if [ "$locale_var" != "SKIP" ]; then
-		print_info "Generating locales (${locale_var}.UTF-8)..."
-		sed "s/#$locale_var/$locale_var/" -i $VENOMROOT/etc/locales
-		echo "LANG=$locale_var.UTF-8" > $VENOMROOT/etc/locale.conf
-		run_chroot genlocales &>/dev/null
+	prompt_user "Enter hostname [$_preset]: "
+	read input
+	if [ "$input" ]; then
+		HOSTNAME=$input
+	else
+		HOSTNAME=$_preset
 	fi
-	
-	print_info "Generating initramfs..."
-	run_chroot mkinitramfs &>/dev/null || print_error_msg "Error generating initramfs"
-	
-	if [ "$grub_var" != SKIP ]; then
-		if [ "$EFI_SYSTEM" = 1 ]; then
-			print_info "Installing grub (EFI)..."
-			run_chroot grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=venom_grub --recheck $grub_var &>/dev/null || print_error_msg "Error installing grub"
+}
+
+config_useraccount() {
+	unset USER_PSWD
+	while [ ! "$USER_PSWD" ]; do
+		cclear
+		if [ "$USERNAME" ]; then
+			_preset=$USERNAME
 		else
-			print_info "Installing grub..."
-			run_chroot grub-install --target=i386-pc $grub_var &>/dev/null || print_error_msg "Error installing grub"
+			_preset=venom
 		fi
-		print_info "Generating grub config..."
-		run_chroot grub-mkconfig -o /boot/grub/grub.cfg &>/dev/null || print_error_msg "Error generating grub config"
+		prompt_user "Enter username [$_preset]: "
+		read input
+		if [ "$input" ]; then
+			USERNAME=$input
+		else
+			USERNAME=$_preset
+		fi
+		prompt_user "Enter password for user '$USERNAME' (hidden): "
+		stty -echo
+		read input
+		echo
+		prompt_user "Enter password for user '$USERNAME' again (hidden): "
+		read input2
+		stty echo
+		echo
+		if [ "$input" = "$input2" ]; then
+			USER_PSWD=$input
+		else
+			cprint "Password does not match!. Try again."
+			sleep 1
+		fi
+	done
+}
+
+config_rootpswd() {
+	unset ROOT_PSWD
+	while [ ! "$ROOT_PSWD" ]; do
+		cclear
+		prompt_user "Enter password for root (hidden): "
+		stty -echo
+		read input
+		echo
+		prompt_user "Enter password for root again (hidden): "
+		read input2
+		stty echo
+		echo
+		if [ "$input" = "$input2" ]; then
+			ROOT_PSWD=$input
+		else
+			cprint "Password does not match!. Try again."
+			sleep 1
+		fi
+	done
+}
+
+config_bootloader() {
+	unset BOOTLOADER
+	while [ ! "$BOOTLOADER" ]; do
+		cclear
+		count=0
+		for i in $(showdisk); do
+			count=$((count+1))
+			ii=$(get_partition_info $i)
+			cprint "$count. $ii"
+		done
+		cprint "0. skip"
+		prompt_user "Enter disk [0-$count]: "
+		read input
+		[ "$input" -gt "$count" ] && continue
+		if [ "$input" = 0 ]; then
+			BOOTLOADER=skip
+		else
+			BOOTLOADER=$(showdisk | head -n$input | tail -n1)
+		fi
+	done
+}
+
+config_timezone() {
+	unset TIMEZONE location country listloc listc countrypart
+	# location
+	for l in /usr/share/zoneinfo/*; do
+		[ -d $l ] || continue
+		l=${l##*/}
+		case $l in
+			Etc|posix|right) continue;;
+		esac
+		listloc="$listloc $l"
+	done
+	while [ ! "$location" ]; do		
+		cclear
+		count=0
+		for l in $listloc; do
+			count=$((count+1))
+			cprint "$count. $l"
+		done
+		prompt_user "Enter location [1-$count]: "
+		read input
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "$count" ] && continue
+		location=$(echo $listloc | tr ' ' '\n' | head -n$input | tail -n1)
+	done
+	# country
+	for c in /usr/share/zoneinfo/$location/*; do
+		c=${c##*/}
+		listc="$listc $c"
+	done
+	while [ ! "$countrypart" ]; do
+		cclear
+		prompt_user "Enter part of your country name (Eg: us): "
+		read input
+		countrypart=$(echo $listc | tr ' ' '\n' | grep -i $input)
+	done
+	while [ ! "$country" ]; do		
+		cclear
+		count=0
+		for c in $countrypart; do
+			count=$((count+1))
+			cprint "$count. $c"
+		done
+		prompt_user "Enter country [1-$count]: "
+		read input
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "$count" ] && continue
+		country=$(echo $countrypart | tr ' ' '\n' | head -n$input | tail -n1)
+	done
+	TIMEZONE=$location/$country
+}
+
+check_var() {
+	cclear
+	unset error
+	[ "$root_part" ]   || { error=1; cprint "partition for / is not set up"; }
+	[ "$KEYMAP" ]     || { error=1; cprint "keymap is not set up"; }
+	[ "$TIMEZONE" ]   || { error=1; cprint "timezone is not set up"; }
+	[ "$LOCALE" ]     || { error=1; cprint "locale is not set up"; }
+	[ "$HOSTNAME" ]   || { error=1; cprint "hostname is not set up"; }
+	[ "$USERNAME" ]   || { error=1; cprint "user is not set up"; }
+	[ "$ROOT_PSWD" ]  || { error=1; cprint "root password is not set up"; }
+	[ "$BOOTLOADER" ] || { error=1; cprint "bootloader is not set up"; }
+	if [ "$error" = 1 ]; then
+		prompt_user "Press ENTER to back to main menu..."
+		read input
+		return 1
+	fi
+}
+
+start_install() {
+	cclear
+	
+	swap_part=${swap_var%:*}
+	swap_part_create=${swap_var#*:}
+	root_part=${root_var%:*}
+	root_part_fs=${root_var#*:}
+	home_part=${home_var%:*}
+	home_part_fs=${home_var#*:}
+	
+	check_var || return 0
+	
+	# overview
+	cprint "*** Partition Overview ***"
+	echo
+	[ "$swap_part_create" != skip ] && cprint "$swap_part will be format into swap"
+	[ "$root_part_fs" != skip ] && cprint "$root_part will be format into $root_part_fs"
+	[ "$home_part_fs" != skip ] && cprint "$home_part will be format into $home_part_fs"
+	
+	prompt_user "Press ENTER to continue installation..."
+	read input
+	
+	mountpoint -q $ROOT && umount -Rf $ROOT
+	
+	rm -fr $ROOT
+	mkdir -p $ROOT
+	
+	if [ "$root_part_fs" != skip ]; then
+		echo "Create filesystem $root_part_fs on $root_part"
+		case $root_part_fs in
+			ext4|ext3|ext2) mkfs.$root_part_fs -F -L Venom $root_part;;
+			xfs) mkfs.xfs -f -m crc=0 -L Venom $root_part;;
+			reiserfs) mkreiserfs -q -l Venom $root_part;;
+			btrfs) mkfs.btrfs -f -L Venom $root_part;;
+		esac
+	fi
+	
+	echo "Mounting $root_part on $ROOT"
+	mount $root_part $ROOT
+	
+	if [ "$home_part" ]; then
+		if [ "$home_part_fs" != skip ]; then
+			echo "Create filesystem $home_part_fs on $home_part"
+			case $home_part_fs in
+				ext4|ext3|ext2) mkfs.$home_part_fs -F -L Home $home_part;;
+				xfs) mkfs.xfs -f -m crc=0 -L Home $home_part;;
+				reiserfs) mkreiserfs -q -l Home $home_part;;
+				btrfs) mkfs.btrfs -f -L Home $home_part;;
+			esac
+		fi
+		echo "Mount $home_part to $ROOT/home"
+		mkdir -p $ROOT/home
+		mount $home_part $ROOT/home
+	fi
+		
+	
+	if [ "$swap_part_create" != skip ]; then
+		echo "Making swap partition on $swap_part"
+		mkswap $swap_part
+	fi
+	
+	if [ "$EFI_SYSTEM" = 1 ]; then
+		echo "Formatting partition $efi_var to fat32"
+		mkfs.vfat -F32 $efi_var
+		echo "Mounting $efi_var on $ROOT/boot/efi"
+		mkdir -p $ROOT/boot/efi
+		mount $efi_var $ROOT/boot/efi
+	fi
+	
+	echo "Installing system to $root_partition_var"
+	unsquashfs -f -i -d $ROOT $ROOTSFS
+	
+	if [ -f /root/post-extract.sh ]; then
+		echo "running post-extract.sh script"
+		chmod +x /root/post-extract.sh
+		VIROOTFS=$VIROOTFS ROOT=$ROOT /root/post-extract.sh
 	fi
 	
 	if [ -f /root/post-install.sh ]; then
-		print_info "Running post-install script..."
-		VIROOTFS=$VIROOTFS VENOMROOTFS=$VENOMROOTFS sh /root/post-install.sh &>/null
+		echo "running post-install.sh script"
+		chmod +x /root/post-install.sh
+		ROOT=$ROOT \
+		HOSTNAME=$HOSTNAME \
+		TIMEZONE=$TIMEZONE \
+		KEYMAP=$KEYMAP \
+		USERNAME=$USERNAME \
+		USER_PSWD=$USER_PSWD \
+		ROOT_PSWD=$ROOT_PSWD \
+		LOCALE=$LOCALE \
+		BOOTLOADER=$BOOTLOADER \
+		EFI_SYSTEM=$EFI_SYSTEM \
+		/root/post-install.sh
+	fi	
+
+	# fstab
+	echo "Setup fstab"
+	echo "# <device> <dir> <type> <options> <dump> <fsck>" > $ROOT/etc/fstab
+	
+	# EFI partition
+	if [ "$EFI_SYSTEM" = 1 ]; then
+		echo "UUID=$(blkid -o value -s UUID "$efi_var") /boot/efi vfat defaults 0 2" >> $ROOT/etc/fstab
 	fi
 	
-	#print_info "Resolve temporary packages..."
-	#scratch deplist $(cat $LISTPKG) $PKGKEEP linux linux-lts | awk '{print $2}' >> $PKGSTRIP
-	#scratch installed | awk '{print $1}' >> $PKGINISO
+	# swap
+	if [ "$swap_part" ]; then
+		echo "UUID=$(blkid -o value -s UUID "$swap_part") swap swap pri=1 0 0" >> $ROOT/etc/fstab
+	fi
 	
-	#for i in $(grep -Fxv -f $PKGSTRIP $PKGINISO); do
-	#	[ "$i" ] || continue
-	#	print_info "Removing temporary packages ($i)..."
-	#	run_chroot pkgdel $i &>/dev/null
-	#done
+	# root
+	echo "UUID=$(blkid -o value -s UUID "$root_part") / $(lsblk -nrp -o FSTYPE $root_part) defaults 1 1" >> $ROOT/etc/fstab
 	
-	#mountpoint -q $VENOMROOT/boot/efi && umount $VENOMROOT/boot/efi
-	#mountpoint -q $VENOMROOT && umount $VENOMROOT
-	umount -R $VENOMROOT
-	_dialog --msgbox "Installation done\nYou can reboot now" 7 30
-	exit 0
+	# /home
+	if [ "$home_part" ]; then
+		echo "UUID=$(blkid -o value -s UUID "$home_part") /home $(lsblk -nrp -o FSTYPE $home_part) defaults 0 0" >> $ROOT/etc/fstab
+	fi
+	
+	while [ ! "$done" ]; do
+		cclear	
+		cprint "Installation complete!"
+		echo
+		cprint "1. exit installer"
+		cprint "2. chroot into installed system"
+		cprint "3. reboot"
+		cprint "4. poweroff"
+		prompt_user "choose option: "
+		read input
+		case $input in
+			1) umount -R $ROOT; exit 0;;
+			2) xchroot $ROOT; exit 0;;
+			3) umount -R $ROOT; reboot; exit 0;;
+			4) umount -R $ROOT; poweroff; exit 0;;
+		esac
+		[ "$input" = 0 ] && continue
+		[ "$input" -gt "4" ] && continue
+		done=$input
+	done
 }
 
-menu() {
-	MAINMSG="Welcome to Venom Linux Installer \n
-Set necessary options before start the installation \n"
-	if [ -z $DEFITEM ]; then
-		DEFITEM=Keyboard
-	fi
-	
-	mainmenu=$(_dialog --default-item $DEFITEM \
-			--cancel-label "Exit" \
-			--title "  Venom Linux installer $([ "$EFI_SYSTEM" = 1 ] && echo '- UEFI') " \
-			--menu "$MAINMSG" 0 70 0 \
-			"Keyboard" "Set Keyboard" \
-			"Partition" "Partition disk" \
-			"Timezone" "Set timezone" \
-			"Hostname" "Set hostname" \
-			"Locale" "Set locale" \
-			"UserAccount" "Set user account" \
-			"RootPassword" "Set root password" \
-			"Bootloader" "Set grub partition" \
-			"Settings" "View saved settings" \
-			"Install" "Install Venom" \
-			"Exit" "Exit installation")
-			
-	if [ $? = 0 ]; then
-		case $mainmenu in 
-		 	    Keyboard) menu_keymap      && [ "$keymap_var" ]    && DEFITEM=Partition    ;;
-			   Partition) menu_partition   && [ "$partition_var" ] && DEFITEM=Timezone     ;;
-			    Timezone) menu_timezone    && [ "$timezone_var" ]  && DEFITEM=Hostname     ;;
-			    Hostname) menu_hostname    && [ "$hostname_var" ]  && DEFITEM=Locale       ;;
-			      Locale) menu_locale      && [ "$locale_var" ]    && DEFITEM=UserAccount  ;;
-			 UserAccount) menu_useraccount && [ "$user_var" ]      && DEFITEM=RootPassword ;;
-			RootPassword) menu_rootpasswd  && [ "$rootpasswd" ]    && DEFITEM=Bootloader   ;;
-			  Bootloader) menu_bootloader  && [ "$grub_var" ]      && DEFITEM=Settings     ;;
-			    Settings) view_settings    && DEFITEM=Install ;;
-			     Install) install_now && DEFITEM=Exit ;;
-			        Exit) _exit ;;
-		esac
-	else
-		_exit
-	fi
+print_partitioning_tips() {
+	cclear
+	cprint "# Partitioning Tips #"
+	echo
+	cprint "For BIOS systems, MBR or GPT partition tables are supported. To use GPT"
+	cprint "partition in BIOS system 1MB partition must be created and set as 'BIOS"
+	cprint "boot'. For EFI systems, GPT partition is required and a FAT32 partition"
+	cprint "with at least 100MB set as 'EFI System' must be created. This partition"
+	cprint "will be used as 'EFI System Partition' with '/boot/efi' as mountpoint."
+	prompt_user "Press ENTER to continue..."
+	read input
 }
+
+print_selection() {
+	cprint "1. partitions: $partstatus"
+	cprint "2. keymap: $KEYMAP"
+	cprint "3. timezone: $TIMEZONE"
+	cprint "4. locale: $LOCALE"
+	cprint "5. hostname: $HOSTNAME"
+	cprint "6. user account: $USERNAME $(echo $USER_PSWD | tr '[:alpha:]' '*' | tr '[:alnum:]' '*')"
+	cprint "7. root account: $(echo $ROOT_PSWD | tr '[:alpha:]' '*' | tr '[:alnum:]' '*')"
+	cprint "8. bootloader: $BOOTLOADER"
+	cprint "9. Starts Installation"
+	cprint "0. exit installer"
+}
+
+main() {
+	while true; do
+		cclear
+		print_selection
+		prompt_user "Enter choice [1-9]: "
+		read input
+		case $input in
+			1) config_rootpart;;
+			2) config_keymap;;
+			3) config_timezone;;
+			4) config_locale;;
+			5) config_hostname;;
+			6) config_useraccount;;
+			7) config_rootpswd;;
+			8) config_bootloader;;
+			9) start_install;;
+			0) exit;;
+		esac
+	done
+}
+
+if [ "$(id -u)" != 0 ]; then
+	echo "root access required to install!"
+	exit 1
+fi
+
+ROOT=/mnt/install
 
 if [ -f "/run/initramfs/ram/filesystem.sfs" ]; then
 	ROOTSFS="/run/initramfs/ram/filesystem.sfs"
-	CUSTOMDIR="/run/initramfs/ram/customize"
+	VIROOTFS="/run/initramfs/ram/virootfs"
 else
 	ROOTSFS="/run/initramfs/medium/rootfs/filesystem.sfs"
-	CUSTOMIZEDIR="/run/initramfs/medium/customize"
+	VIROOTFS="/run/initramfs/medium/virootfs"
 fi
-
-[ "$(id -u)" = 0 ] || {
-	echo "Installing Venom Linux required root!"
-	exit 1
-}
-
-[ $(type -p unsquashfs) ] || {
-	echo "squashfs-tools is not installed, aborted."
-	exit 1
-}
-
-[ $(type -p dialog) ] || {
-	echo "dialog is not installed, aborted."
-	exit 1
-}
-
-[ -f "$ROOTSFS" ] || {
-	echo "squashed filesystem '$ROOTSFS' not found!"
-	exit  1
-}
-
-VENOMROOT="/tmp/venominstall"
-YESNOSIZE="8 50"
-
-EFI_SYSTEM=0
 
 if [ -e /sys/firmware/efi/systab ]; then
 	EFI_SYSTEM=1
 fi
 
-while true; do
-	menu
-done
+main
 
-exit $?
+exit 0

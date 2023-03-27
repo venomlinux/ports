@@ -6,7 +6,8 @@ name=lld
 version=16.0.0
 release=1
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/lld-$version.src.tar.xz
-	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/cmake-$version.src.tar.xz"
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/cmake-$version.src.tar.xz
+	0002-PATCH-lld-Import-compact_unwind_encoding.h-from-libu.patch"
 noextract="cmake-$version.src.tar.xz"
 
 build() {
@@ -16,6 +17,8 @@ build() {
 	# the extracted directory renamed to cmake
 	tar -xf ../cmake-${version}.src.tar.xz
 	sed '/LLVM_COMMON_CMAKE_UTILS/s@../cmake@cmake-16.0.0.src@' -i CMakeLists.txt
+
+	patch -p2 -i $SRC/0002-PATCH-lld-Import-compact_unwind_encoding.h-from-libu.patch
 
 	cmake -B build -G Ninja \
 		-D CMAKE_INSTALL_PREFIX=/usr \

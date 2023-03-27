@@ -4,15 +4,15 @@
 # This script is executed inside initramfs using chroot to live environment
 #
 
-USER=venom
+LIVEUSER=venom
 PASSWORD=venom
 
-useradd -m -G users,wheel,audio,video -s /bin/bash $USER
-passwd -d $USER &>/dev/null
+useradd -m -G users,wheel,audio,video -s /bin/bash $LIVEUSER
+passwd -d $LIVEUSER &>/dev/null
 passwd -d root &>/dev/null
 
 echo "root:root" | chpasswd -c SHA512
-echo "$USER:$PASSWORD" | chpasswd -c SHA512
+echo "$LIVEUSER:$PASSWORD" | chpasswd -c SHA512
 
 # generate en_US locale
 sed 's/#\(en_US\.UTF-8\)/\1/' -i /etc/locales
@@ -21,14 +21,9 @@ genlocales &>/dev/null
 # hostname for live
 echo venomlive > /etc/hostname
 
-# skels not automatically copied over when user created through chroot
-# so use this for now
-cp -r /etc/skel/.* /etc/skel/* /home/$USER
-chown -R $USER:$USER /home/$USER/.* /home/$USER/*
-
 # enable sudo permission for all user in live
 if [ -f /etc/sudoers ]; then
-    echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    echo "$LIVEUSER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 fi
 
 # allow polkit for wheel group in live
@@ -51,7 +46,7 @@ fi
 }
 
 # slim autologin
-sed "s/#default_user.*/default_user $USER/" -i /etc/slim.conf
+sed "s/#default_user.*/default_user $LIVEUSER/" -i /etc/slim.conf
 sed "s/#auto_login.*/auto_login yes/" -i /etc/slim.conf
 
 # network

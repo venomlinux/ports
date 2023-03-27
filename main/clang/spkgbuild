@@ -5,8 +5,7 @@ name=clang
 version=16.0.0
 release=1
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz
-	https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/cmake-${version}.src.tar.xz
-https://www.linuxfromscratch.org/patches/blfs/svn/clang-${version}-enable_default_ssp-1.patch"
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/cmake-${version}.src.tar.xz"
 noextract="cmake-${version}.src.tar.xz"
 
 build() {
@@ -16,9 +15,6 @@ build() {
 	# the extracted directory renamed to cmake
 	tar -xf $SRC/cmake-${version}.src.tar.xz
 	sed "/LLVM_COMMON_CMAKE_UTILS/s@../cmake@cmake-${version}.src@" -i CMakeLists.txt  
-
-	# Enable SSP by default
-	patch -Np2 -i $SRC/clang-${version}-enable_default_ssp-1.patch
 
 	cmake -B build -G Ninja \
 	    -D CMAKE_INSTALL_PREFIX=/usr \
