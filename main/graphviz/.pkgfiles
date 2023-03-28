@@ -1,4 +1,4 @@
-graphviz-7.1.0-1
+graphviz-8.0.1-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/acyclic
@@ -6,6 +6,7 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/ccomps
 lrwxrwxrwx root/root    usr/bin/circo -> dot
 -rwxr-xr-x root/root    usr/bin/cluster
+-rwxr-xr-x root/root    usr/bin/diffimg
 -rwxr-xr-x root/root    usr/bin/dijkstra
 -rwxr-xr-x root/root    usr/bin/dot
 lrwxrwxrwx root/root    usr/bin/dot2gxl -> gxl2gv
@@ -73,15 +74,23 @@ drwxr-xr-x root/root    usr/lib/graphviz/go/
 -rw-r--r-- root/root    usr/lib/graphviz/go/gv.go
 -rwxr-xr-x root/root    usr/lib/graphviz/go/libgv_go.so
 -rw-r--r-- root/root    usr/lib/graphviz/go/runtime.h
+drwxr-xr-x root/root    usr/lib/graphviz/guile/
+-rwxr-xr-x root/root    usr/lib/graphviz/guile/libgv_guile.so
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_core.so -> libgvplugin_core.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_core.so.6 -> libgvplugin_core.so.6.0.0
 -rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_core.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_dot_layout.so -> libgvplugin_dot_layout.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_dot_layout.so.6 -> libgvplugin_dot_layout.so.6.0.0
 -rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_dot_layout.so.6.0.0
+lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_gd.so -> libgvplugin_gd.so.6.0.0
+lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_gd.so.6 -> libgvplugin_gd.so.6.0.0
+-rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_gd.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_gdk.so -> libgvplugin_gdk.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_gdk.so.6 -> libgvplugin_gdk.so.6.0.0
 -rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_gdk.so.6.0.0
+lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_gs.so -> libgvplugin_gs.so.6.0.0
+lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_gs.so.6 -> libgvplugin_gs.so.6.0.0
+-rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_gs.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_gtk.so -> libgvplugin_gtk.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_gtk.so.6 -> libgvplugin_gtk.so.6.0.0
 -rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_gtk.so.6.0.0
@@ -97,15 +106,15 @@ lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_poppler.so.6 -> libgvplugin
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_rsvg.so -> libgvplugin_rsvg.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_rsvg.so.6 -> libgvplugin_rsvg.so.6.0.0
 -rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_rsvg.so.6.0.0
-lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_visio.so -> libgvplugin_visio.so.6.0.0
-lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_visio.so.6 -> libgvplugin_visio.so.6.0.0
--rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_visio.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_webp.so -> libgvplugin_webp.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_webp.so.6 -> libgvplugin_webp.so.6.0.0
 -rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_webp.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_xlib.so -> libgvplugin_xlib.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_xlib.so.6 -> libgvplugin_xlib.so.6.0.0
 -rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_xlib.so.6.0.0
+drwxr-xr-x root/root    usr/lib/graphviz/lua/
+lrwxrwxrwx root/root    usr/lib/graphviz/lua/gv.so -> libgv_lua.so
+-rwxr-xr-x root/root    usr/lib/graphviz/lua/libgv_lua.so
 drwxr-xr-x root/root    usr/lib/graphviz/perl/
 -rw-r--r-- root/root    usr/lib/graphviz/perl/gv.pm
 lrwxrwxrwx root/root    usr/lib/graphviz/perl/gv.so -> libgv_perl.so
@@ -135,6 +144,9 @@ lrwxrwxrwx root/root    usr/lib/libpathplan.so.4 -> libpathplan.so.4.0.0
 lrwxrwxrwx root/root    usr/lib/libxdot.so -> libxdot.so.4.0.0
 lrwxrwxrwx root/root    usr/lib/libxdot.so.4 -> libxdot.so.4.0.0
 -rwxr-xr-x root/root    usr/lib/libxdot.so.4.0.0
+drwxr-xr-x root/root    usr/lib/lua/
+drwxr-xr-x root/root    usr/lib/lua/5.4/
+-rwxr-xr-x root/root    usr/lib/lua/5.4/gv.so
 drwxr-xr-x root/root    usr/lib/perl5/
 drwxr-xr-x root/root    usr/lib/perl5/site_perl/
 drwxr-xr-x root/root    usr/lib/perl5/site_perl/5.36/
@@ -156,6 +168,7 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/graphviz/
 drwxr-xr-x root/root    usr/share/graphviz/demo/
+-rwxr-xr-x root/root    usr/share/graphviz/demo/modgraph.lua
 -rwxr-xr-x root/root    usr/share/graphviz/demo/modgraph.pl
 -rwxr-xr-x root/root    usr/share/graphviz/demo/modgraph.py
 drwxr-xr-x root/root    usr/share/graphviz/graphs/
@@ -268,6 +281,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/ccomps.1.gz
 lrwxrwxrwx root/root    usr/share/man/man1/circo.1.gz -> dot.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/cluster.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/diffimg.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/dijkstra.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/dot.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/edgepaint.1.gz
@@ -303,6 +317,8 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/cgraph.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/expr.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/gv.3go.gz
+-rw-r--r-- root/root    usr/share/man/man3/gv.3guile.gz
+-rw-r--r-- root/root    usr/share/man/man3/gv.3lua.gz
 -rw-r--r-- root/root    usr/share/man/man3/gv.3perl.gz
 -rw-r--r-- root/root    usr/share/man/man3/gv.3python.gz
 -rw-r--r-- root/root    usr/share/man/man3/gvc.3.gz
