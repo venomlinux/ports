@@ -10,6 +10,7 @@ source="https://gitlab.gnome.org/GNOME/libadwaita/-/archive/$version/$name-$vers
 build() {
 	venom-meson $name-$version build \
 		-Dexamples=false \
+		-D gtk_doc=false \
 		-Dtests=false
 	meson compile -C build
 	DESTDIR=$PKG meson install -C build
