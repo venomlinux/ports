@@ -4,7 +4,7 @@
 
 name=gtk4
 version=4.10.1
-release=1
+release=2
 source="https://gitlab.gnome.org/GNOME/gtk/-/archive/$version/gtk-$version.tar.bz2"
 
 build() {
@@ -13,10 +13,12 @@ build() {
 	venom-meson gtk-$version build \
 		-Dbroadway-backend=true \
 		-Dwayland-backend=$(scratch isinstalled wayland-protocols && echo true || echo false) \
-		-Dman-pages=false \
-		-Dbuild-tests=false \
-		-Dbuild-examples=false \
-		-Ddemos=false
+		-D introspection=enabled \
+		-D man-pages=false \
+		-D build-tests=false \
+		-D build-testsuite=false \
+		-D build-examples=false \
+		-D demos=false
         meson compile -C build
         DESTDIR=$PKG meson install -C build
 }
