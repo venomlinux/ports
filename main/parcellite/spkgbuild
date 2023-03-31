@@ -8,7 +8,7 @@ source="https://downloads.sourceforge.net/parcellite/parcellite-$version.tar.gz"
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr --sysconfdir=/etc
+	./configure --prefix=/usr --sysconfdir=/etc --enable-appindicator=no
 	make
 	make DESTDIR=$PKG install
 
