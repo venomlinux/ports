@@ -2,14 +2,12 @@
 # depends	: libwnck3 libxfce4ui consolekit2 desktop-file-utils shared-mime-info polkit-gnome xfdesktop libsm iceauth xinit xrdb
 
 name=xfce4-session
-version=4.18.1
+version=4.18.2
 release=2
-source="https://archive.xfce.org/src/xfce/xfce4-session/${version%.*}/$name-$version.tar.bz2
-	$name-glib2.76.patch::https://gitlab.xfce.org/xfce/xfce4-session/-/commit/321ca64377eb8ddf5572f260e78f119c9e87dd8b.patch"
+source="https://archive.xfce.org/src/xfce/xfce4-session/${version%.*}/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
-	patch -Np1 -i $SRC/$name-glib2.76.patch
 	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
