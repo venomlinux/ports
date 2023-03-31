@@ -2,12 +2,14 @@
 # depends	: gtk2 libx11
 
 name=parcellite
-version=1.2.1
+version=1.2.2
 release=1
-source="https://downloads.sourceforge.net/parcellite/parcellite-$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/rickyrockrat/parcellite/archive/refs/tags/$version.tar.gz"
 
 build() {
 	cd $name-$version
+	touch src/config.simple.h
+	./autogen.sh
 	./configure --prefix=/usr --sysconfdir=/etc
 	make
 	make DESTDIR=$PKG install
