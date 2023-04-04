@@ -1,15 +1,16 @@
 # description	    : Browse the fediverse
 # homepage	    : https://tuba.geopjr.dev/
-# depends	    : vala meson gtk4 libadwaita libgee libsoup
+# depends	    : vala meson gtk4 libadwaita libgee libsoup gtksourceview5
 
 name=tuba
-version=0.1.0
+version=0.2.0
 release=1
-source="$name-$version.tar.gz::https://github.com/GeopJr/Tuba/archive/refs/tags/v0.1.0.tar.gz"
+source="$name-$version.tar.gz::https://github.com/GeopJr/Tuba/archive/refs/tags/v$version.tar.gz"
 
 build() {
 
-    venom-meson Tuba-$version build
+    venom-meson Tuba-$version build \
+		-Ddistro=true
     meson compile -C build
     DESTDIR=$PKG meson install -C build
     ln -s /usr/bin/dev.geopjr.Tuba $PKG/usr/bin/tuba
