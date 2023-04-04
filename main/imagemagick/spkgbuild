@@ -1,15 +1,16 @@
 # description	: ImageMagick is a collection of tools and libraries to read, write, and manipulate an image in various image formats
+# homepage	: https://imagemagick.org/ 
 # depends	: fontconfig lcms2 libtool libxext libxt perl libxml2 librsvg
 
 name=imagemagick
 version=7.1.1.6
-_version=${version%.*}-${version##*.}
+vrsn=${version%.*}-${version##*.}
 release=1
-source="$name-$version.tar.xz::https://imagemagick.org/archive/ImageMagick-${_version}.tar.xz"
+source="$name-$version.tar.xz::https://imagemagick.org/archive/releases/ImageMagick-${vrsn}.tar.xz"
 KEEP_LIBTOOL="yes"
 
 build() {
-	cd ImageMagick-$_version
+	cd ImageMagick-$vrsn
 	
 	./configure --prefix=/usr     \
 	            --sysconfdir=/etc \
