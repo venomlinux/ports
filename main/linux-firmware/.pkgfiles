@@ -1,4 +1,4 @@
-linux-firmware-20230310-1
+linux-firmware-20230404-1
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/firmware/
 drwxr-xr-x root/root    lib/firmware/3com/
@@ -159,6 +159,13 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/gc_11_0_2_mes1.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/gc_11_0_2_pfp.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/gc_11_0_2_rlc.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_11_0_4_imu.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_11_0_4_me.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_11_0_4_mec.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_11_0_4_mes.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_11_0_4_mes1.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_11_0_4_pfp.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/gc_11_0_4_rlc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_asd.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_ce.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/green_sardine_dmcub.bin
@@ -369,6 +376,8 @@ drwxr-xr-x root/root    lib/firmware/amdgpu/
 -rw-r--r-- root/root    lib/firmware/amdgpu/polaris12_vce.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_0_sos.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_0_ta.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_11_ta.bin
+-rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_11_toc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_4_ta.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_4_toc.bin
 -rw-r--r-- root/root    lib/firmware/amdgpu/psp_13_0_5_asd.bin
@@ -1513,6 +1522,8 @@ lrwxrwxrwx root/root    lib/firmware/intel/dsp_fw_release.bin -> avs/skl/dsp_bas
 -rw-r--r-- root/root    lib/firmware/intel/ibt-19-0-0.sfi
 -rw-r--r-- root/root    lib/firmware/intel/ibt-19-0-1.ddc
 -rw-r--r-- root/root    lib/firmware/intel/ibt-19-0-1.sfi
+-rw-r--r-- root/root    lib/firmware/intel/ibt-19-0-3.ddc
+-rw-r--r-- root/root    lib/firmware/intel/ibt-19-0-3.sfi
 -rw-r--r-- root/root    lib/firmware/intel/ibt-19-0-4.ddc
 -rw-r--r-- root/root    lib/firmware/intel/ibt-19-0-4.sfi
 -rw-r--r-- root/root    lib/firmware/intel/ibt-19-16-4.ddc
@@ -1641,6 +1652,7 @@ drwxr-xr-x root/root    lib/firmware/isci/
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf-a0-77.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf-a0-78.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf-a0-79.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf-a0-81.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf-a0.pnvm
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf4-a0-72.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf4-a0-73.ucode
@@ -1648,12 +1660,14 @@ drwxr-xr-x root/root    lib/firmware/isci/
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf4-a0-77.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf4-a0-78.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf4-a0-79.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf4-a0-81.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-gf4-a0.pnvm
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-hr-b0-72.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-hr-b0-73.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-hr-b0-74.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-hr-b0-77.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-hr-b0-79.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-hr-b0-81.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-jf-b0-72.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-jf-b0-73.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-so-a0-jf-b0-74.ucode
@@ -1666,6 +1680,7 @@ drwxr-xr-x root/root    lib/firmware/isci/
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-77.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-78.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-79.ucode
+-rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0-81.ucode
 -rw-r--r-- root/root    lib/firmware/iwlwifi-ty-a0-gf-a0.pnvm
 drwxr-xr-x root/root    lib/firmware/kaweth/
 -rw-r--r-- root/root    lib/firmware/kaweth/new_code.bin
@@ -2575,7 +2590,13 @@ lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/sec2/desc.bin -> ../../tu116/s
 lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/sec2/image.bin -> ../../tu116/sec2/image.bin
 lrwxrwxrwx root/root    lib/firmware/nvidia/tu117/sec2/sig.bin -> ../../tu116/sec2/sig.bin
 drwxr-xr-x root/root    lib/firmware/nxp/
+-rw-r--r-- root/root    lib/firmware/nxp/helper_uart_3000000.bin
 -rw-r--r-- root/root    lib/firmware/nxp/sr150_fw.bin
+-rw-r--r-- root/root    lib/firmware/nxp/uartiw416_bt_v0.bin
+-rw-r--r-- root/root    lib/firmware/nxp/uartspi_n61x_v1.bin.se
+-rw-r--r-- root/root    lib/firmware/nxp/uartuart8987_bt.bin
+-rw-r--r-- root/root    lib/firmware/nxp/uartuart8997_bt_v4.bin
+-rw-r--r-- root/root    lib/firmware/nxp/uartuart9098_bt_v1.bin
 drwxr-xr-x root/root    lib/firmware/ositech/
 -rw-r--r-- root/root    lib/firmware/ositech/Xilinx7OD.bin
 -rw-r--r-- root/root    lib/firmware/phanfw.bin
@@ -3143,6 +3164,7 @@ drwxr-xr-x root/root    lib/firmware/rtw88/
 -rw-r--r-- root/root    lib/firmware/rtw88/rtw8822c_wow_fw.bin
 drwxr-xr-x root/root    lib/firmware/rtw89/
 -rw-r--r-- root/root    lib/firmware/rtw89/rtw8852a_fw.bin
+-rw-r--r-- root/root    lib/firmware/rtw89/rtw8852b_fw-1.bin
 -rw-r--r-- root/root    lib/firmware/rtw89/rtw8852b_fw.bin
 -rw-r--r-- root/root    lib/firmware/rtw89/rtw8852c_fw.bin
 lrwxrwxrwx root/root    lib/firmware/s2250.fw -> go7007/s2250-2.fw
