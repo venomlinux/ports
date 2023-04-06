@@ -1,4 +1,4 @@
-pipewire-0.3.67-1
+pipewire-0.3.68-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/alsa/
 drwxr-xr-x root/root    etc/alsa/conf.d/
@@ -17,9 +17,9 @@ drwxr-xr-x root/root    lib/udev/rules.d/
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/pipewire
--rwxr-xr-x root/root    usr/bin/pipewire-aes67
--rwxr-xr-x root/root    usr/bin/pipewire-avb
--rwxr-xr-x root/root    usr/bin/pipewire-pulse
+lrwxrwxrwx root/root    usr/bin/pipewire-aes67 -> pipewire
+lrwxrwxrwx root/root    usr/bin/pipewire-avb -> pipewire
+lrwxrwxrwx root/root    usr/bin/pipewire-pulse -> pipewire
 -rwxr-xr-x root/root    usr/bin/pw-cat
 -rwxr-xr-x root/root    usr/bin/pw-cli
 -rwxr-xr-x root/root    usr/bin/pw-dot
@@ -173,6 +173,7 @@ drwxr-xr-x root/root    usr/include/spa-0.2/spa/param/audio/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/mp3-types.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/mp3-utils.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/mp3.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/opus.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/ra-utils.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/ra.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/raw-types.h
@@ -271,19 +272,19 @@ drwxr-xr-x root/root    usr/lib/alsa-lib/
 drwxr-xr-x root/root    usr/lib/gstreamer-1.0/
 -rwxr-xr-x root/root    usr/lib/gstreamer-1.0/libgstpipewire.so
 lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so -> libpipewire-0.3.so.0
-lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.367.0
--rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.367.0
+lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.368.0
+-rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.368.0
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so -> libjack.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.367.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.367.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.368.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.368.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so -> libjacknet.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.367.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.367.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.368.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.368.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so -> libjackserver.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.367.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.367.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.368.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.368.0
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-access.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-adapter.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-avb.so
@@ -306,6 +307,7 @@ lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjacks
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-raop-sink.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-rt.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-rtkit.so
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-rtp-sap.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-rtp-sink.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-rtp-source.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-session-manager.so
@@ -449,7 +451,11 @@ drwxr-xr-x root/root    usr/share/man/man5/
 -rw-r--r-- root/root    usr/share/man/man5/pipewire.conf.5.gz
 drwxr-xr-x root/root    usr/share/pipewire/
 -rw-r--r-- root/root    usr/share/pipewire/client-rt.conf
+drwxr-xr-x root/root    usr/share/pipewire/client-rt.conf.avail/
+-rw-r--r-- root/root    usr/share/pipewire/client-rt.conf.avail/20-upmix.conf
 -rw-r--r-- root/root    usr/share/pipewire/client.conf
+drwxr-xr-x root/root    usr/share/pipewire/client.conf.avail/
+-rw-r--r-- root/root    usr/share/pipewire/client.conf.avail/20-upmix.conf
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain.conf
 drwxr-xr-x root/root    usr/share/pipewire/filter-chain/
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain/demonic.conf
@@ -469,7 +475,12 @@ drwxr-xr-x root/root    usr/share/pipewire/media-session.d/
 -rw-r--r-- root/root    usr/share/pipewire/pipewire-aes67.conf
 -rw-r--r-- root/root    usr/share/pipewire/pipewire-avb.conf
 -rw-r--r-- root/root    usr/share/pipewire/pipewire-pulse.conf
+drwxr-xr-x root/root    usr/share/pipewire/pipewire-pulse.conf.avail/
+-rw-r--r-- root/root    usr/share/pipewire/pipewire-pulse.conf.avail/20-upmix.conf
 -rw-r--r-- root/root    usr/share/pipewire/pipewire.conf
+drwxr-xr-x root/root    usr/share/pipewire/pipewire.conf.avail/
+-rw-r--r-- root/root    usr/share/pipewire/pipewire.conf.avail/10-rates.conf
+-rw-r--r-- root/root    usr/share/pipewire/pipewire.conf.avail/20-upmix.conf
 drwxr-xr-x root/root    usr/share/spa-0.2/
 drwxr-xr-x root/root    usr/share/spa-0.2/bluez5/
 -rw-r--r-- root/root    usr/share/spa-0.2/bluez5/bluez-hardware.conf
