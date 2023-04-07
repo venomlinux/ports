@@ -13,7 +13,7 @@ as_root()
 
 case ${0##*/} in
 	*-runit.sh) INIT=runit;;
-	*) INIT=svsv;;
+	*) INIT=sysv;;
 esac
 
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"

@@ -3,12 +3,13 @@
 
 name=grub
 version=2.06
-release=4
+release=5
 backup="etc/default/grub"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	grub.default
 	detect-venom-fallback-initrd.patch
-	https://www.linuxfromscratch.org/patches/blfs/svn/grub-2.06-upstream_fixes-1.patch"
+	grub-2.06-upstream_fixes-1.patch
+	grub.cfg"
 
 build() {
 	# workaround for https://savannah.gnu.org/bugs/?60458
@@ -39,7 +40,9 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-
 	# Borrow from Arch
 	install -D -m0644 $SRC/grub.default $PKG/etc/default/grub
+
+	# liveiso stuff
+	cp $SRC/grub.cfg $PKG/usr/share/$name
 }
