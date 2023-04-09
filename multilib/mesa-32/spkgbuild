@@ -3,12 +3,13 @@
 # optional	: libva libvdpau-32 wayland-protocols wayland-32
 
 name=mesa-32
-version=23.0.1
+version=23.0.2
 release=1
 source="https://mesa.freedesktop.org/archive/${name%-*}-$version.tar.xz
-	crossfile"
-
-
+	crossfile
+	intel-fs-fix-scheduling-of-HALT-instructions.patch
+	egl-wayland-Fix-destruction-of-event-queue-with-prox.patch
+	vulkan-wsi-wayland-Fix-destruction-of-event-queue-wi.patch"
 
 build() {
 	export CC="gcc -m32"
@@ -18,6 +19,17 @@ build() {
   
 	scratch isinstalled vulkan-icd-loader-32 && OPT_MESA_GALLIUM='zink,'
 	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' ||  OPT_MESA_PLATFORMS='x11'
+
+	# https://gitlab.freedesktop.org/mesa/mesa/-/issues/7110
+	# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/20765
+	patch -d ${name%-*}-$version -Np1 -i $SRC/intel-fs-fix-scheduling-of-HALT-instructions.patch
+
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=1826583
+	# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/21646
+	patch -d ${name%-*}-$version -Np1 -i $SRC/egl-wayland-Fix-destruction-of-event-queue-with-prox.patch
+
+	# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/21647
+	patch -d ${name%-*}-$version -Np1 -i $SRC/vulkan-wsi-wayland-Fix-destruction-of-event-queue-wi.patch
   
 	venom-meson ${name%-*}-$version build \
 		--sysconfdir=/etc \
