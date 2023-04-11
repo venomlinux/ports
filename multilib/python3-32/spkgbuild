@@ -4,7 +4,7 @@
 name=python3-32
 version=3.11.3
 release=1
-source="https://www.python.org/ftp/python/$version/Python-$version.tar.xz"
+source="${name%-*}-$version.tar.xz::https://www.python.org/ftp/python/$version/Python-$version.tar.xz"
 
 build() {
 	cd Python-$version
