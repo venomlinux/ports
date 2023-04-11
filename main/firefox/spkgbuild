@@ -2,24 +2,16 @@
 # depends	: alsa-lib autoconf2.13 cbindgen clang dav1d dbus-glib ffmpeg gtk3 hicolor-icon-theme icu libevent libffi libjpeg-turbo libnotify libpng libvpx libxrender libxcomposite libsm libxt libxdamage libxscrnsaver libwebp lld nasm nodejs nspr nss perl pixman pkgconf python3 rust yasm unzip zip zlib
 
 name=firefox
-version=111.0.1
-release=2
+version=112.0
+release=1
 source="$name-$version.tar.xz::https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz 
-	$name.desktop
-	0001-Squashed-ffmpeg-6.0-update.patch
-	0002-Use-correct-FFVPX-headers-from-ffmpeg-6.patch"
+	$name.desktop"
 
 build() {
 	INITDIR=$PWD
 
 	cd $name-$version
 	
-	# https://bugzilla.mozilla.org/show_bug.cgi?id=1819374
-	patch -Np1 -i $SRC/0001-Squashed-ffmpeg-6.0-update.patch
-
-	# https://bugzilla.mozilla.org/show_bug.cgi?id=1820416
-	patch -Np1 -i $SRC/0002-Use-correct-FFVPX-headers-from-ffmpeg-6.patch
-
 cat <<- EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-shared
 unset MOZ_TELEMETRY_REPORTING
