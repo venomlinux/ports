@@ -47,7 +47,7 @@ build() {
 		-D video-codecs=vc1dec,h264dec,h264enc,h265dec,h265enc \
 		$OPT_MESA_VDPAU $OPT_MESA_VAAPI -D glvnd=true
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	# indirect rendering symlink
 	ln -s libGLX_mesa.so.0 $PKG/usr/lib/libGLX_indirect.so.0
