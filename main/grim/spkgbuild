@@ -10,5 +10,5 @@ source="https://github.com/emersion/$name/releases/download/v$version/$name-$ver
 build() {
     venom-meson $name-$version  build
     meson compile -C build
-    DESTDIR=$PKG meson install -C build
+    DESTDIR=$PKG meson install --no-rebuild -C build
 }
