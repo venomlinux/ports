@@ -2,7 +2,7 @@
 # depends	: gst-plugins-base ffmpeg yasm meson
 
 name=gst-libav
-version=1.22.1
+version=1.22.2
 release=1
 source="https://gstreamer.freedesktop.org/src/gst-libav/$name-$version.tar.xz"
 
@@ -11,5 +11,5 @@ build() {
 		-Ddoc=disabled \
 		-Dpackage-name="GStreamer FFmpeg Plugins $version (Venom Linux)"
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }
