@@ -10,6 +10,6 @@ build() {
 	cd $name-$version
 	venom-meson build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 }
