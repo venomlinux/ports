@@ -10,5 +10,5 @@ source="https://pwmt.org/projects/zathura-pdf-mupdf/download/$name-$version.tar.
 build() {
 	venom-meson $name-$version build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }
