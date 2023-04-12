@@ -11,7 +11,7 @@ build() {
 		-D osmesa=disabled \
 		-D wayland=$(scratch isinstalled wayland && echo enabled || echo disabled)
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	install -d $PKG/usr/bin
 	install -m 0755 -t $PKG/usr/bin build/src/xdemos/glxgears
