@@ -42,7 +42,7 @@ build() {
 	rm $tmp_file
 	meson configure -D b_pgo=use build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	mv $PKG/usr/share/terminfo/f/foot $PKG/usr/share/terminfo/f/foot-extra 
 	mv $PKG/usr/share/terminfo/f/foot-direct $PKG/usr/share/terminfo/f/foot-extra-direct
