@@ -12,7 +12,7 @@ build() {
 		-D graphite=auto \
 		-D benchmark=disabled
         meson compile -C build
-        DESTDIR=$PWD/PKG meson install -C build
+        DESTDIR=$PWD/PKG meson install --no-rebuild -C build
 
 	mkdir -p $PKG/usr/lib/pkgconfig $PKG/usr/include/harfbuzz
 	mv PKG/usr/include/harfbuzz/hb-icu.h $PKG/usr/include/harfbuzz/
