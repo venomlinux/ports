@@ -11,7 +11,7 @@ build() {
        venom-meson $name-$version build \
                 -Dudevrulesdir=/lib/udev/rules.d
         meson compile -C build
-        DESTDIR=$PKG meson install -C build
+        DESTDIR=$PKG meson install --no-rebuild -C build
 
         rm -r $PKG/usr/lib/systemd
 }
