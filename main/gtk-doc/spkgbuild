@@ -13,6 +13,6 @@ build() {
 		-Dautotools_support=true \
 		-Dcmake_support=true 
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 	rm -r $PKG/usr/share/help
 }
