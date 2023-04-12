@@ -2,7 +2,7 @@
 # depends	: gst-plugins-base libdvdread libdvdnav llvm soundtouch meson
 
 name=gst-plugins-bad
-version=1.22.1
+version=1.22.2
 release=1
 source="https://gstreamer.freedesktop.org/src/gst-plugins-bad/$name-$version.tar.xz"
 
@@ -11,5 +11,5 @@ build() {
 		-Ddoc=disabled \
 		-Dpackage-name="GStreamer Bad Plugins $version (Venom Linux)" 
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }
