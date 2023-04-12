@@ -9,5 +9,5 @@ source="$name-$version.tar.gz::https://github.com/snwh/$name/archive/v.$version.
 build() {
 	venom-meson $name-v.$version build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }
