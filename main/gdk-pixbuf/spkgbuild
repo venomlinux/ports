@@ -12,7 +12,7 @@ build() {
 		-Dinstalled_tests=false \
 		-Dman=false
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 	
 	# fix conflict with libjpeg-turbo
 	for i in jconfig.h jerror.h jmorecfg.h jpeglib.h; do
