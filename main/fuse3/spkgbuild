@@ -10,7 +10,7 @@ build() {
 	
 	venom-meson libfuse-fuse-$version build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 	rm -r $PKG/dev $PKG/etc/fuse.conf
 	rm -fr $PKG/etc/init.d
 }
