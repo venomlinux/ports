@@ -23,7 +23,7 @@ build() {
 		-D selinux=disabled \
 		-D tests=false
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	rm -r $PKG/usr/share
 	rm -r $PKG/usr/include
