@@ -31,7 +31,7 @@ build() {
 
 	venom-meson build $_gvfs_build_opts $_opt
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	# exclude library for revdep
 	mkdir -p $PKG/etc/revdep.d/
