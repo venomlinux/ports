@@ -9,5 +9,5 @@ source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$versi
 build() {
 	venom-meson $name-$version build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }
