@@ -11,5 +11,5 @@ build() {
   venom-meson build -D help=true
   meson compile -C build
   meson test -C build --print-errorlogs
-  meson install -C build --destdir $PKG
+  meson install --no-rebuild -C build --destdir $PKG
 }
