@@ -9,5 +9,5 @@ source="https://github.com/containers/bubblewrap/archive/v$version/$name-$versio
 build() {
 	venom-meson $name-$version build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

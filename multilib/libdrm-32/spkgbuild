@@ -17,7 +17,7 @@ build() {
 
 	venom-meson --libdir=/usr/lib32 -Dudev=true build
 	meson compile -C build
-	DESTDIR=$PWD/DESTDIR meson install -C build
+	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
 
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32

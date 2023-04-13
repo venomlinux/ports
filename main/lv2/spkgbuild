@@ -9,5 +9,5 @@ source="https://${name}plug.in/spec/$name-$version.tar.xz"
 build() {
 	venom-meson $name-$version build
 	meson compile -C build
-	meson install -C build --destdir $PKG
+	meson install --no-rebuild -C build --destdir $PKG
 }

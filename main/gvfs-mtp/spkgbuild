@@ -28,7 +28,7 @@ build() {
 
 	venom-meson gvfs-$version build $_gvfs_build_opts $_opt
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	# remove gvfs conflicts
 	for f in $(scratch files gvfs | grep -v /$); do

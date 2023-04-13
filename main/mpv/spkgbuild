@@ -14,5 +14,5 @@ build() {
 		-D cdda=enabled \
 		-D lua=luajit 
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

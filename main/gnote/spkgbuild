@@ -10,5 +10,5 @@ source="https://gitlab.gnome.org/GNOME/gnote/-/archive/$version/$name-$version.t
 build() {
   venom-meson $name-$version build
   meson compile -C build
-  meson install -C build --destdir $PKG
+  meson install --no-rebuild -C build --destdir $PKG
 }

@@ -31,7 +31,7 @@ build() {
 	      $OPT
 
 	meson compile -C build 
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 mkdir -p $PKG/etc/NetworkManager
 cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"

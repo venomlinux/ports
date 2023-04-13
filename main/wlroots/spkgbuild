@@ -13,5 +13,5 @@ build() {
 	-Dexamples=false \
 	-Dbackends=drm,libinput,x11
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

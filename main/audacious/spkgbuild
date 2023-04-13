@@ -14,7 +14,7 @@ build() {
 		-Dqt6=true \
 		-Dbuildstamp="Venom Linux"
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	rm -r $PKG/usr/share/$name
 }

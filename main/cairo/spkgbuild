@@ -15,5 +15,5 @@ build() {
 		-D symbol-lookup=disabled \
 		-D tests=disabled
 	meson compile -C build
-	meson install -C build --destdir $PKG
+	meson install --no-rebuild -C build --destdir $PKG
 }

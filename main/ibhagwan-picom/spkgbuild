@@ -8,5 +8,5 @@ source="$name-$version.tar.gz::https://github.com/ibhagwan/picom/archive/vNext.t
 build() {
 	venom-meson picom-v$version build --buildtype=release 
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

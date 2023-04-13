@@ -18,7 +18,7 @@ build() {
 		-D doxygen=false \
 		-D man=false 
 	meson compile -C build
-	DESTDIR=$PWD/DESTDIR meson install -C build
+	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
 
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32

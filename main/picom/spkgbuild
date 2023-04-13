@@ -12,7 +12,7 @@ build() {
 	venom-meson $name-$version build \
 	--buildtype=release
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	sed 's/vsync = true/vsync = false/' -i $name-$version/picom.sample.conf
 	install -Dm644 $name-$version/picom.sample.conf $PKG/etc/xdg/picom.conf

@@ -10,5 +10,5 @@ source="$name-$version.tar.gz::https://gitlab.freedesktop.org/spice/spice-protoc
 build() {
 	venom-meson $name-v$version build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

@@ -12,5 +12,5 @@ build() {
 	venom-meson $name-$version build \
 	    --wrap-mode=nopromote
         meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

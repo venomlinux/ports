@@ -17,7 +17,7 @@ build() {
 	        -D examples=disabled \
 		-D session-managers=[]
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	# enable alsa by default
 	install -Dm644 /dev/null $PKG/usr/share/pipewire/media-session.d/with-alsa

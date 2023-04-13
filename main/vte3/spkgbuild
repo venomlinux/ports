@@ -18,6 +18,6 @@ build() {
 	      -Db_pie=false \
 	      -D_systemd=false
         meson compile -C build
-        DESTDIR=$PKG meson install -C build
+        DESTDIR=$PKG meson install --no-rebuild -C build
 
 }

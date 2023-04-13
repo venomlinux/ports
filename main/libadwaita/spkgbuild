@@ -13,7 +13,7 @@ build() {
 		-D gtk_doc=false \
 		-Dtests=false
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	rm -r $PKG/usr/share/locale
 }

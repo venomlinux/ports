@@ -12,6 +12,6 @@ build() {
     venom-meson Tuba-$version build \
 		-Ddistro=true
     meson compile -C build
-    DESTDIR=$PKG meson install -C build
+    DESTDIR=$PKG meson install --no-rebuild -C build
     ln -s /usr/bin/dev.geopjr.Tuba $PKG/usr/bin/tuba
 }

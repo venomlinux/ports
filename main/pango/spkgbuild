@@ -12,5 +12,5 @@ build() {
 	patch -Np1 -i $SRC/disable-broken-test.patch
 	venom-meson build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

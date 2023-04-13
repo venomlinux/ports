@@ -21,7 +21,7 @@ build() {
 		-Dqemu_group=libvirt \
 		-Dtests=disabled
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	install -D -o root -g root -m 0755 $SRC/rc.libvirtd \
 		$PKG/etc/rc.d/libvirtd
