@@ -2,13 +2,13 @@
 # depends	: zlib bzip2 which icu python3
 
 name=boost
-version=1.81.0
-_version=$(echo $version | sed 's/\./_/g')
-release=2
-source="$name-$version.tar.bz2::https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${_version}.tar.bz2"
+version=1.82.0
+vrsn=$(echo $version | sed 's/\./_/g')
+release=1
+source="$name-$version.tar.bz2::https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${vrsn}.tar.bz2"
 
 build() {
-	cd boost_${_version}
+	cd boost_${vrsn}
 	
 	# Fix boost breaks the few packages which use the phoenix module
 	sed -i '/#include.*phoenix.*tuple.hpp.*/d' boost/phoenix/stl.hpp
