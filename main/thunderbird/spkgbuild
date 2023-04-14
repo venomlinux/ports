@@ -2,14 +2,18 @@
 # depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent nspr dbus-glib gconf clang cbindgen nodejs nasm unzip zip nss libxcomposite which
 
 name=thunderbird
-version=102.9.0
+version=102.10.0
 release=1
-source="https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz"
+source="https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz
+	thunderbird-102.10.0-upstream_fixes-1.patch"
 
 build() {
 	INITDIR=$PWD
 
 	cd $name-$version
+
+	# Fix building Thunderbird with rustc-1.68.x: 
+	patch -Np1 -i $SRC/thunderbird-102.10.0-upstream_fixes-1.patch
 
 	sed -i '/ROOT_CLIP_CHAIN/d' gfx/webrender_bindings/webrender_ffi.h
 	
