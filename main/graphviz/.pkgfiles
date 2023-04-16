@@ -1,4 +1,4 @@
-graphviz-7.0.4-1
+graphviz-8.0.2-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/acyclic
@@ -18,6 +18,7 @@ lrwxrwxrwx root/root    usr/bin/fdp -> dot
 -rwxr-xr-x root/root    usr/bin/gv2gml
 lrwxrwxrwx root/root    usr/bin/gv2gxl -> gxl2gv
 -rwxr-xr-x root/root    usr/bin/gvcolor
+-rwxr-xr-x root/root    usr/bin/gvedit
 -rwxr-xr-x root/root    usr/bin/gvgen
 -rwxr-xr-x root/root    usr/bin/gvmap
 -rwxr-xr-x root/root    usr/bin/gvmap.sh
@@ -68,8 +69,10 @@ drwxr-xr-x root/root    usr/include/graphviz/
 -rw-r--r-- root/root    usr/include/graphviz/xdot.h
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/graphviz/
-drwxr-xr-x root/root    usr/lib/graphviz/guile/
--rwxr-xr-x root/root    usr/lib/graphviz/guile/libgv_guile.so
+drwxr-xr-x root/root    usr/lib/graphviz/go/
+-rw-r--r-- root/root    usr/lib/graphviz/go/gv.go
+-rwxr-xr-x root/root    usr/lib/graphviz/go/libgv_go.so
+-rw-r--r-- root/root    usr/lib/graphviz/go/runtime.h
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_core.so -> libgvplugin_core.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_core.so.6 -> libgvplugin_core.so.6.0.0
 -rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_core.so.6.0.0
@@ -88,12 +91,12 @@ lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_neato_layout.so.6 -> libgvp
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_pango.so -> libgvplugin_pango.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_pango.so.6 -> libgvplugin_pango.so.6.0.0
 -rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_pango.so.6.0.0
+lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_poppler.so -> libgvplugin_poppler.so.6.0.0
+lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_poppler.so.6 -> libgvplugin_poppler.so.6.0.0
+-rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_poppler.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_rsvg.so -> libgvplugin_rsvg.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_rsvg.so.6 -> libgvplugin_rsvg.so.6.0.0
 -rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_rsvg.so.6.0.0
-lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_visio.so -> libgvplugin_visio.so.6.0.0
-lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_visio.so.6 -> libgvplugin_visio.so.6.0.0
--rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_visio.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_webp.so -> libgvplugin_webp.so.6.0.0
 lrwxrwxrwx root/root    usr/lib/graphviz/libgvplugin_webp.so.6 -> libgvplugin_webp.so.6.0.0
 -rwxr-xr-x root/root    usr/lib/graphviz/libgvplugin_webp.so.6.0.0
@@ -258,6 +261,8 @@ drwxr-xr-x root/root    usr/share/graphviz/graphs/undirected/
 -rw-r--r-- root/root    usr/share/graphviz/graphs/undirected/Petersen.gv
 -rw-r--r-- root/root    usr/share/graphviz/graphs/undirected/ngk10_4.gv
 -rw-r--r-- root/root    usr/share/graphviz/graphs/undirected/process.gv
+drwxr-xr-x root/root    usr/share/graphviz/gvedit/
+-rw-r--r-- root/root    usr/share/graphviz/gvedit/attrs.txt
 drwxr-xr-x root/root    usr/share/graphviz/gvpr/
 -rw-r--r-- root/root    usr/share/graphviz/gvpr/addedges
 -rw-r--r-- root/root    usr/share/graphviz/gvpr/addranks
@@ -313,6 +318,7 @@ lrwxrwxrwx root/root    usr/share/man/man1/fdp.1.gz -> dot.1.gz
 lrwxrwxrwx root/root    usr/share/man/man1/gv2gml.1.gz -> gml2gv.1.gz
 lrwxrwxrwx root/root    usr/share/man/man1/gv2gxl.1.gz -> gxl2gv.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/gvcolor.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/gvedit.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/gvgen.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/gvmap.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/gvmap.sh.1.gz
@@ -336,7 +342,7 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/cdt.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/cgraph.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/expr.3.gz
--rw-r--r-- root/root    usr/share/man/man3/gv.3guile.gz
+-rw-r--r-- root/root    usr/share/man/man3/gv.3go.gz
 -rw-r--r-- root/root    usr/share/man/man3/gv.3lua.gz
 -rw-r--r-- root/root    usr/share/man/man3/gv.3perl.gz
 -rw-r--r-- root/root    usr/share/man/man3/gv.3python.gz

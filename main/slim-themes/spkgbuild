@@ -1,0 +1,13 @@
+# description	: A Beautiful Collection Of SLiM Themes
+# homepage	: https://github.com/adi1090x/slim_themes
+
+name=slim-themes
+version=20210712
+release=1
+source="https://github.com/adi1090x/slim_themes/archive/a3b47edd59bdf81a96e8c4581db4ace7bb712627.tar.gz"
+
+build() {
+	cd slim_themes-a3b47edd59bdf81a96e8c4581db4ace7bb712627
+	mkdir -p $PKG/usr/share/slim/
+	cp -r themes $PKG/usr/share/slim/
+}

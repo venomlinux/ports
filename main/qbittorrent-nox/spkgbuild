@@ -1,13 +1,13 @@
 # description	: An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent (no gui)
-# depends	: cmake libtorrent-rasterbar boost qt6-base qt6-svg qt6-tools
+# depends	: cmake libtorrent-rasterbar boost qt6-base qt6-svg qt6-tools ninja
 
 name=qbittorrent-nox
-version=4.5.0
+version=4.5.2
 release=1
 source="https://downloads.sourceforge.net/qbittorrent/qbittorrent-$version.tar.xz"
 
 build() {
-	cmake -S qbittorrent-$version -B build \
+	cmake -S qbittorrent-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

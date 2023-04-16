@@ -1,13 +1,13 @@
 # description	: General-purpose library for WPE WebKit
-# depends	: cmake mesa libxkbcommon
+# depends	: cmake ninja libxkbcommon mesa
 
 name=libwpe
-version=1.14.0
+version=1.14.1
 release=1
 source="https://wpewebkit.org/releases/$name-$version.tar.xz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

@@ -2,21 +2,31 @@
 # homepage	: https://download.java.net
 
 name=openjdk-bin
-version=19.0.1
+version=19.0.2+7
 release=1
-source="https://download.java.net/java/GA/jdk19.0.1/afdd2e245b014143b62ccb916125e3ce/10/GPL/openjdk-${version}_linux-x64_bin.tar.gz"
+source="$name-$version.tar.gz::https://github.com/adoptium/temurin19-binaries/releases/download/jdk-19.0.2%2B7/OpenJDK19U-jdk_x64_linux_hotspot_19.0.2_7.tar.gz"
 
 build() {
 	cd jdk-$version
-	mkdir -p $PKG/usr/lib
+	mkdir -p $PKG/usr/lib/java/$name
 	mkdir -p $PKG/usr/bin
 	mkdir -p $PKG/usr/conf
 	mkdir -p $PKG/usr/include
 	mkdir -p $PKG/usr/jmods	
-	cp -rv lib $PKG/usr/
+	cp -rv lib/* $PKG/usr/lib/java/$name
 	scratch isinstalled libzip && rm -rf $PKG/usr/lib/libzip.so
 	cp -rv bin $PKG/usr/
 	cp -rv conf $PKG/usr/
 	cp -rv include $PKG/include/
 	cp -rv jmods $PKG/jmods/
+
+	# Exclude library for revdep
+	install -d $PKG/etc/revdep.d
+	echo "/usr/lib/java/$name/" > $PKG/etc/revdep.d/$name.conf
+
+	# Exclude binaries for revdep
+	javabin=$(ls $PKG/usr/bin)
+	for i in $javabin; do
+		echo "/usr/bin/$i" >> $PKG/etc/revdep.d/$name.conf
+	done
 }

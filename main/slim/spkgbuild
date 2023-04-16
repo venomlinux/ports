@@ -2,19 +2,17 @@
 # depends	: libx11 libxft libxrender libxrandr libxmu freetype2 libjpeg-turbo libpng zlib consolekit2 linux-pam
 
 name=slim
-version=1.3.6
-release=5
+version=1.4.0
+release=1
 backup="etc/slim.conf"
-source="https://sourceforge.net/projects/${name}.berlios/files/$name-$version.tar.gz
+source="https://sourceforge.net/projects/${name}-fork/files/$name-$version.tar.gz
 	rc.slim
 	$name.pam
 	run"
 
 build() {
 	cd $name-$version
-
-	sed -i 's/WinGC < 0/WinGC != 0/' panel.cpp
-
+	
 	cmake -B build \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
@@ -29,10 +27,7 @@ build() {
 	DESTDIR=$PKG cmake --install build
 
 	install -Dm644 $SRC/$name.pam $PKG/etc/pam.d/$name
-
-	# remove systemd crap
-	rm -r $PKG/lib
-
+	        	
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
 

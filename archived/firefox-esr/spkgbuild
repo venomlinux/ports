@@ -1,0 +1,87 @@
+# description	: Standalone web browser from mozilla.org, Extended Support Release
+# depends	: gtk3 libxt dbus-glib alsa-lib libvpx libevent nss sqlite icu unzip zip diffutils gconf python3 yasm mesa inetutils autoconf2.13 rust cbindgen nodejs nasm which clang libxcomposite
+
+name=firefox-esr
+version=102.9.0
+release=1
+source="https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/firefox-${version}esr.source.tar.xz
+        firefox.desktop
+        python3.11.patch"
+
+
+build() {
+	cd firefox-$version
+    
+
+cat <<- EOF > .mozconfig
+	ac_add_options --prefix=/usr
+	ac_add_options --enable-default-toolkit=cairo-gtk3
+	ac_add_options --enable-audio-backends=alsa
+	ac_add_options --disable-pulseaudio
+	ac_add_options --enable-application=browser
+	ac_add_options --enable-rust-simd
+	ac_add_options --enable-av1
+	ac_add_options --enable-optimize
+	ac_add_options --enable-release
+	ac_add_options --enable-linker=lld
+	ac_add_options --enable-official-branding
+	ac_add_options --disable-debug-symbols
+	ac_add_options --disable-debug
+	ac_add_options --disable-dmd
+	ac_add_options --disable-geckodriver
+	ac_add_options --disable-profiling
+	ac_add_options --disable-tests
+	ac_add_options --disable-verify-mar
+	ac_add_options --disable-tests
+	ac_add_options --disable-elf-hack
+	ac_add_options --disable-updater
+	ac_add_options --disable-crashreporter
+	ac_add_options --with-system-nspr
+	ac_add_options --with-system-ffi
+	ac_add_options --with-system-icu
+	ac_add_options --with-system-zlib
+	ac_add_options --with-system-jpeg
+	ac_add_options --with-system-libvpx
+	ac_add_options --with-system-nss
+	ac_add_options --without-wasm-sandboxed-libraries
+	ac_add_options --with-distribution-id=org.venomlinux
+EOF
+
+
+	# A change in cbindgen-0.24.2 causes a symbol to now be output by cbindgen, but it has already been defined in a header. 
+	sed -i '/ROOT_CLIP_CHAIN/d' gfx/webrender_bindings/webrender_ffi.h
+
+	# Remove an obsolete flag in python code, that has been removed in python-3.11. 
+	grep -rl \"rU\" | xargs sed -i 's/"rU"/"r"/'
+
+	# Fix an issue with regular expressions in python-3.11.
+	sed -e 's/?s)\./?s:.)/'               \
+	    -e '/?m)/{s/?m)/?m:/;s/\$"/$)"/}' \
+	    -e '/?s)%/{s/?s)/?s:/;s/?"/?)"/}' \
+	    -i xpcom/idl-parser/xpidl/xpidl.py
+
+	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
+	export CFLAGS="${CFLAGS} -w" CXXFLAGS="${CXXFLAGS} -w" # disable warnings
+	export MOZ_NOSPAM=1
+	export MOZBUILD_STATE_PATH=$PWD/mozbuild
+	export CARGO_HOME=$PWD/cargo
+	export MOZ_MAKE_FLAGS="$MAKEFLAGS"
+	export MACH_BUILD_PYTHON_NATIVE_PACKAGE=system
+
+	SHELL=/bin/sh ./mach build
+	SHELL=/bin/sh DESTDIR=$PKG ./mach install
+
+	for i in 16 22 24 32 48 64 128 256; do
+        install -Dm644 browser/branding/official/default$i.png \
+                $PKG/usr/share/icons/hicolor/${i}x${i}/apps/$name.png
+        done
+
+        install -Dm644 $SRC/firefox.desktop \
+                $PKG/usr/share/applications/$name.desktop
+
+        # exclude library for revdep
+        mkdir -p $PKG/etc/revdep.d/
+        for i in libmozavutil.so liblgpllibs.so libmozgtk.so libmozsandbox.so libmozwayland.so libxul.so libmozsqlite3.so; do
+                echo $i >> $PKG/etc/revdep.d/$name.conf
+        done
+}

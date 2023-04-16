@@ -2,7 +2,7 @@
 # depends	: curl openssl-32
 
 name=curl-32
-version=7.86.0
+version=8.0.1
 release=1
 source="https://curl.haxx.se/download/${name%-*}-$version.tar.xz"
 
@@ -13,17 +13,18 @@ build() {
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	[ -d $(pkgadd --print-dbdir)/zstd-32 ] || _opt="--without-zstd"
-
 	./configure --prefix=/usr \
 		    --libdir=/usr/lib32 \
 		    --enable-threaded-resolver \
 		    --without-libidn2 \
+		    --without-brotli \
+		    --without-libpsl \
+		    --without-zstd \
 		    --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt \
-		    --with-openssl \
-		$_opt
+		    --with-openssl
 	make
 	make DESTDIR=$PWD/DESTDIR install
+
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

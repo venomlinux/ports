@@ -1,0 +1,34 @@
+# description	: JPEG XL image format reference implementation
+# homepage	: https://github.com/libjxl/libjxl
+# depends	: cmake ninja asciidoc brotli gdk-pixbuf giflib gflags gtest highway lcms2 libjpeg-turbo libpng openexr zlib
+
+name=libjxl
+version=0.8.1
+release=1
+source="$name-$version.tar.gz::https://github.com/libjxl/libjxl/archive/v$version/$name-v$version.tar.gz"
+
+build () {
+	export XML_CATALOG_FILES=/etc/xml/catalog
+
+	cmake -S $name-$version -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DJPEGXL_ENABLE_BENCHMARK=OFF \
+		-DJPEGXL_ENABLE_COVERAGE=OFF \
+		-DJPEGXL_ENABLE_EXAMPLES=OFF \
+		-DJPEGXL_ENABLE_FUZZERS=OFF \
+		-DJPEGXL_ENABLE_SJPEG=OFF \
+		-DJPEGXL_ENABLE_SKCMS=OFF \
+		-DJPEGXL_ENABLE_VIEWERS=OFF \
+		-DJPEGXL_FORCE_SYSTEM_GTEST=ON \
+		-DJPEGXL_FORCE_SYSTEM_BROTLI=ON \
+		-DJPEGXL_FORCE_SYSTEM_HWY=ON \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
+

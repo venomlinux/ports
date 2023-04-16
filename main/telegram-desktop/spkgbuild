@@ -1,24 +1,14 @@
 # description	: Official Telegram Desktop client
 # homepage	: https://desktop.telegram.org
-# depends	: minizip jemalloc openal range-v3 tg_owt qt6-imageformats qt6-svg qt6-wayland qt6-5compat rnnoise webkitgtk kcoreaddons glibmm2.68 protobuf
+# depends	: minizip jemalloc openal range-v3 tg_owt qt6-imageformats qt6-svg qt6-wayland qt6-5compat rnnoise webkitgtk kcoreaddons glibmm2 protobuf
 
 name=telegram-desktop
-version=4.4.1
+version=4.7.1
 release=1
 source="https://github.com/telegramdesktop/tdesktop/releases/download/v$version/tdesktop-$version-full.tar.gz"
 
-_portdir=$PWD
-
 build() {
 	cd tdesktop-$version-full
-
-	export PKG_CONFIG_PATH='/usr/lib/ffmpeg4/pkgconfig'
-
-	for p in $_portdir/*.patch $_portdir/*.diff; do
-		[ -f $p ] || continue
-		patch -Np1 -i $p
-	done
-
 	cmake -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX="/usr" \
 		-DCMAKE_BUILD_TYPE=Release \

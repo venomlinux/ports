@@ -4,12 +4,22 @@
 name=grub-efi
 version=2.06
 unifont_version=13.0.06
-release=1
+release=2
 source="https://ftp.gnu.org/gnu/grub/grub-$version.tar.xz
-	https://ftp.gnu.org/gnu/unifont/unifont-$unifont_version/unifont-$unifont_version.bdf.gz"
+	https://ftp.gnu.org/gnu/unifont/unifont-$unifont_version/unifont-$unifont_version.bdf.gz
+	https://www.linuxfromscratch.org/patches/blfs/svn/grub-2.06-upstream_fixes-1.patch"
 
 build() {
+	# workaround for https://savannah.gnu.org/bugs/?60458
+ 	# some more info: https://www.linuxquestions.org/questions/showthread.php?p=6257712
+	# grub 2.06 reboots immediately when compiled with -O2,	only affects legacy BIOS
+	export CFLAGS="-march=x86-64 -pipe -Os"
 	cd grub-$version
+
+	# Fix an issue causing grub-install to fail when the /boot partition 
+	# (or the root partition if /boot is not a separate partition) 
+	# is created by e2fsprogs-1.47.0 or later:
+	patch -Np1 -i $SRC/grub-2.06-upstream_fixes-1.patch
 
 	gunzip $SRC/unifont-$unifont_version.bdf.gz
 	cp $SRC/unifont-$unifont_version.bdf unifont.bdf

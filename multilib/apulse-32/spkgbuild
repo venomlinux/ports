@@ -1,0 +1,28 @@
+# description	: PulseAudio emulation for ALSA.
+# homepage	: https://github.com/i-rinat/apulse
+# depends	: alsa-lib-32 cmake ninja glib-32
+
+name=apulse-32
+version=0.1.13
+release=1
+source="https://github.com/i-rinat/apulse/archive/v$version/${name%-*}-v$version.tar.gz"
+
+build() {
+	sed -i -e '/^set(APULSEPATH /s|lib|&32|' ${name%-*}-$version/CMakeLists.txt
+
+	cmake -S ${name%-*}-$version -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=Release
+
+	cmake --build build
+	DESTDIR=$PKG cmake --build build --target install
+
+	install -d $PKG/etc/revdep.d
+	echo '/usr/lib32/apulse' > $PKG/etc/revdep.d/apulse-32
+
+	mv $PKG/usr/bin/apulse $PKG/usr/bin/apulse-32
+
+	rm -r $PKG/usr/share/man
+	rmdir $PKG/usr/share
+}
+

@@ -2,8 +2,8 @@
 # depends	: mesa meson lcms2 ffmpeg libass libarchive luajit libcdio-paranoia libxpresent libxscrnsaver
 
 name=mpv
-version=0.35.0
-release=3
+version=0.35.1
+release=2
 source="https://github.com/mpv-player/mpv/archive/v$version/$name-$version.tar.gz"
 
 build() {
@@ -14,5 +14,5 @@ build() {
 		-D cdda=enabled \
 		-D lua=luajit 
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

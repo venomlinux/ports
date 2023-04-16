@@ -1,15 +1,15 @@
 # description	: GNU Image Manipulation Program
-# depends	: gegl appstream-glib json-glib gtk2 mypaint-brushes1 gexiv2 poppler-glib glib-networking gtk3 librsvg libgudev
+# depends	: gegl appstream-glib json-glib gtk2 mypaint-brushes1 gexiv2 poppler-glib glib-networking gtk3 libgudev libexif	libjpeg-turbo libjxl libpng librsvg libtiff
 
 name=gimp
-version=2.10.32
-release=1
+version=2.10.34
+release=2
 source="https://download.gimp.org/pub/$name/v${version%.*}/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
-
-	  ./configure \
+	
+	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--libexecdir=/usr/lib/$name \

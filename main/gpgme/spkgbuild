@@ -2,17 +2,15 @@
 # depends	: gnupg swig
 
 name=gpgme
-version=1.18.0
+version=1.19.0
 release=1
-source="ftp://ftp.gnupg.org/gcrypt/gpgme/$name-$version.tar.bz2
-	python311.patch"
+source="ftp://ftp.gnupg.org/gcrypt/gpgme/$name-$version.tar.bz2"
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i $SRC/python311.patch
+	export PYTHON=/usr/bin/python3
 
-	export PYTHON='/usr/bin/python3'
 	./configure \
 		--prefix=/usr \
 		--disable-fd-passing \

@@ -1,5 +1,5 @@
 # description	: Eigen is a C++ template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms. 
-# depends	: cmake
+# depends	: cmake ninja
 
 name=eigen
 version=3.4.0
@@ -7,7 +7,7 @@ release=1
 source="https://gitlab.com/libeigen/$name/-/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 	        -DCMAKE_INSTALL_LIBEXECDIR=lib \

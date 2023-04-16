@@ -2,8 +2,8 @@
 # depends	: which freetype2 libxrender libxtst alsa-lib 
 
 name=android-studio
-version=4.3.1.17
-_build=2021.3.1.17
+version=5.1.1.21
+_build=2022.1.1.21
 release=1
 options="!strip"
 source="$name-$version.tar.gz::https://dl.google.com/dl/android/studio/ide-zips/$_build/android-studio-$_build-linux.tar.gz
@@ -15,7 +15,7 @@ build() {
 	# Install the application
 	install -d $PKG/opt/$name
 	install -d $PKG/usr/bin
-	cp -a bin lib jre plugins license LICENSE.txt build.txt product-info.json $PKG/opt/$name
+	cp -a bin lib jbr plugins license LICENSE.txt build.txt product-info.json $PKG/opt/$name
 	ln -s /opt/android-studio/bin/studio.sh $PKG/usr/bin/$name
 
 	# Add the icon and desktop file

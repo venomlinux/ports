@@ -1,0 +1,29 @@
+# description	: Cross-platform 3D audio.
+# homepage	: https://github.com/kcat/openal-soft
+# depends	: alsa-lib-32 openal
+
+name=openal-32
+version=1.23.0
+release=1
+source="https://github.com/kcat/openal-soft/archive/$version/openal-soft-$version.tar.gz"
+
+build() {
+
+	cmake -S openal-soft-$version -B build -G Ninja \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_INSTALL_LIBDIR=lib32 \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib32 \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D ALSOFT_UTILS=OFF \
+		-D ALSOFT_EXAMPLES=OFF \
+		-D QT_QMAKE_EXECUTABLE=qmake-disabled \
+		-Wno-dev
+
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+
+	rm -r $PKG/usr/include 
+	rm -r $PKG/usr/share
+}

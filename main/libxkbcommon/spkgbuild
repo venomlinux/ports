@@ -2,7 +2,7 @@
 # depends	: xkeyboard-config libxcb meson libxml2
 
 name=libxkbcommon
-version=1.4.1
+version=1.5.0
 release=1
 source="https://xkbcommon.org/download/$name-$version.tar.xz"
 
@@ -13,5 +13,5 @@ build() {
 	-Denable-docs=false \
 	build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

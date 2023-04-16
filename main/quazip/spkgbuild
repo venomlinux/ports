@@ -1,13 +1,13 @@
 # description	: Qt/C++ wrapper over minizip 
-# depends	: cmake icu qt5
+# depends	: cmake icu qt5 ninja
 
 name=quazip
-version=1.3
+version=1.4
 release=1
 source="https://github.com/stachenov/$name/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

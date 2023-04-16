@@ -8,7 +8,7 @@ release=1
 source="https://github.com/leethomason/$name/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cmake -B build -S $name-$version \
+	cmake -B build -S $name-$version -G Ninja \
     		-DCMAKE_INSTALL_PREFIX=/usr \
     		-Dtinyxml2_SHARED_LIBS=ON
   	cmake --build build	

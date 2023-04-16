@@ -1,14 +1,14 @@
 # description	: Lightweight C++ command line option parser
 # homepage	: https://github.com/jarro2783/cxxopts
-# depends	: cmake 
+# depends	: cmake ninja 
 
 name=cxxopts
-version=3.0.0
+version=3.1.1
 release=1
-source="$name-$version.tar.gz::https://github.com/jarro2783/$name/archive/refs/tags/v$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/jarro2783/$name/archive/v$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
         	-DCMAKE_INSTALL_LIBEXECDIR=lib \

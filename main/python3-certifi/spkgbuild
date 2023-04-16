@@ -1,0 +1,13 @@
+# description  : Python package for providing Mozilla's CA Bundle
+# depends on : python3-setuptools
+
+name=python3-certifi
+version=2022.12.7
+release=1
+source="$name-$version.tar.gz::https://pypi.io/packages/source/c/certifi/certifi-$version.tar.gz"
+
+build() {
+  cd certifi-$version
+  python3 setup.py build
+  python3 setup.py install --prefix=/usr --root=$PKG --skip-build -O1
+}

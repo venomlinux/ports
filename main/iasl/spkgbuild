@@ -1,10 +1,9 @@
 # description	: Intel ACPI Source Language compiler
 
 name=iasl
-version=20221020
+version=20230331
 release=1
-source="$name-$version.tar.gz::https://acpica.org/sites/acpica/files/acpica-unix-$version.tar_0.gz"
-
+source="$name-$version.tar.gz::https://acpica.org/sites/acpica/files/acpica-unix-${version}.tar.gz"
 build() {
 	cd acpica-unix-$version
 	export CFLAGS="$CFLAGS -Wno-dangling-pointer"

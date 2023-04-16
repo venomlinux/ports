@@ -2,8 +2,8 @@
 # depends	: gtk3 gobject-introspection docbook-xsl libxslt
 
 name=libnotify
-version=0.8.1
-release=3
+version=0.8.2
+release=1
 source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
@@ -14,5 +14,5 @@ build() {
 		-Dgtk_doc=false \
 		-Ddocbook_docs=disabled
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

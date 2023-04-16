@@ -4,7 +4,7 @@
 # optional	    : hicolor-icon-theme qt6
 
 name=mkvtoolnix
-version=72.0.0
+version=75.0.0
 release=1
 source="https://mkvtoolnix.download/sources/$name-$version.tar.xz"
 
@@ -19,7 +19,7 @@ build() {
 		--disable-qt5 \
 		--enable-qt6
 
-	rake --multitask --jobs=${JOBS-1}
+	rake --multitask --jobs=${MAKEFLAGS}
 	rake DESTDIR=$PKG install
 
 	rm -r $PKG/usr/share/locale

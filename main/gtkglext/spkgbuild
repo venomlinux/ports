@@ -1,0 +1,30 @@
+# description	    : OpenGL extension to GTK 2.0.
+# homepage	    : https://projects.gnome.org/gtkglext/
+# depends	    : gtk2 libxmu glu
+
+name=gtkglext
+version=1.2.0
+release=1
+source="http://downloads.sourceforge.net/project/$name/$name/$version/$name-$version.tar.gz
+	name-conflict.patch
+	remove-deprecated-flags.patch
+	kill-pangox.patch
+	gtk2.20.patch" 
+
+build() {
+	cd $name-$version
+	patch -Np1 -i $SRC/name-conflict.patch
+	patch -Np1 -i $SRC/remove-deprecated-flags.patch
+	patch -Np1 -i $SRC/kill-pangox.patch
+	patch -Np1 -i $SRC/gtk2.20.patch
+	autoreconf -fi
+	rm -rf gdk/x11/gdkxglfont-x11.c
+	./configure \
+		--prefix=/usr \
+		--disable-static \
+		--disable-gtk-doc
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share
+}

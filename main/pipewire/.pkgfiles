@@ -1,9 +1,15 @@
-pipewire-0.3.63-1
+pipewire-0.3.69-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/alsa/
 drwxr-xr-x root/root    etc/alsa/conf.d/
 lrwxrwxrwx root/root    etc/alsa/conf.d/50-pipewire.conf -> /usr/share/alsa/alsa.conf.d/50-pipewire.conf
 lrwxrwxrwx root/root    etc/alsa/conf.d/99-pipewire-default.conf -> /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf
+drwxr-xr-x root/root    etc/security/
+drwxr-xr-x root/root    etc/security/limits.d/
+-rw-r--r-- root/root    etc/security/limits.d/25-pw-rlimits.conf
+drwxr-xr-x root/root    etc/xdg/
+drwxr-xr-x root/root    etc/xdg/autostart/
+-rw-r--r-- root/root    etc/xdg/autostart/pipewire.desktop
 drwxr-xr-x root/root    lib/
 drwxr-xr-x root/root    lib/udev/
 drwxr-xr-x root/root    lib/udev/rules.d/
@@ -11,13 +17,15 @@ drwxr-xr-x root/root    lib/udev/rules.d/
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/pipewire
--rwxr-xr-x root/root    usr/bin/pipewire-avb
--rwxr-xr-x root/root    usr/bin/pipewire-pulse
+lrwxrwxrwx root/root    usr/bin/pipewire-aes67 -> pipewire
+lrwxrwxrwx root/root    usr/bin/pipewire-avb -> pipewire
+lrwxrwxrwx root/root    usr/bin/pipewire-pulse -> pipewire
 -rwxr-xr-x root/root    usr/bin/pw-cat
 -rwxr-xr-x root/root    usr/bin/pw-cli
 -rwxr-xr-x root/root    usr/bin/pw-dot
 lrwxrwxrwx root/root    usr/bin/pw-dsdplay -> pw-cat
 -rwxr-xr-x root/root    usr/bin/pw-dump
+lrwxrwxrwx root/root    usr/bin/pw-encplay -> pw-cat
 -rwxr-xr-x root/root    usr/bin/pw-jack
 -rwxr-xr-x root/root    usr/bin/pw-link
 -rwxr-xr-x root/root    usr/bin/pw-loopback
@@ -37,6 +45,7 @@ lrwxrwxrwx root/root    usr/bin/pw-record -> pw-cat
 -rwxr-xr-x root/root    usr/bin/spa-json-dump
 -rwxr-xr-x root/root    usr/bin/spa-monitor
 -rwxr-xr-x root/root    usr/bin/spa-resample
+-rwxr-xr-x root/root    usr/bin/venom-pipewire-launcher
 drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/include/pipewire-0.3/
 drwxr-xr-x root/root    usr/include/pipewire-0.3/pipewire/
@@ -110,6 +119,7 @@ drwxr-xr-x root/root    usr/include/spa-0.2/spa/control/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/control/type-info.h
 drwxr-xr-x root/root    usr/include/spa-0.2/spa/debug/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/buffer.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/context.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/dict.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/format.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/debug/log.h
@@ -137,30 +147,83 @@ drwxr-xr-x root/root    usr/include/spa-0.2/spa/node/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/node/utils.h
 drwxr-xr-x root/root    usr/include/spa-0.2/spa/param/
 drwxr-xr-x root/root    usr/include/spa-0.2/spa/param/audio/
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/aac-types.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/aac-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/aac.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/alac-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/alac.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/amr-types.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/amr-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/amr.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/ape-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/ape.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/compressed.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/dsd-utils.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/dsd.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/dsp-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/dsp.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/flac-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/flac.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/format-utils.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/format.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/iec958-types.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/iec958-utils.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/iec958.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/layout.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/mp3-types.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/mp3-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/mp3.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/opus.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/ra-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/ra.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/raw-types.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/raw-utils.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/raw.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/type-info.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/vorbis-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/vorbis.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/wma-types.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/wma-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/audio/wma.h
 drwxr-xr-x root/root    usr/include/spa-0.2/spa/param/bluetooth/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/bluetooth/audio.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/bluetooth/type-info.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/buffers-types.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/buffers.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/format-types.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/format-utils.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/format.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/latency-types.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/latency-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/latency.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/param-types.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/param.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/port-config-types.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/port-config.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/profile-types.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/profile.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/profiler-types.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/profiler.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/props-types.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/props.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/route-types.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/route.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/type-info.h
 drwxr-xr-x root/root    usr/include/spa-0.2/spa/param/video/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/chroma.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/color.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/dsp-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/dsp.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/encoded.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/format-utils.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/format.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/h264-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/h264.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/mjpg-utils.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/mjpg.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/multiview.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/raw-types.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/raw-utils.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/raw.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/param/video/type-info.h
 drwxr-xr-x root/root    usr/include/spa-0.2/spa/pod/
@@ -190,6 +253,7 @@ drwxr-xr-x root/root    usr/include/spa-0.2/spa/utils/
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/defs.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/dict.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/dll.h
+-rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/enum-types.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/hook.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/json-pod.h
 -rw-r--r-- root/root    usr/include/spa-0.2/spa/utils/json.h
@@ -208,24 +272,25 @@ drwxr-xr-x root/root    usr/lib/alsa-lib/
 drwxr-xr-x root/root    usr/lib/gstreamer-1.0/
 -rwxr-xr-x root/root    usr/lib/gstreamer-1.0/libgstpipewire.so
 lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so -> libpipewire-0.3.so.0
-lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.363.0
--rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.363.0
+lrwxrwxrwx root/root    usr/lib/libpipewire-0.3.so.0 -> libpipewire-0.3.so.0.369.0
+-rwxr-xr-x root/root    usr/lib/libpipewire-0.3.so.0.369.0
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/
 drwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so -> libjack.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.363.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.363.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjack.so.0 -> libjack.so.0.369.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjack.so.0.369.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so -> libjacknet.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.363.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.363.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0 -> libjacknet.so.0.369.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjacknet.so.0.369.0
 lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so -> libjackserver.so.0
-lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.363.0
--rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.363.0
+lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjackserver.so.0.369.0
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0.369.0
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-access.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-adapter.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-avb.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-client-device.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-client-node.so
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-combine-stream.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-echo-cancel.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-fallback-sink.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-filter-chain.so
@@ -242,6 +307,7 @@ lrwxrwxrwx root/root    usr/lib/pipewire-0.3/jack/libjackserver.so.0 -> libjacks
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-raop-sink.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-rt.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-rtkit.so
+-rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-rtp-sap.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-rtp-sink.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-rtp-source.so
 -rwxr-xr-x root/root    usr/lib/pipewire-0.3/libpipewire-module-session-manager.so
@@ -317,6 +383,8 @@ drwxr-xr-x root/root    usr/share/alsa-card-profile/mixer/paths/
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/paths/analog-output-speaker.conf
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/paths/analog-output.conf
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/paths/analog-output.conf.common
+-rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/paths/audigy-analog-output-mirror.conf
+-rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/paths/audigy-analog-output.conf
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/paths/hdmi-output-0.conf
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/paths/hdmi-output-1.conf
 -rw-r--r-- root/root    usr/share/alsa-card-profile/mixer/paths/hdmi-output-10.conf
@@ -385,7 +453,11 @@ drwxr-xr-x root/root    usr/share/man/man5/
 -rw-r--r-- root/root    usr/share/man/man5/pipewire.conf.5.gz
 drwxr-xr-x root/root    usr/share/pipewire/
 -rw-r--r-- root/root    usr/share/pipewire/client-rt.conf
+drwxr-xr-x root/root    usr/share/pipewire/client-rt.conf.avail/
+-rw-r--r-- root/root    usr/share/pipewire/client-rt.conf.avail/20-upmix.conf
 -rw-r--r-- root/root    usr/share/pipewire/client.conf
+drwxr-xr-x root/root    usr/share/pipewire/client.conf.avail/
+-rw-r--r-- root/root    usr/share/pipewire/client.conf.avail/20-upmix.conf
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain.conf
 drwxr-xr-x root/root    usr/share/pipewire/filter-chain/
 -rw-r--r-- root/root    usr/share/pipewire/filter-chain/demonic.conf
@@ -402,9 +474,15 @@ drwxr-xr-x root/root    usr/share/pipewire/filter-chain/
 drwxr-xr-x root/root    usr/share/pipewire/media-session.d/
 -rw-r--r-- root/root    usr/share/pipewire/media-session.d/with-alsa
 -rw-r--r-- root/root    usr/share/pipewire/minimal.conf
+-rw-r--r-- root/root    usr/share/pipewire/pipewire-aes67.conf
 -rw-r--r-- root/root    usr/share/pipewire/pipewire-avb.conf
 -rw-r--r-- root/root    usr/share/pipewire/pipewire-pulse.conf
+drwxr-xr-x root/root    usr/share/pipewire/pipewire-pulse.conf.avail/
+-rw-r--r-- root/root    usr/share/pipewire/pipewire-pulse.conf.avail/20-upmix.conf
 -rw-r--r-- root/root    usr/share/pipewire/pipewire.conf
+drwxr-xr-x root/root    usr/share/pipewire/pipewire.conf.avail/
+-rw-r--r-- root/root    usr/share/pipewire/pipewire.conf.avail/10-rates.conf
+-rw-r--r-- root/root    usr/share/pipewire/pipewire.conf.avail/20-upmix.conf
 drwxr-xr-x root/root    usr/share/spa-0.2/
 drwxr-xr-x root/root    usr/share/spa-0.2/bluez5/
 -rw-r--r-- root/root    usr/share/spa-0.2/bluez5/bluez-hardware.conf

@@ -6,9 +6,11 @@ release=1
 source="https://xorg.freedesktop.org/archive/individual/proto/xcb-proto-$version.tar.xz"
 
 build() {
+	export PYTHON=/usr/bin/python3
+
 	cd $name-$version
 
-  	PYTHON=python3 ./configure \
+	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--localstatedir=/var \

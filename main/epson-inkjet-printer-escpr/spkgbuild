@@ -1,0 +1,23 @@
+# description	: Epson Inkjet Printer Driver (ESC/P-R) for Linux
+# homepage	: http://download.ebz.epson.net/dsc/search/01/search/?OSC=LX
+# depends	: cups ghostscript
+
+name=epson-inkjet-printer-escpr
+version=1.7.22
+release=1
+source="https://download3.ebz.epson.net/dsc/f/03/00/13/96/55/c6fced63098ae1ba104f11f572794fd558ffca29/$name-${version}-1lsb3.2.tar.gz
+	bug_x86_64.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/bug_x86_64.patch
+
+	autoreconf -vif
+	./configure \
+		--prefix=/usr \
+		--with-cupsfilterdir=/usr/lib/cups/filter \
+	  	--with-cupsppddir=/usr/share/ppd
+	make
+	make DESTDIR=$PKG install
+}

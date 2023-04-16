@@ -1,29 +1,20 @@
 # description	: A Modern Linker
 # homepage	: https://github.com/rui314/mold
-# depends	: cmake zlib mimalloc tbb
+# depends	: cmake ninja zlib mimalloc tbb
 
 name=mold
-version=1.7.1
+version=1.11.0
 release=1
-source="$name-$version.tar.gz::https://github.com/rui314/mold/archive/v$version.tar.gz
-elf_amd64_only.patch
-"
+source="$name-$version.tar.gz::https://github.com/rui314/mold/archive/v$version.tar.gz"
 
 build() {
-	cd $name-$version
 
-	scratch isinstalled clang && {
-		export CC=clang
-		export CXX=clang++
-	}
-
+	scratch isinstalled clang export CC=clang export CXX=clang++
 	export SYSTEM_MIMALLOC=1 
 	export SYSTEM_TBB=1 
 	export LTO=1 
 
-	patch -Np1 -i $SRC/elf_amd64_only.patch
-
-	cmake -B build \
+	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=/usr/lib \
 	        -DCMAKE_INSTALL_LIBEXECDIR=/usr/lib 

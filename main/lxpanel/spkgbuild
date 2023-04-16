@@ -3,12 +3,13 @@
 
 name=lxpanel
 version=0.10.1
-release=1
-source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz"
+release=2
+source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz
+	fix-panel-size.patch"
 
 build() {
 	cd $name-$version
-
+	patch -Np1 -i $SRC/fix-panel-size.patch
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install

@@ -11,6 +11,6 @@ build() {
 	cd $_name-$version
 	venom-meson -Dthemes=gtk2,gtk3,metacity,xfwm build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }
 

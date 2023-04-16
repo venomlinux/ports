@@ -1,0 +1,19 @@
+# description: GNUPlot, a graph plotting software
+# depends: libgd pango
+
+name=gnuplot
+version=5.4.6
+release=1
+source=https://downloads.sourceforge.net/project/$name/$name/$version/$name-$version.tar.gz
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib \
+		--with-x \
+		--with-qt=no
+	make
+	make DESTDIR=$PKG install
+	rm $PKG/usr/share/gnuplot/${version%.*}/js/README
+}

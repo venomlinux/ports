@@ -2,7 +2,7 @@
 # depends	: gst-plugins-base gstreamer-32
 
 name=gst-plugins-base-32
-version=1.20.5
+version=1.22.2
 release=1
 source="http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-$version.tar.xz"
 
@@ -21,7 +21,7 @@ build() {
 		-Dintrospection=disabled \
 		-Dpackage-name="GStreamer Base Plugins $version (Venom Linux)"
 	meson compile -C build
-	DESTDIR=$PWD/DESTDIR meson install -C build
+	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

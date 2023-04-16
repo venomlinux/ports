@@ -2,12 +2,12 @@
 # depends	: libcap
 
 name=bubblewrap
-version=0.7.0
+version=0.8.0
 release=1
 source="https://github.com/containers/bubblewrap/archive/v$version/$name-$version.tar.gz"
 
 build() {
 	venom-meson $name-$version build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

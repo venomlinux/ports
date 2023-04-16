@@ -1,0 +1,22 @@
+# description	: Video Decode and Presentation API for Unix provides a complete solution for decoding, post-processing, compositing, and displaying compressed or uncompressed video streams.
+# homepage	: https://cgit.freedesktop.org/vdpau/libvdpau/
+# depends	: libvdpau libxext-32
+
+name=libvdpau-32
+version=1.5
+release=1
+source="https://gitlab.freedesktop.org/vdpau/${name%-*}/-/archive/$version//${name%-*}-$version.tar.bz2"
+
+build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	venom-meson libvdpau-$version build \
+		--libdir=/usr/lib32 \
+		-Ddocumentation=false
+	meson compile -C build 
+	DESTDIR=$PKG meson install --no-rebuild -C build
+
+	rm -r $PKG/etc $PKG/usr/include
+}

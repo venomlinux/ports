@@ -2,12 +2,16 @@
 # depends	: gtk3 glib libxml2 itstool
 
 name=mate-calc
-version=1.26.0
+version=1.27.0
 release=1
 source="https://pub.mate-desktop.org/releases/${version%.*}/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
+
+	# remove help/ja, buid fails otherwise
+	rm -r help/ja
+
 	./configure --prefix=/usr --disable-nls
 	make
 	make DESTDIR=$PKG install

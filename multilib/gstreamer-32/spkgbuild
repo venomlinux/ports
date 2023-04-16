@@ -2,7 +2,7 @@
 # depends	: gstreamer glib-32
 
 name=gstreamer-32
-version=1.20.5
+version=1.22.2
 release=1
 source="http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-$version.tar.xz"
 
@@ -18,7 +18,7 @@ build() {
 		-Dintrospection=disabled \
 		-Dpackage-name="GStreamer $version (Venom Linux)"
 	meson compile -C build
-	DESTDIR=$PWD/DESTDIR meson install -C build
+	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }

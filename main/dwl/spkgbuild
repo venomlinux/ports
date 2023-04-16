@@ -1,0 +1,26 @@
+# description	    : Simple, hackable dynamic tiling Wayland compositor (dwm for Wayland)
+# homepage	    : https://github.com/djpohly/dwl
+# depends	    : wlroots wayland-protocols
+
+name=dwl
+version=0.4
+release=1
+source="$name-$version.tar.gz::https://github.com/djpohly/$name/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	# Uncomment to compile with XWayland support
+	#sed -i -e '/-DXWAYLAND/s/^#//' config.mk
+
+	# Use a custom config.h if the file is not empty
+	 [ -e "$SRC/config.h" ] && cp -f $SRC/config.h config.h
+
+	# Uncomment if you have any patches to apply
+	# for i in $SRC/*.patch $SRC/*.diff ; do
+	# patch -Np1 -i $i
+	# done
+
+	make PREFIX=/usr
+	make PREFIX=/usr DESTDIR=$PKG install
+}

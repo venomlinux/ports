@@ -1,0 +1,20 @@
+# description: GTK support library for colord
+# homepage: https://www.freedesktop.org/software/colord/
+# depends: colord glib gtk3 intltool lcms2 meson
+
+name=colord-gtk
+version=0.3.0
+release=1
+source="https://www.freedesktop.org/software/colord/releases/$name-$version.tar.xz"
+
+build () {
+venom-meson $name-$version build \
+    -Dgtk2=false \
+    -Dgtk4=false \
+    -Dvapi=true \
+    -Dtests=true \
+    -Dman=false \
+    -Ddocs=false 
+meson compile -C build
+DESTDIR=$PKG meson install --no-rebuild -C build
+}

@@ -16,7 +16,7 @@ build() {
   venom-meson $name build $_opts \
     -D test-text-shaping=true
   meson compile -C build
-  DESTDIR=$PKG meson install -C build
+  DESTDIR=$PKG meson install --no-rebuild -C build
 
   rm -r $PKG/usr/share/doc
 }

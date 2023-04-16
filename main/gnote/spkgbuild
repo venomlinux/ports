@@ -3,12 +3,12 @@
 # depends	: desktop-file-utils gtkmm3 gspell libxslt libsecret yelp-tools meson
 
 name=gnote
-version=43.0
+version=44.0
 release=1
 source="https://gitlab.gnome.org/GNOME/gnote/-/archive/$version/$name-$version.tar.gz"
 
 build() {
   venom-meson $name-$version build
   meson compile -C build
-  meson install -C build --destdir $PKG
+  meson install --no-rebuild -C build --destdir $PKG
 }

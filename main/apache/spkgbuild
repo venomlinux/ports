@@ -1,11 +1,11 @@
 # description	: Open-source HTTP server
-# depends	: apr-util pcre openssl
+# depends	: apr-util libnghttp2 pcre2 libxml2 openssl
 
 name=apache
-version=2.4.54
+version=2.4.56
 release=1
 source="https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
-	httpd-blfs_layout-1.patch
+	httpd-blfs_layout-1.patch::https://www.linuxfromscratch.org/patches/blfs/svn/httpd-$version-blfs_layout-1.patch
 	rc.httpd
 	run.httpd"
 
@@ -13,7 +13,7 @@ build() {
 	cd httpd-$version
 
 	# Forces the apxs utility to use absolute pathnames for modules, when instructed to do so
-	patch -Np1 -i ../httpd-blfs_layout-1.patch
+	patch -Np1 -i $SRC/httpd-blfs_layout-1.patch
 
 	# Adapt the Lua module to API changes in Lua-5.4
 	sed -i 's/lua_resume(a, NULL, b)/lua_resume(a, NULL, b, NULL)/' modules/lua/mod_lua.h

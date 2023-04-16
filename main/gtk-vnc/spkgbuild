@@ -1,0 +1,20 @@
+# description	: A VNC viewer widget for GTK
+# homepage	: https://wiki.gnome.org/Projects/gtk-vnc
+# depends	: meson glib gdk-pixbuf gtk3 libgcrypt
+
+name=gtk-vnc
+version=1.3.1
+release=1
+source="https://download.gnome.org/sources/$name/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	venom-meson $name-$version build \
+		--prefix=/usr \
+		--buildtype=plain \
+		-Dwith-vala=disabled
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+
+	rm -r $PKG/usr/share/locale
+}
+

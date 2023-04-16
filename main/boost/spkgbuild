@@ -2,22 +2,25 @@
 # depends	: zlib bzip2 which icu python3
 
 name=boost
-version=1.81.0
-_version=$(echo $version | sed 's/\./_/g')
+version=1.82.0
+vrsn=$(echo $version | sed 's/\./_/g')
 release=1
-source="$name-$version.tar.bz2::https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${_version}.tar.bz2"
+source="$name-$version.tar.bz2::https://boostorg.jfrog.io/artifactory/main/release/$version/source/boost_${vrsn}.tar.bz2"
 
 build() {
-	cd boost_${_version}
+	cd boost_${vrsn}
+	
+	# Fix boost breaks the few packages which use the phoenix module
+	sed -i '/#include.*phoenix.*tuple.hpp.*/d' boost/phoenix/stl.hpp
 
-	./bootstrap.sh --prefix=/usr
-	./b2 ${MAKEFLAGS} stage --stagedir=$PKG/usr threading=multi link=shared
-	./b2 ${MAKEFLAGS} install --prefix=$PKG/usr threading=multi link=shared
+	./bootstrap.sh --prefix=/usr --with-python=python3
 
-	./bootstrap.sh --prefix=/usr --with-python=/usr/bin/python3
-	./b2 clean
-	./b2 ${MAKEFLAGS} install --prefix=$SRC/py3 threading=multi link=shared
-	cp -a $SRC/py3/lib/libboost_* $PKG/usr/lib
+	./b2 stage ${MAKEFLAGS} threading=multi link=shared
+
+	# Older cmake directories need to be explicitly removed
+	rm -rf /usr/lib/cmake/[Bb]oost*
+
+	./b2 install --prefix=$PKG/usr threading=multi link=shared
 
 	ln -sv detail/sha1.hpp $PKG/usr/include/boost/uuid/sha1.hpp
 }

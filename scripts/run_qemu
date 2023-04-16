@@ -10,8 +10,6 @@ SCRIPTDIR="$(dirname $(realpath $0))"
 qemu-system-x86_64 -enable-kvm \
         -cpu host \
         -drive file="$PORTSDIR"/qemu-vm.img,if=virtio \
-        -netdev user,id=vmnic,hostname=Venom \
-        -device virtio-net,netdev=vmnic \
         -device virtio-rng-pci \
         -m 2G \
         -smp 4 \

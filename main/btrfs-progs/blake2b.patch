@@ -1,0 +1,39 @@
+--- btrfs-progs-v6.2.1/crypto/blake2b-round.h	2023-03-06 00:23:58.473897017 +0100
++++ btrfs-progs-v6.2.1/crypto/blake2b-round.h	2023-03-06 00:25:20.755898348 +0100
+@@ -136,12 +136,6 @@
+ 
+ #endif
+ 
+-#if defined(HAVE_SSE41)
+-#include "blake2b-load-sse41.h"
+-#else
+-#include "blake2b-load-sse2.h"
+-#endif
+-
+ #define ROUND(r) \
+   LOAD_MSG_ ##r ##_1(b0, b1); \
+   G1(row1l,row2l,row3l,row4l,row1h,row2h,row3h,row4h,b0,b1); \
+
+
+--- btrfs-progs-v6.2.1/crypto/blake2b-sse2.c	2023-03-06 00:26:27.549899429 +0100
++++ btrfs-progs-v6.2.1/crypto/blake2b-sse2.c	2023-03-06 00:27:37.284900556 +0100
+@@ -30,6 +30,7 @@
+ #include <x86intrin.h>
+ #endif
+ 
++#include "blake2b-load-sse2.h"
+ #include "blake2b-round.h"
+ 
+ static const uint64_t blake2b_IV[8] =
+
+
+--- btrfs-progs-v6.2.1/crypto/blake2b-sse41.c	2023-03-06 00:26:27.549899429 +0100
++++ btrfs-progs-v6.2.1/crypto/blake2b-sse41.c	2023-03-06 00:29:25.182902302 +0100
+@@ -34,6 +34,7 @@
+ #include <x86intrin.h>
+ #endif
+ 
++#include "blake2b-load-sse41.h"
+ #include "blake2b-round.h"
+ 
+ static const uint64_t blake2b_IV[8] =

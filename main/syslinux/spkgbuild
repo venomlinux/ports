@@ -3,10 +3,12 @@
 
 name=syslinux
 version=6.03
-release=3
+release=4
 source="http://www.kernel.org/pub/linux/utils/boot/$name/$name-$version.tar.xz
         $name-sysmacros.patch
-	fix-build-with-glibc-2.36.patch"
+	fix-build-with-glibc-2.36.patch
+	isolinux.cfg
+	splash.png"
 
 build() {
 	cd $name-$version
@@ -25,5 +27,6 @@ build() {
 	make OPTFLAGS="$CFLAGS" INSTALLROOT=$PKG MANDIR=/usr/share/man install
 
 	cp venom/* $PKG/usr/share/syslinux
+	cp $SRC/isolinux.cfg $SRC/splash.png $PKG/usr/share/$name
 }
 

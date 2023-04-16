@@ -1,0 +1,21 @@
+# description	: Flash OS images to SD cards & USB drives, safely and easily
+# homepage	: https://github.com/balena-io/etcher
+# depends	: gtk2 dbus libx11 libxi libxcursor libxdamage libxrandr libxcomposite libxext libxfixes libxrender libxtst libxscrnsaver gconf nss
+
+name=etcher-bin
+version=1.18.4
+release=1
+options="!strip"
+source="$name-$version.rpm::https://github.com/balena-io/etcher/releases/download/v${version}/balena-etcher-${version}.x86_64.rpm"
+noextract="${name}-${version}.rpm"
+
+build() {
+
+	for rpm in $SRC/${name}-${version}*rpm; do
+		bsdtar -xf $rpm -p -o -C $PKG
+	done
+	
+	# Link balena-etcher in PATH
+	mkdir $PKG/usr/bin
+	ln -s /opt/balenaEtcher/balena-etcher $PKG/usr/bin/balena-etcher
+}

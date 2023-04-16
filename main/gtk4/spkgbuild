@@ -1,18 +1,24 @@
 # description	: A multi-platform toolkit for creating graphical user interfaces, version 4
 # homepage	: https://www.gtk.org/
-# depends	: meson gst-plugins-bad sassc gobject-introspection cairo pango gdk-pixbuf libxinerama libxcursor libepoxy libxi
+# depends	: pango graphene iso-codes libxkbcommon python3-gobject3 adwaita-icon-theme librsvg gst-plugins-bad gdk-pixbuf libepoxy sassc
 
 name=gtk4
-version=4.9.1
-release=1
+version=4.10.1
+release=2
 source="https://gitlab.gnome.org/GNOME/gtk/-/archive/$version/gtk-$version.tar.bz2"
 
 build() {
+	export XML_CATALOG_FILES=/etc/xml/catalog
+	
 	venom-meson gtk-$version build \
-	-Dwayland-backend=false \
-	-Dbuild-tests=false \
-	-Dbuild-examples=false \
-	-Ddemos=false 
+		-Dbroadway-backend=true \
+		-Dwayland-backend=$(scratch isinstalled wayland-protocols && echo true || echo false) \
+		-D introspection=enabled \
+		-D man-pages=false \
+		-D build-tests=false \
+		-D build-testsuite=false \
+		-D build-examples=false \
+		-D demos=false
         meson compile -C build
-        DESTDIR=$PKG meson install -C build
+        DESTDIR=$PKG meson install --no-rebuild -C build
 }

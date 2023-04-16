@@ -1,0 +1,33 @@
+# description	: Graphical user interface for CUPS administration
+# homepage	: https://github.com/OpenPrinting/system-config-printer
+# depends	: gdk-pixbuf libnotify python3-cairo python3-dbus python3-gobject3 python3-pycups python3-requests intltool gettext xmlto desktop-file-utils 
+
+name=system-config-printer
+version=1.5.18
+release=1
+source="https://github.com/OpenPrinting/system-config-printer/releases/download/v$version/${name}-$version.tar.xz"
+
+build() {
+	export XML_CATALOG_FILES=/etc/xml/catalog
+
+	cd $name-$version
+	./bootstrap
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--localstatedir=/var
+	make
+	make DESTDIR=$PKG install
+
+	# Move module python to proper location
+	mv $PKG/usr/lib/python3.11/site-packages/cupshelpers-1.0-py3.11.egg/EGG-INFO/PKG-INFO \
+		$PKG/usr/lib/python3.11/site-packages/cupshelpers-1.0-py3.11.egg-info
+
+	mv $PKG/usr/lib/python3.11/site-packages/cupshelpers-1.0-py3.11.egg/cupshelpers \
+				$PKG/usr/lib/python3.11/site-packages/cupshelpers
+
+	# Clean directories
+	rm -rf $PKG/usr/lib/python3.11/site-packages/cupshelpers-1.0-py3.11.egg
+	rm -rf $PKG/etc/dbus-1/system.d
+}

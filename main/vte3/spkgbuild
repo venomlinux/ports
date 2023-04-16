@@ -2,9 +2,9 @@
 # depends	: gobject-introspection vala glib pango fribidi gnutls pcre2 zlib gtk3 at-spi2-core cairo gdk-pixbuf
 
 name=vte3
-version=0.70.2
+version=0.70.3
 release=1
-source="https://ftp.gnome.org/pub/gnome/sources/vte/${version%.*}/vte-$version.tar.xz
+source="https://gitlab.gnome.org/GNOME/vte/-/archive/$version/vte-$version.tar.gz
 	vte-cntnr-precmd-preexec-scroll.patch"
 
 build() {
@@ -18,6 +18,6 @@ build() {
 	      -Db_pie=false \
 	      -D_systemd=false
         meson compile -C build
-        DESTDIR=$PKG meson install -C build
+        DESTDIR=$PKG meson install --no-rebuild -C build
 
 }

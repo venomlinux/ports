@@ -1,22 +1,24 @@
 # description	: Window manager with the goals of speed, simplicity, and not getting in the user's way
-# depends	: libxrandr libxft libsm libxinerama gdk-pixbuf-xlib mkfontscale libxcomposite libxfixes libxdamage libxpm asciidoc fribidi imlib2
+# depends	: libxrandr libxft libsm libxinerama gdk-pixbuf-xlib mkfontscale libxcomposite libxfixes libxdamage libxpm fribidi imlib2 asciidoctor
 
 name=icewm
-version=3.3.0
+version=3.3.3
 release=1
 source="https://github.com/ice-wm/icewm/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cmake -B build -S $name-$version \
+	cmake -B build -S $name-$version -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
-		-DCFGDIR=/etc               \
+		-DENABLE_NLS=OFF \
 		-DCONFIG_GDK_PIXBUF_XLIB=ON \
 		-DCONFIG_IMLIB2=OFF         \
+		-DENABLE_LTO=ON \
+		-DCFGDIR=/etc/icewm \
 		-DDOCDIR=/usr/share/doc/$name-$version \
 		-Wno-dev
 	cmake --build build

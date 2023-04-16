@@ -1,0 +1,14 @@
+# description	: Python ctypes wrapper around SDL2
+# homepage	: https://github.com/py-sdl/py-sdl2
+# depends	: sdl2 python3-setuptools
+
+name=python3-pysdl2
+version=0.9.15
+release=1
+source="$name-$version.tar.gz::https://github.com/py-sdl/py-sdl2/archive/refs/tags/$version.tar.gz"
+
+build() {
+	cd py-sdl2-$version
+
+	python3 setup.py install --root=$PKG --optimize=1
+}

@@ -3,11 +3,15 @@
 
 name=xbindkeys
 version=1.8.7
-release=1
+release=2
 source="http://www.nongnu.org/$name/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
+	
+	# pick up new guile versions
+	autoreconf -vi
+
 	./configure --prefix=/usr
 	make
 	make DESTDIR=$PKG install

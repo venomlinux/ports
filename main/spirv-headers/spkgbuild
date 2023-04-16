@@ -1,14 +1,14 @@
 # description	: SPIR-V Headers
 # homepage	: https://www.khronos.org/registry/spir-v
-# depends	: cmake
+# depends	: cmake ninja
 
 name=spirv-headers
-version=1.3.236.0
+version=1.3.243.0
 release=1
 source="https://github.com/KhronosGroup/SPIRV-Headers/archive/sdk-$version/$name-$version.tar.gz"
 
 build() {
-	cmake -S SPIRV-Headers-sdk-$version -B build \
+	cmake -S SPIRV-Headers-sdk-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
         	-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

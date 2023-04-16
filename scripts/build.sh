@@ -60,16 +60,6 @@ umount_cache_and_portsrepo() {
 	# unmount packages and source cache
 	unmount $ROOTFS/var/cache/scratchpkg/packages
 	unmount $ROOTFS/var/cache/scratchpkg/sources
-	
-	# mount ports dir
-	umount_repo
-}
-
-umount_repo() {
-	for repo in $REPO; do
-		unmount $ROOTFS/usr/ports/$repo
-		rm -rf $ROOTFS/usr/ports/$repo
-	done
 }
 
 unmount_any_mounted() {
@@ -87,16 +77,21 @@ mount_cache_and_portsrepo() {
 	bindmount $PKGDIR $ROOTFS/var/cache/scratchpkg/packages
 
 	# mount ports dir
-	mount_repo
+	copy_repo
 }
 
-mount_repo() {
+copy_repo() {
+	for i in $ROOTFS/usr/ports/*; do
+		case $i in
+			*/core) continue;;
+			*) rm -fr $i;;
+		esac
+	done
 	for repo in $REPO; do
 		[ -d "$PORTSDIR/$repo" ] || {
 			msgerr "repo not exist: $repo"
 		}
-		mkdir -p "$ROOTFS/usr/ports/$repo"
-		bindmount "$PORTSDIR/$repo" "$ROOTFS/usr/ports/$repo"
+		cp -r "$PORTSDIR/$repo" "$ROOTFS/usr/ports"
 	done
 }
 
@@ -126,7 +121,7 @@ zap_rootfs() {
 		fetch_rootfs
 	}
 	msg "Removing existing rootfs: $ROOTFS"
-	rm -fr $ROOTFS
+	rm -fr $ROOTFS/*
 	mkdir -p $ROOTFS
 	msg "Extracting tarball image: $TARBALLIMG"
 	tar -xf $TARBALLIMG -C $ROOTFS || die "Error extracting tarball image"
@@ -158,7 +153,7 @@ compress_rootfs() {
 	#main_scratchpkgconf
 	
 	msg "Compressing rootfs: $ROOTFS ..."
-	tar --exclude="var/cache/scratchpkg/packages/*" \
+	XZ_DEFAULTS='-T0' tar --exclude="var/cache/scratchpkg/packages/*" \
 		--exclude="var/cache/scratchpkg/sources/*" \
 		--exclude="var/cache/scratchpkg/work/*" \
 		--exclude="*.spkgnew" \
@@ -193,7 +188,7 @@ restore_scratchpkgconf() {
 tmp_scratchpkgconf() {
 	if [ ! -f "$ROOTFS"/etc/scratchpkg.repo.spkgnew ]; then
 		mv "$ROOTFS"/etc/scratchpkg.repo "$ROOTFS"/etc/scratchpkg.repo.spkgnew
-		echo "/usr/ports/core https://github.com/venomlinux/ports/tree/$RELEASE/core" > "$ROOTFS"/etc/scratchpkg.repo
+		echo "/usr/ports/core https://github.com/venomlinux/ports/tree/venom${RELEASE%%.*}/core" > "$ROOTFS"/etc/scratchpkg.repo
 		for i in $REPO; do
 			echo "/usr/ports/$i" >> "$ROOTFS"/etc/scratchpkg.repo
 		done
@@ -241,8 +236,9 @@ make_iso() {
 	for file in $ISOLINUX_FILES; do
 		cp "$ROOTFS/usr/share/syslinux/$file" "$ISODIR/isolinux" || die "Failed copying isolinux file: $file"
 	done
-	cp "$FILESDIR/splash.png" "$ISODIR/isolinux"
-	sed "s/@RLS@/$RELEASE/g" "$FILESDIR/isolinux.cfg" > "$ISODIR/isolinux/isolinux.cfg"
+	#cp "$FILESDIR/splash.png" "$ISODIR/isolinux"
+	cp "$ROOTFS/usr/share/syslinux/splash.png" "$ISODIR/isolinux"
+	sed "s/Venom Linux/Venom Linux $RELEASE/g" "$ROOTFS/usr/share/syslinux/isolinux.cfg" > "$ISODIR/isolinux/isolinux.cfg"
 	
 	[ -d "$PORTSDIR/virootfs" ] && {
 		cp -aR "$PORTSDIR/virootfs" "$ISODIR"
@@ -267,9 +263,8 @@ make_iso() {
 			
 	cp "$ROOTFS/boot/vmlinuz-venom" "$ISODIR/boot/vmlinuz" || die "Failed copying kernel"
 	
-	sed "s/@ISOLABEL@/$ISOLABEL/g" "$FILESDIR/venomiso.hook" > "$ROOTFS/etc/mkinitramfs.d/venomiso.hook" || die "Failed preparing venomiso.hook"
 	kernver=$(file $ROOTFS/boot/vmlinuz-venom | cut -d ' ' -f9)
-	chrootrun mkinitramfs -k $kernver -a venomiso || die "Failed create initramfs"
+	chrootrun mkinitramfs -k $kernver -a liveiso || die "Failed create initramfs"
 	cp "$ROOTFS/boot/initrd-venom.img" "$ISODIR/boot/initrd" || die "Failed copying initrd"
 	
 	msg "Setup UEFI mode..."
@@ -282,7 +277,7 @@ make_iso() {
 	fi
 	echo "set prefix=/boot/grub" > "$ISODIR/boot/grub-early.cfg"
 	cp -a $ROOTFS/usr/lib/grub/x86_64-efi/*.{mod,lst} "$ISODIR/boot/grub/x86_64-efi" || die "Failed copying efi files"
-	sed "s/@RLS@/$RELEASE/g" "$FILESDIR/grub.cfg" > "$ISODIR/boot/grub/grub.cfg"
+	sed "s/Venom Linux/Venom Linux $RELEASE/g" "$ROOTFS/usr/share/grub/grub.cfg" > "$ISODIR/boot/grub/grub.cfg"
 
 	grub-mkimage -c "$ISODIR/boot/grub-early.cfg" -o "$ISODIR/efi/boot/bootx64.efi" -O x86_64-efi -p "" iso9660 normal search search_fs_file
 	modprobe loop
@@ -294,11 +289,6 @@ make_iso() {
 	cp "$ISODIR/efi/boot/bootx64.efi" "$ISODIR/boot/efiboot/EFI/boot"
 	unmount "$ISODIR/boot/efiboot"
 	rm -fr "$ISODIR/boot/efiboot"
-
-	# save list packages to iso
-	#for pkg in base linux $(echo $PKG | tr ',' ' '); do
-	#	echo "$pkg" >> "$ISODIR/rootfs/pkglist"
-	#done
 
 	msg "Making iso: $OUTPUTISO ..."
 	rm -f "$OUTPUTISO" "$OUTPUTISO.md5"
@@ -313,12 +303,14 @@ make_iso() {
 		-e boot/efiboot.img \
 		  -no-emul-boot \
 		  -isohybrid-gpt-basdat \
-		  -volid $ISOLABEL \
+		  -volid LIVEISO \
 		-o "$OUTPUTISO" "$ISODIR" || die "Failed creating iso: $OUTPUTISO"
 	
 	msg "Cleaning iso directory: $ISODIR"
 	rm -fr "$ISODIR"
-	md5sum "$OUTPUTISO" > "$OUTPUTISO".md5
+	cd $(dirname $(realpath "$OUTPUTISO"))
+		sha256sum $(basename $(realpath "$OUTPUTISO")) > $(basename $(realpath "$OUTPUTISO")).sha256sum
+	cd - >/dev/null
 	msg "Making iso completed: $OUTPUTISO ($(ls -lh $OUTPUTISO | awk '{print $5}'))"
 }
 
@@ -506,16 +498,13 @@ SRCDIR="${SRCDIR:-/var/cache/scratchpkg/sources}"
 PKGDIR="${PKGDIR:-/var/cache/scratchpkg/packages}"
 ROOTFS="${ROOTFS:-$PORTSDIR/rootfs}"
 CCACHE_DIR="${CCACHEDIR:-/var/lib/ccache}"
-FILESDIR="$PORTSDIR/files"
 JOBS="${JOBS:-$(nproc)}"
 
 REPO="main multilib nonfree testing"
-REPOFILE="$FILESDIR/scratchpkg.repo"
 
 # iso
 ISODIR="${ISODIR:-/tmp/venomiso}"
-ISOLABEL="VENOMLIVE_$(date +"%Y%m%d")"
-ISO_PKG="linux-lts,dialog,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,syslinux"
+ISO_PKG="linux-lts,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,syslinux"
 OUTPUTISO="${OUTPUTISO:-$PORTSDIR/venomlinux-$RELEASE-$ARCH.iso}"
 
 trap "interrupted" 1 2 3 15

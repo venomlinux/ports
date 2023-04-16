@@ -1,13 +1,14 @@
 # description	: Manage and view runit services
-# depends	: runit
+# depends	: rust runit
 
 name=vsv
-version=1.3.5
+version=2.0.0
 release=1
 source="https://github.com/bahamas10/vsv/archive/v$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-	install -Dm755 $name $PKG/usr/bin/$name
+	cargo build --release --locked
+	install -Dm755 target/release/$name $PKG/usr/bin/$name
 	install -Dm644 man/$name.8 $PKG/usr/share/man/man8/$name.8
 }

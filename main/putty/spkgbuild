@@ -1,0 +1,28 @@
+# description	: A terminal integrated SSH/Telnet client
+# homepage	: https://www.chiark.greenend.org.uk/~sgtatham/putty/
+# depends	: cmake gtk3 ninja
+
+name=putty
+version=0.78
+release=1
+source="https://the.earth.li/~sgtatham/putty/$version/$name-$version.tar.gz
+	putty.desktop  putty.png  putty.xpm"
+
+build() {
+
+cmake -S $name-$version -B build -G Ninja \
+     -DCMAKE_INSTALL_PREFIX=/usr \
+     -DCMAKE_INSTALL_LIBDIR=lib \
+     -DCMAKE_INSTALL_LIBEXECDIR=lib \
+     -DCMAKE_BUILD_TYPE=Release \
+     -DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+     -DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+     -Wno-dev 
+cmake --build build
+DESTDIR=$PKG cmake --install build
+  
+
+  install -D -m0644 $SRC/putty.desktop $PKG/usr/share/applications/putty.desktop
+  install -D -m0644 $SRC/putty.png $PKG/usr/share/pixmaps/putty.png
+  install -D -m0644 $SRC/putty.xpm $PKG/usr/share/pixmaps/putty.xpm
+}

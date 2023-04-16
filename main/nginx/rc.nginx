@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# /etc/rc.d/nginx: start/stop the nginx daemon
+#
+
+. /etc/rc.subr
+
+PROG=/usr/sbin/nginx
+PIDFILE=/var/run/nginx.pid
+
+case $1 in
+    "start")
+        start_daemon -p $PIDFILE $PROG
+        ;;
+    "stop")
+        stop_daemon -p $PIDFILE $PROG
+        ;;
+    "restart")
+        $0 stop
+		sleep 1
+        $0 start
+        ;;
+    "reload")
+        $PROG -s reload
+        ;;
+    "status")
+        status_daemon $PROG
+        case $? in
+            0) echo "$PROG is running with pid $(cat $PIDFILE)" ;;
+			1) echo "$PROG is not running but the pid file $PIDFILE exists" ;;
+			3) echo "$PROG is not running" ;;
+			4) echo "Unable to determine the program status" ;;
+        esac
+        ;;
+    *)
+        echo "Usage: $0 [start|stop|restart|status]"
+        ;;
+esac

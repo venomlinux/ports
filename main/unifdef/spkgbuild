@@ -1,0 +1,18 @@
+# description	    : selectively processes conditional C preprocessor #if and #ifdef directives
+# homepage	    : https://dotat.at/prog/unifdef/
+
+name=unifdef
+version=2.12
+release=1
+source="https://dotat.at/prog/unifdef/unifdef-$version.tar.gz"
+
+build() {
+  cd $name-$version
+
+  make clean
+  make
+
+  install -Dt $PKG/usr/bin unifdef
+  install -D unifdefall.sh $PKG/usr/bin/unifdefall
+  install -Dt $PKG/usr/share/man/man1 unifdef.1
+}

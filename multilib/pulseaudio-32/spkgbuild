@@ -1,0 +1,25 @@
+# description	: Sound system for POSIX OSes
+# depends	: libsndfile-32 alsa-lib-32 dbus-32 glib-32 openssl-32 speexdsp-32 libx11-32 libxcb-32 libice-32 libsm-32 libxtst-32 libtool-32 pulseaudio
+
+name=pulseaudio-32
+version=16.1
+release=1
+source="https://www.freedesktop.org/software/pulseaudio/releases/${name%-*}-$version.tar.xz"
+
+build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	venom-meson ${name%-*}-$version build \
+		--libdir=/usr/lib32 \
+		-D daemon=false \
+		-D tests=false \
+		-D doxygen=false \
+		-D man=false 
+	meson compile -C build
+	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
+
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

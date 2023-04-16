@@ -1,5 +1,5 @@
 # description	: Implementation of the iCalendar protocols and data formats
-# depends	: cmake gobject-introspection vala
+# depends	: cmake ninja gobject-introspection vala
 
 name=libical
 version=3.0.16
@@ -7,7 +7,7 @@ release=1
 source="https://github.com/libical/$name/releases/download/v$version/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

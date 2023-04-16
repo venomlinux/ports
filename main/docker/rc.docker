@@ -1,0 +1,54 @@
+#!/bin/sh
+#
+# /etc/rc.d/docker: start/stop docker daemon
+#
+. /etc/rc.subr
+
+PROG=/usr/bin/dockerd
+PIDFILE=/var/run/docker.pid
+CONF=/etc/docker.conf
+LOG=/var/log/docker.log
+CGROUPFS=/usr/bin/cgroupfs-mount
+
+if [ -f $CONF ]; then
+    . $CONF
+else
+    if [ -z $OPTS ]; then
+        OPTS=""
+    fi
+fi
+
+case $1 in
+  start)
+    if [ ! -f $LOG ]; then
+        touch $LOG
+        chgrp docker $LOG
+        chmod 640 $LOG
+    fi
+    
+    $CGROUPFS
+    start_daemon -p $PIDFILE $PROG $OPTS
+    ;;
+  stop)
+    stop_daemon -p $PIDFILE $PROG
+    ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+  status)
+    status_daemon $PROG
+    case $? in
+      0) echo "$PROG is running with pid $(cat $PIDFILE)" ;;
+      1) echo "$PROG is not running but the pid file $PIDFILE exists" ;;
+      3) echo "$PROG is not running" ;;
+      4) echo "Unable to determine the program status" ;;
+    esac
+    ;;
+  *)
+    echo "usage: $0 [start|stop|restart|status]"
+    ;;
+esac
+
+# End of file

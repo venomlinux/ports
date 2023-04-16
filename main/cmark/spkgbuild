@@ -1,13 +1,13 @@
 # description	: CommonMark parsing and rendering library and program in C
-# depends	: cmake python3
+# depends	: cmake ninja python3
 
 name=cmark
-version=0.30.2
+version=0.30.3
 release=1
 source="https://github.com/jgm/$name/archive/$version/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

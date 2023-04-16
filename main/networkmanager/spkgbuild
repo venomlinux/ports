@@ -1,8 +1,9 @@
 # description	: Network connection manager and user applications
-# depends	: modemmanager gobject-introspection vala glib libndp eudev curl util-linux nss nspr readline newt intltool libxslt dbus polkit python3-gobject3 gnutls
+# depends	: gobject-introspection vala glib libndp eudev curl util-linux nss nspr readline newt intltool libxslt dbus polkit python3-gobject3 gnutls
+# optionals	: modemmanager
 
 name=networkmanager
-version=1.40.8
+version=1.42.4
 release=1
 backup="etc/NetworkManager/NetworkManager.conf"
 source="$name-$version.tar.xz::https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
@@ -11,6 +12,7 @@ source="$name-$version.tar.xz::https://ftp.gnome.org/pub/gnome/sources/NetworkMa
 
 build() {
 
+	scratch isinstalled modemmanager && OPT='-Dmodem_manager=true' || OPT='-Dmodem_manager=false'
 	venom-meson NetworkManager-$version build \
 	      -Dlibaudit=no              \
 	      -Dlibpsl=false             \
@@ -20,15 +22,16 @@ build() {
 	      -Dselinux=false            \
 	      -Dudev_dir=/lib/udev       \
 	      -Dsession_tracking=no      \
-	      -Dmodem_manager=true       \
 	      -Dsystemdsystemunitdir=no  \
 	      -Dsystemd_journal=false    \
 	      -Dmodify_system=true       \
 	      -Ddocs=false               \
 	      -Dqt=false                 \
-	      -Dtests=no                 
+	      -Dtests=no		 \
+	      $OPT
+
 	meson compile -C build 
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 mkdir -p $PKG/etc/NetworkManager
 cat >> $PKG/etc/NetworkManager/NetworkManager.conf << "EOF"

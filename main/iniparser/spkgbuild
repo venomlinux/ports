@@ -1,0 +1,20 @@
+# description	: C library for parsing "INI-style" files 
+# homepage	: http://ndevilla.free.fr/iniparser/ 
+# depends	: bash
+
+name=iniparser
+version=4.1
+release=1
+source="$name-$version.tar.gz::https://github.com/ndevilla/iniparser/archive/v$version.tar.gz
+	rpath.patch"
+
+build() {
+	cd $name-$version
+	patch -Np1 -i $SRC/rpath.patch
+	make
+	install -d $PKG/usr/lib $PKG/usr/include
+	install -m 644 src/dictionary.h $PKG/usr/include/dictionary.h
+	install -m 644 src/iniparser.h $PKG/usr/include/iniparser.h
+	install -m 755 libiniparser.so.1 $PKG/usr/lib/libiniparser.so.1
+	ln -s libiniparser.so.1 $PKG/usr/lib/libiniparser.so
+}

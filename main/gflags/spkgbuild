@@ -1,0 +1,22 @@
+# description	: C++ Library for commandline flag processing
+# homepage	: https://github.com/schuhschuh/gflags
+# depends	: cmake ninja
+
+name=gflags
+version=2.2.2
+release=1
+source="$name-$version.tar.gz::https://github.com/$name/$name/archive/v${version}.tar.gz"
+
+build() {
+	cmake -S $name-$version -B build -G Ninja \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D REGISTER_INSTALL_PREFIX=OFF \
+		-D BUILD_SHARED_LIBS=ON \
+		-D BUILD_STATIC_LIBS=ON \
+		-D BUILD_TESTING=ON \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}

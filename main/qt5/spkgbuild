@@ -1,29 +1,19 @@
 # description	: Cross-platform application framework that is widely used for developing application
-# depends	: dbus gdk-pixbuf gst-plugins-base libepoxy libmng libxkbcommon harfbuzz xcb-util-wm
+# depends	: alsa-lib dbus gdk-pixbuf gst-plugins-base libepoxy libmng libxkbcommon harfbuzz icu xcb-util-wm
 # depends	: xcb-util-image xcb-util-keysyms xcb-util-renderutil libxcb fontconfig
 
 name=qt5
-version=5.15.7
+version=5.15.9
 release=1
 source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/single/qt-everywhere-opensource-src-$version.tar.xz
-qt-everywhere-opensource-src-${version}-kf5-1.patch::https://www.linuxfromscratch.org/patches/blfs/svn/qt-everywhere-opensource-src-${version}-kf5-1.patch
-qt5-cflags.patch
-qtbase-everywhere-src-5.11.1-python3.patch
-qtbase-everywhere-src-5.14.2-no_relocatable.patch
-qtbase-everywhere-src-5.15.2-libglvnd.patch
-qtbase-use-wayland-on-gnome.patch
-qt-everywhere-src-5.15.2-CVE-2021-3481-1.patch
-"
+	qt-everywhere-opensource-src-${version}-kf5-1.patch"
 
 build() {
 	cd qt-everywhere-src-$version
 
 	patch -Np1 -i $SRC/qt-everywhere-opensource-src-${version}-kf5-1.patch
-	patch -d qtbase -Np1 -i $SRC/qt5-cflags.patch
-	patch -d qtbase -Np1 -i $SRC/qtbase-everywhere-src-5.11.1-python3.patch
-	patch -d qtbase -Np1 -i $SRC/qtbase-everywhere-src-5.14.2-no_relocatable.patch
-	patch -d qtbase -Np1 -i $SRC/qtbase-everywhere-src-5.15.2-libglvnd.patch
-	patch -d qtbase -Np1 -i $SRC/qtbase-use-wayland-on-gnome.patch	
+
+	mkdir -pv qtbase/.git
 
 	# Build qmake using Venom {C,LD}FLAGS
 	# This also sets default {C,CXX,LD}FLAGS for projects built using qmake
@@ -31,12 +21,6 @@ build() {
 	    qtbase/mkspecs/common/gcc-base.conf
 	sed -i -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${LDFLAGS}|" \
 	    qtbase/mkspecs/common/g++-unix.conf
-
-	# fix some issues using gcc-11
-	sed -i '/utility/a #include <limits>'     qtbase/src/corelib/global/qglobal.h
-	sed -i '/string/a #include <limits>'      qtbase/src/corelib/global/qfloat16.h
-	sed -i '/qbytearray/a #include <limits>'  qtbase/src/corelib/text/qbytearraymatcher.h
-	sed -i '/type_traits/a #include <limits>' qtdeclarative/src/qmldebug/qqmlprofilerevent_p.h
 
 	./configure -prefix         /usr \
 	            -sysconfdir     /etc/xdg \

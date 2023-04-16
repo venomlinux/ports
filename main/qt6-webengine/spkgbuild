@@ -1,16 +1,16 @@
 # description	    : Provides support for web applications using the Chromium browser project
 # homepage	    : https://www.qt.io/
-# depends	    : ffmpeg icu libevent libva libvpx libwebp minizip nodejs nss pciutils krb5 python3-html5lib python3-six qt6-tools qt6-webchannel pcre2 libxcomposite libxcursor libxkbfile
+# depends	    : ffmpeg icu libevent libva libvpx libwebp minizip nodejs nss pciutils krb5 python3-html5lib python3-six qt6-tools qt6-webchannel pcre2 libxcomposite libxcursor libxkbfile brotli
 # optional	    : dav1d fdk-aac gnutls graphite2 keyutils krb5 lame lcms2 libpcre2 libvdpau numactl pipewire x264 x265
 
 name=qt6-webengine
-version=6.4.1
+version=6.5.0
 release=1
 source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtwebengine-everywhere-src-$version.tar.xz"
 
 build() {
 
-	PYTHON=/usr/bin/python3 
+	export PYTHON=/usr/bin/python3 
 
 	cmake -B build -S qtwebengine-everywhere-src-$version -G Ninja \
 		-DCMAKE_MESSAGE_LOG_LEVEL=STATUS \

@@ -2,9 +2,9 @@
 # depends	: garcon xfce4-panel cmake ninja
 
 name=xfce4-whiskermenu-plugin
-version=2.7.1
+version=2.7.2
 release=1
-source="http://archive.be.xfce.org/src/panel-plugins/xfce4-whiskermenu-plugin/${version%.*}/xfce4-whiskermenu-plugin-$version.tar.bz2"
+source="http://archive.xfce.org/src/panel-plugins/$name/${version%.*}/xfce4-whiskermenu-plugin-$version.tar.bz2"
 
 build() {
 	cmake -S $name-$version -B build -G Ninja \

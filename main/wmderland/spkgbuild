@@ -1,8 +1,8 @@
 # description	: X11 tiling window manager using space partitioning trees
-# depends	: libx11 cmake
+# depends	: cmake ninja libx11
 
 name=wmderland
-version=1.0.4
+version=1.0.5
 release=1
 source="https://github.com/aesophor/wmderland/archive/$version/$name-$version.tar.gz"
 
@@ -10,38 +10,31 @@ build() {
 	cd $name-$version
 
 	# wmderland
-	mkdir build
-	cd build
 
-	cmake .. \
+	cmake -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DCMAKE_INSTALL_LIBDIR=lib \
-		-DCMAKE_INSTALL_LIBEXECDIR=lib \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-Wno-dev 
-	make
-	make DESTDIR=$PKG install
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
 	# ipc-client
-	mkdir -p ../ipc-client/build
-	cd ../ipc-client/build
+	cd $SRC/$name-$version/ipc-client
 
-	cmake .. \
+	cmake -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DCMAKE_INSTALL_LIBDIR=lib \
-		-DCMAKE_INSTALL_LIBEXECDIR=lib \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-Wno-dev 
-	make
-	make DESTDIR=$PKG install
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 
 	# extra stuff
 	mkdir -p $PKG/etc/xdg/wmderland/
 	mkdir -p $PKG/usr/share/xsessions/
-	install -D -m644 ../../example/config $PKG/etc/xdg/wmderland/
-	install -D -m644 ../../example/wmderland.desktop $PKG/usr/share/xsessions/
+	install -D -m644 $SRC/$name-$version/example/config $PKG/etc/xdg/wmderland/
+	install -D -m644 $SRC/$name-$version/example/wmderland.desktop $PKG/usr/share/xsessions/
 }

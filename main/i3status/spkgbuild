@@ -13,5 +13,5 @@ build() {
 	export XML_CATALOG_FILES=/etc/xml/catalog
 	venom-meson -Dmans=true build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

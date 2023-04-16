@@ -1,0 +1,15 @@
+# description	: A text widget adding syntax highlighting and more to GNOME
+# homepage	: https://wiki.gnome.org/Projects/GtkSourceView
+# depends	: gobject-introspection vala meson gtk4
+
+name=gtksourceview5
+version=5.8.0
+release=1
+source="https://download.gnome.org/sources/gtksourceview/${version%.*}/gtksourceview-$version.tar.xz"
+
+build() {
+	cd gtksourceview-$version
+	venom-meson build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}

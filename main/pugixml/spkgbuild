@@ -1,0 +1,22 @@
+# description: Light-weight, simple and fast XML parser for C++ with XPath support
+# homepage: https://pugixml.org
+# depends: cmake ninja
+
+name=pugixml
+version=1.13
+release=1
+source="http://github.com/zeux/pugixml/releases/download/v$version/$name-$version.tar.gz"
+
+build() {
+  cmake -S $name-$version -B build -G Ninja \
+     -DCMAKE_INSTALL_PREFIX=/usr \
+     -DCMAKE_INSTALL_LIBDIR=lib \
+     -DCMAKE_INSTALL_LIBEXECDIR=lib \
+     -DCMAKE_BUILD_TYPE=Release \
+     -DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+     -DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+   -D BUILD_SHARED_LIBS=ON \
+     -Wno-dev 
+cmake --build build
+DESTDIR=$PKG cmake --install build
+}

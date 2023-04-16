@@ -1,0 +1,15 @@
+# description	    : HGL, a Native alternative Linux Launcher for Epic and GOG Games
+# homepage	    : https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher
+# depends	    : fuse2 gawk
+
+name=heroic-games-launcher-bin
+version=2.7.0
+release=1
+noextract="*.pacman"
+source="https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v$version/heroic-$version.pacman"
+
+build() {
+  tar -xJv -C $PKG -f $SRC/heroic-$version.pacman usr opt
+  mkdir $PKG/usr/bin
+  ln -s /opt/Heroic/heroic $PKG/usr/bin/heroic
+}

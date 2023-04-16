@@ -1,8 +1,8 @@
 # description	: Extra modules and scripts for CMake
-# depends	: cmake qt5 python3-babel
+# depends	: cmake ninja qt5 python3-babel
 
 name=extra-cmake-modules
-version=5.99.0
+version=5.102.0
 release=1
 source="https://download.kde.org/stable/frameworks/${version%.*}/$name-$version.tar.xz"
 
@@ -11,7 +11,7 @@ build() {
 
 	sed -i '/"lib64"/s/64//' kde-modules/KDEInstallDirs.cmake
 	
-	cmake -B build \
+	cmake -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \

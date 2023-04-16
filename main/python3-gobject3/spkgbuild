@@ -2,7 +2,7 @@
 # depends	: python3-cairo gobject-introspection
 
 name=python3-gobject3
-version=3.42.2
+version=3.44.1
 release=1
 source="$name-$version.tar.gz::https://ftp.gnome.org/pub/gnome/sources/pygobject/${version%.*}/pygobject-$version.tar.xz"
 
@@ -11,5 +11,5 @@ build() {
 	venom-meson pygobject-$version build \
 	    -Dpython=python3
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

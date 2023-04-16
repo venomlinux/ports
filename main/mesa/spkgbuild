@@ -1,47 +1,53 @@
 # description	: OpenGL compatible 3D graphics library
 # depends	: python3-mako elfutils bison flex libxext libxdamage libxshmfence libxxf86vm libxrandr libdrm libglvnd glslang llvm
+# optional	: libva libvdpau wayland-protocols
 
 name=mesa
-version=22.3.1
-release=1
-source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
+version=23.0.2
+release=3
+source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz
+	intel-fs-fix-scheduling-of-HALT-instructions.patch
+	egl-wayland-Fix-destruction-of-event-queue-with-prox.patch
+	vulkan-wsi-wayland-Fix-destruction-of-event-queue-wi.patch"
 
 build() {
 
-	_opt=""
-	_vulkan_drivers=""
-	_gallium_drivers="r300,r600,svga,swrast,nouveau,iris,virgl,crocus"
+	scratch isinstalled vulkan-icd-loader && OPT_MESA_GALLIUM='zink,'
+	scratch isinstalled libvdpau && OPT_MESA_VDPAU='-D gallium-vdpau=enabled' || OPT_MESA_VDPAU='-D gallium-vdpau=disabled'
+	scratch isinstalled libva && OPT_MESA_VAAPI='-D gallium-va=enabled' || OPT_MESA_VAAPI='-D gallium-va=disabled'
+	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' || OPT_MESA_PLATFORMS='x11'
 
-	scratch isinstalled libvdpau && _opt="-D gallium-vdpau=enabled" || _opt="-D gallium-vdpau=disabled"
-	scratch isinstalled llvm && _opt="$_opt -D shared-llvm=enabled -D llvm=enabled" || _opt="$_opt -D shared-llvm=disabled -D llvm=disabled"
-	scratch isinstalled llvm && _gallium_drivers="$_gallium_drivers,radeonsi"
+	# https://gitlab.freedesktop.org/mesa/mesa/-/issues/7110
+	# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/20765
+	patch -d $name-$version -Np1 -i $SRC/intel-fs-fix-scheduling-of-HALT-instructions.patch
 
-	if [ "$_vulkan_drivers" = "" ]; then
-		scratch isinstalled xf86-video-intel && _vulkan_drivers="intel" || _vulkan_drivers=""
-		if [ ! "$_vulkan_drivers" = "" ]; then
-			scratch isinstalled xf86-video-amdgpu && _vulkan_drivers="$_vulkan_drivers,amd"
-		else
-			scratch isinstalled xf86-video-amdgpu && _vulkan_drivers="amd"
-		fi
-	fi
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=1826583
+	# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/21646
+	patch -d $name-$version -Np1 -i $SRC/egl-wayland-Fix-destruction-of-event-queue-with-prox.patch
 
-	venom-meson $name-$version build $_opt \
+	# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/21647
+	patch -d $name-$version -Np1 -i $SRC/vulkan-wsi-wayland-Fix-destruction-of-event-queue-wi.patch
+
+	venom-meson $name-$version build \
 		-D dri3=enabled \
 		-D egl=enabled \
+		-D llvm=enabled \
+		-D shared-llvm=enabled \
 		-D gbm=enabled \
 		-D gles1=disabled \
 		-D gles2=enabled \
 		-D glx=dri \
 		-D osmesa=true \
 		-D gallium-xa=enabled \
-		-D gallium-drivers=$_gallium_drivers \
-		-D platforms=x11 \
+		-D gallium-drivers=${OPT_MESA_GALLIUM}crocus,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,i915 \
+		-D platforms=${OPT_MESA_PLATFORMS} \
 		-D shared-glapi=enabled \
-		-D vulkan-drivers=$_vulkan_drivers \
+		-D vulkan-drivers=amd,intel \
+		-D vulkan-layers=device-select,intel-nullhw,overlay \
 		-D video-codecs=vc1dec,h264dec,h264enc,h265dec,h265enc \
-		-D glvnd=true 
+		$OPT_MESA_VDPAU $OPT_MESA_VAAPI -D glvnd=true
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	# indirect rendering symlink
 	ln -s libGLX_mesa.so.0 $PKG/usr/lib/libGLX_indirect.so.0

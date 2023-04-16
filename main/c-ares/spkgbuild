@@ -1,13 +1,13 @@
 # description	: C library for asynchronous DNS requests
-# depends	: cmake
+# depends	: cmake ninja
 
 name=c-ares
-version=1.18.1
+version=1.19.0
 release=1
 source="https://c-ares.haxx.se/download/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

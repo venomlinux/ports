@@ -9,5 +9,5 @@ source="https://people.freedesktop.org/~hughsient/releases/$name-$version.tar.xz
 build() {
 	venom-meson $name-$version build -Ddocs=false
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

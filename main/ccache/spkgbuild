@@ -1,13 +1,13 @@
 # description	: A fast compiler cache
-# depends	: zlib cmake zstd
+# depends	: cmake ninja zlib zstd
 
 name=ccache
-version=4.7.4
-release=2
+version=4.8
+release=1
 source="https://github.com/ccache/ccache/releases/download/v$version/$name-$version.tar.xz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \

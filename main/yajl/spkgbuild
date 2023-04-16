@@ -1,5 +1,5 @@
 # description	: Yet Another JSON Library
-# depends	: cmake
+# depends	: cmake ninja
 
 name=yajl
 version=2.1.0
@@ -7,7 +7,7 @@ release=2
 source="https://dev.alpinelinux.org/archive/yajl/$name-$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-D CMAKE_INSTALL_PREFIX=/usr \

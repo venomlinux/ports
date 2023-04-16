@@ -2,16 +2,16 @@
 # depends	: alsa-lib gconf gtk3 libxtst nss libarchive pipewire
 
 name=iridium
-version=2022.12.108.1
+version=2023.03.111
 release=1
 options="!strip"
-source="$name-$version.rpm::https://downloads.iridiumbrowser.de/epel8/$name-browser-$version-$release.el8.x86_64.rpm"
+source="$name-$version.rpm::https://downloads.iridiumbrowser.de/epel9/$name-browser-$version-$release.el9.x86_64.rpm"
 
 build() {
+	sed -i 's,lib64,lib,g' usr/bin/iridium-browser
+	sed -i 's,usr/bin/sh,bin/sh,' usr/bin/iridium-browser
 	cp -R * $PKG
 	rm -fr $PKG/usr/lib
 	mv $PKG/usr/lib64 $PKG/usr/lib
-	sed -i 's,lib64,lib,g' $PKG/usr/bin/iridium-browser
-	sed -i 's,usr/bin/sh,bin/sh,' $PKG/usr/bin/iridium-browser
 	rm -r $PKG/usr/share/doc $PKG/usr/share/licenses
 }

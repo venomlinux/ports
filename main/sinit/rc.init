@@ -3,6 +3,8 @@
 # /etc/sinit/rc.init: Sinit Initialization Script
 #
 
+export PATH=/bin:/usr/bin:/sbin:/usr/sbin
+
 . /etc/rc.conf
 . /etc/rc.subr
 
@@ -138,6 +140,8 @@ if [ "$DAEMONS" ]; then
                 fi
         done
 fi
+
+[ -x /etc/sinit/rc.init.local ] && /etc/sinit/rc.init.local
 
 sh -c 'ubase-box respawn setsid agetty tty1 9600' &
 sh -c 'ubase-box respawn setsid agetty tty2 9600' &

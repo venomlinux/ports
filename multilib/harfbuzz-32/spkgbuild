@@ -1,8 +1,8 @@
 # description	: OpenType text shaping engine
-# depends	: harfbuzz glib-32 freetype2-32
+# depends	: harfbuzz cairo-32
 
 name=harfbuzz-32
-version=6.0.0
+version=7.1.0
 release=1
 source="https://github.com/harfbuzz/harfbuzz/releases/download/$version/harfbuzz-$version.tar.xz"
 
@@ -14,13 +14,15 @@ build() {
         venom-meson  harfbuzz-$version build \
                 --prefix=/usr \
 		--libdir=/usr/lib32 \
+		--libexecdir=/usr/lib32 \
+		-Dbenchmark=disabled \
                 -Ddocs=disabled \
-                -Dgraphite=auto \
+                -Dgraphite=disabled \
                 -Dbenchmark=disabled \
                 -Dicu=disabled \
 		-Dintrospection=disabled
         meson compile -C build
-        DESTDIR=$PWD/DESTDIR meson install -C build
+        DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
 	
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32

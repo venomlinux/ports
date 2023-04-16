@@ -1,0 +1,22 @@
+# description	: Library of C routines for reading and writing files containing sampled audio data
+# depends	: flac-32 libvorbis-32 alsa-lib-32 libsndfile
+
+name=libsndfile-32
+version=1.2.0
+release=1
+source="https://github.com/libsndfile/libsndfile/releases/download/$version/${name%-*}-$version.tar.xz"
+
+build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	cd ${name%-*}-$version
+	
+	./configure --prefix=/usr --libdir=/usr/lib32
+	make
+	make DESTDIR=$PWD/DESTDIR install
+	
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

@@ -11,7 +11,7 @@ build() {
 
   	venom-meson $name-v.$version  build 
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 	chown polkitd $PKG/etc/polkit-1/rules.d
 	chown polkitd $PKG/usr/share/polkit-1/rules.d

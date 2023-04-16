@@ -1,0 +1,26 @@
+# description	: a free alternative to the OpenGL Utility Toolkit (GLUT) library
+# homepage	: http://freeglut.sourceforge.net/
+# depends	: freeglut glu-32 libxi-32
+
+name=freeglut-32
+version=3.4.0
+release=1
+source="https://downloads.sourceforge.net/project/freeglut/freeglut/$version/freeglut-$version.tar.gz"
+
+build() {
+
+	cmake -S ${name%-*}-$version -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib32 \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib32 \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+
+	ln -s glut.pc $PKG/usr/lib32/pkgconfig/freeglut.pc
+
+	rm -r $PKG/usr/include
+}

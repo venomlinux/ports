@@ -10,5 +10,5 @@ build() {
 	cd libwnck-$version
 	venom-meson -Dgtk_doc=false build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

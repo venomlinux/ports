@@ -1,6 +1,7 @@
-gtk4-4.9.1-1
+gtk4-4.10.1-2
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
+-rwxr-xr-x root/root    usr/bin/gtk4-broadwayd
 -rwxr-xr-x root/root    usr/bin/gtk4-builder-tool
 -rwxr-xr-x root/root    usr/bin/gtk4-encode-symbolic-svg
 -rwxr-xr-x root/root    usr/bin/gtk4-launch
@@ -9,6 +10,12 @@ drwxr-xr-x root/root    usr/bin/
 drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/include/gtk-4.0/
 drwxr-xr-x root/root    usr/include/gtk-4.0/gdk/
+drwxr-xr-x root/root    usr/include/gtk-4.0/gdk/broadway/
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/broadway/gdkbroadway.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/broadway/gdkbroadwaycursor.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/broadway/gdkbroadwaydisplay.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/broadway/gdkbroadwaymonitor.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/broadway/gdkbroadwaysurface.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdk.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdkapplaunchcontext.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdkcairo.h
@@ -52,12 +59,23 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/gdk/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdksnapshot.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdksurface.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdktexture.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdktexturedownloader.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdktoplevel.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdktoplevellayout.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdktoplevelsize.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdktypes.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdkversionmacros.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/gdkvulkancontext.h
+drwxr-xr-x root/root    usr/include/gtk-4.0/gdk/wayland/
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/wayland/gdkwayland.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/wayland/gdkwaylanddevice.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/wayland/gdkwaylanddisplay.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/wayland/gdkwaylandglcontext.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/wayland/gdkwaylandmonitor.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/wayland/gdkwaylandpopup.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/wayland/gdkwaylandseat.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/wayland/gdkwaylandsurface.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gdk/wayland/gdkwaylandtoplevel.h
 drwxr-xr-x root/root    usr/include/gtk-4.0/gdk/x11/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/x11/gdkx-autocleanups.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/x11/gdkx.h
@@ -76,6 +94,8 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/gdk/x11/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/x11/gdkx11surface.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gdk/x11/gdkx11utils.h
 drwxr-xr-x root/root    usr/include/gtk-4.0/gsk/
+drwxr-xr-x root/root    usr/include/gtk-4.0/gsk/broadway/
+-rw-r--r-- root/root    usr/include/gtk-4.0/gsk/broadway/gskbroadwayrenderer.h
 drwxr-xr-x root/root    usr/include/gtk-4.0/gsk/gl/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gsk/gl/gskglrenderer.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gsk/gsk.h
@@ -101,6 +121,7 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/gtk/deprecated/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkappchooserbutton.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkappchooserdialog.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkappchooserwidget.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkassistant.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkcellarea.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkcellareabox.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkcellareacontext.h
@@ -133,9 +154,13 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/gtk/deprecated/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkfontchooserdialog.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkfontchooserwidget.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkiconview.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkinfobar.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkliststore.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtklockbutton.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkmessagedialog.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkrender.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkshow.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkstatusbar.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkstylecontext.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtktreednd.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtktreemodel.h
@@ -146,6 +171,7 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/gtk/deprecated/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtktreestore.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtktreeview.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtktreeviewcolumn.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gtk/deprecated/gtkvolumebutton.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtk.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkaboutdialog.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkaccelgroup.h
@@ -158,7 +184,6 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/gtk/deprecated/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkapplication.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkapplicationwindow.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkaspectframe.h
--rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkassistant.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkatcontext.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkbinlayout.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkbitset.h
@@ -215,6 +240,7 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/gtk/deprecated/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkexpression.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkfiledialog.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkfilefilter.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkfilelauncher.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkfilter.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkfilterlistmodel.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkfixed.h
@@ -245,7 +271,6 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/gtk/deprecated/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkimcontextsimple.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkimmodule.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkimmulticontext.h
--rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkinfobar.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkinscription.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtklabel.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtklayoutchild.h
@@ -257,7 +282,6 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/gtk/deprecated/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtklistitem.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtklistitemfactory.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtklistview.h
--rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtklockbutton.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkmain.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkmaplistmodel.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkmediacontrols.h
@@ -316,7 +340,6 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/gtk/deprecated/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkshortcutsshortcut.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkshortcutswindow.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkshortcuttrigger.h
--rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkshow.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtksignallistitemfactory.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtksingleselection.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtksizegroup.h
@@ -330,7 +353,6 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/gtk/deprecated/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkstack.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkstacksidebar.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkstackswitcher.h
--rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkstatusbar.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkstringfilter.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkstringlist.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkstringsorter.h
@@ -354,10 +376,10 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/gtk/deprecated/
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtktreelistrowsorter.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtktypebuiltins.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtktypes.h
+-rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkurilauncher.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkversion.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkvideo.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkviewport.h
--rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkvolumebutton.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkwidget.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkwidgetpaintable.h
 -rw-r--r-- root/root    usr/include/gtk-4.0/gtk/gtkwindow.h
@@ -375,6 +397,7 @@ drwxr-xr-x root/root    usr/include/gtk-4.0/unix-print/gtk/
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/girepository-1.0/
 -rw-r--r-- root/root    usr/lib/girepository-1.0/Gdk-4.0.typelib
+-rw-r--r-- root/root    usr/lib/girepository-1.0/GdkWayland-4.0.typelib
 -rw-r--r-- root/root    usr/lib/girepository-1.0/GdkX11-4.0.typelib
 -rw-r--r-- root/root    usr/lib/girepository-1.0/Gsk-4.0.typelib
 -rw-r--r-- root/root    usr/lib/girepository-1.0/Gtk-4.0.typelib
@@ -386,10 +409,12 @@ drwxr-xr-x root/root    usr/lib/gtk-4.0/4.0.0/printbackends/
 -rwxr-xr-x root/root    usr/lib/gtk-4.0/4.0.0/printbackends/libprintbackend-cups.so
 -rwxr-xr-x root/root    usr/lib/gtk-4.0/4.0.0/printbackends/libprintbackend-file.so
 lrwxrwxrwx root/root    usr/lib/libgtk-4.so -> libgtk-4.so.1
-lrwxrwxrwx root/root    usr/lib/libgtk-4.so.1 -> libgtk-4.so.1.901.0
--rwxr-xr-x root/root    usr/lib/libgtk-4.so.1.901.0
+lrwxrwxrwx root/root    usr/lib/libgtk-4.so.1 -> libgtk-4.so.1.1000.1
+-rwxr-xr-x root/root    usr/lib/libgtk-4.so.1.1000.1
 drwxr-xr-x root/root    usr/lib/pkgconfig/
+-rw-r--r-- root/root    usr/lib/pkgconfig/gtk4-broadway.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gtk4-unix-print.pc
+-rw-r--r-- root/root    usr/lib/pkgconfig/gtk4-wayland.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gtk4-x11.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gtk4.pc
 drwxr-xr-x root/root    usr/share/
@@ -399,6 +424,7 @@ drwxr-xr-x root/root    usr/share/gettext/its/
 -rw-r--r-- root/root    usr/share/gettext/its/gtk4builder.loc
 drwxr-xr-x root/root    usr/share/gir-1.0/
 -rw-r--r-- root/root    usr/share/gir-1.0/Gdk-4.0.gir
+-rw-r--r-- root/root    usr/share/gir-1.0/GdkWayland-4.0.gir
 -rw-r--r-- root/root    usr/share/gir-1.0/GdkX11-4.0.gir
 -rw-r--r-- root/root    usr/share/gir-1.0/Gsk-4.0.gir
 -rw-r--r-- root/root    usr/share/gir-1.0/Gtk-4.0.gir

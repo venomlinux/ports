@@ -1,0 +1,16 @@
+# description	: Console-based Audio Visualizer for ALSA 
+# homepage	: https://github.com/karlstav/cava
+# depends	: alsa-lib libtool m4 fftw ncurses iniparser
+
+name=cava
+version=0.8.3
+release=1
+source="$name-$version.tar.gz::https://github.com/karlstav/cava/archive/$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./autogen.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

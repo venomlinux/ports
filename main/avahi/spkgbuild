@@ -1,0 +1,46 @@
+# description	: A system which facilitates service discovery on a local network via the mDNS/DNS-SD protocol suite
+# homepage	: https://www.avahi.org/
+# depends	: dbus gobject-introspection intltool libdaemon libevent
+
+name=avahi
+version=0.8
+release=1
+source="https://github.com/lathiat/avahi/releases/download/v$version/$name-$version.tar.gz
+  avahi-0.8-ipv6_race_condition_fix-1.patch
+  0001-Fix-avahi-browse-Invalid-service-type.patch
+  avahi-daemon.service"
+
+build() {
+  cd $name-$version
+  patch -Np1 -i $SRC/0001-Fix-avahi-browse-Invalid-service-type.patch
+  #patch -Np1 -i $SRC/282.patch
+  patch -Np1 -i $SRC/avahi-0.8-ipv6_race_condition_fix-1.patch
+
+  NOCONFIGURE=1 ./autogen.sh
+  ./configure --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --runstatedir=/run \
+    --with-distro=none \
+    --with-autoipd-user=avahi \
+    --with-autoipd-group=avahi \
+    --with-avahi-priv-access-group=wheel \
+    --enable-compat-libdns_sd \
+    --disable-gtk \
+    --disable-gtk3 \
+    --disable-qt3 \
+    --disable-qt4 \
+    --disable-qt5 \
+    --disable-python \
+    --disable-static \
+    --disable-pygobject \
+    --disable-python-dbus \
+    --disable-mono \
+    --disable-mono-doc \
+    --disable-nls
+  make
+  make DESTDIR=$PKG install
+
+  ln -s avahi-compat-libdns_sd/dns_sd.h $PKG/usr/include/dns_sd.h
+  install -D -m 0755 $SRC/avahi-daemon.service $PKG/etc/rc.d/avahi-daemon
+}

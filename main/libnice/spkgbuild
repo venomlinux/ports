@@ -3,7 +3,7 @@
 # depends	: meson glib
 
 name=libnice
-version=0.1.19
+version=0.1.21
 release=1
 source="https://libnice.freedesktop.org/releases/libnice-$version.tar.gz"
 
@@ -11,5 +11,5 @@ build() {
 	cd $name-$version
 	venom-meson -Dtests=disabled build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

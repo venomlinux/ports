@@ -1,0 +1,14 @@
+# description	: Headers for SPICE protocol
+# homepage	: https://spice-space.org
+# depends	: meson
+
+name=spice-protocol
+version=0.14.4
+release=1
+source="$name-$version.tar.gz::https://gitlab.freedesktop.org/spice/spice-protocol/-/archive/v$version/${name}-v$version.tar.gz"
+
+build() {
+	venom-meson $name-v$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}

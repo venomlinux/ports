@@ -1,17 +1,17 @@
 # description		: An application for managing BTRFS subvolumes and Snapper snapshots
 # homepage		: https://gitlab.com/btrfs-assistant/btrfs-assistant
-# depends		: cmake qt5 polkit util-linux btrfs-progs diffutils
+# depends		: cmake ninja qt5 polkit util-linux btrfs-progs diffutils
 # optional		: snapper 
 
 name=btrfs-assistant
-version=1.6.3
+version=1.8
 release=1
 source="https://gitlab.com/$name/$name/-/archive/$version/$name-$version.tar.gz"
 backup="etc/btrfs-assistant.conf"
 
 build() {
 
-	cmake -S $name-$version -B build \
+	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 	        -DCMAKE_INSTALL_LIBEXECDIR=lib \

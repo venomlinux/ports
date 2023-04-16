@@ -1,4 +1,4 @@
-apache-2.4.54-1
+apache-2.4.56-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/httpd/
 -rw-r--r-- root/root    etc/httpd/envvars
@@ -35,6 +35,12 @@ drwxr-xr-x root/root    etc/httpd/original/extra/
 -rw-r--r-- root/root    etc/httpd/original/httpd.conf
 drwxr-xr-x root/root    etc/rc.d/
 -rwxr-xr-x root/root    etc/rc.d/httpd
+drwxr-xr-x root/root    etc/sv/
+drwxr-xr-x root/root    etc/sv/httpd/
+-rwxr-xr-x root/root    etc/sv/httpd/run
+lrwxrwxrwx root/root    etc/sv/httpd/supervise -> /run/runit/supervise.httpd
+drwxr-xr-x root/root    run/
+drwxr-xr-x root/root    run/httpd/
 drwxr-xr-x root/root    srv/
 drwxr-xr-x root/root    srv/www/
 -rw-r--r-- root/root    srv/www/index.html
@@ -84,6 +90,7 @@ drwxr-xr-x root/root    usr/include/httpd/
 -rw-r--r-- root/root    usr/include/httpd/mod_core.h
 -rw-r--r-- root/root    usr/include/httpd/mod_dav.h
 -rw-r--r-- root/root    usr/include/httpd/mod_dbd.h
+-rw-r--r-- root/root    usr/include/httpd/mod_http2.h
 -rw-r--r-- root/root    usr/include/httpd/mod_include.h
 -rw-r--r-- root/root    usr/include/httpd/mod_log_config.h
 -rw-r--r-- root/root    usr/include/httpd/mod_proxy.h
@@ -146,6 +153,7 @@ drwxr-xr-x root/root    usr/lib/httpd/modules/
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_authz_owner.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_authz_user.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_autoindex.so
+-rwxr-xr-x root/root    usr/lib/httpd/modules/mod_brotli.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_buffer.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_cache.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_cache_disk.so
@@ -171,6 +179,7 @@ drwxr-xr-x root/root    usr/lib/httpd/modules/
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_headers.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_heartbeat.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_heartmonitor.so
+-rwxr-xr-x root/root    usr/lib/httpd/modules/mod_http2.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_include.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_info.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_lbmethod_bybusyness.so
@@ -181,7 +190,9 @@ drwxr-xr-x root/root    usr/lib/httpd/modules/
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_log_debug.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_log_forensic.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_logio.so
+-rwxr-xr-x root/root    usr/lib/httpd/modules/mod_lua.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_macro.so
+-rwxr-xr-x root/root    usr/lib/httpd/modules/mod_md.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_mime.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_mime_magic.so
 -rwxr-xr-x root/root    usr/lib/httpd/modules/mod_mpm_event.so

@@ -1,0 +1,16 @@
+# description	: Direct3D 12 to Vulkan translation library By WineHQ.
+# homepage	: https://github.com/d3d12/vkd3d
+# depends	: spirv-headers spirv-tools vulkan-icd-loader xcb-util-keysyms
+
+name=vkd3d
+version=1.7
+release=1
+source="https://dl.winehq.org/vkd3d/source/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --with-spirv-tools
+	make
+	make DESTDIR=$PKG install
+}

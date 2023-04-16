@@ -3,12 +3,12 @@
 # depends	    : meson ninja json-c
 
 name=libnvme
-version=1.2
+version=1.4
 release=1
 source="https://github.com/linux-nvme/$name/archive/v$version/$name-$version.tar.gz"
 
 build() {
 	venom-meson $name-$version build 
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

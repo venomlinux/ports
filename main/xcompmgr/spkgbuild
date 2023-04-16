@@ -1,0 +1,14 @@
+# description	: Compositing manager for X  
+# homepage	: http://xorg.freedesktop.org 
+# depends	: libxcomposite libxdamage libxrender 
+
+name=xcompmgr 
+version=1.1.9 
+release=1 
+source="https://www.x.org/releases/individual/app/$name-$version.tar.xz" 
+build() { 
+	cd $name-$version 
+	./configure --prefix=/usr 
+	make 
+	make DESTDIR=$PKG install 
+}

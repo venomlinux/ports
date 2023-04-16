@@ -1,0 +1,35 @@
+# description	: API for virtualization
+# homepage	: https://libvirt.org/
+# depends	: meson libxml2 libxslt rpcsvc-proto glib gnutls libpciaccess python3-docutils qemu parted nss yajl
+
+name=libvirt
+version=9.2.0
+release=1
+backup="etc/libvirt/libvirtd.conf  
+	etc/libvirt/qemu.conf"
+source="https://libvirt.org/sources/$name-$version.tar.xz
+	rc.libvirtd 
+	rc.virtlogd 
+	libvirtd.conf 
+	qemu.conf"
+
+build() {
+	venom-meson $name-$version build \
+		--libexecdir=/usr/lib/$name \
+		-Ddriver_qemu=enabled \
+		-Dqemu_user=libvirt \
+		-Dqemu_group=libvirt \
+		-Dtests=disabled
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+
+	install -D -o root -g root -m 0755 $SRC/rc.libvirtd \
+		$PKG/etc/rc.d/libvirtd
+	install -D -o root -g root -m 0755 $SRC/rc.virtlogd \
+		$PKG/etc/rc.d/virtlogd
+	install -D -o root -g root -m 0644 $SRC/libvirtd.conf \
+		$PKG/etc/libvirt/libvirtd.conf
+	install -D -o root -g root -m 0644 $SRC/qemu.conf \
+		$PKG/etc/libvirt/qemu.conf
+	rm -r $PKG/usr/share/locale
+}

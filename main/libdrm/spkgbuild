@@ -3,7 +3,7 @@
 # optdepends	: cairo docbook-xml docbook-xml libxslt valgrind cunit
 
 name=libdrm
-version=2.4.114
+version=2.4.115
 release=1
 source="https://dri.freedesktop.org/$name/$name-$version.tar.xz"
 
@@ -11,5 +11,5 @@ build() {
 	cd $name-$version
 	venom-meson -Dudev=true build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

@@ -4,15 +4,15 @@
 
 name=chromium-bin
 _name=chromium
-version=108.0.5359.98.r1016
-vers=108.5359.98
+version=112.0.5615.67.r1109224
+vers=112.5615.67
 ver=${version%.*}
 sion=${version##*.}
 release=1
-source="$name-$version.tar.xz::https://github.com/macchrome/linchrome/releases/download/v${vers}-M${ver}-${sion}-portable-ungoogled-Lin64/ungoogled-chromium_${ver}_1.vaapi_linux.tar.xz
+source="$name-$version.tar.xz::https://github.com/macchrome/linchrome/releases/download/v${vers}-M${ver}-${sion}-portable-ungoogled-Lin64/ungoogled-chromium_${ver}_2.vaapi_linux.tar.xz
 	$_name.desktop"
 build() {
-	cd ungoogled-chromium_${ver}_1.vaapi_linux
+	cd ungoogled-chromium_${ver}_2.vaapi_linux
 	install -d $PKG/opt/$_name
 	cp -ra * $PKG/opt/$_name
 	mv $PKG/opt/$_name/chrome_sandbox $PKG/opt/$_name/chrome-sandbox

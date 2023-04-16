@@ -1,0 +1,16 @@
+# description	: Client-side decorations library for Wayland clients
+# homepage	: https://gitlab.gnome.org/jadahl/libdecor
+# depends	: meson cairo dbus pango wayland-protocols
+
+name=libdecor
+version=0.1.1
+release=1
+
+source="https://gitlab.gnome.org/jadahl/libdecor/-/archive/$version/$name-$version.tar.gz"
+
+build() {
+  venom-meson $name-$version build \
+    -Ddemo=false
+  meson compile -C build
+  DESTDIR=$PKG meson install --no-rebuild -C build
+}

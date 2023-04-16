@@ -2,22 +2,31 @@
 # homepage	: https://github.com/adoptium/
 
 name=openjdk-17-bin
-version=17.0.5+8
+version=17.0.6+10
 release=1
-source="$name-$version.tar.gz::https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.5%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.5_8.tar.gz"
+source="$name-$version.tar.gz::https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6%2B10/OpenJDK17U-jdk_x64_linux_hotspot_17.0.6_10.tar.gz"
 
 build() {
 	cd jdk-$version
-	mkdir -p $PKG/usr/lib
+	mkdir -p $PKG/usr/lib/java/$name
 	mkdir -p $PKG/usr/bin
 	mkdir -p $PKG/usr/conf
 	mkdir -p $PKG/usr/include
 	mkdir -p $PKG/usr/jmods	
-	cp -rv lib $PKG/usr/
+	cp -rv lib/* $PKG/usr/lib/java/$name
 	scratch isinstalled libzip && rm -rf $PKG/usr/lib/libzip.so
 	cp -rv bin $PKG/usr/
 	cp -rv conf $PKG/usr/
 	cp -rv include $PKG/usr
 	cp -rv jmods $PKG/usr/
  
+	# Exclude library for revdep
+	install -d $PKG/etc/revdep.d
+	echo "/usr/lib/java/$name/" > $PKG/etc/revdep.d/$name.conf
+
+	# Exclude binaries for revdep
+	javabin=$(ls $PKG/usr/bin)
+	for i in $javabin; do
+		echo "/usr/bin/$i" >> $PKG/etc/revdep.d/$name.conf
+	done
 }

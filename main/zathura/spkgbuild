@@ -1,20 +1,18 @@
 # description	: Zathura - highly customizable and functional document viewer
-# depends	: meson glib gettext cairo gtk3 file libseccomp pkgconf
+# depends	: meson glib gettext cairo gtk3 file libseccomp pkgconf girara
 
 name=zathura
 version=0.5.2
-release=1
+release=2
 source="https://github.com/pwmt/zathura/archive/$version/$name-$version.tar.gz"
 build() {
 
 	venom-meson $name-$version build \
-		--wrap-mode nopromote \
 		-Dconvert-icon=disabled \
 		-Dmanpages=disabled \
 		-Dseccomp=disabled \
 		-Dsqlite=disabled \
-		-Dsynctex=disabled \
-		-D b_lto=true
+		-Dsynctex=disabled 
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }

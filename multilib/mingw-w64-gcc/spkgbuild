@@ -1,0 +1,31 @@
+# description	: gcc for mingw-w64 toolchain
+# homepage	: https://gcc.gnu.org/
+# depends	: mingw-w64-binutils mingw-w64-headers mingw-w64-crt
+
+name=mingw-w64-gcc
+version=12.2.0
+release=1
+source="http://gcc.gnu.org/pub/gcc/releases/gcc-$version/gcc-$version.tar.xz"
+
+bsdtar() {
+	tar $@
+}
+
+build() {
+	./gcc-$version/configure \
+		--prefix=/usr \
+		--libexecdir=/usr/lib/$name \
+		--target=x86_64-w64-mingw32 \
+		--enable-shared \
+		--enable-static \
+		--disable-multilib 
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/info
+	rm -r $PKG/usr/share/locale
+	rm $PKG/usr/share/man/man7/fsf-funding.7*
+	rm $PKG/usr/share/man/man7/gfdl.7*
+	rm $PKG/usr/share/man/man7/gpl.7*
+	rm $PKG/usr/lib/libcc1*
+}

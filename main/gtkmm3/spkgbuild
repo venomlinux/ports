@@ -9,6 +9,6 @@ source="https://ftp.gnome.org/pub/gnome/sources/gtkmm/${version%.*}/gtkmm-$versi
 build() {
 	venom-meson gtkmm-$version build
 	meson compile -C build
-	DESTDIR=$PKG meson install -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
 }

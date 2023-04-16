@@ -4,10 +4,10 @@
 # optional	    : libva pulseaudio vlc wayland-protocols x265
 
 name=obs-studio
-version=28.1.2
-release=1
+version=29.0.2
+release=2
 source="https://github.com/obsproject/$name/archive/$version/$name-$version.tar.gz
-	7531.patch
+	ffmpeg6.patch
 	disable-some-plugins.patch"
 
 build() {
@@ -16,27 +16,31 @@ build() {
 		-v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
 
 	patch -Np1 -d $name-$version -i $SRC/disable-some-plugins.patch
-	patch -Np1 -d $name-$version -i $SRC/7531.patch
+	patch -Np1 -d $name-$version -i $SRC/ffmpeg6.patch
 
-	export QT_QPA_PLATFORMTHEME="qt5ct"
+	export QT_QPA_PLATFORMTHEME="qt6ct"
 
 	cmake -S $name-$version -B build -G Ninja \
 		-D CMAKE_INSTALL_PREFIX=/usr \
-		-D CMAKE_INSTALL_LIBDIR=/usr/lib \
+		-D CMAKE_INSTALL_LIBDIR=lib \
+		-D CMAKE_INSTALL_LIBEXECDIR=lib \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-D OBS_VERSION_OVERRIDE="$version" \
+		-D QT_VERSION=6 \
 		-D UNIX_STRUCTURE=ON \
 		-D ENABLE_VLC=OFF \
 		-D ENABLE_AJA=OFF \
-		-D BUILD_VST=OFF \
-		-D BUILD_BROWSER=OFF \
+		-D ENABLE_VST=OFF \
+		-D ENABLE_BROWSER=OFF \
+		-D ENABLE_LIBFDK=ON \
 		-D ENABLE_PIPEWIRE=ON \
 		-D ENABLE_PULSEAUDIO=OFF \
 		-D ENABLE_WAYLAND=OFF \
 		-D ENABLE_DECKLINK=OFF \
 		-D ENABLE_NEW_MPEGTS_OUTPUT=OFF \
+		-D LIBOBS_PREFER_IMAGEMAGICK=OFF \
 		-Wno-dev
 
 	cmake --build build
