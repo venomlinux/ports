@@ -1,13 +1,13 @@
 # description	: An implementation of the DHCP client specified in RFC2131
 
 name=dhcpcd
-version=10.0.0
+version=10.0.1
 release=1
-source="https://github.com/NetworkConfiguration/dhcpcd/archive/$name-$version.tar.gz
+source="https://github.com/NetworkConfiguration/dhcpcd/releases/download/v${version}/${name}-${version}.tar.xz
 	rc.network"
 
 build() {
-	cd $name-$name-$version
+	cd $name-$version
 
   	./configure --libexecdir=/lib/dhcpcd \
 	            --dbdir=/var/lib/dhcpcd
