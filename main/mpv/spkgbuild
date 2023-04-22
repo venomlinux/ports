@@ -3,10 +3,12 @@
 
 name=mpv
 version=0.35.1
-release=2
-source="https://github.com/mpv-player/mpv/archive/v$version/$name-$version.tar.gz"
+release=3
+source="https://github.com/mpv-player/mpv/archive/v$version/$name-$version.tar.gz
+	mpv-0.35.1-yt-dlp-edl-fragments.patch"
 
 build() {
+	patch -d $name-$version -Np1 -i $SRC/mpv-0.35.1-yt-dlp-edl-fragments.patch
 
 	venom-meson $name-$version build \
 		-D libmpv=true \
