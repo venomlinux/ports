@@ -1,0 +1,15 @@
+# description	: Extremely fast compression algorithm
+
+name=lz4-32
+version=1.9.4
+release=1
+source="lz4-$version.tar.gz::https://github.com/lz4/lz4/archive/v$version.tar.gz"
+
+build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	cd lz4-$version
+	make PREFIX=/usr/lib32 DESTDIR=$PKG install
+}

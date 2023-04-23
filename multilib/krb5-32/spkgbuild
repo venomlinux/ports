@@ -1,0 +1,43 @@
+# description  : MIT Kerberos V5 is a network authentication protocol
+# depends  : e2fsprogs-32 keyutils-32 krb5
+
+name=krb5-32
+version=1.20.1
+release=1
+source="https://kerberos.org/dist/$name/${version%.*}/${name%-*}-$version.tar.gz 
+	krb5-config_LDFLAGS.patch"
+
+build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	cd ${name%-*}-$version
+
+	patch -Np1 -i $SRC/krb5-config_LDFLAGS.patch
+
+	sed -i "/KRB5ROOT=/s/\/local//" src/util/ac_check_krb5.m4
+
+	cd src
+   
+	autoreconf -fi
+	./configure \
+		--prefix=/usr \
+	        --sysconfdir=/etc \
+	        --localstatedir=/var/lib \
+	        --libdir=/usr/lib32 \
+	        --enable-shared \
+        	--with-system-et \
+	        --with-system-ss \
+		--disable-aesni \
+	        --disable-rpath \
+	        --without-tcl \
+	        --enable-dns-for-realm \
+	        --without-system-verto
+	make
+	make DESTDIR=$PWD/DESTDIR install
+
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+
+}

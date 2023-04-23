@@ -1,0 +1,28 @@
+# description: Simple NUMA policy support 32-bit version. Libraries only 
+# homepage: https://github.com/numactl/numactl
+# depends: perl numactl
+
+name=numactl-32
+version=2.0.16
+release=1
+source="${name%-*}-${version}.tar.gz::https://github.com/numactl/numactl/archive/refs/tags/v${version}.tar.gz"
+
+
+build() {
+  export CC='gcc -m32' CXX='g++ -m32' 
+  export PKG_CONFIG_PATH='/usr/lib32/pkgconfig'
+
+  cd ${name%-*}-$version
+  autoreconf -i
+  ./configure \
+    --prefix=/usr \
+    --libdir=/usr/lib32 \
+    --host=i686-unknown-linux-gnu
+  make
+  make DESTDIR=$PKG install
+
+  rm -rf $PKG/usr/share
+  rm -rf $PKG/usr/bin
+  rm -rf $PKG/usr/include
+}
+

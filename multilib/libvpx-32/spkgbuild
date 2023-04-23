@@ -1,0 +1,28 @@
+# description	: Implementations of the VP8 Codec, used in most current html5 video, and of the next-generation VP9 Codec
+# homepage	: https://github.com/webmproject/libvpx
+# depends	: yasm
+
+name=libvpx-32
+version=1.13.0
+release=1
+source="libvpx-$version.tar.gz::https://github.com/webmproject/libvpx/archive/v$version.tar.gz"
+
+
+build() {
+	cd libvpx-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	./configure --prefix=/usr   \
+                    --libdir=/usr/lib32 \
+                    --target=x86-linux-gcc \
+ 	            --enable-shared  \
+ 	            --disable-static
+	make
+	make DESTDIR=$PWD/DESTDIR install
+
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

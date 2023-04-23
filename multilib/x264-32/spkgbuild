@@ -1,0 +1,25 @@
+# description	: Library for encoding video streams into the H.264/MPEG-4 AVC format
+# depends	: nasm-32
+
+name=x264-32
+version=20191217.2245
+_version=$(echo $version | tr '.' '-')
+release=1
+source="http://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-${_version}-stable.tar.bz2"
+
+build() {
+       	export CC="gcc -m32"
+        export CXX="g++ -m32"
+        export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+        cd x264-snapshot-${_version}-stable
+         ./configure --prefix=/usr \
+                    --libdir=/usr/lib32 \
+	            --enable-shared \
+	            --disable-cli
+	make
+	make DESTDIR=$PWD/DESTDIR install
+
+        mkdir -p $PKG/usr/lib32
+        cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

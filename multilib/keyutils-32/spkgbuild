@@ -1,0 +1,30 @@
+# description	: Linux Key Management Utilities (32-bit)
+# homepage	: https://www.kernel.org
+# depends	: krb5-32
+
+name=keyutils-32
+version=1.6.3
+release=1
+source="https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git/snapshot/keyutils-$version.tar.gz"
+
+build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	
+	cd keyutils-$version
+	
+	sed -i -e 's/^\(USR\)\?LIBDIR\s*:=.*$/\1LIBDIR=\/usr\/lib32/' Makefile
+	
+	make
+	make DESTDIR=$PKG install
+
+	rm -rf  $PKG/{usr/include \
+		$PKG/usr/share \
+		$PKG/usr/bin \
+		$PKG/usr/sbin \
+		$PKG/etc \
+		$PKG/sbin \
+		$PKG/bin
+
+}
