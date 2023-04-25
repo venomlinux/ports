@@ -7,7 +7,7 @@ release=1
 source="$name-$version.tar.gz::https://codeberg.org/tenacityteam/$name/archive/$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build \
+	cmake -S $name -B build \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
