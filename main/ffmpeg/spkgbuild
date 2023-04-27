@@ -3,9 +3,9 @@
 
 name=ffmpeg
 version=6.0
-release=1
+release=2
 source="https://ffmpeg.org/releases/$name-$version.tar.xz
-	ffmpeg-5.1.2-chromium_method-1.patch"
+	ffmpeg-${version}-chromium_method-1.patch::https://www.linuxfromscratch.org/patches/blfs/svn/ffmpeg-6.0-chromium_method-1.patch"
 
 build() {
 	cd $name-$version
@@ -32,7 +32,7 @@ build() {
 
 	
 	# Adds an API necessary for some packages to build
-	patch -Np1 -i $SRC/ffmpeg-5.1.2-chromium_method-1.patch
+	patch -Np1 -i $SRC/ffmpeg-${version}-chromium_method-1.patch
 
 	# adds the ALSA library to the Flite LDFLAGS variable and
 	# enables the discovery of Flite
