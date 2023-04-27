@@ -4,10 +4,11 @@
 
 name=qtwebengine
 version=5.15.13
-release=1
+release=2
 source="https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-$version.tar.xz
 	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-build_fixes-1.patch
-	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-ffmpeg5_fixes-1.patch"
+	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-ffmpeg5_fixes-1.patch
+	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-icu_73-1.patch"
 
 build() {
 	cd $name-$version
@@ -17,12 +18,15 @@ build() {
 
 	# Fix build with ffmpeg-5
 	patch -Np1 -i $SRC/qtwebengine-$version-ffmpeg5_fixes-1.patch
+
+	# Fix build with icu-73 and later:
+	patch -Np1 -i $SRC/qtwebengine-$version-icu_73-1.patch
 	
 	# Create the required .git directories
 	mkdir -pv .git src/3rdparty/chromium/.git
 	
 	# change to current version of QT5
-	sed -e '/^MODULE_VERSION/s/5.*/5.15.8/' -i .qmake.conf
+	sed -e '/^MODULE_VERSION/s/5.*/5.15.9/' -i .qmake.conf
 
 	# Local headers
 	find -type f -name "*.pr[io]" | xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
