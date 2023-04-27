@@ -1,0 +1,28 @@
+# description	: An MP3 encoder and optionally, an MP3 frame analyzer
+# homepage	: http://lame.sourceforge.net/
+# depends	: ncurses-32
+
+name=lame-32
+version=3.100
+release=1
+source="https://downloads.sourceforge.net/lame/lame-$version.tar.gz"
+
+build() {
+	cd lame-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	./configure \
+		--prefix=/usr \
+                --libdir=/usr/lib32 \
+		--enable-mp3rtp \
+		--disable-static
+	make
+	make DESTDIR=$PWD/DESTDIR install
+
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+
+}

@@ -1,18 +1,16 @@
-# description	: C runtime (crt) for mingw-w64 toolchain
+# description	: MinGW-w64 winpthreads library
 # homepage	: https://mingw-w64.org/
 
-name=mingw-w64-crt
+name=mingw-w64-winpthreads
 version=10.0.0
-release=2
+release=1
 source="https://sourceforge.net/projects/mingw-w64/files/mingw-w64/mingw-w64-release/mingw-w64-v$version.tar.bz2 
-	http://ftpmirror.gnu.org/gnu/binutils/binutils-2.40.tar.xz 
-	http://gcc.gnu.org/pub/gcc/releases/gcc-10.2.0/gcc-12.2.0.tar.xz"
-options="!strip"
+        http://ftpmirror.gnu.org/gnu/binutils/binutils-2.40.tar.xz 
+        http://gcc.gnu.org/pub/gcc/releases/gcc-12.2.0/gcc-12.2.0.tar.xz"
 
 bsdtar() {
 	tar $@
 }
-
 
 build() {
 
@@ -24,7 +22,7 @@ build() {
 		for T in x86_64-w64-mingw32 i686-w64-mingw32; do
 			mkdir build-binutils-$T
 			cd build-binutils-$T
-			../binutils-2.40/configure --target=$T --disable-multilib --prefix=$SRC/sysroot $SYSROOT
+			$SRC/binutils-2.40/configure --target=$T --disable-multilib --prefix=$SRC/sysroot $SYSROOT
 			make
 			make install
 			cd ..
@@ -35,7 +33,7 @@ build() {
 		for T in x86_64-w64-mingw32 i686-w64-mingw32; do
 			mkdir build-headers-$T
 			cd build-headers-$T
-			../mingw-w64-v$version/mingw-w64-headers/configure --host=$T --prefix=$SRC/sysroot/$T
+			$SRC/mingw-w64-v$version/mingw-w64-headers/configure --host=$T --prefix=$SRC/sysroot/$T
 			make install
 			if [ "$T" = "x86_64-w64-mingw32" ]; then
 				ln -sv $SRC/sysroot/$T $SRC/sysroot/mingw
@@ -47,7 +45,7 @@ build() {
 		for T in x86_64-w64-mingw32 i686-w64-mingw32; do
 			mkdir build-gcc-$T
 			cd build-gcc-$T
-			../gcc-12.2.0/configure --target=$T --disable-multilib --disable-nls --enable-threads=posix --prefix=$SRC/sysroot $SYSROOT
+			$SRC/gcc-12.2.0/configure --target=$T --disable-multilib --disable-nls --enable-threads=posix --prefix=$SRC/sysroot $SYSROOT
 			make all-gcc
 			make install-gcc
 			cd ..
@@ -59,10 +57,23 @@ build() {
 		mkdir build-$T
 		cd build-$T
 		[ "$T" = "i686-w64-mingw32" ] && OPTS="--disable-lib64 --enable-lib32" || OPTS="--disable-lib32 --enable-lib64"
-		../mingw-w64-v$version/mingw-w64-crt/configure --prefix=/usr/$T --host=$T $OPTS --enable-wildcard $SYSROOT
+		$SRC/mingw-w64-v$version/mingw-w64-crt/configure --prefix=/usr/$T --host=$T $OPTS --enable-wildcard $SYSROOT
 		make
-		make DESTDIR=$PKG install
+		make install
 		cd ..
+               done
+	
+
+	# now build the winpthreads
+    for T in x86_64-w64-mingw32 i686-w64-mingw32; do
+       msg "Building ${T} winpthreads..."
+       mkdir -p $SRC/winpthreads-build-${T} && cd $SRC/winpthreads-build-${T}
+       $SRC/mingw-w64-v${version}/mingw-w64-libraries/winpthreads/configure --prefix=/usr/${T} \
+          --host=${T} --enable-static --disable-shared
+       make
+       make DESTDIR=$PKG install
+       rm $PKG/usr/$T/include/pthread_signal.h
+       rm $PKG/usr/$T/include/pthread_time.h
+       rm $PKG/usr/$T/include/pthread_unistd.h
 	done
 }
-

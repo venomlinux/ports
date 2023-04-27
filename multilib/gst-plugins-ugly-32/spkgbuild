@@ -1,0 +1,27 @@
+# description	: GStreamer streaming media framework ugly plug-ins
+# homepage	: https://gstreamer.freedesktop.org
+# depends	: lame-32 liba52-32 libdvdread-32 x264-32 
+
+name=gst-plugins-ugly-32
+version=1.22.2
+release=1
+source="https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-$version.tar.xz"
+
+build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	venom-meson gst-plugins-ugly-$version build \
+	        --libdir=/usr/lib32 \
+		--libexecdir=/usr/lib32 \
+                -Ddebug=false \
+		-Ddoc=disabled 
+	meson compile -C build
+	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
+
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
+
+

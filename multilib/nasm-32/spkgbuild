@@ -1,0 +1,19 @@
+# description	: 80x86 assembler designed for portability and modularity
+
+name=nasm-32
+version=2.16.01
+release=1
+source="https://www.nasm.us/pub/nasm/releasebuilds/$version/nasm-$version.tar.xz"
+
+build() {
+        export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	cd nasm-$version
+
+	./configure --prefix=/usr/lib32 \
+          --libdir=/usr/lib32
+	make
+	make DESTDIR=$PKG install
+}
