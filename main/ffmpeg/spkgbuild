@@ -73,7 +73,7 @@ build() {
 	gcc tools/qt-faststart.c -o tools/qt-faststart
 	make DESTDIR=$PKG install
 
-	install -m755 tools/qt-faststart $PKG/usr/bini
+	install -m755 tools/qt-faststart $PKG/usr/bin
 
 	[ -e '/usr/lib/pkgconfig/x264.pc' ] && \
 		install -m 0755 -D $SRC/ffmpeg-x264-10bit.sh \
