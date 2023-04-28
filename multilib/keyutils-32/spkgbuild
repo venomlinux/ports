@@ -15,16 +15,9 @@ build() {
 	cd keyutils-$version
 	
 	sed -i -e 's/^\(USR\)\?LIBDIR\s*:=.*$/\1LIBDIR=\/usr\/lib32/' Makefile
-	
+
 	make
-	make DESTDIR=$PKG install
-
-	rm -rf  $PKG/{usr/include \
-		$PKG/usr/share \
-		$PKG/usr/bin \
-		$PKG/usr/sbin \
-		$PKG/etc \
-		$PKG/sbin \
-		$PKG/bin
-
+	make DESTDIR=$PWD/DESTDIR install
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32	
 }
