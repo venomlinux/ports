@@ -3,14 +3,14 @@
 
 name=nodejs
 version=20.0.0
-release=1
+release=2
 source="https://nodejs.org/dist/v$version/node-v$version.tar.xz
-	system-c-ares.patch"
+	nodejs-fix-incomplete-type.patch"
 
 build() {
 	cd node-v$version
 
-	patch -Rp1 -i ../system-c-ares.patch
+	patch -Np1 -i $SRC/nodejs-fix-incomplete-type.patch  
 
 	./configure \
 		--prefix=/usr \
