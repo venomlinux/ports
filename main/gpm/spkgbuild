@@ -2,10 +2,13 @@
 
 name=gpm
 version=1.20.7
-release=4
+release=5
+backup="/etc/conf.d/gmp"
 source="https://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
 	gpm-1.20.7-consolidated-1.patch
+	gpm.conf
 	run.$name
+	gpm.sh
 	rc.$name"
 
 build() {
@@ -20,6 +23,8 @@ build() {
 
 	ln -sfv libgpm.so.2.1.0 $PKG/usr/lib/libgpm.so
 	install -v -m644 conf/gpm-root.conf $PKG/etc
+	install -Dm644 $SRC/gpm.sh $PKG/etc/profile.d/gpm.sh
+	install -Dm644 $SRC/gpm.conf $PKG/etc/conf.d/gpm
 
 	# runit service
 	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
