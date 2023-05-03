@@ -1,0 +1,31 @@
+# description	: programs for controlling the startup, running, and shutdown of the system
+
+name=sysvinit
+version=3.07
+release=1
+source="$name-$version.tar.gz::https://github.com/slicer69/$name/archive/refs/tags/$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	make -C src
+	make -C src ROOT=$PKG install
+
+	# remove binaries
+	for xx in last lastb readbootlog mesg utmpdump wall; do
+		rm $PKG/usr/bin/$xx
+	done
+	
+	rm $PKG/bin/pidof
+	rm $PKG/sbin/sulogin
+	rm $PKG/sbin/logsave
+	
+	# remove man
+	for xx in last lastb readbootlog mesg utmpdump wall; do
+		rm $PKG/usr/share/man/man1/$xx.1
+	done
+	
+	for xx in pidof logsave sulogin; do
+		rm $PKG/usr/share/man/man8/$xx.8
+	done
+}

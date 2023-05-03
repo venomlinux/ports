@@ -1,0 +1,17 @@
+# description	: Programs for compressing and decompressing files
+
+name=gzip
+version=1.12
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/bin
+	mv -v $PKG/usr/bin/gzip $PKG/bin
+}

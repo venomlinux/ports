@@ -1,0 +1,20 @@
+# description	: Utility for determining the type of a given file or files
+# depends	: zlib xz bzip2
+
+name=file
+version=5.44
+release=2
+source="ftp://ftp.astron.com/pub/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--enable-fsect-man5 \
+                --enable-static \
+                --disable-libseccomp \
+		--disable-zstdlib
+	make
+	make DESTDIR=$PKG install
+}

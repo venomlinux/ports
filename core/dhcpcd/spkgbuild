@@ -1,0 +1,19 @@
+# description	: An implementation of the DHCP client specified in RFC2131
+
+name=dhcpcd
+version=10.0.1
+release=1
+source="https://github.com/NetworkConfiguration/dhcpcd/releases/download/v${version}/${name}-${version}.tar.xz
+	rc.network"
+
+build() {
+	cd $name-$version
+
+  	./configure --libexecdir=/lib/dhcpcd \
+	            --dbdir=/var/lib/dhcpcd
+	make
+	make DESTDIR=$PKG install
+
+	# rc service
+	install -Dm755 $SRC/rc.network $PKG/etc/rc.d/network
+}

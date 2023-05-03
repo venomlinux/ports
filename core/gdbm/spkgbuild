@@ -1,0 +1,18 @@
+# description	: The GNU Database Manager
+# depends	: readline ncurses
+
+name=gdbm
+version=1.23
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --disable-static \
+	            --enable-libgdbm-compat
+	make
+	make DESTDIR=$PKG install
+
+}

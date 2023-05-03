@@ -1,0 +1,15 @@
+# description	: BSD-style init (CRUX inspired)
+# depends	: sysvinit
+
+name=rc
+version=20210521
+release=2
+backup="etc/rc.conf"
+source="$name-$version.tar.gz::https://github.com/venomlinux/rc/archive/65ef608163d72c16a721eeecf1f9865ed76f7920.tar.gz"
+
+build() {
+	cd $name-65ef608163d72c16a721eeecf1f9865ed76f7920
+	make DESTDIR=$PKG install
+	# from now on, modules-load provided by 'init' port, can be used across other inits
+	rm -fr $PKG/usr
+}

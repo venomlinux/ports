@@ -1,0 +1,34 @@
+# description	: Programs for basic networking
+# depends	: ncurses readline
+
+name=inetutils
+version=2.4
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--libexecdir=/usr/sbin \
+		--localstatedir=/var \
+		--disable-logger \
+		--disable-whois \
+		--disable-rcp \
+		--disable-rexec \
+		--disable-rlogin \
+		--disable-rsh \
+		--disable-servers
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -pv $PKG/bin $PKG/sbin
+	mv -v $PKG/usr/bin/hostname \
+	      $PKG/usr/bin/ping \
+	      $PKG/usr/bin/ping6 \
+	      $PKG/usr/bin/traceroute \
+	      $PKG/bin
+	mv -v $PKG/usr/bin/ifconfig $PKG/sbin
+
+}

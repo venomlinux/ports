@@ -1,0 +1,20 @@
+# description	: Portable foreign function interface library
+# homepage	: https://sourceware.org/libffi/
+
+name=libffi
+version=3.4.4
+release=1
+source="https://github.com/libffi/libffi/releases/download/v$version/libffi-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--disable-static \
+		--disable-multi-os-directory \
+		--disable-exec-static-tramp \
+		--enable-pax_emutramp
+	make
+	make DESTDIR=$PKG install
+}

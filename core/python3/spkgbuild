@@ -1,0 +1,45 @@
+# description	: Next generation of the python high-level scripting language
+# depends	: libffi sqlite
+
+name=python3
+version=3.11.3
+release=1
+source="$name-$version.tar.xz::https://www.python.org/ftp/python/$version/Python-$version.tar.xz
+	pyconfig.h"
+
+build() {
+	cd Python-$version
+
+	# Ensure that we are using the system copy of various libraries
+	rm -rv Modules/expat
+	rm -rv Modules/_ctypes/darwin*
+	rm -rv Modules/_ctypes/libffi*
+	rm -rv Modules/_decimal/libmpdec
+	
+	# Remove tests
+	rm -rv Lib/test Lib/*/test Lib/*/tests Lib/*/idle_test
+
+	./configure \
+		 --prefix=/usr \
+		--enable-computed-gotos \
+		--enable-dbmliborder=gdm:ndbm \
+		--enable-ipv6 \
+		--enable-loadable-sqlite-extensions \
+		--enable-optimizations \
+		--enable-shared \
+		--with-lto \
+		--with-system-expat \
+		--with-system-ffi \
+		--with-system-libmpdec \
+		--with-tzpath=/usr/share/zoneinfo \
+		--without-ensurepip
+	make EXTRA_CFLAGS="$CFLAGS"
+	make EXTRA_CFLAGS="$CFLAGS" DESTDIR=$PKG install maninstall
+
+	chmod -v 755 $PKG/usr/lib/libpython${version%.*}.so
+	chmod -v 755 $PKG/usr/lib/libpython3.so
+
+	mv $PKG/usr/include/python${version%.*}/pyconfig.h \
+	   $PKG/usr/include/python${version%.*}/pyconfig-64.h
+	install -m 0644 $SRC/pyconfig.h $PKG/usr/include/python${version%.*}/
+}

@@ -1,0 +1,13 @@
+# description	: A library for manipulating pipelines of subprocesses in a flexible and convenient way
+
+name=libpipeline
+version=1.5.7
+release=1
+source="https://download.savannah.gnu.org/releases/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}

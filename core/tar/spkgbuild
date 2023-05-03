@@ -1,0 +1,23 @@
+# description	: An archiving program
+# depends	: acl
+
+name=tar
+version=1.34
+release=2
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
+	CVE-2022-48303.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i $SRC/CVE-2022-48303.patch
+
+	FORCE_UNSAFE_CONFIGURE=1  \
+	./configure --prefix=/usr \
+		    --libexecdir=/usr/lib/$name \
+	            --bindir=/bin \
+		    --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+}

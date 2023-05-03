@@ -1,0 +1,27 @@
+# description	: Key-table files, console fonts, and keyboard utilities
+
+name=kbd
+version=2.5.1
+release=1
+source="https://www.kernel.org/pub/linux/utils/$name/$name-$version.tar.xz
+	$name-backspace-1.patch"
+
+build() {
+	cd $name-$version
+
+	patch -Np1 -i ../$name-backspace-1.patch
+
+	sed -i 's/\(RESIZECONS_PROGS=\)yes/\1no/g' configure
+	sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
+
+	./configure --prefix=/usr --disable-vlock --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+	mkdir -p $PKG/bin
+	mv -v $PKG/usr/bin/dumpkeys \
+	      $PKG/usr/bin/kbd_mode \
+	      $PKG/usr/bin/loadkeys \
+	      $PKG/usr/bin/setfont \
+	      $PKG/bin
+}

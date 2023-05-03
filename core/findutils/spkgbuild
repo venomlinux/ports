@@ -1,0 +1,25 @@
+# description	: Programs to find files
+
+name=findutils
+version=4.9.0
+release=2
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	# Don't build or install locate because we use mlocate,
+	# which is a secure version of locate.
+	sed -e '/^SUBDIRS/s/locate//' -e 's/frcode locate updatedb//' -i Makefile.in
+
+	./configure --prefix=/usr
+
+	# don't build locate, but the docs want a file in there.
+	make -C locate dblocation.texi
+	make
+
+	make DESTDIR=$PKG install
+
+	mkdir -pv $PKG/bin
+	mv -v $PKG/usr/bin/find $PKG/bin
+}

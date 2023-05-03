@@ -1,0 +1,17 @@
+# description	: Programs for generating Makefiles for use with Autoconf
+# depends	: autoconf
+
+name=automake
+version=1.16.5
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+
+	rm $PKG/usr/share/automake-*/texinfo.tex
+}

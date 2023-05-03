@@ -1,0 +1,16 @@
+# description	: Programs for searching through files
+# depends	: pcre2
+
+name=grep
+version=3.10
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --bindir=/bin
+	make
+	make DESTDIR=$PKG install
+
+}
