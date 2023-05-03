@@ -1,0 +1,31 @@
+# description	: utilities for handling the ext2, ext3 and ext4 file system
+# depends	: util-linux
+
+name=e2fsprogs
+version=1.47.0
+release=1
+source="https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v$version/e2fsprogs-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	mkdir -v build
+	cd build
+
+	../configure --prefix=/usr           \
+	             --bindir=/bin           \
+	             --with-root-prefix=""   \
+	             --enable-elf-shlibs     \
+	             --disable-libblkid      \
+	             --disable-libuuid       \
+	             --disable-uuidd         \
+	             --disable-fsck
+	make
+	make DESTDIR=$PKG install
+	make DESTDIR=$PKG install-libs
+
+	for i in libcom_err libe2p libext2fs libss; do
+		chmod -v u+w $PKG/usr/lib/${i}.a
+	done
+
+}

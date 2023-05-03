@@ -1,0 +1,11 @@
+# description	: Venom Linux inits stuffs
+# depends	: rc
+
+name=init
+version=1
+release=1
+source="modules-load"
+
+build() {
+	install -Dm755 $SRC/modules-load $PKG/usr/sbin/modules-load
+}

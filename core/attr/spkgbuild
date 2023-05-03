@@ -1,0 +1,25 @@
+# description	: Utilities to administer the extended attributes on filesystem objects
+
+name=attr
+version=2.5.1
+release=1
+source="https://download.savannah.gnu.org/releases/$name/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr \
+	            --bindir=/bin \
+	            --disable-static \
+            	    --sysconfdir=/etc \
+		    --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+	chmod -v 755 $PKG/usr/lib/libattr.so
+
+	mkdir -p $PKG/lib
+	mv -v $PKG/usr/lib/libattr.so.* $PKG/lib
+	ln -sfv ../../lib/$(readlink $PKG/usr/lib/libattr.so) $PKG/usr/lib/libattr.so
+
+}

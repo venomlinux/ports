@@ -1,0 +1,21 @@
+# description	: Programs for manipulating text files
+# depends	: libmpfr
+
+name=gawk
+version=5.2.1
+release=1
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	export ac_cv_libsigsegv=no
+
+	# ensure some unneeded files are not installed
+	sed -i 's/extras//' Makefile.in
+
+	./configure --prefix=/usr --libexecdir=/usr/lib --sysconfdir=/etc --disable-nls
+	make
+	make DESTDIR=$PKG install
+
+}

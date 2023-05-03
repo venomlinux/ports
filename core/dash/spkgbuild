@@ -1,0 +1,17 @@
+# description	: POSIX compliant shell
+
+name=dash
+version=0.5.12
+release=1
+source="http://gondor.apana.org.au/~herbert/dash/files/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure \
+		--prefix=/usr \
+		--bindir=/bin \
+		--mandir=/usr/share/man
+	make
+	make DESTDIR=$PKG install
+	ln -s dash $PKG/bin/sh
+}

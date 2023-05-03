@@ -1,0 +1,15 @@
+# description	: A text file viewer
+# depends	: ncurses
+
+name=less
+version=632
+release=1
+source="$name-$version.tar.gz::http://greenwoodsoftware.com/$name/$name-$version-beta.tar.gz"
+
+build() {
+	cd $name-$version
+
+	./configure --prefix=/usr --sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}
