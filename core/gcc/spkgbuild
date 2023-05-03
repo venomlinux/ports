@@ -2,7 +2,7 @@
 # depends	: libmpc libmpfr libgmp zlib
 
 name=gcc
-version=12.2.0
+version=13.1.0
 release=1
 source="https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
 	c89 c99"
@@ -28,7 +28,8 @@ build() {
 	../configure \
 		--prefix=/usr \
 		--libexecdir=/usr/lib \
-		--enable-languages=c,c++,objc,obj-c++ \
+		--enable-languages=c,c++,objc,obj-c++,lto \
+		--enable-lto \
 		--disable-bootstrap \
 		--disable-libmpx \
 		--with-system-zlib \
