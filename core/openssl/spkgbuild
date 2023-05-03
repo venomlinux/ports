@@ -1,23 +1,35 @@
 # description	: Management tools and libraries relating to cryptography
+# homepage	: https://www.openssl.org
 
 name=openssl
-version=1.1.1t
+version=3.1.0
 release=1
 source="https://openssl.org/source/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
 
-  	./config --prefix=/usr         \
-	         --openssldir=/etc/ssl \
-	         --libdir=lib          \
-	         shared                \
-	         zlib-dynamic
+	./config \
+		--prefix=/usr \
+		--libdir=lib \
+		--openssldir=/etc/ssl \
+		enable-ec_nistp_64_gcc_128 \
+		enable-camellia \
+		enable-seed \
+		enable-rfc3779 \
+		no-mdc2 \
+		no-ec2m \
+		no-sm2 \
+		no-sm4 \
+		shared \
+		threads \
+		zlib
+
+	sed -i "s|-O3|$CFLAGS|" Makefile
+
+	make depend
 	make
+	make MANSUFFIX=ssl DESTDIR=$PKG install_sw install_ssldirs install_man_docs
 
-	# disable static lib
-	sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
-
-	make DESTDIR=$PKG MANDIR=/usr/share/man MANSUFFIX=ssl install
-
+	find $PKG -name "*fips*" -delete
 }
