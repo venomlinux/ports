@@ -1,4 +1,4 @@
-go-1.20.3-1
+go-1.20.4-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 lrwxrwxrwx root/root    usr/bin/go -> /usr/lib/go/bin/go
@@ -2323,6 +2323,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/testdata/script/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_import_cycle.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_internal.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_issue48319.txt
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_issue59571.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_issue6480.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_link_x_import_path_escape.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_multi_main.txt
@@ -7772,10 +7773,6 @@ drwxr-xr-x root/root    usr/lib/go/src/os/exec/internal/fdtest/
 -rw-r--r-- root/root    usr/lib/go/src/os/removeall_at.go
 -rw-r--r-- root/root    usr/lib/go/src/os/removeall_noat.go
 -rw-r--r-- root/root    usr/lib/go/src/os/removeall_test.go
--rw-r--r-- root/root    usr/lib/go/src/os/rlimit_darwin.go
--rw-r--r-- root/root    usr/lib/go/src/os/rlimit.go
--rw-r--r-- root/root    usr/lib/go/src/os/rlimit_stub.go
--rw-r--r-- root/root    usr/lib/go/src/os/rlimit_test.go
 drwxr-xr-x root/root    usr/lib/go/src/os/signal/
 -rw-r--r-- root/root    usr/lib/go/src/os/signal/doc.go
 -rw-r--r-- root/root    usr/lib/go/src/os/signal/example_test.go
@@ -9191,6 +9188,7 @@ drwxr-xr-x root/root    usr/lib/go/src/syscall/
 -rw-r--r-- root/root    usr/lib/go/src/syscall/exec_windows_test.go
 -rw-r--r-- root/root    usr/lib/go/src/syscall/export_darwin_test.go
 -rw-r--r-- root/root    usr/lib/go/src/syscall/export_linux_test.go
+-rw-r--r-- root/root    usr/lib/go/src/syscall/export_rlimit_test.go
 -rw-r--r-- root/root    usr/lib/go/src/syscall/export_unix_test.go
 -rw-r--r-- root/root    usr/lib/go/src/syscall/export_windows_test.go
 -rw-r--r-- root/root    usr/lib/go/src/syscall/flock_aix.go
@@ -9231,6 +9229,10 @@ drwxr-xr-x root/root    usr/lib/go/src/syscall/js/
 -rw-r--r-- root/root    usr/lib/go/src/syscall/ptrace_darwin.go
 -rw-r--r-- root/root    usr/lib/go/src/syscall/ptrace_ios.go
 -rw-r--r-- root/root    usr/lib/go/src/syscall/pwd_plan9.go
+-rw-r--r-- root/root    usr/lib/go/src/syscall/rlimit_darwin.go
+-rw-r--r-- root/root    usr/lib/go/src/syscall/rlimit.go
+-rw-r--r-- root/root    usr/lib/go/src/syscall/rlimit_stub.go
+-rw-r--r-- root/root    usr/lib/go/src/syscall/rlimit_test.go
 -rw-r--r-- root/root    usr/lib/go/src/syscall/route_bsd.go
 -rw-r--r-- root/root    usr/lib/go/src/syscall/route_darwin.go
 -rw-r--r-- root/root    usr/lib/go/src/syscall/route_dragonfly.go
@@ -12227,6 +12229,11 @@ drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue5910.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5910.dir/main.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5910.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue59293.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue59334.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue59367.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue59378.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue59572.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue59572.out
 drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue5957.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5957.dir/a.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue5957.dir/b.go
