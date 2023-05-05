@@ -1,4 +1,4 @@
-obs-studio-29.0.2-2
+obs-studio-29.1.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/obs
@@ -121,6 +121,7 @@ drwxr-xr-x root/root    usr/include/obs/util/simde/x86/
 -rw-r--r-- root/root    usr/include/obs/util/threading-posix.h
 -rw-r--r-- root/root    usr/include/obs/util/threading.h
 -rw-r--r-- root/root    usr/include/obs/util/utf8.h
+-rw-r--r-- root/root    usr/include/obs/util/uthash.h
 -rw-r--r-- root/root    usr/include/obs/util/util.hpp
 -rw-r--r-- root/root    usr/include/obs/util/util_uint128.h
 -rw-r--r-- root/root    usr/include/obs/util/util_uint64.h
@@ -148,9 +149,6 @@ lrwxrwxrwx root/root    usr/lib/libobs-scripting.so.1 -> libobs-scripting.so.29
 lrwxrwxrwx root/root    usr/lib/libobs.so -> libobs.so.0
 lrwxrwxrwx root/root    usr/lib/libobs.so.0 -> libobs.so.29
 -rwxr-xr-x root/root    usr/lib/libobs.so.29
-lrwxrwxrwx root/root    usr/lib/libobsglad.so -> libobsglad.so.1
-lrwxrwxrwx root/root    usr/lib/libobsglad.so.1 -> libobsglad.so.29
--rwxr-xr-x root/root    usr/lib/libobsglad.so.29
 drwxr-xr-x root/root    usr/lib/obs-plugins/
 -rwxr-xr-x root/root    usr/lib/obs-plugins/frontend-tools.so
 -rwxr-xr-x root/root    usr/lib/obs-plugins/image-source.so
@@ -256,6 +254,7 @@ drwxr-xr-x root/root    usr/share/obs/obs-plugins/obs-filters/LUTs/
 -rw-rw-r-- root/root    usr/share/obs/obs-plugins/obs-filters/LUTs/black_and_white.png
 -rw-rw-r-- root/root    usr/share/obs/obs-plugins/obs-filters/LUTs/grayscale.cube
 -rw-rw-r-- root/root    usr/share/obs/obs-plugins/obs-filters/LUTs/grayscale.png
+-rw-rw-r-- root/root    usr/share/obs/obs-plugins/obs-filters/LUTs/invert.png
 -rw-rw-r-- root/root    usr/share/obs/obs-plugins/obs-filters/LUTs/original.cube
 -rw-rw-r-- root/root    usr/share/obs/obs-plugins/obs-filters/LUTs/original.png
 -rw-rw-r-- root/root    usr/share/obs/obs-plugins/obs-filters/LUTs/posterize.png
@@ -337,6 +336,7 @@ drwxr-xr-x root/root    usr/share/obs/obs-plugins/obs-transitions/luma_wipes/
 -rw-rw-r-- root/root    usr/share/obs/obs-plugins/obs-transitions/swipe_transition.effect
 drwxr-xr-x root/root    usr/share/obs/obs-plugins/obs-x264/
 drwxr-xr-x root/root    usr/share/obs/obs-plugins/obs-x264/locale/
+-rw-rw-r-- root/root    usr/share/obs/obs-plugins/obs-x264/locale/en-GB.ini
 -rw-rw-r-- root/root    usr/share/obs/obs-plugins/obs-x264/locale/en-US.ini
 drwxr-xr-x root/root    usr/share/obs/obs-plugins/rtmp-services/
 drwxr-xr-x root/root    usr/share/obs/obs-plugins/rtmp-services/locale/
@@ -344,7 +344,7 @@ drwxr-xr-x root/root    usr/share/obs/obs-plugins/rtmp-services/locale/
 -rw-rw-r-- root/root    usr/share/obs/obs-plugins/rtmp-services/package.json
 drwxr-xr-x root/root    usr/share/obs/obs-plugins/rtmp-services/schema/
 -rw-rw-r-- root/root    usr/share/obs/obs-plugins/rtmp-services/schema/package-schema.json
--rw-rw-r-- root/root    usr/share/obs/obs-plugins/rtmp-services/schema/service-schema-v4.json
+-rw-rw-r-- root/root    usr/share/obs/obs-plugins/rtmp-services/schema/service-schema-v5.json
 -rw-rw-r-- root/root    usr/share/obs/obs-plugins/rtmp-services/services.json
 drwxr-xr-x root/root    usr/share/obs/obs-plugins/text-freetype2/
 drwxr-xr-x root/root    usr/share/obs/obs-plugins/text-freetype2/locale/
@@ -438,6 +438,7 @@ drwxr-xr-x root/root    usr/share/obs/obs-studio/themes/Dark/sources/
 -rw-rw-r-- root/root    usr/share/obs/obs-studio/themes/Dark/sources/window.svg
 -rw-rw-r-- root/root    usr/share/obs/obs-studio/themes/Dark/sources/windowaudio.svg
 -rw-rw-r-- root/root    usr/share/obs/obs-studio/themes/Dark/trash.svg
+-rw-rw-r-- root/root    usr/share/obs/obs-studio/themes/Dark/unassigned.svg
 -rw-rw-r-- root/root    usr/share/obs/obs-studio/themes/Dark/up.svg
 -rw-rw-r-- root/root    usr/share/obs/obs-studio/themes/Dark/updown.svg
 -rw-rw-r-- root/root    usr/share/obs/obs-studio/themes/Dark/visible.svg
