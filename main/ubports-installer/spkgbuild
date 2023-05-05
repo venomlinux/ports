@@ -3,11 +3,10 @@
 # depends	: android-tools android-udev electron-bin e2fsprogs heimdall
 
 name=ubports-installer
-version=0.9.10_beta
-_version=0.9.10
+version=0.10.0
 release=1
 options="!strip !emptydirs"
-source="$name-${version}_amd64.deb::https://github.com/ubports/ubports-installer/releases/download/$_version/ubports-installer_${_version}-beta_linux_amd64.deb"
+source="$name-${version}_amd64.deb::https://github.com/ubports/ubports-installer/releases/download/$version/ubports-installer_${version}_linux_amd64.deb"
 
 build() {
 	bsdtar -xvf ${name}-${version}_amd64.deb -C $SRC
