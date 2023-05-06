@@ -30,7 +30,7 @@ THEME_PKG="arcbox paper-icon-theme osx-arc-theme ttf-liberation picom dunst neof
 # theme: arc-gtk-theme xfce4-whiskermenu-plugin pop-icon-theme
 
 RELEASE=$(cat $PORTSDIR/current-release)
-outputiso="$PORTSDIR/venomlinux-$RELEASE-$INIT-$(uname -m)-$(date +%Y%m%d).iso"
+outputiso="$PORTSDIR/venomlinux-$INIT-$(uname -m)-$(date +%Y%m%d).iso"
 pkgs="$(echo $MUST_PKG $XORG_PKG $MAIN_PKG $OPENBOX_PKG $THEME_PKG | tr ' ' ',')"
 
 as_root $SCRIPTDIR/build.sh \
