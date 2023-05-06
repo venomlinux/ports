@@ -159,6 +159,7 @@ compress_rootfs() {
 		--exclude="*.spkgnew" \
 		--exclude="tmp/*" \
 		--exclude="root/*" \
+		--exclude="usr/ports/*" \
 		-cvJpf "$TARBALLIMG" * | while read -r line; do
 			echo -ne " $line\033[0K\r"
 		done
@@ -239,6 +240,7 @@ make_iso() {
 	#cp "$FILESDIR/splash.png" "$ISODIR/isolinux"
 	cp "$ROOTFS/usr/share/syslinux/splash.png" "$ISODIR/isolinux"
 	#sed "s/Venom Linux/Venom Linux $RELEASE/g" "$ROOTFS/usr/share/syslinux/isolinux.cfg" > "$ISODIR/isolinux/isolinux.cfg"
+	cat "$ROOTFS/usr/share/syslinux/isolinux.cfg" > "$ISODIR/isolinux/isolinux.cfg"
 	
 	[ -d "$PORTSDIR/virootfs" ] && {
 		cp -aR "$PORTSDIR/virootfs" "$ISODIR"
@@ -277,7 +279,8 @@ make_iso() {
 	fi
 	echo "set prefix=/boot/grub" > "$ISODIR/boot/grub-early.cfg"
 	cp -a $ROOTFS/usr/lib/grub/x86_64-efi/*.{mod,lst} "$ISODIR/boot/grub/x86_64-efi" || die "Failed copying efi files"
-	sed "s/Venom Linux/Venom Linux $RELEASE/g" "$ROOTFS/usr/share/grub/grub.cfg" > "$ISODIR/boot/grub/grub.cfg"
+	#sed "s/Venom Linux/Venom Linux $RELEASE/g" "$ROOTFS/usr/share/grub/grub.cfg" > "$ISODIR/boot/grub/grub.cfg"
+	cat "$ROOTFS/usr/share/grub/grub.cfg" > "$ISODIR/boot/grub/grub.cfg"
 
 	grub-mkimage -c "$ISODIR/boot/grub-early.cfg" -o "$ISODIR/efi/boot/bootx64.efi" -O x86_64-efi -p "" iso9660 normal search search_fs_file
 	modprobe loop
