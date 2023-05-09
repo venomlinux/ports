@@ -36,7 +36,7 @@ pkgs="$(echo $MUST_PKG $XORG_PKG $MAIN_PKG $OPENBOX_PKG $THEME_PKG | tr ' ' ',')
 as_root $SCRIPTDIR/build.sh \
 	-zap || exit 1
 
-echo 'rust rust-bin' | as_root tee -a $ROOTFS/etc/scratchpkg.alias
+#echo 'rust rust-bin' | as_root tee -a $ROOTFS/etc/scratchpkg.alias
 
 if [ "$INIT" = runit ]; then
 	echo 'rc runit-rc' | as_root tee -a $ROOTFS/etc/scratchpkg.alias
