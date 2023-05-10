@@ -3,7 +3,7 @@
 
 name=gcc
 version=13.1.0
-release=2
+release=3
 source="https://ftp.gnu.org/gnu/$name/$name-$version/$name-$version.tar.xz
 	c89 c99"
 
@@ -33,6 +33,7 @@ build() {
 		--disable-bootstrap \
 		--disable-libmpx \
 		--with-system-zlib \
+		--without-zstd \
 		--disable-nls \
 		--with-pkgversion="Venom Linux $version-$release" \
 		--enable-threads=posix \
