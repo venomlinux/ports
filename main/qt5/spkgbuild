@@ -4,9 +4,11 @@
 
 name=qt5
 version=5.15.9
-release=1
+release=2
+MAPBOXGL_COMMIT=5a07e1967dcc925d9def47accadae991436b9686
 source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/single/qt-everywhere-opensource-src-$version.tar.xz
 	qt-everywhere-opensource-src-${version}-kf5-1.patch"
+
 
 build() {
 	cd qt-everywhere-src-$version
@@ -21,6 +23,13 @@ build() {
 	    qtbase/mkspecs/common/gcc-base.conf
 	sed -i -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${LDFLAGS}|" \
 	    qtbase/mkspecs/common/g++-unix.conf
+
+	# Add another fix for building with GCC-13:
+
+	sed -e "/pragma once/a#include <cstdint>"                                      \
+	    -i qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/geometry.hpp \
+	       qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/string.hpp   \
+	       qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/gl/stencil_mode.hpp
 
 	./configure -prefix         /usr \
 	            -sysconfdir     /etc/xdg \
