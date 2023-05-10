@@ -1,36 +1,38 @@
 # description	: WINE with staging patches
-# homepage	: https://wiki.winehq.org/Wine-Staging
-# depends: fontconfig-32 freeglut-32 gnutls-32 lcms2-32 mpg123-32 openal-32 libxcomposite-32 libxcursor-32 libxinerama-32 libxrandr-32 libxxf86dga-32 vkd3d-32 libgcrypt-32 mingw-w64-gcc
+# homepage	: https://www.wine-staging.com
+# depends: attr attr-32 fontconfig fontconfig-32 freeglut freeglut-32 gnutls gnutls-32 lcms2 lcms2-32 mpg123 mpg123-32 openal openal-32 libxcomposite libxcomposite-32 libxcursor libxcursor-32 libxinerama libxinerama-32 libxrandr libxrandr-32  libxxf86dga libxxf86dga-32 libgcrypt libgcrypt-32 gst-plugins-base gst-plugins-base-32 gst-plugins-good gst-plugins-good-32 gst-plugins-ugly gst-plugins-ugly-32 vkd3d-32 dxvk-bin krb5 krb5-32   
 
 name=wine-staging
-version=8.1
+version=8.7
 release=1
 source="https://dl.winehq.org/wine/source/8.x/wine-${version}.tar.xz 
-	https://github.com/$name/$name/archive/v$version/$name-$version.tar.gz 
-	https://dl.winehq.org/wine/wine-gecko/2.47.3/wine-gecko-2.47.3-x86.msi 
-	https://dl.winehq.org/wine/wine-gecko/2.47.3/wine-gecko-2.47.3-x86_64.msi 
-	https://github.com/madewokherd/wine-mono/releases/download/wine-mono-7.4.1/wine-mono-7.4.1-x86.msi"
-
+	https://github.com/wine-staging/wine-staging/archive/v$version/wine-staging-$version.tar.gz 
+	30-win32-aliases.conf
+	wine-binfmt.conf"
 build() {
 	# apply staging patches
 	cd $name-$version
-	./patches/patchinstall.sh DESTDIR=../wine-${version} --all
-	cd ..
+	../wine-staging-${version}/staging/patchinstall.py DESTDIR=../wine-${version} --all
+	cd .. 
 
 	install -d wine32 wine64
 
 	export CPPFLAGS="${CPPFLAGS} -D_FORTIFY_SOURCE=0"
 
 	cd wine64
-
 	../wine-${version}/configure \
 		--prefix=/usr \
 		--libdir=/usr/lib \
+                --with-x \
+                --with-gstreamer \
+                --with-xattr \
+                --with-gssapi \
+                --with-krb5 \
 		--enable-win64
-
 	make depend
 	make
 	make DESTDIR=$PKG install
+
 
 	cd ../wine32
 	CFLAGS="${CFLAGS} -m32"
@@ -41,27 +43,21 @@ build() {
 	../wine-${version}/configure \
 		--prefix=/usr \
 		--libdir=/usr/lib32 \
+                --with-x \
 		--x-includes=/usr/include/X11 \
 		--x-libraries=/usr/lib32 \
+                --with-xattr \
+                --with-gstreamer \
+                --with-gssapi \
+                --with-krb5 \
 		--cache-file=config.cache \
 		--with-wine64=../wine64
-
 	make depend
 	make
 	make DESTDIR=$PKG install
 
-	install -d $PKG/usr/share/wine/gecko
-	install -d $PKG/usr/share/wine/mono
-
-	install -t $PKG/usr/share/wine/gecko/ \
-		$SRC/wine-gecko-2.47.3-x86.msi \
-		$SRC/wine-gecko-2.47.3-x86_64.msi
-
-	install $SRC/wine-mono-7.4.1-x86.msi $PKG/usr/share/wine/mono/
-
 	rm -r $PKG/usr/share/man/??.UTF-8
 
 	install -d $PKG/etc/revdep.d
-	echo "/usr/lib/wine/x86_64-unix/\n/usr/lib32/wine/i386-unix/" > $PKG/etc/revdep.d/${name}.conf
+	echo -e "/usr/lib/wine/x86_64-unix\n/usr/lib32/wine/i386-unix\n" > $PKG/etc/revdep.d/$name
 }
-
