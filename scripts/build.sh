@@ -96,7 +96,7 @@ copy_repo() {
 }
 
 fetch_rootfs() {
-	url="https://github.com/venomlinux/ports/releases/download/v$RELEASE/venomlinux-rootfs-$RELEASE-$ARCH.tar.xz"
+	url="https://github.com/venomlinux/ports/releases/download/$RELEASE/venomlinux-rootfs-$ARCH.tar.xz"
 
 	msg "Fetching rootfs tarball: $url"
 	curl -L --fail --ftp-pasv --retry 3 --retry-delay 3 -o $TARBALLIMG.part $url
@@ -126,7 +126,7 @@ zap_rootfs() {
 	msg "Extracting tarball image: $TARBALLIMG"
 	tar -xf $TARBALLIMG -C $ROOTFS || die "Error extracting tarball image"
 	tmp_scratchpkgconf
-	chrootrun portsync || die 'failed sync ports'
+	#chrootrun portsync || die 'failed sync ports'
 	#set_release_info
 	generatelocales
 	unset ZAP
@@ -159,6 +159,7 @@ compress_rootfs() {
 		--exclude="*.spkgnew" \
 		--exclude="tmp/*" \
 		--exclude="root/*" \
+		--exclude="usr/ports/*" \
 		-cvJpf "$TARBALLIMG" * | while read -r line; do
 			echo -ne " $line\033[0K\r"
 		done
@@ -188,7 +189,7 @@ restore_scratchpkgconf() {
 tmp_scratchpkgconf() {
 	if [ ! -f "$ROOTFS"/etc/scratchpkg.repo.spkgnew ]; then
 		mv "$ROOTFS"/etc/scratchpkg.repo "$ROOTFS"/etc/scratchpkg.repo.spkgnew
-		echo "/usr/ports/core https://github.com/venomlinux/ports/tree/venom${RELEASE%%.*}/core" > "$ROOTFS"/etc/scratchpkg.repo
+		#echo "/usr/ports/core https://github.com/venomlinux/ports/tree/venom${RELEASE%%.*}/core" > "$ROOTFS"/etc/scratchpkg.repo
 		for i in $REPO; do
 			echo "/usr/ports/$i" >> "$ROOTFS"/etc/scratchpkg.repo
 		done
@@ -238,7 +239,8 @@ make_iso() {
 	done
 	#cp "$FILESDIR/splash.png" "$ISODIR/isolinux"
 	cp "$ROOTFS/usr/share/syslinux/splash.png" "$ISODIR/isolinux"
-	sed "s/Venom Linux/Venom Linux $RELEASE/g" "$ROOTFS/usr/share/syslinux/isolinux.cfg" > "$ISODIR/isolinux/isolinux.cfg"
+	#sed "s/Venom Linux/Venom Linux $RELEASE/g" "$ROOTFS/usr/share/syslinux/isolinux.cfg" > "$ISODIR/isolinux/isolinux.cfg"
+	cat "$ROOTFS/usr/share/syslinux/isolinux.cfg" > "$ISODIR/isolinux/isolinux.cfg"
 	
 	[ -d "$PORTSDIR/virootfs" ] && {
 		cp -aR "$PORTSDIR/virootfs" "$ISODIR"
@@ -277,7 +279,8 @@ make_iso() {
 	fi
 	echo "set prefix=/boot/grub" > "$ISODIR/boot/grub-early.cfg"
 	cp -a $ROOTFS/usr/lib/grub/x86_64-efi/*.{mod,lst} "$ISODIR/boot/grub/x86_64-efi" || die "Failed copying efi files"
-	sed "s/Venom Linux/Venom Linux $RELEASE/g" "$ROOTFS/usr/share/grub/grub.cfg" > "$ISODIR/boot/grub/grub.cfg"
+	#sed "s/Venom Linux/Venom Linux $RELEASE/g" "$ROOTFS/usr/share/grub/grub.cfg" > "$ISODIR/boot/grub/grub.cfg"
+	cat "$ROOTFS/usr/share/grub/grub.cfg" > "$ISODIR/boot/grub/grub.cfg"
 
 	grub-mkimage -c "$ISODIR/boot/grub-early.cfg" -o "$ISODIR/efi/boot/bootx64.efi" -O x86_64-efi -p "" iso9660 normal search search_fs_file
 	modprobe loop
@@ -334,10 +337,6 @@ checktool() {
 	if [ "$ISO" ]; then
 		check mksquashfs squashfs-tools || err=1
 		check xorriso libisoburn || err=1
-		if [ ! -d /usr/lib/grub/x86_64-efi/ ]; then
-			echo "'grub-efi' files not found"
-			err=1
-		fi
 	fi
 	[ "$err" = 1 ] && exit 1
 }
@@ -491,21 +490,21 @@ SCRIPTDIR="$(dirname $(realpath $0))"
 parse_opts "$@"
 
 ARCH=$(uname -m)
-RELEASE=$(cat $PORTSDIR/current-release)
+RELEASE=20230510
 
-TARBALLIMG="$PORTSDIR/venomlinux-rootfs-$RELEASE-$ARCH.tar.xz"
+TARBALLIMG="$PORTSDIR/venomlinux-rootfs-$ARCH.tar.xz"
 SRCDIR="${SRCDIR:-/var/cache/scratchpkg/sources}"
 PKGDIR="${PKGDIR:-/var/cache/scratchpkg/packages}"
 ROOTFS="${ROOTFS:-$PORTSDIR/rootfs}"
 CCACHE_DIR="${CCACHEDIR:-/var/lib/ccache}"
 JOBS="${JOBS:-$(nproc)}"
 
-REPO="main multilib nonfree testing"
+REPO="core main multilib nonfree testing"
 
 # iso
 ISODIR="${ISODIR:-/tmp/venomiso}"
 ISO_PKG="linux-lts,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,syslinux"
-OUTPUTISO="${OUTPUTISO:-$PORTSDIR/venomlinux-$RELEASE-$ARCH.iso}"
+OUTPUTISO="${OUTPUTISO:-$PORTSDIR/venomlinux-$(date +%Y%m%d)-$ARCH.iso}"
 
 trap "interrupted" 1 2 3 15
 

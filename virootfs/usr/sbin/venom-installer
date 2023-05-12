@@ -446,9 +446,13 @@ start_install() {
 	# overview
 	cprint "*** Partition Overview ***"
 	echo
-	[ "$swap_part_create" != skip ] && cprint "$swap_part will be format into swap"
+	if [ "$swap_part" ] && [ "$swap_part_create" != skip ]; then
+		cprint "$swap_part will be format into swap"
+	fi
 	[ "$root_part_fs" != skip ] && cprint "$root_part will be format into $root_part_fs"
-	[ "$home_part_fs" != skip ] && cprint "$home_part will be format into $home_part_fs"
+	if [ "$home_part" ] && [ "$home_part_fs" != skip ]; then
+		cprint "$home_part will be format into $home_part_fs"
+	fi
 	
 	prompt_user "Press ENTER to continue installation..."
 	read input
@@ -487,7 +491,7 @@ start_install() {
 	fi
 		
 	
-	if [ "$swap_part_create" != skip ]; then
+	if [ "$swap_part" ] && [ "$swap_part_create" != skip ]; then
 		echo "Making swap partition on $swap_part"
 		mkswap $swap_part
 	fi

@@ -3,12 +3,9 @@
 # optional	: libva libvdpau wayland-protocols
 
 name=mesa
-version=23.0.3
-release=3
-source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz
-	intel-fs-fix-scheduling-of-HALT-instructions.patch
-	egl-wayland-Fix-destruction-of-event-queue-with-prox.patch
-	vulkan-wsi-wayland-Fix-destruction-of-event-queue-wi.patch"
+version=23.1.0
+release=1
+source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
 
 build() {
 
@@ -16,17 +13,6 @@ build() {
 	scratch isinstalled libvdpau && OPT_MESA_VDPAU='-D gallium-vdpau=enabled' || OPT_MESA_VDPAU='-D gallium-vdpau=disabled'
 	scratch isinstalled libva && OPT_MESA_VAAPI='-D gallium-va=enabled' || OPT_MESA_VAAPI='-D gallium-va=disabled'
 	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' || OPT_MESA_PLATFORMS='x11'
-
-	# https://gitlab.freedesktop.org/mesa/mesa/-/issues/7110
-	# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/20765
-	patch -d $name-$version -Np1 -i $SRC/intel-fs-fix-scheduling-of-HALT-instructions.patch
-
-	# https://bugzilla.mozilla.org/show_bug.cgi?id=1826583
-	# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/21646
-	patch -d $name-$version -Np1 -i $SRC/egl-wayland-Fix-destruction-of-event-queue-with-prox.patch
-
-	# https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/21647
-	patch -d $name-$version -Np1 -i $SRC/vulkan-wsi-wayland-Fix-destruction-of-event-queue-wi.patch
 
 	venom-meson $name-$version build \
 		-D dri3=enabled \
