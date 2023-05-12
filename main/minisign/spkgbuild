@@ -1,0 +1,16 @@
+# description	: A dead simple tool to sign files and verify digital signatures.
+# homepage	: https://jedisct1.github.io/minisign/
+# depends	: cmake libsodium
+
+name=minisign
+version=0.11
+release=1
+source="https://github.com/jedisct1/$name/releases/download/$version/$name-$version.tar.gz"
+
+build() {
+	mkdir build
+	cmake .  -D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_INSTALL_PREFIX:PATH=/usr
+	make
+	DESTDIR=$PKG make install
+}
