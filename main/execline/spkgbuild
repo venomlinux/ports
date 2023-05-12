@@ -1,0 +1,19 @@
+# description	: The execline scripting language
+# homepage	: https://skarnet.org/software/execline/
+# depends	: skalibs
+
+name=execline
+version=2.9.3.0
+release=1
+source="https://github.com/skarnet/$name/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		--enable-shared\
+		--enable-static\
+		--enable-static-libc \
+		--enable-multicall
+	make
+	make DESTDIR=$PKG install
+}

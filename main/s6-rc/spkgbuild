@@ -1,0 +1,18 @@
+# description	: A service manager for s6.
+# homepage	: https://skarnet.org/software/s6-rc/
+# depends	: skalibs execline s6
+
+name=s6-rc
+version=0.5.4.1
+release=1
+source="https://github.com/skarnet/$name/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		--enable-static \
+		--enable-shared \
+		--enable-static-libc
+	make
+	make DESTDIR=$PKG install
+}

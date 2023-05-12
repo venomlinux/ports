@@ -1,0 +1,17 @@
+# description	: The skarnet.org C system programming library 
+# homepage	: https://skarnet.org/software/skalibs/
+# depends	: 
+
+name=skalibs
+version=2.13.1.1
+release=1
+source="https://github.com/skarnet/$name/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		--enable-shared \
+		--enable-static
+	make
+	make DESTDIR=$PKG install
+}

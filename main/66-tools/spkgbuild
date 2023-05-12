@@ -1,0 +1,15 @@
+# description	: Sixty-six-tools is a collection of helpers tools to accomplish various and repetitive tasks in service scripts.
+# homepage	: https://web.obarun.org/software/66-tools
+# depends	: skalibs execline
+
+name=66-tools
+version=0.0.8.0
+release=1
+source="https://git.obarun.org/Obarun/$name/-/archive/v$version/$name-v$version.tar.bz2"
+
+build() {
+	cd $name-v$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
