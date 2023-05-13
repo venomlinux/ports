@@ -3,8 +3,8 @@
 # optional	: krb5 jsoncpp snappy
 
 name=qtwebengine
-version=5.15.13
-release=2
+version=5.15.14
+release=1
 source="https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-$version.tar.xz
 	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-build_fixes-1.patch
 	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-ffmpeg5_fixes-1.patch
@@ -19,9 +19,9 @@ build() {
 	# Fix build with ffmpeg-5
 	patch -Np1 -i $SRC/qtwebengine-$version-ffmpeg5_fixes-1.patch
 
-	# Fix build with icu-73 and later:
+	# Fix build with icu-73 and later
 	patch -Np1 -i $SRC/qtwebengine-$version-icu_73-1.patch
-	
+
 	# Create the required .git directories
 	mkdir -pv .git src/3rdparty/chromium/.git
 	
