@@ -1,15 +1,18 @@
 # description	: A diagnostic, debugging and instructional userspace tracer
-# depends	: perl
+# depends	: elfutils
 
 name=strace
-version=6.2
+version=6.3
 release=1
 source="https://github.com/strace/strace/releases/download/v$version/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-	./configure --prefix=/usr
+	./configure \
+	--prefix=/usr \
+	--enable-silent-rules \
+	--enable-bundled=yes
 	make
 	make DESTDIR=$PKG install
 }
