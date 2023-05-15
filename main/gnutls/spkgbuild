@@ -3,14 +3,14 @@
 
 name=gnutls
 version=3.8.0
-release=1
+release=2
 source="https://www.gnupg.org/ftp/gcrypt/gnutls/v${version%.*}/$name-${version}.tar.xz"
 
 build() {
 	cd $name-$version
 
 	./configure --prefix=/usr \
-		    --with-default-trust-store-pkcs11="pkcs11:" \
+		    --with-default-trust-store-file=/etc/ssl/certs/ca-certificates.crt \
 		    --disable-guile
 	make
 	make DESTDIR=$PKG install
