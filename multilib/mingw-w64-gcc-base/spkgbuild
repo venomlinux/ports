@@ -1,9 +1,9 @@
 # description	: gcc for mingw-w64 toolchain
 # homepage	: https://gcc.gnu.org/
-# depends	: mingw-w64-crt mingw-w64-winpthreads
+# depends	: mingw-w64-binutils mingw-w64-headers
 # depends	: libgmp libisl libmpc libmpfr zlib
 
-name=mingw-w64-gcc
+name=mingw-w64-gcc-base
 version=13.1.0
 release=1
 source="http://gcc.gnu.org/pub/gcc/releases/gcc-$version/gcc-$version.tar.xz"
@@ -22,6 +22,10 @@ build() {
   for T in i686-w64-mingw32 x86_64-w64-mingw32; do
 	mkdir base-gcc-$T
 	cd base-gcc-$T
+   
+#	if [ "$T" = "i686-w64-mingw32" ]; then
+#	      x86_dwarf2="--disable-sjlj-exceptions --with-dwarf2"
+#	fi
 
 	../gcc-$version/configure \
 		--prefix=/usr \
@@ -35,15 +39,12 @@ build() {
 	        --enable-lto --enable-libgomp \
 	        --disable-multilib --enable-checking=release \
 	        --disable-sjlj-exceptions --with-dwarf2
-	make all
-	make DESTDIR=$PKG install
+	make all-gcc
+	make DESTDIR=$PKG install-gcc
 	cd ..
   done
+rm -r $PKG/usr/share/man
+rm -r $PKG/usr/share/info
+#rm -r $PKG/usr/share/locale
 
-	# strip $PKG/usr/bin/*
-	# remove unnecessary files
-	rm $PKG/usr/lib/libcc1.*
-	rm -r $PKG/usr/share/man
-	rm -r $PKG/usr/share/info
-	
 }

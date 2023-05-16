@@ -1,0 +1,19 @@
+# description	: An Integer Set Library for the Polyhedral Model
+# homepage	: http://isl.gforge.inria.fr/
+# depends	: libgmp
+
+name=libisl
+version=0.26
+release=1
+source="$name-$version.tar.bz2::https://libisl.sourceforge.io/isl-$version.tar.bz2"
+
+build() {
+	cd isl-$version
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--localstatedir=/var 
+	make
+	make DESTDIR=$PKG install
+}

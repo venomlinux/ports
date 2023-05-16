@@ -1,79 +1,33 @@
 # description	: MinGW-w64 winpthreads library
 # homepage	: https://mingw-w64.org/
+# depends	: mingw-w64-crt mingw-w64-base
 
 name=mingw-w64-winpthreads
-version=10.0.0
+version=11.0.0
 release=1
-source="https://sourceforge.net/projects/mingw-w64/files/mingw-w64/mingw-w64-release/mingw-w64-v$version.tar.bz2 
-        http://ftpmirror.gnu.org/gnu/binutils/binutils-2.40.tar.xz 
-        http://gcc.gnu.org/pub/gcc/releases/gcc-12.2.0/gcc-12.2.0.tar.xz"
+source="https://sourceforge.net/projects/mingw-w64/files/mingw-w64/mingw-w64-release/mingw-w64-v$version.tar.bz2"
+options="!strip !buildflags staticlibs !emptydirs"
 
 bsdtar() {
 	tar $@
 }
 
 build() {
+	# build scripts rewrite -Wl args and break this
+	#export LDFLAGS="${LDFLAGS} -z pack-relative-relocs"
 
-	# build a stub sysroot gcc if mingw-w64-gcc isn't already installed; if it is, that will be used instead
-	if [ ! -x /usr/bin/x86_64-w64-mingw32-gcc ]; then
+  for T in x86_64-w64-mingw32 i686-w64-mingw32; do
+	mkdir -p build-${T} 
+	cd build-${T}
+	$SRC/mingw-w64-v${version}/mingw-w64-libraries/winpthreads/configure --prefix=/usr/${T} \
+          --host=${T} --enable-static --enable-shared
+	make
+	make DESTDIR=$PKG install
 
-		export SYSROOT="--with-sysroot=$SRC/sysroot"
+	rm $PKG/usr/$T/include/pthread_unistd.h
+	rm $PKG/usr/$T/include/pthread_time.h
+	rm $PKG/usr/$T/include/pthread_signal.h
 
-		for T in x86_64-w64-mingw32 i686-w64-mingw32; do
-			mkdir build-binutils-$T
-			cd build-binutils-$T
-			$SRC/binutils-2.40/configure --target=$T --disable-multilib --prefix=$SRC/sysroot $SYSROOT
-			make
-			make install
-			cd ..
-		done
-
-		export PATH=$SRC/sysroot/bin:$PATH
-
-		for T in x86_64-w64-mingw32 i686-w64-mingw32; do
-			mkdir build-headers-$T
-			cd build-headers-$T
-			$SRC/mingw-w64-v$version/mingw-w64-headers/configure --host=$T --prefix=$SRC/sysroot/$T
-			make install
-			if [ "$T" = "x86_64-w64-mingw32" ]; then
-				ln -sv $SRC/sysroot/$T $SRC/sysroot/mingw
-				ln -sv $SRC/sysroot/$T/lib $SRC/sysroot/$T/lib64
-			fi
-			cd ..
-		done
-
-		for T in x86_64-w64-mingw32 i686-w64-mingw32; do
-			mkdir build-gcc-$T
-			cd build-gcc-$T
-			$SRC/gcc-12.2.0/configure --target=$T --disable-multilib --disable-nls --enable-threads=posix --prefix=$SRC/sysroot $SYSROOT
-			make all-gcc
-			make install-gcc
-			cd ..
-		done
-	fi
-
-	# now build the crt
-	for T in x86_64-w64-mingw32 i686-w64-mingw32; do
-		mkdir build-$T
-		cd build-$T
-		[ "$T" = "i686-w64-mingw32" ] && OPTS="--disable-lib64 --enable-lib32" || OPTS="--disable-lib32 --enable-lib64"
-		$SRC/mingw-w64-v$version/mingw-w64-crt/configure --prefix=/usr/$T --host=$T $OPTS --enable-wildcard $SYSROOT
-		make
-		make install
-		cd ..
-               done
-	
-
-	# now build the winpthreads
-    for T in x86_64-w64-mingw32 i686-w64-mingw32; do
-       msg "Building ${T} winpthreads..."
-       mkdir -p $SRC/winpthreads-build-${T} && cd $SRC/winpthreads-build-${T}
-       $SRC/mingw-w64-v${version}/mingw-w64-libraries/winpthreads/configure --prefix=/usr/${T} \
-          --host=${T} --enable-static --disable-shared
-       make
-       make DESTDIR=$PKG install
-       rm $PKG/usr/$T/include/pthread_signal.h
-       rm $PKG/usr/$T/include/pthread_time.h
-       rm $PKG/usr/$T/include/pthread_unistd.h
-	done
+	${T}-strip --strip-unneeded $PKG/usr/$T/bin/*.dll
+  done
 }
