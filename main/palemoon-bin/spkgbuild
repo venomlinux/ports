@@ -3,11 +3,11 @@
 
 name=palemoon-bin
 version=32.2.0
-release=1
+release=2
 source="${name%-*}.desktop
 		$name-$version.tar.xz::https://rm-eu.palemoon.org/release/palemoon-${version}.linux-x86_64-gtk3.tar.xz" # EU link
 #       $name-$version.tar.xz::https://rm-us.palemoon.org/release/palemoon-${version}.linux-x86_64-gtk3.tar.xz # US link
-rev_ex_libs="libxul.so libmozsqlite3.so libmozavutil.so liblgpllibs.so libmozgtk.so"
+rev_ex_libs="libhunspell.so libxul.so libmozsqlite3.so libmozavutil.so liblgpllibs.so libmozgtk.so"
 
 build() {
     cd ${name%-*}
