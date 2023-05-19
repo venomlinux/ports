@@ -3,16 +3,13 @@
 
 name=lxappearance-obconf
 version=0.2.3
-release=2
+release=3
 source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-	# Hide theme preview as it's broken with GTK+ 3
-	# https://sourceforge.net/p/lxde/bugs/768/
-	sed -i /frame1/,+19d src/obconf.glade
-	./configure --prefix=/usr --disable-static --enable-gtk3
+	./configure --prefix=/usr --disable-static 
 	make
 	make DESTDIR=$PKG install
 }
