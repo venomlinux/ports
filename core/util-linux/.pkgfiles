@@ -1,4 +1,4 @@
-util-linux-2.38.1-1
+util-linux-2.39-1
 drwxr-xr-x root/root    bin/
 -rwxr-xr-x root/root    bin/dmesg
 -rwxr-xr-x root/root    bin/findmnt
@@ -8,6 +8,7 @@ drwxr-xr-x root/root    bin/
 -rwxr-xr-x root/root    bin/more
 -rwsr-xr-x root/root    bin/mount
 -rwxr-xr-x root/root    bin/mountpoint
+-rwxr-xr-x root/root    bin/pipesz
 -rwsr-xr-x root/root    bin/umount
 -rwxr-xr-x root/root    bin/wdctl
 drwxr-xr-x root/root    lib/
@@ -25,6 +26,7 @@ drwxr-xr-x root/root    sbin/
 -rwxr-xr-x root/root    sbin/agetty
 -rwxr-xr-x root/root    sbin/blkdiscard
 -rwxr-xr-x root/root    sbin/blkid
+-rwxr-xr-x root/root    sbin/blkpr
 -rwxr-xr-x root/root    sbin/blkzone
 -rwxr-xr-x root/root    sbin/blockdev
 -rwxr-xr-x root/root    sbin/cfdisk
@@ -64,6 +66,7 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/colrm
 -rwxr-xr-x root/root    usr/bin/column
 -rwxr-xr-x root/root    usr/bin/eject
+-rwxr-xr-x root/root    usr/bin/fadvise
 -rwxr-xr-x root/root    usr/bin/fallocate
 -rwxr-xr-x root/root    usr/bin/fincore
 -rwxr-xr-x root/root    usr/bin/flock
@@ -112,6 +115,7 @@ lrwxrwxrwx root/root    usr/bin/uname26 -> setarch
 -rwxr-xr-x root/root    usr/bin/utmpdump
 -rwxr-xr-x root/root    usr/bin/uuidgen
 -rwxr-xr-x root/root    usr/bin/uuidparse
+-rwxr-xr-x root/root    usr/bin/waitpid
 -rwxr-sr-x root/tty    usr/bin/wall
 -rwxr-xr-x root/root    usr/bin/whereis
 lrwxrwxrwx root/root    usr/bin/x86_64 -> setarch
@@ -169,6 +173,7 @@ drwxr-xr-x root/root    usr/share/bash-completion/completions/
 -rw-r--r-- root/root    usr/share/bash-completion/completions/delpart
 -rw-r--r-- root/root    usr/share/bash-completion/completions/dmesg
 -rw-r--r-- root/root    usr/share/bash-completion/completions/eject
+-rw-r--r-- root/root    usr/share/bash-completion/completions/fadvise
 -rw-r--r-- root/root    usr/share/bash-completion/completions/fallocate
 -rw-r--r-- root/root    usr/share/bash-completion/completions/fdisk
 -rw-r--r-- root/root    usr/share/bash-completion/completions/fincore
@@ -217,6 +222,7 @@ lrwxrwxrwx root/root    usr/share/bash-completion/completions/lastb -> last
 -rw-r--r-- root/root    usr/share/bash-completion/completions/namei
 -rw-r--r-- root/root    usr/share/bash-completion/completions/nsenter
 -rw-r--r-- root/root    usr/share/bash-completion/completions/partx
+-rw-r--r-- root/root    usr/share/bash-completion/completions/pipesz
 -rw-r--r-- root/root    usr/share/bash-completion/completions/pivot_root
 -rw-r--r-- root/root    usr/share/bash-completion/completions/prlimit
 -rw-r--r-- root/root    usr/share/bash-completion/completions/readprofile
@@ -245,6 +251,7 @@ lrwxrwxrwx root/root    usr/share/bash-completion/completions/lastb -> last
 -rw-r--r-- root/root    usr/share/bash-completion/completions/uuidd
 -rw-r--r-- root/root    usr/share/bash-completion/completions/uuidgen
 -rw-r--r-- root/root    usr/share/bash-completion/completions/uuidparse
+-rw-r--r-- root/root    usr/share/bash-completion/completions/waitpid
 -rw-r--r-- root/root    usr/share/bash-completion/completions/wall
 -rw-r--r-- root/root    usr/share/bash-completion/completions/wdctl
 -rw-r--r-- root/root    usr/share/bash-completion/completions/whereis
@@ -261,6 +268,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/column.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/dmesg.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/eject.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/fadvise.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/fallocate.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/fincore.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/flock.1.gz
@@ -289,6 +297,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/mountpoint.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/namei.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/nsenter.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/pipesz.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/prlimit.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/rename.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/renice.1.gz
@@ -305,6 +314,7 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/utmpdump.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/uuidgen.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/uuidparse.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/waitpid.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/wall.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/whereis.1.gz
 drwxr-xr-x root/root    usr/share/man/man3/
@@ -330,6 +340,7 @@ drwxr-xr-x root/root    usr/share/man/man8/
 -rw-r--r-- root/root    usr/share/man/man8/agetty.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/blkdiscard.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/blkid.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/blkpr.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/blkzone.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/blockdev.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/cfdisk.8.gz
@@ -346,8 +357,11 @@ drwxr-xr-x root/root    usr/share/man/man8/
 -rw-r--r-- root/root    usr/share/man/man8/fsfreeze.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/fstrim.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/hwclock.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/i386.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/isosize.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/ldattach.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/linux32.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/linux64.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/losetup.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/lsblk.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/lslocks.8.gz
@@ -372,9 +386,11 @@ drwxr-xr-x root/root    usr/share/man/man8/
 -rw-r--r-- root/root    usr/share/man/man8/swapon.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/switch_root.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/umount.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/uname26.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/uuidd.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/wdctl.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/wipefs.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/x86_64.8.gz
 -rw-r--r-- root/root    usr/share/man/man8/zramctl.8.gz
 drwxr-xr-x root/root    var/
 drwxr-xr-x root/root    var/lib/
