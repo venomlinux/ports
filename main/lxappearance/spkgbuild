@@ -1,9 +1,9 @@
 # description	: Desktop-independent theme switcher for GTK+
-# depends	: gtk3 dbus-glib
+# depends	: gtk2 dbus-glib
 
 name=lxappearance
 version=0.6.3
-release=2
+release=3
 source="https://downloads.sourceforge.net/lxde/$name-$version.tar.xz"
 
 build() {
@@ -12,7 +12,6 @@ build() {
 		--sysconfdir=/etc \
 		--disable-static  \
 		--enable-dbus \
-		--enable-gtk3
 		   
 	make
 	make DESTDIR=$PKG install
