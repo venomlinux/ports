@@ -1,0 +1,17 @@
+# description	: file versioning system with hash comparison, deduplication and data storage to create unlinked states that can be deleted
+# homepage	: https://github.com/mirkobrombin/FVS
+# depends	: python-orjson
+
+name=fvs
+version=0.3.4
+release=1
+source="https://github.com/mirkobrombin/FVS/archive/refs/tags/$version.tar.gz"
+build() {
+	cd "FVS-$version" 
+	/usr/bin/python3 setup.py build
+	/usr/bin/python3 setup.py install \
+		--prefix=/usr \
+		--root=$PKG
+
+	chmod -R go-w,a+r,u+w $PKG
+}
