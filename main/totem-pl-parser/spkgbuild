@@ -4,12 +4,13 @@
 
 name=totem-pl-parser
 version=3.26.6
+vrsn=$(echo $version | sed 's/\./_/g')
 release=6
-source="https://gitlab.gnome.org/GNOME/totem-pl-parser/-/archive/V_3_26_6/totem-pl-parser-V_3_26_6.tar.bz2"
+source="$name-$version.tar.bz2::https://gitlab.gnome.org/GNOME/totem-pl-parser/-/archive/V_$vrsn/totem-pl-parser-V_$vrsn.tar.bz2"
 
 
 build() {
-  venom-meson $name-V_3_26_6 build -D enable-gtk-doc=false
+  venom-meson $name-V_$vrsn build -D enable-gtk-doc=false
   meson compile -C build
   DESTDIR=$PKG meson install --no-rebuild -C build
 }
