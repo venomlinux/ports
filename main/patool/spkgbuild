@@ -1,0 +1,17 @@
+# description	: Portable command line archive file manager
+# homepage	: https://wummel.github.io/patool/
+# depends	: python3-setuptools
+
+name=patool
+version=1.12
+release=1
+source="https://github.com/wummel/patool/archive/upstream/$version.tar.gz"
+build() {
+	cd patool-upstream-$version
+	/usr/bin/python3 setup.py build
+	/usr/bin/python3 setup.py install \
+		--prefix=/usr \
+		--root=$PKG
+
+	chmod -R go-w,a+r,u+w $PKG
+}
