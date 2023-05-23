@@ -5,13 +5,17 @@
 
 name=qt6-base
 version=6.5.0
-release=1
+release=2
 source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtbase-everywhere-src-$version.tar.xz
-	qt6-base-cflags.patch qt6-base-nostrip.patch"
+	qt6-base-cflags.patch qt6-base-nostrip.patch
+	CVE-2023-32762.patch::https://download.qt.io/official_releases/qt/6.5/CVE-2023-32762-qtbase-6.5.diff
+	CVE-2023-32763.patch::https://download.qt.io/official_releases/qt/6.5/CVE-2023-32763-qtbase-6.5.diff"
 
 build() {
 	patch -d qtbase-everywhere-src-$version -p1 -i $SRC/qt6-base-cflags.patch
 	patch -d qtbase-everywhere-src-$version -p1 -i $SRC/qt6-base-nostrip.patch
+	patch -d qtbase-everywhere-src-$version -p1 -i $SRC/CVE-2023-32762.patch
+	patch -d qtbase-everywhere-src-$version -p1 -i $SRC/CVE-2023-32763.patch
 
 
 	cmake -S qtbase-everywhere-src-$version -B build -G Ninja \
