@@ -3,9 +3,13 @@
 # depends	    : cmake ninja
 
 name=doxygen
-version=1.9.5
+version=1.9.7
 release=1
 source="$name-$version.tar.gz::https://www.doxygen.nl/files/$name-$version.src.tar.gz"
+
+bsdtar() {
+	tar $@
+}
 
 build() {
 
