@@ -2,17 +2,12 @@
 # depends	: ca-certificates openssl zlib
 
 name=curl
-version=8.1.0
-release=2
-source="https://curl.haxx.se/download/$name-$version.tar.xz
-	curl-regression-8.1.patch
-	curl-regression-8.1-header.patch"
+version=8.1.1
+release=1
+source="https://curl.haxx.se/download/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i $SRC/curl-regression-8.1.patch
-	patch -Np1 -i $SRC/curl-regression-8.1-header.patch
 
 	./configure \
 		--prefix=/usr \
