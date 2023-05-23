@@ -1,0 +1,15 @@
+diff --git a/configure.ac b/configure.ac
+index 75a882b..17dd05a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -193,8 +193,8 @@ dnl something different but only have that affect the execution of the results
+ dnl of the compile, not change the libraries for the compiler itself.
+ dnl
+ compilersh="run-compiler"
+-echo "CC=$CC" > $compilersh
+-echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> $compilersh
++echo "CC=\"$CC\"" > $compilersh
++echo "LD_LIBRARY_PATH=\"$LD_LIBRARY_PATH\"" >> $compilersh
+ echo 'exec $CC $@' >> $compilersh
+ 
+ dnl **********************************************************************

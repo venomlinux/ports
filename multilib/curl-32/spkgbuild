@@ -2,32 +2,34 @@
 # depends	: curl openssl-32
 
 name=curl-32
-version=8.1.0
-release=2
+version=8.1.1
+release=1
 source="https://curl.haxx.se/download/${name%-*}-$version.tar.xz
-	curl-regression-8.1.patch
-	curl-regression-8.1-header.patch"
+	$name-quote-compiler-command.patch"
 
 build() {
-	cd ${name%-*}-$version
-
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
-	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
-	patch -Np1 -i $SRC/curl-regression-8.1.patch
-	patch -Np1 -i $SRC/curl-regression-8.1-header.patch
+	cd ${name%-*}-$version
 
-
-	./configure --prefix=/usr \
-		    --libdir=/usr/lib32 \
-		    --enable-threaded-resolver \
-		    --without-libidn2 \
-		    --without-brotli \
-		    --without-libpsl \
-		    --without-zstd \
-		    --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt \
-		    --with-openssl
+	patch -Np1 -i $SRC/$name-quote-compiler-command.patch
+	
+	autoreconf -fi
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32 \
+		--disable-static \
+		--enable-threaded-resolver \
+		--with-ca-bundle=/etc/ssl/certs/ca-certificates.crt \
+		--with-openssl \
+		--without-brotli \
+		--without-libidn2 \
+		--without-libpsl \
+		--without-librtmp \
+		--without-nghttp2 \
+		--without-zstd
 	make
 	make DESTDIR=$PWD/DESTDIR install
 
