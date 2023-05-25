@@ -3,9 +3,10 @@
 
 name=curl-32
 version=8.1.1
-release=1
+release=2
 source="https://curl.haxx.se/download/${name%-*}-$version.tar.xz
-	$name-quote-compiler-command.patch"
+	$name-quote-compiler-command.patch
+	hanging-http2.patch"
 
 build() {
 	export CC="gcc -m32"
@@ -15,6 +16,7 @@ build() {
 	cd ${name%-*}-$version
 
 	patch -Np1 -i $SRC/$name-quote-compiler-command.patch
+	patch -Np1 -i $SRC/hanging-http2.patch	
 	
 	autoreconf -fi
 	./configure \
