@@ -3,9 +3,11 @@
 
 name=wpa_supplicant
 version=2.10
-release=1
+release=2
 backup="etc/wpa_supplicant.conf"
 source="https://w1.fi/releases/$name-$version.tar.gz
+	0002-AP-guard-FT-SAE-code-with-CONFIG_IEEE80211R_AP.patch 
+	nl80211-add-extra-ies-only-if-allowed-by-driver.patch
 	wpa_supplicant.conf
 	run.wpa
 	auto.wpa
@@ -13,6 +15,9 @@ source="https://w1.fi/releases/$name-$version.tar.gz
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i $SRC/0002-AP-guard-FT-SAE-code-with-CONFIG_IEEE80211R_AP.patch
+	patch -Np1 -i $SRC/nl80211-add-extra-ies-only-if-allowed-by-driver.patch
 
 	cat > wpa_supplicant/.config << "EOF"
 CONFIG_BACKEND=file
