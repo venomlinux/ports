@@ -4,7 +4,7 @@
 
 name=libunwind-32
 version=1.6.2
-release=1
+release=2
 source="https://download.savannah.gnu.org/releases/libunwind/${name%-*}-$version.tar.gz"
 
 build() {
@@ -14,14 +14,18 @@ build() {
 
 	cd ${name%-*}-$version
 	./configure \
+		--build=i686-pc-linux-gnu \
+		--host=i686-pc-linux-gnu \
 		--prefix=/usr \
 		--libdir=/usr/lib32 \
-		--host=i686-pc-linux-gnu \
 		--disable-documentation
-	sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 	make
 	make DESTDIR=$PWD/DESTDIR install
 
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+
+	mkdir -p $PKG/usr/include
+	cp -v DESTDIR/usr/include/libunwind-x86.h $PKG/usr/include
+
 }
