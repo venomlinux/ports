@@ -1,0 +1,16 @@
+# description	:  utility to manage SSH and GPG keys in a convenient and secure manner
+# homepage	: https://www.funtoo.org/Funtoo:Keychain
+# depends	: 
+
+name=keychain
+version=2.8.5
+release=1
+source="https://github.com/funtoo/keychain/archive/refs/tags/$version.tar.gz"
+
+build() {
+	cd $name-$version
+	mkdir -p "$PKG"/usr/bin
+	cp keychain $PKG/usr/bin/
+	mkdir -p "$PKG"/usr/share/man/1
+	cp keychain.1 "$PKG"/usr/share/man/1/
+}
