@@ -1,0 +1,18 @@
+# description	: Small tools built around s6 and s6-rc programs
+# homepage	: http://web.obarun.org/software/
+# depends	: oblibs execline s6 s6-rc skalibs
+
+name=66
+version=0.6.2.0
+release=1
+source="$name-$version.tar.bz2::https://git.obarun.org/Obarun/66/-/archive/v${version}/66-v${version}.tar.bz2"
+
+build() {
+	cd $name-v$version
+	./configure --prefix=/usr \
+ 		--with-s6-log-timestamp=iso \
+ 		--with-s6-log-user=_s6log \
+		--with-system-dir=/etc/66/lib
+	make
+	make DESTDIR=$PKG install
+}
