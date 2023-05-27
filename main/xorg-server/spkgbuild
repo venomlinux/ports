@@ -3,7 +3,7 @@
 
 name=xorg-server
 version=21.1.8
-release=1
+release=2
 source="http://ftp.x.org/pub/individual/xserver/$name-$version.tar.xz"
 
 build() {
@@ -12,6 +12,7 @@ build() {
 		-D xkb_dir=/usr/share/X11/xkb \
 		-D xkb_output_dir=/var/lib/xkb \
 		-D suid_wrapper=true \
+		-D systemd_logind=false \
 		-D xorg=true
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
