@@ -3,13 +3,16 @@
 
 name=eudev
 version=3.2.12
-release=1
+release=2
 source="$name-$version.tar.gz::https://github.com/eudev-project/eudev/archive/v$version.tar.gz"
 
 build() {
 	cd $name-$version
 
 	scratch isinstalled libxslt && _opt="--enable-manpages"
+
+	# remove an unneeded group 'sgx'
+	sed -i -e 's/GROUP="sgx", //' rules/50-udev-default.rules
 
 	autoreconf -f -i -s
 	./configure \
