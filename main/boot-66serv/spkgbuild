@@ -1,0 +1,15 @@
+# description	: Portable stage 1 services for 66
+# homepage	: https://git.obarun.org/obmods/boot-66serv
+# depends	: 66
+
+name=boot-66serv
+version=2.4.1
+release=1
+source="https://git.obarun.org/obmods/$name/-/archive/v$version/$name-v$version.tar.gz"
+
+build() {
+	cd $name-v$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
