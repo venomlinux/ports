@@ -2,7 +2,7 @@
 
 name=lz4-32
 version=1.9.4
-release=1
+release=2
 source="lz4-$version.tar.gz::https://github.com/lz4/lz4/archive/v$version.tar.gz"
 
 build() {
@@ -11,5 +11,5 @@ build() {
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	cd lz4-$version
-	make PREFIX=/usr/lib32 DESTDIR=$PKG install
+	make PREFIX=/usr LIBDIR=/usr/lib32 DESTDIR=$PKG install
 }
