@@ -1,0 +1,75 @@
+# description	: Linux kernel, sources and modules
+# depends	: elfutils mkinitramfs openssl yaml cpio bc
+
+name=linux-libre
+version=6.3.4
+release=1
+source="${name}-${version}.tar.xz::https://linux-libre.fsfla.org/pub/linux-libre/releases/${version%.0}-gnu/${name}-${version%.0}-gnu.tar.xz
+	config"
+NO_STRIP=yes
+
+build() {
+	cd ${name%-*}-${version%.0}
+	
+	make mrproper
+
+	cp $SRC/config ./.config
+	make olddefconfig
+
+	sed '/^CONFIG_LOCALVERSION=/d' -i .config
+	echo 'CONFIG_LOCALVERSION="-Venom"' >> .config
+
+	kernver=${version}-gnu$(grep CONFIG_LOCALVERSION= .config | cut -d '"' -f2)
+
+	#make menuconfig
+
+	make 
+	make INSTALL_MOD_PATH=$PKG modules_install
+
+	mkdir -p $PKG/boot
+
+	cp  arch/x86/boot/bzImage $PKG/boot/vmlinuz-venom-gnu
+	cp .config $PKG/boot/config-venom-gnu
+	#cp -iv System.map $PKG/boot/
+	echo $kernver > $PKG/lib/modules/KERNELVERSION
+
+	make clean
+	make prepare
+
+	rm -rf $PKG/lib/firmware
+
+	for file in $(ls arch); do
+		case $file in
+			x86|Kconfig) continue ;;
+			*) rm -fr arch/$file ;;
+		esac
+	done
+
+	# strip down sources
+	# don't package the kernel in the sources directory
+	find . -name "*Image" -exec rm "{}" \;
+	find . -name "*.cmd" -exec rm -f "{}" \; 
+	rm -f .*.d
+
+	rm -fr firmware ipc .config.old .version .cocciconfig \
+		.get_maintainer.ignore .gitattributes .gitignore .mailmap \
+		COPYING CREDITS MAINTAINERS README Documentation
+	find . -name ".gitignore" -exec rm "{}" \;
+	for dir in block certs crypto drivers fs init kernel lib mm net samples security sound usr virt; do
+		find $dir -type f \( -name "*.c" -o -name "*.h" \) -exec rm "{}" \;
+	done
+	for i in $(ls tools); do
+		[ "$i" = "objtool" ] || rm -fr tools/$i
+	done
+	for i in $(ls tools/objtool); do
+		[ "$i" = "objtool" ] || rm -fr tools/objtool/$i
+	done
+
+	rm $PKG/lib/modules/$kernver/build \
+	   $PKG/lib/modules/$kernver/source
+	mv $SRC/linux-${version%.0} $PKG/lib/modules/$kernver/build
+	ln -sv build $PKG/lib/modules/$kernver/source
+
+	# remove now broken symlinks
+	find -L $PKG/lib/modules/$kernver/build -type l -exec rm -f "{}" \;
+}
