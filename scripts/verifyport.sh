@@ -109,7 +109,7 @@ runverify() {
 
 PORTSDIR="$(dirname $(dirname $(realpath $0)))"
 SCRIPTDIR="$(dirname $(realpath $0))"
-REPO="main multilib nonfree"
+REPO="core main multilib nonfree"
 
 if [ $1 ]; then
 	runverify $@
