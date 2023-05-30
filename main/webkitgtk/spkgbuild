@@ -3,8 +3,8 @@
 # depends	: libwebp mesa ruby sqlite which enchant libxslt openjpeg2 libwpe bubblewrap xdg-dbus-proxy wpebackend-fdo libxcomposite libnotify libxt unifdef
 
 name=webkitgtk
-version=2.40.1
-release=2
+version=2.40.2
+release=1
 source="https://webkitgtk.org/releases/$name-$version.tar.xz
 	0001-Fix-build-of-SourceBrush.cpp.patch"
 
@@ -14,7 +14,7 @@ build() {
 	PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
 
 	# Fix build with GCC 13
-	patch -d $name-$version -Np1 -i $SRC/0001-Fix-build-of-SourceBrush.cpp.patch
+#	patch -d $name-$version -Np1 -i $SRC/0001-Fix-build-of-SourceBrush.cpp.patch
 
 	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=Release \
