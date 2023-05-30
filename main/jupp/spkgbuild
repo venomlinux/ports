@@ -1,0 +1,16 @@
+# description	: Portable version of JOE’s Own Editor
+# homepage	: https://www.mirbsd.org/jupp.htm
+
+name=jupp
+version=3.1jupp41
+release=1
+source="$name-$version.tar.gz::http://www.mirbsd.org/MirOS/dist/jupp/joe-$version.tgz"
+
+build() {
+	cd $name
+	chmod +x configure
+	./configure --prefix=/usr \
+		sysconfdir=/etc
+	make
+	make DESTDIR=$PKG install
+}
