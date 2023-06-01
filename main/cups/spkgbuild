@@ -2,17 +2,14 @@
 # depends	: gnutls libusb linux-pam dbus xdg-utils
 
 name=cups
-version=2.4.2
-release=2
+version=2.4.3
+release=1
 source="https://github.com/OpenPrinting/cups/archive/v$version/$name-$version-source.tar.gz
 	run.cupsd
-	rc.cupsd
-	CVE-2023-32324.patch"
+	rc.cupsd"
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i $SRC/CVE-2023-32324.patch
 
 	sed -i 's:444:644:' Makedefs.in
 	sed -i '/MAN.EXT/s:.gz::' configure config-scripts/cups-manpages.m4
