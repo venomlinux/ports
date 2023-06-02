@@ -10,6 +10,7 @@ build() {
 	cd $name-$version
 
 	./configure --prefix=/usr \
+		    --libdir=/usr/lib \
 		    --disable-static \
 		    --disable-documentation
 	make
