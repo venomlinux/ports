@@ -4,12 +4,13 @@
 
 name=gitui
 version=0.22.1
-release=1
+release=2
 source="https://github.com/extrawurst/$name/archive/v$version/$name-v$version.tar.gz"
 
 _cargo_opts="--frozen --no-default-features --features regex-onig"
 
 build() {
+	export CARGO_HOME="$SOURCE_DIR/cargo"
 	cd $name-$version
 	cargo fetch --locked
 	cargo build $_cargo_opts --release
