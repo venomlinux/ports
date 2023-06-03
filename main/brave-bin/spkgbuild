@@ -1,6 +1,6 @@
 # description	: The best privacy online. Browse privately. Search privately. And ditch Big Tech.
 # homepage	: https://brave.com/
-# depends	: libxscrnsaver alsa-lib gtk3 nss font-bh-ttf
+# depends	: libxscrnsaver alsa-lib gtk3 nss font-bh-ttf cups
 
 name=brave-bin
 version=1.52.117
@@ -10,4 +10,8 @@ source="$name-$version.deb::https://github.com/brave/brave-browser/releases/down
 build() {
 	bsdtar -xf $name-$version.deb
 	bsdtar -xf data.tar.xz -C $PKG/
+	mkdir $PKG/usr/share/icons
+	mv $PKG/opt/brave.com/brave/product_logo_128.png \
+		$PKG/usr/share/icons/brave-browser.png
+
 }
