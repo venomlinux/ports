@@ -1,0 +1,16 @@
+# description	: NetBSD's mtree(8) utility
+# homepage	: https://github.com/archiecobbs/nmtree
+# depends	: libnbcompat
+
+name=nmtree
+version=1.0.0
+release=1
+source="https://github.com/archiecobbs/nmtree/archive/refs/tags/${version}.tar.gz"
+
+build() {
+	cd $name-$version
+	./autogen.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
