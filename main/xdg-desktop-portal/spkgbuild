@@ -1,0 +1,17 @@
+# description	: Desktop integration portal
+# homepage	: https://flatpak.github.io/xdg-desktop-portal/portal-docs.html
+# depends	: glib flatpak
+
+name=xdg-desktop-portal
+version=1.16.0
+release=1
+source="https://github.com/flatpak/xdg-desktop-portal/releases/download/$version/xdg-desktop-portal-$version.tar.xz"
+
+build() {
+	cd $name-$version
+        venom-meson \
+		-Ddocbook-docs=disabled	\
+		build
+        meson compile -C build
+        DESTDIR=$PKG meson install --no-rebuild -C build
+}
