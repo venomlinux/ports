@@ -1,0 +1,24 @@
+# description	: Application sandboxing and distribution framework
+# homepage	: https://flatpak.org/
+# depends	: gpgme libarchive libcap libxml libostree json-glib libseccomp curl python3-pyparsing xdg-dbus-proxy
+
+name=flatpak
+version=1.15.4
+release=1
+source="https://github.com/flatpak/flatpak/releases/download/${version}/flatpak-${version}.tar.xz"
+
+build() {
+	cd $name-$version
+	venom-meson \
+		--auto-features=disabled \
+		-Ddbus_config_dir=/usr/share/dbus-1/system.d \
+		-Dsystem_bubblewrap=bwrap \
+		-Dsystem_dbus_proxy=xdg-dbus-proxy \
+		-Dsystem_helper_user=_flatpak \
+		-Dselinux_module=disabled \
+		-Dgdm_env_file=true \
+		-Dtests=false \
+		build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}

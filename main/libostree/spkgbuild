@@ -1,0 +1,20 @@
+# description	: Operating system and container binary deployment and upgrades 
+# homepage	: https://ostree.readthedocs.io/en/latest/
+# depends	: curl openssl gpgme libsodium 
+
+name=libostree
+version=2023.2
+release=1
+source="https://github.com/ostreedev/ostree/releases/download/v${version}/libostree-${version}.tar.xz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		--with-builtin-grub2-mkconfig \
+ 		--with-ed25519-libsodium \
+ 		--with-openssl \
+ 		--with-curl \
+		--disable-man
+	make
+	make DESTDIR=$PKG install
+}
