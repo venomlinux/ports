@@ -1,0 +1,13 @@
+# description	: End-to-end encryption for things that matter.
+# homepage	: https://keybase.io/
+# depends	: lsoff gtk3 fuse libxscrnsaver
+
+name=keybase-bin
+version=6.0.2
+release=1
+source="https://prerelease.keybase.io/keybase_amd64.rpm"
+
+build() {
+	cd "$SRC"
+	mv * "$PKG"
+}

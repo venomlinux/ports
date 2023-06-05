@@ -1,0 +1,15 @@
+# description	: LiSt Open Files
+# homepage	: https://lsof.readthedocs.io/en/latest/
+# depends	: libtirpc
+
+name=lsof
+version=4.98.0
+release=1
+source="https://github.com/lsof-org/lsof/releases/download/$version/lsof-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
