@@ -2,10 +2,10 @@
 # depends	: elfutils mkinitramfs openssl yaml cpio bc
 
 name=linux-libre
-version=6.3.5
+version=6.3.6
 release=1
 source="${name}-${version}.tar.xz::https://linux-libre.fsfla.org/pub/linux-libre/releases/${version%.0}-gnu/${name}-${version%.0}-gnu.tar.xz
-	config"
+	x86-64-gnu"
 NO_STRIP=yes
 
 build() {
@@ -13,7 +13,7 @@ build() {
 	
 	make mrproper
 
-	cp $SRC/config ./.config
+	cp $SRC/x86-64-gnu ./.config
 	make olddefconfig
 
 	sed '/^CONFIG_LOCALVERSION=/d' -i .config
