@@ -1,5 +1,5 @@
 if [ -d "$HOME/bin" ] ; then
-	export PATH=$PATH:$HOME/bin
+	export PATH=$PATH:$HOME/.local/bin:/sbin:/usr/sbin:/bin:/usr/bin
 fi
 
 export LESS_TERMCAP_mb=$'\e[1;32m'
