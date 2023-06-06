@@ -1,4 +1,4 @@
-go-1.20.4-1
+go-1.20.5-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 lrwxrwxrwx root/root    usr/bin/go -> /usr/lib/go/bin/go
@@ -2309,6 +2309,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/testdata/script/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_cgo_consistent_results.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_cgo_error.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_concurrent_backend.txt
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_cwd_newline.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_darwin_cc_arch.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_dash_n_cgo.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/build_dash_o_dev_null.txt
@@ -2414,6 +2415,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/testdata/script/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/fmt_load_errors.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/fsys_walk.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/gccgo_link_c.txt
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/gccgo_link_ldflags.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/gccgo_mangle.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/gccgo_m.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/gcflags_patterns.txt
@@ -2784,6 +2786,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/testdata/script/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_sumdb_golang.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_sumdb_proxy.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_sumdb.txt
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_sum_issue56222.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_sum_lookup.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_sum_readonly.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_sum_replaced.txt
@@ -7330,6 +7333,7 @@ drwxr-xr-x root/root    usr/lib/go/src/net/
 -rw-r--r-- root/root    usr/lib/go/src/net/file_stub.go
 -rw-r--r-- root/root    usr/lib/go/src/net/file_test.go
 -rw-r--r-- root/root    usr/lib/go/src/net/file_unix.go
+-rw-r--r-- root/root    usr/lib/go/src/net/file_unix_test.go
 -rw-r--r-- root/root    usr/lib/go/src/net/file_windows.go
 -rw-r--r-- root/root    usr/lib/go/src/net/hook.go
 -rw-r--r-- root/root    usr/lib/go/src/net/hook_plan9.go
@@ -8235,10 +8239,8 @@ drwxr-xr-x root/root    usr/lib/go/src/runtime/debug/
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_debug_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_linux_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_mmap_test.go
--rw-r--r-- root/root    usr/lib/go/src/runtime/export_openbsd_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_pipe2_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_pipe_test.go
--rw-r--r-- root/root    usr/lib/go/src/runtime/export_solaris_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_unix2_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/export_unix_test.go
@@ -8453,8 +8455,6 @@ drwxr-xr-x root/root    usr/lib/go/src/runtime/msan/
 -rw-r--r-- root/root    usr/lib/go/src/runtime/mspanset.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/mstats.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/mwbbuf.go
--rw-r--r-- root/root    usr/lib/go/src/runtime/nbpipe_fcntl_libc_test.go
--rw-r--r-- root/root    usr/lib/go/src/runtime/nbpipe_fcntl_unix_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/nbpipe_pipe2.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/nbpipe_pipe.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/nbpipe_pipe_test.go
@@ -8708,6 +8708,12 @@ drwxr-xr-x root/root    usr/lib/go/src/runtime/race/testdata/
 -rw-r--r-- root/root    usr/lib/go/src/runtime/runtime_unix_test.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/rwmutex.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/rwmutex_test.go
+-rw-r--r-- root/root    usr/lib/go/src/runtime/security_aix.go
+-rw-r--r-- root/root    usr/lib/go/src/runtime/security_issetugid.go
+-rw-r--r-- root/root    usr/lib/go/src/runtime/security_linux.go
+-rw-r--r-- root/root    usr/lib/go/src/runtime/security_nonunix.go
+-rw-r--r-- root/root    usr/lib/go/src/runtime/security_test.go
+-rw-r--r-- root/root    usr/lib/go/src/runtime/security_unix.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/select.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/sema.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/semasleep_test.go
@@ -8945,6 +8951,8 @@ drwxr-xr-x root/root    usr/lib/go/src/runtime/testdata/testprognet/
 -rw-r--r-- root/root    usr/lib/go/src/runtime/testdata/testprog/traceback_ancestors.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/testdata/testprog/unsafe.go
 -rw-r--r-- root/root    usr/lib/go/src/runtime/testdata/testprog/vdso.go
+drwxr-xr-x root/root    usr/lib/go/src/runtime/testdata/testsuid/
+-rw-r--r-- root/root    usr/lib/go/src/runtime/testdata/testsuid/main.go
 drwxr-xr-x root/root    usr/lib/go/src/runtime/testdata/testwinlib/
 -rw-r--r-- root/root    usr/lib/go/src/runtime/testdata/testwinlib/main.c
 -rw-r--r-- root/root    usr/lib/go/src/runtime/testdata/testwinlib/main.go
