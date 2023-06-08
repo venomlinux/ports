@@ -4,14 +4,17 @@
 
 name=brave-bin
 version=1.52.122
-release=1
+release=2
 source="$name-$version.deb::https://github.com/brave/brave-browser/releases/download/v$version/brave-browser_${version}_amd64.deb"
 
 build() {
 	bsdtar -xf $name-$version.deb
 	bsdtar -xf data.tar.xz -C $PKG/
-	mkdir $PKG/usr/share/icons
-	mv $PKG/opt/brave.com/brave/product_logo_128.png \
-		$PKG/usr/share/icons/brave-browser.png
 
+	# copy icons
+	for size in 16 24 32 48 64 128 256; do
+	  mkdir -pv $PKG/usr/share/icons/hicolor/${size}x${size}/apps/
+	  mv $PKG/opt/${name%-*}.com/${name%-*}/product_logo_${size}.png \
+	     $PKG/usr/share/icons/hicolor/${size}x${size}/apps/brave-desktop.png
+	done
 }
