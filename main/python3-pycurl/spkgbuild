@@ -1,0 +1,15 @@
+# description	: A Python 3.x interface to libcurl
+# homepage	: http://pycurl.sourceforge.net/
+# depends	: curl python3-pytest
+
+name=python3-pycurl
+version=7.45.1
+release=1
+source="$name-$version.tar.gz::https://files.pythonhosted.org/packages/09/ca/0b6da1d0f391acb8991ac6fdf8823ed9cf4c19680d4f378ab1727f90bd5c/pycurl-$version.tar.gz"
+
+build() {
+	cd pycurl-$version
+	CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" \
+	python3 setup.py --with-openssl install --root=$PKG
+	rm -rf $PKG/usr/share/doc
+}
