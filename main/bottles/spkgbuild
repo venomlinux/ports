@@ -1,17 +1,19 @@
 # description	: Easily manage wine and proton prefix
 # homepage	: https://github.com/bottlesdevs/Bottles
-# depends	: cabextract dconf fvs gtk4 gtksourceview5 blueprint-compiler libadwaita python3-yaml 
-# depends	: xdpyinfo imagemagick patool python3-markdowin p7zip
+# depends	: blueprint-compiler cabextract dconf fvs gtk4 gtksourceview5 icoextract
+# depends	: imagemagick libadwaita p7zip patool python3-charset-normalizer 
+# depends	: python3-markdown python3-orjson python3-pathvalidate python3-pefile
+# depends	: python3-pycurl python3-yaml vkbasalt-cli xdpyinfo
 
 name=bottles
 version=51.6
-release=2
+release=3
 source="$name-$version.tar.gz::https://github.com/bottlesdevs/Bottles/archive/$version.tar.gz"
 
 build() {
 	venom-meson Bottles-$version build \
-        -Ddevel=true \
-        -Db_lto=false
+		-Ddevel=true \
+		-Db_lto=false
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 }
