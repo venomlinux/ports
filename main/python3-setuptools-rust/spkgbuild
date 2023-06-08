@@ -1,0 +1,17 @@
+# description	: Compile and distribute Python extensions written in rust as easily as if they were written in C
+# homepage	: https://github.com/PyO3/setuptools-rust
+# depends	: python3-semantic-version python3-setuptools-scm python3-toml python3-wheel rust
+
+name=python3-setuptools-rust
+version=1.6.0
+release=1
+source="https://github.com/PyO3/setuptools-rust/archive/v$version/python-setuptools-rust-$version.tar.gz"
+
+build() {
+	export SETUPTOOLS_SCM_PRETEND_VERSION=$version
+
+	cd setuptools-rust-$version
+
+	python3 -m build --wheel --skip-dependency-check --no-isolation
+	python3 -m installer --compile-bytecode 2 --destdir=$PKG dist/*.whl
+}

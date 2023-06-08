@@ -1,0 +1,14 @@
+# description	: Icon extractor for Windows PE files (.exe/.dll) with optional thumbnailer functionality
+# homepage	: https://github.com/jlu5/icoextract
+# depends	: python3-installer python3-wheel
+name=icoextract
+version=0.1.4
+release=1
+source="$name-$version.tar.gz::https://github.com/jlu5/$name/archive/refs/tags/$version.tar.gz"
+
+
+build() {
+	cd $name-$version
+	python3 setup.py build
+	python3 setup.py install --root="$PKG" --optimize=1
+}

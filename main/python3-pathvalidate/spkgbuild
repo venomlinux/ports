@@ -1,0 +1,15 @@
+# description	: Sanitize/validate strings in filenames/file-paths/etc
+# homepage	: https://github.com/thombashi/pathvalidate
+# depends	: python3-setuptools
+
+name=python3-pathvalidate
+version=3.0.0
+release=1
+source="$name-$version.tar.gz::https://github.com/thombashi/pathvalidate/archive/v$version.tar.gz"
+
+
+build() {
+	cd pathvalidate-$version
+	python3 setup.py build
+	python3 setup.py install --root="$PKG" --optimize=1 --skip-build
+}

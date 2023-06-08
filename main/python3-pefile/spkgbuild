@@ -1,0 +1,15 @@
+# description	: Python PE parsing module
+# homepage	: https://github.com/erocarrera/pefile
+# depends	: python3-installer python3-wheel
+
+name=python3-pefile
+version=2023.2.7
+release=1
+source="$name-$version.tar.gz::https://github.com/erocarrera/pefile/archive/v$version/python-setuptools-$version.tar.gz"
+
+build() {
+	cd pefile-$version
+	python3 -m build --wheel --no-isolation
+	python3 -m installer --destdir="$PKG" dist/*.whl
+}
+

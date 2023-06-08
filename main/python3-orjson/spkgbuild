@@ -1,0 +1,14 @@
+# description	: Fast correct Python JSON library supporting dataclasses and datetimes
+# homepage	: https://github.com/ijl/orjson
+# depends       : maturin
+
+name=python3-orjson
+version=3.8.14
+release=1
+source="https://github.com/ijl/orjson/archive/$version/orjson-$version.tar.gz"
+
+build() {
+	cd orjson-$version
+	maturin build --release --strip
+	python3 -m installer --destdir=$PKG target/wheels/*.whl
+}

@@ -1,0 +1,14 @@
+# description	: Description: A library implementing the 'SemVer' scheme
+# homepage	: https://github.com/rbarrois/python-semanticversion
+# depends	: python3-setuptools
+
+name=python3-semantic-version
+version=2.10.0
+release=1
+source="$name-$version.tar.gz::https://github.com/rbarrois/python-semanticversion/archive/$version/python-semantic-version-$version.tar.gz"
+
+build() {
+	cd python-semanticversion-$version
+	python3 setup.py build
+	python3 setup.py install --prefix=/usr --root=$PKG --optimize=1 --skip-build
+}

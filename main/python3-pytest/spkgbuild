@@ -1,0 +1,15 @@
+# description	: Simple powerful testing with Python
+# homepage	: https://pytest.org/
+# depends	: python3-build python3-installer python3-wheel
+
+name=python3-pytest
+version=7.3.1
+release=1
+source="$name-$version.tar.gz::https://files.pythonhosted.org/packages/source/p/pytest/pytest-$version.tar.gz"
+
+build() {
+	cd pytest-$version
+	CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" \
+	python3 setup.py  install --root=$PKG
+	rm -rf $PKG/usr/share/doc
+}
