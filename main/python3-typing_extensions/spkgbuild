@@ -1,0 +1,14 @@
+# description	: Backported and Experimental Type Hints for Python 3.5+
+# homepage	: https://github.com/python/typing/tree/master/typing_extensions
+# depends	: python3-build python3-flit-core python3-installer
+
+name=python3-typing_extensions
+version=4.6.3
+release=1
+source="$name-$version.tar.gz::https://pypi.org/packages/source/t/typing_extensions/typing_extensions-$version.tar.gz"
+
+build() {
+	cd typing_extensions-$version
+	python3 -m build --wheel --skip-dependency-check --no-isolation
+	python3 -m installer --compile-bytecode 0 --destdir=$PKG dist/*.whl
+}
