@@ -1,0 +1,15 @@
+# description	: Command-line utility for vkBasalt
+# homepage	: https://gitlab.com/TheEvilSkeleton/vkbasalt-cli
+# depends	: python3-setuptools
+
+name=vkbasalt-cli
+version=3.1.1
+release=1
+source="https://gitlab.com/TheEvilSkeleton/vkbasalt-cli/-/archive/v$version/$name-v$version.tar.bz2"
+
+
+build() {
+	cd $name-v$version
+	python3 setup.py build
+	python3 setup.py install --skip-build --optimize=1 --prefix=/usr --root=$PKG
+ }
