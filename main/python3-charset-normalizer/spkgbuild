@@ -1,0 +1,13 @@
+# description	: Encoding and language detection alternative to chardet 
+# depends	: python3-setuptools python3-pytest
+
+name=python3-charset-normalizer
+version=3.1.0
+release=1
+source="https://github.com/Ousret/charset_normalizer/archive/$version/$name-$version.tar.gz"
+
+build() {
+	cd charset_normalizer-$version
+	python3 setup.py build
+	python3 setup.py install --root=$PKG --optimize=1 --skip-build
+}
