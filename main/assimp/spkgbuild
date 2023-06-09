@@ -1,0 +1,24 @@
+# description		: Library to import various well-known 3D model formats in an uniform manner
+# homepage		: https://assimp.sourceforge.net/index.html
+# depends		: cmake
+
+name=assimp
+version=5.2.5
+release=1
+source="https://github.com/assimp/assimp/archive/v$version/$name-$version.tar.gz"
+
+build() {
+  cmake -S $name-$version -B build -G Ninja \
+    -D CMAKE_INSTALL_PREFIX=/usr \
+    -D CMAKE_INSTALL_LIBDIR=lib \
+    -D CMAKE_BUILD_TYPE=Release \
+    -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+    -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+    -D ASSIMP_WARNINGS_AS_ERRORS=OFF \
+    -D ASSIMP_BUILD_SAMPLES=OFF \
+    -Wno-dev
+  cmake --build build
+  DESTDIR=$PKG cmake --install build
+
+  sed -i "s|includedir=.*|includedir=/usr/include/assimp|" ${PKG}/usr/lib/pkgconfig/assimp.pc
+}
