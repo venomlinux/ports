@@ -3,12 +3,13 @@
 # depends	: curl python3-pytest
 
 name=python3-pycurl
-version=7.45.1
+version=7.45.2
+_ver=7_45_2
 release=1
-source="$name-$version.tar.gz::https://files.pythonhosted.org/packages/09/ca/0b6da1d0f391acb8991ac6fdf8823ed9cf4c19680d4f378ab1727f90bd5c/pycurl-$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/pycurl/pycurl/archive/REL_${_ver}/python-pycurl-$version.tar.gz"
 
 build() {
-	cd pycurl-$version
+	cd pycurl-REL_${_ver}
 	CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" \
 	python3 setup.py --with-openssl install --root=$PKG
 	rm -rf $PKG/usr/share/doc
