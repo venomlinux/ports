@@ -3,8 +3,9 @@
 # depends	: cmake ninja pipewire pulseaudio libjpeg-turbo libxcomposite
 
 name=tg_owt
-version=20230401
-_commit=d85b53d12e9f32e3fd556a247af16b1a52a4a565
+version=20230501
+_commit=dcb5069ff76bd293e86928804208737e6cee2ccc
+_libsrtp_commit="a566a9cfcd619e8327784aa7cff4a1276dc1e895"
 _libyuv_commit=00950840d1c9bcbb3eb6ebc5aac5793e71166c8b
 _libvpx_commit=03265cd42b3783532de72f2ded5436652e6f5ce3
 _abseil_commit=8c0b94e793a66495e0b1f34a5eb26bd7dc672db0
@@ -13,6 +14,7 @@ release=1
 noextract="libvpx-${_libvpx_commit}.tar.gz
 	libyuv-${_libyuv_commit}.tar.gz
 	abseil-${_abseil_commit}.tar.gz
+	libsrtp-${_libsrtp_commit}.tar.gz
 	crc32c-${_crc32c_commit}.tar.gz"
 
 source="
@@ -21,6 +23,8 @@ source="
 	libyuv-${_libyuv_commit}.tar.gz::https://chromium.googlesource.com/libyuv/libyuv/+archive/${_libyuv_commit}.tar.gz
 	crc32c-${_crc32c_commit}.tar.gz::https://github.com/google/crc32c/archive/${_crc32c_commit}.tar.gz
 	abseil-${_abseil_commit}.tar.gz::https://github.com/abseil/abseil-cpp/archive/${_abseil_commit}.tar.gz
+	libsrtp-${_libsrtp_commit}.tar.gz::https://github.com/cisco/libsrtp/archive/$_libsrtp_commit.tar.gz
+	gcc13.patch
 	"
 
 build() {
@@ -31,11 +35,13 @@ build() {
 	bsdtar xzf $SRC/libvpx-${_libvpx_commit}.tar.gz -C libvpx
 	bsdtar xzf $SRC/crc32c-${_crc32c_commit}.tar.gz --strip-components 1 -C src/third_party/crc32c/src 
 	bsdtar xzf $SRC/abseil-${_abseil_commit}.tar.gz --strip-components 1 -C src/third_party/abseil-cpp
+	bsdtar xzf $SRC/libsrtp-$_libsrtp_commit.tar.gz --strip-components 1 -C src/third_party/libsrtp/
 	
 	mv libyuv/* src/third_party/libyuv/
 	mv libvpx/* src/third_party/libvpx/
 
 	# path to openssl include is intentionally wrong, so that it will not mess up srtp include headers
+	patch -Np1 -i $SRC/gcc13.patch
 
 	cmake -B build -G Ninja . \
 		-DTG_OWT_PACKAGED_BUILD=True \
