@@ -1,14 +1,25 @@
 # description	: Official Telegram Desktop client
 # homepage	: https://desktop.telegram.org
-# depends	: minizip jemalloc openal range-v3 tg_owt qt6-imageformats qt6-svg qt6-wayland qt6-5compat rnnoise webkitgtk kcoreaddons glibmm2 protobuf
+# depends	: minizip jemalloc openal range-v3 tg_owt qt6-imageformats qt6-svg qt6-wayland qt6-5compat rnnoise webkitgtk kcoreaddons glibmm2 protobuf fmt
 
 name=telegram-desktop
-version=4.8.1
+version=4.8.3
 release=1
-source="https://github.com/telegramdesktop/tdesktop/releases/download/v$version/tdesktop-$version-full.tar.gz"
+_cppgir=ed2afc920bfdc663bd54239716403500815ac08a
+_expected_lite=95b9cb015fa17baa749c2b396b335906e1596a9e
+source="https://github.com/telegramdesktop/tdesktop/releases/download/v$version/tdesktop-$version-full.tar.gz
+	cppgir-$_cppgir.tar.gz::https://gitlab.com/mnauw/cppgir/-/archive/$_cppgir.tar.gz
+	expected-lite-$_expected_lite.tar.gz::https://github.com/martinmoene/expected-lite/archive/$_expected_lite.tar.gz"
 
 build() {
 	cd tdesktop-$version-full
+
+	rmdir cmake/external/glib/cppgir
+	ln -sfv $SRC/cppgir-$_cppgir cmake/external/glib/cppgir
+	rmdir cmake/external/glib/cppgir/expected-lite
+	ln -sfv $SRC/expected-lite-$_expected_lite cmake/external/glib/cppgir/expected-lite
+
+
 	cmake -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX="/usr" \
 		-DCMAKE_BUILD_TYPE=Release \
