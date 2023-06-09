@@ -3,13 +3,13 @@
 # depends	: libdbusmenu libgnomekbd samurai python3-gobject3
 
 name=xapp
-version=2.2.3
+version=2.6.1
 release=1
-source="https://github.com/linuxmint/xapp/archive/master.mint20/$name-$version.tar.gz"
+source="https://github.com/linuxmint/xapp/archive/master.lmde5/$name-$version.tar.gz"
 
 build() {
 
-	meson xapp-master.mint20 build 
+	meson xapp-master.lmde5 build 
 	samu -C build
 	DESTDIR=$PKG samu -C build install
 }
