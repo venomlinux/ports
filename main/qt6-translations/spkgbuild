@@ -3,7 +3,7 @@
 # depends	    : qt6-tools
 
 name=qt6-translations
-version=6.5.0
+version=6.5.1
 release=1
 source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qttranslations-everywhere-src-$version.tar.xz"
 
@@ -11,11 +11,11 @@ build() {
 
 	
 	cmake -S qttranslations-everywhere-src-$version -B build -G Ninja \
+		-D CMAKE_INSTALL_PREFIX=/usr \
 		-D QT_USE_CCACHE=ON \
-		-D INSTALL_PUBLICBINDIR=usr/bin \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
-		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS"
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" 
 	cmake --build build
-	DESTDIR=$PKG cmake --install build
+	DESTDIR="$PKG" cmake --install build
 }
