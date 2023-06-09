@@ -4,16 +4,13 @@
 # optional	    : dav1d fdk-aac gnutls graphite2 keyutils krb5 lame lcms2 libpcre2 libvdpau numactl pipewire x264 x265
 
 name=qt6-webengine
-version=6.5.0
-release=2
-source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtwebengine-everywhere-src-$version.tar.xz
-	qtwebengine-6.5.0-gcc-13-build.patch"
+version=6.5.1
+release=1
+source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtwebengine-everywhere-src-$version.tar.xz"
 
 build() {
 
 	export PYTHON=/usr/bin/python3 
-
-	patch -d qtwebengine-everywhere-src-$version  -Np1 -i $SRC/qtwebengine-6.5.0-gcc-13-build.patch
 
 	cmake -B build -S qtwebengine-everywhere-src-$version -G Ninja \
 		-DCMAKE_MESSAGE_LOG_LEVEL=STATUS \
