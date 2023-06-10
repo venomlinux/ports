@@ -4,7 +4,7 @@
 
 name=brave-bin
 version=1.52.122
-release=2
+release=3
 source="$name-$version.deb::https://github.com/brave/brave-browser/releases/download/v$version/brave-browser_${version}_amd64.deb"
 
 build() {
@@ -15,6 +15,6 @@ build() {
 	for size in 16 24 32 48 64 128 256; do
 	  mkdir -pv $PKG/usr/share/icons/hicolor/${size}x${size}/apps/
 	  mv $PKG/opt/${name%-*}.com/${name%-*}/product_logo_${size}.png \
-	     $PKG/usr/share/icons/hicolor/${size}x${size}/apps/brave-desktop.png
+	     $PKG/usr/share/icons/hicolor/${size}x${size}/apps/brave-browser.png
 	done
 }
