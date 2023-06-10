@@ -1,0 +1,14 @@
+# description	: Port of some non-standard OpenBSD tools to Linux
+# homepage	: https://github.com/leahneukirchen/outils
+
+name=outils
+version=0.12
+release=1
+source="$name-$version.tar.gz::https://github.com/leahneukirchen/outils/archive/refs/tags/v0.12.tar.gz"
+
+build() {
+	cd "$name-$version"
+	make
+	make DESTDIR=$PKG install
+	rm ${PKG}/usr/bin/cksum ${PKG}/usr/share/man/man1/cksum.1
+}
