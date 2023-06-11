@@ -8,16 +8,16 @@
 # depends	: libgcrypt-32 libxinerama-32 libxrandr-32 vkd3d-32
 
 name=wine-staging
-version=8.9.1
-release=2
-source="https://dl.winehq.org/wine/source/8.x/wine-${version%.*}.tar.xz 
-	https://github.com/wine-staging/wine-staging/archive/v$version/wine-staging-$version.tar.gz 
+version=8.10
+release=1
+source="https://dl.winehq.org/wine/source/${version%.*}.x/${name%-*}-$version.tar.xz
+	https://github.com/wine-staging/wine-staging/archive/v$version.tar.gz 
 	30-win32-aliases.conf
 	wine-binfmt.conf"
 build() {
 	# apply staging patches
-	cd ${name%-*}-${version%.*}
-	../wine-staging-${version}/staging/patchinstall.py DESTDIR=../wine-${version%.*} --all
+	cd ${name%-*}-${version}
+	../wine-staging-${version}/staging/patchinstall.py DESTDIR=../wine-${version} --all
 	cd .. 
 
 	install -d wine32 wine64
@@ -25,7 +25,7 @@ build() {
 	export CPPFLAGS="${CPPFLAGS} -D_FORTIFY_SOURCE=0"
 
 	cd wine64
-	../wine-${version%.*}/configure \
+	../wine-${version}/configure \
 		--prefix=/usr \
 		--libdir=/usr/lib \
                 --with-x \
@@ -45,7 +45,7 @@ build() {
 	LDFLAGS="${LDFLAGS} -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	../wine-${version%.*}/configure \
+	../wine-${version}/configure \
 		--prefix=/usr \
 		--libdir=/usr/lib32 \
                 --with-x \
