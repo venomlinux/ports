@@ -1,0 +1,15 @@
+# description	: portable NetBSD-compatibility library
+# homepage	: https://github.com/archiecobbs/libnbcompat
+# depends	: autoconf automake libtool
+name=libnbcompat
+version=1.0.1
+release=1
+source="$name-$version.tar.gz::https://github.com/archiecobbs/libnbcompat/archive/refs/tags/${version}.tar.gz"
+
+build() {
+	cd $name-$version
+	./autogen.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
