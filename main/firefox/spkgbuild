@@ -82,7 +82,7 @@ EOF
   unset MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE MOZBUILD_STATE_PATH
 
   # Vendor
-  local vendorjs="$PKG/usr/lib/$pkgname/browser/defaults/preferences/vendor.js"
+  local vendorjs="$PKG/usr/lib/$name/browser/defaults/preferences/vendor.js"
   install -Dvm644 /dev/stdin "$vendorjs" <<END
 // Use LANG environment variable to choose locale
 pref("intl.locale.requested", "");
@@ -95,17 +95,17 @@ pref("extensions.autoDisableScopes", 11);
 END
   
   # Distribution
-  local distini="$PKG/usr/lib/$pkgname/distribution/distribution.ini"
+  local distini="$PKG/usr/lib/$name/distribution/distribution.ini"
   install -Dvm644 /dev/stdin "$distini" <<END
 [Global]
-id=archlinux
+id=venomlinux
 version=1.0
 about=Mozilla Firefox for Venom Linux
 
 [Preferences]
-app.distributor=archlinux
-app.distributor.channel=$pkgname
-app.partner.archlinux=archlinux
+app.distributor=venomlinux
+app.distributor.channel=$name
+app.partner.venomlinux=venomlinux
 END
 
   # Add icons
