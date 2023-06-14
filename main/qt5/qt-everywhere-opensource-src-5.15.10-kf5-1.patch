@@ -1,6 +1,6 @@
 Submitted By:            Pierre Labastie <pierre_dot_labastie_at_neuf_dot_fr>
-Date:                    2023-04-09
-Initial Package Version: 5.15.9
+Date:                    2023-06-12
+Initial Package Version: 5.15.10
 Upstream Status:         Applied (according to KDE)
 Origin:                  KDE patch set
 Description:             Patch set maintained by the KDE folks
@@ -8,7 +8,7 @@ see https://dot.kde.org/2021/04/06/announcing-kdes-qt-5-patch-collection
 Patch generated using the procedure in
 https://wiki.linuxfromscratch.org/blfs/ticket/17476#comment:3
 
-Submodule qtbase 42e4ae04..d3b21bc8:
+Submodule qtbase 29400a68..e8d9e68d:
 diff --git a/qtbase/doc/global/html-footer.qdocconf b/qtbase/doc/global/html-footer.qdocconf
 index 673e500291..f799534c58 100644
 --- a/qtbase/doc/global/html-footer.qdocconf
@@ -57,18 +57,6 @@ index f75bc4093b..2bd59410d4 100644
  
  #if defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE >= 500)
  #define QT_SNPRINTF             ::snprintf
-diff --git a/qtbase/mkspecs/features/mac/sdk.mk b/qtbase/mkspecs/features/mac/sdk.mk
-index f30b5830b4..a32ceacb6c 100644
---- a/qtbase/mkspecs/features/mac/sdk.mk
-+++ b/qtbase/mkspecs/features/mac/sdk.mk
-@@ -1,6 +1,6 @@
- 
- ifeq ($(QT_MAC_SDK_NO_VERSION_CHECK),)
--    CHECK_SDK_COMMAND = /usr/bin/xcrun --sdk $(EXPORT_QMAKE_MAC_SDK) -show-sdk-version 2>&1
-+    CHECK_SDK_COMMAND = /usr/bin/xcrun --sdk $(EXPORT_QMAKE_MAC_SDK) -show-sdk-version 2>/dev/null
-     CURRENT_MAC_SDK_VERSION := $(shell DEVELOPER_DIR=$(EXPORT_QMAKE_XCODE_DEVELOPER_PATH) $(CHECK_SDK_COMMAND))
-     ifneq ($(CURRENT_MAC_SDK_VERSION),$(EXPORT_QMAKE_MAC_SDK_VERSION))
-         # We don't want to complain about out of date SDK unless the target needs to be remade.
 diff --git a/qtbase/mkspecs/linux-clang/qplatformdefs.h b/qtbase/mkspecs/linux-clang/qplatformdefs.h
 index a818d973f0..c1ab72fbc6 100644
 --- a/qtbase/mkspecs/linux-clang/qplatformdefs.h
@@ -192,134 +180,6 @@ index ffe0e9a5e2..b1f5408d11 100644
      /* ctid and newtls are inverted on CONFIG_CLONE_BACKWARDS architectures,
       * but since both values are 0, there's no harm. */
      return syscall(__NR_clone, cloneflags, child_stack, ptid, ctid, newtls);
-diff --git a/qtbase/src/android/jar/src/org/qtproject/qt5/android/QtNative.java b/qtbase/src/android/jar/src/org/qtproject/qt5/android/QtNative.java
-index b077014b81..c0d6c900ae 100644
---- a/qtbase/src/android/jar/src/org/qtproject/qt5/android/QtNative.java
-+++ b/qtbase/src/android/jar/src/org/qtproject/qt5/android/QtNative.java
-@@ -117,6 +117,7 @@ public class QtNative
-     public static QtThread m_qtThread = new QtThread();
-     private static HashMap<String, Uri> m_cachedUris = new HashMap<String, Uri>();
-     private static ArrayList<String> m_knownDirs = new ArrayList<String>();
-+    private static final String NoPermissionErrorMessage = "No permissions to open Uri";
- 
-     private static final Runnable runPendingCppRunnablesRunnable = new Runnable() {
-         @Override
-@@ -194,11 +195,10 @@ public class QtNative
-                     return iterUri;
-             }
- 
--            // Android 6 and earlier could still manage to open the file so we can return the
--            // parsed uri here
--            if (Build.VERSION.SDK_INT < 24)
--                return parsedUri;
--            return null;
-+            // if we only have transient permissions on uri all the above will fail,
-+            // but we will be able to read the file anyway, so continue with uri here anyway
-+            // and check for SecurityExceptions later
-+            return parsedUri;
-         } catch (SecurityException e) {
-             e.printStackTrace();
-             return null;
-@@ -245,7 +245,7 @@ public class QtNative
-         int error = -1;
- 
-         if (uri == null) {
--            Log.e(QtTAG, "openFdForContentUrl(): No permissions to open Uri");
-+            Log.e(QtTAG, "openFdForContentUrl(): " + NoPermissionErrorMessage);
-             return error;
-         }
- 
-@@ -255,12 +255,13 @@ public class QtNative
-             return fdDesc.detachFd();
-         } catch (FileNotFoundException e) {
-             e.printStackTrace();
--            return error;
-         } catch (IllegalArgumentException e) {
-             Log.e(QtTAG, "openFdForContentUrl(): Invalid Uri");
-             e.printStackTrace();
--            return error;
-+        } catch (SecurityException e) {
-+            Log.e(QtTAG, NoPermissionErrorMessage);
-         }
-+        return error;
-     }
- 
-     public static long getSize(Context context, String contentUrl)
-@@ -271,7 +272,7 @@ public class QtNative
-             uri = getUriWithValidPermission(context, contentUrl, "r");
- 
-         if (uri == null) {
--            Log.e(QtTAG, "getSize(): No permissions to open Uri");
-+            Log.e(QtTAG, NoPermissionErrorMessage);
-             return size;
-         } else if (!m_cachedUris.containsKey(contentUrl)) {
-             m_cachedUris.put(contentUrl, uri);
-@@ -289,12 +290,13 @@ public class QtNative
-         } catch (IllegalArgumentException e) {
-             Log.e(QtTAG, "getSize(): Invalid Uri");
-             e.printStackTrace();
--            return size;
-         }  catch (UnsupportedOperationException e) {
-             Log.e(QtTAG, "getSize(): Unsupported operation for given Uri");
-             e.printStackTrace();
--            return size;
-+        } catch (SecurityException e) {
-+            Log.e(QtTAG, NoPermissionErrorMessage);
-         }
-+        return size;
-     }
- 
-     public static boolean checkFileExists(Context context, String contentUrl)
-@@ -304,7 +306,7 @@ public class QtNative
-         if (uri == null)
-             uri = getUriWithValidPermission(context, contentUrl, "r");
-         if (uri == null) {
--            Log.e(QtTAG, "checkFileExists(): No permissions to open Uri");
-+            Log.e(QtTAG, NoPermissionErrorMessage);
-             return exists;
-         } else {
-             if (!m_cachedUris.containsKey(contentUrl))
-@@ -322,12 +324,13 @@ public class QtNative
-         } catch (IllegalArgumentException e) {
-             Log.e(QtTAG, "checkFileExists(): Invalid Uri");
-             e.printStackTrace();
--            return exists;
-         } catch (UnsupportedOperationException e) {
-             Log.e(QtTAG, "checkFileExists(): Unsupported operation for given Uri");
-             e.printStackTrace();
--            return false;
-+        } catch (SecurityException e) {
-+            Log.e(QtTAG, NoPermissionErrorMessage);
-         }
-+        return exists;
-     }
- 
-     public static boolean checkIfWritable(Context context, String contentUrl)
-@@ -345,7 +348,7 @@ public class QtNative
-             uri = getUriWithValidPermission(context, contentUrl, "r");
-         }
-         if (uri == null) {
--            Log.e(QtTAG, "isDir(): No permissions to open Uri");
-+            Log.e(QtTAG, NoPermissionErrorMessage);
-             return isDir;
-         } else {
-             if (!m_cachedUris.containsKey(contentUrl))
-@@ -375,12 +378,13 @@ public class QtNative
-         } catch (IllegalArgumentException e) {
-             Log.e(QtTAG, "checkIfDir(): Invalid Uri");
-             e.printStackTrace();
--            return false;
-         } catch (UnsupportedOperationException e) {
-             Log.e(QtTAG, "checkIfDir(): Unsupported operation for given Uri");
-             e.printStackTrace();
--            return false;
-+        } catch (SecurityException e) {
-+            Log.e(QtTAG, NoPermissionErrorMessage);
-         }
-+        return false;
-     }
-     public static String[] listContentsFromTreeUri(Context context, String contentUrl)
-     {
 diff --git a/qtbase/src/concurrent/qtconcurrentreducekernel.h b/qtbase/src/concurrent/qtconcurrentreducekernel.h
 index 8f9a938952..a98dedef2e 100644
 --- a/qtbase/src/concurrent/qtconcurrentreducekernel.h
@@ -507,60 +367,6 @@ index ad4150b317..bf19b1627b 100644
      QT_Q_ENUM(ChecksumType)
      QT_Q_ENUM(HighDpiScaleFactorRoundingPolicy)
      QT_Q_ENUM(TabFocusBehavior)
-diff --git a/qtbase/src/corelib/global/qrandom.cpp b/qtbase/src/corelib/global/qrandom.cpp
-index 10672c1f92..25f87c7e6a 100644
---- a/qtbase/src/corelib/global/qrandom.cpp
-+++ b/qtbase/src/corelib/global/qrandom.cpp
-@@ -383,7 +383,6 @@ struct QRandomGenerator::SystemAndGlobalGenerators
- 
-         constexpr SystemAndGlobalGenerators g = {};
-         Q_UNUSED(g);
--        Q_STATIC_ASSERT(std::is_literal_type<SystemAndGlobalGenerators>::value);
- #endif
-     }
- 
-diff --git a/qtbase/src/corelib/io/qbuffer.cpp b/qtbase/src/corelib/io/qbuffer.cpp
-index 595fcd2724..5c562623e2 100644
---- a/qtbase/src/corelib/io/qbuffer.cpp
-+++ b/qtbase/src/corelib/io/qbuffer.cpp
-@@ -41,6 +41,8 @@
- #include <QtCore/qmetaobject.h>
- #include "private/qiodevice_p.h"
- 
-+#include <limits>
-+
- QT_BEGIN_NAMESPACE
- 
- /** QBufferPrivate **/
-@@ -212,7 +214,7 @@ QBuffer::~QBuffer()
- }
- 
- /*!
--    Makes QBuffer uses the QByteArray pointed to by \a
-+    Makes QBuffer use the QByteArray pointed to by \a
-     byteArray as its internal buffer. The caller is responsible for
-     ensuring that \a byteArray remains valid until the QBuffer is
-     destroyed, or until setBuffer() is called to change the buffer.
-@@ -366,7 +368,9 @@ qint64 QBuffer::size() const
- bool QBuffer::seek(qint64 pos)
- {
-     Q_D(QBuffer);
--    if (pos > d->buf->size() && isWritable()) {
-+    const auto oldBufSize = d->buf->size();
-+    constexpr qint64 MaxSeekPos = (std::numeric_limits<decltype(oldBufSize)>::max)();
-+    if (pos <= MaxSeekPos && pos > oldBufSize && isWritable()) {
-         if (seek(d->buf->size())) {
-             const qint64 gapSize = pos - d->buf->size();
-             if (write(QByteArray(gapSize, 0)) != gapSize) {
-@@ -377,7 +381,7 @@ bool QBuffer::seek(qint64 pos)
-             return false;
-         }
-     } else if (pos > d->buf->size() || pos < 0) {
--        qWarning("QBuffer::seek: Invalid pos: %d", int(pos));
-+        qWarning("QBuffer::seek: Invalid pos: %lld", pos);
-         return false;
-     }
-     return QIODevice::seek(pos);
 diff --git a/qtbase/src/corelib/io/qfilesystemengine_win.cpp b/qtbase/src/corelib/io/qfilesystemengine_win.cpp
 index 81d3a71986..c86ed1f9b0 100644
 --- a/qtbase/src/corelib/io/qfilesystemengine_win.cpp
@@ -624,7 +430,7 @@ index 4610e9306c..65e921c15a 100644
                  ret = QT_LSEEK(fd, 0, SEEK_END);
              } while (ret == -1 && errno == EINTR);
 diff --git a/qtbase/src/corelib/itemmodels/qsortfilterproxymodel.cpp b/qtbase/src/corelib/itemmodels/qsortfilterproxymodel.cpp
-index dc6379d9fb..c5e287ee84 100644
+index 3d7fe43cd3..f2871a2da7 100644
 --- a/qtbase/src/corelib/itemmodels/qsortfilterproxymodel.cpp
 +++ b/qtbase/src/corelib/itemmodels/qsortfilterproxymodel.cpp
 @@ -939,8 +939,9 @@ void QSortFilterProxyModelPrivate::insert_source_items(
@@ -639,7 +445,7 @@ index dc6379d9fb..c5e287ee84 100644
  
          build_source_to_proxy_mapping(proxy_to_source, source_to_proxy);
  
-@@ -3123,8 +3124,9 @@ bool QSortFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
+@@ -3131,8 +3132,9 @@ bool QSortFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
  
      if (d->filter_data.isEmpty())
          return true;
@@ -650,7 +456,7 @@ index dc6379d9fb..c5e287ee84 100644
          for (int column = 0; column < column_count; ++column) {
              QModelIndex source_index = d->model->index(source_row, column, source_parent);
              QString key = d->model->data(source_index, d->filter_role).toString();
-@@ -3133,9 +3135,10 @@ bool QSortFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
+@@ -3141,9 +3143,10 @@ bool QSortFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex &
          }
          return false;
      }
@@ -677,7 +483,7 @@ index 2a2dcc72ca..d671f70bd3 100644
      if (extraData) {
          // application event filters are only called for objects in the GUI thread
 diff --git a/qtbase/src/corelib/kernel/qobject.cpp b/qtbase/src/corelib/kernel/qobject.cpp
-index 1eb79138d9..36cd780ee1 100644
+index d57bcc31cc..4fccf8dd56 100644
 --- a/qtbase/src/corelib/kernel/qobject.cpp
 +++ b/qtbase/src/corelib/kernel/qobject.cpp
 @@ -1010,7 +1010,7 @@ QObject::~QObject()
@@ -698,7 +504,7 @@ index 1eb79138d9..36cd780ee1 100644
      if (!thisThreadData->thread.loadAcquire() && currentData == targetData) {
          // one exception to the rule: we allow moving objects with no thread affinity to the current thread
          currentData = d->threadData;
-@@ -2620,7 +2620,7 @@ int QObject::receivers(const char *signal) const
+@@ -2622,7 +2622,7 @@ int QObject::receivers(const char *signal) const
          if (!d->isSignalConnected(signal_index))
              return receivers;
  
@@ -811,19 +617,30 @@ index 258dddf8cb..4642d0f2d0 100644
  }
  
  void QMimeBinaryProvider::matchGlobList(QMimeGlobMatchResult &result, CacheFile *cacheFile, int off, const QString &fileName)
-diff --git a/qtbase/src/corelib/serialization/qxmlstream.cpp b/qtbase/src/corelib/serialization/qxmlstream.cpp
-index b2f846544d..7cd457ba3a 100644
---- a/qtbase/src/corelib/serialization/qxmlstream.cpp
-+++ b/qtbase/src/corelib/serialization/qxmlstream.cpp
-@@ -980,7 +980,7 @@ inline uint QXmlStreamReaderPrivate::peekChar()
- bool QXmlStreamReaderPrivate::scanUntil(const char *str, short tokenToInject)
- {
-     int pos = textBuffer.size();
--    int oldLineNumber = lineNumber;
-+    const auto oldLineNumber = lineNumber;
+diff --git a/qtbase/src/corelib/serialization/qcborvalue.cpp b/qtbase/src/corelib/serialization/qcborvalue.cpp
+index 89a928d348..3a8c2cb9ec 100644
+--- a/qtbase/src/corelib/serialization/qcborvalue.cpp
++++ b/qtbase/src/corelib/serialization/qcborvalue.cpp
+@@ -2123,7 +2123,8 @@ QCborArray QCborValue::toArray(const QCborArray &defaultValue) const
+     Q_ASSERT(n == -1 || container == nullptr);
+     if (n < 0)
+         dd = container;
+-    return dd ? QCborArray(*dd) : defaultValue;
++    // return QCborArray(*dd); but that's UB if dd is nullptr
++    return dd ? QCborArray(*dd) : QCborArray();
+ }
  
-     uint c;
-     while ((c = getChar()) != StreamEOF) {
+ /*!
+@@ -2165,7 +2166,8 @@ QCborMap QCborValue::toMap(const QCborMap &defaultValue) const
+     Q_ASSERT(n == -1 || container == nullptr);
+     if (n < 0)
+         dd = container;
+-    return dd ? QCborMap(*dd) : defaultValue;
++    // return QCborMap(*dd); but that's UB if dd is nullptr
++    return dd ? QCborMap(*dd) : QCborMap();
+ }
+ 
+ /*!
 diff --git a/qtbase/src/corelib/text/qstringiterator_p.h b/qtbase/src/corelib/text/qstringiterator_p.h
 index 219589b6e4..1d0c66cc78 100644
 --- a/qtbase/src/corelib/text/qstringiterator_p.h
@@ -1092,27 +909,9 @@ index 73c9e00663..1bae573a03 100644
      Q_DISABLE_COPY(QMutex)
      friend class QMutexLocker;
 diff --git a/qtbase/src/corelib/thread/qreadwritelock.cpp b/qtbase/src/corelib/thread/qreadwritelock.cpp
-index 8c28507d5a..9dd8503116 100644
+index 63637ae05b..9dd8503116 100644
 --- a/qtbase/src/corelib/thread/qreadwritelock.cpp
 +++ b/qtbase/src/corelib/thread/qreadwritelock.cpp
-@@ -155,7 +155,7 @@ QReadWriteLock::QReadWriteLock(RecursionMode recursionMode)
- */
- QReadWriteLock::~QReadWriteLock()
- {
--    auto d = d_ptr.loadRelaxed();
-+    auto d = d_ptr.loadAcquire();
-     if (isUncontendedLocked(d)) {
-         qWarning("QReadWriteLock: destroying locked QReadWriteLock");
-         return;
-@@ -445,7 +445,7 @@ void QReadWriteLock::unlock()
- /*! \internal  Helper for QWaitCondition::wait */
- QReadWriteLock::StateForWaitCondition QReadWriteLock::stateForWaitCondition() const
- {
--    QReadWriteLockPrivate *d = d_ptr.loadRelaxed();
-+    QReadWriteLockPrivate *d = d_ptr.loadAcquire();
-     switch (quintptr(d) & StateMask) {
-     case StateLockedForRead: return LockedForRead;
-     case StateLockedForWrite: return LockedForWrite;
 @@ -453,6 +453,7 @@ QReadWriteLock::StateForWaitCondition QReadWriteLock::stateForWaitCondition() co
  
      if (!d)
@@ -1121,40 +920,6 @@ index 8c28507d5a..9dd8503116 100644
      if (d->writerCount > 1)
          return RecursivelyLocked;
      else if (d->writerCount == 1)
-diff --git a/qtbase/src/corelib/thread/qsemaphore.cpp b/qtbase/src/corelib/thread/qsemaphore.cpp
-index 1d01fc1b28..3ecdee3747 100644
---- a/qtbase/src/corelib/thread/qsemaphore.cpp
-+++ b/qtbase/src/corelib/thread/qsemaphore.cpp
-@@ -354,7 +354,12 @@ void QSemaphore::release(int n)
-         quintptr nn = unsigned(n);
-         if (futexHasWaiterCount)
-             nn |= quint64(nn) << 32;    // token count replicated in high word
--        quintptr prevValue = u.fetchAndAddRelease(nn);
-+        quintptr prevValue = u.loadRelaxed();
-+        quintptr newValue;
-+        do { // loop just to ensure the operations are done atomically
-+            newValue = prevValue + nn;
-+            newValue &= (futexNeedsWakeAllBit - 1);
-+        } while (!u.testAndSetRelease(prevValue, newValue, prevValue));
-         if (futexNeedsWake(prevValue)) {
- #ifdef FUTEX_OP
-             if (futexHasWaiterCount) {
-@@ -376,7 +381,6 @@ void QSemaphore::release(int n)
-                 quint32 oparg = 0;
-                 quint32 cmp = FUTEX_OP_CMP_NE;
-                 quint32 cmparg = 0;
--                u.fetchAndAndRelease(futexNeedsWakeAllBit - 1);
-                 futexWakeOp(*futexLow32(&u), n, INT_MAX, *futexHigh32(&u), FUTEX_OP(op, oparg, cmp, cmparg));
-                 return;
-             }
-@@ -388,7 +392,6 @@ void QSemaphore::release(int n)
-             //    its acquisition anyway, so it has to wait;
-             // 2) it did not see the new counter value, in which case its
-             //    futexWait will fail.
--            u.fetchAndAndRelease(futexNeedsWakeAllBit - 1);
-             if (futexHasWaiterCount) {
-                 futexWakeAll(*futexLow32(&u));
-                 futexWakeAll(*futexHigh32(&u));
 diff --git a/qtbase/src/corelib/thread/qthread_unix.cpp b/qtbase/src/corelib/thread/qthread_unix.cpp
 index f6499b38d0..a27782d37c 100644
 --- a/qtbase/src/corelib/thread/qthread_unix.cpp
@@ -1420,78 +1185,6 @@ index 5b66ce971b..28a3b0ffea 100644
  
      // introspect the target object
      QDBusMessage msg = QDBusMessage::createMethodCall(service, path,
-diff --git a/qtbase/src/dbus/qdbusmetaobject.cpp b/qtbase/src/dbus/qdbusmetaobject.cpp
-index 5265568f42..7e9f0f1acc 100644
---- a/qtbase/src/dbus/qdbusmetaobject.cpp
-+++ b/qtbase/src/dbus/qdbusmetaobject.cpp
-@@ -210,6 +210,9 @@ QDBusMetaObjectGenerator::findType(const QByteArray &signature,
-         } else if (signature == "a{ss}") {
-             result.name = "QMap<QString,QString>";
-             type = qMetaTypeId<QMap<QString, QString> >();
-+        } else if (signature == "aay") {
-+            result.name = "QByteArrayList";
-+            type = qMetaTypeId<QByteArrayList>();
-         } else {
-             result.name = "{D-Bus type \"" + signature + "\"}";
-             type = registerComplexDBusType(result.name);
-diff --git a/qtbase/src/gui/accessible/qaccessible.cpp b/qtbase/src/gui/accessible/qaccessible.cpp
-index d0d46942fb..32d0e6ca91 100644
---- a/qtbase/src/gui/accessible/qaccessible.cpp
-+++ b/qtbase/src/gui/accessible/qaccessible.cpp
-@@ -54,6 +54,7 @@
- #include <QtCore/qdebug.h>
- #include <QtCore/qloggingcategory.h>
- #include <QtCore/qmetaobject.h>
-+#include <QtCore/private/qmetaobject_p.h>
- #include <QtCore/qhash.h>
- #include <private/qfactoryloader_p.h>
- 
-@@ -680,6 +681,25 @@ QAccessibleInterface *QAccessible::queryAccessibleInterface(QObject *object)
-     // Create a QAccessibleInterface for the object class. Start by the most
-     // derived class and walk up the class hierarchy.
-     const QMetaObject *mo = object->metaObject();
-+    const auto *objectPriv = QObjectPrivate::get(object);
-+    /*
-+     We do not want to cache each and every QML metaobject (Button_QMLTYPE_124,
-+     Button_QMLTYPE_125, etc.). Those dynamic metaobjects shouldn't have an
-+     accessible interface in any case. Instead, we start the whole checking
-+     with the first non-dynamic meta-object. To avoid potential regressions
-+     in other areas of Qt that also use dynamic metaobjects, we only do this
-+     for objects that are QML-related (approximated by checking whether they
-+     have ddata set).
-+    */
-+    const bool qmlRelated = !objectPriv->isDeletingChildren &&
-+                            objectPriv->declarativeData;
-+    while (qmlRelated && mo) {
-+        auto mop = QMetaObjectPrivate::get(mo);
-+        if (!mop || !(mop->flags & DynamicMetaObject))
-+            break;
-+
-+        mo = mo->superClass();
-+    };
-     while (mo) {
-         const QString cn = QLatin1String(mo->className());
- 
-@@ -695,14 +715,15 @@ QAccessibleInterface *QAccessible::queryAccessibleInterface(QObject *object)
-         // Find a QAccessiblePlugin (factory) for the class name. If there's
-         // no entry in the cache try to create it using the plugin loader.
-         if (!qAccessiblePlugins()->contains(cn)) {
-+            QAccessiblePlugin *factory = nullptr; // 0 means "no plugin found". This is cached as well.
-             const int index = loader()->indexOf(cn);
--            if (index != -1) {
--                QAccessiblePlugin *factory = qobject_cast<QAccessiblePlugin *>(loader()->instance(index));
--                qAccessiblePlugins()->insert(cn, factory);
--            }
-+            if (index != -1)
-+                factory = qobject_cast<QAccessiblePlugin *>(loader()->instance(index));
-+            qAccessiblePlugins()->insert(cn, factory);
-         }
- 
-         // At this point the cache should contain a valid factory pointer or 0:
-+        Q_ASSERT(qAccessiblePlugins()->contains(cn));
-         QAccessiblePlugin *factory = qAccessiblePlugins()->value(cn);
-         if (factory) {
-             QAccessibleInterface *result = factory->create(cn, object);
 diff --git a/qtbase/src/gui/configure.json b/qtbase/src/gui/configure.json
 index 1f08795c57..12c95742d2 100644
 --- a/qtbase/src/gui/configure.json
@@ -1641,7 +1334,7 @@ index 96f1e8cb1d..0e73bbbdb0 100644
              }
          }
 diff --git a/qtbase/src/gui/image/qimage.cpp b/qtbase/src/gui/image/qimage.cpp
-index 7152ac1607..0df772564c 100644
+index 53bb3beb10..04e1a00429 100644
 --- a/qtbase/src/gui/image/qimage.cpp
 +++ b/qtbase/src/gui/image/qimage.cpp
 @@ -4694,6 +4694,8 @@ QImage QImage::smoothScaled(int w, int h) const {
@@ -1746,7 +1439,7 @@ index 33f5e491c7..a679f25757 100644
  
  /*!
 diff --git a/qtbase/src/gui/kernel/qhighdpiscaling.cpp b/qtbase/src/gui/kernel/qhighdpiscaling.cpp
-index 9bbf2773a9..3ac4a4d8b6 100644
+index 85ff58c14c..a433e94c22 100644
 --- a/qtbase/src/gui/kernel/qhighdpiscaling.cpp
 +++ b/qtbase/src/gui/kernel/qhighdpiscaling.cpp
 @@ -580,9 +580,8 @@ void QHighDpiScaling::setScreenFactor(QScreen *screen, qreal factor)
@@ -1761,7 +1454,7 @@ index 9bbf2773a9..3ac4a4d8b6 100644
  
  QPoint QHighDpiScaling::mapPositionToNative(const QPoint &pos, const QPlatformScreen *platformScreen)
 diff --git a/qtbase/src/gui/kernel/qkeysequence.cpp b/qtbase/src/gui/kernel/qkeysequence.cpp
-index a75b8ef920..4f2d294739 100644
+index 23be5e1ac0..268e0e3ab1 100644
 --- a/qtbase/src/gui/kernel/qkeysequence.cpp
 +++ b/qtbase/src/gui/kernel/qkeysequence.cpp
 @@ -701,6 +701,10 @@ static const struct {
@@ -1901,7 +1594,7 @@ index 3185fc4541..7e6c9d5740 100644
  
      enum DialogType {
 diff --git a/qtbase/src/gui/kernel/qscreen.cpp b/qtbase/src/gui/kernel/qscreen.cpp
-index 8e0eb35116..5d172a58dd 100644
+index 990272b0c2..d371dd60ab 100644
 --- a/qtbase/src/gui/kernel/qscreen.cpp
 +++ b/qtbase/src/gui/kernel/qscreen.cpp
 @@ -77,6 +77,12 @@ QScreen::QScreen(QPlatformScreen *screen)
@@ -1930,7 +1623,7 @@ index 7da542c25e..e50fc3190b 100644
      void updatePrimaryOrientation();
      void updateGeometriesWithSignals();
 diff --git a/qtbase/src/gui/kernel/qshapedpixmapdndwindow.cpp b/qtbase/src/gui/kernel/qshapedpixmapdndwindow.cpp
-index 1a85a5e853..0e3d8f9580 100644
+index bb0d8e4ee7..b98fcc61e7 100644
 --- a/qtbase/src/gui/kernel/qshapedpixmapdndwindow.cpp
 +++ b/qtbase/src/gui/kernel/qshapedpixmapdndwindow.cpp
 @@ -56,7 +56,7 @@ QShapedPixmapWindow::QShapedPixmapWindow(QScreen *screen)
@@ -1992,6 +1685,33 @@ index a61793508a..5ba2d277b7 100644
  
      QRgba64 blend = rgbBlend(dlinear, slinear, coverage);
  
+diff --git a/qtbase/src/gui/painting/qfixed_p.h b/qtbase/src/gui/painting/qfixed_p.h
+index 846592881c..57d750a4b3 100644
+--- a/qtbase/src/gui/painting/qfixed_p.h
++++ b/qtbase/src/gui/painting/qfixed_p.h
+@@ -54,6 +54,7 @@
+ #include <QtGui/private/qtguiglobal_p.h>
+ #include "QtCore/qdebug.h"
+ #include "QtCore/qpoint.h"
++#include <QtCore/private/qnumeric_p.h>
+ #include "QtCore/qsize.h"
+ 
+ QT_BEGIN_NAMESPACE
+@@ -182,6 +183,14 @@ Q_DECL_CONSTEXPR inline bool operator<(int i, const QFixed &f) { return i * 64 <
+ Q_DECL_CONSTEXPR inline bool operator>(const QFixed &f, int i) { return f.value() > i * 64; }
+ Q_DECL_CONSTEXPR inline bool operator>(int i, const QFixed &f) { return i * 64 > f.value(); }
+ 
++inline bool qAddOverflow(QFixed v1, QFixed v2, QFixed *r)
++{
++    int val;
++    bool result = add_overflow(v1.value(), v2.value(), &val);
++    r->setValue(val);
++    return result;
++}
++
+ #ifndef QT_NO_DEBUG_STREAM
+ inline QDebug &operator<<(QDebug &dbg, const QFixed &f)
+ { return dbg << f.toReal(); }
 diff --git a/qtbase/src/gui/painting/qpainterpath.cpp b/qtbase/src/gui/painting/qpainterpath.cpp
 index f9544a3241..d80fafeaf1 100644
 --- a/qtbase/src/gui/painting/qpainterpath.cpp
@@ -2086,7 +1806,7 @@ index ec2b0b6b4c..3da33a8a2b 100644
      }
  
 diff --git a/qtbase/src/gui/text/qfontdatabase.cpp b/qtbase/src/gui/text/qfontdatabase.cpp
-index a657a8c516..4fc0100958 100644
+index 2011f935a9..7aa6228948 100644
 --- a/qtbase/src/gui/text/qfontdatabase.cpp
 +++ b/qtbase/src/gui/text/qfontdatabase.cpp
 @@ -983,7 +983,7 @@ QFontEngine *loadSingleEngine(int script,
@@ -2110,6 +1830,60 @@ index 6336fadf74..a6c66e5d2d 100644
  ** Contact: https://www.qt.io/licensing/
  **
  ** This file is part of the QtGui module of the Qt Toolkit.
+diff --git a/qtbase/src/gui/text/qtextlayout.cpp b/qtbase/src/gui/text/qtextlayout.cpp
+index d4f0a5efdc..f6c69ff4a2 100644
+--- a/qtbase/src/gui/text/qtextlayout.cpp
++++ b/qtbase/src/gui/text/qtextlayout.cpp
+@@ -1336,13 +1336,13 @@ void QTextLayout::drawCursor(QPainter *p, const QPointF &pos, int cursorPosition
+     bool rightToLeft = d->isRightToLeft();
+     if (itm >= 0) {
+         const QScriptItem &si = d->layoutData->items.at(itm);
+-        if (si.ascent >= 0)
++        if (si.ascent > 0)
+             base = si.ascent;
+-        if (si.descent >= 0)
++        if (si.descent > 0)
+             descent = si.descent;
+         rightToLeft = si.analysis.bidiLevel % 2;
+     }
+-    qreal y = position.y() + (sl.y + sl.base() + sl.descent - base - descent).toReal();
++    qreal y = position.y() + (sl.y + sl.base() - base).toReal();
+     bool toggleAntialiasing = !(p->renderHints() & QPainter::Antialiasing)
+                               && (p->transform().type() > QTransform::TxTranslate);
+     if (toggleAntialiasing)
+@@ -2150,11 +2150,14 @@ found:
+         eng->maxWidth = qMax(eng->maxWidth, line.textWidth);
+     } else {
+         eng->minWidth = qMax(eng->minWidth, lbh.minw);
+-        eng->maxWidth += line.textWidth;
++        if (qAddOverflow(eng->maxWidth, line.textWidth, &eng->maxWidth))
++            eng->maxWidth = QFIXED_MAX;
+     }
+ 
+-    if (line.textWidth > 0 && item < eng->layoutData->items.size())
+-        eng->maxWidth += lbh.spaceData.textWidth;
++    if (line.textWidth > 0 && item < eng->layoutData->items.size()) {
++        if (qAddOverflow(eng->maxWidth, lbh.spaceData.textWidth, &eng->maxWidth))
++            eng->maxWidth = QFIXED_MAX;
++    }
+ 
+     line.textWidth += trailingSpace;
+     if (lbh.spaceData.length) {
+diff --git a/qtbase/src/network/access/qhsts.cpp b/qtbase/src/network/access/qhsts.cpp
+index 0cef0ad3dc..be7ef7ff58 100644
+--- a/qtbase/src/network/access/qhsts.cpp
++++ b/qtbase/src/network/access/qhsts.cpp
+@@ -364,8 +364,8 @@ quoted-pair    = "\" CHAR
+ bool QHstsHeaderParser::parse(const QList<QPair<QByteArray, QByteArray>> &headers)
+ {
+     for (const auto &h : headers) {
+-        // We use '==' since header name was already 'trimmed' for us:
+-        if (h.first == "Strict-Transport-Security") {
++        // We compare directly because header name was already 'trimmed' for us:
++        if (h.first.compare("Strict-Transport-Security", Qt::CaseInsensitive) == 0) {
+             header = h.second;
+             // RFC6797, 8.1:
+             //
 diff --git a/qtbase/src/network/access/qnetworkreply.cpp b/qtbase/src/network/access/qnetworkreply.cpp
 index 30e4e290ea..dadea58080 100644
 --- a/qtbase/src/network/access/qnetworkreply.cpp
@@ -2148,32 +1922,110 @@ index b6be93147a..6e69b4c4d3 100644
          return;
      }
  #endif
-diff --git a/qtbase/src/network/access/qnetworkreplyimpl.cpp b/qtbase/src/network/access/qnetworkreplyimpl.cpp
-index bcdf6ee2f1..3b6deb82bd 100644
---- a/qtbase/src/network/access/qnetworkreplyimpl.cpp
-+++ b/qtbase/src/network/access/qnetworkreplyimpl.cpp
-@@ -680,7 +680,7 @@ void QNetworkReplyImplPrivate::appendDownstreamData(QIODevice *data)
-     // read until EOF from data
-     if (Q_UNLIKELY(copyDevice)) {
-         qCritical("QNetworkReplyImpl: copy from QIODevice already in progress -- "
--                  "backend probly needs to be fixed");
-+                  "backend probably needs to be fixed");
+diff --git a/qtbase/src/network/access/qnetworkreplyfileimpl_p.h b/qtbase/src/network/access/qnetworkreplyfileimpl_p.h
+index 48d82abd3f..4bfbc3f7d1 100644
+--- a/qtbase/src/network/access/qnetworkreplyfileimpl_p.h
++++ b/qtbase/src/network/access/qnetworkreplyfileimpl_p.h
+@@ -37,8 +37,8 @@
+ **
+ ****************************************************************************/
+ 
+-#ifndef QNETWORKREPLYFILEIMPL_H
+-#define QNETWORKREPLYFILEIMPL_H
++#ifndef QNETWORKREPLYFILEIMPL_P_H
++#define QNETWORKREPLYFILEIMPL_P_H
+ 
+ //
+ //  W A R N I N G
+@@ -99,4 +99,4 @@ QT_END_NAMESPACE
+ 
+ Q_DECLARE_METATYPE(QNetworkRequest::KnownHeaders)
+ 
+-#endif // QNETWORKREPLYFILEIMPL_H
++#endif // QNETWORKREPLYFILEIMPL_P_H
+diff --git a/qtbase/src/network/configure.json b/qtbase/src/network/configure.json
+index 271ff164ac..ffba2d1eea 100644
+--- a/qtbase/src/network/configure.json
++++ b/qtbase/src/network/configure.json
+@@ -53,7 +53,7 @@
+             },
+             "headers": "proxy.h",
+             "sources": [
+-                "-lproxy"
++                { "type": "pkgConfig", "args": "libproxy-1.0" }
+             ]
+         },
+         "openssl_headers": {
+diff --git a/qtbase/src/network/kernel/qdnslookup_unix.cpp b/qtbase/src/network/kernel/qdnslookup_unix.cpp
+index 12b40fc35d..99e999d436 100644
+--- a/qtbase/src/network/kernel/qdnslookup_unix.cpp
++++ b/qtbase/src/network/kernel/qdnslookup_unix.cpp
+@@ -227,7 +227,6 @@ void QDnsLookupRunnable::query(const int requestType, const QByteArray &requestN
+     // responseLength in case of error, we still can extract the
+     // exact error code from the response.
+     HEADER *header = (HEADER*)response;
+-    const int answerCount = ntohs(header->ancount);
+     switch (header->rcode) {
+     case NOERROR:
+         break;
+@@ -260,18 +259,31 @@ void QDnsLookupRunnable::query(const int requestType, const QByteArray &requestN
          return;
      }
  
-diff --git a/qtbase/src/network/socket/qsocks5socketengine.cpp b/qtbase/src/network/socket/qsocks5socketengine.cpp
-index 3a046fd116..97fadca0b3 100644
---- a/qtbase/src/network/socket/qsocks5socketengine.cpp
-+++ b/qtbase/src/network/socket/qsocks5socketengine.cpp
-@@ -1296,7 +1296,7 @@ void QSocks5SocketEnginePrivate::_q_udpSocketReadNotification()
-         int pos = 0;
-         const char *buf = inBuf.constData();
-         if (inBuf.size() < 4) {
--            QSOCKS5_D_DEBUG << "bugus udp data, discarding";
-+            QSOCKS5_D_DEBUG << "bogus udp data, discarding";
-             return;
-         }
-         QSocks5RevivedDatagram datagram;
+-    // Skip the query host, type (2 bytes) and class (2 bytes).
+     char host[PACKETSZ], answer[PACKETSZ];
+     unsigned char *p = response + sizeof(HEADER);
+-    int status = local_dn_expand(response, response + responseLength, p, host, sizeof(host));
+-    if (status < 0) {
++    int status;
++
++    if (ntohs(header->qdcount) == 1) {
++        // Skip the query host, type (2 bytes) and class (2 bytes).
++        status = local_dn_expand(response, response + responseLength, p, host, sizeof(host));
++        if (status < 0) {
++            reply->error = QDnsLookup::InvalidReplyError;
++            reply->errorString = tr("Could not expand domain name");
++            return;
++        }
++        if ((p - response) + status + 4 >= responseLength)
++            header->qdcount = 0xffff;   // invalid reply below
++        else
++            p += status + 4;
++    }
++    if (ntohs(header->qdcount) > 1) {
+         reply->error = QDnsLookup::InvalidReplyError;
+-        reply->errorString = tr("Could not expand domain name");
++        reply->errorString = tr("Invalid reply received");
+         return;
+     }
+-    p += status + 4;
+ 
+     // Extract results.
++    const int answerCount = ntohs(header->ancount);
+     int answerIndex = 0;
+     while ((p < response + responseLength) && (answerIndex < answerCount)) {
+         status = local_dn_expand(response, response + responseLength, p, host, sizeof(host));
+@@ -283,6 +295,11 @@ void QDnsLookupRunnable::query(const int requestType, const QByteArray &requestN
+         const QString name = QUrl::fromAce(host);
+ 
+         p += status;
++
++        if ((p - response) + 10 > responseLength) {
++            // probably just a truncated reply, return what we have
++            return;
++        }
+         const quint16 type = (p[0] << 8) | p[1];
+         p += 2; // RR type
+         p += 2; // RR class
+@@ -290,6 +307,8 @@ void QDnsLookupRunnable::query(const int requestType, const QByteArray &requestN
+         p += 4;
+         const quint16 size = (p[0] << 8) | p[1];
+         p += 2;
++        if ((p - response) + size > responseLength)
++            return;             // truncated
+ 
+         if (type == QDnsLookup::A) {
+             if (size != 4) {
 diff --git a/qtbase/src/network/ssl/qsslcontext_openssl.cpp b/qtbase/src/network/ssl/qsslcontext_openssl.cpp
 index c9f202f573..c992da9d8e 100644
 --- a/qtbase/src/network/ssl/qsslcontext_openssl.cpp
@@ -2267,6 +2119,29 @@ index aaf8741130..b58935372c 100644
  static bool isSafeDH(DH *dh)
  {
      int status = 0;
+diff --git a/qtbase/src/network/ssl/qsslsocket.cpp b/qtbase/src/network/ssl/qsslsocket.cpp
+index 5bb6e7ee4a..2a0b3a4f1d 100644
+--- a/qtbase/src/network/ssl/qsslsocket.cpp
++++ b/qtbase/src/network/ssl/qsslsocket.cpp
+@@ -2221,6 +2221,10 @@ QSslSocketPrivate::QSslSocketPrivate()
+     , flushTriggered(false)
+ {
+     QSslConfigurationPrivate::deepCopyDefaultConfiguration(&configuration);
++    // If the global configuration doesn't allow root certificates to be loaded
++    // on demand then we have to disable it for this socket as well.
++    if (!configuration.allowRootCertOnDemandLoading)
++        allowRootCertOnDemandLoading = false;
+ }
+ 
+ /*!
+@@ -2470,6 +2474,7 @@ void QSslConfigurationPrivate::deepCopyDefaultConfiguration(QSslConfigurationPri
+     ptr->sessionProtocol = global->sessionProtocol;
+     ptr->ciphers = global->ciphers;
+     ptr->caCertificates = global->caCertificates;
++    ptr->allowRootCertOnDemandLoading = global->allowRootCertOnDemandLoading;
+     ptr->protocol = global->protocol;
+     ptr->peerVerifyMode = global->peerVerifyMode;
+     ptr->peerVerifyDepth = global->peerVerifyDepth;
 diff --git a/qtbase/src/network/ssl/qsslsocket_mac.cpp b/qtbase/src/network/ssl/qsslsocket_mac.cpp
 index 77e847e972..e38a5e75de 100644
 --- a/qtbase/src/network/ssl/qsslsocket_mac.cpp
@@ -2460,6 +2335,39 @@ index 95e8897a3b..27aeffa18a 100644
  QT_END_NAMESPACE
  
  #endif
+diff --git a/qtbase/src/network/ssl/qsslsocket_schannel.cpp b/qtbase/src/network/ssl/qsslsocket_schannel.cpp
+index c956ce3c2b..d1b23af29b 100644
+--- a/qtbase/src/network/ssl/qsslsocket_schannel.cpp
++++ b/qtbase/src/network/ssl/qsslsocket_schannel.cpp
+@@ -1880,6 +1880,28 @@ bool QSslSocketBackendPrivate::verifyCertContext(CERT_CONTEXT *certContext)
+     if (configuration.peerVerifyDepth > 0 && DWORD(configuration.peerVerifyDepth) < verifyDepth)
+         verifyDepth = DWORD(configuration.peerVerifyDepth);
+ 
++    const auto &caCertificates = q->sslConfiguration().caCertificates();
++
++    if (!rootCertOnDemandLoadingAllowed()
++            && !(chain->TrustStatus.dwErrorStatus & CERT_TRUST_IS_PARTIAL_CHAIN)
++            && (q->peerVerifyMode() == QSslSocket::VerifyPeer
++                    || (isClient && q->peerVerifyMode() == QSslSocket::AutoVerifyPeer))) {
++        // When verifying a peer Windows "helpfully" builds a chain that
++        // may include roots from the system store. But we don't want that if
++        // the user has set their own CA certificates.
++        // Since Windows claims this is not a partial chain the root is included
++        // and we have to check that it is one of our configured CAs.
++        CERT_CHAIN_ELEMENT *element = chain->rgpElement[chain->cElement - 1];
++        QSslCertificate certificate = getCertificateFromChainElement(element);
++        if (!caCertificates.contains(certificate)) {
++            auto error = QSslError(QSslError::CertificateUntrusted, certificate);
++            sslErrors += error;
++            emit q->peerVerifyError(error);
++            if (q->state() != QAbstractSocket::ConnectedState)
++                return false;
++        }
++    }
++
+     for (DWORD i = 0; i < verifyDepth; i++) {
+         CERT_CHAIN_ELEMENT *element = chain->rgpElement[i];
+         QSslCertificate certificate = getCertificateFromChainElement(element);
 diff --git a/qtbase/src/platformsupport/eglconvenience/qt_egl_p.h b/qtbase/src/platformsupport/eglconvenience/qt_egl_p.h
 index bf37d07fd8..dbd42fb799 100644
 --- a/qtbase/src/platformsupport/eglconvenience/qt_egl_p.h
@@ -3041,24 +2949,6 @@ index f484795fbb..97bdfabb85 100644
      QDBusConnection m_connection;
      QDBusServiceWatcher *m_dbusWatcher;
      bool m_statusNotifierHostRegistered;
-diff --git a/qtbase/src/platformsupport/themes/genericunix/dbustray/qdbustrayicon.cpp b/qtbase/src/platformsupport/themes/genericunix/dbustray/qdbustrayicon.cpp
-index bede70975a..76bfec5e5a 100644
---- a/qtbase/src/platformsupport/themes/genericunix/dbustray/qdbustrayicon.cpp
-+++ b/qtbase/src/platformsupport/themes/genericunix/dbustray/qdbustrayicon.cpp
-@@ -71,8 +71,12 @@ Q_LOGGING_CATEGORY(qLcTray, "qt.qpa.tray")
- static QString iconTempPath()
- {
-     QString tempPath = QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation);
--    if (!tempPath.isEmpty())
-+    if (!tempPath.isEmpty()) {
-+        QString flatpakId = qEnvironmentVariable("FLATPAK_ID");
-+        if (!flatpakId.isEmpty() && QFileInfo::exists(QLatin1String("/.flatpak-info")))
-+            tempPath += QLatin1String("/app/") + flatpakId;
-         return tempPath;
-+    }
- 
-     tempPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
- 
 diff --git a/qtbase/src/platformsupport/themes/genericunix/qgenericunixthemes.cpp b/qtbase/src/platformsupport/themes/genericunix/qgenericunixthemes.cpp
 index cb1b39db64..6e01af052c 100644
 --- a/qtbase/src/platformsupport/themes/genericunix/qgenericunixthemes.cpp
@@ -3109,7 +2999,7 @@ index 396a213aaa..31d5a71c41 100644
      {
          QList<QVariant> argumentList;
 diff --git a/qtbase/src/plugins/platforms/eglfs/api/qeglfscursor.cpp b/qtbase/src/plugins/platforms/eglfs/api/qeglfscursor.cpp
-index 98e05195ee..1e92f43dec 100644
+index b35935bb5b..a3d6df7d11 100644
 --- a/qtbase/src/plugins/platforms/eglfs/api/qeglfscursor.cpp
 +++ b/qtbase/src/plugins/platforms/eglfs/api/qeglfscursor.cpp
 @@ -343,8 +343,7 @@ void QEglFSCursor::paintOnScreen()
@@ -3182,32 +3072,6 @@ index 0ea90f6c2f..fe00fde07c 100644
      mutable QScopedPointer<QPlatformNativeInterface> m_nativeInterface;
  };
  
-diff --git a/qtbase/src/plugins/platforms/windows/openglblacklists/default.json b/qtbase/src/plugins/platforms/windows/openglblacklists/default.json
-index e37351f9e0..072acdd115 100644
---- a/qtbase/src/plugins/platforms/windows/openglblacklists/default.json
-+++ b/qtbase/src/plugins/platforms/windows/openglblacklists/default.json
-@@ -93,7 +93,7 @@
-         },
-         {
-            "id": 8,
--           "description": "Standard VGA: Insufficent support for OpenGL, D3D9 and D3D11",
-+           "description": "Standard VGA: Insufficient support for OpenGL, D3D9 and D3D11",
-            "vendor_id": "0x0000",
-            "device_id": ["0x0000"],
-            "os": {
-diff --git a/qtbase/src/plugins/platforms/windows/qwindowsdrag.cpp b/qtbase/src/plugins/platforms/windows/qwindowsdrag.cpp
-index ba049cf359..612e8cd90f 100644
---- a/qtbase/src/plugins/platforms/windows/qwindowsdrag.cpp
-+++ b/qtbase/src/plugins/platforms/windows/qwindowsdrag.cpp
-@@ -420,7 +420,7 @@ QWindowsOleDropSource::QueryContinueDrag(BOOL fEscapePressed, DWORD grfKeyState)
- }
- 
- /*!
--    \brief Give feedback: Change cursor accoding to action.
-+    \brief Give feedback: Change cursor according to action.
- */
- 
- QT_ENSURE_STACK_ALIGNED_FOR_SSE STDMETHODIMP
 diff --git a/qtbase/src/plugins/platforms/xcb/nativepainting/qtessellator.cpp b/qtbase/src/plugins/platforms/xcb/nativepainting/qtessellator.cpp
 index 1afa00cfc9..118af6ce73 100644
 --- a/qtbase/src/plugins/platforms/xcb/nativepainting/qtessellator.cpp
@@ -3247,7 +3111,7 @@ index 9cf93ec314..1ce6cca573 100644
  
          DTWM_IS_RUNNING,
 diff --git a/qtbase/src/plugins/platforms/xcb/qxcbconnection.cpp b/qtbase/src/plugins/platforms/xcb/qxcbconnection.cpp
-index 9e2a37a6a1..892e89c792 100644
+index 0eafb9b368..152ab2c52d 100644
 --- a/qtbase/src/plugins/platforms/xcb/qxcbconnection.cpp
 +++ b/qtbase/src/plugins/platforms/xcb/qxcbconnection.cpp
 @@ -488,12 +488,12 @@ void QXcbConnection::printXcbError(const char *message, xcb_generic_error_t *err
@@ -3278,15 +3142,6 @@ index 9e2a37a6a1..892e89c792 100644
          } else {
              HANDLE_PLATFORM_WINDOW_EVENT(xcb_property_notify_event_t, window, handlePropertyNotifyEvent);
          }
-@@ -750,7 +752,7 @@ void QXcbConnection::handleXcbEvent(xcb_generic_event_t *event)
-                 case XCB_XKB_NEW_KEYBOARD_NOTIFY: {
-                     xcb_xkb_new_keyboard_notify_event_t *ev = &xkb_event->new_keyboard_notify;
-                     if (ev->changed & XCB_XKB_NKN_DETAIL_KEYCODES)
--                        m_keyboard->updateKeymap(ev);
-+                        m_keyboard->updateKeymap();
-                     break;
-                 }
-                 default:
 @@ -798,8 +800,8 @@ xcb_timestamp_t QXcbConnection::getTimestamp()
  {
      // send a dummy event to myself to get the timestamp from X server.
@@ -3367,92 +3222,11 @@ index 76869ced60..02d2eebb56 100644
      if (!glIntegration) {
          qWarning("QXcbIntegration: Cannot create platform OpenGL context, neither GLX nor EGL are enabled");
          return nullptr;
-diff --git a/qtbase/src/plugins/platforms/xcb/qxcbkeyboard.cpp b/qtbase/src/plugins/platforms/xcb/qxcbkeyboard.cpp
-index efecd7e2d1..e8286381a2 100644
---- a/qtbase/src/plugins/platforms/xcb/qxcbkeyboard.cpp
-+++ b/qtbase/src/plugins/platforms/xcb/qxcbkeyboard.cpp
-@@ -365,17 +365,6 @@ void QXcbKeyboard::updateKeymap(xcb_mapping_notify_event_t *event)
-     updateKeymap();
- }
- 
--void QXcbKeyboard::updateKeymap(xcb_xkb_new_keyboard_notify_event_t *event)
--{
--    if (!event)
--        return;
--
--    if (event->deviceID != event->oldDeviceID)
--        m_config = false;
--
--    updateKeymap();
--}
--
- void QXcbKeyboard::updateKeymap()
- {
-     KeysymModifierMap keysymMods;
-@@ -383,6 +372,8 @@ void QXcbKeyboard::updateKeymap()
-         keysymMods = keysymsToModifiers();
-     updateModifiers(keysymMods);
- 
-+    m_config = true;
-+
-     if (!m_xkbContext) {
-         m_xkbContext.reset(xkb_context_new(XKB_CONTEXT_NO_DEFAULT_INCLUDES));
-         if (!m_xkbContext) {
-@@ -398,13 +389,8 @@ void QXcbKeyboard::updateKeymap()
-     if (connection()->hasXKB()) {
-         m_xkbKeymap.reset(xkb_x11_keymap_new_from_device(m_xkbContext.get(), xcb_connection(),
-                                                          core_device_id, XKB_KEYMAP_COMPILE_NO_FLAGS));
--        if (m_xkbKeymap) {
--            if (m_config)
--                m_xkbState.reset(xkb_state_new(m_xkbKeymap.get()));
--            else
--                m_xkbState.reset(xkb_x11_state_new_from_device(m_xkbKeymap.get(), xcb_connection(), core_device_id));
--
--        }
-+        if (m_xkbKeymap)
-+            m_xkbState.reset(xkb_x11_state_new_from_device(m_xkbKeymap.get(), xcb_connection(), core_device_id));
-     } else {
-         m_xkbKeymap.reset(keymapFromCore(keysymMods));
-         if (m_xkbKeymap)
-@@ -425,8 +411,6 @@ void QXcbKeyboard::updateKeymap()
-     updateXKBMods();
- 
-     QXkbCommon::verifyHasLatinLayout(m_xkbKeymap.get());
--
--    m_config = true;
- }
- 
- QList<int> QXcbKeyboard::possibleKeys(const QKeyEvent *event) const
-diff --git a/qtbase/src/plugins/platforms/xcb/qxcbkeyboard.h b/qtbase/src/plugins/platforms/xcb/qxcbkeyboard.h
-index b652c85fe3..0ee08aeff2 100644
---- a/qtbase/src/plugins/platforms/xcb/qxcbkeyboard.h
-+++ b/qtbase/src/plugins/platforms/xcb/qxcbkeyboard.h
-@@ -69,7 +69,6 @@ public:
- 
-     Qt::KeyboardModifiers translateModifiers(int s) const;
-     void updateKeymap(xcb_mapping_notify_event_t *event);
--    void updateKeymap(xcb_xkb_new_keyboard_notify_event_t *event);
-     void updateKeymap();
-     QList<int> possibleKeys(const QKeyEvent *event) const;
- 
-diff --git a/qtbase/src/plugins/platforms/xcb/qxcbscreen.cpp b/qtbase/src/plugins/platforms/xcb/qxcbscreen.cpp
-index 464d038671..9edba7257e 100644
---- a/qtbase/src/plugins/platforms/xcb/qxcbscreen.cpp
-+++ b/qtbase/src/plugins/platforms/xcb/qxcbscreen.cpp
-@@ -271,7 +271,7 @@ void QXcbVirtualDesktop::handleScreenChange(xcb_randr_screen_change_notify_event
-     _NET_WORKAREA means with multiple attached monitors. This gets worse when monitors have
-     different dimensions and/or screens are not virtually aligned. In Qt we want the available
-     geometry per monitor (QScreen), not desktop (represented by _NET_WORKAREA). WM specification
--    does not have an atom for this. Thus, QScreen is limted by the lack of support from the
-+    does not have an atom for this. Thus, QScreen is limited by the lack of support from the
-     underlying system.
- 
-     One option could be that Qt does WM's job of calculating this by subtracting geometries of
 diff --git a/qtbase/src/plugins/platforms/xcb/qxcbwindow.cpp b/qtbase/src/plugins/platforms/xcb/qxcbwindow.cpp
-index dfc9c7d7a3..0c9a642792 100644
+index bffad0fac5..c67ffa9dd7 100644
 --- a/qtbase/src/plugins/platforms/xcb/qxcbwindow.cpp
 +++ b/qtbase/src/plugins/platforms/xcb/qxcbwindow.cpp
-@@ -297,11 +297,6 @@ void QXcbWindow::create()
+@@ -299,11 +299,6 @@ void QXcbWindow::create()
          return;
      }
  
@@ -3464,7 +3238,7 @@ index dfc9c7d7a3..0c9a642792 100644
      const QSize minimumSize = windowMinimumSize();
      if (rect.width() > 0 || rect.height() > 0) {
          rect.setWidth(qBound(1, rect.width(), XCOORD_MAX));
-@@ -313,6 +308,11 @@ void QXcbWindow::create()
+@@ -315,6 +310,11 @@ void QXcbWindow::create()
          rect.setHeight(QHighDpi::toNativePixels(int(defaultWindowHeight), platformScreen->QPlatformScreen::screen()));
      }
  
@@ -3476,263 +3250,22 @@ index dfc9c7d7a3..0c9a642792 100644
      xcb_window_t xcb_parent_id = platformScreen->root();
      if (parent()) {
          xcb_parent_id = static_cast<QXcbWindow *>(parent())->xcb_window();
-@@ -564,11 +564,6 @@ void QXcbWindow::setGeometry(const QRect &rect)
- {
-     QPlatformWindow::setGeometry(rect);
- 
--    if (shouldDeferTask(Task::SetGeometry)) {
--        m_deferredGeometry = rect;
--        return;
--    }
--
-     propagateSizeHints();
- 
-     QXcbScreen *currentScreen = xcbScreen();
-@@ -693,9 +688,6 @@ void QXcbWindow::setVisible(bool visible)
- 
- void QXcbWindow::show()
- {
--    if (shouldDeferTask(Task::Map))
--        return;
--
-     if (window()->isTopLevel()) {
- 
-         // update WM_NORMAL_HINTS
-@@ -706,7 +698,7 @@ void QXcbWindow::show()
-         if (isTransient(window())) {
-             const QWindow *tp = window()->transientParent();
-             if (tp && tp->handle())
--                transientXcbParent = static_cast<const QXcbWindow *>(tp->handle())->winId();
-+                transientXcbParent = tp->handle()->winId();
-             // Default to client leader if there is no transient parent, else modal dialogs can
-             // be hidden by their parents.
-             if (!transientXcbParent)
-@@ -746,10 +738,6 @@ void QXcbWindow::show()
- 
- void QXcbWindow::hide()
- {
--    if (shouldDeferTask(Task::Unmap))
--        return;
--
--    m_wmStateValid = false;
-     xcb_unmap_window(xcb_connection(), m_window);
- 
-     // send synthetic UnmapNotify event according to icccm 4.1.4
-@@ -909,9 +897,6 @@ QXcbWindow::NetWmStates QXcbWindow::netWmStates()
- 
- void QXcbWindow::setWindowFlags(Qt::WindowFlags flags)
- {
--    if (shouldDeferTask(Task::SetWindowFlags))
--        return;
--
-     Qt::WindowType type = static_cast<Qt::WindowType>(int(flags & Qt::WindowType_Mask));
- 
-     if (type == Qt::ToolTip)
-@@ -941,8 +926,6 @@ void QXcbWindow::setWindowFlags(Qt::WindowFlags flags)
- 
-     setTransparentForMouseEvents(flags & Qt::WindowTransparentForInput);
-     updateDoesNotAcceptFocus(flags & Qt::WindowDoesNotAcceptFocus);
--
--    m_isWmManagedWindow = !(flags & Qt::X11BypassWindowManagerHint);
- }
- 
- void QXcbWindow::setMotifWmHints(Qt::WindowFlags flags)
-@@ -1142,9 +1125,6 @@ void QXcbWindow::setWindowState(Qt::WindowStates state)
-     if (state == m_windowState)
-         return;
- 
--    if (shouldDeferTask(Task::SetWindowState))
--        return;
--
-     // unset old state
-     if (m_windowState & Qt::WindowMinimized)
-         xcb_map_window(xcb_connection(), m_window);
-@@ -1350,6 +1330,13 @@ void QXcbWindow::setWindowIcon(const QIcon &icon)
-     }
+@@ -1345,9 +1345,10 @@ void QXcbWindow::setWindowIcon(const QIcon &icon)
  
      if (!icon_data.isEmpty()) {
-+        // Ignore icon exceeding maximum xcb request length
+         // Ignore icon exceeding maximum xcb request length
+-        if (size_t(icon_data.size()) > xcb_get_maximum_request_length(xcb_connection())) {
+-            qWarning("Ignoring window icon: Size %d exceeds maximum xcb request length %u.",
+-                     icon_data.size(), xcb_get_maximum_request_length(xcb_connection()));
 +        if (quint64(icon_data.size()) > quint64(xcb_get_maximum_request_length(xcb_connection()))) {
 +            qWarning() << "Ignoring window icon" << icon_data.size()
 +                       << "exceeds maximum xcb request length"
 +                       << xcb_get_maximum_request_length(xcb_connection());
-+            return;
-+        }
-         xcb_change_property(xcb_connection(),
-                             XCB_PROP_MODE_REPLACE,
-                             m_window,
-@@ -1894,10 +1881,6 @@ void QXcbWindow::handleUnmapNotifyEvent(const xcb_unmap_notify_event_t *event)
-     if (event->window == m_window) {
-         m_mapped = false;
-         QWindowSystemInterface::handleExposeEvent(window(), QRegion());
--        if (!m_isWmManagedWindow || parent()) {
--            m_wmStateValid = true;
--            handleDeferredTasks();
--        }
-     }
- }
- 
-@@ -2212,98 +2195,30 @@ void QXcbWindow::handleLeaveNotifyEvent(const xcb_leave_notify_event_t *event)
-     handleLeaveNotifyEvent(event->root_x, event->root_y, event->mode, event->detail, event->time);
- }
- 
--bool QXcbWindow::shouldDeferTask(Task task)
--{
--    if (m_wmStateValid)
--        return false;
--
--    m_deferredTasks.append(task);
--    return true;
--}
--
--void QXcbWindow::handleDeferredTasks()
--{
--    Q_ASSERT(m_wmStateValid == true);
--    if (m_deferredTasks.isEmpty())
--        return;
--
--    bool map = false;
--    bool unmap = false;
--
--    QVector<Task> tasks;
--    for (auto taskIt = m_deferredTasks.rbegin(); taskIt != m_deferredTasks.rend(); ++taskIt) {
--        if (!tasks.contains(*taskIt))
--            tasks.prepend(*taskIt);
--    }
--
--    for (Task task : tasks) {
--        switch (task) {
--        case Task::Map:
--            map = true;
--            unmap = false;
--            break;
--        case Task::Unmap:
--            unmap = true;
--            map = false;
--            break;
--        case Task::SetGeometry:
--            setGeometry(m_deferredGeometry);
--            break;
--        case Task::SetWindowFlags:
--            setWindowFlags(window()->flags());
--            break;
--        case Task::SetWindowState:
--            setWindowState(window()->windowState());
--            break;
--        }
--    }
--    m_deferredTasks.clear();
--
--    if (map) {
--        Q_ASSERT(unmap == false);
--        show();
--    }
--    if (unmap) {
--        Q_ASSERT(map == false);
--        hide();
--    }
--}
--
- void QXcbWindow::handlePropertyNotifyEvent(const xcb_property_notify_event_t *event)
- {
-     connection()->setTime(event->time);
- 
--    const bool wmStateChanged = event->atom == atom(QXcbAtom::WM_STATE);
--    const bool netWmStateChanged = event->atom == atom(QXcbAtom::_NET_WM_STATE);
--    if (netWmStateChanged || wmStateChanged) {
--        if (wmStateChanged && !m_wmStateValid && m_isWmManagedWindow) {
--            // ICCCM 4.1.4
--            // Clients that want to re-use a client window (e.g. by mapping it again)
--            // after withdrawing it must wait for the withdrawal to be complete before
--            // proceeding. The preferred method for doing this is for clients to wait for
--            // a window manager to update or remove the WM_STATE property.
--            m_wmStateValid = true;
--            handleDeferredTasks();
--        }
--        if (event->state == XCB_PROPERTY_DELETE)
-+    const bool propertyDeleted = event->state == XCB_PROPERTY_DELETE;
-+
-+    if (event->atom == atom(QXcbAtom::_NET_WM_STATE) || event->atom == atom(QXcbAtom::WM_STATE)) {
-+        if (propertyDeleted)
              return;
- 
--        if (wmStateChanged) {
-+        Qt::WindowStates newState = Qt::WindowNoState;
-+
-+        if (event->atom == atom(QXcbAtom::WM_STATE)) { // WM_STATE: Quick check for 'Minimize'.
-             auto reply = Q_XCB_REPLY(xcb_get_property, xcb_connection(),
-                                      0, m_window, atom(QXcbAtom::WM_STATE),
-                                      XCB_ATOM_ANY, 0, 1024);
-             if (reply && reply->format == 32 && reply->type == atom(QXcbAtom::WM_STATE)) {
--                auto data = static_cast<const quint32 *>(xcb_get_property_value(reply.get()));
--                if (reply->length != 0) {
--                    const bool changedToWithdrawn = data[0] == XCB_ICCCM_WM_STATE_WITHDRAWN;
--                    const bool changedToIconic = data[0] == XCB_ICCCM_WM_STATE_ICONIC;
--                    m_minimized = changedToIconic || (changedToWithdrawn && m_minimized);
--                }
-+                const quint32 *data = (const quint32 *)xcb_get_property_value(reply.get());
-+                if (reply->length != 0)
-+                    m_minimized = (data[0] == XCB_ICCCM_WM_STATE_ICONIC
-+                                   || (data[0] == XCB_ICCCM_WM_STATE_WITHDRAWN && m_minimized));
-             }
          }
- 
--        // _NET_WM_STATE handling
--        Qt::WindowStates newState = Qt::WindowNoState;
-         const NetWmStates states = netWmStates();
-         // _NET_WM_STATE_HIDDEN should be set by the Window Manager to indicate that a window would
-         // not be visible on the screen if its desktop/viewport were active and its coordinates were
-@@ -2325,6 +2240,7 @@ void QXcbWindow::handlePropertyNotifyEvent(const xcb_property_notify_event_t *ev
-             if ((m_windowState & Qt::WindowMinimized) && connection()->mouseGrabber() == this)
-                 connection()->setMouseGrabber(nullptr);
-         }
-+        return;
-     } else if (event->atom == atom(QXcbAtom::_NET_FRAME_EXTENTS)) {
-         m_dirtyFrameMargins = true;
-     }
-diff --git a/qtbase/src/plugins/platforms/xcb/qxcbwindow.h b/qtbase/src/plugins/platforms/xcb/qxcbwindow.h
-index 55af9279b1..6f5c1f5ed9 100644
---- a/qtbase/src/plugins/platforms/xcb/qxcbwindow.h
-+++ b/qtbase/src/plugins/platforms/xcb/qxcbwindow.h
-@@ -74,14 +74,6 @@ public:
- 
-     Q_DECLARE_FLAGS(NetWmStates, NetWmState)
- 
--    enum Task {
--        Map,
--        Unmap,
--        SetGeometry,
--        SetWindowFlags,
--        SetWindowState
--    };
--
-     QXcbWindow(QWindow *window);
-     ~QXcbWindow();
- 
-@@ -151,9 +143,6 @@ public:
- 
-     QXcbWindow *toWindow() override;
- 
--    bool shouldDeferTask(Task task);
--    void handleDeferredTasks();
--
-     void handleMouseEvent(xcb_timestamp_t time, const QPoint &local, const QPoint &global,
-                           Qt::KeyboardModifiers modifiers, QEvent::Type type, Qt::MouseEventSource source);
- 
-@@ -292,11 +281,6 @@ protected:
-     int m_swapInterval = -1;
- 
-     qreal m_sizeHintsScaleFactor = 1.0;
--
--    bool m_wmStateValid = true;
--    QVector<Task> m_deferredTasks;
--    bool m_isWmManagedWindow = true;
--    QRect m_deferredGeometry;
- };
- 
- class QXcbForeignWindow : public QXcbWindow
+         xcb_change_property(xcb_connection(),
 diff --git a/qtbase/src/plugins/platformthemes/gtk3/qgtk3menu.cpp b/qtbase/src/plugins/platformthemes/gtk3/qgtk3menu.cpp
-index d9d117faeb..640b49daa0 100644
+index d264fabf0c..f464037989 100644
 --- a/qtbase/src/plugins/platformthemes/gtk3/qgtk3menu.cpp
 +++ b/qtbase/src/plugins/platformthemes/gtk3/qgtk3menu.cpp
 @@ -85,6 +85,7 @@ QGtk3MenuItem::QGtk3MenuItem()
@@ -3744,7 +3277,7 @@ index d9d117faeb..640b49daa0 100644
        m_invalid(true),
        m_menu(nullptr),
 diff --git a/qtbase/src/plugins/platformthemes/xdgdesktopportal/qxdgdesktopportalfiledialog.cpp b/qtbase/src/plugins/platformthemes/xdgdesktopportal/qxdgdesktopportalfiledialog.cpp
-index 0048bbc1e6..396e7f6d1c 100644
+index 32b2e84fa0..b2301c8c15 100644
 --- a/qtbase/src/plugins/platformthemes/xdgdesktopportal/qxdgdesktopportalfiledialog.cpp
 +++ b/qtbase/src/plugins/platformthemes/xdgdesktopportal/qxdgdesktopportalfiledialog.cpp
 @@ -102,15 +102,12 @@ const QDBusArgument &operator >>(const QDBusArgument &arg, QXdgDesktopPortalFile
@@ -3846,15 +3379,7 @@ index 0048bbc1e6..396e7f6d1c 100644
          } else {
              QDBusConnection::sessionBus().connect(nullptr,
                                                    reply.value().path(),
-@@ -302,6 +315,7 @@ void QXdgDesktopPortalFileDialog::openPortal()
-                                                   this,
-                                                   SLOT(gotResponse(uint,QVariantMap)));
-         }
-+        watcher->deleteLater();
-     });
- }
- 
-@@ -326,7 +340,7 @@ QUrl QXdgDesktopPortalFileDialog::directory() const
+@@ -327,7 +340,7 @@ QUrl QXdgDesktopPortalFileDialog::directory() const
  {
      Q_D(const QXdgDesktopPortalFileDialog);
  
@@ -3863,7 +3388,7 @@ index 0048bbc1e6..396e7f6d1c 100644
          return d->nativeFileDialog->directory();
  
      return d->directory;
-@@ -348,7 +362,7 @@ QList<QUrl> QXdgDesktopPortalFileDialog::selectedFiles() const
+@@ -349,7 +362,7 @@ QList<QUrl> QXdgDesktopPortalFileDialog::selectedFiles() const
  {
      Q_D(const QXdgDesktopPortalFileDialog);
  
@@ -3872,7 +3397,7 @@ index 0048bbc1e6..396e7f6d1c 100644
          return d->nativeFileDialog->selectedFiles();
  
      QList<QUrl> files;
-@@ -403,16 +417,13 @@ void QXdgDesktopPortalFileDialog::exec()
+@@ -404,16 +417,13 @@ void QXdgDesktopPortalFileDialog::exec()
  {
      Q_D(QXdgDesktopPortalFileDialog);
  
@@ -3891,7 +3416,7 @@ index 0048bbc1e6..396e7f6d1c 100644
  }
  
  void QXdgDesktopPortalFileDialog::hide()
-@@ -429,13 +440,10 @@ bool QXdgDesktopPortalFileDialog::show(Qt::WindowFlags windowFlags, Qt::WindowMo
+@@ -430,13 +440,10 @@ bool QXdgDesktopPortalFileDialog::show(Qt::WindowFlags windowFlags, Qt::WindowMo
  
      initializeDialog();
  
@@ -3907,7 +3432,7 @@ index 0048bbc1e6..396e7f6d1c 100644
  
      return true;
  }
-@@ -465,4 +473,21 @@ void QXdgDesktopPortalFileDialog::gotResponse(uint response, const QVariantMap &
+@@ -466,6 +473,23 @@ void QXdgDesktopPortalFileDialog::gotResponse(uint response, const QVariantMap &
      }
  }
  
@@ -3929,6 +3454,8 @@ index 0048bbc1e6..396e7f6d1c 100644
 +}
 +
  QT_END_NAMESPACE
+ 
+ #include "moc_qxdgdesktopportalfiledialog_p.cpp"
 diff --git a/qtbase/src/plugins/platformthemes/xdgdesktopportal/qxdgdesktopportalfiledialog_p.h b/qtbase/src/plugins/platformthemes/xdgdesktopportal/qxdgdesktopportalfiledialog_p.h
 index 4f4de96ecf..65e22a5cf2 100644
 --- a/qtbase/src/plugins/platformthemes/xdgdesktopportal/qxdgdesktopportalfiledialog_p.h
@@ -3965,18 +3492,10 @@ index 4f4de96ecf..65e22a5cf2 100644
      QScopedPointer<QXdgDesktopPortalFileDialogPrivate> d_ptr;
  };
 diff --git a/qtbase/src/plugins/platformthemes/xdgdesktopportal/qxdgdesktopportaltheme.cpp b/qtbase/src/plugins/platformthemes/xdgdesktopportal/qxdgdesktopportaltheme.cpp
-index fb324afbd8..b809503122 100644
+index 2fc3167fd5..b809503122 100644
 --- a/qtbase/src/plugins/platformthemes/xdgdesktopportal/qxdgdesktopportaltheme.cpp
 +++ b/qtbase/src/plugins/platformthemes/xdgdesktopportal/qxdgdesktopportaltheme.cpp
-@@ -111,6 +111,7 @@ QXdgDesktopPortalTheme::QXdgDesktopPortalTheme()
-         if (reply.isValid()) {
-             d->fileChooserPortalVersion = reply.value().toUInt();
-         }
-+        watcher->deleteLater();
-     });
- }
- 
-@@ -152,11 +153,12 @@ QPlatformDialogHelper* QXdgDesktopPortalTheme::createPlatformDialogHelper(Dialog
+@@ -153,11 +153,12 @@ QPlatformDialogHelper* QXdgDesktopPortalTheme::createPlatformDialogHelper(Dialog
  {
      Q_D(const QXdgDesktopPortalTheme);
  
@@ -3992,97 +3511,11 @@ index fb324afbd8..b809503122 100644
  
          return new QXdgDesktopPortalFileDialog;
      }
-diff --git a/qtbase/src/plugins/sqldrivers/ibase/qsql_ibase.cpp b/qtbase/src/plugins/sqldrivers/ibase/qsql_ibase.cpp
-index 67e7154fa6..40876152e5 100644
---- a/qtbase/src/plugins/sqldrivers/ibase/qsql_ibase.cpp
-+++ b/qtbase/src/plugins/sqldrivers/ibase/qsql_ibase.cpp
-@@ -817,7 +817,7 @@ bool QIBaseResultPrivate::writeArray(int column, const QList<QVariant> &list)
-     ba.resize(int(bufLen));
- 
-     if (list.size() > arraySize) {
--        error = QLatin1String("Array size missmatch: size of %1 is %2, size of provided list is %3");
-+        error = QLatin1String("Array size mismatch: size of %1 is %2, size of provided list is %3");
-         error = error.arg(QLatin1String(sqlname)).arg(arraySize).arg(list.size());
-         q->setLastError(QSqlError(error, QLatin1String(""), QSqlError::StatementError));
-         return false;
 diff --git a/qtbase/src/plugins/sqldrivers/mysql/qsql_mysql.cpp b/qtbase/src/plugins/sqldrivers/mysql/qsql_mysql.cpp
-index 7ca055eea2..6bc9d46755 100644
+index 4427efb770..781dad8d0b 100644
 --- a/qtbase/src/plugins/sqldrivers/mysql/qsql_mysql.cpp
 +++ b/qtbase/src/plugins/sqldrivers/mysql/qsql_mysql.cpp
-@@ -223,7 +223,7 @@ public:
-     struct QMyField
-     {
-         char *outField = nullptr;
--        MYSQL_FIELD *myField = nullptr;
-+        const MYSQL_FIELD *myField = nullptr;
-         QMetaType::Type type = QMetaType::UnknownType;
-         my_bool nullIndicator = false;
-         ulong bufLength = 0ul;
-@@ -361,7 +361,7 @@ static bool qIsInteger(int t)
- void QMYSQLResultPrivate::bindBlobs()
- {
-     int i;
--    MYSQL_FIELD *fieldInfo;
-+    const MYSQL_FIELD *fieldInfo;
-     MYSQL_BIND *bind;
- 
-     for(i = 0; i < fields.count(); ++i) {
-@@ -379,7 +379,6 @@ void QMYSQLResultPrivate::bindBlobs()
- bool QMYSQLResultPrivate::bindInValues()
- {
-     MYSQL_BIND *bind;
--    char *field;
-     int i = 0;
- 
-     if (!meta)
-@@ -392,35 +391,34 @@ bool QMYSQLResultPrivate::bindInValues()
-     inBinds = new MYSQL_BIND[fields.size()];
-     memset(inBinds, 0, fields.size() * sizeof(MYSQL_BIND));
- 
--    MYSQL_FIELD *fieldInfo;
-+    const MYSQL_FIELD *fieldInfo;
- 
-     while((fieldInfo = mysql_fetch_field(meta))) {
-+        bind = &inBinds[i];
-+
-         QMyField &f = fields[i];
-         f.myField = fieldInfo;
--
-+        bind->buffer_length = f.bufLength = fieldInfo->length + 1;
-+        bind->buffer_type = fieldInfo->type;
-         f.type = qDecodeMYSQLType(fieldInfo->type, fieldInfo->flags);
-         if (qIsBlob(fieldInfo->type)) {
-             // the size of a blob-field is available as soon as we call
-             // mysql_stmt_store_result()
-             // after mysql_stmt_exec() in QMYSQLResult::exec()
--            fieldInfo->length = 0;
-+            bind->buffer_length = f.bufLength = 0;
-             hasBlobs = true;
-         } else if (qIsInteger(f.type)) {
--            fieldInfo->length = 8;
-+            bind->buffer_length = f.bufLength = 8;
-         } else {
--            fieldInfo->type = MYSQL_TYPE_STRING;
-+            bind->buffer_type = MYSQL_TYPE_STRING;
-         }
--        bind = &inBinds[i];
--        field = new char[fieldInfo->length + 1];
--        memset(field, 0, fieldInfo->length + 1);
- 
--        bind->buffer_type = fieldInfo->type;
--        bind->buffer = field;
--        bind->buffer_length = f.bufLength = fieldInfo->length + 1;
-         bind->is_null = &f.nullIndicator;
-         bind->length = &f.bufLength;
-         bind->is_unsigned = fieldInfo->flags & UNSIGNED_FLAG ? 1 : 0;
--        f.outField=field;
-+
-+        char *field = new char[bind->buffer_length + 1]{};
-+        bind->buffer = f.outField = field;
- 
-         ++i;
-     }
-@@ -1369,20 +1367,20 @@ bool QMYSQLDriver::open(const QString& db,
+@@ -1363,20 +1363,20 @@ bool QMYSQLDriver::open(const QString& db,
      }
  
  #if MYSQL_VERSION_ID >= 50007
@@ -4530,23 +3963,6 @@ index 5a579baa55..10b8e1d341 100644
  <file>images/zoom-in-24.png</file>
  <file>images/zoom-in-32.png</file>
  <file>images/zoom-out-24.png</file>
-diff --git a/qtbase/src/printsupport/dialogs/qprintdialog_unix.cpp b/qtbase/src/printsupport/dialogs/qprintdialog_unix.cpp
-index 236e9b4980..5a5ba1d0a8 100644
---- a/qtbase/src/printsupport/dialogs/qprintdialog_unix.cpp
-+++ b/qtbase/src/printsupport/dialogs/qprintdialog_unix.cpp
-@@ -1243,10 +1243,10 @@ void QUnixPrintWidgetPrivate::_q_printerChanged(int index)
-             QString filename = widget.filename->text();
-             widget.filename->setText(filename);
-             widget.lOutput->setEnabled(true);
--            if (optionsPane)
--                optionsPane->selectPrinter(QPrinter::PdfFormat);
-             printer->setOutputFormat(QPrinter::PdfFormat);
-             m_currentPrintDevice = QPrintDevice();
-+            if (optionsPane)
-+                optionsPane->selectPrinter(QPrinter::PdfFormat);
-             return;
-         }
-     }
 diff --git a/qtbase/src/printsupport/dialogs/qprintpreviewdialog.cpp b/qtbase/src/printsupport/dialogs/qprintpreviewdialog.cpp
 index 39575d5f57..23b7e89538 100644
 --- a/qtbase/src/printsupport/dialogs/qprintpreviewdialog.cpp
@@ -4593,30 +4009,8 @@ index 39575d5f57..23b7e89538 100644
      qt_setupActionIcon(pageSetupAction, QLatin1String("page-setup"));
      QObject::connect(printAction, SIGNAL(triggered(bool)), q, SLOT(_q_print()));
      QObject::connect(pageSetupAction, SIGNAL(triggered(bool)), q, SLOT(_q_pageSetup()));
-diff --git a/qtbase/src/sql/doc/src/sql-driver.qdoc b/qtbase/src/sql/doc/src/sql-driver.qdoc
-index 38de3f11f0..a3f145b64c 100644
---- a/qtbase/src/sql/doc/src/sql-driver.qdoc
-+++ b/qtbase/src/sql/doc/src/sql-driver.qdoc
-@@ -479,7 +479,7 @@
-     database connections, or if we execute query2 after the while loop.
- 
-     \note Some methods of QSqlDatabase like tables(), primaryIndex()
--    implicity execute SQL queries, so these also cannot be used while
-+    implicitly execute SQL queries, so these also cannot be used while
-     navigating the results of forward-only query.
- 
-     \note QPSQL will print the following warning if it detects a loss of
-@@ -758,7 +758,7 @@
- 
-     You should always use client libraries that have been compiled with
-     the same compiler as you are using for your project. If you cannot get
--    a source distibution to compile the client libraries yourself, you
-+    a source distribution to compile the client libraries yourself, you
-     must make sure that the pre-compiled library is compatible with
-     your compiler, otherwise you will get a lot of "undefined symbols"
-     errors. Some compilers have tools to convert libraries, e.g. Borland
 diff --git a/qtbase/src/testlib/qabstractitemmodeltester.cpp b/qtbase/src/testlib/qabstractitemmodeltester.cpp
-index 8efb9c53d4..ce062f66d7 100644
+index 1cd18b98bb..41219a7e23 100644
 --- a/qtbase/src/testlib/qabstractitemmodeltester.cpp
 +++ b/qtbase/src/testlib/qabstractitemmodeltester.cpp
 @@ -454,7 +454,7 @@ void QAbstractItemModelTesterPrivate::parent()
@@ -4723,7 +4117,7 @@ index e120817edc..8ea36b5427 100644
          break;
          }
 diff --git a/qtbase/src/widgets/itemviews/qabstractitemview.cpp b/qtbase/src/widgets/itemviews/qabstractitemview.cpp
-index b45a7bf704..9d6b251545 100644
+index deb49ca23d..93dc5ee80c 100644
 --- a/qtbase/src/widgets/itemviews/qabstractitemview.cpp
 +++ b/qtbase/src/widgets/itemviews/qabstractitemview.cpp
 @@ -2347,11 +2347,12 @@ void QAbstractItemView::keyPressEvent(QKeyEvent *event)
@@ -4745,10 +4139,10 @@ index b45a7bf704..9d6b251545 100644
      }
  #endif
 diff --git a/qtbase/src/widgets/itemviews/qlistview.cpp b/qtbase/src/widgets/itemviews/qlistview.cpp
-index 2b34476642..eebfaa030e 100644
+index 5a88f1b1ef..63f760269c 100644
 --- a/qtbase/src/widgets/itemviews/qlistview.cpp
 +++ b/qtbase/src/widgets/itemviews/qlistview.cpp
-@@ -3386,6 +3386,7 @@ void QIconModeViewBase::updateContentsSize()
+@@ -3388,6 +3388,7 @@ void QIconModeViewBase::updateContentsSize()
  */
  void QListView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
  {
@@ -4756,7 +4150,7 @@ index 2b34476642..eebfaa030e 100644
  #ifndef QT_NO_ACCESSIBILITY
      if (QAccessible::isActive()) {
          if (current.isValid()) {
-@@ -3396,7 +3397,6 @@ void QListView::currentChanged(const QModelIndex &current, const QModelIndex &pr
+@@ -3398,7 +3399,6 @@ void QListView::currentChanged(const QModelIndex &current, const QModelIndex &pr
          }
      }
  #endif
@@ -4765,7 +4159,7 @@ index 2b34476642..eebfaa030e 100644
  
  /*!
 diff --git a/qtbase/src/widgets/itemviews/qtableview.cpp b/qtbase/src/widgets/itemviews/qtableview.cpp
-index 934ac581b2..f79bb24249 100644
+index d120c41dc9..09d34005a7 100644
 --- a/qtbase/src/widgets/itemviews/qtableview.cpp
 +++ b/qtbase/src/widgets/itemviews/qtableview.cpp
 @@ -1013,6 +1013,7 @@ void QTableViewPrivate::drawCell(QPainter *painter, const QStyleOptionViewItem &
@@ -4819,55 +4213,6 @@ index 258a1ea0a0..737c1e8285 100644
  
  public:
      // note this is copied into qplatformmenu.h, which must stay in sync
-diff --git a/qtbase/src/widgets/kernel/qwidget.cpp b/qtbase/src/widgets/kernel/qwidget.cpp
-index 9eba1e001e..26f6d27e18 100644
---- a/qtbase/src/widgets/kernel/qwidget.cpp
-+++ b/qtbase/src/widgets/kernel/qwidget.cpp
-@@ -5296,7 +5296,7 @@ void QWidgetPrivate::drawWidget(QPaintDevice *pdev, const QRegion &rgn, const QP
-         QWidgetEffectSourcePrivate *sourced = static_cast<QWidgetEffectSourcePrivate *>
-                                                          (source->d_func());
-         if (!sourced->context) {
--            const QRegion effectRgn(rgn.boundingRect());
-+            const QRegion effectRgn((flags & UseEffectRegionBounds) ? rgn.boundingRect() : rgn);
-             QWidgetPaintContext context(pdev, effectRgn, offset, flags, sharedPainter, repaintManager);
-             sourced->context = &context;
-             if (!sharedPainter) {
-@@ -5328,6 +5328,7 @@ void QWidgetPrivate::drawWidget(QPaintDevice *pdev, const QRegion &rgn, const QP
-         }
-     }
- #endif // QT_CONFIG(graphicseffect)
-+    flags = flags & ~UseEffectRegionBounds;
- 
-     const bool alsoOnScreen = flags & DrawPaintOnScreen;
-     const bool recursive = flags & DrawRecursive;
-diff --git a/qtbase/src/widgets/kernel/qwidget_p.h b/qtbase/src/widgets/kernel/qwidget_p.h
-index eef6b8fa2c..c432f4b5d5 100644
---- a/qtbase/src/widgets/kernel/qwidget_p.h
-+++ b/qtbase/src/widgets/kernel/qwidget_p.h
-@@ -229,7 +229,8 @@ public:
-         DontSubtractOpaqueChildren = 0x10,
-         DontDrawOpaqueChildren = 0x20,
-         DontDrawNativeChildren = 0x40,
--        DontSetCompositionMode = 0x80
-+        DontSetCompositionMode = 0x80,
-+        UseEffectRegionBounds = 0x100
-     };
-     Q_DECLARE_FLAGS(DrawWidgetFlags, DrawWidgetFlag)
-     Q_FLAG(DrawWidgetFlags)
-diff --git a/qtbase/src/widgets/kernel/qwidgetrepaintmanager.cpp b/qtbase/src/widgets/kernel/qwidgetrepaintmanager.cpp
-index 02880b34da..0d44e1326d 100644
---- a/qtbase/src/widgets/kernel/qwidgetrepaintmanager.cpp
-+++ b/qtbase/src/widgets/kernel/qwidgetrepaintmanager.cpp
-@@ -1018,7 +1018,8 @@ void QWidgetRepaintManager::paintAndFlush()
- 
-     // Paint the rest with composition.
-     if (repaintAllWidgets || !dirtyCopy.isEmpty()) {
--        QWidgetPrivate::DrawWidgetFlags flags = QWidgetPrivate::DrawAsRoot | QWidgetPrivate::DrawRecursive;
-+        QWidgetPrivate::DrawWidgetFlags flags = QWidgetPrivate::DrawAsRoot | QWidgetPrivate::DrawRecursive
-+                | QWidgetPrivate::UseEffectRegionBounds;
-         tlw->d_func()->drawWidget(store->paintDevice(), dirtyCopy, QPoint(), flags, nullptr, this);
-     }
- 
 diff --git a/qtbase/src/widgets/styles/qcommonstyle.cpp b/qtbase/src/widgets/styles/qcommonstyle.cpp
 index 502a527901..a79c33005c 100644
 --- a/qtbase/src/widgets/styles/qcommonstyle.cpp
@@ -4903,10 +4248,10 @@ index a225d4b563..35e2769ac4 100644
          painter->save();
      {
 diff --git a/qtbase/src/widgets/styles/qstylesheetstyle.cpp b/qtbase/src/widgets/styles/qstylesheetstyle.cpp
-index 9fcb8ba522..50fdee0f69 100644
+index 55d95c7fb2..8e9d2abbaa 100644
 --- a/qtbase/src/widgets/styles/qstylesheetstyle.cpp
 +++ b/qtbase/src/widgets/styles/qstylesheetstyle.cpp
-@@ -4449,12 +4449,15 @@ void QStyleSheetStyle::drawPrimitive(PrimitiveElement pe, const QStyleOption *op
+@@ -4453,12 +4453,15 @@ void QStyleSheetStyle::drawPrimitive(PrimitiveElement pe, const QStyleOption *op
  
      case PE_PanelLineEdit:
          if (const QStyleOptionFrame *frm = qstyleoption_cast<const QStyleOptionFrame *>(opt)) {
@@ -5102,20 +4447,6 @@ index 02a0bed325..3f3eccc370 100644
              bool toggle = (d->pressedControl == QStyle::SC_GroupBoxLabel
                             || d->pressedControl == QStyle::SC_GroupBoxCheckBox);
              d->pressedControl = QStyle::SC_None;
-diff --git a/qtbase/src/widgets/widgets/qlabel.cpp b/qtbase/src/widgets/widgets/qlabel.cpp
-index 30ff80cbb0..cf2605c17c 100644
---- a/qtbase/src/widgets/widgets/qlabel.cpp
-+++ b/qtbase/src/widgets/widgets/qlabel.cpp
-@@ -421,9 +421,6 @@ void QLabel::setPixmap(const QPixmap &pixmap)
-         d->pixmap = new QPixmap(pixmap);
-     }
- 
--    if (d->pixmap->depth() == 1 && !d->pixmap->mask())
--        d->pixmap->setMask(*((QBitmap *)d->pixmap));
--
-     d->updateLabel();
- }
- 
 diff --git a/qtbase/src/widgets/widgets/qtoolbararealayout.cpp b/qtbase/src/widgets/widgets/qtoolbararealayout.cpp
 index 493c094cc1..d5f4b59017 100644
 --- a/qtbase/src/widgets/widgets/qtoolbararealayout.cpp
@@ -5401,48 +4732,6 @@ index ac7be7acdd..81bc64c8d9 100644
  }
  
  #endif
-diff --git a/qtbase/tests/auto/corelib/io/qbuffer/tst_qbuffer.cpp b/qtbase/tests/auto/corelib/io/qbuffer/tst_qbuffer.cpp
-index 4968742110..f4c3fb711d 100644
---- a/qtbase/tests/auto/corelib/io/qbuffer/tst_qbuffer.cpp
-+++ b/qtbase/tests/auto/corelib/io/qbuffer/tst_qbuffer.cpp
-@@ -42,6 +42,7 @@ private slots:
-     void writeBlock_data();
-     void writeBlock();
-     void seek();
-+    void invalidSeeks();
-     void seekTest_data();
-     void seekTest();
-     void read_rawdata();
-@@ -286,6 +287,29 @@ void tst_QBuffer::seek()
-     QCOMPARE(buffer.size(), pos);
- }
- 
-+void tst_QBuffer::invalidSeeks()
-+{
-+    if constexpr (sizeof(qsizetype) == sizeof(qint64)) {
-+        // sizeof(qsizetype) == sizeof(qint64), so +1 would overflow
-+        QSKIP("This is a 32-bit-only test.");
-+    } else {
-+        QBuffer buffer;
-+        buffer.open(QIODevice::WriteOnly);
-+        QCOMPARE(buffer.buffer().size(), qsizetype(0));
-+        QCOMPARE(buffer.pos(), qint64(0));
-+        constexpr qint64 MaxQByteArrayCapacity = (std::numeric_limits<qsizetype>::max)();
-+        // this should fail fast, not after trying to allocate nearly 2 GiB of data,
-+        // potentially crashing in the process:
-+        QVERIFY(!buffer.seek(2 * MaxQByteArrayCapacity - 1));
-+        QCOMPARE(buffer.buffer().size(), qsizetype(0));
-+        QCOMPARE(buffer.pos(), qint64(0));
-+        // ditto:
-+        QVERIFY(!buffer.seek(MaxQByteArrayCapacity + 1));
-+        QCOMPARE(buffer.buffer().size(), qsizetype(0));
-+        QCOMPARE(buffer.pos(), qint64(0));
-+    }
-+}
-+
- void tst_QBuffer::seekTest_data()
- {
-     writeBlock_data();
 diff --git a/qtbase/tests/auto/corelib/itemmodels/qconcatenatetablesproxymodel/tst_qconcatenatetablesproxymodel.cpp b/qtbase/tests/auto/corelib/itemmodels/qconcatenatetablesproxymodel/tst_qconcatenatetablesproxymodel.cpp
 index e1ea7a4552..90972caa57 100644
 --- a/qtbase/tests/auto/corelib/itemmodels/qconcatenatetablesproxymodel/tst_qconcatenatetablesproxymodel.cpp
@@ -5629,11 +4918,123 @@ index 0ea422ecbc..1a3256534b 100644
      QTest::newRow("oasis text mimetype") << "application/vnd.oasis.opendocument.text" << "*.odt" << "odt";
      QTest::newRow("oasis presentation mimetype") << "application/vnd.oasis.opendocument.presentation" << "*.odp" << "odp";
      QTest::newRow("mimetype with multiple patterns") << "text/plain" << "*.asc;*.txt;*,v" << "txt";
+diff --git a/qtbase/tests/auto/corelib/serialization/qcborvalue/tst_qcborvalue.cpp b/qtbase/tests/auto/corelib/serialization/qcborvalue/tst_qcborvalue.cpp
+index 533fb1c8aa..63ce77d67f 100644
+--- a/qtbase/tests/auto/corelib/serialization/qcborvalue/tst_qcborvalue.cpp
++++ b/qtbase/tests/auto/corelib/serialization/qcborvalue/tst_qcborvalue.cpp
+@@ -75,6 +75,7 @@ private slots:
+     void arrayStringElements();
+     void arraySelfAssign_data() { basics_data(); }
+     void arraySelfAssign();
++    void arrayNested();
+ 
+     void mapDefaultInitialization();
+     void mapEmptyInitializerList();
+@@ -93,6 +94,7 @@ private slots:
+     void mapSelfAssign();
+     void mapComplexKeys_data() { basics_data(); }
+     void mapComplexKeys();
++    void mapNested();
+ 
+     void sorting();
+ 
+@@ -1570,6 +1572,91 @@ void tst_QCborValue::mapComplexKeys()
+     QVERIFY(!m.contains(tagged));
+ }
+ 
++void tst_QCborValue::arrayNested()
++{
++    const QCborArray wrongArray = { false, nullptr, QCborValue() };
++    {
++        QCborArray a1 = { 42, 47 };
++        QCborArray a2 = { QCborValue(a1) };
++        QCOMPARE(a2.size(), 1);
++        const QCborValue &first = qAsConst(a2).first();
++        QVERIFY(first.isArray());
++        QCOMPARE(first.toArray(wrongArray).size(), 2);
++        QCOMPARE(first.toArray(wrongArray).first(), 42);
++        QCOMPARE(first.toArray(wrongArray).last(), 47);
++    }
++    {
++        QCborArray a1 = { 42, 47 };
++        QCborArray a2 = { QCborValue(a1) };
++        QCOMPARE(a2.size(), 1);
++        QCborValueRef first = a2.first();
++        QVERIFY(first.isArray());
++        QCOMPARE(first.toArray(wrongArray).size(), 2);
++        QCOMPARE(first.toArray(wrongArray).first(), 42);
++        QCOMPARE(first.toArray(wrongArray).last(), 47);
++    }
++
++    {
++        QCborArray a1;
++        a1 = { QCborValue(a1) };        // insert it into itself
++        QCOMPARE(a1.size(), 1);
++        const QCborValue &first = qAsConst(a1).first();
++        QVERIFY(first.isArray());
++        QCOMPARE(first, QCborArray());
++        QCOMPARE(first.toArray(wrongArray), QCborArray());
++    }
++    {
++        QCborArray a1;
++        a1 = { QCborValue(a1) };        // insert it into itself
++        QCborValueRef first = a1.first();
++        QVERIFY(first.isArray());
++        QCOMPARE(first, QCborArray());
++        QCOMPARE(first.toArray(wrongArray), QCborArray());
++    }
++    {
++        QCborArray a1;
++        a1.append(a1);                  // insert into itself
++        QCOMPARE(a1.size(), 1);
++        const QCborValue &first = qAsConst(a1).first();
++        QVERIFY(first.isArray());
++        QCOMPARE(first, QCborArray());
++        QCOMPARE(first.toArray(), QCborArray());
++    }
++    {
++        QCborArray a1;
++        a1.append(a1);                  // insert into itself
++        QCborValueRef first = a1.first();
++        QVERIFY(first.isArray());
++        QCOMPARE(first, QCborArray());
++        QCOMPARE(first.toArray(), QCborArray());
++    }
++}
++
++void tst_QCborValue::mapNested()
++{
++    const QCborMap wrongMap = { { -1, false }, {-2, nullptr }, { -3, QCborValue() } };
++    {
++        QCborMap m1 = { {1, 42}, {2, 47} };
++        QCborMap m2 = { { QString(), m1 } };
++        QCOMPARE(m2.size(), 1);
++        const QCborValue &first = m2.constBegin().value();
++        QVERIFY(first.isMap());
++        QCOMPARE(first.toMap(wrongMap).size(), 2);
++        QCOMPARE(first.toMap(wrongMap).begin().key(), 1);
++        QCOMPARE(first.toMap(wrongMap).begin().value(), 42);
++    }
++
++    {
++        QCborMap m1;
++        m1 = { { QString(), QCborValue(m1) } };         // insert it into itself
++        QCOMPARE(m1.size(), 1);
++        const QCborValue &first = m1.constBegin().value();
++        QVERIFY(first.isMap());
++        QCOMPARE(first, QCborMap());
++        QCOMPARE(first.toMap(wrongMap), QCborMap());
++    }
++}
++
+ void tst_QCborValue::sorting()
+ {
+     QCborValue vundef, vnull(nullptr);
 diff --git a/qtbase/tests/auto/corelib/time/qtimezone/tst_qtimezone.cpp b/qtbase/tests/auto/corelib/time/qtimezone/tst_qtimezone.cpp
-index a59b58d57f..241c3e84ac 100644
+index 412f092377..59b94179f4 100644
 --- a/qtbase/tests/auto/corelib/time/qtimezone/tst_qtimezone.cpp
 +++ b/qtbase/tests/auto/corelib/time/qtimezone/tst_qtimezone.cpp
-@@ -63,6 +63,7 @@ private slots:
+@@ -65,6 +65,7 @@ private slots:
      void isValidId_data();
      void isValidId();
      void malformed();
@@ -5641,7 +5042,7 @@ index a59b58d57f..241c3e84ac 100644
      // Backend tests
      void utcTest();
      void icuTest();
-@@ -947,6 +948,33 @@ void tst_QTimeZone::malformed()
+@@ -951,6 +952,33 @@ void tst_QTimeZone::malformed()
          barf.offsetFromUtc(now);
  }
  
@@ -5751,7 +5152,7 @@ index 15e0ecadaa..b4eca74283 100644
  {
      int regularFontId = QFontDatabase::addApplicationFont(m_testFont);
 diff --git a/qtbase/tests/auto/network/access/qnetworkreply/tst_qnetworkreply.cpp b/qtbase/tests/auto/network/access/qnetworkreply/tst_qnetworkreply.cpp
-index 3d4a094c43..b423e11a99 100644
+index 278139f2bd..7eb23b3344 100644
 --- a/qtbase/tests/auto/network/access/qnetworkreply/tst_qnetworkreply.cpp
 +++ b/qtbase/tests/auto/network/access/qnetworkreply/tst_qnetworkreply.cpp
 @@ -281,6 +281,7 @@ private Q_SLOTS:
@@ -5781,190 +5182,6 @@ index 3d4a094c43..b423e11a99 100644
  void tst_QNetworkReply::ioGetFromFtp_data()
  {
      QTest::addColumn<QString>("fileName");
-diff --git a/qtbase/tests/auto/network/ssl/qsslsocket/certs/fluke.cert b/qtbase/tests/auto/network/ssl/qsslsocket/certs/fluke.cert
-index 069fa6b341..4cc4d9a5ea 100644
---- a/qtbase/tests/auto/network/ssl/qsslsocket/certs/fluke.cert
-+++ b/qtbase/tests/auto/network/ssl/qsslsocket/certs/fluke.cert
-@@ -1,75 +1,34 @@
--Certificate:
--    Data:
--        Version: 3 (0x2)
--        Serial Number: 0 (0x0)
--        Signature Algorithm: sha1WithRSAEncryption
--        Issuer: C=NO, ST=Oslo, L=Nydalen, O=Nokia Corporation and/or its subsidiary(-ies), OU=Development, CN=fluke.troll.no/emailAddress=ahanssen@trolltech.com
--        Validity
--            Not Before: Dec  4 01:10:32 2007 GMT
--            Not After : Apr 21 01:10:32 2035 GMT
--        Subject: C=NO, ST=Oslo, O=Nokia Corporation and/or its subsidiary(-ies), OU=Development, CN=fluke.troll.no
--        Subject Public Key Info:
--            Public Key Algorithm: rsaEncryption
--            RSA Public Key: (1024 bit)
--                Modulus (1024 bit):
--                    00:a7:c8:a0:4a:c4:19:05:1b:66:ba:32:e2:d2:f1:
--                    1c:6f:17:82:e4:39:2e:01:51:90:db:04:34:32:11:
--                    21:c2:0d:6f:59:d8:53:90:54:3f:83:8f:a9:d3:b3:
--                    d5:ee:1a:9b:80:ae:c3:25:c9:5e:a5:af:4b:60:05:
--                    aa:a0:d1:91:01:1f:ca:04:83:e3:58:1c:99:32:45:
--                    84:70:72:58:03:98:4a:63:8b:41:f5:08:49:d2:91:
--                    02:60:6b:e4:64:fe:dd:a0:aa:74:08:e9:34:4c:91:
--                    5f:12:3d:37:4d:54:2c:ad:7f:5b:98:60:36:02:8c:
--                    3b:f6:45:f3:27:6a:9b:94:9d
--                Exponent: 65537 (0x10001)
--        X509v3 extensions:
--            X509v3 Basic Constraints: 
--                CA:FALSE
--            Netscape Comment: 
--                OpenSSL Generated Certificate
--            X509v3 Subject Key Identifier: 
--                21:85:04:3D:23:01:66:E5:F7:9F:1A:84:24:8A:AF:0A:79:F4:E5:AC
--            X509v3 Authority Key Identifier: 
--                DirName:/C=NO/ST=Oslo/L=Nydalen/O=Nokia Corporation and/or its subsidiary(-ies)/OU=Development/CN=fluke.troll.no/emailAddress=ahanssen@trolltech.com
--                serial:8E:A8:B4:E8:91:B7:54:2E
--
--    Signature Algorithm: sha1WithRSAEncryption
--        6d:57:5f:d1:05:43:f0:62:05:ec:2a:71:a5:dc:19:08:f2:c4:
--        a6:bd:bb:25:d9:ca:89:01:0e:e4:cf:1f:c1:8c:c8:24:18:35:
--        53:59:7b:c0:43:b4:32:e6:98:b2:a6:ef:15:05:0b:48:5f:e1:
--        a0:0c:97:a9:a1:77:d8:35:18:30:bc:a9:8f:d3:b7:54:c7:f1:
--        a9:9e:5d:e6:19:bf:f6:3c:5b:2b:d8:e4:3e:62:18:88:8b:d3:
--        24:e1:40:9b:0c:e6:29:16:62:ab:ea:05:24:70:36:aa:55:93:
--        ef:02:81:1b:23:10:a2:04:eb:56:95:75:fc:f8:94:b1:5d:42:
--        c5:3f:36:44:85:5d:3a:2e:90:46:8a:a2:b9:6f:87:ae:0c:15:
--        40:19:31:90:fc:3b:25:bb:ae:f1:66:13:0d:85:90:d9:49:34:
--        8f:f2:5d:f9:7a:db:4d:5d:27:f6:76:9d:35:8c:06:a6:4c:a3:
--        b1:b2:b6:6f:1d:d7:a3:00:fd:72:eb:9e:ea:44:a1:af:21:34:
--        7d:c7:42:e2:49:91:19:8b:c0:ad:ba:82:80:a8:71:70:f4:35:
--        31:91:63:84:20:95:e9:60:af:64:8b:cc:ff:3d:8a:76:74:3d:
--        c8:55:6d:e4:8e:c3:2b:1c:e8:42:18:ae:9f:e6:6b:9c:34:06:
--        ec:6a:f2:c3
- -----BEGIN CERTIFICATE-----
--MIIEEzCCAvugAwIBAgIBADANBgkqhkiG9w0BAQUFADCBnDELMAkGA1UEBhMCTk8x
--DTALBgNVBAgTBE9zbG8xEDAOBgNVBAcTB055ZGFsZW4xFjAUBgNVBAoTDVRyb2xs
--dGVjaCBBU0ExFDASBgNVBAsTC0RldmVsb3BtZW50MRcwFQYDVQQDEw5mbHVrZS50
--cm9sbC5ubzElMCMGCSqGSIb3DQEJARYWYWhhbnNzZW5AdHJvbGx0ZWNoLmNvbTAe
--Fw0wNzEyMDQwMTEwMzJaFw0zNTA0MjEwMTEwMzJaMGMxCzAJBgNVBAYTAk5PMQ0w
--CwYDVQQIEwRPc2xvMRYwFAYDVQQKEw1Ucm9sbHRlY2ggQVNBMRQwEgYDVQQLEwtE
--ZXZlbG9wbWVudDEXMBUGA1UEAxMOZmx1a2UudHJvbGwubm8wgZ8wDQYJKoZIhvcN
--AQEBBQADgY0AMIGJAoGBAKfIoErEGQUbZroy4tLxHG8XguQ5LgFRkNsENDIRIcIN
--b1nYU5BUP4OPqdOz1e4am4CuwyXJXqWvS2AFqqDRkQEfygSD41gcmTJFhHByWAOY
--SmOLQfUISdKRAmBr5GT+3aCqdAjpNEyRXxI9N01ULK1/W5hgNgKMO/ZF8ydqm5Sd
--AgMBAAGjggEaMIIBFjAJBgNVHRMEAjAAMCwGCWCGSAGG+EIBDQQfFh1PcGVuU1NM
--IEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQUIYUEPSMBZuX3nxqEJIqv
--Cnn05awwgbsGA1UdIwSBszCBsKGBoqSBnzCBnDELMAkGA1UEBhMCTk8xDTALBgNV
--BAgTBE9zbG8xEDAOBgNVBAcTB055ZGFsZW4xFjAUBgNVBAoTDVRyb2xsdGVjaCBB
--U0ExFDASBgNVBAsTC0RldmVsb3BtZW50MRcwFQYDVQQDEw5mbHVrZS50cm9sbC5u
--bzElMCMGCSqGSIb3DQEJARYWYWhhbnNzZW5AdHJvbGx0ZWNoLmNvbYIJAI6otOiR
--t1QuMA0GCSqGSIb3DQEBBQUAA4IBAQBtV1/RBUPwYgXsKnGl3BkI8sSmvbsl2cqJ
--AQ7kzx/BjMgkGDVTWXvAQ7Qy5piypu8VBQtIX+GgDJepoXfYNRgwvKmP07dUx/Gp
--nl3mGb/2PFsr2OQ+YhiIi9Mk4UCbDOYpFmKr6gUkcDaqVZPvAoEbIxCiBOtWlXX8
--+JSxXULFPzZEhV06LpBGiqK5b4euDBVAGTGQ/Dslu67xZhMNhZDZSTSP8l35ettN
--XSf2dp01jAamTKOxsrZvHdejAP1y657qRKGvITR9x0LiSZEZi8CtuoKAqHFw9DUx
--kWOEIJXpYK9ki8z/PYp2dD3IVW3kjsMrHOhCGK6f5mucNAbsavLD
-+MIIF6zCCA9OgAwIBAgIUfo9amJtJGWqWE6f+SkAO85zkGr4wDQYJKoZIhvcNAQEL
-+BQAwgYMxCzAJBgNVBAYTAk5PMQ0wCwYDVQQIDARPc2xvMQ0wCwYDVQQHDARPc2xv
-+MRcwFQYDVQQKDA5UaGUgUXQgQ29tcGFueTEMMAoGA1UECwwDUiZEMRIwEAYDVQQD
-+DAlIMiBUZXN0ZXIxGzAZBgkqhkiG9w0BCQEWDG1pbmltaUBxdC5pbzAgFw0yMDEw
-+MjYxMjAxMzFaGA8yMTIwMTAwMjEyMDEzMVowgYMxCzAJBgNVBAYTAk5PMQ0wCwYD
-+VQQIDARPc2xvMQ0wCwYDVQQHDARPc2xvMRcwFQYDVQQKDA5UaGUgUXQgQ29tcGFu
-+eTEMMAoGA1UECwwDUiZEMRIwEAYDVQQDDAlIMiBUZXN0ZXIxGzAZBgkqhkiG9w0B
-+CQEWDG1pbmltaUBxdC5pbzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIB
-+AOiUp5+E4blouKH7q+rVNR8NoYX2XkBW+q+rpy1zu5ssRSzbqxAjDx9dkht7Qlnf
-+VlDT00JvpOWdeuPon5915edQRsY4Unl6mKH29ra3OtUa1/yCJXsGVJTKCj7k4Bxb
-+5mZzb/fTlZntMLdTIBMfUbw62FKir1WjKIcJ9fCoG8JaGeKVO4Rh5p0ezd4UUUId
-+r1BXl5Nqdqy2vTMsEDnjOsD3egkv8I2SKN4O6n/C3wWYpMOWYZkGoZiKz7rJs/i/
-+ez7bsV7JlwdzTlhpJzkcOSVFBP6JlEOxTNNxZ1wtKy7PtZGmsSSATq2e6+bw38Ae
-+Op0XnzzqcGjtDDofBmT7OFzZWjS9VZS6+DOOe2QHWle1nCHcHyH4ku6IRlsr9xkR
-+NAIlOfnvHHxqJUenoeaZ4oQDjCBKS1KXygJO/tL7BLTQVn/xK1EmPvKNnjzWk4tR
-+PnibUhhs5635qpOU/YPqFBh1JjVruZbsWcDAhRcew0uxONXOa9E+4lttQ9ySYa1A
-+LvWqJuAX7gu2BsBMLyqfm811YnA7CIFMyO+HlqmkLFfv5L/xIRAXR7l26YGO0VwX
-+CGjMfz4NVPMMke4nB7qa9NkpXQBQKMms3Qzd5JW0Hy9Ruj5O8GPcFZmV0twjd1uJ
-+PD/cAjkWLaXjdNsJ16QWc2nghQRS6HYqKRX6j+CXOxupAgMBAAGjUzBRMB0GA1Ud
-+DgQWBBRSCOU58j9NJZkMamt623qyCrhN3TAfBgNVHSMEGDAWgBRSCOU58j9NJZkM
-+amt623qyCrhN3TAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4ICAQCq
-+q4jxsWeNDv5Nq14hJtF9HB+ZL64zcZtRjJP1YgNs0QppKICmjPOL2nIMGmI/jKrs
-+0eGAL/9XXNVHPxm1OPOncvimMMmU6emZfpMdEtTfKP43+Pg9HgKRjLoQp406vGeQ
-+8ki/mbBhrItVPgEm3tu2AFA02XTYi+YxCI9kRZLGkM3FbgtOuTLPl0Z9y+kiPc9F
-+uCSC03anBEqv+vDSI8+wODymQ/IJ3Jyz1lxIRDfp4qAekmy0jU2c91VOHHEmOmqq
-+kqygGFRdwbe99m9yP63r6q0b5K3X2UnJ6bns0hmTwThYwpVPXLU8jdaTddbMukN2
-+/Ef96Tsw8nWOEOPMySHOTIPgwyZRp26b0kA9EmhLwOP401SxXVQCmSRmtwNagmtg
-+jJKmZoYBN+//D45ibK8z6Q0oOm9P+Whf/uUXehcRxBxyV3xz7k0wKGQbHj/ddwcy
-+IUoIN4lrAlib+lK170kTKN352PDmrpo2gmIzPEsfurKAIMSelDl6H+kih16BtZ8y
-+Nz6fh9Soqrg3OSAware8pxV7k51crBMoPLN78KoRV8MFCK4K7Fddq4rRISq6hiXq
-+r1nsjoEPuKM9huprmZVZe9t5YcDa2I+wb3IiE3uwpZbAdaLDyQ5n6F/qpsiIkZXn
-+gtcF7oqpG5oYrwCcZ53y/ezUgUg7PlSz2XwAGvQtgg==
- -----END CERTIFICATE-----
-diff --git a/qtbase/tests/auto/network/ssl/qsslsocket/certs/fluke.key b/qtbase/tests/auto/network/ssl/qsslsocket/certs/fluke.key
-index 9d1664d609..337ce541a6 100644
---- a/qtbase/tests/auto/network/ssl/qsslsocket/certs/fluke.key
-+++ b/qtbase/tests/auto/network/ssl/qsslsocket/certs/fluke.key
-@@ -1,15 +1,52 @@
-------BEGIN RSA PRIVATE KEY-----
--MIICXAIBAAKBgQCnyKBKxBkFG2a6MuLS8RxvF4LkOS4BUZDbBDQyESHCDW9Z2FOQ
--VD+Dj6nTs9XuGpuArsMlyV6lr0tgBaqg0ZEBH8oEg+NYHJkyRYRwclgDmEpji0H1
--CEnSkQJga+Rk/t2gqnQI6TRMkV8SPTdNVCytf1uYYDYCjDv2RfMnapuUnQIDAQAB
--AoGANFzLkanTeSGNFM0uttBipFT9F4a00dqHz6JnO7zXAT26I5r8sU1pqQBb6uLz
--/+Qz5Zwk8RUAQcsMRgJetuPQUb0JZjF6Duv24hNazqXBCu7AZzUenjafwmKC/8ri
--KpX3fTwqzfzi//FKGgbXQ80yykSSliDL3kn/drATxsLCgQECQQDXhEFWLJ0vVZ1s
--1Ekf+3NITE+DR16X+LQ4W6vyEHAjTbaNWtcTKdAWLA2l6N4WAAPYSi6awm+zMxx4
--VomVTsjdAkEAx0z+e7natLeFcrrq8pbU+wa6SAP1VfhQWKitxL1e7u/QO90NCpxE
--oQYKzMkmmpOOFjQwEMAy1dvFMbm4LHlewQJAC/ksDBaUcQHHqjktCtrUb8rVjAyW
--A8lscckeB2fEYyG5J6dJVaY4ClNOOs5yMDS2Afk1F6H/xKvtQ/5CzInA/QJATDub
--K+BPU8jO9q+gpuIi3VIZdupssVGmCgObVCHLakG4uO04y9IyPhV9lA9tALtoIf4c
--VIvv5fWGXBrZ48kZAQJBAJmVCdzQxd9LZI5vxijUCj5EI4e+x5DRqVUvyP8KCZrC
--AiNyoDP85T+hBZaSXK3aYGpVwelyj3bvo1GrTNwNWLw=
-------END RSA PRIVATE KEY-----
-+-----BEGIN PRIVATE KEY-----
-+MIIJQgIBADANBgkqhkiG9w0BAQEFAASCCSwwggkoAgEAAoICAQDolKefhOG5aLih
-++6vq1TUfDaGF9l5AVvqvq6ctc7ubLEUs26sQIw8fXZIbe0JZ31ZQ09NCb6TlnXrj
-+6J+fdeXnUEbGOFJ5epih9va2tzrVGtf8giV7BlSUygo+5OAcW+Zmc2/305WZ7TC3
-+UyATH1G8OthSoq9VoyiHCfXwqBvCWhnilTuEYeadHs3eFFFCHa9QV5eTanastr0z
-+LBA54zrA93oJL/CNkijeDup/wt8FmKTDlmGZBqGYis+6ybP4v3s+27FeyZcHc05Y
-+aSc5HDklRQT+iZRDsUzTcWdcLSsuz7WRprEkgE6tnuvm8N/AHjqdF5886nBo7Qw6
-+HwZk+zhc2Vo0vVWUuvgzjntkB1pXtZwh3B8h+JLuiEZbK/cZETQCJTn57xx8aiVH
-+p6HmmeKEA4wgSktSl8oCTv7S+wS00FZ/8StRJj7yjZ481pOLUT54m1IYbOet+aqT
-+lP2D6hQYdSY1a7mW7FnAwIUXHsNLsTjVzmvRPuJbbUPckmGtQC71qibgF+4LtgbA
-+TC8qn5vNdWJwOwiBTMjvh5appCxX7+S/8SEQF0e5dumBjtFcFwhozH8+DVTzDJHu
-+Jwe6mvTZKV0AUCjJrN0M3eSVtB8vUbo+TvBj3BWZldLcI3dbiTw/3AI5Fi2l43Tb
-+CdekFnNp4IUEUuh2KikV+o/glzsbqQIDAQABAoICAFw1q6tr5I48vY7DF+rXsuLn
-+5ZUWE1IQ6fzB4lr72nJv/9EEGnMgYzt9PpMUsD6vdCpBgS2C0+6RHArFzJtNA+RM
-+iHLIG7K7702veyr/xBx/MwiSlMeMv/XpkFxVI6E6skMGG2s3AMXxKvJTy5CpRx+I
-+eQFyLG+Ya1X2lgJes/q+/CpAHkOjCOpcLySQC5NZ74q734V7nSdmn+Zs3tYEh+O/
-+eiuwTP/j5b38Te5vVTqDxTciJPmljmXLCwa0N100lWlbcpvw8qbqiTI2Jm3XCbUE
-+AzHjW9vmrF3cRS1fXxKFGShw3SRqlkbxjfeWoi8qDPUBS4m8LOr8qG9Wo5Nfon0z
-+zLP4bci3zHDvVcaaZrrsUBs/yZbg+Dgka1DmX7ekmeccr2yTdKDFgPupYUyxVbTl
-+a9ZLJysjFD7rgBv1ZclHonLp6Vbm+ZoTqvteo4ikAy6L9RtBWJ23XEK34PkP/+c5
-+2vWZaOrnjSeBHbFce8cdJSxqWpP+eSCI5I9XbDrYFIsQ/gqKgtzDKy2ihJ2Y8STL
-+yO4hyFPFjxc+Gg4/P2PpmT5CY2ty44M0BWs+JGW96CJPrrplf2lmQUQJj5LZY66X
-+Z/4C9L7ZYtKZ+bs5SvU46yWugAvQZX22Xm9xLXWyVXRdx3bj+3M3fDnF9di/zdbh
-+CgLx7oWPNrXc7FCajnn9AoIBAQD5FMYwRpw9NWT9WDxQwx+cSI4Icbd88ByTW63S
-+LzeRwZA0J9/SfwO+aBRupzc9GkGXCiZcGMw3AGsCtig8yFlw8E5KnzN7KlftDMnM
-+9NUxxzlR8VwKyLnZfG7sDTl057ZlUujnqhmt/F8F7dIy7FVO1dE/8nngA+FYTCOG
-+UZdGjwyBDlDM0JJdUWGY3xslutcpCDN5mzSTKjy9drMvImAshRawxRF6WBpn7vr2
-+nC6vciqfx1Mzx1vyk0Jm0ilaydDdLMADjt/iL4Nkr0BEs4k+UzQiKDwp8gu7abQ1
-+eBfxd9Iar4htQa2I1Ewl6P01G/q+ZYwgHhJ9RVn4AxQXefILAoIBAQDvCouORdQX
-+C8wsyp7MwXlF/3NQeNN5/+B2mhbxrBOf7PmMCXLnkRWcjwJtzypWFqJ0sqai/2+0
-+bqbMcjX5maT8stT2shl3zXe/Ejt2e3TBYpc1tyuses8Kb5BMU8hu6tTd3G2CMXpD
-+dT6DVemJZCTtwj9aBNIxSizvlgMolJnCpzhPnlfHSI6E+g3m/LTTo3HwbjMSw/Uq
-+irgjOpI2wSBB6LZPSgjvfcYPRyWUk16L4A5uSX0cADnovDFLa5/h0wJvN/OoCSQg
-+rLCXG5E18EyL5Wc58BCY1ZvxmjG3lQtgPxYu2Jwc36R/y/JKlxW5suER5ZNpbbD4
-+uOyTt2VxMQ2bAoIBAQC5+MzRFqdo/AjfL5Y5JrbfVTzXCTDa09xCGd16ZU60QTWN
-++4ed/r+o1sUKqUcRFB2MzEM/2DQBjQpZB/CbEWvWa1XJWXxypXbowveZU+QqOnmN
-+uQvj8WLyA3o+PNF9e9QvauwCrHpn8VpxbtPWuaYoKnUFreFZZQxHhPGxRBIS2JOZ
-+eDrT8ZaWnkCkh1AZp5smQ71LOprSlmKrg4jd1GjCVMxQR5N5KXbtyv0OTCZ/UFqK
-+2aRBsMPyJgkaBChkZPLRcKwc+/wlQRx1fHQb14DNTApMxoXFO7eOwqmOkpAt9iyl
-+SBIwoS0UUI5ab88+bBmXNvKcuFdNuQ4nowTJUn9pAoIBADMNkILBXSvS5DeIyuO2
-+Sp1tkoZUV+5NfPY3sMDK3KIibaW/+t+EOBZo4L7tKQCb8vRzl21mmsfxfgRaPDbj
-+3r3tv9g0b4YLxxBy52pFscj/soXRai17SS7UZwA2QK+XzgDYbDcLNC6mIsTQG4Gx
-+dsWk3/zs3KuUSQaehmwrWK+fIUK38c1pLK8v7LoxrLkqxlHwZ04RthHw8KTthH7X
-+Pnl1J0LF8CSeOyfWLSuPUfkT0GEzptnNHpEbaHfQM6R6eaGhVJPF6AZme4y6YYgg
-+m2ihhSt1n0XVEWpHYWjxFy3mK2mz75unFC4LM+NEY2p2zuUQoCw7NjnY3QYrfCnx
-+rRMCggEAXeXsMSLFjjyuoL7iKbAxo52HD/P0fBoy58LyRcwfNVr0lvYan4pYEx+o
-+KijIh9K16PqXZXKMA9v003B+ulmF8bJ7SddCZ5NGvnFhUTDe4DdTKgp2RuwQ3Bsc
-+3skPIDbhVETyOLCtys34USHrq8U/0DlGY3eLRfxw9GnbKxSBGa/KEu/qQLPNUo50
-+7xHZDg7GKeC3kqNJeqKM9rkp0VzIGkEnaD9127LeNDmERDfftxJzFoC/THvUBLfU
-+6Sus2ZYwRE8VFvKC30Q45t/c54X3IuhYvAuiCuTmyfE4ruyzyOwKzhUkeeLq1APX
-+g0veFbyfzlJ0q8qzD/iffqqIa2ZSmQ==
-+-----END PRIVATE KEY-----
 diff --git a/qtbase/tests/auto/other/qaccessibilitylinux/tst_qaccessibilitylinux.cpp b/qtbase/tests/auto/other/qaccessibilitylinux/tst_qaccessibilitylinux.cpp
 index 7ba3715e13..752aa122f6 100644
 --- a/qtbase/tests/auto/other/qaccessibilitylinux/tst_qaccessibilitylinux.cpp
@@ -6027,10 +5244,10 @@ index 4aa3f8d60b..d2050a61aa 100644
  
  void tst_QAbstractItemModelTester::testInsertThroughProxy()
 diff --git a/qtbase/tests/auto/tools/moc/allmocs_baseline_in.json b/qtbase/tests/auto/tools/moc/allmocs_baseline_in.json
-index 12a4a22a19..ce518e78fb 100644
+index 18282505e4..ce518e78fb 100644
 --- a/qtbase/tests/auto/tools/moc/allmocs_baseline_in.json
 +++ b/qtbase/tests/auto/tools/moc/allmocs_baseline_in.json
-@@ -668,50 +668,6 @@
+@@ -668,40 +668,6 @@
          "inputFile": "task192552.h",
          "outputRevision": 67
      },
@@ -6054,16 +5271,6 @@ index 12a4a22a19..ce518e78fb 100644
 -                    {
 -                        "access": "public",
 -                        "name": "c",
--                        "returnType": "void"
--                    },
--                    {
--                        "access": "public",
--                        "name": "d",
--                        "returnType": "void"
--                    },
--                    {
--                        "access": "public",
--                        "name": "e",
 -                        "returnType": "void"
 -                    }
 -                ],
@@ -6096,10 +5303,10 @@ index c324b3a8cd..4aceb78dc0 100644
             cxx11-explicit-override-control.h \
 diff --git a/qtbase/tests/auto/tools/moc/task189996.h b/qtbase/tests/auto/tools/moc/task189996.h
 deleted file mode 100644
-index f94a051b3a..0000000000
+index ba9450c271..0000000000
 --- a/qtbase/tests/auto/tools/moc/task189996.h
 +++ /dev/null
-@@ -1,47 +0,0 @@
+@@ -1,45 +0,0 @@
 -/****************************************************************************
 -**
 -** Copyright (C) 2016 The Qt Company Ltd.
@@ -6139,27 +5346,17 @@ index f94a051b3a..0000000000
 -    Q_OBJECT
 -
 -public slots:
--    void a() throw() { }
--    void b() const throw() { }
--    void c() throw();
--    void d() throw(int) { }
--    void e() const throw(int,double) { }
+-    void a() noexcept { }
+-    void b() const noexcept { }
+-    void c() noexcept;
 -};
 -
 -#endif
 diff --git a/qtbase/tests/auto/tools/moc/tst_moc.cpp b/qtbase/tests/auto/tools/moc/tst_moc.cpp
-index c716aead21..15dd9e41e5 100644
+index cc465a213a..a9ab6ec4f3 100644
 --- a/qtbase/tests/auto/tools/moc/tst_moc.cpp
 +++ b/qtbase/tests/auto/tools/moc/tst_moc.cpp
-@@ -631,7 +631,6 @@ public:
- private slots:
-     void initTestCase();
- 
--    void slotWithException() throw(MyStruct);
-     void dontStripNamespaces();
-     void oldStyleCasts();
-     void warnOnExtraSignalSlotQualifiaction();
-@@ -673,7 +672,6 @@ private slots:
+@@ -671,7 +671,6 @@ private slots:
      void templateGtGt();
      void qprivateslots();
      void qprivateproperties();
@@ -6167,20 +5364,7 @@ index c716aead21..15dd9e41e5 100644
      void warnOnPropertyWithoutREAD();
      void constructors();
      void typenameWithUnsigned();
-@@ -784,12 +782,6 @@ void tst_Moc::initTestCase()
- #endif
- }
- 
--void tst_Moc::slotWithException() throw(MyStruct)
--{
--    // be happy
--    QVERIFY(true);
--}
--
- void tst_Moc::dontStripNamespaces()
- {
-     Sender sender;
-@@ -824,7 +816,7 @@ void tst_Moc::oldStyleCasts()
+@@ -816,7 +815,7 @@ void tst_Moc::oldStyleCasts()
  
      QStringList args;
      args << "-c" << "-x" << "c++" << "-Wold-style-cast" << "-I" << "."
@@ -6189,7 +5373,7 @@ index c716aead21..15dd9e41e5 100644
      proc.start("gcc", args);
      QVERIFY(proc.waitForStarted());
      proc.write(mocOut);
-@@ -894,7 +886,7 @@ void tst_Moc::inputFileNameWithDotsButNoExtension()
+@@ -886,7 +885,7 @@ void tst_Moc::inputFileNameWithDotsButNoExtension()
  
      QStringList args;
      args << "-c" << "-x" << "c++" << "-I" << ".."
@@ -6198,7 +5382,7 @@ index c716aead21..15dd9e41e5 100644
      proc.start("gcc", args);
      QVERIFY(proc.waitForStarted());
      proc.write(mocOut);
-@@ -1174,7 +1166,7 @@ void tst_Moc::ignoreOptionClashes()
+@@ -1166,7 +1165,7 @@ void tst_Moc::ignoreOptionClashes()
      QStringList gccArgs;
      gccArgs << "-c" << "-x" << "c++" << "-I" << ".."
           << "-I" << qtIncludePath << "-I" << includeDir << "-o" << "/dev/null"
@@ -6207,13 +5391,13 @@ index c716aead21..15dd9e41e5 100644
      proc.start("gcc", gccArgs);
      QVERIFY(proc.waitForStarted());
      proc.write(mocOut);
-@@ -1593,21 +1585,6 @@ void tst_Moc::qprivateproperties()
+@@ -1585,19 +1584,6 @@ void tst_Moc::qprivateproperties()
  
  }
  
 -#include "task189996.h"
 -
--void InlineSlotsWithThrowDeclaration::c() throw() {}
+-void InlineSlotsWithThrowDeclaration::c() noexcept {}
 -
 -void tst_Moc::inlineSlotsWithThrowDeclaration()
 -{
@@ -6222,14 +5406,12 @@ index c716aead21..15dd9e41e5 100644
 -    QVERIFY(mobj->indexOfSlot("a()") != -1);
 -    QVERIFY(mobj->indexOfSlot("b()") != -1);
 -    QVERIFY(mobj->indexOfSlot("c()") != -1);
--    QVERIFY(mobj->indexOfSlot("d()") != -1);
--    QVERIFY(mobj->indexOfSlot("e()") != -1);
 -}
 -
  void tst_Moc::warnOnPropertyWithoutREAD()
  {
  #ifdef MOC_CROSS_COMPILED
-@@ -1869,7 +1846,7 @@ void tst_Moc::notifyError()
+@@ -1859,7 +1845,7 @@ void tst_Moc::notifyError()
  
      QStringList args;
      args << "-c" << "-x" << "c++" << "-I" << "."
@@ -6603,7 +5785,52 @@ index e818514a79..4043e9326a 100644
 diff --git a/qtbase/tests/manual/rhi/cubemap_render/buildshader.bat b/qtbase/tests/manual/rhi/cubemap_render/buildshader.bat
 old mode 100755
 new mode 100644
-Submodule qtconnectivity 3dcb548b..0f9e49cd:
+Submodule qtconnectivity e2dd3230..eeaf42bc:
+diff --git a/qtconnectivity/src/bluetooth/qbluetoothsocket.cpp b/qtconnectivity/src/bluetooth/qbluetoothsocket.cpp
+index 60a64375..fcd0fbb2 100644
+--- a/qtconnectivity/src/bluetooth/qbluetoothsocket.cpp
++++ b/qtconnectivity/src/bluetooth/qbluetoothsocket.cpp
+@@ -791,10 +791,15 @@ void QBluetoothSocket::close()
+   Set the socket to use \a socketDescriptor with a type of \a socketType,
+   which is in state, \a socketState, and mode, \a openMode.
+ 
++  The set socket descriptor is considered owned by the QBluetoothSocket
++  and may be e.g. closed once finished.
++
+   Returns true on success
+ */
+ 
+-
++// ### Qt 7 consider making this function private. The qbluetoothsocket_bluez backend is the
++// the only backend providing publicly accessible support for this. Other backends implement
++// similarly named, but private, overload
+ bool QBluetoothSocket::setSocketDescriptor(int socketDescriptor, QBluetoothServiceInfo::Protocol socketType,
+                                            SocketState socketState, OpenMode openMode)
+ {
+diff --git a/qtconnectivity/src/bluetooth/qbluetoothsocket_bluez.cpp b/qtconnectivity/src/bluetooth/qbluetoothsocket_bluez.cpp
+index da92082d..6d27c7a2 100644
+--- a/qtconnectivity/src/bluetooth/qbluetoothsocket_bluez.cpp
++++ b/qtconnectivity/src/bluetooth/qbluetoothsocket_bluez.cpp
+@@ -75,6 +75,10 @@ QBluetoothSocketPrivateBluez::~QBluetoothSocketPrivateBluez()
+     readNotifier = nullptr;
+     delete connectWriteNotifier;
+     connectWriteNotifier = nullptr;
++
++    // If the socket wasn't closed/aborted make sure we free the socket file descriptor
++    if (socket != -1)
++        QT_CLOSE(socket);
+ }
+ 
+ bool QBluetoothSocketPrivateBluez::ensureNativeSocket(QBluetoothServiceInfo::Protocol type)
+@@ -658,6 +662,8 @@ qint64 QBluetoothSocketPrivateBluez::readData(char *data, qint64 maxSize)
+ 
+ void QBluetoothSocketPrivateBluez::close()
+ {
++    // If we have pending data on the write buffer, wait until it has been written,
++    // after which this close() will be called again
+     if (txBuffer.size() > 0)
+         connectWriteNotifier->setEnabled(true);
+     else
 diff --git a/qtconnectivity/src/tools/sdpscanner/main.cpp b/qtconnectivity/src/tools/sdpscanner/main.cpp
 index 7e09ca6e..c39ff8f3 100644
 --- a/qtconnectivity/src/tools/sdpscanner/main.cpp
@@ -6647,7 +5874,53 @@ index 7e09ca6e..c39ff8f3 100644
      default:
          fprintf(stderr, "Unknown dtd type\n");
      }
-Submodule qtdeclarative 19ed7973..0e1bed3c:
+Submodule qtdeclarative 540c4e4a..5352f113:
+diff --git a/qtdeclarative/src/qml/animations/qcontinuinganimationgroupjob.cpp b/qtdeclarative/src/qml/animations/qcontinuinganimationgroupjob.cpp
+index 88c0e9e60e..61a9dc36f8 100644
+--- a/qtdeclarative/src/qml/animations/qcontinuinganimationgroupjob.cpp
++++ b/qtdeclarative/src/qml/animations/qcontinuinganimationgroupjob.cpp
+@@ -82,9 +82,9 @@ void QContinuingAnimationGroupJob::updateState(QAbstractAnimationJob::State newS
+             return;
+         }
+         for (QAbstractAnimationJob *animation = firstChild(); animation; animation = animation->nextSibling()) {
+-            resetUncontrolledAnimationFinishTime(animation);
++            RETURN_IF_DELETED(resetUncontrolledAnimationFinishTime(animation));
+             animation->setDirection(m_direction);
+-            animation->start();
++            RETURN_IF_DELETED(animation->start());
+         }
+         break;
+     }
+diff --git a/qtdeclarative/src/qml/animations/qparallelanimationgroupjob.cpp b/qtdeclarative/src/qml/animations/qparallelanimationgroupjob.cpp
+index 420a934ba2..a828d0e234 100644
+--- a/qtdeclarative/src/qml/animations/qparallelanimationgroupjob.cpp
++++ b/qtdeclarative/src/qml/animations/qparallelanimationgroupjob.cpp
+@@ -144,10 +144,10 @@ void QParallelAnimationGroupJob::updateState(QAbstractAnimationJob::State newSta
+                 animation->stop();
+                 m_previousLoop = m_direction == Forward ? 0 : m_loopCount - 1;
+             }
+-            resetUncontrolledAnimationFinishTime(animation);
++            RETURN_IF_DELETED(resetUncontrolledAnimationFinishTime(animation));
+             animation->setDirection(m_direction);
+             if (shouldAnimationStart(animation, oldState == Stopped))
+-                animation->start();
++                RETURN_IF_DELETED(animation->start());
+         }
+         break;
+     }
+diff --git a/qtdeclarative/src/qml/jsruntime/qv4function.cpp b/qtdeclarative/src/qml/jsruntime/qv4function.cpp
+index aeb4835c40..9082628a1a 100644
+--- a/qtdeclarative/src/qml/jsruntime/qv4function.cpp
++++ b/qtdeclarative/src/qml/jsruntime/qv4function.cpp
+@@ -136,7 +136,7 @@ void Function::updateInternalClass(ExecutionEngine *engine, const QList<QByteArr
+         if (duplicate == -1) {
+             parameterNames.append(QString::fromUtf8(param));
+         } else {
+-            const QString &dup = parameterNames[duplicate];
++            const QString dup = parameterNames[duplicate];
+             parameterNames.append(dup);
+             parameterNames[duplicate] =
+                     QString(0xfffe) + QString::number(duplicate) + dup;
 diff --git a/qtdeclarative/src/qml/qml/qqmlimport.cpp b/qtdeclarative/src/qml/qml/qqmlimport.cpp
 index 10c6c41338..39bfcdc999 100644
 --- a/qtdeclarative/src/qml/qml/qqmlimport.cpp
@@ -6685,6 +5958,19 @@ index 175de8b936..a6ba4b8cb3 100644
      } else {
          myQmlType = qenginepriv->metaObjectForType(myTypeId);
      }
+diff --git a/qtdeclarative/src/qml/qml/qqmlvmemetaobject.cpp b/qtdeclarative/src/qml/qml/qqmlvmemetaobject.cpp
+index aa9f4bc1bd..09503a7e99 100644
+--- a/qtdeclarative/src/qml/qml/qqmlvmemetaobject.cpp
++++ b/qtdeclarative/src/qml/qml/qqmlvmemetaobject.cpp
+@@ -254,7 +254,7 @@ void QQmlVMEMetaObjectEndpoint::tryConnect()
+             if (!pd)
+                 return;
+ 
+-            if (pd->notifyIndex() != -1)
++            if (pd->notifyIndex() != -1 && ctxt->engine)
+                 connect(target, pd->notifyIndex(), ctxt->engine);
+         }
+ 
 diff --git a/qtdeclarative/src/qml/types/qqmlconnections.cpp b/qtdeclarative/src/qml/types/qqmlconnections.cpp
 index 29ed62cd39..aba930dfe1 100644
 --- a/qtdeclarative/src/qml/types/qqmlconnections.cpp
@@ -6699,7 +5985,7 @@ index 29ed62cd39..aba930dfe1 100644
      }
  }
 diff --git a/qtdeclarative/src/qmlmodels/qqmldelegatemodel.cpp b/qtdeclarative/src/qmlmodels/qqmldelegatemodel.cpp
-index 523c0df779..bc6b2447af 100644
+index 4fcff70de6..5b7e767ae2 100644
 --- a/qtdeclarative/src/qmlmodels/qqmldelegatemodel.cpp
 +++ b/qtdeclarative/src/qmlmodels/qqmldelegatemodel.cpp
 @@ -389,6 +389,12 @@ void QQmlDelegateModelPrivate::connectToAbstractItemModel()
@@ -6728,7 +6014,27 @@ index 523c0df779..bc6b2447af 100644
      QObject::disconnect(aim, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)),
                          q, SLOT(_q_dataChanged(QModelIndex,QModelIndex,QVector<int>)));
      QObject::disconnect(aim, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
-@@ -1974,6 +1986,38 @@ void QQmlDelegateModel::_q_rowsMoved(
+@@ -1871,10 +1883,15 @@ void QQmlDelegateModelPrivate::emitChanges()
+     for (int i = 1; i < m_groupCount; ++i)
+         QQmlDelegateModelGroupPrivate::get(m_groups[i])->emitModelUpdated(reset);
+ 
+-    auto cacheCopy = m_cache; // deliberate; emitChanges may alter m_cache
+-    for (QQmlDelegateModelItem *cacheItem : qAsConst(cacheCopy)) {
+-        if (cacheItem->attached)
+-            cacheItem->attached->emitChanges();
++    // emitChanges may alter m_cache and delete items
++    QVarLengthArray<QPointer<QQmlDelegateModelAttached>> attachedObjects;
++    attachedObjects.reserve(m_cache.length());
++    for (const QQmlDelegateModelItem *cacheItem : qAsConst(m_cache))
++        attachedObjects.append(cacheItem->attached);
++
++    for (const QPointer<QQmlDelegateModelAttached> &attached : qAsConst(attachedObjects)) {
++        if (attached && attached->m_cacheItem)
++            attached->emitChanges();
+     }
+ }
+ 
+@@ -1974,6 +1991,38 @@ void QQmlDelegateModel::_q_rowsMoved(
      }
  }
  
@@ -6767,6 +6073,34 @@ index 523c0df779..bc6b2447af 100644
  void QQmlDelegateModel::_q_dataChanged(const QModelIndex &begin, const QModelIndex &end, const QVector<int> &roles)
  {
      Q_D(QQmlDelegateModel);
+@@ -2663,20 +2712,24 @@ void QQmlDelegateModelAttached::emitChanges()
+     m_previousGroups = m_cacheItem->groups;
+ 
+     int indexChanges = 0;
+-    for (int i = 1; i < m_cacheItem->metaType->groupCount; ++i) {
++    const int groupCount = m_cacheItem->metaType->groupCount;
++    for (int i = 1; i < groupCount; ++i) {
+         if (m_previousIndex[i] != m_currentIndex[i]) {
+             m_previousIndex[i] = m_currentIndex[i];
+             indexChanges |= (1 << i);
+         }
+     }
+ 
++    // Don't access m_cacheItem anymore once we've started sending signals.
++    // We don't own it and someone might delete it.
++
+     int notifierId = 0;
+     const QMetaObject *meta = metaObject();
+-    for (int i = 1; i < m_cacheItem->metaType->groupCount; ++i, ++notifierId) {
++    for (int i = 1; i < groupCount; ++i, ++notifierId) {
+         if (groupChanges & (1 << i))
+             QMetaObject::activate(this, meta, notifierId, nullptr);
+     }
+-    for (int i = 1; i < m_cacheItem->metaType->groupCount; ++i, ++notifierId) {
++    for (int i = 1; i < groupCount; ++i, ++notifierId) {
+         if (indexChanges & (1 << i))
+             QMetaObject::activate(this, meta, notifierId, nullptr);
+     }
 diff --git a/qtdeclarative/src/qmlmodels/qqmldelegatemodel_p.h b/qtdeclarative/src/qmlmodels/qqmldelegatemodel_p.h
 index 8aab4badca..d140bfbaaf 100644
 --- a/qtdeclarative/src/qmlmodels/qqmldelegatemodel_p.h
@@ -6782,7 +6116,7 @@ index 8aab4badca..d140bfbaaf 100644
      void _q_rowsRemoved(const QModelIndex &,int,int);
      void _q_rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int);
 diff --git a/qtdeclarative/src/quick/accessible/qaccessiblequickitem.cpp b/qtdeclarative/src/quick/accessible/qaccessiblequickitem.cpp
-index ae1954ae8d..a8df58d450 100644
+index ae1954ae8d..99e6eff7c3 100644
 --- a/qtdeclarative/src/quick/accessible/qaccessiblequickitem.cpp
 +++ b/qtdeclarative/src/quick/accessible/qaccessiblequickitem.cpp
 @@ -46,6 +46,7 @@
@@ -6858,6 +6192,15 @@ index ae1954ae8d..a8df58d450 100644
      return state;
  }
  
+@@ -217,7 +230,7 @@ QAccessible::Role QAccessibleQuickItem::role() const
+ 
+     QAccessible::Role role = QAccessible::NoRole;
+     if (item())
+-        role = QQuickItemPrivate::get(item())->accessibleRole();
++        role = QQuickItemPrivate::get(item())->effectiveAccessibleRole();
+     if (role == QAccessible::NoRole) {
+         if (qobject_cast<QQuickText*>(const_cast<QQuickItem *>(item())))
+             role = QAccessible::StaticText;
 diff --git a/qtdeclarative/src/quick/accessible/qaccessiblequickview_p.h b/qtdeclarative/src/quick/accessible/qaccessiblequickview_p.h
 index 39ffcaf39c..8baa01330c 100644
 --- a/qtdeclarative/src/quick/accessible/qaccessiblequickview_p.h
@@ -6902,7 +6245,7 @@ index 8321fcfeed..383078b3b9 100644
      drag->setMimeData(mimeData);
      if (pixmapLoader.isReady()) {
 diff --git a/qtdeclarative/src/quick/items/qquickitem.cpp b/qtdeclarative/src/quick/items/qquickitem.cpp
-index 33da9762d3..c370d6e5c3 100644
+index 33da9762d3..9e8b289376 100644
 --- a/qtdeclarative/src/quick/items/qquickitem.cpp
 +++ b/qtdeclarative/src/quick/items/qquickitem.cpp
 @@ -59,6 +59,7 @@
@@ -6921,6 +6264,15 @@ index 33da9762d3..c370d6e5c3 100644
  
      if (d->windowRefCount > 1)
          d->windowRefCount = 1; // Make sure window is set to null in next call to derefWindow().
+@@ -2398,7 +2400,7 @@ bool QQuickItemPrivate::canAcceptTabFocus(QQuickItem *item)
+         return true;
+ 
+ #if QT_CONFIG(accessibility)
+-    QAccessible::Role role = QQuickItemPrivate::get(item)->accessibleRole();
++    QAccessible::Role role = QQuickItemPrivate::get(item)->effectiveAccessibleRole();
+     if (role == QAccessible::EditableText || role == QAccessible::Table || role == QAccessible::List) {
+         return true;
+     } else if (role == QAccessible::ComboBox || role == QAccessible::SpinBox) {
 @@ -2526,6 +2528,7 @@ QQuickItem* QQuickItemPrivate::nextPrevItemInTabFocusChain(QQuickItem *item, boo
      QQuickItem *current = item;
      qCDebug(DBG_FOCUS) << "QQuickItemPrivate::nextPrevItemInTabFocusChain: startItem:" << startItem;
@@ -7027,8 +6379,33 @@ index 33da9762d3..c370d6e5c3 100644
      emit q->enabledChanged();
  }
  
+@@ -8974,13 +9000,20 @@ QQuickItemPrivate::ExtraData::ExtraData()
+ 
+ 
+ #if QT_CONFIG(accessibility)
+-QAccessible::Role QQuickItemPrivate::accessibleRole() const
++QAccessible::Role QQuickItemPrivate::effectiveAccessibleRole() const
+ {
+     Q_Q(const QQuickItem);
+-    QQuickAccessibleAttached *accessibleAttached = qobject_cast<QQuickAccessibleAttached *>(qmlAttachedPropertiesObject<QQuickAccessibleAttached>(q, false));
+-    if (accessibleAttached)
+-        return accessibleAttached->role();
++    auto *attached = qmlAttachedPropertiesObject<QQuickAccessibleAttached>(q, false);
++    auto role = QAccessible::NoRole;
++    if (auto *accessibleAttached = qobject_cast<QQuickAccessibleAttached *>(attached))
++        role = accessibleAttached->role();
++    if (role == QAccessible::NoRole)
++        role = accessibleRole();
++    return role;
++}
+ 
++QAccessible::Role QQuickItemPrivate::accessibleRole() const
++{
+     return QAccessible::NoRole;
+ }
+ #endif
 diff --git a/qtdeclarative/src/quick/items/qquickitem_p.h b/qtdeclarative/src/quick/items/qquickitem_p.h
-index 841d91bb40..ade8fb61f2 100644
+index 841d91bb40..6f329bd119 100644
 --- a/qtdeclarative/src/quick/items/qquickitem_p.h
 +++ b/qtdeclarative/src/quick/items/qquickitem_p.h
 @@ -472,6 +472,7 @@ public:
@@ -7039,6 +6416,17 @@ index 841d91bb40..ade8fb61f2 100644
  
      enum DirtyType {
          TransformOrigin         = 0x00000001,
+@@ -574,7 +575,10 @@ public:
+     virtual void implicitHeightChanged();
+ 
+ #if QT_CONFIG(accessibility)
++    QAccessible::Role effectiveAccessibleRole() const;
++private:
+     virtual QAccessible::Role accessibleRole() const;
++public:
+ #endif
+ 
+     void setImplicitAntialiasing(bool antialiasing);
 diff --git a/qtdeclarative/src/quick/items/qquickmousearea_p_p.h b/qtdeclarative/src/quick/items/qquickmousearea_p_p.h
 index fba383e268..0d63618622 100644
 --- a/qtdeclarative/src/quick/items/qquickmousearea_p_p.h
@@ -7575,6 +6963,62 @@ index 2438e577ae..85d156b8a3 100644
 +    qaccessiblequickwidgetfactory.cpp
  
  load(qt_module)
+diff --git a/qtdeclarative/tests/auto/qml/qqmldelegatemodel/data/deleteRace.qml b/qtdeclarative/tests/auto/qml/qqmldelegatemodel/data/deleteRace.qml
+new file mode 100644
+index 0000000000..23874970e7
+--- /dev/null
++++ b/qtdeclarative/tests/auto/qml/qqmldelegatemodel/data/deleteRace.qml
+@@ -0,0 +1,50 @@
++import QtQuick 2.15
++import QtQml.Models 2.15
++
++Item {
++    DelegateModel {
++        id: delegateModel
++        model: ListModel {
++            id: sourceModel
++
++            ListElement { title: "foo" }
++            ListElement { title: "bar" }
++
++            function clear() {
++                if (count > 0)
++                    remove(0, count);
++            }
++        }
++
++        groups: [
++            DelegateModelGroup { name: "selectedItems" }
++        ]
++
++        delegate: Text {
++            height: DelegateModel.inSelectedItems ? implicitHeight * 2 : implicitHeight
++            Component.onCompleted: {
++                if (index === 0)
++                    DelegateModel.inSelectedItems = true;
++            }
++        }
++
++        Component.onCompleted: {
++            items.create(0)
++            items.create(1)
++        }
++    }
++
++    ListView {
++        anchors.fill: parent
++        model: delegateModel
++    }
++
++    Timer {
++        running: true
++        interval: 10
++        onTriggered: sourceModel.clear()
++    }
++
++    property int count: delegateModel.items.count
++}
++
 diff --git a/qtdeclarative/tests/auto/qml/qqmldelegatemodel/data/redrawUponColumnChange.qml b/qtdeclarative/tests/auto/qml/qqmldelegatemodel/data/redrawUponColumnChange.qml
 new file mode 100644
 index 0000000000..206133bb39
@@ -7593,7 +7037,7 @@ index 0000000000..206133bb39
 +    }
 +}
 diff --git a/qtdeclarative/tests/auto/qml/qqmldelegatemodel/tst_qqmldelegatemodel.cpp b/qtdeclarative/tests/auto/qml/qqmldelegatemodel/tst_qqmldelegatemodel.cpp
-index 35f1e2c94d..1722447830 100644
+index 35f1e2c94d..f473cff75f 100644
 --- a/qtdeclarative/tests/auto/qml/qqmldelegatemodel/tst_qqmldelegatemodel.cpp
 +++ b/qtdeclarative/tests/auto/qml/qqmldelegatemodel/tst_qqmldelegatemodel.cpp
 @@ -27,6 +27,8 @@
@@ -7605,15 +7049,16 @@ index 35f1e2c94d..1722447830 100644
  #include <QtQml/qqmlcomponent.h>
  #include <QtQmlModels/private/qqmldelegatemodel_p.h>
  #include <QtQuick/qquickview.h>
-@@ -47,6 +49,7 @@ private slots:
+@@ -47,6 +49,8 @@ private slots:
      void filterOnGroup_removeWhenCompleted();
      void qtbug_86017();
      void contextAccessedByHandler();
 +    void redrawUponColumnChange();
++    void deleteRace();
  };
  
  class AbstractItemModel : public QAbstractItemModel
-@@ -186,6 +189,30 @@ void tst_QQmlDelegateModel::contextAccessedByHandler()
+@@ -186,6 +190,41 @@ void tst_QQmlDelegateModel::contextAccessedByHandler()
      QVERIFY(root->property("works").toBool());
  }
  
@@ -7639,6 +7084,17 @@ index 35f1e2c94d..1722447830 100644
 +    m1.removeColumn(0);
 +
 +    QCOMPARE(item->property("text").toString(), "Coconut");
++}
++
++void tst_QQmlDelegateModel::deleteRace()
++{
++    QQmlEngine engine;
++    QQmlComponent c(&engine, testFileUrl("deleteRace.qml"));
++    QVERIFY2(c.isReady(), qPrintable(c.errorString()));
++    QScopedPointer<QObject> o(c.create());
++    QVERIFY(!o.isNull());
++    QTRY_COMPARE(o->property("count").toInt(), 2);
++    QTRY_COMPARE(o->property("count").toInt(), 0);
 +}
 +
  QTEST_MAIN(tst_QQmlDelegateModel)
@@ -7717,6 +7173,98 @@ index bffb62c59e..97cc64991f 100644
  QTEST_MAIN(tst_qqmllanguage)
  
  #include "tst_qqmllanguage.moc"
+diff --git a/qtdeclarative/tests/auto/quick/qquickgridview/data/qtbug86255.qml b/qtdeclarative/tests/auto/quick/qquickgridview/data/qtbug86255.qml
+new file mode 100644
+index 0000000000..20688b1967
+--- /dev/null
++++ b/qtdeclarative/tests/auto/quick/qquickgridview/data/qtbug86255.qml
+@@ -0,0 +1,55 @@
++import QtQuick 2.15
++
++Item {
++    width: 240
++    height: 320
++
++    GridView {
++        id: grid
++        objectName: "view"
++        anchors.fill: parent
++        cellWidth: 64
++        cellHeight: 64
++        model: ListModel {
++            id: listModel
++
++            Component.onCompleted: reload()
++
++            function reload() {
++                clear();
++                for (let i = 0; i < 1000; i++) {
++                    let magic = Math.random();
++                    append( { magic } );
++                }
++            }
++        }
++        clip: true
++        delegate: Item {
++            id: d
++            property string val: magic
++            Loader {
++                property alias value: d.val
++                asynchronous: true
++                sourceComponent: cmp
++            }
++        }
++    }
++
++    Timer {
++        running: true
++        interval: 1000
++        onTriggered: listModel.reload()
++    }
++    Timer {
++        running: true
++        interval: 500
++        onTriggered: grid.flick(0, -4000)
++    }
++
++    Component {
++        id: cmp
++        Text {
++            text: value
++        }
++    }
++}
+diff --git a/qtdeclarative/tests/auto/quick/qquickgridview/tst_qquickgridview.cpp b/qtdeclarative/tests/auto/quick/qquickgridview/tst_qquickgridview.cpp
+index 94ec4f44d5..7d0d9fa7a7 100644
+--- a/qtdeclarative/tests/auto/quick/qquickgridview/tst_qquickgridview.cpp
++++ b/qtdeclarative/tests/auto/quick/qquickgridview/tst_qquickgridview.cpp
+@@ -213,6 +213,7 @@ private slots:
+     void QTBUG_45640();
+     void QTBUG_49218();
+     void QTBUG_48870_fastModelUpdates();
++    void QTBUG_86255();
+ 
+     void keyNavigationEnabled();
+     void resizeDynamicCellWidthRtL();
+@@ -6814,6 +6815,18 @@ void tst_QQuickGridView::resizeDynamicCellWidthRtL()
+     QTRY_COMPARE(gridview->contentX(), 0.f);
+ }
+ 
++void tst_QQuickGridView::QTBUG_86255()
++{
++    QScopedPointer<QQuickView> window(createView());
++    window->setSource(testFileUrl("qtbug86255.qml"));
++    window->show();
++    QVERIFY(QTest::qWaitForWindowExposed(window.data()));
++    QQuickGridView *view = findItem<QQuickGridView>(window->rootObject(), "view");
++    QVERIFY(view != nullptr);
++    QTRY_COMPARE(view->isFlicking(), true);
++    QTRY_COMPARE(view->isFlicking(), false);
++}
++
+ void tst_QQuickGridView::releaseItems()
+ {
+     QScopedPointer<QQuickView> view(createView());
 diff --git a/qtdeclarative/tests/auto/quick/qquickitem2/data/activeFocusOnTab_infiniteLoop3.qml b/qtdeclarative/tests/auto/quick/qquickitem2/data/activeFocusOnTab_infiniteLoop3.qml
 new file mode 100644
 index 0000000000..889e480f3b
@@ -7819,8 +7367,119 @@ index aa55b42935..26e86672b0 100644
  void tst_qquickstates::noStateOsciallation()
  {
     QQmlEngine engine;
-Submodule qtdoc 9bb4a9bf...701325d5:
-Submodule qtimageformats 1f67161f..c249f585:
+diff --git a/qtdeclarative/tests/manual/quickcontrols2/swipedelegate/CloseOnCompletedWorks.qml b/qtdeclarative/tests/manual/quickcontrols2/swipedelegate/CloseOnCompletedWorks.qml
+new file mode 100644
+index 0000000000..38dfde41c3
+--- /dev/null
++++ b/qtdeclarative/tests/manual/quickcontrols2/swipedelegate/CloseOnCompletedWorks.qml
+@@ -0,0 +1,74 @@
++/****************************************************************************
++**
++** Copyright (C) 2022 The Qt Company Ltd.
++** Contact: https://www.qt.io/licensing/
++**
++** This file is part of the test suite of the Qt Toolkit.
++**
++** $QT_BEGIN_LICENSE:BSD$
++** Commercial License Usage
++** Licensees holding valid commercial Qt licenses may use this file in
++** accordance with the commercial license agreement provided with the
++** Software or, alternatively, in accordance with the terms contained in
++** a written agreement between you and The Qt Company. For licensing terms
++** and conditions see https://www.qt.io/terms-conditions. For further
++** information use the contact form at https://www.qt.io/contact-us.
++**
++** BSD License Usage
++** Alternatively, you may use this file under the terms of the BSD license
++** as follows:
++**
++** "Redistribution and use in source and binary forms, with or without
++** modification, are permitted provided that the following conditions are
++** met:
++**   * Redistributions of source code must retain the above copyright
++**     notice, this list of conditions and the following disclaimer.
++**   * Redistributions in binary form must reproduce the above copyright
++**     notice, this list of conditions and the following disclaimer in
++**     the documentation and/or other materials provided with the
++**     distribution.
++**   * Neither the name of The Qt Company Ltd nor the names of its
++**     contributors may be used to endorse or promote products derived
++**     from this software without specific prior written permission.
++**
++**
++** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
++** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
++**
++** $QT_END_LICENSE$
++**
++****************************************************************************/
++
++import QtQuick 2
++import QtQuick.Controls 2
++ApplicationWindow {
++    visible: true
++    width: 640
++    height: 480
++
++    ListView {
++        anchors.fill: parent
++        model: 2
++
++        delegate: SwipeDelegate {
++            text: "Swipe me left (should not crash)"
++
++            swipe.right: Label {
++                text: "Release (should not crash)"
++            }
++
++            swipe.onCompleted: {
++                swipe.close()
++            }
++        }
++    }
++}
+diff --git a/qtdeclarative/tools/qml/main.cpp b/qtdeclarative/tools/qml/main.cpp
+index beeec88f07..2cb7653d65 100644
+--- a/qtdeclarative/tools/qml/main.cpp
++++ b/qtdeclarative/tools/qml/main.cpp
+@@ -446,8 +446,8 @@ int main(int argc, char *argv[])
+     QCommandLineParser parser;
+     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
+     parser.setOptionsAfterPositionalArgumentsMode(QCommandLineParser::ParseAsPositionalArguments);
+-    const QCommandLineOption helpOption = parser.addHelpOption();
+-    const QCommandLineOption versionOption = parser.addVersionOption();
++    parser.addHelpOption();
++    parser.addVersionOption();
+ #ifdef QT_GUI_LIB
+     QCommandLineOption apptypeOption(QStringList() << QStringLiteral("a") << QStringLiteral("apptype"),
+         QCoreApplication::translate("main", "Select which application class to use. Default is gui."),
+@@ -522,14 +522,7 @@ int main(int argc, char *argv[])
+     parser.addPositionalArgument("args",
+         QCoreApplication::translate("main", "Arguments after '--' are ignored, but passed through to the application.arguments variable in QML."), "[-- args...]");
+ 
+-    if (!parser.parse(QCoreApplication::arguments())) {
+-        qWarning() << parser.errorText();
+-        exit(1);
+-    }
+-    if (parser.isSet(versionOption))
+-        parser.showVersion();
+-    if (parser.isSet(helpOption))
+-        parser.showHelp();
++    parser.process(*app);
+     if (parser.isSet(listConfOption))
+         listConfFiles();
+     if (applicationType == QmlApplicationTypeUnknown) {
+Submodule qtdoc 52946b84...9dfbbfb9:
+Submodule qtimageformats e57b0df6..5aa33ec8:
 diff --git a/qtimageformats/src/plugins/imageformats/icns/qicnshandler.cpp b/qtimageformats/src/plugins/imageformats/icns/qicnshandler.cpp
 index dde783c..1bf9074 100644
 --- a/qtimageformats/src/plugins/imageformats/icns/qicnshandler.cpp
@@ -8127,21 +7786,8 @@ index 82d38cb..d02eb05 100644
          return false;
  
      QRect prevFrameRect;
-Submodule qtlocation e3e9f9bf..2a8a48e9:
-Submodule src/3rdparty/mapbox-gl-native d3101bbc...d8054f1e (commits not present)
-diff --git a/qtlocation/src/location/configure.json b/qtlocation/src/location/configure.json
-index 6d01a9a3..d1e623a1 100644
---- a/qtlocation/src/location/configure.json
-+++ b/qtlocation/src/location/configure.json
-@@ -9,7 +9,7 @@
-             "label": "Qt.labs.location experimental QML plugin",
-             "purpose": "Provides experimental QtLocation QML types",
-             "section": "Location",
--            "condition": "config.opengl",
-+            "condition": "features.opengl",
-             "output": [ "privateFeature" ]
-         },
-         "geoservices_osm": {
+Submodule qtlocation a87a9d1a..664701dc:
+Submodule src/3rdparty/mapbox-gl-native d3101bbc...5a07e196 (commits not present)
 diff --git a/qtlocation/src/location/labs/qsg/qgeomapobjectqsgsupport.cpp b/qtlocation/src/location/labs/qsg/qgeomapobjectqsgsupport.cpp
 index a978573d..11e1466f 100644
 --- a/qtlocation/src/location/labs/qsg/qgeomapobjectqsgsupport.cpp
@@ -8400,7 +8046,7 @@ index 3858ddf5..af66f28e 100644
  
  PlaceManagerEngineEsri::PlaceManagerEngineEsri(const QVariantMap &parameters, QGeoServiceProvider::Error *error,
                                                 QString *errorString) :
-Submodule qtmultimedia 9dbea27e..ff4c7bc3:
+Submodule qtmultimedia baeb08ba..78d05cfc:
 diff --git a/qtmultimedia/src/gsttools/qgstvideorenderersink.cpp b/qtmultimedia/src/gsttools/qgstvideorenderersink.cpp
 index 4000f2178..a446d93fe 100644
 --- a/qtmultimedia/src/gsttools/qgstvideorenderersink.cpp
@@ -8464,7 +8110,7 @@ index 2b5325132..b68b4af1b 100644
  }
  
 Submodule qtpim 02efef5e...f9a8f0fc (commits not present)
-Submodule qtquick3d a78f1c57..ccd02842:
+Submodule qtquick3d b485a86d..353f50a9:
 diff --git a/qtquick3d/src/plugins/assetimporters/assimp/assimp.pro b/qtquick3d/src/plugins/assetimporters/assimp/assimp.pro
 index ca5c499e..174a075b 100644
 --- a/qtquick3d/src/plugins/assetimporters/assimp/assimp.pro
@@ -8478,7 +8124,7 @@ index ca5c499e..174a075b 100644
  } else {
      include(../../../3rdparty/assimp/assimp.pri)
  }
-Submodule qtquickcontrols2 5e31cdc9..86a84eaa:
+Submodule qtquickcontrols2 c433697a..0472a07a:
 diff --git a/qtquickcontrols2/src/imports/platform/widgets/qwidgetplatformmenu.cpp b/qtquickcontrols2/src/imports/platform/widgets/qwidgetplatformmenu.cpp
 index e5fe734f7..e36922775 100644
 --- a/qtquickcontrols2/src/imports/platform/widgets/qwidgetplatformmenu.cpp
@@ -8560,10 +8206,10 @@ index f38c2b09c..6eed2a024 100644
  
      contentHeight = implicitContentHeight;
 diff --git a/qtquickcontrols2/src/quicktemplates2/qquickcontrol.cpp b/qtquickcontrols2/src/quicktemplates2/qquickcontrol.cpp
-index bbbd0e622..1f4b47343 100644
+index 409fb582c..c4b05c13c 100644
 --- a/qtquickcontrols2/src/quicktemplates2/qquickcontrol.cpp
 +++ b/qtquickcontrols2/src/quicktemplates2/qquickcontrol.cpp
-@@ -845,6 +845,13 @@ void QQuickControlPrivate::executeBackground(bool complete)
+@@ -846,6 +846,13 @@ void QQuickControlPrivate::executeBackground(bool complete)
          quickCompleteDeferred(q, backgroundName(), background);
  }
  
@@ -8577,7 +8223,7 @@ index bbbd0e622..1f4b47343 100644
  void QQuickControlPrivate::hideOldItem(QQuickItem *item)
  {
      if (!item)
-@@ -863,6 +870,29 @@ void QQuickControlPrivate::hideOldItem(QQuickItem *item)
+@@ -864,6 +871,29 @@ void QQuickControlPrivate::hideOldItem(QQuickItem *item)
  #endif
  }
  
@@ -8607,6 +8253,21 @@ index bbbd0e622..1f4b47343 100644
  void QQuickControlPrivate::updateBaselineOffset()
  {
      Q_Q(QQuickControl);
+@@ -2297,12 +2327,13 @@ QAccessible::Role QQuickControl::accessibleRole() const
+ 
+ void QQuickControl::accessibilityActiveChanged(bool active)
+ {
++    Q_D(QQuickControl);
+     if (!active)
+         return;
+ 
+     QQuickAccessibleAttached *accessibleAttached = qobject_cast<QQuickAccessibleAttached *>(qmlAttachedPropertiesObject<QQuickAccessibleAttached>(this, true));
+     Q_ASSERT(accessibleAttached);
+-    accessibleAttached->setRole(accessibleRole());
++    accessibleAttached->setRole(d->effectiveAccessibleRole());
+ }
+ #endif
+ 
 diff --git a/qtquickcontrols2/src/quicktemplates2/qquickcontrol_p_p.h b/qtquickcontrols2/src/quicktemplates2/qquickcontrol_p_p.h
 index 8e979079e..a6e624c91 100644
 --- a/qtquickcontrols2/src/quicktemplates2/qquickcontrol_p_p.h
@@ -8652,6 +8313,19 @@ index e6db14eb5..6197d1547 100644
      const int count = contentModel->count();
      qreal maxHeight = 0;
      for (int i = 0; i < count; ++i) {
+diff --git a/qtquickcontrols2/src/quicktemplates2/qquicklabel.cpp b/qtquickcontrols2/src/quicktemplates2/qquicklabel.cpp
+index 71b60a2bc..2bc621674 100644
+--- a/qtquickcontrols2/src/quicktemplates2/qquicklabel.cpp
++++ b/qtquickcontrols2/src/quicktemplates2/qquicklabel.cpp
+@@ -263,7 +263,7 @@ void QQuickLabelPrivate::accessibilityActiveChanged(bool active)
+     Q_Q(QQuickLabel);
+     QQuickAccessibleAttached *accessibleAttached = qobject_cast<QQuickAccessibleAttached *>(qmlAttachedPropertiesObject<QQuickAccessibleAttached>(q, true));
+     Q_ASSERT(accessibleAttached);
+-    accessibleAttached->setRole(accessibleRole());
++    accessibleAttached->setRole(effectiveAccessibleRole());
+     maybeSetAccessibleName(text);
+ }
+ 
 diff --git a/qtquickcontrols2/src/quicktemplates2/qquickoverlay.cpp b/qtquickcontrols2/src/quicktemplates2/qquickoverlay.cpp
 index 91bd59184..0ce518f84 100644
 --- a/qtquickcontrols2/src/quicktemplates2/qquickoverlay.cpp
@@ -8669,6 +8343,66 @@ index 91bd59184..0ce518f84 100644
  }
  
  void QQuickOverlay::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+diff --git a/qtquickcontrols2/src/quicktemplates2/qquickpopup.cpp b/qtquickcontrols2/src/quicktemplates2/qquickpopup.cpp
+index 7df80a047..bfaa84e30 100644
+--- a/qtquickcontrols2/src/quicktemplates2/qquickpopup.cpp
++++ b/qtquickcontrols2/src/quicktemplates2/qquickpopup.cpp
+@@ -46,6 +46,7 @@
+ 
+ #include <QtQml/qqmlinfo.h>
+ #include <QtQuick/qquickitem.h>
++#include <QtQuick/private/qquickaccessibleattached_p.h>
+ #include <QtQuick/private/qquicktransition_p.h>
+ #include <QtQuick/private/qquickitem_p.h>
+ 
+@@ -2720,6 +2721,19 @@ QPalette QQuickPopup::defaultPalette() const
+ }
+ 
+ #if QT_CONFIG(accessibility)
++QAccessible::Role QQuickPopup::effectiveAccessibleRole() const
++{
++    auto *attached = qmlAttachedPropertiesObject<QQuickAccessibleAttached>(this, false);
++
++    auto role = QAccessible::NoRole;
++    if (auto *accessibleAttached = qobject_cast<QQuickAccessibleAttached *>(attached))
++        role = accessibleAttached->role();
++    if (role == QAccessible::NoRole)
++        role = accessibleRole();
++
++    return role;
++}
++
+ QAccessible::Role QQuickPopup::accessibleRole() const
+ {
+     return QAccessible::Dialog;
+diff --git a/qtquickcontrols2/src/quicktemplates2/qquickpopup_p.h b/qtquickcontrols2/src/quicktemplates2/qquickpopup_p.h
+index dc3ebf6f8..a3773be3e 100644
+--- a/qtquickcontrols2/src/quicktemplates2/qquickpopup_p.h
++++ b/qtquickcontrols2/src/quicktemplates2/qquickpopup_p.h
+@@ -454,7 +454,10 @@ protected:
+     virtual QPalette defaultPalette() const;
+ 
+ #if QT_CONFIG(accessibility)
++    QAccessible::Role effectiveAccessibleRole() const;
++private:
+     virtual QAccessible::Role accessibleRole() const;
++protected:
+     virtual void accessibilityActiveChanged(bool active);
+ #endif
+ 
+diff --git a/qtquickcontrols2/src/quicktemplates2/qquickpopupitem.cpp b/qtquickcontrols2/src/quicktemplates2/qquickpopupitem.cpp
+index 0069b9fc1..143c37fc3 100644
+--- a/qtquickcontrols2/src/quicktemplates2/qquickpopupitem.cpp
++++ b/qtquickcontrols2/src/quicktemplates2/qquickpopupitem.cpp
+@@ -404,7 +404,7 @@ QPalette QQuickPopupItem::defaultPalette() const
+ QAccessible::Role QQuickPopupItem::accessibleRole() const
+ {
+     Q_D(const QQuickPopupItem);
+-    return d->popup->accessibleRole();
++    return d->popup->effectiveAccessibleRole();
+ }
+ 
+ void QQuickPopupItem::accessibilityActiveChanged(bool active)
 diff --git a/qtquickcontrols2/src/quicktemplates2/qquickscrollbar.cpp b/qtquickcontrols2/src/quicktemplates2/qquickscrollbar.cpp
 index 4e2f509db..1c4b308cd 100644
 --- a/qtquickcontrols2/src/quicktemplates2/qquickscrollbar.cpp
@@ -8698,6 +8432,32 @@ index 4e2f509db..1c4b308cd 100644
      layoutVertical();
      vertical->setSize(area->property("heightRatio").toReal());
      vertical->setPosition(area->property("yPosition").toReal());
+diff --git a/qtquickcontrols2/src/quicktemplates2/qquicktextarea.cpp b/qtquickcontrols2/src/quicktemplates2/qquicktextarea.cpp
+index 64fc631dd..fba3f6b70 100644
+--- a/qtquickcontrols2/src/quicktemplates2/qquicktextarea.cpp
++++ b/qtquickcontrols2/src/quicktemplates2/qquicktextarea.cpp
+@@ -512,7 +512,7 @@ void QQuickTextAreaPrivate::accessibilityActiveChanged(bool active)
+     Q_Q(QQuickTextArea);
+     QQuickAccessibleAttached *accessibleAttached = qobject_cast<QQuickAccessibleAttached *>(qmlAttachedPropertiesObject<QQuickAccessibleAttached>(q, true));
+     Q_ASSERT(accessibleAttached);
+-    accessibleAttached->setRole(accessibleRole());
++    accessibleAttached->setRole(effectiveAccessibleRole());
+     accessibleAttached->set_readOnly(q->isReadOnly());
+     accessibleAttached->setDescription(placeholder);
+ }
+diff --git a/qtquickcontrols2/src/quicktemplates2/qquicktextfield.cpp b/qtquickcontrols2/src/quicktemplates2/qquicktextfield.cpp
+index 8fa04bd3a..e83346cbd 100644
+--- a/qtquickcontrols2/src/quicktemplates2/qquicktextfield.cpp
++++ b/qtquickcontrols2/src/quicktemplates2/qquicktextfield.cpp
+@@ -359,7 +359,7 @@ void QQuickTextFieldPrivate::accessibilityActiveChanged(bool active)
+     Q_Q(QQuickTextField);
+     QQuickAccessibleAttached *accessibleAttached = qobject_cast<QQuickAccessibleAttached *>(qmlAttachedPropertiesObject<QQuickAccessibleAttached>(q, true));
+     Q_ASSERT(accessibleAttached);
+-    accessibleAttached->setRole(accessibleRole());
++    accessibleAttached->setRole(effectiveAccessibleRole());
+     accessibleAttached->set_readOnly(m_readOnly);
+     accessibleAttached->set_passwordEdit((m_echoMode == QQuickTextField::Password || m_echoMode == QQuickTextField::PasswordEchoOnEdit) ? true : false);
+     accessibleAttached->setDescription(placeholder);
 diff --git a/qtquickcontrols2/tests/auto/controls/data/tst_scrollview.qml b/qtquickcontrols2/tests/auto/controls/data/tst_scrollview.qml
 index 0e8b08352..cd4931184 100644
 --- a/qtquickcontrols2/tests/auto/controls/data/tst_scrollview.qml
@@ -8885,8 +8645,8 @@ index 54952d128..3d50e2dd4 100644
  QTEST_QUICKCONTROLS_MAIN(tst_QQuickPopup)
  
  #include "tst_qquickpopup.moc"
-Submodule qtscript 5be95f96...4f8c35a5 (commits not present)
-Submodule qtspeech b2fdbe27..4856b6e2:
+Submodule qtscript 5be95f96...be545189 (commits not present)
+Submodule qtspeech 87bd324a..75142c77:
 diff --git a/qtspeech/src/plugins/tts/speechdispatcher/qtexttospeech_speechd.cpp b/qtspeech/src/plugins/tts/speechdispatcher/qtexttospeech_speechd.cpp
 index 6eb74b8..bcc7dd1 100644
 --- a/qtspeech/src/plugins/tts/speechdispatcher/qtexttospeech_speechd.cpp
@@ -8902,7 +8662,7 @@ index 6eb74b8..bcc7dd1 100644
  }
  
  // We have no way of knowing our own client_id since speech-dispatcher seems to be incomplete
-Submodule qtsvg 78ec450b..9b5ab29c:
+Submodule qtsvg 7e6a3b38..37b2c764:
 diff --git a/qtsvg/src/plugins/imageformats/svg/qsvgiohandler.cpp b/qtsvg/src/plugins/imageformats/svg/qsvgiohandler.cpp
 index 561e77e..12e0574 100644
 --- a/qtsvg/src/plugins/imageformats/svg/qsvgiohandler.cpp
@@ -8916,8 +8676,31 @@ index 561e77e..12e0574 100644
              image->fill(d->backColor.rgba());
              QPainter p(image);
              d->r.render(&p, bounds);
+diff --git a/qtsvg/src/svg/qsvgfont_p.h b/qtsvg/src/svg/qsvgfont_p.h
+index fd0a3fa..fcffbe8 100644
+--- a/qtsvg/src/svg/qsvgfont_p.h
++++ b/qtsvg/src/svg/qsvgfont_p.h
+@@ -74,6 +74,7 @@ public:
+ class Q_SVG_PRIVATE_EXPORT QSvgFont : public QSvgRefCounted
+ {
+ public:
++    static constexpr qreal DEFAULT_UNITS_PER_EM = 1000;
+     QSvgFont(qreal horizAdvX);
+ 
+     void setFamilyName(const QString &name);
+@@ -86,9 +87,7 @@ public:
+     void draw(QPainter *p, const QPointF &point, const QString &str, qreal pixelSize, Qt::Alignment alignment) const;
+ public:
+     QString m_familyName;
+-    qreal m_unitsPerEm;
+-    qreal m_ascent;
+-    qreal m_descent;
++    qreal m_unitsPerEm = DEFAULT_UNITS_PER_EM;
+     qreal m_horizAdvX;
+     QHash<QChar, QSvgGlyph> m_glyphs;
+ };
 diff --git a/qtsvg/src/svg/qsvghandler.cpp b/qtsvg/src/svg/qsvghandler.cpp
-index b2227b6..8dda563 100644
+index b2227b6..222b6d8 100644
 --- a/qtsvg/src/svg/qsvghandler.cpp
 +++ b/qtsvg/src/svg/qsvghandler.cpp
 @@ -1393,9 +1393,10 @@ static void parseFont(QSvgNode *node,
@@ -8952,6 +8735,15 @@ index b2227b6..8dda563 100644
  
      QRectF rect(ncx-nr, ncy-nr, nr*2, nr*2);
      QSvgNode *circle = new QSvgCircle(parent, rect);
+@@ -2666,7 +2671,7 @@ static bool parseFontFaceNode(QSvgStyleProperty *parent,
+ 
+     qreal unitsPerEm = toDouble(unitsPerEmStr);
+     if (!unitsPerEm)
+-        unitsPerEm = 1000;
++        unitsPerEm = QSvgFont::DEFAULT_UNITS_PER_EM;
+ 
+     if (!name.isEmpty())
+         font->setFamilyName(name);
 @@ -3046,15 +3051,16 @@ static QSvgStyleProperty *createRadialGradientNode(QSvgNode *node,
  
      qreal ncx = 0.5;
@@ -9069,7 +8861,19 @@ index 36c76ec..db71e02 100644
 +
  QTEST_MAIN(tst_QSvgRenderer)
  #include "tst_qsvgrenderer.moc"
-Submodule qttools 1e7d5093..5649efd3:
+Submodule qttools 7918981b..c14dc7cf:
+diff --git a/qttools/src/assistant/help/help.pro b/qttools/src/assistant/help/help.pro
+index 800c4a38d..7556f451b 100644
+--- a/qttools/src/assistant/help/help.pro
++++ b/qttools/src/assistant/help/help.pro
+@@ -1,7 +1,6 @@
+ TARGET = QtHelp
+ 
+ QT = core-private gui widgets sql
+-QT_PRIVATE = network
+ 
+ DEFINES += QHELP_LIB
+ 
 diff --git a/qttools/src/assistant/qhelpgenerator/helpgenerator.cpp b/qttools/src/assistant/qhelpgenerator/helpgenerator.cpp
 index feab1e2d5..cbfb82507 100644
 --- a/qttools/src/assistant/qhelpgenerator/helpgenerator.cpp
@@ -9085,7 +8889,17 @@ index feab1e2d5..cbfb82507 100644
          m_query->prepare(QLatin1String("INSERT INTO FileAttributeSetTable "
              "VALUES(?, ?)"));
          m_query->bindValue(0, filterSetId);
-Submodule qtwayland 8f56244e..c4c3fc69:
+diff --git a/qttools/src/assistant/qhelpgenerator/qhelpgenerator.pro b/qttools/src/assistant/qhelpgenerator/qhelpgenerator.pro
+index bb22000c8..415347a00 100644
+--- a/qttools/src/assistant/qhelpgenerator/qhelpgenerator.pro
++++ b/qttools/src/assistant/qhelpgenerator/qhelpgenerator.pro
+@@ -1,4 +1,4 @@
+-QT += network help-private
++QT += help-private
+ 
+ QTPLUGIN.platforms = qminimal
+ QTPLUGIN.sqldrivers = qsqlite
+Submodule qtwayland 9e0ec09d..aabaa4ef:
 diff --git a/qtwayland/src/client/configure.json b/qtwayland/src/client/configure.json
 index 2f424580..29222357 100644
 --- a/qtwayland/src/client/configure.json
@@ -11478,7 +11292,7 @@ index 261f8cbb..c1bcd5c6 100644
  private:
      QScopedPointer<QWaylandXdgShellV6> m_xdgShell;
 diff --git a/qtwayland/src/plugins/shellintegration/xdg-shell/qwaylandxdgshell.cpp b/qtwayland/src/plugins/shellintegration/xdg-shell/qwaylandxdgshell.cpp
-index f50e1c0e..822b385c 100644
+index fa9c01aa..822b385c 100644
 --- a/qtwayland/src/plugins/shellintegration/xdg-shell/qwaylandxdgshell.cpp
 +++ b/qtwayland/src/plugins/shellintegration/xdg-shell/qwaylandxdgshell.cpp
 @@ -67,11 +67,6 @@ QWaylandXdgSurface::Toplevel::Toplevel(QWaylandXdgSurface *xdgSurface)
@@ -11545,7 +11359,7 @@ index f50e1c0e..822b385c 100644
  }
  
  QWaylandXdgSurface::Popup::~Popup()
-@@ -216,10 +213,24 @@ QWaylandXdgSurface::Popup::~Popup()
+@@ -216,10 +213,14 @@ QWaylandXdgSurface::Popup::~Popup()
      if (isInitialized())
          destroy();
  
@@ -11558,20 +11372,10 @@ index f50e1c0e..822b385c 100644
          Q_ASSERT(shell->m_topmostGrabbingPopup == this);
 -        shell->m_topmostGrabbingPopup = m_parent->m_popup;
 +        shell->m_topmostGrabbingPopup = m_parentXdgSurface ? m_parentXdgSurface->m_popup : nullptr;
-+        m_grabbing = false;
-+
-+        // Synthesize Qt enter/leave events for popup
-+        QWindow *leave = nullptr;
-+        if (m_xdgSurface && m_xdgSurface->window())
-+            leave = m_xdgSurface->window()->window();
-+        QWindowSystemInterface::handleLeaveEvent(leave);
-+
-+        if (QWindow *enter = QGuiApplication::topLevelAt(QCursor::pos()))
-+            QWindowSystemInterface::handleEnterEvent(enter, enter->mapFromGlobal(QCursor::pos()), QCursor::pos());
-     }
- }
+         m_grabbing = false;
  
-@@ -257,6 +268,7 @@ QWaylandXdgSurface::QWaylandXdgSurface(QWaylandXdgShell *shell, ::xdg_surface *s
+         // Synthesize Qt enter/leave events for popup
+@@ -267,6 +268,7 @@ QWaylandXdgSurface::QWaylandXdgSurface(QWaylandXdgShell *shell, ::xdg_surface *s
                  m_toplevel->set_parent(parentXdgSurface->m_toplevel->object());
          }
      }
@@ -11579,7 +11383,7 @@ index f50e1c0e..822b385c 100644
  }
  
  QWaylandXdgSurface::~QWaylandXdgSurface()
-@@ -372,10 +384,10 @@ void QWaylandXdgSurface::setSizeHints()
+@@ -382,10 +384,10 @@ void QWaylandXdgSurface::setSizeHints()
          const int minHeight = qMax(0, m_window->windowMinimumSize().height());
          m_toplevel->set_min_size(minWidth, minHeight);
  
@@ -11592,7 +11396,7 @@ index f50e1c0e..822b385c 100644
          if (maxHeight == QWINDOWSIZE_MAX)
              maxHeight = 0;
          m_toplevel->set_max_size(maxWidth, maxHeight);
-@@ -400,8 +412,6 @@ void QWaylandXdgSurface::setPopup(QWaylandWindow *parent)
+@@ -410,8 +412,6 @@ void QWaylandXdgSurface::setPopup(QWaylandWindow *parent)
  {
      Q_ASSERT(!m_toplevel && !m_popup);
  
@@ -11601,7 +11405,7 @@ index f50e1c0e..822b385c 100644
      auto positioner = new QtWayland::xdg_positioner(m_shell->create_positioner());
      // set_popup expects a position relative to the parent
      QPoint transientPos = m_window->geometry().topLeft(); // this is absolute
-@@ -415,11 +425,10 @@ void QWaylandXdgSurface::setPopup(QWaylandWindow *parent)
+@@ -425,11 +425,10 @@ void QWaylandXdgSurface::setPopup(QWaylandWindow *parent)
      positioner->set_gravity(QtWayland::xdg_positioner::gravity_bottom_right);
      positioner->set_size(m_window->geometry().width(), m_window->geometry().height());
      positioner->set_constraint_adjustment(QtWayland::xdg_positioner::constraint_adjustment_slide_x
@@ -11616,30 +11420,6 @@ index f50e1c0e..822b385c 100644
      delete positioner;
  }
  
-@@ -441,6 +450,23 @@ void QWaylandXdgSurface::setGrabPopup(QWaylandWindow *parent, QWaylandInputDevic
-     }
-     setPopup(parent);
-     m_popup->grab(device, serial);
-+
-+    // Synthesize Qt enter/leave events for popup
-+    if (!parent)
-+        return;
-+    QWindow *current = QGuiApplication::topLevelAt(QCursor::pos());
-+    QWindow *leave = parent->window();
-+    if (current != leave)
-+        return;
-+
-+    QWindowSystemInterface::handleLeaveEvent(leave);
-+
-+    QWindow *enter = nullptr;
-+    if (m_popup && m_popup->m_xdgSurface && m_popup->m_xdgSurface->window())
-+        enter = m_popup->m_xdgSurface->window()->window();
-+
-+    if (enter)
-+        QWindowSystemInterface::handleEnterEvent(enter, enter->mapFromGlobal(QCursor::pos()), QCursor::pos());
- }
- 
- void QWaylandXdgSurface::xdg_surface_configure(uint32_t serial)
 diff --git a/qtwayland/src/plugins/shellintegration/xdg-shell/qwaylandxdgshell_p.h b/qtwayland/src/plugins/shellintegration/xdg-shell/qwaylandxdgshell_p.h
 index 96785205..4b518f0a 100644
 --- a/qtwayland/src/plugins/shellintegration/xdg-shell/qwaylandxdgshell_p.h
@@ -11781,18 +11561,6 @@ index 9312c2e5..2ea382f1 100644
 +
  QCOMPOSITOR_TEST_MAIN(tst_seatv5)
  #include "tst_seatv5.moc"
-diff --git a/qtwayland/tests/auto/client/shared/corecompositor.cpp b/qtwayland/tests/auto/client/shared/corecompositor.cpp
-index 5c6c83ba..fa9b7662 100644
---- a/qtwayland/tests/auto/client/shared/corecompositor.cpp
-+++ b/qtwayland/tests/auto/client/shared/corecompositor.cpp
-@@ -27,6 +27,7 @@
- ****************************************************************************/
- 
- #include "corecompositor.h"
-+#include <thread>
- 
- namespace MockCompositor {
- 
 diff --git a/qtwayland/tests/auto/client/shared/coreprotocol.cpp b/qtwayland/tests/auto/client/shared/coreprotocol.cpp
 index 0d988521..53e12291 100644
 --- a/qtwayland/tests/auto/client/shared/coreprotocol.cpp
@@ -12104,7 +11872,7 @@ index 2277bbb8..747875b4 100644
  
      QCOMPOSITOR_TRY_COMPARE(xdgToplevel()->m_committed.minSize, QSize(100, 100));
      QCOMPOSITOR_TRY_COMPARE(xdgToplevel()->m_committed.maxSize, QSize(1000, 1000));
-Submodule qtwebchannel c23cff71..c508ffb1:
+Submodule qtwebchannel fc02db2d..74c06253:
 diff --git a/qtwebchannel/src/webchannel/qmetaobjectpublisher.cpp b/qtwebchannel/src/webchannel/qmetaobjectpublisher.cpp
 index 536eb5c..898d769 100644
 --- a/qtwebchannel/src/webchannel/qmetaobjectpublisher.cpp
@@ -12542,8 +12310,8 @@ index eae21f4..dd4e690 100644
      void testDeletionDuringMethodInvocation_data();
      void testDeletionDuringMethodInvocation();
  
-Submodule qtwebengine f328054d...d15a42ba (commits not present)
-Submodule qtwebsockets 7d09b696..ed7416b1:
+Submodule qtwebengine f328054d...872003d9 (commits not present)
+Submodule qtwebsockets 33f36d90..89fbe461:
 diff --git a/qtwebsockets/src/websockets/qwebsocket_p.cpp b/qtwebsockets/src/websockets/qwebsocket_p.cpp
 index cf3087f..0dd0fa6 100644
 --- a/qtwebsockets/src/websockets/qwebsocket_p.cpp
