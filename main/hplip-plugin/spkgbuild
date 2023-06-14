@@ -1,0 +1,47 @@
+# description:	Binary plugin for HPs hplip printer driver library
+# homepage:	https://developers.hp.com/hp-linux-imaging-and-printing/binary_plugin.html
+# depends:	hplip
+
+name=hplip-plugin
+version=3.23.5
+release=1
+backup="var/lib/hp/hplip.state"
+source="$name-$version.run::https://developers.hp.com/sites/default/files/${name%-*}-$version-plugin.run"
+
+build() {
+    sh "$name-$version.run" --target "$SRC/$name-$version" --noexec
+    cd "$SRC/$name-$version"
+   _arch='x86_64'
+
+    # Create folders
+    install -d "$PKG/usr/share/hplip/data/firmware"
+    install -d "$PKG/usr/share/hplip/fax/plugins"
+    install -d "$PKG/usr/share/hplip/prnt/plugins"
+    install -d "$PKG/usr/share/hplip/scan/plugins"
+    install -d "$PKG/usr/share/licenses/hplip-plugin"
+    install -d "$PKG/var/lib/hp"
+
+    # Copy files
+    install -m644 plugin.spec                  "$PKG/usr/share/hplip/"
+    install -m644 hp_laserjet_*.fw.gz          "$PKG/usr/share/hplip/data/firmware/"
+    install -m755 fax_marvell-"$_arch".so      "$PKG/usr/share/hplip/fax/plugins/"
+    install -m755 hbpl1-"$_arch".so            "$PKG/usr/share/hplip/prnt/plugins/"
+    install -m755 lj-"$_arch".so               "$PKG/usr/share/hplip/prnt/plugins/"
+    install -m755 bb_*-"$_arch".so             "$PKG/usr/share/hplip/scan/plugins/"
+
+    # Create hplip.state used by hplip-tools
+    cat << EOF > hplip.state
+[plugin]
+installed = 1
+eula = 1
+version = $version
+EOF
+    install -m644 hplip.state "$PKG/var/lib/hp"
+
+    # Create symlinks
+    find "$PKG/usr/share/hplip" -type f -name "*.so" | while read f; do
+        lib_dir="${f%/*}"
+        lib_name="${f##*/}"
+        ln -vsf "$lib_name" "$lib_dir/${lib_name%%-*}.so"
+    done
+}
