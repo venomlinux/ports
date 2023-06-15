@@ -2,10 +2,9 @@
 # depends	: cmake ninja libtiff
 
 name=libtiff-32
-version=4.5.0
-release=2
-source="https://download.osgeo.org/libtiff/tiff-$version.tar.gz
-	CVE-2022-48281.patch"
+version=4.5.1
+release=1
+source="https://download.osgeo.org/libtiff/tiff-$version.tar.gz"
 
 build() {
 	cd tiff-$version
@@ -13,9 +12,6 @@ build() {
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
-
-	# https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-48281
-	# patch -Np1 -i $SRC/CVE-2022-48281.patch
 
 	./configure \
 	    --prefix=/usr \
