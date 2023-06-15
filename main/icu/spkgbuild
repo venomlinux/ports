@@ -1,18 +1,18 @@
 # description	: International Components for Unicode library
+# homepage	: https://icu.unicode.org
 
 name=icu
-version=73.1
-_version=$(echo $version | tr '.' '-')
-__version=$(echo $version | tr '.' '_')
+version=73.2
+vrsn=$(echo $version | sed 's/\./-/g')
 release=1
-source="https://github.com/unicode-org/icu/releases/download/release-$_version/icu4c-$__version-src.tgz"
+source="$name-$version.tar.gz::https://github.com/unicode-org/icu/archive/release-$vrsn.tar.gz"
 
 build() {
-	cd icu/source
+	cd $name-release-$vrsn/icu4c/source
 
 	# icu tries to use clang by default
-	[ "$CC" ] || export CC=gcc
-	[ "$CXX" ] || export CXX=g++
+	export CC=gcc
+	export CXX=g++
 
 	./configure \
 		--prefix=/usr \
