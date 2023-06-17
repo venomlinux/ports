@@ -14,6 +14,11 @@ build() {
   mkdir "$SRC/rust"
   export CARGO_HOME="$SRC/rust"
 
+  scratch isinstalled ccache && \
+  export OS_CCACHE_COMPILERCHECK="$(/usr/bin/clang -dumpversion | sed -z 's/\n/ /g'; crux | cut -d' ' -f3)"
+  export CCACHE_COMPILERCHECK="string:$OS_CCACHE_COMPILERCHECK"
+  PATH=$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')
+
 cat <<- EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj
 unset MOZ_TELEMETRY_REPORTING
@@ -24,22 +29,29 @@ ac_add_options --disable-crashreporter
 ac_add_options --disable-debug
 ac_add_options --disable-debug-symbols
 ac_add_options --disable-elf-hack
+ac_add_options --disable-install-strip
 ac_add_options --disable-necko-wifi
 ac_add_options --disable-parental-controls
+ac_add_options --disable-strip
 ac_add_options --disable-tests
 ac_add_options --disable-updater
 ac_add_options --enable-application=browser
 ac_add_options --enable-audio-backends=alsa
+ac_add_options --enable-av1
+ac_add_options --enable-dbus
+ac_add_options --enable-ffmpeg
+ac_add_options --enable-hardening
 ac_add_options --enable-linker=lld
 ac_add_options --enable-lto=thin
 ac_add_options --enable-official-branding
-ac_add_options --enable-optimize
+ac_add_options --enable-optimize="$CFLAGS -O2"
 ac_add_options --enable-release
+ac_add_options --enable-update-channel=release
 ac_add_options --enable-rust-simd
 ac_add_options --enable-sandbox
-ac_add_options --enable-system-ffi
 ac_add_options --enable-system-pixman
 ac_add_options --with-distribution-id=org.venomlinux
+ac_add_options --with-system-ffi
 ac_add_options --with-system-icu
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-libevent
@@ -65,13 +77,19 @@ EOF
   # ccache
   scratch isinstalled ccache && echo 'ac_add_options --enable-ccache' >> .mozconfig
 
-  export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib RUSTFLAGS="-C opt-level=2 $RUSTFLAGS"
-  export MOZBUILD_STATE_PATH="$SRC"/mozbuild
-  
-  # Disable notification when build system has finished
+  # Build configuration
+  export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
+  export CFLAGS="$CFLAGS -w" CXXFLAGS="$CXXFLAGS -w"
+  export RUSTFLAGS="-C opt-level=2 $RUSTFLAGS"
   export MOZ_NOSPAM=1
+  export BUILD_OFFICIAL=1
+  export MOZILLA_OFFICIAL=1
+  export MOZ_APP_REMOTINGNAME=firefox
+  export MOZBUILD_STATE_PATH="$SRC"/mozbuild
+  unset CARGO_PROFILE_RELEASE_OPT_LEVEL
+  unset CARGO_PROFILE_RELEASE_LTO
 
-  # Python 
+  # Python configuration
   export SHELL='/bin/sh'
   export PIP_NETWORK_INSTALL_RESTRICTED_VIRTUALENVS=mach
   export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=pip
