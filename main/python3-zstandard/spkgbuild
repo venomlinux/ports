@@ -1,0 +1,14 @@
+# description	: Python bindings to the Zstandard (zstd) compression library
+# homepage	: https://github.com/indygreg/python-zstandard
+# depends	: python3-setuptools
+
+name=python3-zstandard
+version=0.21.0
+release=1
+source="$pkgname-$pkgver.tar.gz::https://github.com/indygreg/python-zstandard/archive/$version.tar.gz"
+
+build() {
+	cd python-zstandard-$version
+	python3 setup.py build_ext
+	python3 setup.py install --root=$PKG --optimize=1
+}
