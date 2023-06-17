@@ -1,3 +1,3 @@
 #!/bin/sh
 
-getent group _flatpak >/dev/null || useradd -r _flatpak
+getent passwd _flatpak >/dev/null || useradd -N -r -s /sbin/nologin -d /var/empty _flatpak
