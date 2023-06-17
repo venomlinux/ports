@@ -1,0 +1,16 @@
+# description	: Cross-platform Python support for keyboards, mice and gamepads
+# homepage	: https://github.com/zeth/python-inputs#python-
+# depends	: python3-build python3-installer python3-setuptools-scm
+
+name=python3-inputs
+version=0.5
+release=1
+source="$name-$version.zip::https://github.com/zeth/inputs/archive/refs/tags/v$version.zip
+              3203c9e25f1e14c4316d85d59c536b4e407f569f.patch"
+
+build() {
+        cd inputs-$version
+	patch -Np1 -i $SRC/3203c9e25f1e14c4316d85d59c536b4e407f569f.patch
+	python3 -m build --wheel --no-isolation
+	python3 -m installer --destdir=$PKG dist/*.whl
+}
