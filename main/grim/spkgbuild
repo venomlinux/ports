@@ -3,12 +3,12 @@
 # depends	    : cairo libjpeg-turbo wayland meson pango scdoc wayland-protocols
 
 name=grim
-version=1.4.0
+version=1.4.1
 release=1
-source="https://github.com/emersion/$name/releases/download/v$version/$name-$version.tar.gz"
+source="$name-$version.tar.gz::https://git.sr.ht/~emersion/grim/archive/v$version.tar.gz"
 
 build() {
-    venom-meson $name-$version  build
+    venom-meson $name-v$version build
     meson compile -C build
     DESTDIR=$PKG meson install --no-rebuild -C build
 }
