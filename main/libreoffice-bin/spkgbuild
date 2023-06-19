@@ -1,20 +1,18 @@
-# description	: Full featured cross platform office suite (binary)
+# description	: LibreOffice - Binary package for the full office suite
 # homepage	: https://www.libreoffice.org/
 # depends	: avahi cups dbus desktop-file-utils fontconfig glib gst-plugins-base 
 # depends	: gtk3 libx11 libxcb libxinerama nss shared-mime-info
 
 name=libreoffice-bin
 version=7.5.4
-release=2
-lang=$(echo $LANG | awk -F "_" '{print $1}') 
-source="$name-$version.tar.gz::http://download.documentfoundation.org/libreoffice/stable/$version/rpm/x86_64/LibreOffice_${version}_Linux_x86-64_rpm.tar.gz 
-	$name-$version-$lang.tar.gz::https://download.documentfoundation.org/libreoffice/stable/$version/rpm/x86_64/LibreOffice_${version}_Linux_x86-64_rpm_langpack_$lang.tar.gz"
-options="!checksum"
+release=3
+source="$name-$version.tar.gz::http://download.documentfoundation.org/libreoffice/stable/$version/rpm/x86_64/LibreOffice_${version}_Linux_x86-64_rpm.tar.gz"
 
 build() {
 	for rpm in $SRC/LibreOffice_${version}*/RPMS/*; do
 		bsdtar -xf $rpm -p -o -C $PKG
 	done
+	
 	rm $PKG/opt/libreoffice*/CREDITS* \
 	   $PKG/opt/libreoffice*/LICENSE* \
 	   $PKG/opt/libreoffice*/NOTICE

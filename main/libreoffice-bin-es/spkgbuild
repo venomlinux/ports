@@ -1,0 +1,17 @@
+# description	: Spanish language pack for LibreOffice
+# homepage	: https://www.libreoffice.org/
+# depends	: libreoffice-bin
+
+name=libreoffice-bin-es
+version=7.5.4
+release=1
+lang="es"
+source="$name-$version-$lang.tar.gz::https://download.documentfoundation.org/libreoffice/stable/$version/rpm/x86_64/LibreOffice_${version}_Linux_x86-64_rpm_langpack_${lang}.tar.gz"
+
+build() {
+	for rpm in $SRC/LibreOffice_${version}*/RPMS/*; do
+		bsdtar -xf $rpm -p -o -C $PKG
+	done
+	
+	rm -rf $PKG/opt/libreoffice7.5/share/extensions/dict-es
+}
