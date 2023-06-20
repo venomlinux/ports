@@ -4,7 +4,7 @@
 # depends	: libxrender libxt libxdamage libxscrnsaver libwebp lld nodejs nspr nss pkgconf rust unzip
 
 name=firefox
-version=114.0.1
+version=114.0.2
 release=1
 source="$name-$version.tar.xz::https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz 
 	$name.desktop"
@@ -79,13 +79,13 @@ EOF
 
   # Build configuration
   export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
-  export CFLAGS="$CFLAGS -w" CXXFLAGS="$CXXFLAGS -w"
+  export CFLAGS="$CFLAGS -w" CXXFLAGS="$CXXFLAGS -w" # Disable warnings
   export RUSTFLAGS="-C opt-level=2 $RUSTFLAGS"
   export MOZ_NOSPAM=1
   export BUILD_OFFICIAL=1
   export MOZILLA_OFFICIAL=1
   export MOZ_APP_REMOTINGNAME=firefox
-  export MOZBUILD_STATE_PATH="$SRC"/mozbuild
+  export MOZBUILD_STATE_PATH="$SRC/mozbuild"
   unset CARGO_PROFILE_RELEASE_OPT_LEVEL
   unset CARGO_PROFILE_RELEASE_LTO
 
