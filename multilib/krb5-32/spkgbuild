@@ -2,10 +2,9 @@
 # depends  : e2fsprogs-32 keyutils-32 krb5
 
 name=krb5-32
-version=1.20.1
+version=1.21
 release=1
-source="https://kerberos.org/dist/$name/${version%.*}/${name%-*}-$version.tar.gz 
-	krb5-config_LDFLAGS.patch"
+source="https://kerberos.org/dist/$name/${version%.*}/${name%-*}-$version.tar.gz"
 
 build() {
 	export CC="gcc -m32"
@@ -13,8 +12,6 @@ build() {
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	cd ${name%-*}-$version
-
-	patch -Np1 -i $SRC/krb5-config_LDFLAGS.patch
 
 	sed -i "/KRB5ROOT=/s/\/local//" src/util/ac_check_krb5.m4
 
