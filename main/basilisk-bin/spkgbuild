@@ -3,16 +3,15 @@
 # depends	    : gtk3 libxt nss icu ffmpeg alsa-lib dbus-glib mailcap hunspell hyphen
 
 
-_name=basilisk
-name=${_name}-bin
-epoch=1
-_buildid=20230517130853
-_date=2023.05.17
+name=basilisk-bin
+_buildid=20230620160727
+_date=2023.06.20
 version=52.9.$_date
 release=1
 source="https://archive.basilisk-browser.org/${_date}/linux/x86_64/gtk3/basilisk-${_buildid}.linux-x86_64.tar.xz
 	https://archive.basilisk-browser.org/${_date}/linux/x86_64/gtk3/basilisk-${_buildid}.linux-x86_64.json
         basilisk.desktop"
+rev_ex_libs="libhunspell.so libxul.so libmozsqlite3.so libmozavutil.so liblgpllibs.so libmozgtk.so"
 
 build() {
 	grep 'moz_app_version' $SRC/basilisk-${_buildid}.linux-x86_64.json | sed -e 's/.*:[\ \t]*"//;s/"[,]*[\ \t]*$//'
@@ -24,5 +23,10 @@ build() {
 
 	install -Dm644 $SRC/basilisk.desktop $PKG/usr/share/applications/basilisk.desktop
 	install -Dm644 $SRC/basilisk/browser/icons/mozicon128.png $PKG/usr/share/pixmaps/basilisk.png
-	ln -s /usr/lib/basilisk/basilisk-bin $PKG/usr/bin/basilisk
+	ln -s /usr/lib/basilisk/basilisk $PKG/usr/bin/basilisk
+	# exclude library for revdep
+        mkdir -p $PKG/etc/revdep.d/
+        for i in $rev_ex_libs; do
+                echo $i >> $PKG/etc/revdep.d/${name%-*}.conf
+        done
 }
