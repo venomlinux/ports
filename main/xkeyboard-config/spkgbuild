@@ -3,7 +3,7 @@
 
 name=xkeyboard-config
 version=2.39
-release=1
+release=2
 source="http://xorg.freedesktop.org/archive/individual/data/xkeyboard-config/xkeyboard-config-$version.tar.xz"
 
 build() {
@@ -13,4 +13,6 @@ build() {
 		-Dxorg-rules-symlinks=true
         meson compile -C build
         DESTDIR=$PKG meson install --no-rebuild -C build
+	# Xkeyboard-config 2.39 break qemu that relies to find this
+	ln -sfv ara $PKG/usr/share/X11/xkb/symbols/ar
 }
