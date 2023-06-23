@@ -7,7 +7,7 @@ name=basilisk-bin
 _buildid=20230620160727
 _date=2023.06.20
 version=52.9.$_date
-release=1
+release=2
 source="https://archive.basilisk-browser.org/${_date}/linux/x86_64/gtk3/basilisk-${_buildid}.linux-x86_64.tar.xz
 	https://archive.basilisk-browser.org/${_date}/linux/x86_64/gtk3/basilisk-${_buildid}.linux-x86_64.json
         basilisk.desktop"
@@ -23,7 +23,7 @@ build() {
 
 	install -Dm644 $SRC/basilisk.desktop $PKG/usr/share/applications/basilisk.desktop
 	install -Dm644 $SRC/basilisk/browser/icons/mozicon128.png $PKG/usr/share/pixmaps/basilisk.png
-	ln -s /usr/lib/basilisk/basilisk $PKG/usr/bin/basilisk
+	ln -s /usr/lib/basilisk/basilisk-bin $PKG/usr/bin/basilisk
 	# exclude library for revdep
         mkdir -p $PKG/etc/revdep.d/
         for i in $rev_ex_libs; do
