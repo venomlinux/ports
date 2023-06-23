@@ -1,0 +1,14 @@
+# description	: A general purpose TCP-IP emulator
+# homepage	: https://gitlab.freedesktop.org/slirp/libslirp
+# depends	: meson glib
+
+name=libslirp
+version=4.7.0
+release=1
+source="$name-$version.tar.gz::https://gitlab.freedesktop.org/slirp/libslirp/-/archive/v$version/$name-v$version.tar.gz"
+
+build() {
+        venom-meson $name-v$version build 
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
