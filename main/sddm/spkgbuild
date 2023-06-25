@@ -2,18 +2,16 @@
 # depends	: extra-cmake-modules ninja qt5 linux-pam upower consolekit2 libxcb
 
 name=sddm
-version=0.19.0
+version=0.20.0
 release=1
 backup="usr/share/sddm/scripts/Xsetup
 	etc/sddm.conf"
-source="https://github.com/sddm/sddm/releases/download/v$version/sddm-$version.tar.xz
-	qt5.15.patch
+source="https://github.com/sddm/sddm/archive/v$version/sddm-$version.tar.gz
 	run.$name
 	rc.$name"
 
 build() {
 	cd $name-$version
-	patch -p1 -i $SRC/qt5.15.patch
 
 	sed -e '/UPOWER_SERVICE)/ s:^://:' \
 	    -i src/daemon/PowerManager.cpp
