@@ -1,0 +1,21 @@
+# description	    : CLI automation framework for Tcl
+# homepage	    : https://core.tcl-lang.org/expect/index
+# depends	    : tcl socat
+
+name=expect
+version=5.45.4
+release=1
+source="$name-$version.tar.gz::https://downloads.sourceforge.net/project/expect/Expect/$version/expect$version.tar.gz"
+
+build() {
+
+	cd $name$version
+
+	./configure --prefix=/usr \
+	            --enable-shared \
+	            --mandir=/usr/share/man \
+	            --with-tcl=/usr/lib \
+	            --with-tclinclude=/usr/include
+	make
+	make DESTDIR=$PKG install
+}

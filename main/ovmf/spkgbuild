@@ -1,0 +1,85 @@
+# description	    : Open Virtual Machine Firmware (OVMF) BIOS
+# homepage	    : https://github.com/tianocore/tianocore.github.io/wiki/EDK-II/
+# depends	    : bash python3 iasl nasm util-linux
+
+name=ovmf
+_name=edk2
+version=0.0.202302
+_realversion=edk2-stable${version##*.}
+_sslversion=1.1.1t
+_sfversion=3e
+release=1
+source="$name-$version.tar.gz::https://github.com/tianocore/edk2/archive/$_realversion.tar.gz
+	https://www.openssl.org/source/openssl-$_sslversion.tar.gz
+	http://www.jhauser.us/arithmetic/SoftFloat-${_sfversion}.zip
+	disable-werror.patch
+	0008-BaseTools-do-not-build-BrotliCompress-RH-only.patch
+	0009-MdeModulePkg-remove-package-private-Brotli-include-p.patch
+	openssl-1.1.1t.patch"
+
+build() {
+
+	TARGET_ARCH=X64
+	PLATFORM=OvmfPkg/OvmfPkgX64.dsc
+	TOOLCHAIN=GCC5
+	RELEASE=RELEASE
+
+
+	cd $_name-$_realversion
+
+	# Apply patches
+	patch -Np1 -i $SRC/disable-werror.patch
+ 	patch -Np1 -i $SRC/0008-BaseTools-do-not-build-BrotliCompress-RH-only.patch
+	patch -Np1 -i $SRC/0009-MdeModulePkg-remove-package-private-Brotli-include-p.patch
+	patch -Np1 -i $SRC/openssl-1.1.1t.patch
+
+	# unix line endings for the files to be patched
+	sed -e 's/\r$//' -i BaseTools/Source/C/VfrCompile/VfrUtilityLib.cpp \
+		BaseTools/Source/C/VolInfo/VolInfo.c
+	rm -rf CryptoPkg/Library/OpensslLib/openssl
+	ln -s $SRC/openssl-$_sslversion $SRC/$_name-$_realversion/CryptoPkg/Library/OpensslLib/openssl
+	rm -rf ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3
+
+
+	export PYTHON_COMMAND=python3
+	export WORKSPACE=$PWD
+	export PACKAGES_PATH=$PWD
+	export EDK_TOOLS_PATH=$PWD/BaseTools/
+	export PATH=$PWD/BaseTools/BinWrappers/PosixLike/:$PATH
+
+	cd $SRC/$_name-$_realversion
+	# parallel build fails
+	unset MAKEFLAGS
+
+	bash -c ". edksetup.sh"
+	make -C BaseTools
+
+	msg "Building Plaform Files"
+	command build -b $RELEASE \
+		-a $TARGET_ARCH  \
+		-t $TOOLCHAIN \
+		-p $PLATFORM \
+		-DSECURE_BOOT_ENABLE=TRUE \
+		-DTPM2_ENABLE=TRUE
+	mkdir -p $PKG/usr/bin \
+		$PKG/usr/share/$name/Conf \
+		$PKG/usr/share/$name/Scripts
+
+	install BaseTools/Source/C/bin/* BaseTools/BinWrappers/PosixLike/LzmaF86Compress \
+		$PKG/usr/bin
+	install BaseTools/BuildEnv $PKG/usr/share/$name/
+	install BaseTools/Conf/*.template $PKG/usr/share/$name/Conf
+	install BaseTools/Scripts/GccBase.lds $PKG/usr/share/$name/Scripts
+        
+
+	for fw in Build/*/"$RELEASE"_"$TOOLCHAIN"/FV/*.fd; do
+		install -D $fw "$PKG"/usr/share/qemu/OVMF/${fw##*/}
+	install -d "$PKG"/usr/share/qemu/ovmf
+		ln -sf ../OVMF/OVMF.fd "$PKG"/usr/share/qemu/ovmf/bios.bin
+	rm -f "$PKG"/usr/share/qemu/OVMF/MEMFD.fd
+
+	install -d "$PKG"/usr/share/qemu/ovmf
+		ln -sf ../OVMF/OVMF.fd "$PKG"/usr/share/qemu/ovmf/bios.bin
+	done
+
+}
