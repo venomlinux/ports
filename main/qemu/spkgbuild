@@ -1,10 +1,10 @@
 # description	: Virtualization for Linux on x86 hardware containing virtualization extensions (Intel VT or AMD-V)
 # homepage	: https://www.qemu.org
-# depends	: alsa-lib sdl2 glib python3 coreutils pixman libslirp libx11 spice usbredir virglrenderer
+# depends	: alsa-lib sdl2 glib python3 coreutils pixman libslirp libx11 orc spice usbredir virglrenderer
 
 name=qemu
 version=8.0.2
-release=5
+release=6
 source="http://download.qemu.org/$name-$version.tar.xz
 	CVE-2021-20255.patch"
 
@@ -26,7 +26,12 @@ build() {
 		--enable-usb-redir \
 		--enable-vhost-net \
 		--enable-virglrenderer \
-		--target-list=x86_64-linux-user,i386-linux-user,i386-softmmu,x86_64-softmmu
+                --enable-modules \
+                --enable-sdl \
+                --enable-tpm \
+                --smbd=/usr/bin/smbd \
+                --with-coroutine=ucontext
+
 	make
 	make DESTDIR=$PKG install
 
