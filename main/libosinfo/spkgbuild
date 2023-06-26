@@ -4,13 +4,15 @@
 
 name=libosinfo
 version=1.10.0
-release=1
+release=2
 source="https://releases.pagure.org/libosinfo/$name-$version.tar.xz"
 
 build() {
 	venom-meson $name-$version build \
 		-Denable-gtk-doc=false \
-		-Denable-vala=disabled
+		-Denable-vala=disabled \
+		-Dwith-usb-ids-path=/usr/share/hwdata/usb.ids \
+                -Dwith-pci-ids-path=/usr/share/hwdata/pci.ids
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 
