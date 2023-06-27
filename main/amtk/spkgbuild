@@ -1,0 +1,15 @@
+# description	: Actions, Menus and Toolbars Kit for GTK+ applications
+# homepage	: https://wiki.gnome.org/Projects/Amtk
+# depends	: gtk3 gobject-introspection
+
+name=amtk
+version=5.6.1
+release=1
+source="https://download.gnome.org/sources/amtk/${version%.*}/$name-$version.tar.xz"
+
+build() {
+	venom-meson $name-$version build \
+		-Dgtk_doc=false
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
