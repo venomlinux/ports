@@ -1,10 +1,10 @@
 # description	: A library for querying the osinfo database
 # homepage	: https://libosinfo.org/
-# depends	: meson gobject-introspection osinfo-db
+# depends	: meson gobject-introspection hwdata osinfo-db
 
 name=libosinfo
 version=1.10.0
-release=2
+release=3
 source="https://releases.pagure.org/libosinfo/$name-$version.tar.xz"
 
 build() {
@@ -15,7 +15,5 @@ build() {
                 -Dwith-pci-ids-path=/usr/share/hwdata/pci.ids
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
-
-	rm -r $PKG/usr/share/locale
 }
 

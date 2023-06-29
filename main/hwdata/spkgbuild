@@ -1,16 +1,22 @@
-# description	    : hardware identification databases
+# description	    : Hardware identification and configuration data
 # homepage	    : https://github.com/vcrhonek/hwdata
 
 name=hwdata
 version=0.371
-release=1
+release=2
 source="https://github.com/vcrhonek/hwdata/archive/v$version/$name-$version.tar.gz"
 
 build() {
 
 	cd $name-$version
-	    ./configure --prefix=/usr
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--datadir=/usr/share \
+		--disable-blacklist
+
 	    make DESTDIR=$PKG install
-	    scratch isinstalled usbutils && rm $PKG/usr/share/hwdata/usb.ids
-	    rm -rf $PKG/usr/lib
+
+	 scratch isinstalled usbutils && \
+		rm $PKG/usr/share/hwdata/usb.ids
 }
