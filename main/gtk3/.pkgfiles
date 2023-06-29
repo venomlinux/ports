@@ -1,10 +1,11 @@
-gtk3-3.24.38-1
+gtk3-3.24.38-2
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/gtk-3.0/
 -rw-r--r-- root/root    etc/gtk-3.0/im-multipress.conf
 -rw-r--r-- root/root    etc/gtk-3.0/settings.ini
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
+-rwxr-xr-x root/root    usr/bin/broadwayd
 -rwxr-xr-x root/root    usr/bin/gtk-builder-tool
 -rwxr-xr-x root/root    usr/bin/gtk-encode-symbolic-svg
 -rwxr-xr-x root/root    usr/bin/gtk-launch
@@ -19,11 +20,18 @@ drwxr-xr-x root/root    usr/include/gail-3.0/libgail-util/
 -rw-r--r-- root/root    usr/include/gail-3.0/libgail-util/gailtextutil.h
 drwxr-xr-x root/root    usr/include/gtk-3.0/
 drwxr-xr-x root/root    usr/include/gtk-3.0/gdk/
+drwxr-xr-x root/root    usr/include/gtk-3.0/gdk/broadway/
+-rw-r--r-- root/root    usr/include/gtk-3.0/gdk/broadway/gdkbroadwaycursor.h
+-rw-r--r-- root/root    usr/include/gtk-3.0/gdk/broadway/gdkbroadwaydisplay.h
+-rw-r--r-- root/root    usr/include/gtk-3.0/gdk/broadway/gdkbroadwaymonitor.h
+-rw-r--r-- root/root    usr/include/gtk-3.0/gdk/broadway/gdkbroadwayvisual.h
+-rw-r--r-- root/root    usr/include/gtk-3.0/gdk/broadway/gdkbroadwaywindow.h
 drwxr-xr-x root/root    usr/include/gtk-3.0/gdk/deprecated/
 -rw-r--r-- root/root    usr/include/gtk-3.0/gdk/deprecated/gdkcolor.h
 -rw-r--r-- root/root    usr/include/gtk-3.0/gdk/gdk-autocleanup.h
 -rw-r--r-- root/root    usr/include/gtk-3.0/gdk/gdk.h
 -rw-r--r-- root/root    usr/include/gtk-3.0/gdk/gdkapplaunchcontext.h
+-rw-r--r-- root/root    usr/include/gtk-3.0/gdk/gdkbroadway.h
 -rw-r--r-- root/root    usr/include/gtk-3.0/gdk/gdkcairo.h
 -rw-r--r-- root/root    usr/include/gtk-3.0/gdk/gdkconfig.h
 -rw-r--r-- root/root    usr/include/gtk-3.0/gdk/gdkcursor.h
@@ -435,6 +443,7 @@ drwxr-xr-x root/root    usr/lib/gtk-3.0/
 drwxr-xr-x root/root    usr/lib/gtk-3.0/3.0.0/
 drwxr-xr-x root/root    usr/lib/gtk-3.0/3.0.0/immodules/
 -rwxr-xr-x root/root    usr/lib/gtk-3.0/3.0.0/immodules/im-am-et.so
+-rwxr-xr-x root/root    usr/lib/gtk-3.0/3.0.0/immodules/im-broadway.so
 -rwxr-xr-x root/root    usr/lib/gtk-3.0/3.0.0/immodules/im-cedilla.so
 -rwxr-xr-x root/root    usr/lib/gtk-3.0/3.0.0/immodules/im-cyrillic-translit.so
 -rwxr-xr-x root/root    usr/lib/gtk-3.0/3.0.0/immodules/im-inuktitut.so
@@ -462,9 +471,11 @@ lrwxrwxrwx root/root    usr/lib/libgtk-3.so.0 -> libgtk-3.so.0.2406.32
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/gail-3.0.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gdk-3.0.pc
+-rw-r--r-- root/root    usr/lib/pkgconfig/gdk-broadway-3.0.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gdk-wayland-3.0.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gdk-x11-3.0.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gtk+-3.0.pc
+-rw-r--r-- root/root    usr/lib/pkgconfig/gtk+-broadway-3.0.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gtk+-unix-print-3.0.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gtk+-wayland-3.0.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/gtk+-x11-3.0.pc

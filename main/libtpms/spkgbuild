@@ -1,0 +1,19 @@
+# description	    : library providing software emulation of a Trusted Platform Module (TPM 1.2 and TPM 2.0)
+# homepage	    : https://github.com/stefanberger/libtpms
+# depends	    : autoconf automake gawk libtool openssl
+
+name=libtpms
+version=0.9.6
+release=1
+source="$name-$version.tar.gz::https://github.com/stefanberger/libtpms/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	autoreconf --install --force
+	./configure --prefix=/usr \
+	            --libdir=/usr/lib \
+                    --with-tpm2 \
+                    --with-openssl
+	make
+        make DESTDIR=$PKG install
+}

@@ -1,0 +1,15 @@
+# description	: The Oil Runtime Compiler
+# homepage	: https://gstreamer.freedesktop.org/projects/orc.html
+# depends	: meson
+
+name=orc
+version=0.4.34
+release=1
+source="http://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz"
+
+build() {
+	venom-meson $name-$version build \
+		-D gtk_doc=disabled
+	meson compile -C build 
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}

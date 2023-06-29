@@ -1,0 +1,17 @@
+# description	    : Libtpms-based TPM emulator with socket, character device, and Linux CUSE interface
+# homepage	    : https://github.com/stefanberger/swtpm
+# depends	    : autoconf automake expect gawk gnutls libtpms socat
+
+name=swtpm
+version=0.8.0
+release=2
+source="$name-$version.tar.gz::https://github.com/stefanberger/swtpm/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	autoreconf --install --force
+        ./configure --prefix=/usr --with-cuse --with-gnutls --with-seccomp 
+        make
+        make DESTDIR=$PKG install
+}
