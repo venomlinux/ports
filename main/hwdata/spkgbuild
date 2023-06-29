@@ -1,4 +1,4 @@
-# description	    : Hardware identification and configuration data
+# description	    : hardware identification databases
 # homepage	    : https://github.com/vcrhonek/hwdata
 
 name=hwdata
@@ -14,9 +14,5 @@ build() {
 		--sysconfdir=/etc \
 		--datadir=/usr/share \
 		--disable-blacklist
-
-	    make DESTDIR=$PKG install
-
-	 scratch isinstalled usbutils && \
-		rm $PKG/usr/share/hwdata/usb.ids
+	make DESTDIR=$PKG install
 }
