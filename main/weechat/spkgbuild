@@ -2,11 +2,14 @@
 # depends	: cmake ncurses curl zlib libgcrypt gnutls guile tcl lua ruby zstd ninja
 
 name=weechat
-version=3.8
+version=4.0.0
 release=1
-source="https://weechat.org/files/src/weechat-$version.tar.xz"
+source="https://weechat.org/files/src/weechat-$version.tar.xz
+	skip-broken-cs-translations.patch"
 
 build() {
+	
+	patch -Np1 -d $name-$version  -i $SRC/skip-broken-cs-translations.patch
 	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
        		-DCMAKE_INSTALL_LIBDIR=lib \
