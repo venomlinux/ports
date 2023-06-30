@@ -1,15 +1,17 @@
 # description	: C library supporting GObject introspection for manipulation of block devices
-# depends	: libbytesize lvm2 volume_key nss cryptsetup parted gobject-introspection python3 yaml
+# homepage	: https://github.com/storaged-project/libblockdev/
+# depends	: cryptsetup gobject-introspection keyutils libbytesize libnvme parted volume_key yaml
 
 name=libblockdev
 version=3.0
-release=1
+release=2
 source="https://github.com/storaged-project/libblockdev/releases/download/$version-1/$name-$version.tar.gz"
 
 build() {
+	export CFLAGS="${CFLAGS} -Wno-deprecated-declarations"
+
 	cd $name-$version
 	
-	export CFLAGS="${CFLAGS} -Wno-deprecated-declarations"
 	./configure \
 		--prefix=/usr     \
             	--sysconfdir=/etc \
