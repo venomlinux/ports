@@ -3,12 +3,13 @@
 
 name=xfsprogs
 version=6.3.0
-release=1
-source="https://www.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/$name-$version.tar.xz"
+release=2
+source="https://www.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/$name-$version.tar.xz
+	gettext-22.patch"
 
 build() {
 	cd $name-$version
-
+	patch -Np1 -i $SRC/gettext-22.patch
 	make configure
 
 	export DEBUG=-DNDEBUG

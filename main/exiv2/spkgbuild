@@ -3,7 +3,7 @@
 
 name=exiv2
 version=0.28.0
-release=1
+release=2
 source="https://github.com/Exiv2/exiv2/archive/v$version/$name-$version.tar.gz"
 
 build() {
@@ -19,10 +19,10 @@ build() {
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
-		-DEXIV2_ENABLE_VIDEO=yes     \
-		-DEXIV2_ENABLE_WEBREADY=yes  \
-		-DEXIV2_ENABLE_CURL=yes      \
-		-DEXIV2_BUILD_SAMPLES=no     \
+		-DEXIV2_BUILD_SAMPLES=OFF \
+		-DEXIV2_ENABLE_BMFF=ON \
+		-DEXIV2_ENABLE_BROTLI=OFF \
+		-DEXIV2_ENABLE_INIH=OFF \
 		-Wno-dev
 	cmake --build build
 	DESTDIR=$PKG cmake --install build

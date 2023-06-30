@@ -4,10 +4,10 @@
 
 name=spice
 version=0.15.2
+
 release=3
 source="https://www.spice-space.org/download/releases/spice-server/$name-$version.tar.bz2
 	"
-
 
 build() {
 	cd $name-$version
@@ -20,9 +20,11 @@ build() {
 		-Dlz4=true \
 		-Dsasl=true \
 		-Dopus=enabled \
-		-Dmanual=false \
+    -Dmanual=false \
 		-Dsmartcard=disabled  \
-		-Dtests=false
+		-Dtests=false \
+		-Dsmartcard=disabled 
+
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 }
