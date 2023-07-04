@@ -2,7 +2,7 @@
 # depends	: nvidia
 
 name=nvidia-32
-version=530.41.03
+version=535.54.03
 release=1
 source="$name-$version.run::http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run"
 
@@ -26,7 +26,7 @@ build() {
 	symlink_lib usr/lib32/libEGL_nvidia.so.0
 
 	# driver component libraries
-	install_lib libnvidia-compiler.so.$version
+#	install_lib libnvidia-compiler.so.$version
 	install_lib libnvidia-eglcore.so.$version
 	install_lib libnvidia-glcore.so.$version
 	install_lib libnvidia-glsi.so.$version
