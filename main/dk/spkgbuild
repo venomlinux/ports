@@ -1,0 +1,18 @@
+# description	: Tiling window manager taking inspiration from dwm, bspwm, and xmonad
+# homepage	: https://bitbucket.org/natemaia/dk
+# depends	: libxcb xcb-util xcb-util-wm xcb-util-cursor xcb-util-keysyms
+
+name=dk
+version=1.6
+release=1
+source="$name-$version.tar.gz::https://bitbucket.org/natemaia/dk/get/v$version.tar.gz
+	dk.desktop"
+
+build() {
+	cd natemaia-dk-9d5cec90f346
+	make PREFIX=/usr
+	make PREFIX=/usr DESTDIR=$PKG install
+	install -d 644 $PKG/usr/share/xsessions
+	install -Dm 644 $SRC/dk.desktop $PKG/usr/share/xsessions/dk.desktop
+}
+
