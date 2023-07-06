@@ -1,0 +1,14 @@
+# description	: Collection of plugins for the gedit Text Editor
+# homepage	: https://wiki.gnome.org/Apps/Gedit/ShippedPlugins
+# depends	: appstream-glib gedit python3-cairo python3-dbus vte3 yelp-tools
+
+name=gedit-plugins
+version=45.0
+release=1
+source="https://gitlab.gnome.org/GNOME/gedit-plugins/-/archive/$version/${name}-$version.tar.bz2"
+
+build() {
+  venom-meson $name-$version build
+  meson compile -C build
+  DESTDIR=$PKG meson install --no-rebuild -C build
+}
