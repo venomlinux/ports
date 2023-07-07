@@ -1,0 +1,21 @@
+# description	: Description: library for fast image processing
+# homepage	: https://github.com/strukturag/libheif/
+# depends	: cmake ninja x265 dav1d aom
+
+name=libheif
+version=1.16.2
+release=1
+source="https://github.com/strukturag/$name/releases/download/v$version/$name-$version.tar.gz"
+
+build() {
+	cmake -S $name-$version -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
