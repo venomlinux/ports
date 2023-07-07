@@ -1,0 +1,23 @@
+# description	: Enlightenment Foundation Libraries
+# homepage	: https://www.enlightenment.org
+# depends	: dbus fontconfig fribidi giflib gst-plugins-base harfbuzz libdrm  libraw libspectre
+# depends	: libwebp libxscrnsaver lua luajit meson openjpeg2 poppler scim wayland-protocols
+
+
+name=efl 
+version=1.26.3
+release=1
+source="https://download.enlightenment.org/rel/libs/${name}/$name-$version.tar.xz"
+
+build(){
+	venom-meson $name-$version build \
+		-Dfb=true \
+		-Ddrm=true \
+		-Dwl=true \
+		-Dnetwork-backend=connman \
+		-Dbindings= \
+		-Dbuild-examples=false \
+		-Dbuild-tests=false 
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build 
+}

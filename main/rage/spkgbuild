@@ -1,0 +1,14 @@
+# description	: EFL Video and Music player
+# homepage	: https://www.enlightenment.org/
+# depends	: meson ninja efl
+
+name=rage
+version=0.4.0
+release=1
+source="https://download.enlightenment.org/rel/apps/$name/$name-$version.tar.xz"
+
+build() {
+	venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}

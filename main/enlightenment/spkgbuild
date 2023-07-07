@@ -1,0 +1,15 @@
+# description	: Enlightenment window manager
+# homepage	: http://www.enlightenment.org
+# depends	: bluez efl libexif libxkbcommon linux-pam noto-fonts-cjk pulseaudio ttf-bitstream-vera
+# depends	: ttf-dejavu ttf-noto ttf-noto-emoji ttf-noto-extra udisks2 util-linux xwayland
+
+name=enlightenment
+version=0.25.4
+release=1
+source="https://download.enlightenment.org/rel/apps/$name/$name-$version.tar.xz"
+
+build() {
+	venom-meson $name-$version build -Dwl=true 
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build 
+}

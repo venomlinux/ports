@@ -1,0 +1,15 @@
+# description	: EFL photo gallery viewer
+# homepage	: https://www.enlightenment.org/
+# depends	: efl meson ninja libexif
+
+name=ephoto
+version=1.6.0
+release=1
+source="https://download.enlightenment.org/rel/apps/$name/$name-$version.tar.xz"
+
+build() {
+        venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
+

@@ -1,0 +1,14 @@
+# description	: EFL Simple Text editor
+# homepage	: https://www.enlightenment.org/
+# depends	: meson ninja efl
+
+name=ecrire 
+version=0.2.0
+release=1
+source="https://download.enlightenment.org/rel/apps/$name/$name-$version.tar.xz"
+
+build() {
+	venom-meson $name-$version builddir 
+	meson compile -C builddir
+	DESTDIR=$PKG meson install --no-rebuild -C builddir
+}
