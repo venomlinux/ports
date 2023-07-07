@@ -1,0 +1,30 @@
+# description	: Compact xserver to run under wayland for compatibility
+# homepage	: https://www.x.org/wiki
+# depends	: dbus wayland-protocols
+
+name=xwayland
+version=23.1.2
+release=1
+source="https://xorg.freedesktop.org/archive/individual/xserver/xwayland-$version.tar.xz"
+
+build() {
+        venom-meson $name-$version build \
+		-Db_lto=true \
+		-Dipv6=true \
+		-Dxvfb=false \
+		-Dxdmcp=false \
+		-Dxcsecurity=true \
+		-Ddri3=true \
+		-Dxwayland_eglstream=false \
+		-Dglamor=true \
+		-Dsha1=libmd \
+		-Dxkb_dir=/usr/share/X11/xkb \
+		-Dxkb_output_dir=/var/lib/xkb 
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+        
+	rm $PKG/usr/lib/xorg/protocol.txt
+	rmdir $PKG/usr/lib/xorg
+	rm $PKG/usr/share/man/man1/Xserver.1
+
+}
