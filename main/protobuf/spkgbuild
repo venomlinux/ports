@@ -1,9 +1,9 @@
 # description	: Protocol Buffers - Google's data interchange format 
 # homepage	: https://developers.google.com/protocol-buffers/
-# depends	: cmake zlib ninja
+# depends	: cmake zlib ninja abseil-cpp
 
 name=protobuf
-version=21.12
+version=23.4
 release=1
 source="https://github.com/protocolbuffers/$name/archive/v$version/$name-$version.tar.gz"
 
@@ -16,6 +16,7 @@ build() {
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-Dprotobuf_BUILD_SHARED_LIBS=ON \
+		-Dprotobuf_ABSL_PROVIDER=package \
 		-Dprotobuf_BUILD_TESTS=OFF \
 		-Wno-dev 
 	cmake --build build
