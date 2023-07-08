@@ -1,6 +1,5 @@
-diff -Naur grub-2.02-orig/util/grub.d/10_linux.in grub-2.02/util/grub.d/10_linux.in
---- grub-2.02-orig/util/grub.d/10_linux.in	2017-04-24 17:15:50.000000000 +0800
-+++ grub-2.02/util/grub.d/10_linux.in	2019-04-16 16:25:52.639999817 +0800
+--- grub-2.06-orig/util/grub.d/10_linux.in	2017-04-24 17:15:50.000000000 +0800
++++ grub-2.06/util/grub.d/10_linux.in	2019-04-16 16:25:52.639999817 +0800
 @@ -83,6 +83,8 @@
        case $type in
  	  recovery)
@@ -29,3 +28,14 @@ diff -Naur grub-2.02-orig/util/grub.d/10_linux.in grub-2.02/util/grub.d/10_linux
    if [ "x${GRUB_DISABLE_RECOVERY}" != "xtrue" ]; then
      linux_entry "${OS}" "${version}" recovery \
                  "single ${GRUB_CMDLINE_LINUX}"
+
+--- grub-2.06-orig/util/grub.d/10_linux.in	2020-12-23 00:24:17.000000000 +0100
++++ grub-2.06/util/grub.d/10_linux.in	2023-05-20 15:12:04.959775550 +0200
+@@ -213,6 +213,7 @@
+   initrd_real=
+   for i in "initrd.img-${version}" "initrd-${version}.img" "initrd-${version}.gz" \
+ 	   "initrd-${version}" "initramfs-${version}.img" \
++	   "initrd-venom-*.img" \
+ 	   "initrd.img-${alt_version}" "initrd-${alt_version}.img" \
+ 	   "initrd-${alt_version}" "initramfs-${alt_version}.img" \
+ 	   "initramfs-genkernel-${version}" \
