@@ -3,11 +3,11 @@
 
 name=grub
 version=2.06
-release=5
+release=6
 backup="etc/default/grub"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
+	venom-tweaks.patch
 	grub.default
-	detect-venom-fallback-initrd.patch
 	grub-2.06-upstream_fixes-1.patch
 	grub.cfg"
 
@@ -18,8 +18,8 @@ build() {
 	export CFLAGS="-march=x86-64 -pipe -Os"
 
 	cd $name-$version
-
-	patch -Np1 -i $SRC/detect-venom-fallback-initrd.patch
+	# venom fallball and multikernel support
+	patch -Np1 -i $SRC/venom-tweaks.patch
 
 	# Fix an issue causing grub-install to fail when the /boot partition 
 	# (or the root partition if /boot is not a separate partition) 

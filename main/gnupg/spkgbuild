@@ -2,18 +2,22 @@
 # depends	: libassuan libgcrypt libgpg-error libksba npth pinentry
 
 name=gnupg
-version=2.4.2
+version=2.4.3
 release=1
-source="https://gnupg.org/ftp/gcrypt/$name/$name-$version.tar.bz2"
+source="https://gnupg.org/ftp/gcrypt/$name/$name-$version.tar.bz2
+	ldap-help-vars.patch
+	"
 
 build() {
 	cd $name-$version
+	patch -Np1 -i $SRC/ldap-help-vars.patch
 
 	./configure $GPUPG \
 		--prefix=/usr \
 		--libexecdir=/usr/lib/$name \
 		--disable-ldap \
-		--disable-nls 
+		--disable-nls \
+		--disable-tests 
 	make
 	make DESTDIR=$PKG install
 
