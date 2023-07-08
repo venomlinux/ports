@@ -1,0 +1,32 @@
+# description	    : Include btrfs snapshots in GRUB boot options
+# homepage	    : https://github.com/Antynea/grub-btrfs
+# depends	    : btrfs-progs grub wendy
+# optional	    : snapper timeshift 
+
+name=grub-btrfs
+version=4.13
+release=1
+backup="etc/default/grub-btrfs/config"
+source="$name-$version.tar.gz::https://github.com/Antynea/$name/archive/$version.tar.gz
+	run.grub-btrfs
+	rc.grub-btrfs
+	conf"
+
+build() {
+    cd $name-$version
+
+
+    make DESTDIR=$PKG install
+    # remove systemd things
+    rm -rf $PKG/usr/lib/systemd
+
+    # Install services
+	# runit
+	install -Dm755 $SRC/run.grub-btrfs $PKG/etc/sv/grub-btrfs/run
+	install $SRC/conf $PKG/etc/sv/grub-btrfs/conf
+	ln -s /run/runit/supervise.grub-btrfs $PKG/etc/sv/grub-btrfs/supervise
+	# sysv
+	install -Dm755 $SRC/rc.grub-btrfs $PKG/etc/rc.d/grub-btrfs
+
+}
+

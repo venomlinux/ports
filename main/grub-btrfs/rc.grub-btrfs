@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# /etc/rc.d/grub-btrfs: start/stop grub-btrfs service
+#
+
+. /etc/rc.subr
+
+NAME="Grub-Btrfs service"
+PROG=/usr/sbin/wendy
+SNAPSHOTS_PATH=/.snapshots
+OPT="wendy ${OPTS} -m 960 -w "${SNAPSHOTS_PATH}" sh -c \
+	 'if [ -s "/boot/grub/grub-btrfs.cfg" ]; then
+	 /etc/grub.d/41_snapshots-btrfs; else grub-mkconfig -o
+	 /boot/grub/grub.cfg; fi'"
+
+case $1 in
+	start)
+		msg "Starting $NAME..."
+		start_daemon -f $PROG $OPT
+		;;
+	stop)
+		msg "Stopping $NAME..."
+		stop_daemon $PROG
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	status)
+		status_daemon $PROG
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+# End of file
