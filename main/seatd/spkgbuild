@@ -3,23 +3,27 @@
 # depends	: meson ninja scdoc
 
 name=seatd
-version=0.6.2
+version=0.7.0
 release=1
-source="https://git.sr.ht/~kennylevinsen/seatd/archive/$version.tar.gz"
+source="https://git.sr.ht/~kennylevinsen/seatd/archive/$version.tar.gz
+	rc.seatd
+	run.seatd"
 
 build() {
-#cd $name-$version
-	mkdir build
-    meson --prefix=/usr \
-          --buildtype=plain \
-          -Dexamples="disabled" \
-          -Dserver="enabled" \
-          -Dlibseat-logind="auto" \
-		  -Dlibseat-seatd="enabled" \
-		  -Dlibseat-builtin="enabled" \
-          -Dman-pages="enabled" \
-          "seatd-$version" \
-          build
-    ninja -C build	
-	DESTDIR=$PKG ninja -C build install
+    venom-meson $name-$version build \
+          -Dexamples=disabled \
+          -Dserver=enabled \
+          -Dlibseat-logind=auto \
+	  -Dlibseat-seatd=enabled \
+	  -Dlibseat-builtin=enabled \
+          -Dman-pages=disabled 
+
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+
+	# rc service
+	install -Dm755 $SRC/rc.seatd $PKG/etc/rc.d/seatd
+	# runit service
+	install -Dm755 $SRC/run.seatd $PKG/etc/sv/seatd/run
+	ln -s /run/runit/supervise.seatd $PKG/etc/sv/seatd/supervise
 }
