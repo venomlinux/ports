@@ -1,0 +1,14 @@
+# description	    : Inotify based directory watcher
+# homepage	    : http://git.z3bra.org/wendy/log.html
+
+name=wendy
+version=2.1
+release=1
+source="http://dl.z3bra.org/releases/$name-$version.tar.bz2"
+
+build() {
+
+	cd $name-$version
+	make
+	make DESTDIR=$PKG install
+}
