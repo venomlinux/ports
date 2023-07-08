@@ -1,5 +1,4 @@
 #!/bin/sh
 
-addgroup -S seat 2>/dev/null
+getent group seatd >/dev/null || groupadd -S seatd
 
-exit 0
