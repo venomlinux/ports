@@ -21,6 +21,8 @@ build() {
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 
+	chmod u+s $PKG/usr/bin/seatd-launch
+
 	# rc service
 	install -Dm755 $SRC/rc.seatd $PKG/etc/rc.d/seatd
 	# runit service
