@@ -1,0 +1,15 @@
+# description	: Wayland clipboard utilities
+# homepage	: https://github.com/bugaevc/wl-clipboard/archive/refs/tags/v2.1.0.tar.gz
+# depends	: meson wayland-protocols
+
+name=wl-clipboard
+version=2.1.0
+release=1
+source="$name-$version.tar.gz::https://github.com/bugaevc/wl-clipboard/archive/refs/tags/v2.1.0.tar.gz"
+
+
+build() {
+	venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
