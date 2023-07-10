@@ -11,5 +11,5 @@ source="$name-$version.tar.gz::https://git.sr.ht/~raphi/someblocks/archive/$vers
 build() {
 	cd $name-$version
 	make
-	make DESTDIR=$PKG install
+	make DESTDIR=$PKG PREFIX=/usr install
 }
