@@ -3,17 +3,19 @@
 
 name=dunst
 version=1.9.2
-release=1
+release=2
 source="https://github.com/dunst-project/dunst/archive/v$version/$name-$version.tar.gz"
 
 build() {
 
-	export WAYLAND=0
-
 	cd $name-$version
-	
-	make
+
+	scratch isinstalled wayland && \
+	make all || \
+	export WAYLAND=0 make
+
 	make PREFIX=/usr SYSCONFDIR=/etc DESTDIR=$PKG install
+	install -Dm755 dunstify $PKG/usr/bin/dunstify
 
 	# remove systemd trash file
 	rm -fr $PKG/usr/lib/
