@@ -1,0 +1,17 @@
+# description	: Open source implementation of jpegxr
+# homepage	: https://archive.codeplex.com/?p=jxrlib
+# depends	: cmake 
+
+name=jxrlib
+version=0.2.4
+release=1
+source="https://github.com/glencoesoftware/jxrlib/archive/v$version/$name-$version.tar.gz
+        CMakeLists.txt"
+
+build() {
+	cp $SRC/CMakeLists.txt $name-$version
+	cmake -B build -S $name-$version \
+		-DCMAKE_INSTALL_PREFIX=/usr
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
