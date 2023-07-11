@@ -1,0 +1,35 @@
+# description	: Library project for developers who would like to support popular graphics image formats 
+# homepage	: http://freeimage.sourceforge.net/
+# depends	: libjpeg-turbo openexr openjpeg2 libwebp libraw libtiff jxrlib
+
+name=freeimage
+version=3.18.0
+vrsn=$(echo $version | sed 's/\.//g')
+release=1
+source="https://downloads.sourceforge.net/project/freeimage/Source%20Distribution/${version}/FreeImage${vrsn}.zip
+	freeimage-unbundle.patch
+        freeimage-libraw-0.20.patch
+        freeimage-libraw-0.21.patch"
+_portdir=$PWD
+
+build() {
+	cd FreeImage
+
+	patch -Np1 -i $SRC/freeimage-unbundle.patch # Unbundle libraries (Fedora)
+	rm -r Source/Lib* Source/ZLib Source/OpenEXR
+
+	> Source/FreeImage/PluginG3.cpp
+	> Source/FreeImageToolkit/JPEGTransform.cpp
+
+	patch -Np1 -i $SRC/freeimage-libraw-0.20.patch # Fix build with libraw 0.20
+	patch -Np1 -i $SRC/freeimage-libraw-0.21.patch # Fix build with libraw 0.21
+
+	sh gensrclist.sh
+	sh genfipsrclist.sh
+  	make -f Makefile.gnu
+  	make -f Makefile.fip
+
+	make -f Makefile.gnu DESTDIR=$PKG install
+	make -f Makefile.fip DESTDIR=$PKG install
+}
+
