@@ -11,16 +11,11 @@ build() {
 
 	sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 
-	sed -i Source/CMakeInstallDestinations.cmake \
-	    -e 's|share/cmake-${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}|share/cmake|'
-
-	./bootstrap \
-		--prefix=/usr \
-		--datadir=/share/cmake \
-		--no-system-librhash \
-		--system-libs \
-		-- -D Cmake_BUILD_LTO=ON \
-		-D BUILD_TESTING=OFF
+  	./bootstrap --prefix=/usr       \
+	            --system-libs       \
+	            --mandir=/share/man \
+	            --no-system-jsoncpp \
+            	    --no-system-librhash
 	make
 	make DESTDIR=$PKG install
 

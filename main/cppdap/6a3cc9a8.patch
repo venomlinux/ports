@@ -1,0 +1,24 @@
+From 6a3cc9a804e83c40f4202fe6a34c8911d2c7c12b Mon Sep 17 00:00:00 2001
+From: Julien Schueller <schueller@phimeca.com>
+Date: Thu, 13 Jul 2023 19:36:52 +0200
+Subject: [PATCH] CMake: Allow to build dynamic lib
+
+This allows taking cmake BUILD_SHARED_LIBS option to decide whether to build a shared or static lib
+This does not change the default (static)
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 717f02e..3a14f59 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -226,7 +226,7 @@ endfunction(cppdap_set_target_options)
+ ###########################################################
+ 
+ # dap
+-add_library(cppdap STATIC ${CPPDAP_LIST})
++add_library(cppdap ${CPPDAP_LIST})
+ set_target_properties(cppdap PROPERTIES POSITION_INDEPENDENT_CODE 1)
+ 
+ cppdap_set_target_options(cppdap)
