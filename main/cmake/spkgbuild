@@ -1,8 +1,8 @@
 # description	: Modern toolset used for generating Makefiles
-# depends	: curl libarchive libuv
+# depends	: curl libarchive libuv cppdap
 
 name=cmake
-version=3.26.4
+version=3.27.0
 release=1
 source="https://www.cmake.org/files/v${version%.*}/$name-$version.tar.gz"
 
@@ -11,11 +11,16 @@ build() {
 
 	sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 
-  	./bootstrap --prefix=/usr       \
-	            --system-libs       \
-	            --mandir=/share/man \
-	            --no-system-jsoncpp \
-            	    --no-system-librhash
+	sed -i Source/CMakeInstallDestinations.cmake \
+	    -e 's|share/cmake-${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}|share/cmake|'
+
+	./bootstrap \
+		--prefix=/usr \
+		--datadir=/share/cmake \
+		--no-system-librhash \
+		--system-libs \
+		-- -D Cmake_BUILD_LTO=ON \
+		-D BUILD_TESTING=OFF
 	make
 	make DESTDIR=$PKG install
 
