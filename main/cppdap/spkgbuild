@@ -5,8 +5,8 @@
 name=cppdap
 version=1.58.0
 release=1
-source="https://github.com/google/cppdap/archive/dap-${version}-a.tar.gz
-        https://github.com/google/cppdap/commit/6a3cc9a8.patch"
+source="$name-$version.tar.gz::https://github.com/google/cppdap/archive/dap-${version}-a.tar.gz
+        6a3cc9a8.patch"
 
 build() {
 	patch -d cppdap-dap-${version}-a -p1 < 6a3cc9a8.patch # Build shared lib
