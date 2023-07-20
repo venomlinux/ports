@@ -1,0 +1,18 @@
+# description   : Lightweight YouTube client that does no>
+# homepage      : https://metacpan.org
+# depends       : perl
+
+name=perl-libwww
+version=6.71
+release=1
+source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/O/OA/OALDERS/libwww-perl-$version.tar.gz"
+
+
+build() {
+        cd libwww-perl-$version
+	perl -I. Makefile.PL INSTALLDIRS=vendor
+        make
+        make DESTDIR=$PKG install
+
+}
+
