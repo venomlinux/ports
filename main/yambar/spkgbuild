@@ -9,7 +9,7 @@ source="$name-$version.tar.gz::https://codeberg.org/dnkl/yambar/archive/$version
 
 build() {
 	venom-meson $name build \
-		-Dbackend-x11=disabled \
+		-Dbackend-x11=enabled \
 		-Dbackend-wayland=enabled
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
