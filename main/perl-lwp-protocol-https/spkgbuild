@@ -1,0 +1,16 @@
+# description   : Provide https support for LWP::UserAgent
+# homepage      : https://metacpan.org/release/LWP-Protocol-https
+# depends       : perl-libwww perl-mozilla-ca perl-io-socket-ssl perl-net-http
+
+name=perl-lwp-protocol-https
+version=6.11
+release=1
+source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/O/OA/OALDERS/LWP-Protocol-https-$version.tar.gz"
+
+build() {
+	cd LWP-Protocol-https-$version
+        perl -I. Makefile.PL INSTALLDIRS=vendor
+	make
+        make DESTDIR=$PKG install
+}
+
