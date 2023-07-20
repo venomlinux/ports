@@ -1,0 +1,16 @@
+# description   : Lightweight YouTube client that does not require an YouTube API key
+# homepage      : github.com/trizen/pipe-viewer
+# depends       : mpv perl-module-build perl-data-dump perl-json perl-libwww perl-lwp-protocol-https 
+# depends	: perl-clone perl-http-date perl-try-tiny perl-http-cokis perl-encode-local perl-html-entities
+# depends	: perl-term-readline-gnu perl-unicode-linebreak perl-text-charwidth perl-uri perl-http-message yt-dlp
+
+name=pipe-viewer
+version=0.4.7
+release=1
+source="$name-$version.tar.gz::https://github.com/trizen/pipe-viewer/archive/$version.tar.gz"
+
+build() {
+	cd $name-$version
+	perl Build.PL --gtk3
+	./Build install --destdir=$PKG --installdirs=vendor
+}
