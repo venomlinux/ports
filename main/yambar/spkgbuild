@@ -1,0 +1,16 @@
+# description	: Modular status panel for X11 and Wayland, inspired by polybar
+# homepage	: https://codeberg.org/dnkl/yambar
+# depends	: alsa-lib fontconfig json-c meson pixman scdoc wayland yaml
+
+name=yambar
+version=1.9.0
+release=1
+source="$name-$version.tar.gz::https://codeberg.org/dnkl/yambar/archive/$version.tar.gz"
+
+build() {
+	venom-meson $name build \
+		-Dbackend-x11=disabled \
+		-Dbackend-wayland=enabled
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
