@@ -1,0 +1,14 @@
+# description   : UAX #14 Unicode Line Breaking Algorithm
+# homepage      : github.com/trizen/pipe-viewer
+# depends       : perl-mime-charset
+
+name=perl-unicode-linebreak
+version=2019.001
+release=7
+source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/N/NE/NEZUMI/Unicode-LineBreak-$version.tar.gz"
+
+build() {
+	cd Unicode-LineBreak-$version
+        perl -I. Makefile.PL INSTALLDIRS=vendor
+	make DESTDIR=$PKG install
+}
