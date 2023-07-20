@@ -1,0 +1,18 @@
+# description: Perl extension for using OpenSSL
+# homepage: https://metacpan.org/release/Net-SSLeay
+# depends: perl openssl zlib
+
+name=perl-net-ssleay
+version=1.92
+release=1
+source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/C/CH/CHRISN/Net-SSLeay-$version.tar.gz"
+
+build() {
+	cd Net-SSLeay-$version
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make
+	make DESTDIR=$PKG install
+
+	# creates file collision among perl modules
+	find $PKG -name perllocal.pod -delete
+}
