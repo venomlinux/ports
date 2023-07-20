@@ -1,0 +1,17 @@
+# description   : Lightweight YouTube client that does no>
+# homepage      : https://cpan.metacpan.org
+# depends       : perl
+
+name=perl-http-date
+version=6.06
+release=1
+source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/O/OA/OALDERS/HTTP-Date-$version.tar.gz"
+
+build() {
+        cd HTTP-Date-$version
+	perl -I. Makefile.PL INSTALLDIRS=vendor
+        make
+        make DESTDIR=$PKG install
+
+}
+

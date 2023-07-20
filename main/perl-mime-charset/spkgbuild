@@ -1,0 +1,16 @@
+# description: Charset Information for MIME
+# homepage: https://metacpan.org/release/MIME-Charset/
+# depends: perl
+
+name=perl-mime-charset
+version=1.013.1
+release=1
+source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/N/NE/NEZUMI/MIME-Charset-$version.tar.gz"
+
+build() {
+	cd MIME-Charset-$version
+	PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+	make
+	make DESTDIR=$PKG install
+	find $PKG \( -name perllocal.pod -o -name .packlist \) -delete
+}

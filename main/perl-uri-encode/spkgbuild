@@ -1,0 +1,16 @@
+# description: Simple percent Encoding/Decoding
+# homepage: https://metacpan.org/release/URI-Encode/
+# depends: perl-module-build
+
+name=perl-uri-encode
+version=1.1.1
+release=1
+source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/M/MI/MITHUN/URI-Encode-v$version.tar.gz"
+
+build() {
+	cd URI-Encode-v$version
+	perl Build.PL --installdirs=vendor
+	./Build
+	./Build install --destdir=$PKG
+	find $PKG \( -name perllocal.pod -o -name .packlist \) -delete
+}

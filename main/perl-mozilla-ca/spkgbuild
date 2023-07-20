@@ -1,0 +1,17 @@
+# description: Mozilla's CA cert bundle in PEM format
+# homepage: https://metacpan.org/release/Mozilla-CA/
+# depends: perl
+
+name=perl-mozilla-ca
+version=20221114
+release=1
+source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/H/HA/HAARG/Mozilla-CA-$version.tar.gz"
+
+build() {
+	cd Mozilla-CA-$version
+	PERL_MM_USE_DEFAULT=1 perl -I. Makefile.PL INSTALLDIRS=vendor
+	make
+	make DESTDIR=$PKG install
+	find $PKG \( -name perllocal.pod -o -name .packlist \) -delete
+}
+

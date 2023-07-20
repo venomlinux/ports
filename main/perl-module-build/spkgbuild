@@ -1,0 +1,16 @@
+# description   : Lightweight YouTube client that does not re>
+# homepage      : github.com/trizen/pipe-viewer
+# depends       : perl
+
+name=perl-module-build
+version=0.4234
+release=1
+source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-$version.tar.gz"
+
+
+build() {
+	cd Module-Build-$version
+	perl Build.PL --installdirs=vendor
+	./Build
+ 	./Build install --destdir=$PKG 
+}
