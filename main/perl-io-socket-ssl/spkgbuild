@@ -1,0 +1,17 @@
+# description: Nearly transparent SSL encapsulation for IO::Socket::INET.
+# homepage: https://metacpan.org/release/IO-Socket-SSL/
+# depends: perl ca-certificates perl-net-ssleay perl-mozilla-ca
+
+name=perl-io-socket-ssl
+version=2.083
+release=1
+source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/S/SU/SULLR/IO-Socket-SSL-$version.tar.gz"
+
+
+build() {
+	cd IO-Socket-SSL-$version
+	PERL_MM_USE_DEFAULT=1 perl -I. Makefile.PL INSTALLDIRS=vendor
+	make
+	make DESTDIR=$PKG install
+	find $PKG \( -name perllocal.pod -o -name .packlist \) -delete
+}
