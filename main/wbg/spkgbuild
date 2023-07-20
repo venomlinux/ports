@@ -1,0 +1,16 @@
+# description	:  Super simple wallpaper application for Wayland compositors implementing the layer-shell protocol
+# homepage	:  https://codeberg.org/dnkl/wbg
+# depends	:  libjpeg-turbo libpng meson pixman tllist wayland-protocols
+
+name=wbg
+version=1.1.0
+release=1
+source="$name-$version.tar.gz::https://codeberg.org/dnkl/wbg/archive/$version.tar.gz"
+
+build() {
+	venom-meson $name build \
+		-Djpeg=enabled \
+		-Dpng=enabled
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
