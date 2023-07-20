@@ -1,4 +1,4 @@
-highway-1.0.4-1
+highway-1.0.5-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/include/hwy/
@@ -17,12 +17,15 @@ drwxr-xr-x root/root    usr/include/hwy/contrib/image/
 drwxr-xr-x root/root    usr/include/hwy/contrib/math/
 -rw-r--r-- root/root    usr/include/hwy/contrib/math/math-inl.h
 drwxr-xr-x root/root    usr/include/hwy/contrib/sort/
+-rw-r--r-- root/root    usr/include/hwy/contrib/sort/order.h
 -rw-r--r-- root/root    usr/include/hwy/contrib/sort/shared-inl.h
 -rw-r--r-- root/root    usr/include/hwy/contrib/sort/sorting_networks-inl.h
 -rw-r--r-- root/root    usr/include/hwy/contrib/sort/traits-inl.h
 -rw-r--r-- root/root    usr/include/hwy/contrib/sort/traits128-inl.h
 -rw-r--r-- root/root    usr/include/hwy/contrib/sort/vqsort-inl.h
 -rw-r--r-- root/root    usr/include/hwy/contrib/sort/vqsort.h
+drwxr-xr-x root/root    usr/include/hwy/contrib/unroller/
+-rw-r--r-- root/root    usr/include/hwy/contrib/unroller/unroller-inl.h
 -rw-r--r-- root/root    usr/include/hwy/detect_compiler_arch.h
 -rw-r--r-- root/root    usr/include/hwy/detect_targets.h
 -rw-r--r-- root/root    usr/include/hwy/foreach_target.h
@@ -39,6 +42,7 @@ drwxr-xr-x root/root    usr/include/hwy/ops/
 -rw-r--r-- root/root    usr/include/hwy/ops/scalar-inl.h
 -rw-r--r-- root/root    usr/include/hwy/ops/set_macros-inl.h
 -rw-r--r-- root/root    usr/include/hwy/ops/shared-inl.h
+-rw-r--r-- root/root    usr/include/hwy/ops/tuple-inl.h
 -rw-r--r-- root/root    usr/include/hwy/ops/wasm_128-inl.h
 -rw-r--r-- root/root    usr/include/hwy/ops/x86_128-inl.h
 -rw-r--r-- root/root    usr/include/hwy/ops/x86_256-inl.h
@@ -46,11 +50,14 @@ drwxr-xr-x root/root    usr/include/hwy/ops/
 -rw-r--r-- root/root    usr/include/hwy/per_target.h
 -rw-r--r-- root/root    usr/include/hwy/print-inl.h
 -rw-r--r-- root/root    usr/include/hwy/print.h
+-rw-r--r-- root/root    usr/include/hwy/robust_statistics.h
 -rw-r--r-- root/root    usr/include/hwy/targets.h
 drwxr-xr-x root/root    usr/include/hwy/tests/
 -rw-r--r-- root/root    usr/include/hwy/tests/hwy_gtest.h
 -rw-r--r-- root/root    usr/include/hwy/tests/test_util-inl.h
 -rw-r--r-- root/root    usr/include/hwy/tests/test_util.h
+-rw-r--r-- root/root    usr/include/hwy/timer-inl.h
+-rw-r--r-- root/root    usr/include/hwy/timer.h
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/cmake/
 drwxr-xr-x root/root    usr/lib/cmake/hwy/
@@ -58,14 +65,14 @@ drwxr-xr-x root/root    usr/lib/cmake/hwy/
 -rw-r--r-- root/root    usr/lib/cmake/hwy/hwy-config-version.cmake
 -rw-r--r-- root/root    usr/lib/cmake/hwy/hwy-config.cmake
 lrwxrwxrwx root/root    usr/lib/libhwy.so -> libhwy.so.1
-lrwxrwxrwx root/root    usr/lib/libhwy.so.1 -> libhwy.so.1.0.4
--rwxr-xr-x root/root    usr/lib/libhwy.so.1.0.4
+lrwxrwxrwx root/root    usr/lib/libhwy.so.1 -> libhwy.so.1.0.5
+-rwxr-xr-x root/root    usr/lib/libhwy.so.1.0.5
 lrwxrwxrwx root/root    usr/lib/libhwy_contrib.so -> libhwy_contrib.so.1
-lrwxrwxrwx root/root    usr/lib/libhwy_contrib.so.1 -> libhwy_contrib.so.1.0.4
--rwxr-xr-x root/root    usr/lib/libhwy_contrib.so.1.0.4
+lrwxrwxrwx root/root    usr/lib/libhwy_contrib.so.1 -> libhwy_contrib.so.1.0.5
+-rwxr-xr-x root/root    usr/lib/libhwy_contrib.so.1.0.5
 lrwxrwxrwx root/root    usr/lib/libhwy_test.so -> libhwy_test.so.1
-lrwxrwxrwx root/root    usr/lib/libhwy_test.so.1 -> libhwy_test.so.1.0.4
--rwxr-xr-x root/root    usr/lib/libhwy_test.so.1.0.4
+lrwxrwxrwx root/root    usr/lib/libhwy_test.so.1 -> libhwy_test.so.1.0.5
+-rwxr-xr-x root/root    usr/lib/libhwy_test.so.1.0.5
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/libhwy-contrib.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/libhwy-test.pc
