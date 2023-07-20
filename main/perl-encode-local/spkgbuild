@@ -1,0 +1,16 @@
+# description   : Lightweight YouTube client that does no>
+# homepage      : https://cpan.metacpan.org
+# depends       : perl
+
+name=perl-encode-local
+version=1.05
+release=1
+source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/G/GA/GAAS/Encode-Locale-$version.tar.gz"
+
+build() {
+        cd Encode-Locale-$version
+	perl -I. Makefile.PL INSTALLDIRS=vendor
+        make
+        make DESTDIR=$PKG install
+}
+
