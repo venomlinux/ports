@@ -1,0 +1,16 @@
+# description: Low-level HTTP connection (client)
+# homepage: https://metacpan.org/release/Net-HTTP/
+# depends: perl-uri
+
+name=perl-net-http
+version=6.23
+release=1
+source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/O/OA/OALDERS/Net-HTTP-$version.tar.gz"
+
+build() {
+	cd Net-HTTP-$version
+	PERL_MM_USE_DEFAULT=1 perl -I. Makefile.PL INSTALLDIRS=vendor
+	make
+	make DESTDIR=$PKG install
+	find $PKG \( -name perllocal.pod -o -name .packlist \) -delete
+}
