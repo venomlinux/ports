@@ -4,7 +4,7 @@
 
 name=highway
 version=1.0.5
-release=1
+release=2
 source="https://github.com/google/highway/archive/$version/$name-$version.tar.gz 
 	highway.patch"
 
@@ -15,9 +15,9 @@ build() {
 	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DBUILD_TESTING=OFF \
 		-DHWY_SYSTEM_GTEST=ON \
-		-DBUILD_SHARED_LIBS=ON \
-		-Wno-dev
+		-DHWY_ENABLE_EXAMPLES=OFF
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
 }
