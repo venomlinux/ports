@@ -2,13 +2,12 @@
 # depends	: mesa
 
 name=glu
-version=9.0.2
+version=9.0.3
 release=1
 source="ftp://ftp.freedesktop.org/pub/mesa/glu/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version
-	./configure --prefix=/usr --disable-static
-	make
-	make DESTDIR=$PKG install
+	venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }
