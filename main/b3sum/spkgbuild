@@ -1,0 +1,16 @@
+# description	: Official BLAKE3 cryptographic hash function utility
+# homepage	: https://github.com/BLAKE3-team/BLAKE3
+# depends	: rust
+
+
+name=b3sum
+version=1.4.1
+release=1
+source="$name-$version.tar.gz::https://github.com/BLAKE3-team/BLAKE3/archive/refs/tags/$version.zip"
+
+build() {
+	cd BLAKE3-$version/b3sum
+	cargo fetch --locked
+	cargo build --release
+	install -Dt $PKG/usr/bin target/release/$name
+}
