@@ -1,9 +1,9 @@
 # description	: Modern toolset used for generating Makefiles
-# depends	: curl libarchive libuv jsoncpp cppdap
+# depends	: curl libarchive libuv
 
 name=cmake
 version=3.27.0
-release=1
+release=2
 source="https://www.cmake.org/files/v${version%.*}/$name-$version.tar.gz"
 
 build() {
@@ -16,7 +16,9 @@ build() {
 
 	./bootstrap \
 		--prefix=/usr \
-		--datadir=/share/cmake \
+		--datadir=/share/$name \
+		--no-system-jsoncpp  \
+		--no-system-cppdap   \
 		--no-system-librhash \
 		--system-libs \
 		-- -D Cmake_BUILD_LTO=ON \
