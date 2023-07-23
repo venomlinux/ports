@@ -1,9 +1,9 @@
-# description	: Waterfox-g4 binary Fourth generation of customizable privacy-conscious web browser.
+# description	: Waterfox - customizable privacy-conscious web browser.
 # homepage	: https://www.waterfox.net
 # depends	: gtk3 gtk2 libxt startup-notification shared-mime-info dbus-glib ffmpeg 
 
 name=waterfox-bin
-version=5.1.3
+version=5.1.9
 release=1
 source="https://cdn1.waterfox.net/waterfox/releases/G$version/Linux_x86_64/waterfox-G$version.tar.bz2"
 
@@ -26,12 +26,12 @@ build() {
 	# Install icons
     for i in 16 32 48 64 128; do
         install -d "$PKG/usr/share/icons/hicolor/${i}x${i}/apps"
-        ln -Ts /opt/waterfox-g4/browser/chrome/icons/default/default$i.png \
-            "$PKG/usr/share/icons/hicolor/${i}x${i}/apps/waterfox-g.png"
+        ln -Ts /opt/waterfox/browser/chrome/icons/default/default$i.png \
+            "$PKG/usr/share/icons/hicolor/${i}x${i}/apps/waterfox.png"
     done
 
     # Add additional useful settings
-    install -Dm644 /dev/stdin "$PKG/opt/waterfox-g/browser/defaults/preferences/vendor.js" <<END
+    install -Dm644 /dev/stdin "$PKG/opt/waterfox/browser/defaults/preferences/vendor.js" <<END
 // Disable default browser checking
 pref("browser.shell.checkDefaultBrowser", false);
 
@@ -56,5 +56,5 @@ END
 END
 
 	# Symlink the binary to /usr/bin/.
-	ln -s /opt/waterfox-g4/waterfox "$PKG"/usr/bin/waterfox-g
+	ln -s /opt/waterfox/waterfox "$PKG"/usr/bin/waterfox
 }
