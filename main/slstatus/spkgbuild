@@ -3,15 +3,14 @@
 # depends	: libx11
 
 name=slstatus
-version=20201201
+version=1.0
 release=1
-_commit=84a2f117a32f0796045941260cdc4b69852b41e0
-source="$name-$version.tar.gz::https://github.com/drkhsh/slstatus/archive/$_commit.tar.gz"
+source="$name-$version.tar.gz::https://github.com/drkhsh/slstatus/archive/refs/tags/$version.tar.gz"
 
 _portdir=$PWD
 
 build() {
-	cd $name-$_commit
+	cd $name-$version
 
 	if [ -f $_portdir/config.h ]; then
 		cp $_portdir/config.h .
