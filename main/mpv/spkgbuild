@@ -2,14 +2,11 @@
 # depends	: mesa meson lcms2 ffmpeg libass libarchive luajit libcdio-paranoia libxpresent libxscrnsaver
 
 name=mpv
-version=0.35.1
-release=3
-source="https://github.com/mpv-player/mpv/archive/v$version/$name-$version.tar.gz
-	mpv-0.35.1-yt-dlp-edl-fragments.patch"
+version=0.36.0
+release=1
+source="https://github.com/mpv-player/mpv/archive/v$version/$name-$version.tar.gz"
 
 build() {
-	patch -d $name-$version -Np1 -i $SRC/mpv-0.35.1-yt-dlp-edl-fragments.patch
-
 	venom-meson $name-$version build \
 		-D libmpv=true \
 		-D libarchive=enabled \
