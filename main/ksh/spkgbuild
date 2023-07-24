@@ -1,0 +1,24 @@
+# description		: korn shell community branch ksh93u+m
+# homepage		: https://github.com/ksh93/ksh
+
+name=ksh
+version=1.0.6
+release=1
+source="$name-$version.tar.gz::https://github.com/ksh93/ksh/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	bin/package make CCFLAGS="$CFLAGS" NPROC="$MAKEFLAGS"
+
+	# run inside own pty
+	script -qfc bin/shtests /dev/null
+
+	install -Dm0775 arch/linux.i386-64/bin/ksh $PKG/bin/ksh
+	install -Dm0775 arch/linux.i386-64/bin/shcomp $PKG/bin/shcomp
+
+	mkdir -pv $PKG/usr/share/ksh/functions
+	cp arch/linux.i386-64/fun/* $PKG/usr/share/ksh/functions
+
+	install -Dm0644 arch/linux.i386-64/man/man1/sh.1 $PKG/usr/share/man/man1/ksh.1.gz	
+}
