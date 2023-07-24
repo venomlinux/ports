@@ -1,4 +1,4 @@
-wine-staging-8.12-1
+wine-staging-8.13-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/revdep.d/
 -rw-r--r-- root/root    etc/revdep.d/wine-staging.conf
@@ -597,6 +597,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/inspectable.idl
 -rw-r--r-- root/root    usr/include/wine/windows/interactioncontext.h
 -rw-r--r-- root/root    usr/include/wine/windows/intshcut.h
+-rw-r--r-- root/root    usr/include/wine/windows/ioringapi.h
 -rw-r--r-- root/root    usr/include/wine/windows/ip2string.h
 -rw-r--r-- root/root    usr/include/wine/windows/ipexport.h
 -rw-r--r-- root/root    usr/include/wine/windows/iphlpapi.h
@@ -772,6 +773,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/ntdsapi.h
 -rw-r--r-- root/root    usr/include/wine/windows/ntgdi.h
 -rw-r--r-- root/root    usr/include/wine/windows/ntifs.h
+-rw-r--r-- root/root    usr/include/wine/windows/ntioring_x.h
 -rw-r--r-- root/root    usr/include/wine/windows/ntlsa.h
 -rw-r--r-- root/root    usr/include/wine/windows/ntquery.h
 -rw-r--r-- root/root    usr/include/wine/windows/ntsecapi.h
@@ -1069,6 +1071,8 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/windef.h
 -rw-r--r-- root/root    usr/include/wine/windows/windns.h
 -rw-r--r-- root/root    usr/include/wine/windows/windot11.h
+-rw-r--r-- root/root    usr/include/wine/windows/windows.applicationmodel.h
+-rw-r--r-- root/root    usr/include/wine/windows/windows.applicationmodel.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.devices.bluetooth.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.devices.bluetooth.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.devices.enumeration.h
@@ -1134,6 +1138,8 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/windows.security.credentials.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.security.cryptography.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.security.cryptography.idl
+-rw-r--r-- root/root    usr/include/wine/windows/windows.storage.h
+-rw-r--r-- root/root    usr/include/wine/windows/windows.storage.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.storage.streams.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.storage.streams.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.system.h
@@ -1568,6 +1574,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/avifil32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/avrt.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/bcrypt.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/bcryptprimitives.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/bluetoothapis.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/browseui.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/bthprops.cpl
@@ -1747,6 +1754,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/gamingtcui.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/gdi32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/gdiplus.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/geolocation.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/glu32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/gphoto2.ds
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/gpkcsp.dll
@@ -1794,6 +1802,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/kerberos.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/kernel32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/kernelbase.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/klist.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/ksecdd.sys
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/ksproxy.ax
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/ksuser.dll
@@ -2351,7 +2360,6 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/win32u.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.devices.bluetooth.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.devices.enumeration.dll
--rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.devices.geolocation.geolocator.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.gaming.input.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.gaming.ui.gamebar.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.globalization.dll
@@ -2775,6 +2783,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/avifile.dll16
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/avrt.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/bcrypt.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/bcryptprimitives.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/bluetoothapis.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/browseui.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/bthprops.cpl
@@ -2963,6 +2972,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/gdi.exe16
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/gdi32.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/gdiplus.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/geolocation.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/glu32.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/gpkcsp.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/graphicscapture.dll
@@ -3012,6 +3022,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/kernel32.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/kernelbase.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/keyboard.drv16
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/klist.exe
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/krnl386.exe16
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/ksecdd.sys
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/ksproxy.ax
@@ -3610,7 +3621,6 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windebug.dll16
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.devices.bluetooth.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.devices.enumeration.dll
--rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.devices.geolocation.geolocator.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.gaming.input.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.gaming.ui.gamebar.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.globalization.dll
