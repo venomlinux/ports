@@ -2,14 +2,11 @@
 # depends	: exiv2 vala meson python3-gobject3
 
 name=gexiv2
-version=0.14.1
-release=2
-source="https://ftp.gnome.org/pub/gnome/sources/gexiv2/${version%.*}/gexiv2-$version.tar.xz
-	06adc8fb70cb8c77c0cd364195d8251811106ef8.patch"
+version=0.14.2
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/gexiv2/${version%.*}/gexiv2-$version.tar.xz"
 
 build() {
-	patch -d $name-$version -Np1 -i $SRC/06adc8fb70cb8c77c0cd364195d8251811106ef8.patch
-
 	venom-meson $name-$version build
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
