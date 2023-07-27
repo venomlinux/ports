@@ -4,7 +4,7 @@
 # depends	: libxrender libxt libxdamage libxscrnsaver libwebp lld nodejs nspr nss pkgconf rust unzip
 
 name=firefox
-version=115.0.2
+version=115.0.3
 release=1
 source="$name-$version.tar.xz::https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz 
 	$name.desktop"
@@ -13,11 +13,6 @@ build() {
   cd $name-$version
   mkdir "$SRC/rust"
   export CARGO_HOME="$SRC/rust"
-
-  scratch isinstalled ccache && \
-  export OS_CCACHE_COMPILERCHECK="$(/usr/bin/clang -dumpversion | sed -z 's/\n/ /g'; crux | cut -d' ' -f3)"
-  export CCACHE_COMPILERCHECK="string:$OS_CCACHE_COMPILERCHECK"
-  PATH=$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')
 
 cat <<- EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj
@@ -41,6 +36,7 @@ ac_add_options --enable-av1
 ac_add_options --enable-dbus
 ac_add_options --enable-ffmpeg
 ac_add_options --enable-hardening
+ac_add_options --enable-install-strip
 ac_add_options --enable-linker=lld
 ac_add_options --enable-lto=thin
 ac_add_options --enable-official-branding
@@ -49,6 +45,7 @@ ac_add_options --enable-release
 ac_add_options --enable-update-channel=release
 ac_add_options --enable-rust-simd
 ac_add_options --enable-sandbox
+ac_add_options --enable-strip
 ac_add_options --enable-system-pixman
 ac_add_options --with-distribution-id=org.venomlinux
 ac_add_options --with-system-ffi
@@ -73,9 +70,6 @@ EOF
   scratch isinstalled wayland-protocols && \
     echo 'ac_add_options --enable-default-toolkit=cairo-gtk3-wayland' >> .mozconfig || \
     echo 'ac_add_options --enable-default-toolkit=cairo-gtk3' >> .mozconfig
-
-  # ccache
-  scratch isinstalled ccache && echo 'ac_add_options --enable-ccache' >> .mozconfig
 
   # Build configuration
   export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
