@@ -6,11 +6,11 @@
 
 NAME="SEATD daemon"
 PROG=/usr/bin/seatd
-OPTS="-g seatd"
+OPTS="-g seat"
 
 case $1 in
 start)
-  start_daemon  $PROG  $OPTS
+  start_daemon  $PROG  $OPTS &
   ;;
 stop)
   stop_daemon  $PROG
