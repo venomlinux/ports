@@ -1,0 +1,29 @@
+# description: Foomatic - Foomatic's database engine generates PPD files from the data in Foomatic's XML database.
+# homepage: http://www.linuxprinting.org/foomatic.html
+# depends: perl libxml2 cups-filters perl-clone ghostscript foomatic-db
+
+name=foomatic-db-engine
+version=20220503
+commit=2e6f14b54748fa121a4d2e3d480010e10b070c5a
+release=1
+source="$name-$version.tar.gz::https://github.com/OpenPrinting/foomatic-db-engine/archive/$commit.tar.gz"
+
+build() {
+  export LIB_CUPS="/usr/lib/cups"
+  cd $name-$commit
+  ./make_configure
+  PERL_INSTALLDIRS=vendor \
+  ./configure --prefix=/usr \
+    --sbindir=/usr/bin
+  make
+  make DESTDIR=$PKG install
+
+  # preset default spooler
+  echo cups > $PKG/etc/foomatic/defaultspooler
+  # add some docs
+  install -Dm644 USAGE $PKG/usr/share/doc/${name}/USAGE
+  install -Dm644 README $PKG/usr/share/doc/${name}/README
+
+  # cleanup
+  rm -r $PKG/usr/lib/perl5
+}
