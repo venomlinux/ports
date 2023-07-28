@@ -1,4 +1,2 @@
 #!/bin/sh
-
-getent group seatd >/dev/null || groupadd -S seatd
-
+getent group seat >/dev/null || groupadd seat
