@@ -3,13 +3,16 @@
 
 name=rxvt-unicode
 version=9.31
-release=2
+release=3
 source="http://dist.schmorp.de/$name/Attic/$name-$version.tar.bz2
+	perl.5.38.patch
 	URxvt"
 
 build() {
 	cd $name-$version
 
+	patch -Np1 -i $SRC/perl.5.38.patch
+    
   	./configure \
 		--prefix=/usr \
 		--enable-utmp \
