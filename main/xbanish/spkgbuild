@@ -1,0 +1,14 @@
+# description	: Hide the mouse cursor when typing
+# homepage	: https://github.com/jcs/xbanish
+# depends	: libxfixes libxi libxt
+
+name=xbanish
+version=1.8
+release=1
+source="$name-$version.zip::https://github.com/jcs/xbanish/archive/v${version}.zip"
+
+build() {
+	cd $name-$version
+	make
+	make PREFIX=/usr DESTDIR=$PKG install
+}
