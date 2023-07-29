@@ -1,0 +1,51 @@
+--- a/src/rxvtperl.xs	2022-12-30 20:18:20.000000000 +0100
++++ b/src/rxvtperl.xs	2023-07-29 12:21:56.817541626 +0200
+@@ -399,7 +399,7 @@
+ {
+   if (!perl)
+     {
+-      rxvt_push_locale (""); // perl init destroys current locale
++      rxvt_push_locale ("C"); // perl init destroys current locale
+ 
+       {
+         perl_environ = rxvt_environ;
+@@ -2198,7 +2198,7 @@
+ 
+         EXTEND (SP, count);
+         while (count--)
+-          PUSHs (newSVuv ((U32)props [count]));
++          PUSHs (sv_2mortal (newSVuv ((U32)props [count])));
+ 
+         XFree (props);
+ }
+@@ -2224,9 +2224,9 @@
+                          :                1;
+ 
+             EXTEND (SP, 3);
+-            PUSHs (newSVuv ((U32)type));
+-            PUSHs (newSViv (format));
+-            PUSHs (newSVpvn ((char *)prop, nitems * elemsize));
++            PUSHs (sv_2mortal (newSVuv ((U32)type)));
++            PUSHs (sv_2mortal (newSViv (format)));
++            PUSHs (sv_2mortal (newSVpvn ((char *)prop, nitems * elemsize)));
+             XFree (prop);
+           }
+ }
+@@ -2337,9 +2337,9 @@
+         if (XTranslateCoordinates (THIS->dpy, src, dst, x, y, &dx, &dy, &child))
+           {
+             EXTEND (SP, 3);
+-            PUSHs (newSViv (dx));
+-            PUSHs (newSViv (dy));
+-            PUSHs (newSVuv (child));
++            PUSHs (sv_2mortal (newSViv (dx)));
++            PUSHs (sv_2mortal (newSViv (dy)));
++            PUSHs (sv_2mortal (newSVuv (child)));
+           }
+ }
+ 
+@@ -2624,4 +2624,3 @@
+         RETVAL
+ 
+ #endif
+-
