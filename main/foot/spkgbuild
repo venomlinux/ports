@@ -4,17 +4,16 @@
 
 name=foot
 version=1.15.1
-release=1
+release=2
 source="$name-$version.tar.gz::https://codeberg.org/dnkl/foot/archive/$version.tar.gz"
 
 build() {
 
-	opt=""
-	cratch isinstalled  utf8proc && _opt=' -D grapheme-clustering=enabled'
-
 	# doing the lto dance
-	export CFLAGS='-march=x86-64 -O3 -Wno-missing-profile -Wno-error'
-	venom-meson $name build $_opt
+	export CFLAGS='-O3 -Wno-missing-profile -Wno-error'
+	venom-meson $name build \
+		-Dgrapheme-clustering=enabled \
+		-Dtests=false
 	find -name "*.gcda" -delete
 	meson compile -C build
 	
