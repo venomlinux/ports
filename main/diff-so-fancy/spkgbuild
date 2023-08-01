@@ -1,0 +1,17 @@
+# description	: Good-looking diffs
+# homepage	: https://github.com/so-fancy/diff-so-fancy
+# depends	: perl
+
+name=diff-so-fancy
+version=1.4.4
+release=1
+source="https://github.com/so-fancy/diff-so-fancy/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	sed -i 's|^use lib .*$|use lib "/usr/share/diff-so-fancy";|g' diff-so-fancy
+	
+	install -Dm755 diff-so-fancy $PKG/usr/bin/diff-so-fancy
+	install -Dm755 lib/DiffHighlight.pm $PKG/usr/share/diff-so-fancy/DiffHighlight.pm
+}
