@@ -1,0 +1,65 @@
+diff --git a/community/thunderbird/ppc-musttail.patch b/community/thunderbird/ppc-musttail.patch
+new file mode 100644
+index 00000000000..ebe06c0ebe8
+--- /dev/null
++++ b/community/thunderbird/ppc-musttail.patch
+@@ -0,0 +1,30 @@
++Patch-Source: https://github.com/chimera-linux/cports/blob/506127954653ccebf9b82df1452cce4ed0dae3b1/contrib/thunderbird/patches/ppc-musttail.patch
++--
++commit 5e66655e1456c9d26637ceaed3f4533b537322c4
++Author: Daniel Kolesa <daniel@octaforge.org>
++Date:   Sat May 13 23:00:04 2023 +0200
++
++    disable musttail on ppc
++    
++    41:38.04 LLVM ERROR: failed to perform tail call elimination on a call site marked musttail
++    41:38.04 PLEASE submit a bug report to https://github.com/llvm/llvm-project/issues/ and include the crash backtrace.
++    41:38.04 Stack dump:
++    41:38.04 0.     Running pass 'Function Pass Manager' on module '/builddir/thunderbird-114.0_beta1/obj-powerpc64le-unknown-linux-musl/toolkit/library/build/../../../gfx/skia/SkOpts.o'.
++    41:38.04 1.     Running pass 'PowerPC DAG->DAG Pattern Instruction Selection' on function '@_ZN8portableL15init_lane_masksEPNS_6ParamsEP21SkRasterPipelineStageffff'
++    41:38.95 clang-16: error: unable to execute command: Aborted
++    
++    To be investigated later.
++
++diff --git a/gfx/skia/skia/src/core/SkRasterPipeline.h b/gfx/skia/skia/src/core/SkRasterPipeline.h
++index 766bb0c..88c6cb2 100644
++--- a/gfx/skia/skia/src/core/SkRasterPipeline.h
+++++ b/gfx/skia/skia/src/core/SkRasterPipeline.h
++@@ -24,7 +24,7 @@ enum SkColorType : int;
++ struct SkImageInfo;
++ struct skcms_TransferFunction;
++ 
++-#if __has_cpp_attribute(clang::musttail) && !defined(__EMSCRIPTEN__) && !defined(SK_CPU_ARM32)
+++#if __has_cpp_attribute(clang::musttail) && !defined(__EMSCRIPTEN__) && !defined(SK_CPU_ARM32) && !defined(__powerpc__)
++     #define SK_HAS_MUSTTAIL 1
++ #else
++     #define SK_HAS_MUSTTAIL 0
+diff --git a/community/thunderbird/ppc-webrtc.patch b/community/thunderbird/ppc-webrtc.patch
+new file mode 100644
+index 00000000000..bf4afddf298
+--- /dev/null
++++ b/community/thunderbird/ppc-webrtc.patch
+@@ -0,0 +1,23 @@
++Patch-Source: https://github.com/chimera-linux/cports/blob/506127954653ccebf9b82df1452cce4ed0dae3b1/contrib/thunderbird/patches/ppc64-webrtc.patch
++--
++commit 010bfb0441168d51e0fffe98d1f50e0602e7947f
++Author: Daniel Kolesa <daniel@octaforge.org>
++Date:   Sat May 13 23:40:41 2023 +0200
++
++    fix webrtc on ppc64
++
++diff --git a/third_party/libwebrtc/moz.build b/third_party/libwebrtc/moz.build
++index 976cf37..d35d447 100644
++--- a/third_party/libwebrtc/moz.build
+++++ b/third_party/libwebrtc/moz.build
++@@ -643,3 +643,10 @@ if CONFIG["CPU_ARCH"] == "x86_64" and CONFIG["OS_TARGET"] == "WINNT":
++         "/third_party/libwebrtc/modules/audio_processing/agc2/rnn_vad/vector_math_avx2_gn",
++         "/third_party/libwebrtc/modules/desktop_capture/desktop_capture_differ_sse2_gn"
++     ]
+++
+++if CONFIG["CPU_ARCH"] == "ppc64" and CONFIG["OS_TARGET"] == "Linux":
+++
+++    DIRS += [
+++        "/third_party/libwebrtc/modules/desktop_capture/desktop_capture_gn",
+++        "/third_party/libwebrtc/modules/desktop_capture/primitives_gn"
+++    ]
