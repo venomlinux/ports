@@ -3,7 +3,7 @@
 
 name=spotify
 version=1.2.11.916.geb595a67
-release=1
+release=2
 source="$name-$version.deb::https://mirror.cs.uchicago.edu/spotify/pool/non-free/s/spotify-client/spotify-client_${version}_amd64.deb
 	spotify"
 
@@ -11,8 +11,9 @@ build() {
 	bsdtar -xf ${name}-${version}.deb
 	tar -xzf data.tar.gz -C $PKG
 
-	install -D $PKG/usr/share/spotify/spotify.desktop $PKG/usr/share/applications/spotify.desktop
-	install -D $PKG/usr/share/spotify/icons/spotify-linux-512.png $PKG/usr/share/pixmaps/spotify-client.png
+	scratch isinstalled wayland-protocols && sed 's/Exec=spotify %U/Exec=dbus-launch spotify %U/' $PKG/usr/share/spotify/spotify.desktop
+	install -Dm644 $PKG/usr/share/spotify/spotify.desktop $PKG/usr/share/applications/spotify.desktop
+	install -Dm644 $PKG/usr/share/spotify/icons/spotify-linux-512.png $PKG/usr/share/pixmaps/spotify-client.png
 
 	for size in 22 24 32 48 64 128 256 512; do
 		install -D $PKG/usr/share/spotify/icons/spotify-linux-$size.png \
