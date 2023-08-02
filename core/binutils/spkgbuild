@@ -2,17 +2,14 @@
 # depends	: flex elfutils
 
 name=binutils
-version=2.40
-release=2
-source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz
-	CVE-2023-1972.patch"
+version=2.41
+release=1
+source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
 	sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
-
-	patch -Np1 -i $SRC/CVE-2023-1972.patch
 
 	mkdir -v build
 	cd       build
