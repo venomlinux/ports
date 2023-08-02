@@ -2,12 +2,13 @@
 # depends	: autoconf2.13 gtk3 gtk2 rust yasm icu libevent nspr dbus-glib gconf clang cbindgen nodejs nasm unzip zip nss libxcomposite which
 
 name=thunderbird
-version=102.13.0
+version=115.1.0
 release=1
 source="https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz
-	webrtc.patch
-	gcc13.patch
-	rustc_version-0.4.0.patch"
+	system-wrappers.patch
+	libstdc++13.patch
+	ppc-musttail.patch
+	"
 
 build() {
 	INITDIR=$PWD
@@ -15,9 +16,9 @@ build() {
 	cd $name-$version
 
 	# Fix building Thunderbird with rustc-1.68.x: 
-	patch -Np1 -i $SRC/rustc_version-0.4.0.patch
-	patch -Np1 -i $SRC/gcc13.patch
-	patch -Np1 -i $SRC/webrtc.patch
+	patch -Np1 -i $SRC/libstdc++13.patch
+	patch -Np1 -i $SRC/system-wrappers.patch
+	patch -Np1 -i $SRC/ppc-musttail.patch
 
 	sed -i '/ROOT_CLIP_CHAIN/d' gfx/webrender_bindings/webrender_ffi.h
 	
@@ -46,7 +47,6 @@ ac_add_options --enable-strip
 ac_add_options --enable-system-ffi
 ac_add_options --enable-system-pixman
 ac_add_options --prefix=/usr
-ac_add_options --with-system-bz2
 ac_add_options --with-system-icu
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-libevent
@@ -59,6 +59,7 @@ EOF
 
 	export CC=clang CXX=clang++ AR=llvm-ar NM=llvm-nm RANLIB=llvm-ranlib
         export MOZBUILD_STATE_PATH=${PWD}/mozbuild
+	export MOZ_NOSPAM=1
 	export CARGO_HOME=$INITDIR
 
 	# Remove an obsolete flag in python-3.11
