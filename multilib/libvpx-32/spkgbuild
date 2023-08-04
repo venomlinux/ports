@@ -4,7 +4,7 @@
 
 name=libvpx-32
 version=1.13.0
-release=1
+release=2
 source="libvpx-$version.tar.gz::https://github.com/webmproject/libvpx/archive/v$version.tar.gz"
 
 
@@ -25,4 +25,8 @@ build() {
 
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+
+	rm -rf $PKG/usr/bin
+	rm -rf $PKG/usr/include
+	rm -rf $PKG/usr/share
 }
