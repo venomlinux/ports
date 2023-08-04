@@ -1,8 +1,9 @@
 # description	: Library which provides a simple foundation for reading DVDs
+# depends	: libdvdread
 
 name=libdvdread-32
 version=6.1.3
-release=1
+release=2
 source="https://download.videolan.org/videolan/libdvdread/$version/libdvdread-$version.tar.bz2"
 
 build() {
@@ -12,7 +13,7 @@ build() {
 
 	cd libdvdread-$version
 
-	./configure --prefix=/usr/lib32 \
+	./configure --prefix=/usr \
                     --libdir=/usr/lib32 \
 	            --disable-static
 	make
@@ -20,4 +21,7 @@ build() {
 
         mkdir -p $PKG/usr/lib32
         cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+	
+	rm -rf $PKG/usr/include
+	rm -rf $PKG/usr/share
 }
