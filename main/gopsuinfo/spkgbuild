@@ -1,0 +1,25 @@
+# description	: A gopsutil-based command to display customizable system info, intended for nwg-panel or Tint2
+# depends	: go
+
+name=gopsuinfo
+version=0.1.5
+release=1
+source="$name-$version.tar.gz::https://github.com/nwg-piotr/gopsuinfo/archive/v$version.tar.gz"
+
+build() {
+	export CGO_LDFLAGS="${LDFLAGS}"
+	export CGO_CFLAGS="${CFLAGS}"
+	export CGO_CPPFLAGS="${CPPFLAGS}"
+	export CGO_CXXFLAGS="${CXXFLAGS}"
+	export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"
+	export GOPATH=$SRC/go
+	export PATH=$PATH:$GOPATH/bin
+
+	cd $name-$version
+	go build -o bin/$name *.go
+	cd $SRC
+	install -D -t $PKG/usr/share/$name/icons_light $name-$version/icons_light/*
+	install -D -t $PKG/usr/share/$name/icons_dark $name-$version/icons_dark/*
+	install -Dm755 -t $PKG/usr/bin $name-$version/bin/$name
+}
+
