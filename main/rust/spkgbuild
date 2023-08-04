@@ -2,7 +2,7 @@
 # depends	: curl cmake python3 llvm libssh2
 
 name=rust
-version=1.71.0
+version=1.71.1
 release=1
 _date=2023-06-01
 _rust=1.70.0
@@ -13,9 +13,11 @@ source="https://static.rust-lang.org/dist/rustc-$version-src.tar.xz
 	https://static.rust-lang.org/dist/$_date/rust-std-$_rust-$_triplet.tar.xz
 	https://static.rust-lang.org/dist/$_date/rustc-$_rust-$_triplet.tar.xz
 	https://static.rust-lang.org/dist/$_date/cargo-$_cargo-$_triplet.tar.xz
-	0001-cargo-Change-libexec-dir.patch
 	0001-bootstrap-Change-libexec-dir.patch
-	0002-compiler-Change-LLVM-targets.patch"
+	0001-cargo-Change-libexec-dir.patch
+	0002-bootstrap-Change-bash-completion-dir.patch  
+	0003-compiler-Change-LLVM-targets.patch
+	0005-bootstrap-Unbreak-building-Rust-1.71.1-with-1.71.0.patch"
 
 noextract="rust-std-$_rust-$_triplet.tar.xz
 	rustc-$_rust-$_triplet.tar.xz
@@ -28,11 +30,17 @@ build() {
 
 	# Patch bootstrap and cargo so credential helpers
 	# are in /usr/lib instead of /usr/libexec
-	patch -d src/tools/cargo -Np1 < $SRC/0001-cargo-Change-libexec-dir.patch
-	patch -Np1 -i $SRC/0001-bootstrap-Change-libexec-dir.patch
+	patch -d src/tools/cargo -Np1 < ../0001-cargo-Change-libexec-dir.patch
+	patch -Np1 -i ../0001-bootstrap-Change-libexec-dir.patch
+
+	# Put bash completions where they belong
+	patch -Np1 -i ../0002-bootstrap-Change-bash-completion-dir.patch
 
 	# Use our *-pc-linux-gnu targets, making LTO with clang simpler
-	patch -Np1 -i $SRC/0002-compiler-Change-LLVM-targets.patch
+	patch -Np1 -i ../0003-compiler-Change-LLVM-targets.patch
+
+	# https://github.com/rust-lang/rust/issues/114444
+	patch -Np1 -i ../0005-bootstrap-Unbreak-building-Rust-1.71.1-with-1.71.0.patch
 
 	mkdir -p build/cache/$_date
 	cp $SRC/rust-std-$_rust-$_triplet.tar.xz build/cache/$_date/
