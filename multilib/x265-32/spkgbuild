@@ -3,7 +3,7 @@
 
 name=x265-32
 version=3.5
-release=1
+release=2
 source="$name-$version.tar.gz::https://bitbucket.org/multicoreware/${name%-*}_git/downloads/${name%-*}_$version.tar.gz"
 
 build() {
@@ -19,7 +19,8 @@ build() {
 		-DEXTRA_LINK_FLAGS='-L'
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
-	
-	rm -rf $PKG/usr/bin  
-	rm -rf $PKG/usr/include 
+
+	rm -rf $PKG/usr/bin
+	rm -rf $PKG/usr/include
+	rm -rf $PKG/usr/share
 }
