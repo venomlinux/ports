@@ -1,3 +1,3 @@
 #!/bin/sh
 
-getent group mlocate >/dev/null || groupadd mlocate
+getent group locate >/dev/null || groupadd locate
