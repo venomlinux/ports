@@ -1,0 +1,17 @@
+# description: Geocoding library for Python
+# hompepage: https://github.com/geopy/geopy
+# depends: python3-geographiclib 
+
+name=python3-geopy
+nm=geopy
+version=2.3.0
+release=1
+source="$name-$version.tar.gz::https://github.com/geopy/geopy/archive/$version.tar.gz"
+
+build() {
+	cd $nm-$version
+	python3 -m build --wheel --no-isolation
+	python3 -m installer --destdir=$PKG dist/*.whl
+	install -vDm 644 AUTHORS -t $PKG/usr/share/doc/$name/
+	install -vDm 644 README.rst -t $PKG/usr/share/doc/$name/
+}

@@ -1,0 +1,13 @@
+# description	: Script for sway and i3 to automatically switch the horizontal / vertical window split orientation
+# homepage	: https://github.com/nwg-piotr/autotiling
+# depends	: python3-setuptools  python3-wheel python3-i3ipc
+
+name=nwg-autotiling
+version=1.8
+release=1
+source="$name-$version.tar.gz::https://github.com/nwg-piotr/autotiling/archive/v$version.tar.gz"
+
+build() {
+	cd autotiling-$version
+	python3 setup.py install --root=$PKG --optimize=1
+}

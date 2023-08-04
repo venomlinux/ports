@@ -1,0 +1,14 @@
+# description	: gtklock module adding power controls to the lockscreen
+# homepage	: https://github.com/jovanlanik/gtklock-powerbar-module
+# depends	: gtk3 gtklock
+
+name=gtklock-powerbar-module
+version=2.0.1
+release=1
+source="$name-$version.tar.gz::https://github.com/jovanlanik/gtklock-powerbar-module/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	cd $name-$version 
+	make
+        make PREFIX=/usr DESTDIR=$PKG install
+}

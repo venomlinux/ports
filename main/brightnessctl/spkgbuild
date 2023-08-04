@@ -1,0 +1,16 @@
+# description	: Program to read and control device brightness
+# homepage	: https://github.com/Hummer12007/brightnessctl
+
+name=brightnessctl
+version=0.5.1
+release=1
+source="$name-$version.tar.gz::https://github.com/Hummer12007/brightnessctl/archive/$version.tar.gz"
+
+build() {
+        cd  $name-$version
+	make INSTALL_UDEV_RULES=1
+	make install DESTDIR=$PKG INSTALL_UDEV_RULES=1
+	install=$name.post-install
+}
+
+

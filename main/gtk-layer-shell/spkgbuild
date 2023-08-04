@@ -1,0 +1,14 @@
+# description	: Library to create Wayland desktop components using the Layer Shell protocol
+# homepage	: https://github.com/wmww/gtk-layer-shell
+# depends	: gtk3 libxkbcommon wayland-protocols
+
+name=gtk-layer-shell
+version=0.8.1
+release=1
+source="https://github.com/wmww/gtk-layer-shell/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	venom-meson $name-$version build 
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}

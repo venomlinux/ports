@@ -1,0 +1,22 @@
+# description	: D-Bus interface for user account query and manipulation
+# depends	: glib meson polkit vala 
+
+
+name=accountsservice
+version=23.13.9
+release=1
+source="https://www.freedesktop.org/software/accountsservice/accountsservice-$version.tar.xz"
+
+build() {
+	venom-meson $name-$version build \
+		-Dsystemdsystemunitdir=no \
+		-Delogind=false \
+		-Dintrospection=true \
+		-Ddocbook=false \
+		-Dgtk_doc=false \
+		-Dadmin_group=wheel 
+         meson compile -C build
+         DESTDIR=$PKG meson install --no-rebuild -C build
+}
+
+

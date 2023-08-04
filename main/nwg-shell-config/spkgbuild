@@ -1,0 +1,20 @@
+# description	: nwg-shell configuration utility
+# depends	: python3-gobject3 python3-i3ipc python3-geopy playerctl noto-fonts-cjk python3-setuptools python3-wheel
+
+name=nwg-shell-config
+version=0.5.13
+release=1
+source="$name-$version.tar.gz::https://github.com/nwg-piotr/nwg-shell-config/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	python3 setup.py install --root=$PKG --optimize=1
+	install -D -t $PKG/usr/share/pixmaps nwg-shell-config.svg
+	install -D -t $PKG/usr/share/pixmaps nwg-shell-update.svg
+	install -D -t $PKG/usr/share/pixmaps nwg-shell-translate.svg
+	install -D -t $PKG/usr/share/pixmaps nwg-update-noupdate.svg
+	install -D -t $PKG/usr/share/pixmaps nwg-update-available.svg
+	install -D -t $PKG/usr/share/pixmaps nwg-update-checking.svg
+	install -D -t $PKG/usr/share/applications nwg-shell-config.desktop
+	install -D -t $PKG/usr/local/bin nwg-system-update
+}

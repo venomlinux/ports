@@ -1,0 +1,18 @@
+# description	: Wallpaper & color manager for wlroots-based compositors and some X11 WMs
+# depends	: python3-setuptools gtk3 python3-pillow slurp libappindicator python3-yaml swaybg feh xrandr
+
+name=azote
+version=1.12.3
+release=1
+source="$name-$version.tar.gz::https://github.com/nwg-piotr/$name/archive/v$version.tar.gz"
+
+build() {
+	install -D -m 755 $name-$version/dist/azote $PKG/usr/bin/azote
+	install -D -t $PKG/usr/share/pixmaps $name-$version/dist/azote.svg
+	install -D -t $PKG/usr/share/$name $name-$version/dist/indicator*.png
+	install -D -t $PKG/usr/share/applications $name-$version/dist/azote.desktop
+	cd $SRC/$name-$version
+	/usr/bin/python3 setup.py install --root=$PKG/ --optimize=1
+}
+
+

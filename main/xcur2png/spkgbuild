@@ -1,0 +1,19 @@
+# description	: Convert X cursors to PNG images
+# homepage	: https://github.com/eworm-de/xcur2png
+# depends	: libpng libxcursor
+
+name=xcur2png
+version=0.7.1
+release=1
+source="https://github.com/eworm-de/$name/releases/download/$version/$name-$version.tar.gz
+	0001-fix-wrong-math.patch"
+
+build() { 
+        cd $name-$version
+        
+	patch -Np1 -i $SRC/0001-fix-wrong-math.patch
+	
+	./configure --prefix=/usr
+	make 
+	make DESTDIR=$PKG install
+}

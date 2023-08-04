@@ -1,0 +1,18 @@
+# description	: The EGLStream-based Wayland external platform
+# homepage	: https://github.com/NVIDIA/egl-wayland/
+# depends	: eglexternalplatform mesa wayland-protocols
+
+name=egl-wayland
+version=1.1.12
+release=1
+source="https://github.com/NVIDIA/egl-wayland/archive/$version/$name-$version-$release.tar.gz
+	glvnd.diff"
+
+build() {
+	patch -Np1 -d $name-$version -i $SRC/glvnd.diff
+
+	venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
+

@@ -1,0 +1,14 @@
+# description	: A Wayland native snapshot editing tool
+# homepage	: https://github.com/jtheoof/swappy
+# depends	: gtk3 libnotify pango scdoc
+
+name=swappy
+version=1.5.1
+release=1
+source="https://github.com/jtheoof/swappy/archive/v$version/swappy-$version.tar.gz"
+
+build() {
+	venom-meson $name-$version build 
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
