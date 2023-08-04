@@ -3,7 +3,7 @@
 
 name=zstd-32
 version=1.5.5
-release=1
+release=2
 source="https://github.com/facebook/zstd/releases/download/v$version/zstd-$version.tar.gz"
 
 build() {
@@ -12,6 +12,23 @@ build() {
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	cd zstd-$version
-        make
-	make PREFIX=/usr/lib32 DESTDIR=$PKG install
+
+	# avoid error on tests without static libs, we use LD_LIBRARY_PATH
+	sed '/build static library to build tests/d' -i build/cmake/CMakeLists.txt
+	sed 's/libzstd_static/libzstd_shared/g' -i build/cmake/tests/CMakeLists.txt
+
+	cmake -S build/cmake -B build -G Ninja \
+		-DCMAKE_BUILD_TYPE=None \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib32 \
+		-DZSTD_BUILD_CONTRIB=ON \
+		-DZSTD_BUILD_STATIC=OFF \
+		-DZSTD_BUILD_TESTS=OFF \
+		-DZSTD_PROGRAMS_LINK_SHARED=ON
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+
+	rm -rf $PKG/usr/share
+	rm -rf $PKG/usr/include
+	rm -rf $PKG/usr/bin
 }
