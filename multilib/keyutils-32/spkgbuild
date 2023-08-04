@@ -4,7 +4,7 @@
 
 name=keyutils-32
 version=1.6.3
-release=1
+release=2
 source="https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git/snapshot/keyutils-$version.tar.gz"
 
 build() {
@@ -20,4 +20,8 @@ build() {
 	make DESTDIR=$PWD/DESTDIR install
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32	
+
+	rm -rf $PKG/usr/bin
+	rm -rf $PKG/usr/include
+	rm -rf $PKG/usr/share
 }
