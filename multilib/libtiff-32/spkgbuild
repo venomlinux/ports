@@ -3,7 +3,7 @@
 
 name=libtiff-32
 version=4.5.1
-release=1
+release=2
 source="https://download.osgeo.org/libtiff/tiff-$version.tar.gz"
 
 build() {
@@ -22,5 +22,7 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	rm -r $PKG/usr/bin $PKG/usr/share
+	rm -rf $PKG/usr/bin
+	rm -rf $PKG/usr/include
+	rm -rf $PKG/usr/share
 }
