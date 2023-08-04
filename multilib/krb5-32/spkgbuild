@@ -3,8 +3,8 @@
 
 name=krb5-32
 version=1.21.1
-release=1
-source="https://kerberos.org/dist/${name%-*}/${version}/${name%-*}-$version.tar.gz"
+release=2
+source="https://kerberos.org/dist/${name%-*}/${version%.*}/${name%-*}-$version.tar.gz"
 
 build() {
 	export CC="gcc -m32"
