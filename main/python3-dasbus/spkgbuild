@@ -1,0 +1,14 @@
+# description	: DBus library in Python 3
+# homepage	: https://github.com/rhinstaller/dasbus
+# depends	: dbus python3-setuptools python3-gobject python3-pytest
+
+name=python3-dasbus
+version=1.7
+release=1
+source="dasbus-$version.tar.gz::https://github.com/rhinstaller/dasbus/archive/v${version}.tar.gz"
+
+build() {
+	cd dasbus-$version
+	python3 setup.py build
+	python3 setup.py install --root=$PKG --optimize=1 --skip-build
+}
