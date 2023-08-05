@@ -2,10 +2,9 @@
 # depends	: cronie libgee vte3 gtk3 vala json-glib rsync
 
 name=timeshift
-version=23.06.2
-_commit=863e734ccc345cb18710937afc372cdd03b4a7ff
+version=23.07.1
 release=1
-source="$name-$version.tar.gz::https://github.com/linuxmint/timeshift/archive/refs/tags/master_lmde5.tar.gz"
+source="$name-$version.tar.gz::https://github.com/linuxmint/timeshift/archive/refs/tags/$version.tar.gz"
 
 build() {
 
@@ -17,7 +16,7 @@ EOF
 chmod +x which
 export PATH=$PATH:$PWD
 
-	venom-meson $name-$_commit build \
+	venom-meson $name-$version build \
 	-D xapp=false 
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
