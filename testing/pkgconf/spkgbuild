@@ -1,0 +1,22 @@
+# description	: Package compiler and linker metadata toolkit
+
+name=pkgconf
+version=2.0.0
+release=1
+source="https://gentoo.osuosl.org/distfiles/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--with-pkg-config-dir="/usr/lib/pkgconfig:/usr/share/pkgconfig" \
+		--with-system-libdir="/lib:/usr/lib" \
+		--with-system-includedir="/usr/include"
+	make
+	make DESTDIR=$PKG install
+
+	ln -sf pkgconf "$PKG"/usr/bin/pkg-config
+
+}
