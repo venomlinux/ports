@@ -1,0 +1,35 @@
+# description	: Guest utilities for virtualbox
+# depends	: libglvnd linux-pam p7zip fltk
+
+name=virtualbox-guest-utils
+version=7.0.10
+release=1
+source="http://download.virtualbox.org/virtualbox/$version/VBoxGuestAdditions_${version}.iso
+	60-vboxguest.rules"
+
+build() {
+	7z x VBoxGuestAdditions_${version}.iso
+	sh VBoxLinuxAdditions.run --noexec --keep --target $SRC/workingdir
+
+	cd workingdir
+	tar xf VBoxGuestAdditions-amd64.tar.bz2
+
+	install -d $PKG/usr/bin
+	install -m755 bin/* $PKG/usr/bin
+	install -m755 other/98vboxadd-xclient $PKG/usr/bin/VBoxClient-all
+
+	install -d $PKG/usr/sbin
+	install -m755 sbin/* $PKG/usr/sbin
+
+	install -d $PKG/sbin
+	install -m755 other/mount.vboxsf $PKG/sbin
+
+	install -d $PKG/lib/security
+	install -m755 other/pam_vbox.so $PKG/lib/security
+
+	install -d $PKG/etc/xdg/autostart
+	install -m644 other/vboxclient.desktop $PKG/etc/xdg/autostart
+
+	install -d $PKG/lib/udev/rules.d
+	install -m644 $SRC/60-vboxguest.rules $PKG/lib/udev/rules.d
+}

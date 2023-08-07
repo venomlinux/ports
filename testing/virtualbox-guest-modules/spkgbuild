@@ -1,0 +1,48 @@
+# description	: Guest kernel modules for virtualbox
+# depends	: virtualbox-guest-utils p7zip
+
+name=virtualbox-guest-modules
+version=7.0.10
+release=1
+source="http://download.virtualbox.org/virtualbox/$version/VBoxGuestAdditions_${version}.iso
+	vboxvideo-upstream.conf
+	vboxguest.hook"
+
+build() {
+	7z x VBoxGuestAdditions_${version}.iso
+	sh VBoxLinuxAdditions.run --noexec --keep --target $SRC/workingdir
+
+	cd workingdir
+	tar xf VBoxGuestAdditions-amd64.tar.bz2 src
+
+	if [ -f /lib/modules/KERNELVERSION ]; then
+		kernver=$(cat /lib/modules/KERNELVERSION)
+	else
+		kernver=$(uname -r)
+	fi
+
+	KERN_VER=$kernver make all -C src/vboxguest-$version
+
+	mkdir -p $PKG/lib/modules/$kernver/misc
+	for i in src/vboxguest-$version/*.ko; do
+	    install -Dm0644 $i $PKG/lib/modules/$kernver/misc
+	done
+
+	# load modules at boot time
+	install -d $PKG/etc/modules-load.d/
+	echo "# Load virtualbox guest modules at startup" > $PKG/etc/modules-load.d/virtualbox-guest.conf
+	echo "vboxguest" >> $PKG/etc/modules-load.d/virtualbox-guest.conf
+	echo "vboxsf" >> $PKG/etc/modules-load.d/virtualbox-guest.conf
+	echo "vboxvideo" >> $PKG/etc/modules-load.d/virtualbox-guest.conf
+
+	# override modules path
+	install -d $PKG/etc/depmod.d/
+	install -m644 $SRC/vboxvideo-upstream.conf $PKG/etc/depmod.d/
+
+	# mkinitramfs hook to include vbox guest modules into initramfs
+	install -d $PKG/etc/mkinitramfs.d
+	install -m644 $SRC/vboxguest.hook $PKG/etc/mkinitramfs.d
+
+	# compress modules
+	find $PKG -name '*.ko' -exec xz -T1 {} +
+}

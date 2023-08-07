@@ -1,0 +1,12 @@
+# description	: The official VirtualBox Guest Additions ISO image
+# depends	: virtualbox
+
+name=virtualbox-additions
+version=7.0.10
+release=1
+source="https://download.virtualbox.org/virtualbox/$version/VBoxGuestAdditions_$version.iso"
+
+build() {
+	install -D -m 0644 VBoxGuestAdditions_$version.iso \
+	    "$PKG/usr/lib/virtualbox/additions/VBoxGuestAdditions.iso"
+}

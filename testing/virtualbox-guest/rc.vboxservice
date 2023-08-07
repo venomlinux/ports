@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# /etc/rc.d/vboxservice: start virtualbox guest service
+#
+
+. /etc/rc.subr
+
+case $1 in
+	start)
+		msg "Starting VBoxService..."
+		start_daemon /usr/bin/VBoxService
+		;;
+	stop)
+		msg "Stopping VBoxService..."
+		stop_daemon /usr/bin/VBoxService
+		;;
+	restart)
+		$0 stop
+		sleep 2
+		$0 start
+		;;
+	*)
+		echo "Usage: $0 [start|stop|restart]"
+		;;
+esac
+
+# End of file
