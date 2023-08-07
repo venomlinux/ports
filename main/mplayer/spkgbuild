@@ -3,7 +3,7 @@
 
 name=mplayer
 version=1.5
-release=1
+release=2
 source="$name-$version.tar.xz::http://www.mplayerhq.hu/MPlayer/releases/MPlayer-$version.tar.xz"
 
 build() {
@@ -12,6 +12,7 @@ build() {
 	./configure --prefix=/usr            \
 	            --confdir=/etc/mplayer   \
 	            --enable-dynamic-plugins \
+		    --disable-ffmpeg_a \
 	            --enable-menu
 	make
 	make DESTDIR=$PKG install
