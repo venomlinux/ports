@@ -1,0 +1,78 @@
+# description: Linux application security framework - mandatory access control for programs
+# homepage: https://gitlab.com/apparmor/apparmor/wikis/home
+# depends: autoconf bison flex gettext libtool linux-api-headers linux-pam perl 
+# depends: python3-setuptools sed swig
+
+name=apparmor
+version=3.1.6
+release=1
+source="https://launchpad.net/apparmor/${version%.*}/$version/+download/apparmor-$version.tar.gz
+	rc.apparmor"
+
+build() {
+
+#	bash $SRC/common/list_af_names.sh >> $SRC/parser/base_af_names.h
+	cd $name-$version
+
+	export PYTHON_VERSION=3
+	export PYTHON_VERSIONS=python3
+	export PYTHON=/usr/bin/python3
+
+	cd libraries/libapparmor
+	msg "Building: libapparmor"
+	./autogen.sh
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib \
+		--libexecdir=/usr/lib \
+		--with-python \
+		--with-perl
+	make
+
+	cd $SRC/$name-$version
+
+	msg "Building: apparmor parser"
+	make -C parser
+
+	msg "Building: apparmor-binutils"
+	make -C binutils
+
+	msg "Building: apparmor-utils"
+	make -C utils
+
+	msg "Building: apparmor-profiles"
+	make -C profiles
+
+	msg "Building: apparmor-pam"
+	make -C changehat/pam_apparmor
+
+	msg "Building: apparmor-vim"
+	make -C utils/vim
+
+	make -C libraries/libapparmor install DESTDIR="$PKG"
+	make -C changehat/pam_apparmor install DESTDIR="$PKG"
+	make -C binutils install DESTDIR="$PKG" BINDIR="$PKG/usr/bin"
+	make -C parser install DESTDIR="$PKG" BINDIR="$PKG/usr/bin"
+	make -C profiles install DESTDIR="$PKG"
+	make -C utils install \
+		DESTDIR="$PKG" \
+		BINDIR="$PKG/usr/bin" \
+		VIM_INSTALL_PATH="$PKG/usr/share/vim/vimfiles/syntax"
+
+	mv "$PKG"/lib "$PKG"/usr/lib
+
+	mkdir -p "$PKG"/usr/lib/apparmor "$PKG"/lib
+
+	mv "$PKG"/usr/lib/lib/apparmor/rc.apparmor.functions \
+           "$PKG"/usr/lib/apparmor/
+
+	mv "$PKG"/usr/lib/lib/security "$PKG"/lib
+
+	rm -r "$PKG"/usr/lib/lib/
+
+	install -Dm644 changehat/pam_apparmor/README \
+		"$PKG"/usr/share/doc/apparmor/README.pam_apparmor
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+}
