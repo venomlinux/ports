@@ -3,13 +3,12 @@
 
 name=pavucontrol
 version=5.0
-release=1
-source="https://freedesktop.org/software/pulseaudio/pavucontrol/$name-$version.tar.xz"
+_commit=eba9ca6898c4883b88f80dbb83c5002fd19492b8
+release=2
+source="$name-$version-$_commit.tar.gz::https://github.com/pulseaudio/pavucontrol/archive/${_commit}.tar.gz"
 
 build() {
-	cd $name-$version
-	./configure --prefix=/usr
-	make
-	make DESTDIR=$PKG install
-
+	venom-meson $name-$_commit build
+	meson compile -C build
+	meson install -C build --destdir $PKG
 }
