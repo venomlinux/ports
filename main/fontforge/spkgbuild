@@ -3,11 +3,20 @@
 
 name=fontforge
 version=20230101
-release=1
+release=2
 source="https://github.com/fontforge/fontforge/releases/download/$version/fontforge-$version.tar.xz"
 
 build() {
-	cmake  -S $name-$version -B build \
+	cd $name-$version
+
+	# Fix a problem with old translations exposed by gettext-0.22
+
+	sed -i.orig 's/\(%[^%[:space:]]*\)hs/\1s/g' \
+		fontforgeexe/searchview.c po/de.po po/ca.po \
+		po/hr.po po/it.po po/pl.po po/uk.po po/en_GB.po \
+		po/fr.po po/vi.po po/ko.po po/ja.po
+
+	cmake -B build \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
