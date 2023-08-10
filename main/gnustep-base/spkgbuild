@@ -1,20 +1,22 @@
 # description	: The GNUstep base package
-# depends	: gnustep-make libffi icu gnutls libxml2 libxslt
+# depends	: gnustep-make libffi icu gnutls libdispatch libxml2 libxslt 
 
 name=gnustep-base
 version=1.29.0
 _version=$(echo $version | sed 's/\./_/g')
-release=1
-source="https://github.com/gnustep/libs-base/releases/download/base-${_version}/gnustep-base-$version.tar.gz
-	icu68.patch"
+release=2
+source="https://github.com/gnustep/libs-base/releases/download/base-${_version}/${name}-${version}.tar.gz
+	icu68.patch
+	GSXML.patch"
 
 build() {
 	cd $name-$version
 
 	patch -Np0 -i ../icu68.patch
-
+	patch -Np1 -i ../GSXML.patch
+	
 	. /usr/share/GNUstep/Makefiles/GNUstep.sh
-	./configure --prefix=/usr
+	./configure --prefix=/usr 
 	make
 	make DESTDIR=$PKG install
 }
