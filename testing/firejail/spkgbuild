@@ -1,0 +1,22 @@
+# description		: Linux namespaces sandbox program
+# homepage		: https://github.com/netblue30/firejail
+# depends		: apparmor
+# optionals		: xdg-dbus-proxy
+
+name=firejail
+version=0.9.72
+release=1
+source="https://github.com/netblue30/$name/releases/download/$version/$name-$version.tar.xz"
+backup="etc/firejail/login.users
+        etc/apparmor.d/local/firejail-default
+        etc/firejail/firejail.config
+        etc/firejail/firecfg.config"
+
+
+build() {
+  cd $name-$version
+  ./configure --prefix=/usr --enable-apparmor
+  make
+  make DESTDIR=$PKG install
+}
+
