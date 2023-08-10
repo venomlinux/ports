@@ -1,0 +1,18 @@
+diff --git a/GSXML.m.orig b/GSXML.m
+index 37f5095..a175684 100644
+--- a/Source/Additions/GSXML.m
++++ b/Source/Additions/GSXML.m
+@@ -2671,10 +2671,12 @@ getEntityDefault(void *ctx, const xmlChar *name, BOOL resolve)
+                   return NULL;
+                 }
+               ret->owner = 1;
+-              if (ret->checked == 0)
++#if LIBXML_VERSION < 21100
++	      if (ret->checked == 0)
+                 {
+                   ret->checked = 1;
+                 }
++#endif
+             }
+         }
+     }
