@@ -1,0 +1,14 @@
+# description	: Utility to manage outputs of a Wayland compositor
+# homepage	: https://sr.ht/~emersion/wlr-randr/
+# depends	: wayland meson
+
+name=wlr-randr
+version=0.3.0
+release=1
+source="$name-$version.tar.gz::https://git.sr.ht/~emersion/wlr-randr/archive/v$version.tar.gz"
+      
+build() {
+	  venom-meson ${name}-v${version} build
+          meson compile -C build
+          DESTDIR=$PKG meson install --no-rebuild -C build
+}
