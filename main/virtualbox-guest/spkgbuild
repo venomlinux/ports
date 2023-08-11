@@ -3,8 +3,8 @@
 
 name=virtualbox-guest
 _name=VirtualBox
-version=7.0.8a
-vrsn=7.0.8
+version=7.0.10
+vrsn=7.0.10
 release=1
 source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.tar.bz2
 	60-vboxguest.rules
@@ -12,10 +12,13 @@ source="https://download.virtualbox.org/virtualbox/$version/VirtualBox-$version.
 	VBoxClient-all
 	vboxclient.desktop
 	dkms.conf
-	rc.vboxservice"
+	rc.vboxservice
+	virtualbox-guest-additions-fix-gcc13.patch"
 
 build() {
 	cd $_name-$vrsn
+
+	patch -Np1 -i $SRC/virtualbox-guest-additions-fix-gcc13.patch
 
 	export VBOX_ONLY_ADDITIONS=1
 
