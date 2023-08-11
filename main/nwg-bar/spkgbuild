@@ -1,0 +1,27 @@
+# description	: GTK3-based button bar for sway and other wlroots-based compositors
+# homepage	: https://github.com/nwg-piotr/nwg-bar
+# depends	: go gtk-layer-shell
+
+name=nwg-bar
+version=0.1.3
+release=1
+source="$name-$version.tar.gz::https://github.com/nwg-piotr/nwg-bar/archive/v0.1.3.tar.gz"
+
+build() {
+	cd $SRC/$name-$version
+	export CGO_LDFLAGS="${LDFLAGS}"
+	export CGO_CFLAGS="${CFLAGS}"
+	export CGO_CPPFLAGS="${CPPFLAGS}"
+	export CGO_CXXFLAGS="${CXXFLAGS}"
+	export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"
+	export GOPATH=$SRC/go
+	export PATH=$PATH:$GOPATH/bin
+
+	go build -v -o bin/$name *.go
+
+	cd $SRC
+	install -d $PKG/usr/share/$name/images
+	install -Dm644 -t $PKG/usr/share/$name/images/ $name-$version/images/*
+	install -Dm644 -t $PKG/usr/share/$name/ $name-$version/config/*
+	install -Dm755 -t $PKG/usr/bin $name-$version/bin/$name
+}
