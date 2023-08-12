@@ -3,13 +3,18 @@
 # depends	    : glib duktape linux-pam gobject-introspection intltool
 
 name=polkit
-version=121
+version=123
 release=1
-source="https://freedesktop.org/software/polkit/releases/$name-$version.tar.gz"
+source="https://gitlab.freedesktop.org/polkit/polkit/-/archive/$version/polkit-$version.tar.bz2"
 
 build() {
+	export XML_CATALOG_FILES=/etc/xml/catalog
 
-  	venom-meson $name-v.$version  build 
+  	venom-meson $name-$version build \
+		-Dsystemdsystemunitdir=/trash \
+		-Dsession_tracking="ConsoleKit" \
+		-Dman=true \
+		-Dtests=false
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 
