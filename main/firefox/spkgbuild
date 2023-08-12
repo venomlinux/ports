@@ -7,10 +7,24 @@ name=firefox
 version=116.0.2
 release=1
 source="$name-$version.tar.xz::https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz 
-	$name.desktop"
+	$name.desktop
+	pkgconf-2.0.patch"
 
 build() {
   cd $name-$version
+
+# we need this because cargo verifies checksums of all files in vendor
+# crates when it builds and gives us no way to override or update the
+# file sanely... so just clear out the file list
+_clear_vendor_checksums() {
+	sed -i 's/\("files":{\)[^}]*/\1/' third_party/rust/$1/.cargo-checksum.json
+}
+	_clear_vendor_checksums audio_thread_priority
+	_clear_vendor_checksums pkg-config
+
+  # Fix build with pkgconf-2.0
+  patch -Np1 -i $SRC/pkgconf-2.0.patch
+
   mkdir "$SRC/rust"
   export CARGO_HOME="$SRC/rust"
 
@@ -68,7 +82,7 @@ EOF
 
   # wayland
   scratch isinstalled wayland-protocols && \
-    echo 'ac_add_options --enable-default-toolkit=cairo-gtk3-wayland' >> .mozconfig || \
+    echo 'ac_add_options --enable-default-toolkit=cairo-gtk3-wayland-only' >> .mozconfig || \
     echo 'ac_add_options --enable-default-toolkit=cairo-gtk3' >> .mozconfig
 
   # Build configuration
