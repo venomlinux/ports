@@ -1,0 +1,15 @@
+# description	: GDB: The GNU Project Debugger
+# homepage	: https://www.sourceware.org/gdb/
+# depends	: python3-six 
+
+name=gdb
+version=13.2
+release=1
+source="https://sourceware.org/pub/gdb/releases/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
