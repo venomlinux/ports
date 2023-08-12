@@ -1,0 +1,14 @@
+# description	: A CLI system information tool written in BASH that supports displaying images with pride flags <3
+# depends	: bash
+
+name=hyfetch
+version=1.4.9
+release=22
+source="$version.tar.gz::https://github.com/hykilpikonna/$name/archive/refs/tags/$version.tar.gz
+  new-venom-logo.patch"
+
+build() {
+	cd $name-$version
+  patch -Np1 -i ../new-venom-logo.patch
+	make DESTDIR=$PKG install
+}
