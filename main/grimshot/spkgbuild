@@ -1,0 +1,17 @@
+# description	: A helper for screenshots within sway
+# homepage	: https://github.com/swaywm/sway
+# depends	: grim jq scdoc slurp wl-clipboard
+
+name=grimshot
+version=1.6.1
+release=1
+source="$name-$version::https://raw.githubusercontent.com/swaywm/sway/${version}/contrib/grimshot
+	$name-$version.1.scd::https://raw.githubusercontent.com/swaywm/sway/${version}/contrib/grimshot.1.scd"
+
+build() {
+	cd $SRC/
+	scdoc < $name-$version.1.scd > grimshot.1
+
+	install -Dm 644 grimshot.1 $PKG/usr/share/man/man1/grimshot.1
+	install -Dm 755 $name-$version $PKG/usr/bin/grimshot
+}
