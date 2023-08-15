@@ -3,7 +3,7 @@
 
 name=nvidia-470xx
 version=470.199.02
-release=3
+release=4
 source="$name-$version.run::http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
 	10-nvidia-drm-outputclass.conf"
 
@@ -18,14 +18,14 @@ build() {
 	# X driver and GLX extension
 	install_lib nvidia_drv.so xorg/modules/drivers/
 	install_lib libglxserver_nvidia.so.$version nvidia/xorg/
-	symlink_lib usr/lib/nvidia/xorg/libglxserver_nvidia.so
-	symlink_lib usr/lib/nvidia/xorg/libglxserver_nvidia.so.1
+	symlink_lib /usr/lib/nvidia/xorg/libglxserver_nvidia.so
+	symlink_lib /usr/lib/nvidia/xorg/libglxserver_nvidia.so.1
 
 	# EGL and OpenGL ES libraries and config
 	install_lib libGLESv1_CM_nvidia.so.$version
-	symlink_lib usr/lib/libGLESv1_CM_nvidia.so.1
+	symlink_lib /usr/lib/libGLESv1_CM_nvidia.so.1
 	install_lib libGLESv2_nvidia.so.$version
-	symlink_lib usr/lib/libGLESv2_nvidia.so.2
+	symlink_lib /usr/lib/libGLESv2_nvidia.so.2
 	install_file 10_nvidia.json usr/share/glvnd/egl_vendor.d
 
 	# wayland EGL library and config
@@ -35,9 +35,9 @@ build() {
 
 	# GLVND vendor implementation libraries
 	install_lib libGLX_nvidia.so.$version
-	symlink_lib usr/lib/libGLX_nvidia.so.0
+	symlink_lib /usr/lib/libGLX_nvidia.so.0
 	install_lib libEGL_nvidia.so.$version
-	symlink_lib usr/lib/libEGL_nvidia.so.0
+	symlink_lib /usr/lib/libEGL_nvidia.so.0
 
 	# vulkan ICD config
 	install_file nvidia_icd.json etc/vulkan/icd.d
@@ -54,22 +54,22 @@ build() {
 
 	# vendor VDPAU library
 	install_lib libvdpau_nvidia.so.$version vdpau
-	symlink_lib usr/lib/vdpau/libvdpau_nvidia.so.1
-	symlink_lib usr/lib/vdpau/libvdpau_nvidia.so
+	symlink_lib /usr/lib/vdpau/libvdpau_nvidia.so.1
+	symlink_lib /usr/lib/vdpau/libvdpau_nvidia.so
 
 	# CUDA libraries
 	install_lib libcuda.so.$version
-	symlink_lib usr/lib/libcuda.so.1
-	symlink_lib usr/lib/libcuda.so
+	symlink_lib /usr/lib/libcuda.so.1
+	symlink_lib /usr/lib/libcuda.so
 	install_lib libnvidia-ptxjitcompiler.so.$version
-	symlink_lib usr/lib/libnvidia-ptxjitcompiler.so.1
-	symlink_lib usr/lib/libnvidia-ptxjitcompiler.so
+	symlink_lib /usr/lib/libnvidia-ptxjitcompiler.so.1
+	symlink_lib /usr/lib/libnvidia-ptxjitcompiler.so
 
 	# OpenCL libraries and config
 	install_lib libOpenCL.so.1.0.0
 	install_lib libnvidia-opencl.so.$version
-	symlink_lib usr/lib/libnvidia-opencl.so.1
-	symlink_lib usr/lib/libnvidia-opencl.so
+	symlink_lib /usr/lib/libnvidia-opencl.so.1
+	symlink_lib /usr/lib/libnvidia-opencl.so
 	install_file nvidia.icd etc/OpenCL/vendors
 
 	# CUDA MPI applications
@@ -100,8 +100,8 @@ build() {
 
 	# OptiX ray tracing engine
 	install_lib libnvoptix.so.$version
-	symlink_lib usr/lib/libnvoptix.so.1
-	symlink_lib usr/lib/libnvoptix.so
+	symlink_lib /usr/lib/libnvoptix.so.1
+	symlink_lib /usr/lib/libnvoptix.so
 
 	# X driver config
 	install_file $SRC/10-nvidia-drm-outputclass.conf usr/share/X11/xorg.conf.d
