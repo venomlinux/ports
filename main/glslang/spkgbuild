@@ -4,17 +4,20 @@
 
 name=glslang
 version=12.3.1
-release=1
-source="https://github.com/KhronosGroup/glslang/archive/$version/$name-$version.tar.gz"
-
+release=2
+source="https://github.com/KhronosGroup/glslang/archive/$version/$name-$version.tar.gz
+       https://patch-diff.githubusercontent.com/raw/KhronosGroup/glslang/pull/3283.patch"
+       
 build() {
 	cd $name-$version
 
+	patch -Np1 -i $SRC/3283.patch
+	
 	export CXXFLAGS="$CXXFLAGS -ffat-lto-objects"
 
 	cmake -B build-shared -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
-	        -DCMAKE_INSTALL_LIBDIR=lib \
+	    -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
