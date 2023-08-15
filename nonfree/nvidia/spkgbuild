@@ -3,7 +3,7 @@
 
 name=nvidia
 version=535.98
-release=2
+release=3
 source="$name-$version.run::http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
 	10-nvidia-drm-outputclass.conf"
 
@@ -11,7 +11,7 @@ build() {
 	install_lib() {	install -Dm0755 $1 $PKG/usr/lib/$2/${1##*/}; }
 	install_bin() {	install -Dm0755 $1 $PKG/usr/bin/$2/${1##*/}; }
 	install_file() { install -Dm${3:-0644} $1 $PKG/$2/${1##*/}; }
-	symlink_lib() { ln -s ${1%.so*}.$version $PKG/$1; }
+	symlink_lib() { ln -s ${1%.so*}.so.$version $PKG/$1; }
 
 	sh $name-$version.run --extract-only
 	cd NVIDIA-Linux-x86_64-$version

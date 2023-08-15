@@ -8,7 +8,7 @@ source="$name-$version.run::http://us.download.nvidia.com/XFree86/Linux-x86_64/$
 
 build() {
 	install_lib() {	install -Dm0755 $1 $PKG/usr/lib32/$2/${1##*/}; }
-	symlink_lib() { ln -s ${1%.so*}.$version $PKG/$1; }
+	symlink_lib() { ln -s ${1%.so*}.so.$version $PKG/$1; }
 
 	sh $name-$version.run --extract-only
 	cd NVIDIA-Linux-x86_64-$version/32
