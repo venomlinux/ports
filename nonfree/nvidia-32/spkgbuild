@@ -3,27 +3,27 @@
 
 name=nvidia-32
 version=535.98
-release=1
+release=2
 source="$name-$version.run::http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run"
 
 build() {
 	install_lib() {	install -Dm0755 $1 $PKG/usr/lib32/$2/${1##*/}; }
-	symlink_lib() { ln -s ${1%.so*}.$version $PKG/$1; }
+	symlink_lib() { ln -s ${1%.so*}.so.$version $PKG/$1; }
 
 	sh $name-$version.run --extract-only
 	cd NVIDIA-Linux-x86_64-$version/32
 
 	# EGL and OpenGL ES libraries and config
 	install_lib libGLESv1_CM_nvidia.so.$version
-	symlink_lib usr/lib32/libGLESv1_CM_nvidia.so.1
+	symlink_lib /usr/lib32/libGLESv1_CM_nvidia.so.1
 	install_lib libGLESv2_nvidia.so.$version
-	symlink_lib usr/lib32/libGLESv2_nvidia.so.2
+	symlink_lib /usr/lib32/libGLESv2_nvidia.so.2
 
 	# GLVND vendor implementation libraries
 	install_lib libGLX_nvidia.so.$version
-	symlink_lib usr/lib32/libGLX_nvidia.so.0
+	symlink_lib /usr/lib32/libGLX_nvidia.so.0
 	install_lib libEGL_nvidia.so.$version
-	symlink_lib usr/lib32/libEGL_nvidia.so.0
+	symlink_lib /usr/lib32/libEGL_nvidia.so.0
 
 	# driver component libraries
 #	install_lib libnvidia-compiler.so.$version
@@ -34,22 +34,22 @@ build() {
 
 	# vendor VDPAU library
 	install_lib libvdpau_nvidia.so.$version vdpau
-	symlink_lib usr/lib32/vdpau/libvdpau_nvidia.so.1
-	symlink_lib usr/lib32/vdpau/libvdpau_nvidia.so
+	symlink_lib /usr/lib32/vdpau/libvdpau_nvidia.so.1
+	symlink_lib /usr/lib32/vdpau/libvdpau_nvidia.so
 
 	# CUDA libraries
 	install_lib libcuda.so.$version
-	symlink_lib usr/lib32/libcuda.so.1
-	symlink_lib usr/lib32/libcuda.so
+	symlink_lib /usr/lib32/libcuda.so.1
+	symlink_lib /usr/lib32/libcuda.so
 	install_lib libnvidia-ptxjitcompiler.so.$version
-	symlink_lib usr/lib32/libnvidia-ptxjitcompiler.so.1
-	symlink_lib usr/lib32/libnvidia-ptxjitcompiler.so
+	symlink_lib /usr/lib32/libnvidia-ptxjitcompiler.so.1
+	symlink_lib /usr/lib32/libnvidia-ptxjitcompiler.so
 
 	# OpenCL libraries and config
 	install_lib libOpenCL.so.1.0.0
 	install_lib libnvidia-opencl.so.$version
-	symlink_lib usr/lib32/libnvidia-opencl.so.1
-	symlink_lib usr/lib32/libnvidia-opencl.so
+	symlink_lib /usr/lib32/libnvidia-opencl.so.1
+	symlink_lib /usr/lib32/libnvidia-opencl.so
 
 	# TLS libraries
 	install_lib libnvidia-tls.so.$version
