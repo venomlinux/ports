@@ -4,9 +4,10 @@
 # depends	: python3-psutil python3-requests wlr-randr
 
 name=nwg-panel
-version=0.9.10
-release=3
-source="$version-$version.tar.gz::https://github.com/nwg-piotr/nwg-panel/archive/v$version.tar.gz"
+version=0.9.11
+release=1
+source="$version-$version.tar.gz::https://github.com/nwg-piotr/nwg-panel/archive/v$version.tar.gz
+	config"
 
 build() {
 	cd $name-$version
@@ -16,4 +17,5 @@ build() {
 	install -D -t $PKG/usr/share/pixmaps nwg-processes.svg
 	install -D -t $PKG/usr/share/applications nwg-panel-config.desktop
 	install -D -t $PKG/usr/share/applications nwg-processes.desktop
+	install -Dm644 $SRC/config $PKG/usr/lib/python*/site-packages/nwg_panel/config/
 }
