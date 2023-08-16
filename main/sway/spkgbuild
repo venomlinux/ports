@@ -3,8 +3,9 @@
 
 name=sway
 version=1.8.1
-release=2
-source="https://github.com/swaywm/sway/releases/download/$version/sway-$version.tar.gz"
+release=3
+source="https://github.com/swaywm/sway/releases/download/$version/sway-$version.tar.gz
+	sway.desktop"
 
 build() {
 
@@ -13,4 +14,5 @@ build() {
 		-D b_ndebug=true
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
+	install -Dm644 $SRC/sway.desktop $PKG/usr/share/wayland-sessions/sway.desktop
 }
