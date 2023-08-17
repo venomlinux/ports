@@ -4,7 +4,7 @@
 # depends	: libxrender libxt libxdamage libxscrnsaver libwebp lld nodejs nspr nss pkgconf rust unzip
 
 name=firefox
-version=116.0.2
+version=116.0.3
 release=1
 source="$name-$version.tar.xz::https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz 
 	$name.desktop
@@ -82,7 +82,7 @@ EOF
 
   # wayland
   scratch isinstalled wayland-protocols && \
-    echo 'ac_add_options --enable-default-toolkit=cairo-gtk3-wayland-only' >> .mozconfig || \
+    echo 'ac_add_options --enable-default-toolkit=cairo-gtk3-wayland' >> .mozconfig || \
     echo 'ac_add_options --enable-default-toolkit=cairo-gtk3' >> .mozconfig
 
   # Build configuration
