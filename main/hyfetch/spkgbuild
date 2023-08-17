@@ -2,13 +2,11 @@
 # depends	: bash
 
 name=hyfetch
-version=1.4.9
+version=1.4.10
 release=1
-source="$name-$version.tar.gz::https://github.com/hykilpikonna/$name/archive/refs/tags/$version.tar.gz
-  new-venom-logo.patch"
+source="$name-$version.tar.gz::https://github.com/hykilpikonna/$name/archive/refs/tags/$version.tar.gz"
 
 build() {
 	cd $name-$version
-  patch -Np1 -i ../new-venom-logo.patch
 	make DESTDIR=$PKG install
 }
