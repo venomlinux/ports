@@ -1,16 +1,32 @@
 # description	: Mercury programming language compiler
 
 name=mercury
-version=22.01.5
+version=22.01.7
 release=1
 source="http://dl.mercurylang.org/release/${name}-srcdist-${version}.tar.gz"
 
 build() {
 	cd $name-srcdist-$version
 
-	./configure --prefix=/usr -disable-most-grades
-	make PARALLEL="$MAKEFLAGS"
-	make PARALLEL="$MAKEFLAGS" DESTDIR=$PKG install
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--enable-shared-libs \
+		--enable-libgrades="hlc.gc"
 
+	make PARALLEL="$MAKEFLAGS"
+
+	make DESTDIR=$PKG \
+		INSTALL_PREFIX=$PKG/usr \
+		INSTALL_MAN_DIR=$PKG/usr/share/man \
+		INSTALL_INFO_DIR=$PKG/usr/share/info \
+		MERCURY_COMPILER=$PKG/usr/bin/mercury_compile \
+		MERCURY_CONFIG_DIR=$PKG/usr/lib/mercury \
+		PARALLEL="$MAKEFLAGS" \
+		install
+
+	rm $PKG/usr/lib/mercury/lib/hlc.gc/libmer_*.a
+	rm $PKG/usr/lib/mercury/lib/libgc.a
 	rm $PKG/usr/bin/*.bat
 }
