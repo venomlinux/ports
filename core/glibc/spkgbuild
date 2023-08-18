@@ -3,11 +3,13 @@
 
 name=glibc
 version=2.38
-release=1
+release=2
 backup="etc/locales"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	genlocales nsswitch.conf ld.so.conf
-	PATCH-nscd-Do-not-rebuild-getaddrinfo-bug-30709.patch"
+	reenable_DT_HASH.patch
+	fix-malloc-p1.patch
+	fix-malloc-p2.patch"
 nostrip="lib.*/ld-.*\.so$
 	lib.*/libc-.*\.so$
 	lib.*/libpthread-.*\.so$
@@ -16,7 +18,9 @@ nostrip="lib.*/ld-.*\.so$
 build() {
 	cd $name-$version
 
-	patch -Np1 -i $SRC/PATCH-nscd-Do-not-rebuild-getaddrinfo-bug-30709.patch
+	patch -Np1 -i $SRC/reenable_DT_HASH.patch
+	patch -Np1 -i $SRC/fix-malloc-p1.patch
+	patch -Np1 -i $SRC/fix-malloc-p2.patch
 
 	_configure_flag="
 		--prefix=/usr \
