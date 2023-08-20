@@ -3,7 +3,7 @@
 # depends	: python3 glib
 
 name=phpstorm
-version=2023.1.3
+version=2023.2
 release=1
 noextract="*.tar.gz"
 source="$name-$version.tar.gz::https://download.jetbrains.com/webide/PhpStorm-${version}.tar.gz
@@ -16,7 +16,7 @@ build() {
   install -dm755 "${PKG}"/usr/share/applications/
   install -dm755 "${PKG}"/usr/share/pixmaps/
 
-  cp -a "${SRC}"/PhpStorm-231.9161.47/ "${PKG}"/opt/${name}
+  cp -a "${SRC}"/PhpStorm-232.8660.205/ "${PKG}"/opt/${name}
 
   ln -s /opt/${name}/bin/${name}.sh "${PKG}"/usr/bin/${name}
   install -D -m 644 "${SRC}"/jetbrains-${name}.desktop "${PKG}"/usr/share/applications/
