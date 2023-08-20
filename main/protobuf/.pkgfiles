@@ -1,8 +1,8 @@
-protobuf-23.4-1
+protobuf-24.1-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
-lrwxrwxrwx root/root    usr/bin/protoc -> protoc-23.4.0
--rwxr-xr-x root/root    usr/bin/protoc-23.4.0
+lrwxrwxrwx root/root    usr/bin/protoc -> protoc-24.1.0
+-rwxr-xr-x root/root    usr/bin/protoc-24.1.0
 drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/include/google/
 drwxr-xr-x root/root    usr/include/google/protobuf/
@@ -15,7 +15,6 @@ drwxr-xr-x root/root    usr/include/google/protobuf/
 -rw-r--r-- root/root    usr/include/google/protobuf/arena_align.h
 -rw-r--r-- root/root    usr/include/google/protobuf/arena_allocation_policy.h
 -rw-r--r-- root/root    usr/include/google/protobuf/arena_cleanup.h
--rw-r--r-- root/root    usr/include/google/protobuf/arena_config.h
 -rw-r--r-- root/root    usr/include/google/protobuf/arenastring.h
 -rw-r--r-- root/root    usr/include/google/protobuf/arenaz_sampler.h
 drwxr-xr-x root/root    usr/include/google/protobuf/compiler/
@@ -137,11 +136,14 @@ drwxr-xr-x root/root    usr/include/google/protobuf/compiler/rust/accessors/
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/scc.h
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/subprocess.h
 -rw-r--r-- root/root    usr/include/google/protobuf/compiler/zip_writer.h
+-rw-r--r-- root/root    usr/include/google/protobuf/cpp_features.pb.h
+-rw-r--r-- root/root    usr/include/google/protobuf/cpp_features.proto
 -rw-r--r-- root/root    usr/include/google/protobuf/descriptor.h
 -rw-r--r-- root/root    usr/include/google/protobuf/descriptor.pb.h
 -rw-r--r-- root/root    usr/include/google/protobuf/descriptor.proto
 -rw-r--r-- root/root    usr/include/google/protobuf/descriptor_database.h
 -rw-r--r-- root/root    usr/include/google/protobuf/descriptor_legacy.h
+-rw-r--r-- root/root    usr/include/google/protobuf/descriptor_visitor.h
 -rw-r--r-- root/root    usr/include/google/protobuf/duration.pb.h
 -rw-r--r-- root/root    usr/include/google/protobuf/duration.proto
 -rw-r--r-- root/root    usr/include/google/protobuf/dynamic_message.h
@@ -151,6 +153,7 @@ drwxr-xr-x root/root    usr/include/google/protobuf/compiler/rust/accessors/
 -rw-r--r-- root/root    usr/include/google/protobuf/explicitly_constructed.h
 -rw-r--r-- root/root    usr/include/google/protobuf/extension_set.h
 -rw-r--r-- root/root    usr/include/google/protobuf/extension_set_inl.h
+-rw-r--r-- root/root    usr/include/google/protobuf/feature_resolver.h
 -rw-r--r-- root/root    usr/include/google/protobuf/field_access_listener.h
 -rw-r--r-- root/root    usr/include/google/protobuf/field_mask.pb.h
 -rw-r--r-- root/root    usr/include/google/protobuf/field_mask.proto
@@ -165,6 +168,8 @@ drwxr-xr-x root/root    usr/include/google/protobuf/compiler/rust/accessors/
 -rw-r--r-- root/root    usr/include/google/protobuf/has_bits.h
 -rw-r--r-- root/root    usr/include/google/protobuf/implicit_weak_message.h
 -rw-r--r-- root/root    usr/include/google/protobuf/inlined_string_field.h
+-rw-r--r-- root/root    usr/include/google/protobuf/internal_message_util.h
+-rw-r--r-- root/root    usr/include/google/protobuf/internal_visibility.h
 drwxr-xr-x root/root    usr/include/google/protobuf/io/
 -rw-r--r-- root/root    usr/include/google/protobuf/io/coded_stream.h
 -rw-r--r-- root/root    usr/include/google/protobuf/io/gzip_stream.h
@@ -204,6 +209,7 @@ drwxr-xr-x root/root    usr/include/google/protobuf/json/internal/
 -rw-r--r-- root/root    usr/include/google/protobuf/port.h
 -rw-r--r-- root/root    usr/include/google/protobuf/port_def.inc
 -rw-r--r-- root/root    usr/include/google/protobuf/port_undef.inc
+-rw-r--r-- root/root    usr/include/google/protobuf/raw_ptr.h
 -rw-r--r-- root/root    usr/include/google/protobuf/reflection.h
 -rw-r--r-- root/root    usr/include/google/protobuf/reflection_internal.h
 -rw-r--r-- root/root    usr/include/google/protobuf/reflection_mode.h
@@ -260,12 +266,12 @@ drwxr-xr-x root/root    usr/lib/cmake/utf8_range/
 -rw-r--r-- root/root    usr/lib/cmake/utf8_range/utf8_range-config.cmake
 -rw-r--r-- root/root    usr/lib/cmake/utf8_range/utf8_range-targets-release.cmake
 -rw-r--r-- root/root    usr/lib/cmake/utf8_range/utf8_range-targets.cmake
-lrwxrwxrwx root/root    usr/lib/libprotobuf-lite.so -> libprotobuf-lite.so.23.4.0
--rwxr-xr-x root/root    usr/lib/libprotobuf-lite.so.23.4.0
-lrwxrwxrwx root/root    usr/lib/libprotobuf.so -> libprotobuf.so.23.4.0
--rwxr-xr-x root/root    usr/lib/libprotobuf.so.23.4.0
-lrwxrwxrwx root/root    usr/lib/libprotoc.so -> libprotoc.so.23.4.0
--rwxr-xr-x root/root    usr/lib/libprotoc.so.23.4.0
+lrwxrwxrwx root/root    usr/lib/libprotobuf-lite.so -> libprotobuf-lite.so.24.1.0
+-rwxr-xr-x root/root    usr/lib/libprotobuf-lite.so.24.1.0
+lrwxrwxrwx root/root    usr/lib/libprotobuf.so -> libprotobuf.so.24.1.0
+-rwxr-xr-x root/root    usr/lib/libprotobuf.so.24.1.0
+lrwxrwxrwx root/root    usr/lib/libprotoc.so -> libprotoc.so.24.1.0
+-rwxr-xr-x root/root    usr/lib/libprotoc.so.24.1.0
 -rw-r--r-- root/root    usr/lib/libutf8_range.a
 -rw-r--r-- root/root    usr/lib/libutf8_validity.a
 drwxr-xr-x root/root    usr/lib/pkgconfig/
