@@ -1,10 +1,9 @@
-vscode-bin-1.80.2-1
+vscode-bin-1.81.1-1
 drwxr-xr-x root/root    opt/
 drwxr-xr-x root/root    opt/visual-studio-code/
 -rw-r--r-- root/root    opt/visual-studio-code/LICENSES.chromium.html
 drwxr-xr-x root/root    opt/visual-studio-code/bin/
 -rwxr-xr-x root/root    opt/visual-studio-code/bin/code
--rwxr-xr-x root/root    opt/visual-studio-code/bin/code-tunnel
 -rwxr-xr-x root/root    opt/visual-studio-code/chrome-sandbox
 -rw-r--r-- root/root    opt/visual-studio-code/chrome_100_percent.pak
 -rw-r--r-- root/root    opt/visual-studio-code/chrome_200_percent.pak
@@ -255,6 +254,7 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/git/reso
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/git/resources/icons/dark/status-ignored.svg
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/git/resources/icons/dark/status-modified.svg
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/git/resources/icons/dark/status-renamed.svg
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/git/resources/icons/dark/status-type-changed.svg
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/git/resources/icons/dark/status-untracked.svg
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/git/resources/icons/git.png
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/git/resources/icons/light/
@@ -265,6 +265,7 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/git/reso
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/git/resources/icons/light/status-ignored.svg
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/git/resources/icons/light/status-modified.svg
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/git/resources/icons/light/status-renamed.svg
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/git/resources/icons/light/status-type-changed.svg
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/git/resources/icons/light/status-untracked.svg
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/github-authentication/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/github-authentication/README.md
@@ -1136,6 +1137,12 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.u
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/@vscode/sqlite3/build/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/@vscode/sqlite3/build/Release/
 -rwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/@vscode/sqlite3/build/Release/vscode-sqlite3.node
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/kerberos/
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/kerberos/build/
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/kerberos/build/Release/
+-rwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/kerberos/build/Release/kerberos.node
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/kerberos/build/Release/obj.target/
+-rwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/kerberos/build/Release/obj.target/kerberos.node
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/keytar/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/keytar/build/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/keytar/build/Release/
@@ -1398,8 +1405,9 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/se
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/search/worker/localFileSearch.js
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/textMate/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/textMate/browser/
-drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/textMate/browser/worker/
--rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/textMate/browser/worker/textMate.worker.js
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/textMate/browser/backgroundTokenization/
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/textMate/browser/backgroundTokenization/worker/
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/textMate/browser/backgroundTokenization/worker/textMateTokenizationWorker.worker.js
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/workbench.desktop.main.css
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/workbench.desktop.main.js
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/workbench.desktop.main.nls.js
