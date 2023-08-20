@@ -1,0 +1,18 @@
+# description	    : Python bindings for QtWebEngine
+# homepage	    : https://www.riverbankcomputing.com/software/pyqtwebengine/intro
+# depends	    : qt6-webengine python3-pyqt6 python3-sip python3-pyqt-builder
+
+name=python3-pyqt6-webengine
+version=6.5.0
+release=1
+source="https://pypi.python.org/packages/source/P/PyQt6-WebEngine/PyQt6_WebEngine-$version.tar.gz"
+
+build() {
+  cd PyQt6_WebEngine-$version
+  sip-build \
+    --no-make \
+    --qmake=/usr/lib/qt6/bin/qmake6
+  cd build
+  make
+  make INSTALL_ROOT=$PKG install
+}
