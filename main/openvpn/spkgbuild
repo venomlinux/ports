@@ -17,8 +17,7 @@ build() {
 		--enable-iproute2 \
 		--enable-plugins \
 		--enable-pkcs11 \
-		--disable-systemd \
-		--with-libcap-ng=no
+		--disable-systemd
 	make
 	make DESTDIR=$PKG install
 }
