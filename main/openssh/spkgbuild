@@ -3,7 +3,7 @@
 
 name=openssh
 version=9.4p1
-release=1
+release=2
 source="https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/$name-$version.tar.gz
 	run.sshd
 	rc.sshd"
@@ -15,7 +15,8 @@ build() {
 	            --sysconfdir=/etc/ssh             \
 		    --libexecdir=/usr/lib/$name       \
 	            --with-md5-passwords              \
-	            --with-privsep-path=/var/lib/sshd
+	            --with-privsep-path=/var/lib/sshd \
+		    --without-zlib-version-check
 	make
 	make DESTDIR=$PKG install
 
