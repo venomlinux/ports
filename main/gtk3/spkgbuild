@@ -4,7 +4,7 @@
 
 name=gtk3
 version=3.24.38
-release=3
+release=2
 source="$name-$version.tar.gz::https://gitlab.gnome.org/GNOME/gtk/-/archive/$version/gtk-$version.tar.gz"
 
 build() {
@@ -12,6 +12,7 @@ build() {
 	venom-meson gtk-$version build \
 		-Dbroadway_backend=true \
 		-Dcolord=$(scratch isinstalled colord && echo yes || echo no) \
+		-Dwayland_backend=$(scratch isinstalled libxkbcommon && scratch isinstalled wayland-protocols && echo true || echo false) \
 		-Dman=false \
 		-Dgtk_doc=false \
 		-Dexamples=false \
