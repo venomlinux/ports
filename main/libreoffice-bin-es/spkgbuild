@@ -3,7 +3,7 @@
 # depends	: libreoffice-bin
 
 name=libreoffice-bin-es
-version=7.5.5
+version=7.6.0
 release=1
 lang="es"
 source="$name-$version-$lang.tar.gz::https://download.documentfoundation.org/libreoffice/stable/$version/rpm/x86_64/LibreOffice_${version}_Linux_x86-64_rpm_langpack_${lang}.tar.gz"
@@ -13,5 +13,5 @@ build() {
 		bsdtar -xf $rpm -p -o -C $PKG
 	done
 	
-	rm -rf $PKG/opt/libreoffice7.5/share/extensions/dict-es
+	rm -rf $PKG/opt/libreoffice${version%.*}/share/extensions/dict-es
 }
