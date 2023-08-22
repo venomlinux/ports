@@ -1,15 +1,17 @@
 # description: Just-in-time compiler and drop-in replacement for Lua 5.1.
 
 name=luajit
-version=2.0.5
+version=2.1_20230410
+vrsn=$(echo $version | sed 's/_/-/')
 release=1
-source="$name-$version.tar.gz::https://luajit.org/download/LuaJIT-$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/openresty/luajit2/archive/v${vrsn}.tar.gz"
 
 build() {
-	cd LuaJIT-$version
+	cd ${name}2-$vrsn
 
-	make PREFIX=/usr CFLAGS+=' -fPIC' amalg
+	# These flags are recommended by OpenResty.
+	local xcflags="-DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_NUMMODE=2"
+
+	make amalg PREFIX=/usr XCFLAGS="$xcflags"
 	make PREFIX=/usr DESTDIR=$PKG install
-
-	ln -s luajit-2.0 $PKG/usr/include/luajit
 }
