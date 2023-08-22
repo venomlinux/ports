@@ -1,10 +1,11 @@
-libxcb-1.15-1
+libxcb-1.16-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/include/xcb/
 -rw-r--r-- root/root    usr/include/xcb/bigreq.h
 -rw-r--r-- root/root    usr/include/xcb/composite.h
 -rw-r--r-- root/root    usr/include/xcb/damage.h
+-rw-r--r-- root/root    usr/include/xcb/dbe.h
 -rw-r--r-- root/root    usr/include/xcb/dpms.h
 -rw-r--r-- root/root    usr/include/xcb/dri2.h
 -rw-r--r-- root/root    usr/include/xcb/dri3.h
@@ -41,6 +42,9 @@ lrwxrwxrwx root/root    usr/lib/libxcb-composite.so.0 -> libxcb-composite.so.0.0
 lrwxrwxrwx root/root    usr/lib/libxcb-damage.so -> libxcb-damage.so.0.0.0
 lrwxrwxrwx root/root    usr/lib/libxcb-damage.so.0 -> libxcb-damage.so.0.0.0
 -rwxr-xr-x root/root    usr/lib/libxcb-damage.so.0.0.0
+lrwxrwxrwx root/root    usr/lib/libxcb-dbe.so -> libxcb-dbe.so.0.0.0
+lrwxrwxrwx root/root    usr/lib/libxcb-dbe.so.0 -> libxcb-dbe.so.0.0.0
+-rwxr-xr-x root/root    usr/lib/libxcb-dbe.so.0.0.0
 lrwxrwxrwx root/root    usr/lib/libxcb-dpms.so -> libxcb-dpms.so.0.0.0
 lrwxrwxrwx root/root    usr/lib/libxcb-dpms.so.0 -> libxcb-dpms.so.0.0.0
 -rwxr-xr-x root/root    usr/lib/libxcb-dpms.so.0.0.0
@@ -110,6 +114,7 @@ lrwxrwxrwx root/root    usr/lib/libxcb.so.1 -> libxcb.so.1.1.0
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/xcb-composite.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/xcb-damage.pc
+-rw-r--r-- root/root    usr/lib/pkgconfig/xcb-dbe.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/xcb-dpms.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/xcb-dri2.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/xcb-dri3.pc
@@ -252,6 +257,27 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/xcb_damage_query_version_unchecked.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/xcb_damage_subtract.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/xcb_damage_subtract_checked.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_allocate_back_buffer.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_allocate_back_buffer_checked.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_begin_idiom.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_begin_idiom_checked.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_deallocate_back_buffer.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_deallocate_back_buffer_checked.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_end_idiom.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_end_idiom_checked.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_get_back_buffer_attributes.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_get_back_buffer_attributes_reply.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_get_back_buffer_attributes_unchecked.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_get_visual_info.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_get_visual_info_reply.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_get_visual_info_supported_visuals_iterator.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_get_visual_info_supported_visuals_length.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_get_visual_info_unchecked.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_query_version.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_query_version_reply.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_query_version_unchecked.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_swap_buffers.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dbe_swap_buffers_checked.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/xcb_delete_property.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/xcb_delete_property_checked.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/xcb_destroy_notify_event_t.3.gz
@@ -275,8 +301,11 @@ drwxr-xr-x root/root    usr/share/man/man3/
 -rw-r--r-- root/root    usr/share/man/man3/xcb_dpms_get_version_reply.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/xcb_dpms_get_version_unchecked.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/xcb_dpms_info.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dpms_info_notify_event_t.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/xcb_dpms_info_reply.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/xcb_dpms_info_unchecked.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dpms_select_input.3.gz
+-rw-r--r-- root/root    usr/share/man/man3/xcb_dpms_select_input_checked.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/xcb_dpms_set_timeouts.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/xcb_dpms_set_timeouts_checked.3.gz
 -rw-r--r-- root/root    usr/share/man/man3/xcb_dri2_authenticate.3.gz
