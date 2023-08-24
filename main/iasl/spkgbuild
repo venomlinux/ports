@@ -1,11 +1,12 @@
 # description	: Intel ACPI Source Language compiler
 
 name=iasl
-version=20230628
+version=06_28_23
 release=1
-source="$name-$version.tar.gz::https://acpica.org/sites/acpica/files/acpica-unix-${version}.tar.gz"
+source="$name-$version.tar.gz::https://github.com/acpica/acpica/archive/refs/tags/R${version}.tar.gz"
+
 build() {
-	cd acpica-unix-$version
+	cd acpica-R$version
 	export CFLAGS="$CFLAGS -Wno-dangling-pointer"
 	make
 	make DESTDIR=$PKG install
