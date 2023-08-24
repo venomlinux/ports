@@ -1,0 +1,21 @@
+# description	: Simple color chooser written in GTK
+# homepage	: https://www.hjdskes.nl/projects/gcolor3/
+# depends	: at-spi2-core cairo gdk-pixbuf glib gtk3 
+# depends	: hicolor-icon-theme appstream-glib meson
+
+name=gcolor3
+version=2.4.0
+release=1
+source="https://gitlab.gnome.org/World/$name/-/archive/v$version/$name-v$version.tar.gz
+	portal.patch"
+
+build() {
+	cd $name-v$version
+	# Revert Wayland support, keep Xorg supported for now
+	# https://gitlab.gnome.org/World/gcolor3/-/issues/124
+	patch -RNp1 -i ../portal.patch
+
+	venom-meson build -D werror=false
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
