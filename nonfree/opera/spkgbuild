@@ -3,8 +3,10 @@
 
 name=opera
 version=101.0.4843.33
-release=1
-source="$name-$version.deb::https://download3.operacdn.com/pub/opera/desktop/${version}/linux/${name}-stable_${version}_amd64.deb"
+release=2
+ffmpeg_ver=114.0.5735.9
+source="$name-$version.deb::https://download3.operacdn.com/pub/opera/desktop/${version}/linux/${name}-stable_${version}_amd64.deb
+https://dev.gentoo.org/~sultan/distfiles/www-client/opera/opera-ffmpeg-codecs-$ffmpeg_ver.tar.xz"
 
 build() {
 	bsdtar -xf ${name}-${version}.deb
@@ -16,4 +18,7 @@ build() {
 	rm -r $PKG/usr/lib/*-linux-gnu
 
 	ln -sf /usr/lib/opera/opera $PKG/usr/bin/opera
+
+	# support propietary codecs
+	install -Dm644 $SRC/lib_extra/libffmpeg.so -t $PKG/usr/lib/opera/
 }
