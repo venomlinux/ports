@@ -3,15 +3,12 @@
 # depends	: cmake ninja spirv-tools
 
 name=glslang
-version=12.3.1
-release=2
-source="https://github.com/KhronosGroup/glslang/archive/$version/$name-$version.tar.gz
-       https://patch-diff.githubusercontent.com/raw/KhronosGroup/glslang/pull/3283.patch"
+version=13.0.0
+release=1
+source="https://github.com/KhronosGroup/glslang/archive/$version/$name-$version.tar.gz"
        
 build() {
 	cd $name-$version
-
-	patch -Np1 -i $SRC/3283.patch
 	
 	export CXXFLAGS="$CXXFLAGS -ffat-lto-objects"
 
