@@ -16,13 +16,13 @@ build() {
 	export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"
 	export GOPATH=$SRC/go
 	export PATH=$PATH:$GOPATH/bin
+
 	go build -v -o $name *.go
 	
-	cd $SRC
 	install -d $PKG/usr/share/$name
-	install -Dm644 -t $PKG/usr/share/$name $name-$version/stuff/main.glade
-	install -Dm644 -t $PKG/usr/share/$name/langs $name-$version/langs/*
-	install -Dm644 -t $PKG/usr/share/applications $name-$version/stuff/nwg-look.desktop
-	install -Dm644 -t $PKG/usr/share/pixmaps $name-$version/stuff/nwg-look.svg
-	install -Dm755 -t $PKG/usr/bin $name-$version/$name
+	install -Dm644 -t $PKG/usr/share/$name stuff/main.glade
+	install -Dm644 -t $PKG/usr/share/$name/langs langs/*
+	install -Dm644 -t $PKG/usr/share/applications stuff/nwg-look.desktop
+	install -Dm644 -t $PKG/usr/share/pixmaps stuff/nwg-look.svg
+	install -Dm755 -t $PKG/usr/bin $name
 }
