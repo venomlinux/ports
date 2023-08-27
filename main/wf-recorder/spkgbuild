@@ -3,11 +3,14 @@
 # depends	: meson wayland-protocols
 
 name=wf-recorder
-version=0.3.0
+version=0.4.0
 release=1
-source="$name-$version.tar.gz::https://github.com/ammen99/wf-recorder/archive/v$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/ammen99/wf-recorder/archive/v$version.tar.gz
+	git-metadata-fix.patch"
 
 build() {
+
+	patch -Np1 -d $name-$version -i $SRC/git-metadata-fix.patch
 	venom-meson $name-$version build
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
