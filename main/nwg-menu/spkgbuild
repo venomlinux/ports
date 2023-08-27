@@ -18,10 +18,9 @@ build() {
 	export PATH=$PATH:$GOPATH/bin
 	go build -o bin/nwg-menu *.go
 	
-	cd $SRC
 	install	-d $PKG/usr/share/$name/desktop-directories
-	install -Dm644 -t $PKG/usr/share/$name/desktop-directories/ $name-$version/desktop-directories/*
-	install -Dm644 -t $PKG/usr/share/$name $name-$version/menu-start.css
-	install -Dm755 -t $PKG/usr/bin $name-$version/bin/nwg-menu
+	install -Dm644 -t $PKG/usr/share/$name/desktop-directories/ desktop-directories/*
+	install -Dm644 -t $PKG/usr/share/$name menu-start.css
+	install -Dm755 -t $PKG/usr/bin bin/nwg-menu
 }
 
