@@ -1,0 +1,23 @@
+# description	: A highly customizable dynamic tiling Wayland compositor
+# homepage      : https://github.com/hyprwm/Hyprland
+# depends	: libinput libliftoff wayland libdisplay-info libglvnd mesa
+# depends	: hwdata seatd libdrm libxkbcommon pixman xwayland libxcb
+# depends	: xcb-util-renderutil xcb-util-wm wayland-protocols glslang
+# depends	: glib cairo pango jq cmake
+
+name=hyprland
+version=0.28.0
+release=2
+source="$name-$version.tar.gz::https://github.com/hyprwm/$name/releases/download/v$version/source-v$version.tar.gz
+	no-wlroots-automagic.patch"
+
+build() {
+	cd hyprland-source
+	patch -Np1 -i $SRC/no-wlroots-automagic.patch
+
+	venom-meson build \
+		-Dxwayland=enabled \
+		-Dsystemd=disabled
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build --skip-subprojects wlroots
+}
