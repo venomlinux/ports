@@ -8,7 +8,8 @@ release=1
 source="$name-$version.tar.gz::https://github.com/nwg-piotr/nwg-bar/archive/v0.1.3.tar.gz"
 
 build() {
-	cd $SRC/$name-$version
+	cd $name-$version
+
 	export CGO_LDFLAGS="${LDFLAGS}"
 	export CGO_CFLAGS="${CFLAGS}"
 	export CGO_CPPFLAGS="${CPPFLAGS}"
@@ -19,9 +20,8 @@ build() {
 
 	go build -v -o bin/$name *.go
 
-	cd $SRC
 	install -d $PKG/usr/share/$name/images
-	install -Dm644 -t $PKG/usr/share/$name/images/ $name-$version/images/*
-	install -Dm644 -t $PKG/usr/share/$name/ $name-$version/config/*
-	install -Dm755 -t $PKG/usr/bin $name-$version/bin/$name
+	install -Dm644 -t $PKG/usr/share/$name/images/ images/*
+	install -Dm644 -t $PKG/usr/share/$name/ config/*
+	install -Dm755 -t $PKG/usr/bin bin/$name
 }
