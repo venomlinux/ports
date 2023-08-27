@@ -2,12 +2,13 @@
 # depends	: gtk3 gtk-layer-shell
 
 name=nwg-dock
-version=0.3.6
+version=0.3.7
 release=1
 source="$name-$version.tar.gz::https://github.com/nwg-piotr/$name/archive/v$version.tar.gz"
 
 build() {
 	cd $name-$version
+
 	export CGO_LDFLAGS="${LDFLAGS}"
 	export CGO_CFLAGS="${CFLAGS}"
 	export CGO_CPPFLAGS="${CPPFLAGS}"
@@ -15,11 +16,11 @@ build() {
 	export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
 	export GOPATH=$SRC/go
 	export PATH=$PATH:$GOPATH/bin
+
 	go build -o bin/$name *.go
 
-	cd $SRC
 	install -d $PKG/usr/share/$name/images
-	install -Dm644 -t $PKG/usr/share/$name/images/ $name-$version/images/*
-	install -Dm644 -t $PKG/usr/share/$name/ $name-$version/config/*
-	install -Dm755 -t $PKG/usr/bin $name-$version/bin/$name
+	install -Dm644 -t $PKG/usr/share/$name/images/ images/*
+	install -Dm644 -t $PKG/usr/share/$name/ config/*
+	install -Dm755 -t $PKG/usr/bin bin/$name
 }
