@@ -16,12 +16,12 @@ build() {
 	export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw -ldflags=-linkmode=external"
 	export GOPATH=$SRC/go
 	export PATH=$PATH:$GOPATH/bin
+
 	go build -o bin/$name *.go
 
-	cd $SRC
 	install -d $PKG/usr/share/$name/desktop-directories
-	install -Dm644 -t $PKG/usr/share/$name/desktop-directories/ $name-$version/desktop-directories/*
-	install -Dm644 -t $PKG/usr/share/$name $name-$version/drawer.css
-	install -Dm755 -t $PKG/usr/bin $name-$version/bin/$name
+	install -Dm644 -t $PKG/usr/share/$name/desktop-directories/ desktop-directories/*
+	install -Dm644 -t $PKG/usr/share/$name drawer.css
+	install -Dm755 -t $PKG/usr/bin bin/$name
 }
 
