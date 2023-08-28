@@ -4,26 +4,13 @@
 # depends	: libxrender libxt libxdamage libxscrnsaver libwebp lld nodejs nspr nss pkgconf rust unzip
 
 name=firefox
-version=116.0.3
+version=117.0
 release=1
 source="$name-$version.tar.xz::https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz 
-	$name.desktop
-	pkgconf-2.0.patch"
+	$name.desktop"
 
 build() {
   cd $name-$version
-
-# we need this because cargo verifies checksums of all files in vendor
-# crates when it builds and gives us no way to override or update the
-# file sanely... so just clear out the file list
-_clear_vendor_checksums() {
-	sed -i 's/\("files":{\)[^}]*/\1/' third_party/rust/$1/.cargo-checksum.json
-}
-	_clear_vendor_checksums audio_thread_priority
-	_clear_vendor_checksums pkg-config
-
-  # Fix build with pkgconf-2.0
-  patch -Np1 -i $SRC/pkgconf-2.0.patch
 
   mkdir "$SRC/rust"
   export CARGO_HOME="$SRC/rust"
