@@ -1,0 +1,27 @@
+# description	: GTK3-based dock for Hyprland Wayland compositor
+# homepage	: https://github.com/nwg-piotr/nwg-dock-hyprland
+# depends	: cmake gtk3 gtk-layer-shell glib pango jq 
+
+name=nwg-dock-hyprland
+version=0.1.6
+release=1
+source="$name-$version.tar.gz::https://github.com/nwg-piotr/nwg-dock-hyprland/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	export CGO_LDFLAGS="${LDFLAGS}"
+	export CGO_CFLAGS="${CFLAGS}"
+	export CGO_CPPFLAGS="${CPPFLAGS}"
+	export CGO_CXXFLAGS="${CXXFLAGS}"
+	export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
+	export GOPATH=$SRC/go
+	export PATH=$PATH:$GOPATH/bin
+
+	go build -v -o bin/$name *.go
+
+	install -d $PKG/usr/share/$name/images
+	install -Dm644 -t $PKG/usr/share/$name/images/ images/*
+	install -Dm644 -t $PKG/usr/share/$name/ config/*
+	install -Dm755 -t $PKG/usr/bin bin/$name
+}
