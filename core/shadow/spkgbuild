@@ -19,10 +19,12 @@ build() {
 	sed -i -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' etc/login.defs
 
 	./configure \
+		--prefix=/usr \
 		--sysconfdir=/etc \
 		--disable-logind \
 		--disable-nsl \
 		--disable-static \
+		--enable-lastlog \
 		--without-libbsd \
 		--without-libpam \
 		--with-group-name-max-length=32 
