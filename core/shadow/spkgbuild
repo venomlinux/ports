@@ -1,8 +1,9 @@
 # description	: Programs for handling passwords in a secure way
+# homepage	: https://github.com/shadow-maint/shadow
 # depends	: acl
 
 name=shadow
-version=4.13
+version=4.14.0
 release=1
 source="https://github.com/shadow-maint/$name/releases/download/$version/$name-$version.tar.xz
 	pwck"
@@ -19,6 +20,10 @@ build() {
 
 	./configure \
 		--sysconfdir=/etc \
+		--disable-logind \
+		--disable-nsl \
+		--disable-static \
+		--without-libbsd \
 		--without-libpam \
 		--with-group-name-max-length=32 
 
