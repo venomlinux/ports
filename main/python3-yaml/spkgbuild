@@ -2,13 +2,15 @@
 # depends	: python3 yaml cython3
 
 name=python3-yaml
-version=6.0
+version=6.0.1
 release=1
-source="$name-$version.tar.gz::https://pypi.python.org/packages/source/P/PyYAML/PyYAML-$version.tar.gz"
+source="$name-$version.tar.gz::https://pypi.python.org/packages/source/P/PyYAML/PyYAML-$version.tar.gz
+	cython3.patch"
 
 build() {
 
 	cd PyYAML-$version
-	python3 setup.py --with-libyaml build
-	python3 setup.py  --with-libyaml install --prefix=/usr --root="$PKG" -O1 --skip-build
+	patch -Np1 -i $SRC/cython3.patch
+	python3 -m build --wheel --skip-dependency-check --no-isolation
+	python3 -m installer --compile-bytecode 2 --destdir=$PKG dist/*.whl
 }
