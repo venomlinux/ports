@@ -3,29 +3,28 @@
 # depends	: alsa-lib cups desktop-file-utils gtk3 hicolor-icon-theme libgcrypt libva libxkbcommon nss pciutils
 
 name=chromium-bin
-_name=chromium
-version=114.0.5735.133.r1135570
-vers=114.5735.133
+version=116.0.5845.140.r1160321
+vers=116.5845.140
 ver=${version%.*}
 sion=${version##*.}
 release=1
 source="$name-$version.tar.xz::https://github.com/macchrome/linchrome/releases/download/v${vers}-M${ver}-${sion}-portable-ungoogled-Lin64/ungoogled-chromium_${ver}_1.vaapi_linux.tar.xz
-	$_name.desktop"
+	${name%-*}.desktop"
 build() {
 	cd ungoogled-chromium_${ver}_1.vaapi_linux
-	install -d $PKG/opt/$_name
-	cp -ra * $PKG/opt/$_name
-	mv $PKG/opt/$_name/chrome_sandbox $PKG/opt/$_name/chrome-sandbox
-	chmod 4755 $PKG/opt/$_name/chrome-sandbox
+	install -d $PKG/opt/${name%-*}
+	cp -ra * $PKG/opt/${name%-*}
+	mv $PKG/opt/${name%-*}/chrome_sandbox $PKG/opt/${name%-*}/chrome-sandbox
+	chmod 4755 $PKG/opt/${name%-*}/chrome-sandbox
 
 	install -d $PKG/usr/bin
-	ln -s /opt/$_name/chrome-wrapper $PKG/usr/bin/$_name
+	ln -s /opt/${name%-*}/chrome-wrapper $PKG/usr/bin/${name%-*}
 
 	install -d $PKG/usr/share/applications
-	install -m644 $SRC/$_name.desktop $PKG/usr/share/applications/$_name
+	install -m644 $SRC/${name%-*}.desktop $PKG/usr/share/applications/${name%-*}
 
 	install -d $PKG/usr/share/pixmaps
-	install -m644 product_logo_48.png $PKG/usr/share/pixmaps/$_name.png
+	install -m644 product_logo_48.png $PKG/usr/share/pixmaps/${name%-*}.png
 
 	rm product_logo_48.png README
 }
