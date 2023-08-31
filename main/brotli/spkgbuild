@@ -3,15 +3,11 @@
 # depends	    : cmake ninja
 
 name=brotli
-version=1.0.9
-release=2
-source="https://github.com/google/$name/archive/v$version/$name-v$version.tar.gz
-	runtime-linker-path.patch"
+version=1.1.0
+release=1
+source="https://github.com/google/$name/archive/v$version/$name-v$version.tar.gz"
 
 build() {
-	# https://github.com/google/brotli/commit/09b0992b6acb7faa6fd3b23f9bc036ea117230fc
-	patch -d $name-$version -p1 -i $SRC/runtime-linker-path.patch
-
 	cmake -S $name-$version -B build -G Ninja \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_INSTALL_PREFIX=/usr \
