@@ -3,11 +3,13 @@
 
 name=slim-themes
 version=20230821
-release=1
-source="https://github.com/adi1090x/slim_themes/archive/32898d6527a1d41fa8274cd047e80433cc181e89.tar.gz"
+release=2
+source="https://github.com/adi1090x/slim_themes/archive/32898d6527a1d41fa8274cd047e80433cc181e89.tar.gz
+		authfail.patch"
 
 build() {
 	cd slim_themes-32898d6527a1d41fa8274cd047e80433cc181e89
+	patch -Np1 -i $SRC/authfail.patch
 	mkdir -p $PKG/usr/share/slim/
 	cp -r themes $PKG/usr/share/slim/
 }
