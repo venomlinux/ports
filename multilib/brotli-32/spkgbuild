@@ -3,18 +3,14 @@
 # depends	: cmake ninja brotli
 
 name=brotli-32
-version=1.0.9
-release=2
-source="https://github.com/google/brotli/archive/v$version/brotli-v$version.tar.gz
-  runtime-linker-path.patch"
+version=1.1.0
+release=1
+source="https://github.com/google/brotli/archive/v$version/brotli-v$version.tar.gz"
 
 build() {
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
-
-	# https://github.com/google/brotli/commit/09b0992b6acb7faa6fd3b23f9bc036ea117230fc
-	patch -d brotli-$version -p1 -i $SRC/runtime-linker-path.patch
 
 	cmake -S brotli-$version -B build -G Ninja \
 		-D CMAKE_INSTALL_PREFIX=/usr \
