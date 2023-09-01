@@ -1,4 +1,4 @@
-wine-8.14-1
+wine-8.15-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/revdep.d/
 -rw-r--r-- root/root    etc/revdep.d/wine.conf
@@ -466,6 +466,8 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/dwrite_2.idl
 -rw-r--r-- root/root    usr/include/wine/windows/dwrite_3.h
 -rw-r--r-- root/root    usr/include/wine/windows/dwrite_3.idl
+-rw-r--r-- root/root    usr/include/wine/windows/dxcore.h
+-rw-r--r-- root/root    usr/include/wine/windows/dxcore_interface.h
 -rw-r--r-- root/root    usr/include/wine/windows/dxdiag.h
 -rw-r--r-- root/root    usr/include/wine/windows/dxerr8.h
 -rw-r--r-- root/root    usr/include/wine/windows/dxerr9.h
@@ -1071,6 +1073,8 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/windef.h
 -rw-r--r-- root/root    usr/include/wine/windows/windns.h
 -rw-r--r-- root/root    usr/include/wine/windows/windot11.h
+-rw-r--r-- root/root    usr/include/wine/windows/windows.applicationmodel.core.h
+-rw-r--r-- root/root    usr/include/wine/windows/windows.applicationmodel.core.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.applicationmodel.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.applicationmodel.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.devices.bluetooth.h
@@ -1118,12 +1122,20 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/windows.graphics.holographic.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.graphics.holographic.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.h
+-rw-r--r-- root/root    usr/include/wine/windows/windows.management.deployment.h
+-rw-r--r-- root/root    usr/include/wine/windows/windows.management.deployment.idl
+-rw-r--r-- root/root    usr/include/wine/windows/windows.media.capture.h
+-rw-r--r-- root/root    usr/include/wine/windows/windows.media.capture.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.media.closedcaptioning.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.media.closedcaptioning.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.media.devices.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.media.devices.idl
+-rw-r--r-- root/root    usr/include/wine/windows/windows.media.effects.h
+-rw-r--r-- root/root    usr/include/wine/windows/windows.media.effects.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.media.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.media.idl
+-rw-r--r-- root/root    usr/include/wine/windows/windows.media.render.h
+-rw-r--r-- root/root    usr/include/wine/windows/windows.media.render.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.media.speechrecognition.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.media.speechrecognition.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.media.speechsynthesis.h
@@ -1211,6 +1223,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/winuser.rh
 -rw-r--r-- root/root    usr/include/wine/windows/winver.h
 -rw-r--r-- root/root    usr/include/wine/windows/wlanapi.h
+-rw-r--r-- root/root    usr/include/wine/windows/wldp.h
 -rw-r--r-- root/root    usr/include/wine/windows/wmcodecdsp.h
 -rw-r--r-- root/root    usr/include/wine/windows/wmcodecdsp.idl
 -rw-r--r-- root/root    usr/include/wine/windows/wmdrmsdk.h
@@ -1299,6 +1312,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/ctapi32.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/dnsapi.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/dwrite.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/gphoto2.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/kerberos.so
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libaclui.a
 -rw-r--r-- root/root    usr/lib/wine/x86_64-unix/libactiveds.a
@@ -1539,6 +1553,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/odbc32.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/opengl32.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/qcap.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/sane.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/secur32.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/win32u.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winealsa.so
@@ -1732,6 +1747,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/dwmapi.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/dwrite.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/dx8vb.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/dxcore.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/dxdiag.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/dxdiagn.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/dxgi.dll
@@ -1762,6 +1778,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/gdiplus.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/geolocation.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/glu32.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/gphoto2.ds
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/gpkcsp.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/graphicscapture.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/hal.dll
@@ -2249,6 +2266,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/rtworkq.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/rundll32.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/samlib.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/sane.ds
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/sapi.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/sas.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/sc.exe
@@ -2420,6 +2438,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wlanapi.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wlanui.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wldap32.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wldp.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wmasf.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wmi.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wmic.exe
@@ -2943,6 +2962,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/dwmapi.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/dwrite.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/dx8vb.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/dxcore.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/dxdiag.exe
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/dxdiagn.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/dxgi.dll
@@ -3683,6 +3703,7 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/wlanapi.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/wlanui.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/wldap32.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/wldp.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/wmasf.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/wmi.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/wmic.exe
