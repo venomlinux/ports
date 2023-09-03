@@ -1,0 +1,14 @@
+# description: EDID and DisplayID library
+# homepage: https://gitlab.freedesktop.org/emersion/libdisplay-info
+# depends: hwdata meson ninja python3
+
+name=libdisplay-info
+version=0.1.1
+release=3
+source="https://gitlab.freedesktop.org/emersion/libdisplay-info/-/releases/$version/downloads/$name-$version.tar.xz"
+
+build() {
+	venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build 
+}
