@@ -1,0 +1,34 @@
+# description	: Highly customizable Wayland bar for Sway and Wlroots based compositors
+# depends	: gtkmm3 jsoncpp wayland fmt spdlog gobject-introspection pulseaudio libnl libappindicator libmpdclient libdbusmenu wayland-protocols meson
+ 
+ name=waybar
+version=0.9.22
+release=1
+source="$name-$version.tar.gz::https://github.com/Alexays/Waybar/archive/$version.tar.gz"
+
+build() {
+          
+        venom-meson Waybar-$version build \
+		--wrap-mode=default \
+		-Ddbusmenu-gtk=enabled \
+		-Dgtk-layer-shell=enabled \
+		-Dlibevdev=disabled \
+		-Dlibnl=enabled \
+		-Dlibudev=enabled \
+		-Dman-pages=disabled \
+		-Dmpd=enabled \
+		-Dmpris=enabled \
+		-Dpulseaudio=enabled \
+		-Drfkill=enabled \
+		-Dsndio=disabled \
+		-Dsystemd=disabled \
+                -Dcava=disabled \
+                -Dexperimental=true \
+                -Dtests=disabled 
+          ninja -C build
+          DESTDIR=$PKG ninja -C build install
+
+}
+
+
+   
