@@ -2,12 +2,13 @@
 # homepage	: https://github.com/michaelforney/sbase
 
 name=sbase
-version=20221126
+version=20230729
+_commit=1b46d26362a6fcc525c1ea01ce49907ccb74f8c9
 release=1
-source="$name-$version.tar.gz::https://github.com/michaelforney/sbase/archive/5e7afd0e9ea5b44f68ebf55555f03c41d8d21cdb.tar.gz"
+source="$name-$version.tar.gz::https://github.com/michaelforney/sbase/archive/$_commit.tar.gz"
 
 build() {
-	cd $name-5e7afd0e9ea5b44f68ebf55555f03c41d8d21cdb
+	cd $name-$_commit
 	make $name-box
 	install -Dm 755 $name-box $PKG/bin/$name-box
 	#make DESTDIR=$PKG PREFIX=/usr $name-box-install
