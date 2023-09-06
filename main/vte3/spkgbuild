@@ -2,16 +2,10 @@
 # depends	: gobject-introspection vala glib pango fribidi gnutls pcre2 zlib gtk3 at-spi2-core cairo gdk-pixbuf
 
 name=vte3
-version=0.72.2
+version=0.73.99
 release=1
-source="https://gitlab.gnome.org/GNOME/vte/-/archive/$version/vte-$version.tar.gz
-	vte-cntnr-precmd-preexec-scroll.patch"
-
+source="https://gitlab.gnome.org/GNOME/vte/-/archive/$version/vte-$version.tar.gz"
 build() {
-
-	cd vte-$version
-	patch -p1 -i $SRC/*.patch
-	cd ..
 
        venom-meson vte-$version build \
 	      -Db_lto=false \
