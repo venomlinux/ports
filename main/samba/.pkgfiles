@@ -1,4 +1,4 @@
-samba-4.18.6-1
+samba-4.19.0-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/revdep.d/
 -rw-r--r-- root/root    etc/revdep.d/samba.conf
@@ -39,6 +39,7 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/regshell
 -rwxr-xr-x root/root    usr/bin/regtree
 -rwxr-xr-x root/root    usr/bin/rpcclient
+-rwxr-xr-x root/root    usr/bin/samba-log-parser
 -rwxr-xr-x root/root    usr/bin/samba-regedit
 -rwxr-xr-x root/root    usr/bin/sharesec
 -rwxr-xr-x root/root    usr/bin/smbcacls
@@ -163,9 +164,9 @@ lrwxrwxrwx root/root    usr/lib/libndr-nbt.so.0 -> libndr-nbt.so.0.0.1
 lrwxrwxrwx root/root    usr/lib/libndr-standard.so -> libndr-standard.so.0.0.1
 lrwxrwxrwx root/root    usr/lib/libndr-standard.so.0 -> libndr-standard.so.0.0.1
 -rwxr-xr-x root/root    usr/lib/libndr-standard.so.0.0.1
-lrwxrwxrwx root/root    usr/lib/libndr.so -> libndr.so.3.0.0
-lrwxrwxrwx root/root    usr/lib/libndr.so.3 -> libndr.so.3.0.0
--rwxr-xr-x root/root    usr/lib/libndr.so.3.0.0
+lrwxrwxrwx root/root    usr/lib/libndr.so -> libndr.so.3.0.1
+lrwxrwxrwx root/root    usr/lib/libndr.so.3 -> libndr.so.3.0.1
+-rwxr-xr-x root/root    usr/lib/libndr.so.3.0.1
 lrwxrwxrwx root/root    usr/lib/libnetapi.so -> libnetapi.so.1.0.0
 lrwxrwxrwx root/root    usr/lib/libnetapi.so.1 -> libnetapi.so.1.0.0
 -rwxr-xr-x root/root    usr/lib/libnetapi.so.1.0.0
@@ -292,9 +293,11 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/emulate/
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/emulate/traffic.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/emulate/traffic_packets.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/forest_update.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/functional_level.py
 -rwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/gensec.cpython-311-x86_64-linux-gnu.so
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/getopt.py
 drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/gp/
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/gp/__init__.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/gp/gp_centrify_crontab_ext.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/gp/gp_centrify_sudoers_ext.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/gp/gp_cert_auto_enroll_ext.py
@@ -357,12 +360,53 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/netcmd/
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/dbcheck.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/delegation.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/dns.py
--rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain.py
--rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain_backup.py
+drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/__init__.py
+drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/auth/
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/auth/__init__.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/auth/policy.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/auth/silo.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/auth/silo_member.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/backup.py
+drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/claim/
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/claim/__init__.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/claim/claim_type.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/claim/value_type.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/classicupgrade.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/common.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/dcpromo.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/demote.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/functional_prep.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/info.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/join.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/keytab.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/leave.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/level.py
+drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/__init__.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/auth_policy.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/auth_silo.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/claim_type.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/exceptions.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/fields.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/model.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/schema.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/site.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/subnet.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/user.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/models/value_type.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/passwordsettings.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/provision.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/samba3upgrade.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/schemaupgrade.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/tombstones.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/domain/trust.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/drs.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/dsacl.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/encoders.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/forest.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/fsmo.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/gpcommon.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/gpo.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/group.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/ldapcmp.py
@@ -378,10 +422,12 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/netcmd/
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/spn.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/testparm.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/user.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/validators.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/netcmd/visualize.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/ntacls.py
 -rwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/ntstatus.cpython-311-x86_64-linux-gnu.so
 -rwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/param.cpython-311-x86_64-linux-gnu.so
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/policies.py
 -rwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/policy.cpython-311-x86_64-linux-gnu.so
 -rwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/posix_eadb.cpython-311-x86_64-linux-gnu.so
 drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/provision/
@@ -521,8 +567,11 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/alias_tests.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/as_canonicalization_tests.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/as_req_tests.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/authn_policy_tests.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/claims_in_pac.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/claims_tests.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/compatability_tests.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/device_tests.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/etype_tests.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/fast_tests.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/group_tests.py
@@ -535,6 +584,7 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/ms_kile_client_principal_lookup_tests.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/nt_hash_tests.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/pac_align_tests.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/pkinit_tests.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/protected_users_tests.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/raw_testcase.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/rfc4120_constants.py
@@ -556,6 +606,7 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/ldap_referrals.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/ldap_spn.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/ldap_upn_sam_account.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/ldap_whoami.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/libsmb-basic.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/libsmb.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/loadparm.py
@@ -603,6 +654,7 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/tests/krb5/
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/s3windb.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/safe_tarfile.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba3sam.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_startup_fl_change.py
 drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/__init__.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/base.py
@@ -610,6 +662,11 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/contact.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/demote.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/dnscmd.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/domain_auth_base.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/domain_auth_policy.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/domain_auth_silo.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/domain_claim.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/domain_models.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/drs_clone_dc_data_lmdb_size.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/dsacl.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/samba/tests/samba_tool/forest.py
