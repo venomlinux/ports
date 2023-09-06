@@ -1,0 +1,14 @@
+# description	: xdg-desktop-portal backend for wlroots
+# depends	: hyprland basu inih mesa pipewire wayland-protocols
+
+name=xdg-desktop-portal-hyprland
+version=0.5.0
+release=1
+source="$name-$version.tar.gz::https://github.com/hyprwm/$name/archive/tags/v$version.tar.gz"
+
+build() {
+    venom-meson  $name-tags-v$version build \
+    -D sd-bus-provider=basu
+  meson compile -C build
+  DESTDIR=$PKG meson install -C build
+}
