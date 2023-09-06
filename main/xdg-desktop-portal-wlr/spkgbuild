@@ -1,0 +1,20 @@
+# description	: xdg-desktop-portal backend for wlroots
+# depends	: basu inih mesa pipewire wayland-protocols
+
+name=xdg-desktop-portal-wlr
+version=0.7.0
+release=1
+source="https://github.com/emersion/xdg-desktop-portal-wlr/archive/v$version/$name-$version.tar.gz"
+
+build() {
+  meson setup $name-$version build \
+    --prefix=/usr \
+    --libexecdir=lib \
+    --buildtype=plain \
+    --wrap-mode nodownload \
+    -D b_lto=true \
+    -D b_pie=true \
+    -D sd-bus-provider=basu
+  meson compile -C build
+  DESTDIR=$PKG meson install -C build
+}
