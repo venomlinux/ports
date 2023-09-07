@@ -1,4 +1,4 @@
-go-1.21.0-1
+go-1.21.1-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 lrwxrwxrwx root/root    usr/bin/go -> /usr/lib/go/bin/go
@@ -256,9 +256,9 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/addr2line/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/addr2line/addr2line_test.go
 -rw-r--r-- root/root    usr/lib/go/src/cmd/addr2line/main.go
 drwxr-xr-x root/root    usr/lib/go/src/cmd/api/
--rw-r--r-- root/root    usr/lib/go/src/cmd/api/api.go
 -rw-r--r-- root/root    usr/lib/go/src/cmd/api/api_test.go
 -rw-r--r-- root/root    usr/lib/go/src/cmd/api/boring_test.go
+-rw-r--r-- root/root    usr/lib/go/src/cmd/api/main_test.go
 drwxr-xr-x root/root    usr/lib/go/src/cmd/api/testdata/
 drwxr-xr-x root/root    usr/lib/go/src/cmd/api/testdata/src/
 drwxr-xr-x root/root    usr/lib/go/src/cmd/api/testdata/src/issue21181/
@@ -656,8 +656,6 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/comm
 -rw-r--r-- root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/common/common.go
 drwxr-xr-x root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/forkexec/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/forkexec/main.go
-drwxr-xr-x root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/generic/
--rw-r--r-- root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/generic/plugin.go
 drwxr-xr-x root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/host/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/host/host.go
 drwxr-xr-x root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/iface/
@@ -713,6 +711,8 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/issu
 drwxr-xr-x root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/issue53989/p/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/issue53989/plugin.go
 -rw-r--r-- root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/issue53989/p/p.go
+drwxr-xr-x root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/mangle/
+-rw-r--r-- root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/mangle/plugin.go
 drwxr-xr-x root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/method/
 drwxr-xr-x root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/method2/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/cgo/internal/testplugin/testdata/method2/main.go
@@ -2104,6 +2104,8 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/internal/test/internal/genflags/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/internal/test/internal/genflags/vetflag.go
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/internal/test/testflag.go
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/internal/test/test.go
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/internal/test/test_nonunix.go
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/internal/test/test_unix.go
 drwxr-xr-x root/root    usr/lib/go/src/cmd/go/internal/tool/
 drwxr-xr-x root/root    usr/lib/go/src/cmd/go/internal/toolchain/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/internal/toolchain/exec.go
@@ -2622,6 +2624,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/testdata/script/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/gopath_paths.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/gopath_std_vendor.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/gopath_vendor_dup_err.txt
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/goroot_executable_trimpath.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/goroot_executable.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/gotoolchain_local.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/gotoolchain_loop.txt
@@ -2798,6 +2801,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/testdata/script/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_get_hash.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_get_incompatible.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_get_indirect.txt
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_get_insecure_redirect.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_get_issue37438.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_get_issue47979.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_get_issue48511.txt
@@ -3011,6 +3015,7 @@ drwxr-xr-x root/root    usr/lib/go/src/cmd/go/testdata/script/
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_tidy.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_tidy_version_tooold.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_tidy_version.txt
+-rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_toolchain_slash.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_toolchain.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_update_sum_readonly.txt
 -rw-r--r-- root/root    usr/lib/go/src/cmd/go/testdata/script/mod_upgrade_patch.txt
@@ -7331,6 +7336,9 @@ drwxr-xr-x root/root    usr/lib/go/src/internal/types/testdata/fixedbugs/
 -rw-r--r-- root/root    usr/lib/go/src/internal/types/testdata/fixedbugs/issue60933.go
 -rw-r--r-- root/root    usr/lib/go/src/internal/types/testdata/fixedbugs/issue60946.go
 -rw-r--r-- root/root    usr/lib/go/src/internal/types/testdata/fixedbugs/issue61486.go
+-rw-r--r-- root/root    usr/lib/go/src/internal/types/testdata/fixedbugs/issue61879.go
+-rw-r--r-- root/root    usr/lib/go/src/internal/types/testdata/fixedbugs/issue61903.go
+-rw-r--r-- root/root    usr/lib/go/src/internal/types/testdata/fixedbugs/issue62157.go
 -rw-r--r-- root/root    usr/lib/go/src/internal/types/testdata/fixedbugs/issue6977.go
 drwxr-xr-x root/root    usr/lib/go/src/internal/types/testdata/spec/
 -rw-r--r-- root/root    usr/lib/go/src/internal/types/testdata/spec/assignability.go
@@ -12822,6 +12830,10 @@ drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue60945.dir/
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue61187.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue6131.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue6140.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue61778.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue61908.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue61992.go
+-rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue62203.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue6247.go
 -rw-r--r-- root/root    usr/lib/go/test/fixedbugs/issue6269.go
 drwxr-xr-x root/root    usr/lib/go/test/fixedbugs/issue6295.dir/
