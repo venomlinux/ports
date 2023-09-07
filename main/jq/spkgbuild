@@ -2,19 +2,15 @@
 # depends	: oniguruma autoconf automake bison flex python3
 
 name=jq
-version=1.6
-release=2
+version=1.7
+release=1
 source="https://github.com/stedolan/jq/releases/download/jq-$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
 
-	# never use bundled oniguruma for regex support
-	sed -i '242,245d;248,250d;256,267d' configure.ac
-
 	autoreconf -i
-	./configure --prefix=/usr \
-		--with-oniguruma=/usr
+	./configure --prefix=/usr --disable-docs
 	make
 	make DESTDIR=$PKG install
 
