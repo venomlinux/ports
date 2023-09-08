@@ -1,0 +1,26 @@
+# description	: Ayatana Application Indicators Shared Library
+# homepage	: https://github.com/AyatanaIndicators/libayatana-appindicator
+# depends	: cmake dbus-glib glib gobject-introspection gtk3 libayatana-indicator
+# depends	: libdbusmenu-gtk3 ninja vala
+
+name=libayatana-appindicator
+version=0.5.92
+release=1
+source="https://github.com/AyatanaIndicators/libayatana-appindicator/archive/$version/${name}-${version}.tar.gz"
+
+
+build() {
+	cmake -S $name-$version -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DBUILD_SHARED_LIBS=True \
+		-DENABLE_TESTS=OFF \
+		-DENABLE_BINDINGS_MONO=OFF \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
