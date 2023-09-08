@@ -1,0 +1,23 @@
+# description	: Ayatana Indicator Display Objects
+# homepage	: https://github.com/AyatanaIndicators/ayatana-ido
+# depends	: cmake extra-cmake-modules glib gtest gtk3 ninja
+
+name=ayatana-ido
+version=0.10.1
+release=1
+source="https://github.com/AyatanaIndicators/ayatana-ido/archive/$version/${name}-${version}.tar.gz"
+
+build() {
+	cmake -S $name-$version -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DBUILD_SHARED_LIBS=True \
+		-DENABLE_TESTS=OFF \
+		-Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
