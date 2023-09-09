@@ -3,24 +3,27 @@
 # depends	: minizip jemalloc openal range-v3 tg_owt qt6-imageformats qt6-svg qt6-wayland qt6-5compat rnnoise webkitgtk kcoreaddons glibmm2 protobuf fmt
 
 name=telegram-desktop
-version=4.8.4
+version=4.9.5
 release=1
 _cppgir=ed2afc920bfdc663bd54239716403500815ac08a
 _expected_lite=95b9cb015fa17baa749c2b396b335906e1596a9e
 source="https://github.com/telegramdesktop/tdesktop/releases/download/v$version/tdesktop-$version-full.tar.gz
-	cppgir-$_cppgir.tar.gz::https://gitlab.com/mnauw/cppgir/-/archive/$_cppgir.tar.gz
-	expected-lite-$_expected_lite.tar.gz::https://github.com/martinmoene/expected-lite/archive/$_expected_lite.tar.gz"
+	https://download.gnome.org/sources/glibmm/2.77/glibmm-2.77.0.tar.xz"
 
 build() {
+
+	meson -D maintainer-mode=true --default-library static --prefix $SRC/glibmm glibmm-2.77.0 build
+	    meson compile -C build
+	    meson install -C build
+
 	cd tdesktop-$version-full
 
-	rm -rf cmake/external/glib/cppgir
-	ln -sfv $SRC/cppgir-$_cppgir cmake/external/glib/cppgir
-	rm -rf cmake/external/glib/cppgir/expected-lite
-	ln -sfv $SRC/expected-lite-$_expected_lite cmake/external/glib/cppgir/expected-lite
 
+
+	export PKG_CONFIG_PATH=$SRC/glibmm/usr/local/lib/pkgconfig
 	cmake -B build -G Ninja \
-		-DCMAKE_INSTALL_PREFIX="/usr" \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_PREFIX_PATH=$SRC/glibmm \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DTDESKTOP_API_ID=611335 \
 		-DTDESKTOP_API_HASH=d524b414d21f4d37f08684c1df41ac9c \
