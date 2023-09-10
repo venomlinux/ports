@@ -1,0 +1,31 @@
+# description	: Mozilla's JavaScript and WebAssembly Engine, written in C++ and Rust 
+# homepage	: https://spidermonkey.dev/
+# depends	: icu which rust clang lld
+
+name=js115
+version=115.2.0
+release=1
+source="$name-$version.tar.xz::https://archive.mozilla.org/pub/firefox/releases/${version}esr/source/firefox-${version}esr.source.tar.xz"
+
+build() {
+	cd firefox-$version
+
+	mkdir obj
+	cd obj
+	
+	export SHELL=/bin/sh
+
+	sh ../js/src/configure \
+			 --prefix=/usr \
+                         --with-intl-api \
+                         --with-system-zlib \
+                         --with-system-icu \
+                         --disable-jemalloc \
+                         --disable-debug-symbols \
+                         --enable-readline        
+	make
+	make DESTDIR=$PKG install
+
+	rm -v $PKG/usr/lib/libjs_static.ajs 
+	sed -i '/@NSPR_CFLAGS@/d' $PKG/usr/bin/js115-config
+}
