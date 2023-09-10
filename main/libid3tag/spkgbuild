@@ -8,7 +8,7 @@ release=3
 source="$name-$version.tar.gz::https://codeberg.org/tenacityteam/libid3tag/archive/$version.tar.gz"
 
 build() {
-	cmake -S $name-$version -B build -G Ninja \
+	cmake -S $name -B build -G Ninja \
 		-D CMAKE_INSTALL_PREFIX=/usr \
 		-D CMAKE_INSTALL_LIBDIR=lib \
 		-D CMAKE_BUILD_TYPE=Release \
