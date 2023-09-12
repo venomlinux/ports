@@ -1,0 +1,23 @@
+# description	: A blazing fast wayland wallpaper utility with IPC controls
+# homepage	: https://github.com/hyprwm/hyprpaper
+# depends	: cmake libglvnd libjpeg-turbo pango wayland-protocols xorgproto
+ 
+name=hyprpaper
+version=0.4.0
+release=1
+source="$name-$version.tar.gz::https://github.com/hyprwm/hyprpaper/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	cmake -B build \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-Wno-dev
+	make protocols
+	make -C build all
+	install -Dm0755 -t $PKG/usr/bin/ build/$name
+}
