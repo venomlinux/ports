@@ -1,0 +1,24 @@
+# description	: LV2/DSSI/LADSPA plug-in suite and standalone Jack host
+# homepage	: https://calf-studio-gear.org
+# depends	: cairo expat fluidsynth gdk-pixbuf glib hicolor-icon-theme gtk2 jack 
+
+name=calf
+version=0.90.3
+release=1
+source="https://calf-studio-gear.org/files/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+
+	autoreconf -vfi
+	./configure --prefix=/usr \
+		--with-lv2 \
+		--with-lv2-dir=/usr/lib/lv2 \
+		--enable-experimental \
+		--enable-sse
+	make
+	make DESTDIR=$PKG install
+	
+	rm -fr $PKG/usr/share/doc
+}
+

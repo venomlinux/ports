@@ -1,0 +1,22 @@
+# description	: A real-time software synthesizer
+# depends	: alsa-lib cmake dbus doxygen glib jack libinstpatch pipewire 
+# depends	: libsndfile
+
+name=fluidsynth
+version=2.3.3
+release=1
+source="https://github.com/FluidSynth/fluidsynth/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cmake -S $name-$version -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DLIB_SUFFIX= \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
