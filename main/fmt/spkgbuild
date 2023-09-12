@@ -3,11 +3,17 @@
 # depends	    : cmake ninja
 
 name=fmt
-version=9.1.0
+version=10.1.1
 release=1
-source="https://github.com/fmtlib/$name/archive/$version/$name-$version.tar.gz"
+source="https://github.com/fmtlib/$name/archive/$version/$name-$version.tar.gz
+	sphinx.patch
+	pip.patch"
 
 build() {
+	
+	patch -Np1 -d $name-$version -i $SRC/sphinx.patch
+	patch -Np1 -d $name-$version -i $SRC/pip.patch
+
 	cmake -S $name-$version -B build -G Ninja \
 		-D CMAKE_INSTALL_PREFIX=/usr \
 		-D CMAKE_INSTALL_LIBDIR=lib \
