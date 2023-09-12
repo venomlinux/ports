@@ -4,7 +4,7 @@
 
 name=spdlog
 version=1.12.0
-release=2
+release=3
 source="https://github.com/gabime/spdlog/archive/v$version/$name-$version.tar.gz"
 
 build() {
@@ -15,6 +15,11 @@ build() {
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DSPDLOG_BUILD_BENCH=OFF \
+		-DSPDLOG_SANITIZE_ADDRESS=OFF \
+		-DSPDLOG_FMT_EXTERNAL=ON \
+		-DSPDLOG_BUILD_SHARED=ON \
+		-DSPDLOG_BUILD_EXAMPLE=OFF \
 		-Wno-dev 
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
