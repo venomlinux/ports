@@ -1,0 +1,17 @@
+# description	: A fast, partitioned convolution engine library
+# depends	: fftw 
+
+name=zita-convolver
+version=4.0.3
+release=1
+source="https://kokkinizita.linuxaudio.org/linuxaudio/downloads/$name-$version.tar.bz2"
+
+build() {
+  cd $name-$version/source
+  sed -e '/native/d' \
+      -e 's/ldconfig/& -N $(DESTDIR)\/$(LIBDIR)/' \
+      -i Makefile
+  make
+  make SUFFIX="" PREFIX=/usr DESTDIR=$PKG install
+}
+
