@@ -1,0 +1,14 @@
+# description	: A wayland based logout menu
+# homepage	: https://github.com/ArtsyMacaw/wlogout
+# depends	: gtk3 gtk-layer-shell meson scdoc
+
+name=wlogout
+version=1.1.1
+release=1
+source="https://github.com/ArtsyMacaw/wlogout/archive/$version/$name-$version.tar.gz"
+
+build(){
+	venom-meson $name-$version build 
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
