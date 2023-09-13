@@ -3,19 +3,21 @@
 # depends	: go btrfs-progs libseccomp
 
 name=containerd
-version=1.7.3
+version=1.7.6
 release=1
-source="http://jaeger.morpheus.net/linux/crux/files/$name-$version.tar.xz"
+commit=091922f03c2762540fd057fba91260237ff86acb
+source="$name-$version.tar.gz::https://github.com/containerd/containerd/archive/refs/tags/v$version.tar.gz"
 
 build() {
-    export GO111MODULE=auto
-    mkdir -p src/github.com/$name
-    cd src/github.com/$name
-    ln -s $SRC/$name-$version $name
-    cd $name
-    export GOPATH=$SRC
-    # use the long commit hash here
-    make GIT_COMMIT=5b842e528e99d4d4c1686467debf2bd4b88ecd86
-    install -d -m 0755 $PKG/usr/bin
-    install -m 0755 bin/* $PKG/usr/bin/
+	export GOFLAGS="$GOFLAGS -modcacherw -mod=readonly"
+	export GOCACHE="${GOCACHE:-"$SRC/go-cache"}"
+	export GOTMPDIR="${GOTMPDIR:-"$SRC"}"
+	export GOMODCACHE="${GOMODCACHE:-"$SRC/go"}"
+	export GO111MODULE=on
+
+	cd $name-$version
+	make VERSION="v$version" REVISION="$commit" BUILDMODE=pie
+
+	mkdir -pv $PKG/usr/bin
+	install -Dsm755 ./bin/* $PKG/usr/bin/
 }
