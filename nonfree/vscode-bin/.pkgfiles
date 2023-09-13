@@ -1,9 +1,10 @@
-vscode-bin-1.81.1-1
+vscode-bin-1.82.1-1
 drwxr-xr-x root/root    opt/
 drwxr-xr-x root/root    opt/visual-studio-code/
 -rw-r--r-- root/root    opt/visual-studio-code/LICENSES.chromium.html
 drwxr-xr-x root/root    opt/visual-studio-code/bin/
 -rwxr-xr-x root/root    opt/visual-studio-code/bin/code
+-rwxr-xr-x root/root    opt/visual-studio-code/bin/code-tunnel
 -rwxr-xr-x root/root    opt/visual-studio-code/chrome-sandbox
 -rw-r--r-- root/root    opt/visual-studio-code/chrome_100_percent.pak
 -rw-r--r-- root/root    opt/visual-studio-code/chrome_200_percent.pak
@@ -442,6 +443,7 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/json/syn
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/json/syntaxes/JSON.tmLanguage.json
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/json/syntaxes/JSONC.tmLanguage.json
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/json/syntaxes/JSONL.tmLanguage.json
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/json/syntaxes/snippets.tmLanguage.json
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/julia/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/julia/language-configuration.json
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/julia/package.json
@@ -671,6 +673,8 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/ms-vscod
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/ms-vscode.js-debug/src/targets/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/ms-vscode.js-debug/src/targets/node/
 -rwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/ms-vscode.js-debug/src/targets/node/terminateProcess.sh
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/ms-vscode.js-debug/src/ui/
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/ms-vscode.js-debug/src/ui/basic-wat.tmLanguage.json
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/ms-vscode.js-debug/src/w32appcontainertokens-XTRA77NA.node
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/ms-vscode.js-debug/src/watchdog.js
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/ms-vscode.vscode-js-profile-table/
@@ -726,6 +730,7 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/node_mod
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2016.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2016.full.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2017.d.ts
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2017.date.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2017.full.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2017.intl.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2017.object.d.ts
@@ -772,11 +777,14 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/node_mod
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2022.sharedmemory.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2022.string.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2023.array.d.ts
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2023.collection.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2023.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es2023.full.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es5.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.es6.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.esnext.d.ts
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.esnext.decorators.d.ts
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.esnext.disposable.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.esnext.full.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.esnext.intl.d.ts
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/node_modules/typescript/lib/lib.scripthost.d.ts
@@ -1048,6 +1056,15 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/theme-to
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/theme-tomorrow-night-blue/package.nls.json
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/theme-tomorrow-night-blue/themes/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/theme-tomorrow-night-blue/themes/tomorrow-night-blue-color-theme.json
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/tunnel-forwarding/
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/tunnel-forwarding/.vscode/
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/tunnel-forwarding/.vscode/launch.json
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/tunnel-forwarding/dist/
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/tunnel-forwarding/dist/extension.js
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/tunnel-forwarding/media/
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/tunnel-forwarding/media/icon.png
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/tunnel-forwarding/package.json
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/tunnel-forwarding/package.nls.json
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/extensions/typescript-basics/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/typescript-basics/language-configuration.json
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/extensions/typescript-basics/package.json
@@ -1173,10 +1190,6 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.u
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/node-vsce-sign/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/node-vsce-sign/bin/
 -rwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/node-vsce-sign/bin/vsce-sign
-drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/vscode-encrypt/
-drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/vscode-encrypt/build/
-drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/vscode-encrypt/build/Release/
--rwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/vscode-encrypt/build/Release/vscode-encrypt-native.node
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/vscode-oniguruma/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/vscode-oniguruma/release/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/node_modules.asar.unpacked/vscode-oniguruma/release/onig.wasm
@@ -1408,6 +1421,9 @@ drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/se
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/textMate/browser/backgroundTokenization/
 drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/textMate/browser/backgroundTokenization/worker/
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/textMate/browser/backgroundTokenization/worker/textMateTokenizationWorker.worker.js
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/voiceRecognition/
+drwxr-xr-x root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/voiceRecognition/electron-sandbox/
+-rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/services/voiceRecognition/electron-sandbox/voiceTranscriptionWorklet.js
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/workbench.desktop.main.css
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/workbench.desktop.main.js
 -rw-r--r-- root/root    opt/visual-studio-code/resources/app/out/vs/workbench/workbench.desktop.main.nls.js

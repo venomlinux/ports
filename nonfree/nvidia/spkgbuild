@@ -2,9 +2,10 @@
 # depends	: dkms gtk3
 
 name=nvidia
-version=535.98
+version=535.104.05
 release=3
 source="$name-$version.run::http://us.download.nvidia.com/XFree86/Linux-x86_64/$version/NVIDIA-Linux-x86_64-$version.run
+	prime-run
 	10-nvidia-drm-outputclass.conf"
 
 build() {
@@ -141,4 +142,7 @@ DEST_MODULE_LOCATION[3]="/kernel/drivers/video"' kernel/dkms.conf
 	sed -e "s/@name@/$name/g" \
 	    -e "s/@version@/$version/g" \
 	/usr/lib/dkms/buildmodules-template.sh > $PKG/var/lib/dkms/buildmodules-$name.sh
+
+	# prime-run script
+	install -Dm744 $SRC/prime-run $PKG/usr/bin/prime-run
 }
