@@ -3,12 +3,12 @@
 # depends	: spirv-headers
 
 name=spirv-tools
-version=2023.2
+version=1.3.261.1
 release=1
-source="https://github.com/KhronosGroup/SPIRV-Tools/archive/v$version/$name-$version.tar.gz"
+source="https://github.com/KhronosGroup/SPIRV-tools/archive/refs/tags/sdk-$version.tar.gz"
 
 build() {
-	cmake -S SPIRV-Tools-$version -B build -G Ninja \
+	cmake -S SPIRV-Tools-sdk-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
