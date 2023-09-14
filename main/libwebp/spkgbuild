@@ -2,15 +2,12 @@
 # depends	: libjpeg-turbo libpng libtiff
 
 name=libwebp
-version=1.3.1
-release=2
-source="http://downloads.webmproject.org/releases/webp/$name-$version.tar.gz
-	CVE-2023-4863.patch"
+version=1.3.2
+release=1
+source="http://downloads.webmproject.org/releases/webp/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i $SRC/CVE-2023-4863.patch
 
 	./configure --prefix=/usr           \
 	            --enable-libwebpmux     \
