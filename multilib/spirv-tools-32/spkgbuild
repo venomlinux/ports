@@ -3,13 +3,13 @@
 # depends	: spirv-tools
 
 name=spirv-tools-32
-version=2023.2
+version=1.3.261.1
 release=1
-source="https://github.com/KhronosGroup/SPIRV-Tools/archive/v$version/SPIRV-Tools-v$version.tar.gz"
+source="${name%-*}-$version.tar.gz::https://github.com/KhronosGroup/SPIRV-tools/archive/sdk-$version.tar.gz"
 
 build() {
 
-	cmake -B build-static -G Ninja -S SPIRV-Tools-$version \
+	cmake -B build-static -G Ninja -S SPIRV-Tools-sdk-$version \
 		-D CMAKE_INSTALL_PREFIX=/usr \
 		-D CMAKE_INSTALL_LIBDIR=lib32 \
 		-D CMAKE_BUILD_TYPE=Release \
@@ -21,7 +21,7 @@ build() {
 		-D BUILD_SHARED_LIBS=OFF 
 	cmake --build build-static
 
-	cmake -B build-shared -G Ninja -S SPIRV-Tools-$version \
+	cmake -B build-shared -G Ninja -S SPIRV-Tools-sdk-$version \
 		-D CMAKE_INSTALL_PREFIX=/usr \
 		-D CMAKE_INSTALL_LIBDIR=lib32 \
 		-D CMAKE_BUILD_TYPE=Release \
