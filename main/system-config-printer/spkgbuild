@@ -4,13 +4,15 @@
 
 name=system-config-printer
 version=1.5.18
-release=1
-source="https://github.com/OpenPrinting/system-config-printer/releases/download/v$version/${name}-$version.tar.xz"
+release=2
+source="https://github.com/OpenPrinting/system-config-printer/releases/download/v$version/${name}-$version.tar.xz
+	autoconf-2.70.patch"
 
 build() {
 	export XML_CATALOG_FILES=/etc/xml/catalog
 
 	cd $name-$version
+	patch -Np1 -i $SRC/autoconf-2.70.patch
 	./bootstrap
 	./configure \
 		--prefix=/usr \
