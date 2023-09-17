@@ -7,6 +7,8 @@
 . /etc/conf.d/wpa_supplicant
 . /etc/rc.subr
 
+DEV=${DEV:-$(ls /sys/class/net/ | grep -Exv "(lo|sit0)" | head -n1)}
+
 NAME=wpa_supplicant
 PROG=/sbin/wpa_supplicant
 PIDFILE_WPA=/var/run/$NAME.pid
