@@ -5,22 +5,18 @@
 
 name=basilisk-bin
 _buildid=20230912153600
-_date=2023.09.12
-version=52.9.$_date
-release=1
-source="https://archive.basilisk-browser.org/${_date}/linux/x86_64/gtk3/basilisk-${_buildid}.linux-x86_64-gtk3.tar.xz
-	https://archive.basilisk-browser.org/${_date}/linux/x86_64/gtk3/basilisk-${_buildid}.linux-x86_64-gtk3.json
+version=2023.09.12
+release=2
+source="https://archive.basilisk-browser.org/${version}/linux/x86_64/gtk3/basilisk-${_buildid}.linux-x86_64-gtk3.tar.xz
+	https://archive.basilisk-browser.org/${version}/linux/x86_64/gtk3/basilisk-${_buildid}.linux-x86_64-gtk3.json
         basilisk.desktop"
 rev_ex_libs="libhunspell.so libxul.so libmozsqlite3.so libmozavutil.so liblgpllibs.so libmozgtk.so"
 
 build() {
-	grep 'moz_app_version' $SRC/basilisk-${_buildid}.linux-x86_64.json | sed -e 's/.*:[\ \t]*"//;s/"[,]*[\ \t]*$//'
-
+	
 	install -d $PKG/usr/lib
 	install -d $PKG/usr/bin
 	cp -ar --no-preserve=ownership $SRC/basilisk $PKG/usr/lib
-
-
 	install -Dm644 $SRC/basilisk.desktop $PKG/usr/share/applications/basilisk.desktop
 	install -Dm644 $SRC/basilisk/browser/icons/mozicon128.png $PKG/usr/share/pixmaps/basilisk.png
 	ln -s /usr/lib/basilisk/basilisk-bin $PKG/usr/bin/basilisk
