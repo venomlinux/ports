@@ -3,17 +3,19 @@
 # depends	: cups sane libjpeg-turbo libusb
 
 name=hplip
-version=3.23.5
+version=3.23.8
 release=1
 source="https://sourceforge.net/projects/hplip/files/$name/$version/$name-$version.tar.gz
-	0003-models.dat-Re-add-drivers-missing-from-3.19.1.patch
-	0023-Fix-handling-of-unicode-filenames-in-sixext.py.patch
 	disable_upgrade.patch
-	python3.diff
-	reproducible-gzip.patch
+	0003-models.dat-Re-add-drivers-missing-from-3.19.1.patch
+        0018-Allow-non-JPEG-scanning-on-the-HP-DeskJet-3520-All-i.patch
 	0022-Add-include-cups-ppd.h-in-various-places-as-CUPS-2.2.patch
+	0023-Fix-handling-of-unicode-filenames-in-sixext.py.patch
 	0025_fix-Werror-format-security.patch
-	hplip-configure-python.patch"
+	hplip-configure-python.patch
+	python3.diff
+	reproducible-gzip.patch"
+
 
 build() {
 
@@ -41,6 +43,9 @@ build() {
 	# https//bugs.launchpad.net/hplip/+bug/1879445
 	# broken scanning - https://bugs.archlinux.org/task/66704
 	patch -Np1 -i $SRC/hplip-configure-python.patch
+
+	 #  allow non-jpeg scanning on all-in-one devices - FS#78135
+	patch -Np1 -i $SRC/0018-Allow-non-JPEG-scanning-on-the-HP-DeskJet-3520-All-i.patch
 	
 	# make gzip creation reproducible by removing the timestamp
 	 patch -p1 -i $SRC/reproducible-gzip.patch
