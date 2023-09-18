@@ -225,16 +225,18 @@ Repository Conventions
 Repository conventions are important in order to ensure every package resemble themselves. 
 
 - Prefer release tarballs over git packages unless there is a sensible reason. Here are some:
+
        - Every patch is a new release. 
        - There are no releases (luajit now is rolling)
        - Following a development branch.
        - There has been a long time since the latest release, but upstream is far ahead. 
 
 - Always install a package to the `/usr` prefix.
+
        - All binaries should go to `/usr/bin` or `/usr/sbin` in any cases.
        - All libraries should go to `/usr/lib`. Not exist `/usr/libexec` in Venom Linux.
 
-- All build files on the repository should be a POSIX shell script, and must start with #!/bin/sh . 
+- All build files on the repository should be a POSIX shell script, and must start with `#!/bin/sh`. 
 
 The next section is about package templates that should be used in order to ensure stylistic consistency. Note that the option configurations shouldn’t be taken literally, they are meant as examples.
 
@@ -322,7 +324,7 @@ The distribution provides a `venom-meson` wrapper script which sets some common 
 ### Python (build)
     #!/bin/sh
   
-     python3 -m build --wheel --skip-dependency-check --no-isolation
-     python3 -m installer --destdir=$PKG
+    python3 -m build --wheel --skip-dependency-check --no-isolation
+    python3 -m installer --destdir=$PKG
 
     
