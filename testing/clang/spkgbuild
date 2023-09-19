@@ -1,0 +1,57 @@
+# description	: Collection of modular and reusable compiler and toolchain technologies
+# depends	: llvm
+
+name=clang
+version=17.0.1
+release=1
+source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz
+	https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/cmake-${version}.src.tar.xz"
+noextract="cmake-${version}.src.tar.xz"
+
+build() {
+	cd $name-$version.src
+
+	# The upstream expects it to be extracted at the same level as the llvm tarball, and 
+	# the extracted directory renamed to cmake
+	tar -xf $SRC/cmake-${version}.src.tar.xz
+	sed "/LLVM_COMMON_CMAKE_UTILS/s@../cmake@cmake-${version}.src@" -i CMakeLists.txt  
+
+	cmake -B build -G Ninja \
+	    -D CMAKE_INSTALL_PREFIX=/usr \
+	    -D CMAKE_INSTALL_LIBEXECDIR=/usr/lib/clang \
+	    -D CMAKE_BUILD_TYPE=Release \
+	    -D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	    -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	    -D LLVM_ENABLE_RTTI=ON \
+	    -D LLVM_ENABLE_EH=ON \
+	    -D LLVM_INCLUDE_TESTS=OFF \
+	    -D CLANG_BUILD_EXAMPLES=OFF \
+	    -D CLANG_INCLUDE_DOCS=OFF \
+	    -D CLANG_INCLUDE_TESTS=OFF \
+	    -D LIBCLANG_BUILD_STATIC=ON \
+	    -D CLANG_BUILT_STANDALONE=ON \
+	    -D LLVM_TARGETS_TO_BUILD="AMDGPU;BPF;NVPTX;WebAssembly;X86" \
+	    -Wno-dev
+
+	jobs=
+	while : ; do
+		echo "Try ${jobs:-default} parallel jobs ..."
+
+		cmake --build build -j $jobs && break
+
+		# Try few parallel jobs to avoid OOM
+		if [ -z "$jobs" ]; then
+			jobs=$(expr $(free -g | grep Mem: | awk '{print $2}') / 2 + 1)
+			continue
+		elif [ $jobs -gt 2 ]; then
+			jobs=$(expr $jobs - 2)
+			continue
+		elif [ $jobs = 1 ]; then
+			exit 1
+		else
+			jobs=1
+		fi
+	done
+
+	DESTDIR=$PKG cmake --install build
+}
