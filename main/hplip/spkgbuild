@@ -4,7 +4,7 @@
 
 name=hplip
 version=3.23.8
-release=1
+release=2
 source="https://sourceforge.net/projects/hplip/files/$name/$version/$name-$version.tar.gz
 	disable_upgrade.patch
 	0003-models.dat-Re-add-drivers-missing-from-3.19.1.patch
@@ -96,5 +96,10 @@ build() {
 	make
 	make DESTDIR=$PKG install 
 
-	rm $KG/etc/sane.d/dll.conf
+	rm -fr 	$PKG/usr/bin \
+		$PKG/etc/udev \
+		$PKG/etc/sane.d \
+		$PKG/usr/share/hal \
+		$PKG/usr/lib/systemd \
+		$PKG/usr/lib/cups/filter/pstotiff
 }   
