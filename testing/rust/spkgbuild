@@ -1,0 +1,92 @@
+# description	: The Rust programming language is designed to be a safe, concurrent, practical language
+# depends	: curl cmake python3 llvm libssh2
+
+name=rust
+version=1.72.1
+release=2
+_date=2023-07-13
+_rust=1.71.0
+_cargo=$_rust
+_triplet=x86_64-unknown-linux-gnu
+
+source="https://static.rust-lang.org/dist/rustc-$version-src.tar.xz
+	https://static.rust-lang.org/dist/$_date/rust-std-$_rust-$_triplet.tar.xz
+	https://static.rust-lang.org/dist/$_date/rustc-$_rust-$_triplet.tar.xz
+	https://static.rust-lang.org/dist/$_date/cargo-$_cargo-$_triplet.tar.xz
+	0001-bootstrap-Change-libexec-dir.patch
+	0001-cargo-Change-libexec-dir.patch
+	0002-bootstrap-Change-bash-completion-dir.patch  
+	0003-compiler-Change-LLVM-targets.patch"
+
+noextract="rust-std-$_rust-$_triplet.tar.xz
+	rustc-$_rust-$_triplet.tar.xz
+	cargo-$_cargo-$_triplet.tar.xz"
+
+options="!emptydirs !strip"
+
+build() {
+	cd rustc-$version-src
+
+	# Patch bootstrap and cargo so credential helpers
+	# are in /usr/lib instead of /usr/libexec
+	patch -d src/tools/cargo -Np1 < ../0001-cargo-Change-libexec-dir.patch
+	patch -Np1 -i ../0001-bootstrap-Change-libexec-dir.patch
+
+	# Put bash completions where they belong
+	patch -Np1 -i ../0002-bootstrap-Change-bash-completion-dir.patch
+
+	# Use our *-pc-linux-gnu targets, making LTO with clang simpler
+	patch -Np1 -i ../0003-compiler-Change-LLVM-targets.patch
+
+	mkdir -p build/cache/$_date
+	cp $SRC/rust-std-$_rust-$_triplet.tar.xz build/cache/$_date/
+	cp $SRC/rustc-$_rust-$_triplet.tar.xz build/cache/$_date/
+	cp $SRC/cargo-$_cargo-$_triplet.tar.xz build/cache/$_date/
+
+cat << EOF > config.toml
+
+[llvm]
+targets = "X86"
+link-shared = true
+
+[build]
+docs = false
+extended = true
+locked-deps = true
+vendor = true
+python = "/usr/bin/python3"
+tools = ["cargo", "clippy", "rustdoc", "rustfmt"]
+
+[install]
+prefix = "/usr"
+
+[rust]
+description = "Venom"
+channel = "stable"
+
+[target.$_triplet]
+llvm-config = "/usr/bin/llvm-config"
+
+EOF
+
+	mkdir "$SRC/rust"
+	export CARGO_HOME="$SRC/rust"
+	export RUST_BACKTRACE=1
+
+	# Adapt rustc to allow it to build and function with the changes in LLVM-17
+	sed 's/FS,/"", &/'                                        \
+	    -i ./compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp &&
+	sed '/LLVMContext.h/i#include "llvm/ADT/SmallString.h"'   \
+	    -i compiler/rustc_llvm/llvm-wrapper/SymbolWrapper.cpp
+
+	{ [ ! -e /usr/include/libssh2.h ] || \
+	export LIBSSH2_SYS_USE_PKG_CONFIG=1; }
+	python3 ./x.py build
+
+	DESTDIR=$PKG python3 ./x.py install -v
+
+	rm -rf $PKG/usr/lib/rustlib/components
+	rm -rf $PKG/usr/lib/rustlib/manifest-rustc
+	rm -rf $PKG/usr/lib/rustlib/rust-installer-version
+	rm -rf $PKG/etc
+}
