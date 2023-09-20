@@ -1,0 +1,43 @@
+# description	: OpenGL compatible 3D graphics library
+# depends	: python3-mako elfutils bison flex libxext libxdamage libxshmfence libxxf86vm libxrandr libdrm libglvnd glslang 
+# optional	: libva libvdpau llvm wayland-protocols
+
+name=mesa
+version=23.1.7
+release=2
+source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz
+	fix-build-llvm17.patch"
+
+build() {
+	# Fix build with LLVM 17
+	patch -d $name-$version -Np1 -i $SRC/fix-build-llvm17.patch
+
+	scratch isinstalled vulkan-icd-loader && OPT_MESA_GALLIUM='zink,'
+	scratch isinstalled libvdpau && OPT_MESA_VDPAU='-D gallium-vdpau=enabled' || OPT_MESA_VDPAU='-D gallium-vdpau=disabled'
+	scratch isinstalled libva && OPT_MESA_VAAPI='-D gallium-va=enabled' || OPT_MESA_VAAPI='-D gallium-va=disabled'
+	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' || OPT_MESA_PLATFORMS='x11'
+
+	venom-meson $name-$version build \
+		-D dri3=enabled \
+		-D egl=enabled \
+		-D llvm=enabled \
+		-D shared-llvm=enabled \
+		-D gbm=enabled \
+		-D gles1=disabled \
+		-D gles2=enabled \
+		-D glx=dri \
+		-D osmesa=true \
+		-D gallium-xa=enabled \
+		-D gallium-drivers=${OPT_MESA_GALLIUM}crocus,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,i915 \
+		-D platforms=${OPT_MESA_PLATFORMS} \
+		-D shared-glapi=enabled \
+		-D vulkan-drivers=amd,intel \
+		-D vulkan-layers=device-select,intel-nullhw,overlay \
+		-D video-codecs=vc1dec,h264dec,h264enc,h265dec,h265enc \
+		$OPT_MESA_VDPAU $OPT_MESA_VAAPI -D glvnd=true
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+
+	# indirect rendering symlink
+	ln -s libGLX_mesa.so.0 $PKG/usr/lib/libGLX_indirect.so.0
+}
