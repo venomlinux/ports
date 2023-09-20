@@ -2,7 +2,7 @@
 # depends	: llvm
 
 name=clang
-version=16.0.6
+version=17.0.1
 release=1
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-$version/clang-$version.src.tar.xz
 	https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/cmake-${version}.src.tar.xz"
@@ -24,6 +24,7 @@ build() {
 	    -D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 	    -D LLVM_ENABLE_RTTI=ON \
 	    -D LLVM_ENABLE_EH=ON \
+	    -D LLVM_INCLUDE_TESTS=OFF \
 	    -D CLANG_BUILD_EXAMPLES=OFF \
 	    -D CLANG_INCLUDE_DOCS=OFF \
 	    -D CLANG_INCLUDE_TESTS=OFF \
