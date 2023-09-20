@@ -4,11 +4,15 @@
 
 name=mesa-32
 version=23.1.7
-release=1
+release=2
 source="https://mesa.freedesktop.org/archive/${name%-*}-$version.tar.xz
-	crossfile"
+	crossfile
+ 	fix-build-llvm17.patch"
 
 build() {
+	# Fix build with LLVM 17
+	patch -d ${name%-*}-$version -Np1 -i $SRC/fix-build-llvm17.patch
+
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR='/usr/lib32/pkgconfig:/usr/share/pkgconfig'
@@ -16,8 +20,8 @@ build() {
   
 	scratch isinstalled vulkan-icd-loader-32 && OPT_MESA_GALLIUM='zink,'
 	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' ||  OPT_MESA_PLATFORMS='x11'
-  
-	venom-meson ${name%-*}-$version build \
+
+  	venom-meson ${name%-*}-$version build \
 		--sysconfdir=/etc \
 		--libdir=/usr/lib32 \
 		--native-file $SRC/crossfile \
