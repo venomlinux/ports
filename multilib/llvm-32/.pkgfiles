@@ -1,4 +1,4 @@
-llvm-32-16.0.6-1
+llvm-32-17.0.1-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/llvm-config-32
@@ -20,6 +20,7 @@ drwxr-xr-x root/root    usr/lib32/cmake/llvm/
 -rw-r--r-- root/root    usr/lib32/cmake/llvm/CrossCompile.cmake
 -rw-r--r-- root/root    usr/lib32/cmake/llvm/DetermineGCCCompatible.cmake
 -rw-r--r-- root/root    usr/lib32/cmake/llvm/FindFFI.cmake
+-rw-r--r-- root/root    usr/lib32/cmake/llvm/FindLibEdit.cmake
 -rw-r--r-- root/root    usr/lib32/cmake/llvm/FindLibpfm.cmake
 -rw-r--r-- root/root    usr/lib32/cmake/llvm/FindOCaml.cmake
 -rw-r--r-- root/root    usr/lib32/cmake/llvm/FindSphinx.cmake
@@ -49,9 +50,9 @@ drwxr-xr-x root/root    usr/lib32/cmake/llvm/
 -rw-r--r-- root/root    usr/lib32/cmake/llvm/UseLibtool.cmake
 -rw-r--r-- root/root    usr/lib32/cmake/llvm/VersionFromVCS.cmake
 -rw-r--r-- root/root    usr/lib32/cmake/llvm/llvm-driver-template.cpp.in
-lrwxrwxrwx root/root    usr/lib32/libLLVM-16.0.6.so -> libLLVM-16.so
--rwxr-xr-x root/root    usr/lib32/libLLVM-16.so
-lrwxrwxrwx root/root    usr/lib32/libLLVM.so -> libLLVM-16.so
+lrwxrwxrwx root/root    usr/lib32/libLLVM-17.0.1.so -> libLLVM-17.so
+-rwxr-xr-x root/root    usr/lib32/libLLVM-17.so
+lrwxrwxrwx root/root    usr/lib32/libLLVM.so -> libLLVM-17.so
 -rw-r--r-- root/root    usr/lib32/libLLVMAMDGPUAsmParser.a
 -rw-r--r-- root/root    usr/lib32/libLLVMAMDGPUCodeGen.a
 -rw-r--r-- root/root    usr/lib32/libLLVMAMDGPUDesc.a
@@ -75,12 +76,14 @@ lrwxrwxrwx root/root    usr/lib32/libLLVM.so -> libLLVM-16.so
 -rw-r--r-- root/root    usr/lib32/libLLVMCFGuard.a
 -rw-r--r-- root/root    usr/lib32/libLLVMCFIVerify.a
 -rw-r--r-- root/root    usr/lib32/libLLVMCodeGen.a
+-rw-r--r-- root/root    usr/lib32/libLLVMCodeGenTypes.a
 -rw-r--r-- root/root    usr/lib32/libLLVMCore.a
 -rw-r--r-- root/root    usr/lib32/libLLVMCoroutines.a
 -rw-r--r-- root/root    usr/lib32/libLLVMCoverage.a
 -rw-r--r-- root/root    usr/lib32/libLLVMDWARFLinker.a
 -rw-r--r-- root/root    usr/lib32/libLLVMDWARFLinkerParallel.a
 -rw-r--r-- root/root    usr/lib32/libLLVMDWP.a
+-rw-r--r-- root/root    usr/lib32/libLLVMDebugInfoBTF.a
 -rw-r--r-- root/root    usr/lib32/libLLVMDebugInfoCodeView.a
 -rw-r--r-- root/root    usr/lib32/libLLVMDebugInfoDWARF.a
 -rw-r--r-- root/root    usr/lib32/libLLVMDebugInfoGSYM.a
@@ -139,6 +142,7 @@ lrwxrwxrwx root/root    usr/lib32/libLLVM.so -> libLLVM-16.so
 -rw-r--r-- root/root    usr/lib32/libLLVMSupport.a
 -rw-r--r-- root/root    usr/lib32/libLLVMSymbolize.a
 -rw-r--r-- root/root    usr/lib32/libLLVMTableGen.a
+-rw-r--r-- root/root    usr/lib32/libLLVMTableGenCommon.a
 -rw-r--r-- root/root    usr/lib32/libLLVMTableGenGlobalISel.a
 -rw-r--r-- root/root    usr/lib32/libLLVMTarget.a
 -rw-r--r-- root/root    usr/lib32/libLLVMTargetParser.a
@@ -161,7 +165,7 @@ lrwxrwxrwx root/root    usr/lib32/libLLVM.so -> libLLVM-16.so
 -rw-r--r-- root/root    usr/lib32/libLLVMX86TargetMCA.a
 -rw-r--r-- root/root    usr/lib32/libLLVMXRay.a
 -rw-r--r-- root/root    usr/lib32/libLLVMipo.a
-lrwxrwxrwx root/root    usr/lib32/libLTO.so -> libLTO.so.16
--rwxr-xr-x root/root    usr/lib32/libLTO.so.16
-lrwxrwxrwx root/root    usr/lib32/libRemarks.so -> libRemarks.so.16
--rwxr-xr-x root/root    usr/lib32/libRemarks.so.16
+lrwxrwxrwx root/root    usr/lib32/libLTO.so -> libLTO.so.17
+-rwxr-xr-x root/root    usr/lib32/libLTO.so.17
+lrwxrwxrwx root/root    usr/lib32/libRemarks.so -> libRemarks.so.17
+-rwxr-xr-x root/root    usr/lib32/libRemarks.so.17
