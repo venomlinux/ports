@@ -1,13 +1,16 @@
 # description	: OpenGL compatible 3D graphics library
-# depends	: python3-mako elfutils bison flex libxext libxdamage libxshmfence libxxf86vm libxrandr libdrm libglvnd glslang llvm
-# optional	: libva libvdpau wayland-protocols
+# depends	: python3-mako elfutils bison flex libxext libxdamage libxshmfence libxxf86vm libxrandr libdrm libglvnd glslang 
+# optional	: libva libvdpau llvm wayland-protocols
 
 name=mesa
 version=23.1.7
-release=1
-source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
+release=2
+source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz
+	fix-build-llvm17.patch"
 
 build() {
+	# Fix build with LLVM 17
+	patch -d $name-$version -Np1 -i $SRC/fix-build-llvm17.patch
 
 	scratch isinstalled vulkan-icd-loader && OPT_MESA_GALLIUM='zink,'
 	scratch isinstalled libvdpau && OPT_MESA_VDPAU='-D gallium-vdpau=enabled' || OPT_MESA_VDPAU='-D gallium-vdpau=disabled'
