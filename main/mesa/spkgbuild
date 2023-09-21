@@ -5,19 +5,21 @@
 name=mesa
 version=23.1.8
 release=1
-source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz
-	fix-build-llvm17.patch"
+source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
 
 build() {
-	# Fix build with LLVM 17
-	patch -d $name-$version -Np1 -i $SRC/fix-build-llvm17.patch
+	cd $name-$version
+
+	# Remove two unneeded references to LLVM headers to avoid a build failure with LLVM 17 or later:
+	sed '/Scalar.h/d;/Utils.h/d' \
+	    -i src/gallium/auxiliary/gallivm/lp_bld_init.c
 
 	scratch isinstalled vulkan-icd-loader && OPT_MESA_GALLIUM='zink,'
 	scratch isinstalled libvdpau && OPT_MESA_VDPAU='-D gallium-vdpau=enabled' || OPT_MESA_VDPAU='-D gallium-vdpau=disabled'
 	scratch isinstalled libva && OPT_MESA_VAAPI='-D gallium-va=enabled' || OPT_MESA_VAAPI='-D gallium-va=disabled'
 	scratch isinstalled wayland-protocols && OPT_MESA_PLATFORMS='wayland,x11' || OPT_MESA_PLATFORMS='x11'
 
-	venom-meson $name-$version build \
+	venom-meson build \
 		-D dri3=enabled \
 		-D egl=enabled \
 		-D llvm=enabled \
