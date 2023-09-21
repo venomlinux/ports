@@ -3,7 +3,7 @@
 
 name=azote
 version=1.12.3
-release=1
+release=2
 source="$name-$version.tar.gz::https://github.com/nwg-piotr/$name/archive/v$version.tar.gz"
 
 build() {
@@ -11,8 +11,11 @@ build() {
 	install -D -t $PKG/usr/share/pixmaps $name-$version/dist/azote.svg
 	install -D -t $PKG/usr/share/$name $name-$version/dist/indicator*.png
 	install -D -t $PKG/usr/share/applications $name-$version/dist/azote.desktop
+
 	cd $SRC/$name-$version
 	/usr/bin/python3 setup.py install --root=$PKG/ --optimize=1
+
+	rm -rf $PKG/usr/share/licenses
 }
 
 
