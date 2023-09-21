@@ -8,12 +8,12 @@
 
 name=nwg-shell
 version=0.5.10
-release=1
+release=2
 source="$name-$version.tar.gz::https://github.com/nwg-piotr/nwg-shell/releases/download/v$version/nwg-shell-v$version.tar.gz"
 
 build() {
 	cd $name-$version
 	python3 setup.py install --root=$PKG --optimize=1
-	install -D -t $PKG/usr/local/bin scripts/*
+	install -D -t $PKG/usr/bin scripts/*
 	install -D -t $PKG/usr/share/backgrounds nwg-shell.jpg
 }

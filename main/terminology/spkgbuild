@@ -4,11 +4,12 @@
 
 name=terminology
 version=1.13.0
-release=1
+release=2
 source="https://download.enlightenment.org/rel/apps/$name/$name-$version.tar.xz"
 
 build() {
 	venom-meson $name-$version build
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
+	rm -rf $PKG/usr/share/licenses
 }

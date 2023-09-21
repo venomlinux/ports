@@ -4,12 +4,12 @@
 
 name=xapp
 version=2.6.1
-release=1
+release=2
 source="https://github.com/linuxmint/xapp/archive/master.lmde5/$name-$version.tar.gz"
 
 build() {
 
-	meson xapp-master.lmde5 build 
+	venom-meson xapp-master.lmde5 build 
 	samu -C build
 	DESTDIR=$PKG samu -C build install
 }
