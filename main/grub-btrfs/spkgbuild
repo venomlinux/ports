@@ -5,7 +5,7 @@
 
 name=grub-btrfs
 version=4.13
-release=1
+release=2
 backup="etc/default/grub-btrfs/config"
 source="$name-$version.tar.gz::https://github.com/Antynea/$name/archive/$version.tar.gz
 	run.grub-btrfs
@@ -14,7 +14,6 @@ source="$name-$version.tar.gz::https://github.com/Antynea/$name/archive/$version
 
 build() {
     cd $name-$version
-
 
     make DESTDIR=$PKG install
     # remove systemd things
@@ -28,5 +27,6 @@ build() {
 	# sysv
 	install -Dm755 $SRC/rc.grub-btrfs $PKG/etc/rc.d/grub-btrfs
 
+	rm -rf $PKG/usr/share/licenses	
 }
 

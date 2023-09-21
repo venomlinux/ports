@@ -3,7 +3,7 @@
 
 name=lsp-plugins
 version=1.2.11
-release=1
+release=2
 source="$name-$version.tar.gz::https://github.com/sadko4u/lsp-plugins/releases/download/$version/$name-src-$version.tar.gz"
 build() {
 	cd $name
@@ -14,8 +14,8 @@ build() {
 	make config \
 		PREFIX=/usr \
 		SHARE_PATH=/usr/share \
-		ADD_FEATURES="xdg$PKGMK_LSP" \
-		SUB_FEATURES="doc$PKGMK_LSP_SUB"
+		ADD_FEATURES="xdg" \
+		SUB_FEATURES="doc"
 	make
 	make DESTDIR=$PKG install
 

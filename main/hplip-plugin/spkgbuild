@@ -4,7 +4,7 @@
 
 name=hplip-plugin
 version=3.23.5
-release=1
+release=2
 backup="var/lib/hp/hplip.state"
 source="$name-$version.run::https://developers.hp.com/sites/default/files/${name%-*}-$version-plugin.run"
 
@@ -44,4 +44,6 @@ EOF
         lib_name="${f##*/}"
         ln -vsf "$lib_name" "$lib_dir/${lib_name%%-*}.so"
     done
+
+	rm -rf $PKG/usr/share/licenses
 }
