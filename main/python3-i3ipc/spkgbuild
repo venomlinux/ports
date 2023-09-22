@@ -4,7 +4,7 @@
 
 name=python3-i3ipc
 version=2.2.1
-release=1
+release=2
 source="$name-$version.tar.gz::https://github.com/altdesktop/i3ipc-python/archive/v$version.tar.gz"
 
 build() {
@@ -12,4 +12,5 @@ build() {
 	python3 setup.py build
 	python3 setup.py install --root=$PKG --optimize=1 --skip-build
 	install -Dm755 -t $PKG/usr/share/doc/$name/examples examples/*.py
+	rm -rf $PKG/usr/share
 }

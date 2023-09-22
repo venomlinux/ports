@@ -4,7 +4,7 @@
 
 name=darktable
 version=4.4.2
-release=1
+release=2
 source="https://github.com/darktable-org/${name}/releases/download/release-${version}/${name}-${version}.tar.xz"
 KEEP_LOCALE="yes"
 
@@ -14,13 +14,17 @@ build() {
 	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
 		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-DBUILD_USERMANUAL=false \
 		-DUSE_LENSFUN=ON \
 		-DUSE_IMAGEMAGICK=ON \
 		-DBUILD_CURVE_TOOLS=ON \
 		-DBUILD_NOISE_TOOLS=ON \
-		-DRAWSPEED_ENABLE_LTO=ON 
+		-DRAWSPEED_ENABLE_LTO=ON \
+		-Wno-dev
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
 

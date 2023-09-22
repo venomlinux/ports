@@ -3,7 +3,7 @@
 
 name=nwg-shell-config
 version=0.5.18
-release=1
+release=2
 source="$name-$version.tar.gz::https://github.com/nwg-piotr/nwg-shell-config/archive/v$version.tar.gz"
 
 build() {
@@ -16,5 +16,5 @@ build() {
 	install -D -t $PKG/usr/share/pixmaps nwg-update-available.svg
 	install -D -t $PKG/usr/share/pixmaps nwg-update-checking.svg
 	install -D -t $PKG/usr/share/applications nwg-shell-config.desktop
-	install -D -t $PKG/usr/local/bin nwg-system-update
+	install -D -t $PKG/usr/bin nwg-system-update
 }
