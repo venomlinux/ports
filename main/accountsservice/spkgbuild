@@ -1,16 +1,22 @@
 # description	: D-Bus interface for user account query and manipulation
-# depends	: glib meson polkit vala 
+# depends	: glib meson polkit vala consolekit2
 
 
 name=accountsservice
 version=23.13.9
-release=1
-source="https://www.freedesktop.org/software/accountsservice/accountsservice-$version.tar.xz"
+release=2
+source="https://www.freedesktop.org/software/accountsservice/accountsservice-$version.tar.xz
+		revert_ck2_removal.patch"
 
 build() {
-	venom-meson $name-$version build \
+	cd $name-$version
+
+	patch -Np1 -i $SRC/revert_ck2_removal.patch
+	
+	venom-meson build \
 		-Dsystemdsystemunitdir=no \
 		-Delogind=false \
+		-Dsystemd=false \
 		-Dintrospection=true \
 		-Ddocbook=false \
 		-Dgtk_doc=false \
