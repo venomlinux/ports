@@ -1,0 +1,3445 @@
+diff --git a/meson.build b/meson.build
+index 4a509e7..b99fcd3 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,6 +1,6 @@
+ project(
+   'accountsservice', 'c',
+-  version: run_command(['./generate-version.sh'], check: true).stdout().strip(),
++  version: '0.6.55',
+   license: 'GPL3+',
+   default_options: 'buildtype=debugoptimized',
+   meson_version: '>= 0.50.0',
+@@ -79,7 +79,6 @@ endforeach
+ 
+ if cc.has_header_symbol('utmpx.h', 'WTMPX_FILENAME', prefix: '#define _GNU_SOURCE')
+   code = '''#define _GNU_SOURCE
+-  #include <stdio.h>
+   #include <utmpx.h>
+   int main (int argc, char **argv) {
+     printf ("%s\n", WTMPX_FILENAME);
+@@ -92,7 +91,6 @@ if cc.has_header_symbol('utmpx.h', 'WTMPX_FILENAME', prefix: '#define _GNU_SOURC
+   config_h.set('PATH_WTMP', 'WTMPX_FILENAME')
+ elif cc.has_header_symbol('paths.h', '_PATH_WTMPX')
+   code = '''#include <paths.h>
+-  #include <stdio.h>
+   int main (int argc, char **argv) {
+     printf ("%s\n", _PATH_WTMPX);
+     return 0;
+@@ -104,7 +102,7 @@ elif cc.has_header_symbol('paths.h', '_PATH_WTMPX')
+   config_h.set('PATH_WTMP', '_PATH_WTMPX')
+ else
+   path_wtmp = '/var/log/utx.log'
+-  assert(run_command('test', '-e', path_wtmp, check: false).returncode() == 0, 'Do not know which filename to watch for wtmp changes')
++  assert(run_command('test', '-e', path_wtmp).returncode() == 0, 'Do not know which filename to watch for wtmp changes')
+   config_h.set_quoted('PATH_WTMP', path_wtmp)
+ endif
+ 
+@@ -148,21 +146,7 @@ gio_unix_dep = dependency('gio-unix-2.0')
+ glib_dep = dependency('glib-2.0', version: '>= ' + glib_min_version)
+ polkit_gobject_dep = dependency('polkit-gobject-1')
+ 
+-# Using libxcrypt >= 4 we can be sure `crypt_gensalt (NULL, 0, NULL, 0)`
+-# always returns a setting that is valid to use with `crypt (pw, setting)`.
+-#
+-# The setting returned will specify (depending on the system's
+-# configuration of libxcrypt) in order of preferrence either
+-# yescrypt "$y$", (gost-yescrypt "$gy$), bcrypt "$2b$" or sha512crypt "$6$"
+-# as hash method, with a sufficient amount of cost or rounds and a random
+-# salt drawn from secure system ressources with at least 128 bits.
+-# (96 bits for sha512crypt, as more is not supported by this method, since
+-# the effectively used maximum is 16 base64-encoded characters)
+-crypt_dep = dependency('libxcrypt', required: false, version: '>= 4')
+-config_h.set('HAVE_CRYPT_GENSALT', crypt_dep.found())
+-if not crypt_dep.found()
+-  crypt_dep = cc.find_library('crypt')
+-endif
++crypt_dep = cc.find_library('crypt')
+ 
+ dbus_dep = dependency('dbus-1')
+ if dbus_dep.version().version_compare('>=1.9.18')
+@@ -188,10 +172,10 @@ endif
+ # Core configuration
+ admin_group = get_option('admin_group')
+ if admin_group == ''
+-  if run_command('test', '-e', '/etc/debian_version', check: false).returncode() == 0
++  if run_command('test', '-e', '/etc/debian_version').returncode() == 0
+     admin_group = 'sudo'
+   # FIXME: this has been left for documentation purposes
+-  elif run_command('test', '-e', '/etc/sysconfig/network-scripts', check: false).returncode() == 0
++  elif run_command('test', '-e', '/etc/sysconfig/network-scripts').returncode() == 0
+     admin_group = 'wheel'
+   else
+     admin_group = 'wheel'
+@@ -208,17 +192,22 @@ config_h.set('MINIMUM_UID', get_option('minimum_uid'))
+ # GDM
+ gdm_conf_file = get_option('gdmconffile')
+ config_h.set_quoted('PATH_GDM_CUSTOM', gdm_conf_file)
+-
+ # LightDM
+ lightdm_conf_file = get_option('lightdmconffile')
+ config_h.set_quoted('PATH_LIGHTDM_CONF', lightdm_conf_file)
++enable_systemd = get_option('systemd')
++enable_elogind = get_option('elogind')
++assert(not enable_systemd or not enable_elogind, 'systemd and elogind support requested, please choose only one.')
+ 
+-if get_option('elogind')
+-  logind_dep = dependency('libelogind', version: '>= 229.4')
+-else
++if enable_systemd
+   logind_dep = dependency('libsystemd', version: '>= 186')
+ endif
+ 
++if enable_elogind
++  logind_dep = dependency('libelogind', version: '>= 229.4')
++endif
++config_h.set('WITH_SYSTEMD', enable_systemd or enable_elogind)
++
+ subdir('data')
+ subdir('src')
+ subdir('po')
+@@ -232,8 +221,6 @@ if get_option('gtk_doc')
+   subdir('doc/libaccountsservice')
+ endif
+ 
+-subdir('tests')
+-
+ configure_file(
+   output: 'config.h',
+   configuration: config_h,
+@@ -248,6 +235,5 @@ output = '\n' + meson.project_name() + ' was configured with the following optio
+ output += '** DocBook documentation build: ' + enable_docbook.to_string() + '\n'
+ output += '** Administrator group: ' + admin_group + '\n'
+ output += '** Extra administrator groups: ' + extra_admin_groups + '\n'
+-output += '** GDM configuration: ' + gdm_conf_file + '\n'
+-output += '** LightDM configuration: ' + lightdm_conf_file
++output += '** GDM configuration: ' + gdm_conf_file
+ message(output)
+diff --git a/meson_options.txt b/meson_options.txt
+index b34a0fa..cee322e 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -6,6 +6,7 @@ option('admin_group', type: 'string', value: '', description: 'Set group for adm
+ option('extra_admin_groups', type: 'array', value: [], description: 'Comma-separated list of extra groups that administrator users are part of')
+ option('minimum_uid', type: 'integer', value: 1000, description: 'Set minimum uid for human users')
+ 
++option('systemd', type: 'boolean', value: false, description: 'Use systemd')
+ option('elogind', type: 'boolean', value: false, description: 'Use elogind')
+ 
+ option('introspection', type: 'boolean', value: true, description: 'Enable introspection for this build')
+diff --git a/src/libaccountsservice/act-user-manager.c b/src/libaccountsservice/act-user-manager.c
+index 61b4da5..09306d7 100644
+--- a/src/libaccountsservice/act-user-manager.c
++++ b/src/libaccountsservice/act-user-manager.c
+@@ -40,11 +40,20 @@
+ #include <glib-object.h>
+ #include <gio/gio.h>
+ #include <gio/gunixinputstream.h>
++
++#ifdef WITH_SYSTEMD
+ #include <systemd/sd-login.h>
+ 
++/* check if logind is running */
++#define LOGIND_RUNNING() (access("/run/systemd/seats/", F_OK) >= 0)
++#endif
++
+ #include "act-user-manager.h"
+ #include "act-user-private.h"
+ #include "accounts-generated.h"
++#include "ck-manager-generated.h"
++#include "ck-seat-generated.h"
++#include "ck-session-generated.h"
+ 
+ /**
+  * SECTION:act-user-manager
+@@ -81,14 +90,21 @@
+  * Various error codes returned by the accounts service.
+  */
+ 
++#define CK_NAME      "org.freedesktop.ConsoleKit"
++
++#define CK_MANAGER_PATH      "/org/freedesktop/ConsoleKit/Manager"
++#define CK_MANAGER_INTERFACE "org.freedesktop.ConsoleKit.Manager"
++#define CK_SEAT_INTERFACE    "org.freedesktop.ConsoleKit.Seat"
++#define CK_SESSION_INTERFACE "org.freedesktop.ConsoleKit.Session"
++
+ #define ACCOUNTS_NAME      "org.freedesktop.Accounts"
+ #define ACCOUNTS_PATH      "/org/freedesktop/Accounts"
+ #define ACCOUNTS_INTERFACE "org.freedesktop.Accounts"
+ 
+-typedef enum
+-{
++typedef enum {
+         ACT_USER_MANAGER_SEAT_STATE_UNLOADED = 0,
+         ACT_USER_MANAGER_SEAT_STATE_GET_SESSION_ID,
++        ACT_USER_MANAGER_SEAT_STATE_GET_SESSION_PROXY,
+         ACT_USER_MANAGER_SEAT_STATE_GET_ID,
+         ACT_USER_MANAGER_SEAT_STATE_GET_SEAT_PROXY,
+         ACT_USER_MANAGER_SEAT_STATE_LOADED,
+@@ -96,18 +112,22 @@ typedef enum
+ 
+ typedef struct
+ {
+-        ActUserManagerSeatState state;
+-        char                   *id;
+-        char                   *session_id;
+-        guint                   load_idle_id;
+-        sd_login_monitor       *session_monitor;
+-        GInputStream           *session_monitor_stream;
+-        guint                   session_monitor_source_id;
++        ActUserManagerSeatState      state;
++        char                        *id;
++        char                        *session_id;
++        ConsoleKitSeat              *seat_proxy;
++        ConsoleKitSession           *session_proxy;
++        guint                        load_idle_id;
++#ifdef WITH_SYSTEMD
++        sd_login_monitor            *session_monitor;
++        GInputStream                *session_monitor_stream;
++        guint                        session_monitor_source_id;
++#endif
+ } ActUserManagerSeat;
+ 
+-typedef enum
+-{
++typedef enum {
+         ACT_USER_MANAGER_NEW_SESSION_STATE_UNLOADED = 0,
++        ACT_USER_MANAGER_NEW_SESSION_STATE_GET_PROXY,
+         ACT_USER_MANAGER_NEW_SESSION_STATE_GET_UID,
+         ACT_USER_MANAGER_NEW_SESSION_STATE_GET_X11_DISPLAY,
+         ACT_USER_MANAGER_NEW_SESSION_STATE_MAYBE_ADD,
+@@ -116,76 +136,71 @@ typedef enum
+ 
+ typedef struct
+ {
+-        ActUserManager               *manager;
+-        ActUserManagerNewSessionState state;
+-        char                         *id;
+-        GCancellable                 *cancellable;
+-        uid_t                         uid;
+-        char                         *x11_display;
+-        gsize                         pending_calls;
++        ActUserManager                  *manager;
++        ActUserManagerNewSessionState    state;
++        char                            *id;
++        ConsoleKitSession               *proxy;
++        GCancellable                    *cancellable;
++        uid_t                            uid;
++        char                            *x11_display;
++        gsize                            pending_calls;
+ } ActUserManagerNewSession;
+ 
+-typedef enum
+-{
++typedef enum {
+         ACT_USER_MANAGER_GET_USER_STATE_UNFETCHED = 0,
+         ACT_USER_MANAGER_GET_USER_STATE_WAIT_FOR_LOADED,
+         ACT_USER_MANAGER_GET_USER_STATE_ASK_ACCOUNTS_SERVICE,
+         ACT_USER_MANAGER_GET_USER_STATE_FETCHED
+ } ActUserManagerGetUserState;
+ 
+-typedef enum
+-{
++typedef enum {
+         ACT_USER_MANAGER_FETCH_USER_FROM_USERNAME_REQUEST,
+         ACT_USER_MANAGER_FETCH_USER_FROM_ID_REQUEST,
+ } ActUserManagerFetchUserRequestType;
+ 
+ typedef struct
+ {
+-        ActUserManager                    *manager;
+-        ActUserManagerGetUserState         state;
+-        ActUser                           *user;
++        ActUserManager             *manager;
++        ActUserManagerGetUserState  state;
++        ActUser                    *user;
+         ActUserManagerFetchUserRequestType type;
+-        GCancellable                      *cancellable;
+-        union
+-        {
+-                char *username;
+-                uid_t uid;
++        union {
++                char               *username;
++                uid_t               uid;
+         };
+-        char                              *object_path;
+-        char                              *description;
++        char                       *object_path;
++        char                       *description;
+ } ActUserManagerFetchUserRequest;
+ 
+ typedef struct
+ {
+-        GHashTable        *normal_users_by_name;
+-        GHashTable        *system_users_by_name;
+-        GHashTable        *users_by_object_path;      /* (element-type utf8 ActUser) (owned) */
+-        GHashTable        *sessions;
+-        GDBusConnection   *connection;
+-        AccountsAccounts  *accounts_proxy;
++        GHashTable            *normal_users_by_name;
++        GHashTable            *system_users_by_name;
++        GHashTable            *users_by_object_path;
++        GHashTable            *sessions;
++        GDBusConnection       *connection;
++        AccountsAccounts      *accounts_proxy;
++        ConsoleKitManager     *ck_manager_proxy;
+ 
+-        ActUserManagerSeat seat;
++        ActUserManagerSeat     seat;
+ 
+-        GSList            *new_sessions;
+-        GSList            *new_users;                 /* (element-type ActUser) (owned) */
+-        GSList            *new_users_inhibiting_load; /* (element-type ActUser) (unowned) */
+-        GSList            *dopplegangers;
+-        GSList            *nonexistent_users;
+-        GSList            *fetch_user_requests;
++        GSList                *new_sessions;
++        GSList                *new_users;
++        GSList                *new_users_inhibiting_load;
++        GSList                *fetch_user_requests;
+ 
+-        GSList            *exclude_usernames;
+-        GSList            *include_usernames;
++        GSList                *exclude_usernames;
++        GSList                *include_usernames;
+ 
+-        guint              load_id;
++        guint                  load_id;
+ 
+-        gboolean           is_loaded;
+-        gboolean           has_multiple_users;
+-        gboolean           getting_sessions;
+-        gboolean           list_cached_users_done;
++        gboolean               is_loaded;
++        gboolean               has_multiple_users;
++        gboolean               getting_sessions;
++        gboolean               list_cached_users_done;
+ } ActUserManagerPrivate;
+ 
+-enum
+-{
++enum {
+         PROP_0,
+         PROP_INCLUDE_USERNAMES_LIST,
+         PROP_EXCLUDE_USERNAMES_LIST,
+@@ -193,8 +208,7 @@ enum
+         PROP_HAS_MULTIPLE_USERS
+ };
+ 
+-enum
+-{
++enum {
+         USER_ADDED,
+         USER_REMOVED,
+         USER_IS_LOGGED_IN_CHANGED,
+@@ -202,53 +216,50 @@ enum
+         LAST_SIGNAL
+ };
+ 
+-static guint signals[LAST_SIGNAL] = { 0, };
++static guint signals [LAST_SIGNAL] = { 0, };
+ 
+ static void     act_user_manager_class_init (ActUserManagerClass *klass);
+-static void     act_user_manager_init (ActUserManager *user_manager);
+-static void     act_user_manager_finalize (GObject *object);
+-
+-static gboolean ensure_accounts_proxy (ActUserManager *manager);
+-static gboolean load_seat_incrementally (ActUserManager *manager);
+-static void     unload_seat (ActUserManager *manager);
+-static void     load_users (ActUserManager *manager);
+-static void     load_user (ActUserManager *manager,
+-                           const char     *username);
++static void     act_user_manager_init       (ActUserManager      *user_manager);
++static void     act_user_manager_finalize   (GObject             *object);
++
++static gboolean ensure_accounts_proxy       (ActUserManager *manager);
++static gboolean load_seat_incrementally     (ActUserManager *manager);
++static void     unload_seat                 (ActUserManager *manager);
++static void     load_users                  (ActUserManager *manager);
++static void     load_user                   (ActUserManager *manager,
++                                             const char     *username);
+ static void     act_user_manager_queue_load (ActUserManager *manager);
+-static void     queue_load_seat (ActUserManager *manager);
++static void     queue_load_seat             (ActUserManager *manager);
+ 
+ static void     load_new_session_incrementally (ActUserManagerNewSession *new_session);
+-static void     set_is_loaded (ActUserManager *manager,
+-                               gboolean        is_loaded);
++static void     set_is_loaded (ActUserManager *manager, gboolean is_loaded);
+ 
+ static void     on_new_user_loaded (ActUser        *user,
+                                     GParamSpec     *pspec,
+                                     ActUserManager *manager);
+ static void     give_up (ActUserManager                 *manager,
+                          ActUserManagerFetchUserRequest *request);
+-static void     fetch_user_incrementally (ActUserManagerFetchUserRequest *request);
++static void     fetch_user_incrementally       (ActUserManagerFetchUserRequest *request);
+ 
+-static void     maybe_set_is_loaded (ActUserManager *manager);
+-static void     update_user (ActUserManager *manager,
+-                             ActUser        *user);
+-static void     free_fetch_user_request (ActUserManagerFetchUserRequest *request);
++static void     maybe_set_is_loaded            (ActUserManager *manager);
++static void     update_user                    (ActUserManager *manager,
++                                                ActUser        *user);
+ static gpointer user_manager_object = NULL;
+ 
+ G_DEFINE_TYPE_WITH_PRIVATE (ActUserManager, act_user_manager, G_TYPE_OBJECT)
+ 
+ static const GDBusErrorEntry error_entries[] = {
+-        { ACT_USER_MANAGER_ERROR_FAILED,              "org.freedesktop.Accounts.Error.Failed"           },
+-        { ACT_USER_MANAGER_ERROR_USER_EXISTS,         "org.freedesktop.Accounts.Error.UserExists"       },
++        { ACT_USER_MANAGER_ERROR_FAILED,              "org.freedesktop.Accounts.Error.Failed" },
++        { ACT_USER_MANAGER_ERROR_USER_EXISTS,         "org.freedesktop.Accounts.Error.UserExists" },
+         { ACT_USER_MANAGER_ERROR_USER_DOES_NOT_EXIST, "org.freedesktop.Accounts.Error.UserDoesNotExist" },
+         { ACT_USER_MANAGER_ERROR_PERMISSION_DENIED,   "org.freedesktop.Accounts.Error.PermissionDenied" },
+-        { ACT_USER_MANAGER_ERROR_NOT_SUPPORTED,       "org.freedesktop.Accounts.Error.NotSupported"     }
++        { ACT_USER_MANAGER_ERROR_NOT_SUPPORTED,       "org.freedesktop.Accounts.Error.NotSupported" }
+ };
+ 
+ GQuark
+ act_user_manager_error_quark (void)
+ {
+         static volatile gsize ret = 0;
+-
+         if (ret == 0) {
+                 g_dbus_error_register_error_domain ("act_user_manager_error",
+                                                     &ret,
+@@ -259,14 +270,47 @@ act_user_manager_error_quark (void)
+         return (GQuark) ret;
+ }
+ 
++static gboolean
++activate_console_kit_session_id (ActUserManager *manager,
++                                 const char     *seat_id,
++                                 const char     *session_id)
++{
++        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++        ConsoleKitSeat *proxy;
++        g_autoptr(GError) error = NULL;
++        gboolean res = FALSE;
++
++        proxy = console_kit_seat_proxy_new_sync (priv->connection,
++                                                 G_DBUS_PROXY_FLAGS_NONE,
++                                                 CK_NAME,
++                                                 seat_id,
++                                                 NULL,
++                                                 &error);
++        if (proxy)
++                res = console_kit_seat_call_activate_session_sync (proxy,
++                                                                   session_id,
++                                                                   G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
++                                                                   -1,
++                                                                   NULL,
++                                                                   &error);
++
++        if (!res) {
++                g_warning ("Unable to activate session: %s", error->message);
++                return FALSE;
++        }
++
++        return TRUE;
++}
++
++#ifdef WITH_SYSTEMD
+ static gboolean
+ activate_systemd_session_id (ActUserManager *manager,
+                              const char     *seat_id,
+                              const char     *session_id)
+ {
+-        g_autoptr (GDBusConnection) connection = NULL;
+-        g_autoptr (GVariant) reply = NULL;
+-        g_autoptr (GError) error = NULL;
++        g_autoptr(GDBusConnection) connection = NULL;
++        g_autoptr(GVariant) reply = NULL;
++        g_autoptr(GError) error = NULL;
+ 
+         connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
+         if (connection == NULL) {
+@@ -294,31 +338,94 @@ activate_systemd_session_id (ActUserManager *manager,
+ 
+         return TRUE;
+ }
++#endif
+ 
+ static gboolean
+-session_is_login_window (ActUserManager *manager,
+-                         const char     *session_id)
++_ck_session_is_login_window (ActUserManager *manager,
++                             const char     *session_id)
+ {
+-        int res;
++        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++        ConsoleKitSession *proxy;
++        g_autoptr(GError) error = NULL;
++        g_autofree gchar *session_type = NULL;
++        gboolean res = FALSE;
++
++        proxy = console_kit_session_proxy_new_sync (priv->connection,
++                                                    G_DBUS_PROXY_FLAGS_NONE,
++                                                    CK_NAME,
++                                                    session_id,
++                                                    NULL,
++                                                    &error);
++        if (proxy)
++                res = console_kit_session_call_get_session_type_sync (proxy,
++                                                                      G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
++                                                                      -1,
++                                                                      &session_type,
++                                                                      NULL,
++                                                                      &error);
++
++        if (!res) {
++                if (error != NULL) {
++                        g_debug ("ActUserManager: Failed to identify the session type: %s", error->message);
++                } else {
++                        g_debug ("ActUserManager: Failed to identify the session type");
++                }
++                return FALSE;
++        }
++        if (proxy)
++                g_object_unref (proxy);
++
++        return strcmp (session_type, "LoginWindow") == 0;
++}
++
++#ifdef WITH_SYSTEMD
++static gboolean
++_systemd_session_is_login_window (ActUserManager *manager,
++                                  const char     *session_id)
++{
++        int   res;
+         g_autofree gchar *session_class = NULL;
+ 
+         res = sd_session_get_class (session_id, &session_class);
+         if (res < 0) {
+-                g_debug ("failed to determine class of session %s: %s",
+-                         session_id,
+-                         strerror (-res));
+-                return FALSE;
++            g_debug ("failed to determine class of session %s: %s",
++                     session_id,
++                     strerror (-res));
++            return FALSE;
+         }
+ 
+         return g_strcmp0 (session_class, "greeter") == 0;
+ }
++#endif
+ 
+ static gboolean
+-session_is_on_our_seat (ActUserManager *manager,
+-                        const char     *session_id)
++session_is_login_window (ActUserManager *manager,
++                         const char     *session_id)
++{
++#ifdef WITH_SYSTEMD
++        if (LOGIND_RUNNING()) {
++                return _systemd_session_is_login_window (manager, session_id);
++        }
++#endif
++
++        return _ck_session_is_login_window (manager, session_id);
++}
++
++static gboolean
++_ck_session_is_on_our_seat (ActUserManager *manager,
++                            const char     *session_id)
++{
++        /* With ConsoleKit, we only ever see sessions on our seat. */
++        return TRUE;
++}
++
++#ifdef WITH_SYSTEMD
++static gboolean
++_systemd_session_is_on_our_seat (ActUserManager *manager,
++                                 const char     *session_id)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-        int res;
++        int   res;
+         g_autofree gchar *session_seat = NULL;
+ 
+         res = sd_session_get_seat (session_id, &session_seat);
+@@ -333,6 +440,20 @@ session_is_on_our_seat (ActUserManager *manager,
+ 
+         return g_strcmp0 (priv->seat.id, session_seat) == 0;
+ }
++#endif
++
++static gboolean
++session_is_on_our_seat (ActUserManager *manager,
++                        const char     *session_id)
++{
++#ifdef WITH_SYSTEMD
++        if (LOGIND_RUNNING()) {
++                return _systemd_session_is_on_our_seat (manager, session_id);
++        }
++#endif
++
++        return _ck_session_is_on_our_seat (manager, session_id);
++}
+ 
+ /**
+  * act_user_manager_goto_login_session:
+@@ -347,8 +468,7 @@ act_user_manager_goto_login_session (ActUserManager *manager)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         gboolean res;
+-
+-        g_autoptr (GError) error = NULL;
++        g_autoptr(GError) error = NULL;
+ 
+         g_return_val_if_fail (ACT_IS_USER_MANAGER (manager), FALSE);
+         g_return_val_if_fail (priv->is_loaded, FALSE);
+@@ -363,8 +483,10 @@ act_user_manager_goto_login_session (ActUserManager *manager)
+         }
+ 
+         return res;
++
+ }
+ 
++#ifdef WITH_SYSTEMD
+ static gboolean
+ _can_activate_systemd_sessions (ActUserManager *manager)
+ {
+@@ -380,6 +502,32 @@ _can_activate_systemd_sessions (ActUserManager *manager)
+ 
+         return res > 0;
+ }
++#endif
++
++static gboolean
++_can_activate_console_kit_sessions (ActUserManager *manager)
++{
++        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++        g_autoptr(GError) error = NULL;
++        gboolean  can_activate_sessions = FALSE;
++
++        if (!console_kit_seat_call_can_activate_sessions_sync (priv->seat.seat_proxy,
++                                                               G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
++                                                               -1,
++                                                               &can_activate_sessions,
++                                                               NULL,
++                                                               &error)) {
++                if (error != NULL) {
++                        g_warning ("unable to determine if seat can activate sessions: %s",
++                                   error->message);
++                } else {
++                        g_warning ("unable to determine if seat can activate sessions");
++                }
++                return FALSE;
++        }
++
++        return can_activate_sessions;
++}
+ 
+ /**
+  * act_user_manager_can_switch:
+@@ -407,7 +555,13 @@ act_user_manager_can_switch (ActUserManager *manager)
+         g_debug ("ActUserManager: checking if seat can activate sessions");
+ 
+ 
+-        return _can_activate_systemd_sessions (manager);
++#ifdef WITH_SYSTEMD
++        if (LOGIND_RUNNING()) {
++                return _can_activate_systemd_sessions (manager);
++        }
++#endif
++
++        return _can_activate_console_kit_sessions (manager);
+ }
+ 
+ /**
+@@ -443,7 +597,18 @@ act_user_manager_activate_user_session (ActUserManager *manager,
+                 return FALSE;
+         }
+ 
+-        return activate_systemd_session_id (manager, priv->seat.id, ssid);
++#ifdef WITH_SYSTEMD
++        if (LOGIND_RUNNING()) {
++                return activate_systemd_session_id (manager, priv->seat.id, ssid);
++        }
++#endif
++
++        if (!activate_console_kit_session_id (manager, priv->seat.id, ssid)) {
++                g_debug ("ActUserManager: unable to activate session: %s", ssid);
++                return FALSE;
++        }
++
++        return TRUE;
+ }
+ 
+ static const char *
+@@ -518,10 +683,44 @@ queue_load_seat_incrementally (ActUserManager *manager)
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+ 
+         if (priv->seat.load_idle_id == 0) {
+-                priv->seat.load_idle_id = g_idle_add ((GSourceFunc) load_seat_incrementally, manager);
++            priv->seat.load_idle_id = g_idle_add ((GSourceFunc) load_seat_incrementally, manager);
++        }
++}
++
++static void
++on_get_seat_id_finished (GObject        *object,
++                         GAsyncResult   *result,
++                         gpointer        data)
++{
++        ConsoleKitSession *proxy = CONSOLE_KIT_SESSION (object);
++        g_autoptr(ActUserManager) manager = data;
++        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++        g_autoptr(GError)  error = NULL;
++        char              *seat_id;
++
++        if (!console_kit_session_call_get_seat_id_finish (proxy, &seat_id, result, &error)) {
++                if (error != NULL) {
++                        g_debug ("Failed to identify the seat of the "
++                                 "current session: %s",
++                                 error->message);
++                } else {
++                        g_debug ("Failed to identify the seat of the "
++                                 "current session");
++                }
++
++                g_debug ("ActUserManager: GetSeatId call failed, so unloading seat");
++                unload_seat (manager);
++
++                return;
+         }
++
++        g_debug ("ActUserManager: Found current seat: %s", seat_id);
++
++        priv->seat.id = seat_id;
++        priv->seat.state++;
+ }
+ 
++#ifdef WITH_SYSTEMD
+ static gboolean
+ _systemd_session_is_graphical (const char *session_id)
+ {
+@@ -580,8 +779,7 @@ static gboolean
+ _find_graphical_systemd_session (char **session_id)
+ {
+         char *local_session_id = NULL;
+-
+-        g_auto (GStrv) sessions = NULL;
++        g_auto(GStrv) sessions = NULL;
+         int n_sessions;
+ 
+         /* filter level 0 means to include inactive and active sessions
+@@ -626,10 +824,10 @@ _find_graphical_systemd_session (char **session_id)
+ }
+ 
+ static void
+-get_seat_id_for_current_session (ActUserManager *manager)
++_get_systemd_seat_id (ActUserManager *manager)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-        int res;
++        int   res;
+         g_autofree gchar *seat_id = NULL;
+ 
+         if (priv->seat.session_id == NULL) {
+@@ -653,6 +851,26 @@ get_seat_id_for_current_session (ActUserManager *manager)
+         priv->seat.id = g_strdup (seat_id);
+         priv->seat.state++;
+ }
++#endif
++
++static void
++get_seat_id_for_current_session (ActUserManager *manager)
++{
++        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++
++#ifdef WITH_SYSTEMD
++        if (LOGIND_RUNNING()) {
++                _get_systemd_seat_id (manager);
++                return;
++        }
++#endif
++        console_kit_session_call_get_seat_id (priv->seat.session_proxy,
++                                              G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
++                                              -1,
++                                              NULL,
++                                              on_get_seat_id_finished,
++                                              g_object_ref (manager));
++}
+ 
+ static gint
+ match_name_cmpfunc (gconstpointer a,
+@@ -667,8 +885,8 @@ username_in_exclude_list (ActUserManager *manager,
+                           const char     *username)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-        GSList *found;
+-        gboolean ret = FALSE;
++        GSList   *found;
++        gboolean  ret = FALSE;
+ 
+         if (priv->exclude_usernames != NULL) {
+                 found = g_slist_find_custom (priv->exclude_usernames,
+@@ -710,34 +928,6 @@ set_has_multiple_users (ActUserManager *manager,
+         }
+ }
+ 
+-static void
+-on_user_destroyed (ActUserManager *manager,
+-                   GObject        *destroyed_user)
+-{
+-        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-        GSList *node;
+-
+-        node = priv->fetch_user_requests;
+-        while (node != NULL) {
+-                ActUserManagerFetchUserRequest *request;
+-                GSList *next_node;
+-
+-                request = node->data;
+-                next_node = node->next;
+-
+-                if ((gpointer) request->user == destroyed_user) {
+-                        g_debug ("ActUserManager: User %s destroyed while still being fetched",
+-                                 request->description);
+-
+-                        request->user = NULL;
+-                        free_fetch_user_request (request);
+-                }
+-
+-                node = next_node;
+-        }
+-}
+-
+-/* (transfer full) */
+ static ActUser *
+ create_new_user (ActUserManager *manager)
+ {
+@@ -815,6 +1005,7 @@ remove_user (ActUserManager *manager,
+         if (act_user_get_user_name (user) != NULL) {
+                 g_hash_table_remove (priv->normal_users_by_name, act_user_get_user_name (user));
+                 g_hash_table_remove (priv->system_users_by_name, act_user_get_user_name (user));
++
+         }
+ 
+         if (priv->is_loaded && priv->list_cached_users_done) {
+@@ -830,68 +1021,17 @@ remove_user (ActUserManager *manager,
+         g_object_unref (user);
+ }
+ 
+-static const char *
+-find_username_for_uid (GHashTable *users_table,
+-                       uid_t       user_id)
+-{
+-        GHashTableIter iter;
+-        gpointer key, value;
+-
+-        g_hash_table_iter_init (&iter, users_table);
+-        while (g_hash_table_iter_next (&iter, &key, &value)) {
+-                if (act_user_get_uid (ACT_USER (value)) == user_id) {
+-                        return key;
+-                }
+-        }
+-
+-        return NULL;
+-}
+-
+ static void
+ update_user (ActUserManager *manager,
+              ActUser        *user)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         const char *username;
+-        const char *system_user;
+ 
+         g_debug ("ActUserManager: updating %s", describe_user (user));
+ 
+         username = act_user_get_user_name (user);
+-        system_user = g_hash_table_lookup (priv->system_users_by_name, username);
+-
+-        if (system_user == NULL) {
+-                const char *normal_user;
+-                const char *old_username;
+-
+-                normal_user = g_hash_table_lookup (priv->normal_users_by_name, username);
+-                if (normal_user == NULL) {
+-                        uid_t uid = act_user_get_uid (user);
+-                        old_username = find_username_for_uid (priv->normal_users_by_name, uid);
+-                        GHashTable *users_table = NULL;
+-
+-                        if (old_username) {
+-                                users_table = priv->normal_users_by_name;
+-                        } else {
+-                                old_username = find_username_for_uid (priv->system_users_by_name, uid);
+-                                if (old_username) {
+-                                        users_table = priv->system_users_by_name;
+-                                        system_user = username;
+-                                }
+-                        }
+-
+-                        if (users_table != NULL) {
+-                                g_debug ("ActUserManager: %s is the new username for %s",
+-                                         describe_user (user), old_username);
+-                                g_hash_table_insert (users_table,
+-                                                     g_strdup (username),
+-                                                     g_object_ref (user));
+-                                g_hash_table_remove (users_table, old_username);
+-                        }
+-                }
+-        }
+-
+-        if (system_user != NULL) {
++        if (g_hash_table_lookup (priv->system_users_by_name, username) != NULL) {
+                 if (!act_user_is_system_account (user)) {
+                         g_debug ("ActUserManager: %s is no longer a system account, treating as normal user",
+                                  describe_user (user));
+@@ -914,7 +1054,6 @@ update_user (ActUserManager *manager,
+         }
+ }
+ 
+-/* (transfer none) */
+ static ActUser *
+ lookup_user_by_name (ActUserManager *manager,
+                      const char     *username)
+@@ -991,15 +1130,6 @@ on_new_user_loaded (ActUser        *user,
+                 add_user (manager, user);
+         } else {
+                 _act_user_load_from_user (old_user, user);
+-
+-                /* The same user had two pending loads (one by uid and one by username), and
+-                 * so there are now two objects representing the same user. We can't free
+-                 * either one because they both may be in use by callers, and they're both
+-                 * ostensbly owned by the user manager. Keep the first one to win
+-                 * as the "main" one and treat the leftover one as a doppleganger that we just
+-                 * track to clean up at dispose time.
+-                 */
+-                priv->dopplegangers = g_slist_prepend (priv->dopplegangers, g_object_ref (user));
+         }
+ 
+         g_object_unref (user);
+@@ -1013,7 +1143,6 @@ out:
+         }
+ }
+ 
+-/* (transfer none) */
+ static ActUser *
+ find_new_user_with_object_path (ActUserManager *manager,
+                                 const char     *object_path)
+@@ -1034,7 +1163,6 @@ find_new_user_with_object_path (ActUserManager *manager,
+         return NULL;
+ }
+ 
+-/* (transfer full) */
+ static ActUser *
+ add_new_user_for_object_path (const char     *object_path,
+                               ActUserManager *manager)
+@@ -1047,7 +1175,7 @@ add_new_user_for_object_path (const char     *object_path,
+         if (user != NULL) {
+                 g_debug ("ActUserManager: tracking existing %s with object path %s",
+                          describe_user (user), object_path);
+-                return g_object_ref (user);
++                return user;
+         }
+ 
+         user = find_new_user_with_object_path (manager, object_path);
+@@ -1055,7 +1183,7 @@ add_new_user_for_object_path (const char     *object_path,
+         if (user != NULL) {
+                 g_debug ("ActUserManager: tracking existing (but very recently added) %s with object path %s",
+                          describe_user (user), object_path);
+-                return g_object_ref (user);
++                return user;
+         }
+ 
+         g_debug ("ActUserManager: tracking new user with object path %s", object_path);
+@@ -1073,8 +1201,7 @@ on_new_user_in_accounts_service (GDBusProxy *proxy,
+ {
+         ActUserManager *manager = ACT_USER_MANAGER (user_data);
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-
+-        g_autoptr (ActUser) user = NULL;
++        g_autoptr(ActUser) user = NULL;
+ 
+         /* Only track user changes if the user has requested a list
+          * of users */
+@@ -1098,8 +1225,8 @@ on_user_removed_in_accounts_service (GDBusProxy *proxy,
+ {
+         ActUserManager *manager = ACT_USER_MANAGER (user_data);
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-        ActUser *user;
+-        GSList *node;
++        ActUser        *user;
++        GSList         *node;
+ 
+         /* Only track user changes if the user has requested a list
+          * of users */
+@@ -1127,7 +1254,39 @@ on_user_removed_in_accounts_service (GDBusProxy *proxy,
+ }
+ 
+ static void
+-get_current_session_id (ActUserManager *manager)
++on_get_current_session_finished (GObject        *object,
++                                 GAsyncResult   *result,
++                                 gpointer        data)
++{
++        ConsoleKitManager *proxy = CONSOLE_KIT_MANAGER (object);
++        g_autoptr(ActUserManager) manager = data;
++        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++        g_autoptr(GError) error = NULL;
++        char              *session_id;
++
++        g_assert (priv->seat.state == ACT_USER_MANAGER_SEAT_STATE_GET_SESSION_ID);
++
++        if (!console_kit_manager_call_get_current_session_finish (proxy, &session_id, result, &error)) {
++                if (error != NULL) {
++                        g_debug ("Failed to identify the current session: %s",
++                                 error->message);
++                } else {
++                        g_debug ("Failed to identify the current session");
++                }
++                unload_seat (manager);
++
++                return;
++        }
++
++        priv->seat.session_id = session_id;
++        priv->seat.state++;
++
++        queue_load_seat_incrementally (manager);
++}
++
++#ifdef WITH_SYSTEMD
++static void
++_get_current_systemd_session_id (ActUserManager *manager)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         g_autofree gchar *session_id = NULL;
+@@ -1142,6 +1301,47 @@ get_current_session_id (ActUserManager *manager)
+         priv->seat.state++;
+ 
+         queue_load_seat_incrementally (manager);
++
++}
++#endif
++
++static void
++get_current_session_id (ActUserManager *manager)
++{
++        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++
++#ifdef WITH_SYSTEMD
++        if (LOGIND_RUNNING()) {
++                _get_current_systemd_session_id (manager);
++                return;
++        }
++#endif
++
++        if (priv->ck_manager_proxy == NULL) {
++                g_autoptr(GError) error = NULL;
++
++                priv->ck_manager_proxy = console_kit_manager_proxy_new_sync (priv->connection,
++                                                                             G_DBUS_PROXY_FLAGS_NONE,
++                                                                             CK_NAME,
++                                                                             CK_MANAGER_PATH,
++                                                                             NULL,
++                                                                             &error);
++                if (priv->ck_manager_proxy == NULL) {
++                        if (error != NULL) {
++                                g_warning ("Failed to create ConsoleKit proxy: %s", error->message);
++                        } else {
++                                g_warning ("Failed to create_ConsoleKit_proxy");
++                        }
++                        unload_seat (manager);
++                        return;
++                }
++        }
++
++        console_kit_manager_call_get_current_session (priv->ck_manager_proxy,
++                                                      G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
++                                                      -1, NULL,
++                                                      on_get_current_session_finished,
++                                                      g_object_ref (manager));
+ }
+ 
+ static void
+@@ -1150,10 +1350,10 @@ unload_new_session (ActUserManagerNewSession *new_session)
+         ActUserManager *manager = new_session->manager;
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+ 
+-        /* From here down to the check on pending_calls is idempotent,
+-         * like GObject dispose(); it can be called twice if the new session
+-         * is unloaded while there are still async calls pending.
+-         */
++	/* From here down to the check on pending_calls is idempotent,
++	 * like GObject dispose(); it can be called twice if the new session
++	 * is unloaded while there are still async calls pending.
++	 */
+ 
+         if (new_session->cancellable != NULL &&
+             !g_cancellable_is_cancelled (new_session->cancellable)) {
+@@ -1162,6 +1362,11 @@ unload_new_session (ActUserManagerNewSession *new_session)
+                 new_session->cancellable = NULL;
+         }
+ 
++        if (new_session->proxy != NULL) {
++                g_object_unref (new_session->proxy);
++                new_session->proxy = NULL;
++        }
++
+         g_free (new_session->x11_display);
+         new_session->x11_display = NULL;
+         g_free (new_session->id);
+@@ -1178,7 +1383,7 @@ unload_new_session (ActUserManagerNewSession *new_session)
+ 
+         if (new_session->pending_calls != 0) {
+                 /* don't "finalize" until we run out of pending calls
+-                 * that have us as their user_data */
++		 * that have us as their user_data */
+                 return;
+         }
+ 
+@@ -1186,10 +1391,82 @@ unload_new_session (ActUserManagerNewSession *new_session)
+ }
+ 
+ static void
+-get_uid_for_new_session (ActUserManagerNewSession *new_session)
++get_proxy_for_new_session (ActUserManagerNewSession *new_session)
++{
++        ActUserManager *manager = new_session->manager;
++        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++        g_autoptr(GError) error = NULL;
++
++#ifdef WITH_SYSTEMD
++        if (LOGIND_RUNNING()) {
++                new_session->state++;
++                load_new_session_incrementally (new_session);
++                return;
++        }
++#endif
++
++        new_session->proxy = console_kit_session_proxy_new_sync (priv->connection,
++                                                                 G_DBUS_PROXY_FLAGS_NONE,
++                                                                 CK_NAME,
++                                                                 new_session->id,
++                                                                 NULL,
++                                                                 &error);
++        if (new_session->proxy == NULL) {
++                g_warning ("Failed to connect to the ConsoleKit '%s' object: %s",
++                           new_session->id, error->message);
++                unload_new_session (new_session);
++                return;
++        }
++
++        new_session->state++;
++
++        load_new_session_incrementally (new_session);
++}
++
++static void
++on_get_unix_user_finished (GObject      *object,
++                           GAsyncResult *result,
++                           gpointer      data)
++{
++        ConsoleKitSession *proxy = CONSOLE_KIT_SESSION (object);
++        ActUserManagerNewSession *new_session = data;
++        g_autoptr(GError)  error = NULL;
++        guint              uid;
++
++        new_session->pending_calls--;
++
++        if (new_session->cancellable == NULL || g_cancellable_is_cancelled (new_session->cancellable)) {
++                unload_new_session (new_session);
++                return;
++        }
++
++        if (!console_kit_session_call_get_unix_user_finish (proxy, &uid, result, &error)) {
++                if (error != NULL) {
++                        g_debug ("Failed to get uid of session '%s': %s",
++                                 new_session->id, error->message);
++                } else {
++                        g_debug ("Failed to get uid of session '%s'",
++                                 new_session->id);
++                }
++                unload_new_session (new_session);
++                return;
++        }
++
++        g_debug ("ActUserManager: Found uid of session '%s': %u",
++                 new_session->id, uid);
++
++        new_session->uid = (uid_t) uid;
++        new_session->state++;
++
++        load_new_session_incrementally (new_session);
++}
++
++#ifdef WITH_SYSTEMD
++static void
++_get_uid_for_new_systemd_session (ActUserManagerNewSession *new_session)
+ {
+         uid_t uid;
+-        int res;
++        int   res;
+ 
+         res = sd_session_get_uid (new_session->id, &uid);
+ 
+@@ -1206,23 +1483,40 @@ get_uid_for_new_session (ActUserManagerNewSession *new_session)
+ 
+         load_new_session_incrementally (new_session);
+ }
++#endif
+ 
+ static void
+-on_find_user_by_name_finished (GObject      *object,
+-                               GAsyncResult *result,
+-                               gpointer      data)
++get_uid_for_new_session (ActUserManagerNewSession *new_session)
++{
++#ifdef WITH_SYSTEMD
++        if (LOGIND_RUNNING()) {
++                _get_uid_for_new_systemd_session (new_session);
++                return;
++        }
++#endif
++
++        g_assert (new_session->proxy != NULL);
++
++        new_session->pending_calls++;
++        console_kit_session_call_get_unix_user (new_session->proxy,
++                                                G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
++                                                -1,
++                                                new_session->cancellable,
++                                                on_get_unix_user_finished,
++                                                new_session);
++}
++
++static void
++on_find_user_by_name_finished (GObject       *object,
++                               GAsyncResult  *result,
++                               gpointer       data)
+ {
+         AccountsAccounts *proxy = ACCOUNTS_ACCOUNTS (object);
+         ActUserManagerFetchUserRequest *request = data;
+-
+-        g_autoptr (GError) error = NULL;
+-        char *user;
++        g_autoptr(GError) error = NULL;
++        char            *user;
+ 
+         if (!accounts_accounts_call_find_user_by_name_finish (proxy, &user, result, &error)) {
+-                if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+-                        return;
+-                }
+-
+                 if (error != NULL) {
+                         g_debug ("ActUserManager: Failed to find %s: %s",
+                                  request->description, error->message);
+@@ -1242,22 +1536,17 @@ on_find_user_by_name_finished (GObject      *object,
+         fetch_user_incrementally (request);
+ }
+ 
+-static void
+-on_find_user_by_id_finished (GObject      *object,
+-                             GAsyncResult *result,
+-                             gpointer      data)
++static void
++on_find_user_by_id_finished (GObject       *object,
++                             GAsyncResult  *result,
++                             gpointer       data)
+ {
+         AccountsAccounts *proxy = ACCOUNTS_ACCOUNTS (object);
+         ActUserManagerFetchUserRequest *request = data;
+-
+-        g_autoptr (GError) error = NULL;
+-        char *user;
++        g_autoptr(GError) error = NULL;
++        char            *user;
+ 
+         if (!accounts_accounts_call_find_user_by_id_finish (proxy, &user, result, &error)) {
+-                if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+-                        return;
+-                }
+-
+                 if (error != NULL) {
+                         g_debug ("ActUserManager: Failed to find user %lu: %s",
+                                  (gulong) request->uid, error->message);
+@@ -1289,24 +1578,25 @@ find_user_in_accounts_service (ActUserManager                 *manager,
+                  request->description);
+ 
+         switch (request->type) {
+-        case ACT_USER_MANAGER_FETCH_USER_FROM_USERNAME_REQUEST:
+-                accounts_accounts_call_find_user_by_name (priv->accounts_proxy,
+-                                                          request->username,
+-                                                          G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
+-                                                          -1,
+-                                                          request->cancellable,
+-                                                          on_find_user_by_name_finished,
+-                                                          request);
+-                break;
+-        case ACT_USER_MANAGER_FETCH_USER_FROM_ID_REQUEST:
+-                accounts_accounts_call_find_user_by_id (priv->accounts_proxy,
+-                                                        request->uid,
+-                                                        G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
+-                                                        -1,
+-                                                        request->cancellable,
+-                                                        on_find_user_by_id_finished,
+-                                                        request);
+-                break;
++                case ACT_USER_MANAGER_FETCH_USER_FROM_USERNAME_REQUEST:
++                    accounts_accounts_call_find_user_by_name (priv->accounts_proxy,
++                                                              request->username,
++                                                              G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
++                                                              -1,
++                                                              NULL,
++                                                              on_find_user_by_name_finished,
++                                                              request);
++                    break;
++                case ACT_USER_MANAGER_FETCH_USER_FROM_ID_REQUEST:
++                    accounts_accounts_call_find_user_by_id (priv->accounts_proxy,
++                                                            request->uid,
++                                                            G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
++                                                            -1,
++                                                            NULL,
++                                                            on_find_user_by_id_finished,
++                                                            request);
++                    break;
++
+         }
+ }
+ 
+@@ -1323,8 +1613,8 @@ set_is_loaded (ActUserManager *manager,
+ }
+ 
+ static void
+-load_user_paths (ActUserManager     *manager,
+-                 const char * const *user_paths)
++load_user_paths (ActUserManager       *manager,
++                 const char * const * user_paths)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+ 
+@@ -1338,7 +1628,7 @@ load_user_paths (ActUserManager     *manager,
+ 
+                 g_debug ("ActUserManager: ListCachedUsers finished, will set loaded property after list is fully loaded");
+                 for (i = 0; user_paths[i] != NULL; i++) {
+-                        g_autoptr (ActUser) user = NULL;
++                        ActUser *user;
+ 
+                         user = add_new_user_for_object_path (user_paths[i], manager);
+                         if (!priv->is_loaded) {
+@@ -1359,14 +1649,53 @@ load_included_usernames (ActUserManager *manager)
+ 
+         /* Add users who are specifically included */
+         for (l = priv->include_usernames; l != NULL; l = l->next) {
+-                g_debug ("ActUserManager: Adding included user %s", (char *) l->data);
++                g_debug ("ActUserManager: Adding included user %s", (char *)l->data);
+ 
+                 load_user (manager, l->data);
+         }
+ }
+ 
+ static void
+-get_x11_display_for_new_session (ActUserManagerNewSession *new_session)
++on_get_x11_display_finished (GObject      *object,
++                             GAsyncResult *result,
++                             gpointer      data)
++{
++        ConsoleKitSession *proxy = CONSOLE_KIT_SESSION (object);
++        ActUserManagerNewSession *new_session = data;
++        g_autoptr(GError) error = NULL;
++        char              *x11_display;
++
++        new_session->pending_calls--;
++
++        if (new_session->cancellable == NULL || g_cancellable_is_cancelled (new_session->cancellable)) {
++                unload_new_session (new_session);
++                return;
++        }
++
++        if (!console_kit_session_call_get_x11_display_finish (proxy, &x11_display, result, &error)) {
++                if (error != NULL) {
++                        g_debug ("Failed to get the x11 display of session '%s': %s",
++                                 new_session->id, error->message);
++                } else {
++                        g_debug ("Failed to get the x11 display of session '%s'",
++                                 new_session->id);
++                }
++                unload_new_session (new_session);
++                return;
++        }
++
++        g_debug ("ActUserManager: Found x11 display of session '%s': %s",
++                 new_session->id, x11_display);
++
++        new_session->x11_display = x11_display;
++        new_session->state++;
++
++        load_new_session_incrementally (new_session);
++}
++
++#ifdef WITH_SYSTEMD
++static void
++_get_x11_display_for_new_systemd_session (ActUserManagerNewSession *new_session)
+ {
+         g_autofree gchar *session_type = NULL;
+         g_autofree gchar *x11_display = NULL;
+@@ -1404,19 +1733,41 @@ get_x11_display_for_new_session (ActUserManagerNewSession *new_session)
+                          new_session->id, x11_display);
+         }
+ 
+-done:
++ done:
+         new_session->x11_display = g_strdup (x11_display);
+         new_session->state++;
+ 
+         load_new_session_incrementally (new_session);
+ }
++#endif
++
++static void
++get_x11_display_for_new_session (ActUserManagerNewSession *new_session)
++{
++#ifdef WITH_SYSTEMD
++        if (LOGIND_RUNNING()) {
++                _get_x11_display_for_new_systemd_session (new_session);
++                return;
++        }
++#endif
++
++        g_assert (new_session->proxy != NULL);
++
++        new_session->pending_calls++;
++        console_kit_session_call_get_x11_display (new_session->proxy,
++                                                  G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
++                                                  -1,
++                                                  new_session->cancellable,
++                                                  on_get_x11_display_finished,
++                                                  new_session);
++}
+ 
+ static void
+ maybe_add_new_session (ActUserManagerNewSession *new_session)
+ {
+         ActUserManager *manager;
+-        ActUser *user;
+-        gboolean is_ours;
++        ActUser        *user;
++        gboolean        is_ours;
+ 
+         manager = ACT_USER_MANAGER (new_session->manager);
+ 
+@@ -1461,12 +1812,22 @@ load_new_session (ActUserManager *manager,
+         load_new_session_incrementally (new_session);
+ }
+ 
++static void
++seat_session_added (GDBusProxy     *seat_proxy,
++                    const char     *session_id,
++                    ActUserManager *manager)
++{
++        g_debug ("ActUserManager: Session added: %s", session_id);
++
++        load_new_session (manager, session_id);
++}
++
+ static gint
+ match_new_session_cmpfunc (gconstpointer a,
+                            gconstpointer b)
+ {
+         ActUserManagerNewSession *new_session;
+-        const char *session_id;
++        const char               *session_id;
+ 
+         new_session = (ActUserManagerNewSession *) a;
+         session_id = (const char *) b;
+@@ -1479,8 +1840,8 @@ _remove_session (ActUserManager *manager,
+                  const char     *session_id)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-        ActUser *user;
+-        GSList *found;
++        ActUser       *user;
++        GSList        *found;
+ 
+         g_debug ("ActUserManager: Session removed: %s", session_id);
+ 
+@@ -1524,6 +1885,16 @@ _remove_session (ActUserManager *manager,
+         g_hash_table_remove (priv->sessions, session_id);
+ }
+ 
++static void
++seat_session_removed (GDBusProxy     *seat_proxy,
++                      const char     *session_id,
++                      ActUserManager *manager)
++{
++        _remove_session (manager, session_id);
++}
++
++#ifdef WITH_SYSTEMD
++
+ static gboolean
+ _session_recognized (ActUserManager *manager,
+                      const char     *session_id)
+@@ -1572,6 +1943,13 @@ _add_new_systemd_sessions (ActUserManager *manager,
+         }
+ }
+ 
++static void
++_remove_systemd_session (ActUserManager *manager,
++                         const char     *session_id)
++{
++        _remove_session (manager, session_id);
++}
++
+ static void
+ _remove_stale_systemd_sessions (ActUserManager *manager,
+                                 GHashTable     *systemd_sessions)
+@@ -1610,7 +1988,7 @@ _remove_stale_systemd_sessions (ActUserManager *manager,
+                 char *session_id = node->data;
+                 GSList *next_node = node->next;
+ 
+-                _remove_session (manager, session_id);
++                _remove_systemd_session (manager, session_id);
+ 
+                 node = next_node;
+         }
+@@ -1618,14 +1996,14 @@ _remove_stale_systemd_sessions (ActUserManager *manager,
+         g_slist_free (sessions_to_remove);
+ }
+ 
++#ifdef WITH_SYSTEMD
+ static void
+ reload_systemd_sessions (ActUserManager *manager)
+ {
+-        int res;
+-        int i;
+-
+-        g_auto (GStrv) sessions = NULL;
+-        g_autoptr (GHashTable) systemd_sessions = NULL;
++        int         res;
++        int         i;
++        g_auto(GStrv) sessions = NULL;
++        g_autoptr(GHashTable) systemd_sessions = NULL;
+ 
+         res = sd_get_sessions (&sessions);
+         if (res < 0) {
+@@ -1637,7 +2015,7 @@ reload_systemd_sessions (ActUserManager *manager)
+                                              g_str_equal);
+ 
+         if (sessions != NULL) {
+-                for (i = 0; sessions[i] != NULL; i++) {
++                for (i = 0; sessions[i] != NULL; i ++) {
+                         g_autofree gchar *state = NULL;
+                         g_autofree gchar *session_class = NULL;
+ 
+@@ -1665,18 +2043,19 @@ reload_systemd_sessions (ActUserManager *manager)
+                         g_hash_table_insert (systemd_sessions,
+                                              sessions[i], NULL);
+                 }
++
+         }
+ 
+         _add_new_systemd_sessions (manager, systemd_sessions);
+         _remove_stale_systemd_sessions (manager, systemd_sessions);
+ }
+ 
++#endif
+ static gboolean
+ on_session_monitor_event (GPollableInputStream *stream,
+                           ActUserManager       *manager)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-
+         sd_login_monitor_flush (priv->seat.session_monitor);
+         reload_systemd_sessions (manager);
+         return TRUE;
+@@ -1712,14 +2091,107 @@ _monitor_for_systemd_session_changes (ActUserManager *manager)
+         priv->seat.session_monitor_source_id = g_source_attach (source, NULL);
+         g_source_unref (source);
+ }
++#endif
+ 
+ static void
+ get_seat_proxy (ActUserManager *manager)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++        g_autoptr(GError) error = NULL;
++
++#ifdef WITH_SYSTEMD
++        if (LOGIND_RUNNING()) {
++                _monitor_for_systemd_session_changes (manager);
++                priv->seat.state++;
++                return;
++        }
++#endif
++
++        g_assert (priv->seat.seat_proxy == NULL);
++
++        priv->seat.seat_proxy = console_kit_seat_proxy_new_sync (priv->connection,
++                                                                 G_DBUS_PROXY_FLAGS_NONE,
++                                                                 CK_NAME,
++                                                                 priv->seat.id,
++                                                                 NULL,
++                                                                 &error);
++        if (priv->seat.seat_proxy == NULL) {
++                if (error != NULL) {
++                        g_warning ("Failed to connect to the ConsoleKit seat object: %s",
++                                   error->message);
++                } else {
++                        g_warning ("Failed to connect to the ConsoleKit seat object");
++                }
++                unload_seat (manager);
++                return;
++        }
++
++        g_signal_connect (priv->seat.seat_proxy,
++                          "session-added",
++                          G_CALLBACK (seat_session_added),
++                          manager);
++        g_signal_connect (priv->seat.seat_proxy,
++                          "session-removed",
++                          G_CALLBACK (seat_session_removed),
++                          manager);
++        priv->seat.state++;
++}
++
++static void
++on_console_kit_session_proxy_gotten (GObject *object, GAsyncResult *result, gpointer user_data)
++{
++        ActUserManager *manager = user_data;
++        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++        g_autoptr(GError) error = NULL;
++
++        g_debug ("on_console_kit_session_proxy_gotten");
++
++        priv->seat.session_proxy = console_kit_session_proxy_new_finish (result, &error);
++
++        if (priv->seat.session_proxy == NULL) {
++                if (error != NULL) {
++                        g_warning ("Failed to connect to the ConsoleKit session object: %s",
++                                   error->message);
++                } else {
++                        g_warning ("Failed to connect to the ConsoleKit session object");
++                }
++                unload_seat (manager);
++
++                goto out;
++        }
+ 
+-        _monitor_for_systemd_session_changes (manager);
+         priv->seat.state++;
++        load_seat_incrementally (manager);
++
++ out:
++        g_debug ("ActUserManager: unrefing manager owned by ConsoleKit proxy getter");
++        g_object_unref (manager);
++}
++
++static void
++get_session_proxy (ActUserManager *manager)
++{
++        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++
++#ifdef WITH_SYSTEMD
++        if (LOGIND_RUNNING()) {
++                priv->seat.state++;
++                queue_load_seat_incrementally (manager);
++                return;
++        }
++#endif
++
++        g_debug ("ActUserManager: fetching user proxy");
++
++        g_assert (priv->seat.session_proxy == NULL);
++
++        console_kit_session_proxy_new (priv->connection,
++                                       G_DBUS_PROXY_FLAGS_NONE,
++                                       CK_NAME,
++                                       priv->seat.session_id,
++                                       NULL,
++                                       on_console_kit_session_proxy_gotten,
++                                       g_object_ref (manager));
+ }
+ 
+ static void
+@@ -1729,6 +2201,16 @@ unload_seat (ActUserManager *manager)
+ 
+         priv->seat.state = ACT_USER_MANAGER_SEAT_STATE_UNLOADED;
+ 
++        if (priv->seat.seat_proxy != NULL) {
++                g_object_unref (priv->seat.seat_proxy);
++                priv->seat.seat_proxy = NULL;
++        }
++
++        if (priv->seat.session_proxy != NULL) {
++                g_object_unref (priv->seat.session_proxy);
++                priv->seat.session_proxy = NULL;
++        }
++
+         g_free (priv->seat.id);
+         priv->seat.id = NULL;
+ 
+@@ -1743,6 +2225,9 @@ static void
+ load_new_session_incrementally (ActUserManagerNewSession *new_session)
+ {
+         switch (new_session->state) {
++        case ACT_USER_MANAGER_NEW_SESSION_STATE_GET_PROXY:
++                get_proxy_for_new_session (new_session);
++                break;
+         case ACT_USER_MANAGER_NEW_SESSION_STATE_GET_UID:
+                 get_uid_for_new_session (new_session);
+                 break;
+@@ -1765,10 +2250,7 @@ free_fetch_user_request (ActUserManagerFetchUserRequest *request)
+         ActUserManager *manager = request->manager;
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+ 
+-        if (request->user != NULL) {
+-                g_object_set_data (G_OBJECT (request->user), "fetch-user-request", NULL);
+-                g_object_weak_unref (G_OBJECT (request->user), (GWeakNotify) on_user_destroyed, manager);
+-        }
++        g_object_set_data (G_OBJECT (request->user), "fetch-user-request", NULL);
+ 
+         priv->fetch_user_requests = g_slist_remove (priv->fetch_user_requests, request);
+         if (request->type == ACT_USER_MANAGER_FETCH_USER_FROM_USERNAME_REQUEST) {
+@@ -1777,11 +2259,6 @@ free_fetch_user_request (ActUserManagerFetchUserRequest *request)
+ 
+         g_free (request->object_path);
+         g_free (request->description);
+-
+-        g_cancellable_cancel (request->cancellable);
+-        g_object_unref (request->cancellable);
+-
+-
+         g_debug ("ActUserManager: unrefing manager owned by fetch user request");
+         g_object_unref (manager);
+ 
+@@ -1792,8 +2269,6 @@ static void
+ give_up (ActUserManager                 *manager,
+          ActUserManagerFetchUserRequest *request)
+ {
+-        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-
+         if (request->type == ACT_USER_MANAGER_FETCH_USER_FROM_USERNAME_REQUEST)
+                 g_debug ("ActUserManager: failed to load user %s", request->username);
+         else
+@@ -1801,12 +2276,8 @@ give_up (ActUserManager                 *manager,
+ 
+         request->state = ACT_USER_MANAGER_GET_USER_STATE_UNFETCHED;
+ 
+-        if (request->user != NULL) {
+-                priv->nonexistent_users = g_slist_prepend (priv->nonexistent_users, g_object_ref (request->user));
++        if (request->user)
+                 _act_user_update_as_nonexistent (request->user);
+-        }
+-
+-        g_cancellable_cancel (request->cancellable);
+ }
+ 
+ static void
+@@ -1847,6 +2318,7 @@ fetch_user_incrementally (ActUserManagerFetchUserRequest *request)
+                                  request->description);
+                         g_signal_connect (manager, "notify::is-loaded",
+                                           G_CALLBACK (on_user_manager_maybe_ready_for_request), request);
++
+                 }
+                 break;
+ 
+@@ -1868,7 +2340,7 @@ fetch_user_incrementally (ActUserManagerFetchUserRequest *request)
+                 g_assert_not_reached ();
+         }
+ 
+-        if (request->state == ACT_USER_MANAGER_GET_USER_STATE_FETCHED ||
++        if (request->state == ACT_USER_MANAGER_GET_USER_STATE_FETCHED  ||
+             request->state == ACT_USER_MANAGER_GET_USER_STATE_UNFETCHED) {
+                 g_debug ("ActUserManager: finished handling request for %s",
+                          request->description);
+@@ -1892,12 +2364,10 @@ fetch_user_with_username_from_accounts_service (ActUserManager *manager,
+         request->user = user;
+         request->state = ACT_USER_MANAGER_GET_USER_STATE_UNFETCHED + 1;
+         request->description = g_strdup_printf ("user '%s'", request->username);
+-        request->cancellable = g_cancellable_new ();
+ 
+         priv->fetch_user_requests = g_slist_prepend (priv->fetch_user_requests,
+                                                      request);
+         g_object_set_data (G_OBJECT (user), "fetch-user-request", request);
+-        g_object_weak_ref (G_OBJECT (user), (GWeakNotify) on_user_destroyed, manager);
+         fetch_user_incrementally (request);
+ }
+ 
+@@ -1917,41 +2387,13 @@ fetch_user_with_id_from_accounts_service (ActUserManager *manager,
+         request->user = user;
+         request->state = ACT_USER_MANAGER_GET_USER_STATE_UNFETCHED + 1;
+         request->description = g_strdup_printf ("user with id %lu", (gulong) request->uid);
+-        request->cancellable = g_cancellable_new ();
+ 
+         priv->fetch_user_requests = g_slist_prepend (priv->fetch_user_requests,
+                                                      request);
+         g_object_set_data (G_OBJECT (user), "fetch-user-request", request);
+-        g_object_weak_ref (G_OBJECT (user), (GWeakNotify) on_user_destroyed, manager);
+         fetch_user_incrementally (request);
+ }
+ 
+-static ActUser *
+-check_fetch_user_requests_for_user (ActUserManager *manager,
+-                                    const char     *username)
+-{
+-        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-        GSList *node;
+-
+-        node = priv->fetch_user_requests;
+-        while (node != NULL) {
+-                ActUserManagerFetchUserRequest *request;
+-                GSList *next_node;
+-
+-                request = node->data;
+-                next_node = node->next;
+-
+-                if (request->type == ACT_USER_MANAGER_FETCH_USER_FROM_USERNAME_REQUEST) {
+-                        if (g_strcmp0 (request->username, username) == 0)
+-                                return request->user;
+-                }
+-
+-                node = next_node;
+-        }
+-
+-        return NULL;
+-}
+-
+ /**
+  * act_user_manager_get_user:
+  * @manager: the manager to query.
+@@ -1976,14 +2418,6 @@ act_user_manager_get_user (ActUserManager *manager,
+ 
+         user = lookup_user_by_name (manager, username);
+ 
+-        if (user == NULL) {
+-                user = check_fetch_user_requests_for_user (manager, username);
+-
+-                if (user != NULL) {
+-                        g_debug ("ActUserManager: User with username '%s' fetched by username more than once before it loaded", username);
+-                }
+-        }
+-
+         /* if we don't have it loaded try to load it now */
+         if (user == NULL) {
+                 g_debug ("ActUserManager: trying to track new user with username %s", username);
+@@ -1992,8 +2426,6 @@ act_user_manager_get_user (ActUserManager *manager,
+                 if (priv->accounts_proxy != NULL) {
+                         fetch_user_with_username_from_accounts_service (manager, user, username);
+                 }
+-
+-                g_object_unref (user);  /* remains in the cache */
+         }
+ 
+         return user;
+@@ -2004,9 +2436,8 @@ load_user (ActUserManager *manager,
+            const char     *username)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-
+-        g_autoptr (ActUser) user = NULL;
+-        g_autoptr (GError) error = NULL;
++        ActUser *user;
++        g_autoptr(GError) error = NULL;
+         char *object_path = NULL;
+         gboolean user_found;
+ 
+@@ -2018,8 +2449,6 @@ load_user (ActUserManager *manager,
+         if (user == NULL) {
+                 g_debug ("ActUserManager: trying to track new user with username %s", username);
+                 user = create_new_user (manager);
+-        } else {
+-                user = g_object_ref (user);
+         }
+ 
+         user_found = accounts_accounts_call_find_user_by_name_sync (priv->accounts_proxy,
+@@ -2043,32 +2472,6 @@ load_user (ActUserManager *manager,
+         _act_user_update_from_object_path (user, object_path);
+ }
+ 
+-static ActUser *
+-check_fetch_user_requests_for_user_with_id (ActUserManager *manager,
+-                                            uid_t           id)
+-{
+-        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-        GSList *node;
+-
+-        node = priv->fetch_user_requests;
+-        while (node != NULL) {
+-                ActUserManagerFetchUserRequest *request;
+-                GSList *next_node;
+-
+-                request = node->data;
+-                next_node = node->next;
+-
+-                if (request->type == ACT_USER_MANAGER_FETCH_USER_FROM_ID_REQUEST) {
+-                        if (request->uid == id)
+-                                return request->user;
+-                }
+-
+-                node = next_node;
+-        }
+-
+-        return NULL;
+-}
+-
+ /**
+  * act_user_manager_get_user_by_id:
+  * @manager: the manager to query.
+@@ -2094,16 +2497,8 @@ act_user_manager_get_user_by_id (ActUserManager *manager,
+         object_path = g_strdup_printf ("/org/freedesktop/Accounts/User%lu", (gulong) id);
+         user = g_hash_table_lookup (priv->users_by_object_path, object_path);
+ 
+-        if (user == NULL) {
+-                user = check_fetch_user_requests_for_user_with_id (manager, id);
+-
+-                if (user != NULL) {
+-                        g_debug ("ActUserManager: User with UID %d fetched more than once before it loaded", (int) id);
+-                }
+-        }
+-
+         if (user != NULL) {
+-                return user;
++                return g_object_ref (user);
+         } else {
+                 g_debug ("ActUserManager: trying to track new user with uid %lu", (gulong) id);
+                 user = create_new_user (manager);
+@@ -2111,8 +2506,6 @@ act_user_manager_get_user_by_id (ActUserManager *manager,
+                 if (priv->accounts_proxy != NULL) {
+                         fetch_user_with_id_from_accounts_service (manager, user, id);
+                 }
+-
+-                g_object_unref (user);  /* remains in the cache */
+         }
+ 
+         return user;
+@@ -2211,19 +2604,75 @@ slist_deep_copy (const GSList *list)
+ }
+ 
+ static void
+-load_sessions (ActUserManager *manager)
++on_get_sessions_finished (GObject      *object,
++                          GAsyncResult *result,
++                          gpointer      data)
+ {
+-        reload_systemd_sessions (manager);
++        ConsoleKitSeat *proxy = CONSOLE_KIT_SEAT (object);
++        g_autoptr(ActUserManager) manager = data;
++        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++        g_autoptr(GError) error = NULL;
++        g_auto(GStrv) session_ids = NULL;
++        int             i;
++
++        if (!console_kit_seat_call_get_sessions_finish (proxy, &session_ids, result, &error)) {
++                if (error != NULL) {
++                        g_warning ("unable to determine sessions for seat: %s",
++                                   error->message);
++                } else {
++                        g_warning ("unable to determine sessions for seat");
++                }
++
++                return;
++        }
++
++        priv->getting_sessions = FALSE;
++        for (i = 0; session_ids[i] != NULL; i++) {
++                load_new_session (manager, session_ids[i]);
++        }
++
++        g_debug ("ActUserManager: GetSessions call finished, so trying to set loaded property");
+         maybe_set_is_loaded (manager);
+ }
+ 
+ static void
+-load_users (ActUserManager *manager)
++load_console_kit_sessions (ActUserManager *manager)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+ 
+-        g_autoptr (GError) error = NULL;
+-        g_auto (GStrv) user_paths = NULL;
++        if (priv->seat.seat_proxy == NULL) {
++                g_debug ("ActUserManager: no seat proxy; can't load sessions");
++                return;
++        }
++
++        priv->getting_sessions = TRUE;
++        console_kit_seat_call_get_sessions (priv->seat.seat_proxy,
++                                            G_DBUS_CALL_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION,
++                                            -1,
++                                            NULL,
++                                            on_get_sessions_finished,
++                                            g_object_ref (manager));
++}
++
++static void
++load_sessions (ActUserManager *manager)
++{
++#ifdef WITH_SYSTEMD
++        if (LOGIND_RUNNING()) {
++                reload_systemd_sessions (manager);
++                maybe_set_is_loaded (manager);
++                return;
++        }
++#endif
++        load_console_kit_sessions (manager);
++}
++
++static void
++load_users (ActUserManager *manager)
++{
++        ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
++        g_autoptr(GError) error = NULL;
++        g_auto(GStrv) user_paths = NULL;
+         gboolean could_list = FALSE;
+ 
+         if (!ensure_accounts_proxy (manager)) {
+@@ -2261,6 +2710,9 @@ load_seat_incrementally (ActUserManager *manager)
+         case ACT_USER_MANAGER_SEAT_STATE_GET_SESSION_ID:
+                 get_current_session_id (manager);
+                 break;
++        case ACT_USER_MANAGER_SEAT_STATE_GET_SESSION_PROXY:
++                get_session_proxy (manager);
++                break;
+         case ACT_USER_MANAGER_SEAT_STATE_GET_ID:
+                 get_seat_id_for_current_session (manager);
+                 break;
+@@ -2304,14 +2756,14 @@ queue_load_seat (ActUserManager *manager)
+                 return;
+         }
+ 
+-        priv->load_id = g_idle_add ((GSourceFunc) load_idle, manager);
++        priv->load_id = g_idle_add ((GSourceFunc)load_idle, manager);
+ }
+ 
+ static void
+-act_user_manager_get_property (GObject    *object,
+-                               guint       prop_id,
+-                               GValue     *value,
+-                               GParamSpec *pspec)
++act_user_manager_get_property (GObject        *object,
++                               guint           prop_id,
++                               GValue         *value,
++                               GParamSpec     *pspec)
+ {
+         ActUserManager *manager = ACT_USER_MANAGER (object);
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+@@ -2362,10 +2814,10 @@ set_exclude_usernames (ActUserManager *manager,
+ }
+ 
+ static void
+-act_user_manager_set_property (GObject      *object,
+-                               guint         prop_id,
+-                               const GValue *value,
+-                               GParamSpec   *pspec)
++act_user_manager_set_property (GObject        *object,
++                               guint           prop_id,
++                               const GValue   *value,
++                               GParamSpec     *pspec)
+ {
+         ActUserManager *self;
+ 
+@@ -2390,7 +2842,7 @@ act_user_manager_set_property (GObject      *object,
+ static void
+ act_user_manager_class_init (ActUserManagerClass *klass)
+ {
+-        GObjectClass *object_class = G_OBJECT_CLASS (klass);
++        GObjectClass   *object_class = G_OBJECT_CLASS (klass);
+ 
+         object_class->finalize = act_user_manager_finalize;
+         object_class->get_property = act_user_manager_get_property;
+@@ -2506,29 +2958,11 @@ act_user_manager_queue_load (ActUserManager *manager)
+         }
+ }
+ 
+-static void
+-on_name_owner_changed (GObject    *object,
+-                       GParamSpec *pspec,
+-                       gpointer    user_data)
+-{
+-        ActUserManager *manager = ACT_USER_MANAGER (user_data);
+-        GDBusProxy *accounts_proxy = G_DBUS_PROXY (object);
+-        g_autofree gchar *owner = NULL;
+-
+-        g_return_if_fail (ACT_IS_USER_MANAGER (manager));
+-        g_return_if_fail (accounts_proxy != NULL);
+-
+-        owner = g_dbus_proxy_get_name_owner (accounts_proxy);
+-
+-        set_is_loaded (manager, owner != NULL);
+-}
+-
+ static gboolean
+ ensure_accounts_proxy (ActUserManager *manager)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-
+-        g_autoptr (GError) error = NULL;
++        g_autoptr(GError) error = NULL;
+ 
+         if (priv->accounts_proxy != NULL) {
+                 return TRUE;
+@@ -2561,10 +2995,6 @@ ensure_accounts_proxy (ActUserManager *manager)
+                           "user-deleted",
+                           G_CALLBACK (on_user_removed_in_accounts_service),
+                           manager);
+-        g_signal_connect (priv->accounts_proxy,
+-                          "notify::g-name-owner",
+-                          G_CALLBACK (on_name_owner_changed),
+-                          manager);
+ 
+         return TRUE;
+ }
+@@ -2573,8 +3003,7 @@ static void
+ act_user_manager_init (ActUserManager *manager)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-
+-        g_autoptr (GError) error = NULL;
++        g_autoptr(GError) error = NULL;
+ 
+         act_user_manager_error_quark (); /* register dbus errors */
+ 
+@@ -2618,7 +3047,7 @@ act_user_manager_finalize (GObject *object)
+ {
+         ActUserManager *manager = ACT_USER_MANAGER (object);
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-        GSList *node;
++        GSList         *node;
+ 
+         g_debug ("ActUserManager: finalizing user manager");
+ 
+@@ -2630,20 +3059,12 @@ act_user_manager_finalize (GObject *object)
+                          (GFunc) free_fetch_user_request, NULL);
+         g_slist_free (priv->fetch_user_requests);
+ 
+-        g_slist_foreach (priv->nonexistent_users,
+-                         (GFunc) g_object_unref, NULL);
+-        g_slist_free (priv->nonexistent_users);
+-
+-        g_slist_foreach (priv->dopplegangers,
+-                         (GFunc) g_object_unref, NULL);
+-        g_slist_free (priv->dopplegangers);
+-
+         g_slist_free (priv->new_users_inhibiting_load);
+ 
+         node = priv->new_users;
+         while (node != NULL) {
+                 ActUser *user;
+-                GSList *next_node;
++                GSList  *next_node;
+ 
+                 user = ACT_USER (node->data);
+                 next_node = node->next;
+@@ -2666,10 +3087,19 @@ act_user_manager_finalize (GObject *object)
+                 g_slist_free (priv->include_usernames);
+         }
+ 
++        if (priv->seat.seat_proxy != NULL) {
++                g_object_unref (priv->seat.seat_proxy);
++        }
++
++        if (priv->seat.session_proxy != NULL) {
++                g_object_unref (priv->seat.session_proxy);
++        }
++
+         if (priv->seat.load_idle_id != 0) {
+                 g_source_remove (priv->seat.load_idle_id);
+         }
+ 
++#ifdef WITH_SYSTEMD
+         if (priv->seat.session_monitor != NULL) {
+                 sd_login_monitor_unref (priv->seat.session_monitor);
+         }
+@@ -2681,6 +3111,7 @@ act_user_manager_finalize (GObject *object)
+         if (priv->seat.session_monitor_source_id != 0) {
+                 g_source_remove (priv->seat.session_monitor_source_id);
+         }
++#endif
+ 
+         if (priv->accounts_proxy != NULL) {
+                 g_object_unref (priv->accounts_proxy);
+@@ -2735,7 +3166,6 @@ gboolean
+ act_user_manager_no_service (ActUserManager *manager)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+-
+         return priv->accounts_proxy == NULL;
+ }
+ 
+@@ -2752,16 +3182,17 @@ act_user_manager_no_service (ActUserManager *manager)
+  * Returns: (transfer full): user object
+  */
+ ActUser *
+-act_user_manager_create_user (ActUserManager    *manager,
+-                              const char        *username,
+-                              const char        *fullname,
+-                              ActUserAccountType accounttype,
+-                              GError           **error)
++act_user_manager_create_user (ActUserManager      *manager,
++                              const char          *username,
++                              const char          *fullname,
++                              ActUserAccountType   accounttype,
++                              GError             **error)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         GError *local_error = NULL;
+         gboolean res;
+         g_autofree gchar *path = NULL;
++        ActUser *user;
+ 
+         g_debug ("ActUserManager: Creating user '%s', '%s', %d",
+                  username, fullname, accounttype);
+@@ -2782,7 +3213,9 @@ act_user_manager_create_user (ActUserManager    *manager,
+                 return NULL;
+         }
+ 
+-        return add_new_user_for_object_path (path, manager);
++        user = add_new_user_for_object_path (path, manager);
++
++        return user;
+ }
+ 
+ static void
+@@ -2816,13 +3249,13 @@ act_user_manager_async_complete_handler (GObject      *source,
+  * Since: 0.6.27
+  */
+ void
+-act_user_manager_create_user_async (ActUserManager     *manager,
+-                                    const char         *username,
+-                                    const char         *fullname,
+-                                    ActUserAccountType  accounttype,
+-                                    GCancellable       *cancellable,
+-                                    GAsyncReadyCallback callback,
+-                                    gpointer            user_data)
++act_user_manager_create_user_async (ActUserManager      *manager,
++                                    const char          *username,
++                                    const char          *fullname,
++                                    ActUserAccountType   accounttype,
++                                    GCancellable        *cancellable,
++                                    GAsyncReadyCallback  callback,
++                                    gpointer             user_data)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         GTask *task;
+@@ -2864,28 +3297,32 @@ act_user_manager_create_user_async (ActUserManager     *manager,
+  * Since: 0.6.27
+  */
+ ActUser *
+-act_user_manager_create_user_finish (ActUserManager *manager,
+-                                     GAsyncResult   *result,
+-                                     GError        **error)
++act_user_manager_create_user_finish (ActUserManager  *manager,
++                                     GAsyncResult    *result,
++                                     GError         **error)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         GAsyncResult *inner_result;
++        ActUser *user = NULL;
+         g_autofree gchar *path = NULL;
+         GError *remote_error = NULL;
+ 
+         inner_result = g_task_propagate_pointer (G_TASK (result), error);
+         if (inner_result == NULL) {
+-                return NULL;
++                return FALSE;
+         }
+ 
+-        if (!accounts_accounts_call_create_user_finish (priv->accounts_proxy,
+-                                                        &path, inner_result, &remote_error)) {
++        if (accounts_accounts_call_create_user_finish (priv->accounts_proxy,
++                                                       &path, inner_result, &remote_error)) {
++                user = add_new_user_for_object_path (path, manager);
++        }
++
++        if (remote_error) {
+                 g_dbus_error_strip_remote_error (remote_error);
+                 g_propagate_error (error, remote_error);
+-                return NULL;
+         }
+ 
+-        return add_new_user_for_object_path (path, manager);
++        return user;
+ }
+ 
+ /**
+@@ -2899,9 +3336,9 @@ act_user_manager_create_user_finish (ActUserManager *manager,
+  * Returns: (transfer full): user object
+  */
+ ActUser *
+-act_user_manager_cache_user (ActUserManager *manager,
+-                             const char     *username,
+-                             GError        **error)
++act_user_manager_cache_user (ActUserManager     *manager,
++                             const char         *username,
++                             GError            **error)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         GError *local_error = NULL;
+@@ -2948,11 +3385,11 @@ act_user_manager_cache_user (ActUserManager *manager,
+  * Since: 0.6.27
+  */
+ void
+-act_user_manager_cache_user_async (ActUserManager     *manager,
+-                                   const char         *username,
+-                                   GCancellable       *cancellable,
+-                                   GAsyncReadyCallback callback,
+-                                   gpointer            user_data)
++act_user_manager_cache_user_async (ActUserManager      *manager,
++                                   const char          *username,
++                                   GCancellable        *cancellable,
++                                   GAsyncReadyCallback  callback,
++                                   gpointer             user_data)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         GTask *task;
+@@ -2989,28 +3426,32 @@ act_user_manager_cache_user_async (ActUserManager     *manager,
+  * Since: 0.6.27
+  */
+ ActUser *
+-act_user_manager_cache_user_finish (ActUserManager *manager,
+-                                    GAsyncResult   *result,
+-                                    GError        **error)
++act_user_manager_cache_user_finish (ActUserManager  *manager,
++                                    GAsyncResult    *result,
++                                    GError         **error)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         GAsyncResult *inner_result;
++        ActUser *user = NULL;
+         g_autofree gchar *path = NULL;
+         GError *remote_error = NULL;
+ 
+         inner_result = g_task_propagate_pointer (G_TASK (result), error);
+         if (inner_result == NULL) {
+-                return NULL;
++                return FALSE;
+         }
+ 
+-        if (!accounts_accounts_call_cache_user_finish (priv->accounts_proxy,
+-                                                       &path, inner_result, &remote_error)) {
++        if (accounts_accounts_call_cache_user_finish (priv->accounts_proxy,
++                                                      &path, inner_result, &remote_error)) {
++                user = add_new_user_for_object_path (path, manager);
++        }
++
++        if (remote_error) {
+                 g_dbus_error_strip_remote_error (remote_error);
+                 g_propagate_error (error, remote_error);
+-                return NULL;
+         }
+ 
+-        return add_new_user_for_object_path (path, manager);
++        return user;
+ }
+ 
+ /**
+@@ -3027,9 +3468,9 @@ act_user_manager_cache_user_finish (ActUserManager *manager,
+  * Returns: %TRUE if successful, otherwise %FALSE
+  */
+ gboolean
+-act_user_manager_uncache_user (ActUserManager *manager,
+-                               const char     *username,
+-                               GError        **error)
++act_user_manager_uncache_user (ActUserManager     *manager,
++                               const char         *username,
++                               GError            **error)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         GError *local_error = NULL;
+@@ -3072,11 +3513,11 @@ act_user_manager_uncache_user (ActUserManager *manager,
+  * Since: 0.6.39
+  */
+ void
+-act_user_manager_uncache_user_async (ActUserManager     *manager,
+-                                     const char         *username,
+-                                     GCancellable       *cancellable,
+-                                     GAsyncReadyCallback callback,
+-                                     gpointer            user_data)
++act_user_manager_uncache_user_async (ActUserManager      *manager,
++                                     const char          *username,
++                                     GCancellable        *cancellable,
++                                     GAsyncReadyCallback  callback,
++                                     gpointer             user_data)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         GTask *task;
+@@ -3114,9 +3555,9 @@ act_user_manager_uncache_user_async (ActUserManager     *manager,
+  * Since: 0.6.39
+  */
+ gboolean
+-act_user_manager_uncache_user_finish (ActUserManager *manager,
+-                                      GAsyncResult   *result,
+-                                      GError        **error)
++act_user_manager_uncache_user_finish (ActUserManager  *manager,
++                                      GAsyncResult    *result,
++                                      GError         **error)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         GAsyncResult *inner_result;
+@@ -3151,10 +3592,10 @@ act_user_manager_uncache_user_finish (ActUserManager *manager,
+  * Returns: %TRUE if the user account was successfully deleted
+  */
+ gboolean
+-act_user_manager_delete_user (ActUserManager *manager,
+-                              ActUser        *user,
+-                              gboolean        remove_files,
+-                              GError        **error)
++act_user_manager_delete_user (ActUserManager  *manager,
++                              ActUser         *user,
++                              gboolean         remove_files,
++                              GError         **error)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         GError *local_error = NULL;
+@@ -3198,12 +3639,12 @@ act_user_manager_delete_user (ActUserManager *manager,
+  * Since: 0.6.27
+  */
+ void
+-act_user_manager_delete_user_async (ActUserManager     *manager,
+-                                    ActUser            *user,
+-                                    gboolean            remove_files,
+-                                    GCancellable       *cancellable,
+-                                    GAsyncReadyCallback callback,
+-                                    gpointer            user_data)
++act_user_manager_delete_user_async (ActUserManager      *manager,
++                                    ActUser             *user,
++                                    gboolean             remove_files,
++                                    GCancellable        *cancellable,
++                                    GAsyncReadyCallback  callback,
++                                    gpointer             user_data)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         GTask *task;
+@@ -3241,9 +3682,9 @@ act_user_manager_delete_user_async (ActUserManager     *manager,
+  * Since: 0.6.27
+  */
+ gboolean
+-act_user_manager_delete_user_finish (ActUserManager *manager,
+-                                     GAsyncResult   *result,
+-                                     GError        **error)
++act_user_manager_delete_user_finish (ActUserManager  *manager,
++                                     GAsyncResult    *result,
++                                     GError         **error)
+ {
+         ActUserManagerPrivate *priv = act_user_manager_get_instance_private (manager);
+         GAsyncResult *inner_result;
+diff --git a/src/libaccountsservice/meson.build b/src/libaccountsservice/meson.build
+index 51c18fa..7968e2e 100644
+--- a/src/libaccountsservice/meson.build
++++ b/src/libaccountsservice/meson.build
+@@ -28,20 +28,44 @@ enum_sources = gnome.mkenums(
+   install_dir: join_paths(act_pkgincludedir, subdir),
+ )
+ 
++dbus_sources = []
++
++ifaces = [
++  'Manager',
++  'Seat',
++  'Session',
++]
++
++namespace = 'ConsoleKit'
++prefix = 'org.freedesktop.' + namespace
++
++foreach iface: ifaces
++  dbus_sources += gnome.gdbus_codegen(
++    'ck-@0@-generated'.format(iface.to_lower()),
++    '@0@.@1@.xml'.format(prefix, iface),
++    interface_prefix: prefix,
++    namespace: namespace,
++    extra_args: ['--glib-min-required', '2.64'],
++  )
++endforeach
++
+ deps = [
+   crypt_dep,
+   gio_unix_dep,
+   glib_dep,
+   libaccounts_generated_dep,
+-  logind_dep,
+ ]
+ 
+ symbol_map = join_paths(meson.current_source_dir(), 'symbol.map')
+ ldflags = cc.get_supported_link_arguments('-Wl,--version-script,@0@'.format(symbol_map))
+ 
++if enable_systemd or enable_elogind
++  deps += logind_dep
++endif
++
+ libaccountsservice = shared_library(
+   act_name,
+-  sources: sources + enum_sources,
++  sources: sources + enum_sources + dbus_sources,
+   version: libversion,
+   include_directories: top_inc,
+   dependencies: deps,
+diff --git a/src/libaccountsservice/org.freedesktop.ConsoleKit.Manager.xml b/src/libaccountsservice/org.freedesktop.ConsoleKit.Manager.xml
+new file mode 100644
+index 0000000..f903b55
+--- /dev/null
++++ b/src/libaccountsservice/org.freedesktop.ConsoleKit.Manager.xml
+@@ -0,0 +1,353 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<node name="/org/freedesktop/ConsoleKit/Manager"
++  xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd"
++>
++
++  <interface name="org.freedesktop.ConsoleKit.Manager">
++    <method name="Restart">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This method initiates a request to restart (ie. reboot) the computer system.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++
++    <method name="CanRestart">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <arg name="can_restart" type="b" direction="out"/>
++    </method>
++
++    <method name="Stop">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This method initiates a request to stop (ie. shutdown) the computer system.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++
++    <method name="CanStop">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <arg name="can_stop" type="b" direction="out"/>
++    </method>
++
++    <method name="OpenSession">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <arg name="cookie" direction="out" type="s">
++        <doc:doc>
++          <doc:summary>The secret cookie that is used to identify the new session</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This method requests that a new <doc:ref type="interface" to="Session">Session</doc:ref>
++          be created for the calling process.  The properties of this new Session are set automatically
++          from information collected about the calling process.
++          </doc:para>
++          <doc:para>This new session exists until the calling process disconnects from the system bus or
++          calls <doc:ref type="method" to="Manager.CloseSession">CloseSession()</doc:ref>.
++          </doc:para>
++          <doc:para>It is the responsibility of the calling process to set the environment variable
++          XDG_SESSION_COOKIE to the value of the returned cookie.  This cookie should only
++          be made available to child processes of the caller so that they may be identified
++          as members of this session.
++          </doc:para>
++          <doc:para>See this simple example:
++          <doc:example language="c" title="simple example"><doc:code>
++	DBusError       error;
++	DBusMessage    *message;
++	DBusMessage    *reply;
++
++	message = dbus_message_new_method_call ("org.freedesktop.ConsoleKit",
++						"/org/freedesktop/ConsoleKit/Manager",
++						"org.freedesktop.ConsoleKit.Manager",
++						"OpenSession");
++	if (message == NULL) {
++		goto out;
++	}
++
++        dbus_error_init (&amp;error);
++        reply = dbus_connection_send_with_reply_and_block (connector->connection,
++                                                           message,
++                                                           -1,
++                                                           &amp;error);
++        if (reply == NULL) {
++		goto out;
++        }
++
++        dbus_error_init (&amp;error);
++        if (! dbus_message_get_args (reply,
++                                     &amp;error,
++                                     DBUS_TYPE_STRING, &amp;cookie,
++                                     DBUS_TYPE_INVALID)) {
++		goto out;
++        }
++
++          </doc:code></doc:example></doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="method" to="Manager.OpenSessionWithParameters">OpenSessionWithParameters()</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="OpenSessionWithParameters">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <arg name="parameters" direction="in" type="a(sv)">
++        <doc:doc>
++          <doc:summary>An array of sets of property names and values</doc:summary>
++        </doc:doc>
++      </arg>
++      <arg name="cookie" direction="out" type="s">
++        <doc:doc>
++          <doc:summary>The secret cookie that is used to identify the new session</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This method requests that a new <doc:ref type="interface" to="Session">Session</doc:ref>
++          be created for the calling process.  The properties of this new Session are from the
++          parameters provided.
++          </doc:para>
++          <doc:para>This new session exists until the calling process disconnects from the system bus or
++          calls <doc:ref type="method" to="Manager.CloseSession">CloseSession()</doc:ref>.
++          </doc:para>
++          <doc:para>It is the responsibility of the calling process to set the environment variable
++          XDG_SESSION_COOKIE to the value of the returned cookie.  This cookie should only
++          be made available to child processes of the caller so that they may be identified
++          as members of this session.
++          </doc:para>
++          <doc:para>See the <doc:ref type="interface" to="Session">Session</doc:ref> properties for a list of valid parameters.</doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="interface" to="Session">org.freedesktop.ConsoleKit.Session</doc:ref></doc:seealso>
++        <doc:permission>This method is restricted to privileged users by D-Bus policy.</doc:permission>
++      </doc:doc>
++    </method>
++    <method name="CloseSession">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <arg name="cookie" direction="in" type="s">
++        <doc:doc>
++          <doc:summary>The secret cookie that is used to identify the session</doc:summary>
++        </doc:doc>
++      </arg>
++      <arg name="result" direction="out" type="b">
++        <doc:doc>
++          <doc:summary>Whether the session was successfully closed</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This method is used to close the session identified by the supplied cookie.
++          </doc:para>
++          <doc:para>The session can only be closed by the same process that opened the session.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++
++    <method name="GetSeats">
++      <arg name="seats" direction="out" type="ao">
++        <doc:doc>
++          <doc:summary>an array of Seat IDs</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This gets a list of all the <doc:ref type="interface" to="Seat">Seats</doc:ref>
++          that are currently present on the system.</doc:para>
++          <doc:para>Each Seat ID is an D-Bus object path for the object that implements the
++          <doc:ref type="interface" to="Seat">Seat</doc:ref> interface.</doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="interface" to="Seat">org.freedesktop.ConsoleKit.Seat</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++
++    <method name="GetSessions">
++      <arg name="sessions" direction="out" type="ao">
++        <doc:doc>
++          <doc:summary>an array of Session IDs</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This gets a list of all the <doc:ref type="interface" to="Session">Sessions</doc:ref>
++          that are currently present on the system.</doc:para>
++          <doc:para>Each Session ID is an D-Bus object path for the object that implements the
++          <doc:ref type="interface" to="Session">Session</doc:ref> interface.</doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="interface" to="Session">org.freedesktop.ConsoleKit.Session</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++
++    <method name="GetSessionForCookie">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <arg name="cookie" direction="in" type="s">
++        <doc:doc>
++          <doc:summary>The secret cookie that is used to identify the session</doc:summary>
++        </doc:doc>
++      </arg>
++      <arg name="ssid" direction="out" type="o">
++        <doc:doc>
++          <doc:summary>The object identifier for the current session</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Returns the session ID that is associated with the specified cookie.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++    <method name="GetSessionForUnixProcess">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <arg name="pid" direction="in" type="u">
++        <doc:doc>
++          <doc:summary>The POSIX process ID</doc:summary>
++        </doc:doc>
++      </arg>
++      <arg name="ssid" direction="out" type="o">
++        <doc:doc>
++          <doc:summary>The object identifier for the current session</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Attempts to determine the session ID for the specified
++          POSIX process ID (pid).
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++    <method name="GetCurrentSession">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <arg name="ssid" direction="out" type="o">
++        <doc:doc>
++          <doc:summary>The object identifier for the current session</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Attempts to determine the session ID that the caller belongs to.
++          </doc:para>
++          <doc:para>See this example of using dbus-send:
++          <doc:example language="shell" title="shell example"><doc:code>
++  dbus-send --system --dest=org.freedesktop.ConsoleKit \
++  --type=method_call --print-reply --reply-timeout=2000 \
++  /org/freedesktop/ConsoleKit/Manager \
++  org.freedesktop.ConsoleKit.Manager.GetCurrentSession
++          </doc:code></doc:example></doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++    <method name="GetSessionsForUnixUser">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <arg name="uid" direction="in" type="u">
++         <doc:doc>
++          <doc:summary>POSIX User identification</doc:summary>
++        </doc:doc>
++     </arg>
++      <arg name="sessions" direction="out" type="ao">
++        <doc:doc>
++          <doc:summary>an array of Session IDs</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This gets a list of all the <doc:ref type="interface" to="Session">Sessions</doc:ref>
++          that are currently open for the specified user.</doc:para>
++          <doc:para>Each Session ID is an D-Bus object path for the object that implements the
++          <doc:ref type="interface" to="Session">Session</doc:ref> interface.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++    <method name="GetSessionsForUser">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <arg name="uid" direction="in" type="u">
++         <doc:doc>
++          <doc:summary>User identification</doc:summary>
++        </doc:doc>
++     </arg>
++      <arg name="sessions" direction="out" type="ao">
++        <doc:doc>
++          <doc:summary>an array of Session IDs</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This gets a list of all the <doc:ref type="interface" to="Session">Sessions</doc:ref>
++          that are currently open for the specified user.</doc:para>
++          <doc:para>Each Session ID is an D-Bus object path for the object that implements the
++          <doc:ref type="interface" to="Session">Session</doc:ref> interface.</doc:para>
++        </doc:description>
++        <doc:deprecated version="0.1.3" instead="GetSessionsForUnixUser"/>
++      </doc:doc>
++    </method>
++
++    <method name="GetSystemIdleHint">
++      <arg name="idle_hint" type="b" direction="out">
++        <doc:doc>
++          <doc:summary>The value of the system-idle-hint</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Returns TRUE if the <doc:ref type="property" to="Session:idle-hint">idle-hint</doc:ref>
++          property of every open session is TRUE or if there are no open sessions.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++    <method name="GetSystemIdleSinceHint">
++      <arg name="iso8601_datetime" type="s" direction="out">
++        <doc:doc>
++          <doc:summary>An ISO 8601 format date-type string</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Returns an ISO 8601 date-time string that corresponds to
++          the time of the last change of the system-idle-hint.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++
++    <signal name="SeatAdded">
++      <arg name="sid" type="o">
++        <doc:doc>
++          <doc:summary>The Seat ID for the added seat</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Emitted when a Seat has been added to the system.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++    <signal name="SeatRemoved">
++      <arg name="sid" type="o">
++        <doc:doc>
++          <doc:summary>The Seat ID for the removed seat</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Emitted when a Seat has been removed from the system.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++    <signal name="SystemIdleHintChanged">
++      <arg name="hint" type="b">
++        <doc:doc>
++          <doc:summary>The value of the system-idle-hint</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Emitted when the value of the system-idle-hint has changed.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++  </interface>
++</node>
+diff --git a/src/libaccountsservice/org.freedesktop.ConsoleKit.Seat.xml b/src/libaccountsservice/org.freedesktop.ConsoleKit.Seat.xml
+new file mode 100644
+index 0000000..d95990b
+--- /dev/null
++++ b/src/libaccountsservice/org.freedesktop.ConsoleKit.Seat.xml
+@@ -0,0 +1,164 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<node xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
++
++  <interface name="org.freedesktop.ConsoleKit.Seat">
++    <doc:doc>
++      <doc:description>
++        <doc:para>A seat is a collection of sessions and a set of hardware (usually at
++least a keyboard and mouse).  Only one session may be active on a
++seat at a time.</doc:para>
++      </doc:description>
++    </doc:doc>
++
++    <method name="GetId">
++      <arg name="sid" direction="out" type="o">
++        <doc:doc>
++          <doc:summary>Seat ID</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Returns the ID for Seat.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++
++    <method name="GetSessions">
++      <arg name="sessions" direction="out" type="ao">
++        <doc:doc>
++          <doc:summary>an array of Session IDs</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This gets a list of all the <doc:ref type="interface" to="Session">Sessions</doc:ref>
++          that are currently attached to this seat.</doc:para>
++          <doc:para>Each Session ID is an D-Bus object path for the object that implements the
++          <doc:ref type="interface" to="Session">Session</doc:ref> interface.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++
++    <method name="GetDevices">
++      <arg name="devices" direction="out" type="a(ss)">
++        <doc:doc>
++          <doc:summary>an array of devices</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This gets a list of all the devices
++          that are currently associated with this seat.</doc:para>
++          <doc:para>Each device is an D-Bus structure that represents
++          the device type and the device id.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++
++    <method name="GetActiveSession">
++      <arg name="ssid" direction="out" type="o">
++        <doc:doc>
++          <doc:summary>Session ID</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Gets the Session ID that is currently active on this Seat.</doc:para>
++          <doc:para>Returns NULL if there is no active session.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++
++    <method name="CanActivateSessions">
++      <arg name="can_activate" direction="out" type="b">
++        <doc:doc>
++          <doc:summary>TRUE if seat supports session activation</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description><doc:para>Used to determine whether the seat supports session activation.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++
++    <method name="ActivateSession">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <arg name="ssid" direction="in" type="o">
++        <doc:doc>
++          <doc:summary>Session ID</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Attempt to activate the specified session.  In most
++          cases, if successful, this will cause the session to
++          become visible and take control of the hardware that is
++          associated with this seat.</doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="method" to="Session.Activate">Activate()</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++
++    <signal name="ActiveSessionChanged">
++      <arg name="ssid" type="o">
++        <doc:doc>
++          <doc:summary>Session ID</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Emitted when the active session has changed.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++    <signal name="SessionAdded">
++      <arg name="ssid" type="o">
++        <doc:doc>
++          <doc:summary>Session ID</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Emitted when a session has been added to the seat.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++    <signal name="SessionRemoved">
++      <arg name="ssid" type="o">
++        <doc:doc>
++          <doc:summary>Session ID</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Emitted when a session has been removed from the seat.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++    <signal name="DeviceAdded">
++      <arg name="device" type="(ss)">
++        <doc:doc>
++          <doc:summary>Device structure</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Emitted when a device has been associated with the seat.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++    <signal name="DeviceRemoved">
++      <arg name="device" type="(ss)">
++        <doc:doc>
++          <doc:summary>Device structure</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Emitted when a device has been dissociated from the seat.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++  </interface>
++</node>
+diff --git a/src/libaccountsservice/org.freedesktop.ConsoleKit.Session.xml b/src/libaccountsservice/org.freedesktop.ConsoleKit.Session.xml
+new file mode 100644
+index 0000000..b6e1cdb
+--- /dev/null
++++ b/src/libaccountsservice/org.freedesktop.ConsoleKit.Session.xml
+@@ -0,0 +1,435 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<node xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
++
++  <interface name="org.freedesktop.ConsoleKit.Session">
++    <doc:doc>
++      <doc:description>
++        <doc:para>Session objects represent and store information
++        related to a user session.
++        </doc:para>
++        <doc:para>The properties associated with the Session
++        specifically refer to the properties of the "session leader".
++        </doc:para>
++      </doc:description>
++    </doc:doc>
++    <method name="GetId">
++      <arg name="ssid" direction="out" type="o">
++        <doc:doc>
++          <doc:summary>Session ID</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description><doc:para>Returns the ID for Session.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++    <method name="GetSeatId">
++      <arg name="sid" direction="out" type="o">
++        <doc:doc>
++          <doc:summary>Seat ID</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description><doc:para>Returns the ID for the Seat the Session is
++        attached to.</doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="interface" to="Seat">org.freedesktop.ConsoleKit.Seat</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="GetSessionType">
++      <arg name="type" direction="out" type="s">
++        <doc:doc>
++          <doc:summary>Session type</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Returns the type of the session.</doc:para>
++          <doc:para>Warning: we haven't yet defined the allowed values for this property.
++          It is probably best to avoid this until we do.
++          </doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="property" to="Session:session-type">session-type</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="GetUser">
++      <arg name="uid" direction="out" type="u">
++        <doc:doc>
++          <doc:summary>User ID</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description><doc:para>Returns the user that the session belongs to.</doc:para>
++        </doc:description>
++        <doc:deprecated version="0.1.3" instead="GetUnixUser"/>
++        <doc:seealso><doc:ref type="property" to="Session:user">user</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="GetUnixUser">
++      <arg name="uid" direction="out" type="u">
++        <doc:doc>
++          <doc:summary>POSIX User ID</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description><doc:para>Returns the POSIX user ID that the session belongs to.</doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="property" to="Session:unix-user">unix-user</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="GetX11Display">
++      <arg name="display" direction="out" type="s">
++        <doc:doc>
++          <doc:summary>The value of the X11 display</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description><doc:para>Returns the value of the X11 DISPLAY for this session
++        if one is present.</doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="property" to="Session:x11-display">x11-display</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="GetX11DisplayDevice">
++       <arg name="x11_display_device" direction="out" type="s">
++        <doc:doc>
++          <doc:summary>The value of the X11 display device</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description><doc:para>Returns the value of the display device (aka TTY) that the
++        X11 display for the session is connected to.  If there is no x11-display set then this value
++        is undefined.</doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="property" to="Session:x11-display-device">x11-display-device</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="GetDisplayDevice">
++      <arg name="display_device" direction="out" type="s">
++        <doc:doc>
++          <doc:summary>The value of the display device</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description><doc:para>Returns the value of the display device (aka TTY) that the
++        session is connected to.</doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="property" to="Session:display-device">display-device</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="GetRemoteHostName">
++      <arg name="remote_host_name" direction="out" type="s">
++        <doc:doc>
++          <doc:summary>The remote host name</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description><doc:para>Returns the value of the remote host name for the session.
++        </doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="property" to="Session:remote-host-name">remote-host-name</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="GetLoginSessionId">
++       <arg name="login_session_id" direction="out" type="s">
++        <doc:doc>
++          <doc:summary>The value of the native system login session ID</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description><doc:para>Returns the value of the login session ID that the
++        underlying system uses to enforce session boundaries.  If there is no login session ID
++        set then this value is an empty string.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++    <method name="IsActive">
++      <arg name="active" direction="out" type="b">
++        <doc:doc>
++          <doc:summary>TRUE if the session is active, otherwise FALSE</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description><doc:para>Returns whether the session is active on the Seat that
++        it is attached to.</doc:para>
++        <doc:para>If the session is not attached to a seat this value is undefined.
++        </doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="property" to="Session:active">active</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="IsLocal">
++      <arg name="local" direction="out" type="b">
++        <doc:doc>
++          <doc:summary>TRUE if the session is local, otherwise FALSE</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description><doc:para>Returns whether the session is local</doc:para>
++        <doc:para>FIXME: we need to come up with a concrete definition for this value.
++        It was originally used as a way to identify XDMCP sessions that originate
++        from a remote system.
++        </doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="property" to="Session:is-local">is-local</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="GetCreationTime">
++      <arg name="iso8601_datetime" type="s" direction="out">
++        <doc:doc>
++          <doc:summary>An ISO 8601 format date-type string</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Returns an ISO 8601 date-time string that corresponds to
++          the time that the session was opened.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++
++    <method name="Activate">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Attempt to activate the this session.  In most
++          cases, if successful, this will cause the session to
++          become visible and become active on the seat that it
++          is attached to.</doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="method" to="Seat.ActivateSession">Seat.ActivateSession()</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="Lock">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This will cause a <doc:ref type="signal" to="Session::Lock">Lock</doc:ref>
++          signal to be emitted for this session.
++          </doc:para>
++        </doc:description>
++        <doc:permission>This method is restricted to privileged users by D-Bus policy.</doc:permission>
++        <doc:seealso><doc:ref type="signal" to="Session::Lock">Lock signal</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="Unlock">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This will cause an <doc:ref type="signal" to="Session::Unlock">Unlock</doc:ref>
++          signal to be emitted for this session.
++          </doc:para>
++          <doc:para>This can be used by login managers to unlock a session before it is
++          re-activated during fast-user-switching.
++          </doc:para>
++        </doc:description>
++        <doc:permission>This method is restricted to privileged users by D-Bus policy.</doc:permission>
++        <doc:seealso><doc:ref type="signal" to="Session::Unlock">Unlock signal</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++
++    <method name="GetIdleHint">
++      <arg name="idle_hint" type="b" direction="out">
++        <doc:doc>
++          <doc:summary>The value of the idle-hint</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Gets the value of the <doc:ref type="property" to="Session:idle-hint">idle-hint</doc:ref>
++          property.
++          </doc:para>
++        </doc:description>
++        <doc:seealso><doc:ref type="property" to="Session:idle-hint">idle-hint</doc:ref></doc:seealso>
++      </doc:doc>
++    </method>
++    <method name="GetIdleSinceHint">
++      <arg name="iso8601_datetime" type="s" direction="out">
++        <doc:doc>
++          <doc:summary>An ISO 8601 format date-type string</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Returns an ISO 8601 date-time string that corresponds to
++          the time of the last change of the idle-hint.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++    <method name="SetIdleHint">
++      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
++      <arg name="idle_hint" type="b" direction="in">
++        <doc:doc>
++          <doc:summary>boolean value to set the idle-hint to</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>This may be used by the session to indicate that
++          it is idle.
++          </doc:para>
++          <doc:para>Use of this method is restricted to the user
++          that owns the session.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </method>
++
++    <signal name="ActiveChanged">
++      <arg name="is_active" type="b">
++        <doc:doc>
++          <doc:summary>TRUE if the session is active, otherwise FALSE</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Emitted when the active property has changed.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++    <signal name="IdleHintChanged">
++      <arg name="hint" type="b">
++        <doc:doc>
++          <doc:summary>the new value of idle-hint</doc:summary>
++        </doc:doc>
++      </arg>
++      <doc:doc>
++        <doc:description>
++          <doc:para>Emitted when the idle-hint property has changed.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++    <signal name="Lock">
++      <doc:doc>
++        <doc:description>
++          <doc:para>Emitted in response to a call to the <doc:ref type="method" to="Session.Lock">Lock()</doc:ref> method.</doc:para>
++          <doc:para>It is intended that the screensaver for the session should lock the screen in response to this signal.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++    <signal name="Unlock">
++      <doc:doc>
++        <doc:description>
++          <doc:para>Emitted in response to a call to the <doc:ref type="method" to="Session.Unlock">Unlock()</doc:ref> method.</doc:para>
++          <doc:para>It is intended that the screensaver for the session should unlock the screen in response to this signal.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </signal>
++
++    <property name="unix-user" type="u" access="readwrite">
++      <doc:doc>
++        <doc:description>
++          <doc:para>The user assigned to the session.</doc:para>
++        </doc:description>
++      </doc:doc>
++    </property>
++    <property name="user" type="u" access="readwrite">
++      <doc:doc>
++        <doc:description>
++          <doc:para>The user assigned to the session.</doc:para>
++        </doc:description>
++        <doc:deprecated version="0.1.3" instead="unix-user"/>
++      </doc:doc>
++    </property>
++    <property name="session-type" type="s" access="readwrite">
++      <doc:doc>
++        <doc:description>
++          <doc:para>The type of the session.</doc:para>
++          <doc:para>Warning: we haven't yet defined the allowed values for this property.
++          It is probably best to avoid this until we do.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </property>
++    <property name="remote-host-name" type="s" access="readwrite">
++      <doc:doc>
++        <doc:description>
++          <doc:para>The remote host name for the session.
++          </doc:para>
++          <doc:para>This will be set in situations where the session is
++          opened and controlled from a remote system.
++          </doc:para>
++          <doc:para>For example, this value will be set when the
++          session is created from an SSH or XDMCP connection.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </property>
++    <property name="display-device" type="s" access="readwrite">
++      <doc:doc>
++        <doc:description>
++          <doc:para>The display device (aka TTY) that the
++          session is connected to.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </property>
++    <property name="x11-display" type="s" access="readwrite">
++      <doc:doc>
++        <doc:description>
++          <doc:para>Value of the X11 DISPLAY for this session
++          if one is present.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </property>
++    <property name="x11-display-device" type="s" access="readwrite">
++      <doc:doc>
++        <doc:description>
++          <doc:para>
++          The display device (aka TTY) that the X11 display for the
++          session is connected to.  If there is no x11-display set then
++          this value is undefined.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </property>
++    <property name="active" type="b" access="readwrite">
++      <doc:doc>
++        <doc:description>
++          <doc:para>
++          Whether the session is active on the Seat that
++          it is attached to.</doc:para>
++          <doc:para>If the session is not attached to a seat this value is undefined.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </property>
++    <property name="is-local" type="b" access="readwrite">
++      <doc:doc>
++        <doc:description>
++          <doc:para>
++          Whether the session is local</doc:para>
++          <doc:para>FIXME: we need to come up with a concrete definition for this value.
++          It was originally used as a way to identify XDMCP sessions that originate
++          from a remote system.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </property>
++    <property name="idle-hint" type="b" access="readwrite">
++      <doc:doc>
++        <doc:description>
++          <doc:para>
++          This is a hint used to indicate that the session may be idle.
++          </doc:para>
++          <doc:para>
++          For sessions with a <doc:ref type="property" to="Session:x11-display">x11-display</doc:ref> set (ie. graphical
++          sessions), it is up to each session to delegate the
++          responsibility for updating this value.  Typically, the
++          screensaver will set this.
++          </doc:para>
++          <doc:para>However, for non-graphical sessions with a <doc:ref type="property" to="Session:display-device">display-device</doc:ref> set
++          the Session object itself will periodically update this value based
++          on the activity detected on the display-device itself.
++          </doc:para>
++          <doc:para>
++          This should not be considered authoritative.
++          </doc:para>
++        </doc:description>
++      </doc:doc>
++    </property>
++
++  </interface>
++</node>
