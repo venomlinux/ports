@@ -3,9 +3,9 @@
 
 name=consolekit2
 version=1.2.6
-release=1
+release=2
 source="https://github.com/ConsoleKit2/ConsoleKit2/archive/$version/$name-$version.tar.gz
-	pam-foreground-compat.ck"
+	pam-foreground-compat.ck consolekit.pam"
 
 build() {
 	cd ConsoleKit2-$version
@@ -21,6 +21,9 @@ build() {
 		--enable-pam-module \
 		--enable-polkit \
 		--with-xinitrc-dir=/etc/X11/app-defaults/xinitrc.d \
+		--with-dbus-services=/usr/share/dbus-1/services \
+		--with-dbus-sys=/usr/share/dbus-1/system.d \
+		--with-pam-module-dir=/usr/lib/security \
 		--with-systemdsystemunitdir=no
 	make
 	make DESTDIR=$PKG install
@@ -30,4 +33,6 @@ build() {
 
 	install -Dm 755 $SRC/pam-foreground-compat.ck \
 	                $PKG/usr/lib/ConsoleKit/run-session.d/pam-foreground-compat.ck
+	install -dm755 $PKG/etc/pam.d/ 
+	install -Dm644 $SRC/consolekit.pam $PKG/etc/pam.d/consolekit
 }
