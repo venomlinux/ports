@@ -6,18 +6,19 @@
 # depends	: glib cairo pango jq cmake
 
 name=hyprland
-version=0.29.1
+version=0.30.0
 release=1
 source="$name-$version.tar.gz::https://github.com/hyprwm/$name/releases/download/v$version/source-v$version.tar.gz
-	no-wlroots-automagic.patch"
+	hyprland.desktop"
 
 build() {
 	cd hyprland-source
-	patch -Np1 -i $SRC/no-wlroots-automagic.patch
 
 	venom-meson build \
 		-Dxwayland=enabled \
 		-Dsystemd=disabled
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build --skip-subprojects wlroots
+
+        install -Dm644 $SRC/hyprland.desktop $PKG/usr/share/wayland-sessions/hyprland.desktop
 }
