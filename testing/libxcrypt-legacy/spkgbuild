@@ -1,0 +1,26 @@
+# description	: Modern library for one-way hashing of passwords 
+# depends	: glibc
+
+name=libxcrypt-legacy
+version=4.4.36
+release=1
+source="https://github.com/besser82/${name%-*}/archive/v${version}/${name%-*}-${version}.tar.gz"
+
+build() {
+	cd ${name%-*}-${version}
+
+	./autogen.sh
+	./configure --prefix=/usr \
+		--disable-static \
+		--enable-hashes=strong,glibc \
+		--enable-obsolete-api=glibc \
+		--disable-failure-tokens
+	make
+	make DESTDIR=$PKG install
+
+	# Remove files provided by libxcrypt
+	rm $PKG/usr/include/crypt.h
+	rm $PKG/usr/lib/libcrypt.so
+	rm -r $PKG/usr/lib/pkgconfig
+	rm -r $PKG/usr/share
+}
