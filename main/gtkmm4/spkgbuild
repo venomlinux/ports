@@ -1,0 +1,13 @@
+# description	: C++ interface to GTK+ 4
+# depends	: atkmm-gtk4 glibmm-gtk4 gtk4 pangomm-gtk4
+
+name=gtkmm4
+version=4.12.0
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/gtkmm/${version%.*}/gtkmm-$version.tar.xz"
+
+build() {
+	venom-meson gtkmm-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
