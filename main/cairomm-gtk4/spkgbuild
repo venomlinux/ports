@@ -1,0 +1,14 @@
+# description	: Provides a C++ interface to Cairo
+# depends	: cairo libsigc++
+
+name=cairomm-gtk4
+nm=cairomm
+version=1.18.0
+release=1
+source="$name-$version.tar.xz::https://cairographics.org/releases/$nm-$version.tar.xz"
+
+build() {
+	venom-meson $nm-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
