@@ -1,0 +1,14 @@
+# description	: Official C++ interface for the ATK accessibility toolkit library
+# depends	: at-spi2-core glibmm-gtk4 meson
+
+name=atkmm-gtk4
+nm=atkmm
+version=2.36.2
+release=1
+source="$name-$version.tar.xz::https://ftp.gnome.org/pub/gnome/sources/$nm/${version%.*}/$nm-$version.tar.xz"
+
+build() {
+	venom-meson $nm-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
