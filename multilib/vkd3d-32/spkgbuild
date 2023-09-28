@@ -4,7 +4,7 @@
 
 name=vkd3d-32
 version=1.9
-release=1
+release=2
 source="https://dl.winehq.org/vkd3d/source/${name%-*}-$version.tar.xz"
 
 build() {
@@ -19,7 +19,7 @@ build() {
 	make DESTDIR=$PKG install
 	mv $PKG/usr/bin/vkd3d-compiler $PKG/usr/bin/vkd3d-compiler-32
 
-
 	rm -r $PKG/usr/include
+	rm $PKG/usr/bin/vkd3d-dxbc
 }
 
