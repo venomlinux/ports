@@ -3,16 +3,12 @@
 # optional	: libva libvdpau llvm wayland-protocols
 
 name=mesa
-version=23.1.8
+version=23.2.1
 release=1
 source="https://mesa.freedesktop.org/archive/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-
-	# Remove two unneeded references to LLVM headers to avoid a build failure with LLVM 17 or later:
-	sed '/Scalar.h/d;/Utils.h/d' \
-	    -i src/gallium/auxiliary/gallivm/lp_bld_init.c
 
 	scratch isinstalled vulkan-icd-loader && OPT_MESA_GALLIUM='zink,'
 	scratch isinstalled libvdpau && OPT_MESA_VDPAU='-D gallium-vdpau=enabled' || OPT_MESA_VDPAU='-D gallium-vdpau=disabled'
