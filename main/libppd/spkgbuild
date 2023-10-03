@@ -1,0 +1,21 @@
+# description	: OpenPrinting - the legacy support library for PPD files
+# homepage	: https://github.com/OpenPrinting/libppd
+# depends	: libcupsfilters
+
+name=libppd
+version=2.0.0
+release=1
+source="https://github.com/OpenPrinting/libppd/releases/download/$version/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	scratch isinstalled mupdf || DMU=' --disable-mutool'
+	scratch isinstalled poppler || DPO=' --disable-pdftops'
+
+	./configure --prefix=/usr $DMU $DPO
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/doc
+}
