@@ -1,12 +1,10 @@
 # description	: Backends and filters for CUPS
-# depends	: ghostscript poppler qpdf mupdf ttf-dejavu
+# depends	: ghostscript libppd poppler qpdf mupdf ttf-dejavu
 
 name=cups-filters
-version=1.28.17
-release=2
-source="$name-$version.tar.gz::https://github.com/OpenPrinting/cups-filters/archive/$version.tar.gz
-	run.cups-browsed
-	rc.cups-browsed"
+version=2.0.0
+release=1
+source="$name-$version.tar.gz::https://github.com/OpenPrinting/cups-filters/archive/$version.tar.gz"
 
 build() {
 	cd $name-$version
@@ -25,10 +23,4 @@ build() {
 		--with-browseremoteprotocols=cups
 	make
 	make DESTDIR=$PKG install
-
-	# runit service
-	    install -Dm755 $SRC/run.cups-browsed $PKG/etc/sv/cups-browsed/run
-	    ln -s /run/runit/supervise.cups-browsed  $PKG/etc/sv/cups-browsed/supervise
-	# rc service
-	    install -Dm755 $SRC/rc.cups-browsed $PKG/etc/rc.d/rc.cups-browsed
 }
