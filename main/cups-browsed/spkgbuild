@@ -1,0 +1,38 @@
+# description	: Helper daemon to browse the network for remote CUPS queues and IPP network printers
+# homepage	: https://github.com/OpenPrinting/cups-browsed
+# depends	: glib libcupsfilters libppd
+# optional	: avahi
+
+name=cups-browsed
+version=2.0.0
+release=1
+source="https://github.com/OpenPrinting/$name/releases/download/$version/$name-$version.tar.xz
+	rc.cups-browsed
+	run.cups-browsed
+	disabled_avahi.patch"
+
+build() {
+	cd $name-$version
+	
+	# disable avahi
+	patch -p1 -i $SRC/disabled_avahi.patch
+	scratch isinstalled avahi || OPTS=' --disable-avahi'
+
+	./configure $OPTS \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--runstatedir=/run \
+		--with-cups-rundir=/run/cups \
+		--without-rcdir
+	make
+	make DESTDIR=$PKG install
+
+	# rc service
+	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/rc.$name
+
+	# runit service
+	install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
+	ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+
+	rm -r $PKG/usr/share/doc
+}
