@@ -2,13 +2,13 @@
 # depends	: ncurses
 
 name=dialog
-version=1.3_20230209
-_version=$(echo $version | sed 's/_/-/')
+version=1.3_20231002
+vrsn=$(echo $version | sed 's/_/-/')
 release=1
-source="https://invisible-mirror.net/archives/$name/$name-$_version.tgz"
+source="https://invisible-mirror.net/archives/$name/$name-$vrsn.tgz"
 
 build () {
-	cd $name-$_version
+	cd $name-$vrsn
 
 	./configure \
 		--prefix=/usr \
