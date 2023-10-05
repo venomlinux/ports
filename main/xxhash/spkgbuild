@@ -1,0 +1,14 @@
+# description	: Extremely fast non-cryptographic hash algorithm
+# homepage	: https://cyan4973.github.io/xxHash/
+
+name=xxhash
+nm=xxHash
+version=0.8.2
+release=1
+source="https://github.com/Cyan4973/${nm}/archive/v${version}/${name}-${version}.tar.gz"
+
+build() {
+  cd $nm-$version
+  make PREFIX=/usr DISPATCH=1 DESTDIR=$PKG install
+}
+
