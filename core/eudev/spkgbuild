@@ -2,20 +2,20 @@
 # depends	: util-linux kmod
 
 name=eudev
-version=3.2.12
-release=2
+version=3.2.14
+release=1
 source="$name-$version.tar.gz::https://github.com/eudev-project/eudev/archive/v$version.tar.gz"
 
 build() {
 	cd $name-$version
 
-	scratch isinstalled libxslt && _opt="--enable-manpages"
+	scratch isinstalled libxslt && OPTS="--enable-manpages"
 
 	# remove an unneeded group 'sgx'
 	sed -i -e 's/GROUP="sgx", //' rules/50-udev-default.rules
 
 	autoreconf -f -i -s
-	./configure \
+	./configure $OPTS \
 		--prefix=/usr \
 		--bindir=/sbin \
 		--sbindir=/sbin \
@@ -24,8 +24,7 @@ build() {
 		--libexecdir=/lib \
 		--with-rootprefix= \
 		--with-rootlibdir=/lib \
-		--disable-static \
-		$_opt
+		--disable-static 
 	make
 
 	mkdir -pv $PKG/lib/udev/rules.d
