@@ -4,11 +4,11 @@
 name=xxhash
 nm=xxHash
 version=0.8.2
-release=1
+release=2
 source="https://github.com/Cyan4973/${nm}/archive/v${version}/${name}-${version}.tar.gz"
 
 build() {
   cd $nm-$version
-  make PREFIX=/usr DISPATCH=1 DESTDIR=$PKG install
+  make PREFIX=/usr DESTDIR=$PKG install
 }
 
