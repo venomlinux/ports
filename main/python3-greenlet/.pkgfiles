@@ -1,4 +1,4 @@
-python3-greenlet-2.0.2-1
+python3-greenlet-3.0.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/include/python3.11/
@@ -7,14 +7,23 @@ drwxr-xr-x root/root    usr/include/python3.11/greenlet/
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/python3.11/
 drwxr-xr-x root/root    usr/lib/python3.11/site-packages/
-drwxr-xr-x root/root    usr/lib/python3.11/site-packages/greenlet-2.0.2-py3.11.egg-info/
--rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet-2.0.2-py3.11.egg-info/PKG-INFO
--rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet-2.0.2-py3.11.egg-info/SOURCES.txt
--rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet-2.0.2-py3.11.egg-info/dependency_links.txt
--rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet-2.0.2-py3.11.egg-info/not-zip-safe
--rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet-2.0.2-py3.11.egg-info/requires.txt
--rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet-2.0.2-py3.11.egg-info/top_level.txt
+drwxr-xr-x root/root    usr/lib/python3.11/site-packages/greenlet-3.0.0-py3.11.egg-info/
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet-3.0.0-py3.11.egg-info/PKG-INFO
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet-3.0.0-py3.11.egg-info/SOURCES.txt
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet-3.0.0-py3.11.egg-info/dependency_links.txt
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet-3.0.0-py3.11.egg-info/not-zip-safe
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet-3.0.0-py3.11.egg-info/requires.txt
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet-3.0.0-py3.11.egg-info/top_level.txt
 drwxr-xr-x root/root    usr/lib/python3.11/site-packages/greenlet/
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/TBrokenGreenlet.cpp
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/TExceptionState.cpp
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/TGreenlet.cpp
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/TGreenletGlobals.cpp
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/TMainGreenlet.cpp
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/TPythonState.cpp
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/TStackState.cpp
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/TThreadStateDestroy.cpp
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/TUserGreenlet.cpp
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/__init__.py
 drwxr-xr-x root/root    usr/lib/python3.11/site-packages/greenlet/__pycache__/
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/__pycache__/__init__.cpython-311.opt-1.pyc
@@ -24,6 +33,7 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/greenlet/__pycache__/
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/greenlet.h
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/greenlet_allocator.hpp
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/greenlet_compiler_compat.hpp
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/greenlet_cpython_add_pending.hpp
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/greenlet_cpython_compat.hpp
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/greenlet_exceptions.hpp
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/greenlet_greenlet.hpp
@@ -48,6 +58,7 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/greenlet/platform/__pyc
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/platform/switch_arm64_masm.obj
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/platform/switch_arm64_msvc.h
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/platform/switch_csky_gcc.h
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/platform/switch_loongarch64_linux.h
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/platform/switch_m68k_gcc.h
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/platform/switch_mips_unix.h
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/platform/switch_ppc64_aix.h
@@ -71,6 +82,20 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/greenlet/tests/
 drwxr-xr-x root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/__init__.cpython-311.opt-1.pyc
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/__init__.cpython-311.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_clearing_run_switches.cpython-311.opt-1.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_clearing_run_switches.cpython-311.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_cpp_exception.cpython-311.opt-1.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_cpp_exception.cpython-311.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_initialstub_already_started.cpython-311.opt-1.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_initialstub_already_started.cpython-311.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_slp_switch.cpython-311.opt-1.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_slp_switch.cpython-311.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_switch_three_greenlets.cpython-311.opt-1.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_switch_three_greenlets.cpython-311.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_switch_three_greenlets2.cpython-311.opt-1.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_switch_three_greenlets2.cpython-311.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_switch_two_greenlets.cpython-311.opt-1.pyc
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/fail_switch_two_greenlets.cpython-311.pyc
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/leakcheck.cpython-311.opt-1.pyc
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/leakcheck.cpython-311.pyc
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycache__/test_contextvars.cpython-311.opt-1.pyc
@@ -105,6 +130,13 @@ drwxr-xr-x root/root    usr/lib/python3.11/site-packages/greenlet/tests/__pycach
 -rwxr-xr-x root/root    usr/lib/python3.11/site-packages/greenlet/tests/_test_extension.cpython-311-x86_64-linux-gnu.so
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/_test_extension_cpp.cpp
 -rwxr-xr-x root/root    usr/lib/python3.11/site-packages/greenlet/tests/_test_extension_cpp.cpython-311-x86_64-linux-gnu.so
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/fail_clearing_run_switches.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/fail_cpp_exception.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/fail_initialstub_already_started.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/fail_slp_switch.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/fail_switch_three_greenlets.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/fail_switch_three_greenlets2.py
+-rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/fail_switch_two_greenlets.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/leakcheck.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/test_contextvars.py
 -rw-r--r-- root/root    usr/lib/python3.11/site-packages/greenlet/tests/test_cpp.py
