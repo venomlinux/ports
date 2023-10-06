@@ -4,7 +4,7 @@
 
 name=networkmanager
 version=1.44.2
-release=1
+release=2
 backup="etc/NetworkManager/NetworkManager.conf"
 source="$name-$version.tar.xz::https://ftp.gnome.org/pub/gnome/sources/NetworkManager/${version%.*}/NetworkManager-$version.tar.xz
 	rc.$name
@@ -28,6 +28,7 @@ build() {
 	      -Ddocs=false               \
 	      -Dqt=false                 \
 	      -Dtests=no		 \
+	      -Dvapi=false	         \
 	      $OPT
 
 	meson compile -C build 
