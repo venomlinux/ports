@@ -1,5 +1,5 @@
 # description	: The main C library
-# depends	: linux-api-headers python3 tzdata
+# depends	: linux-api-headers libxcrypt python3 tzdata
 
 name=glibc
 version=2.38
@@ -8,8 +8,8 @@ backup="etc/locales"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
 	genlocales nsswitch.conf ld.so.conf
 	reenable_DT_HASH.patch
-	glibc-2.38-upstream_fixes-2.patch
-	CVE-2023-4911.patch"
+	glibc-2.38-upstream_fixes-3.patch"
+
 nostrip="lib.*/ld-.*\.so$
 	lib.*/libc-.*\.so$
 	lib.*/libpthread-.*\.so$
@@ -19,8 +19,7 @@ build() {
 	cd $name-$version
 
 	patch -Np1 -i $SRC/reenable_DT_HASH.patch
-	patch -Np1 -i $SRC/glibc-2.38-upstream_fixes-2.patch
-	patch -Np1 -i $SRC/CVE-2023-4911.patch
+	patch -Np1 -i $SRC/glibc-2.38-upstream_fixes-3.patch
 
 	_configure_flag="
 		--prefix=/usr \
