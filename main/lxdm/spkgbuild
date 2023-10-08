@@ -3,14 +3,12 @@
 
 name=lxdm
 version=0.5.3
-release=3
+release=4
 backup="etc/lxdm/lxdm.conf"
 source="https://sourceforge.net/projects/lxde/files/$name/$name%20$version/$name-$version.tar.xz
 	run.$name
 	rc.$name
 	$name-venom-theme.tar.gz"
-
-tar -xfcv $SRC/$name-venom-theme.tar.gz
 
 build() {
 	cd $name-$version
