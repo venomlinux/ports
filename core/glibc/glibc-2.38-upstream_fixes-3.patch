@@ -1,19 +1,25 @@
 Submitted By:            Xi Ruoyao <xry111 at xry111.site>
-Date:                    2023-09-13
+Date:                    2023-10-03
 Initial Package Version: 2.38
 Upstream Status:         Applied
 Origin:                  Upstream & Self
-  - 1/6: https://sourceware.org/git/?p=glibc.git;a=patch;h=542b11058525
-  - 2/6: https://sourceware.org/pipermail/libc-alpha/2023-August/150857.html
-  - 3/6: Trivial unused code removal
-  - 4/6: https://sourceware.org/pipermail/libc-alpha/2023-September/151522.html
-  - 5/6: https://sourceware.org/pipermail/libc-alpha/2023-September/151548.html
-  - 6/6: https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=ec6b95c3303c
+  - 1/8: https://sourceware.org/git/?p=glibc.git;a=patch;h=542b11058525
+  - 2/8: https://sourceware.org/pipermail/libc-alpha/2023-August/150857.html
+  - 3/8: Trivial unused code removal
+  - 4/8: https://sourceware.org/pipermail/libc-alpha/2023-September/151522.html
+  - 5/8: https://sourceware.org/pipermail/libc-alpha/2023-September/151548.html
+  - 6/8: https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=ec6b95c3303c
+  - 7/8: https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=73e3fcd1a552
+  - 8/8: https://sourceware.org/git/gitweb.cgi?p=glibc.git;h=750a45a78390
 Description:             Fixes a regression causing posix_memalign()
                          very slow in certain conditions to avoid
                          breaking ffmpeg-based applications;
-                         fixes two security vulnerabilities,
-                         CVE-2023-4527 and CVE-2023-4806.
+                         fixes three security vulnerabilities:
+                         CVE-2023-4527, CVE-2023-4806, and CVE-2023-4911.
+                         (There is also a fix for CVE-2023-5156, but this
+                         CVE is actually a memory leak introduced by the
+                         CVE-2023-4806 fix so I'll not say "fixed it for
+                         Glibc-2.38".)
 
 From fc01478d06658ace8d57e5328c1e717275acfe84 Mon Sep 17 00:00:00 2001
 From: Florian Weimer <fweimer@redhat.com>
@@ -712,3 +718,57 @@ index 47f421fddf..531124958d 100644
  
    return result;
  }
+
+X-Git-Url: https://sourceware.org/git/?p=glibc.git;a=blobdiff_plain;f=sysdeps%2Fgeneric%2Funsecvars.h;h=8278c50a84ffda18e28c178d390f1899d8306e26;hp=81397fb90ba48d7e0e4c2ba99c8efb5daf1d6c5b;hb=73e3fcd1a552783e66ff1f65c5f322e2f17a81d1;hpb=f6445dc94da185b3d1ee283f0ca0a34c4e1986cc
+
+diff --git a/sysdeps/generic/unsecvars.h b/sysdeps/generic/unsecvars.h
+index 81397fb90b..8278c50a84 100644
+--- a/sysdeps/generic/unsecvars.h
++++ b/sysdeps/generic/unsecvars.h
+@@ -4,7 +4,6 @@
+ #define UNSECURE_ENVVARS \
+   "GCONV_PATH\0"							      \
+   "GETCONF_DIR\0"							      \
+-  "GLIBC_TUNABLES\0"							      \
+   "HOSTALIASES\0"							      \
+   "LD_AUDIT\0"								      \
+   "LD_DEBUG\0"								      \
+
+X-Git-Url: https://sourceware.org/git/?p=glibc.git;a=blobdiff_plain;f=elf%2Fdl-tunables.c;h=cae67efa0aacb9984c49874dcb95f170ecd1d86d;hp=62b7332d95b61ce3428040522271f6e93e9d53ed;hb=750a45a783906a19591fb8ff6b7841470f1f5701;hpb=73e3fcd1a552783e66ff1f65c5f322e2f17a81d1
+
+diff --git a/elf/dl-tunables.c b/elf/dl-tunables.c
+index 62b7332d95..cae67efa0a 100644
+--- a/elf/dl-tunables.c
++++ b/elf/dl-tunables.c
+@@ -180,11 +180,7 @@ parse_tunables (char *tunestr, char *valstring)
+       /* If we reach the end of the string before getting a valid name-value
+ 	 pair, bail out.  */
+       if (p[len] == '\0')
+-	{
+-	  if (__libc_enable_secure)
+-	    tunestr[off] = '\0';
+-	  return;
+-	}
++	break;
+
+       /* We did not find a valid name-value pair before encountering the
+ 	 colon.  */
+@@ -244,9 +240,16 @@ parse_tunables (char *tunestr, char *valstring)
+ 	    }
+ 	}
+
+-      if (p[len] != '\0')
+-	p += len + 1;
++      /* We reached the end while processing the tunable string.  */
++      if (p[len] == '\0')
++	break;
++
++      p += len + 1;
+     }
++
++  /* Terminate tunestr before we leave.  */
++  if (__libc_enable_secure)
++    tunestr[off] = '\0';
+ }
+
+ /* Enable the glibc.malloc.check tunable in SETUID/SETGID programs only when
