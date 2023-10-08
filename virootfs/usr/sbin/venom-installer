@@ -497,8 +497,10 @@ start_install() {
 	fi
 	
 	if [ "$EFI_SYSTEM" = 1 ]; then
+	    if [ ! "$(lsblk -nrp -o FSTYPE $efi_var)" = vfat ]; then  
 		echo "Formatting partition $efi_var to fat32"
 		mkfs.vfat -F32 $efi_var
+	    fi
 		echo "Mounting $efi_var on $ROOT/boot/efi"
 		mkdir -p $ROOT/boot/efi
 		mount $efi_var $ROOT/boot/efi
