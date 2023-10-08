@@ -2,7 +2,7 @@
 
 name=man-pages
 version=6.05.01
-release=1
+release=2
 source="https://www.kernel.org/pub/linux/docs/$name/$name-$version.tar.xz"
 
 build() {
@@ -15,4 +15,8 @@ build() {
 	   $PKG/usr/share/man/man8/zic.8 \
 	   $PKG/usr/share/man/man8/tzselect.8 \
 	   $PKG/usr/share/man/man8/zdump.8
+	
+	# remove libcrypt man page, they are provided by libxcrypt
+	rm $PKG/usr/share/man/man3/crypt.3 \
+	   $PKG/usr/share/man/man3/crypt_r.3
 }
