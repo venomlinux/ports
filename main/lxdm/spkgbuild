@@ -1,13 +1,16 @@
 # description	: Lightweight Display Manager for the LXDE desktop
-# depends	: gtk2 iso-codes consolekit2 linux-pam xorg-server librsvg
+# depends	: gtk3 iso-codes consolekit2 linux-pam xorg-server librsvg
 
 name=lxdm
 version=0.5.3
-release=2
+release=3
 backup="etc/lxdm/lxdm.conf"
-source="https://downloads.sourceforge.net/$name/$name-$version.tar.xz
+source="https://sourceforge.net/projects/lxde/files/$name/$name%20$version/$name-$version.tar.xz
 	run.$name
-	rc.$name"
+	rc.$name
+	$name-venom-theme.tar.gz"
+
+tar -xfcv $SRC/$name-venom-theme.tar.gz
 
 build() {
 	cd $name-$version
@@ -35,17 +38,21 @@ sed -e 's/^bg/#&/'        \
 
 	autoreconf -fiv
 	./configure --prefix=/usr \
-	            --sysconfdir=/etc \
-		    --libexecdir=/usr/lib/$name \
-	            --with-pam \
-		    --disable-nls \
-	            --with-systemdsystemunitdir=no
+				--with-pam \
+				--disable-nls \
+				--libexecdir=/usr/lib/$name \
+				--with-systemdsystemunitdir=no \
+				--sysconfdir=/etc \
+	            --enable-gtk3
 	make
 	make DESTDIR=$PKG install
-
+        
 	# runit service
 	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
 	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	 
+	 cd $SRC/$name-venom-theme
+	 cp -r Venom $PKG/usr/share/lxdm/themes
 }
