@@ -3,7 +3,7 @@
 
 name=llvm
 version=17.0.2
-release=1
+release=2
 source="https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/llvm-${version}.src.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/cmake-${version}.src.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/third-party-${version}.src.tar.xz
@@ -43,6 +43,7 @@ build() {
 		-D LLVM_ENABLE_LLD=$(scratch isinstalled lld && echo ON || echo OFF) \
 		-D LLVM_OPTIMIZED_TABLEGEN=ON \
 		-D LLVM_INCLUDE_BENCHMARKS=OFF \
+		-D LLVM_TARGETS_TO_BUILD='AMDGPU;BPF;NVPTX;WebAssembly;X86' \
 		-Wno-dev
 
 	jobs=
