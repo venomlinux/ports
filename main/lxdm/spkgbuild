@@ -3,7 +3,7 @@
 
 name=lxdm
 version=0.5.3
-release=4
+release=5
 backup="etc/lxdm/lxdm.conf"
 source="https://sourceforge.net/projects/lxde/files/$name/$name%20$version/$name-$version.tar.xz
 	run.$name
@@ -50,7 +50,9 @@ sed -e 's/^bg/#&/'        \
 	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-	 
-	 cd $SRC/$name-venom-theme
-	 cp -r Venom $PKG/usr/share/lxdm/themes
+	    
+	sed -i 's/Clearlooks/OSX-Arc-Plus/;s/Industrial/Venom/;s/disable=0/disable=1/' $PKG/etc/$name/$name.conf
+	
+	cd $SRC/$name-venom-theme
+	cp -r Venom $PKG/usr/share/$name/themes
 }
