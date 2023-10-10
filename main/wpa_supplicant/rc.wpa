@@ -7,6 +7,8 @@
 . /etc/conf.d/wpa_supplicant
 . /etc/rc.subr
 
+DEV=$(ls /sys/class/ieee80211/*/device/net/ | head -n1)
+
 NAME=wpa_supplicant
 PROG=/sbin/wpa_supplicant
 PIDFILE_WPA=/var/run/$NAME.pid
