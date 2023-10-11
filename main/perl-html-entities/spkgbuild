@@ -4,7 +4,7 @@
 
 name=perl-html-entities
 version=3.81
-release=1
+release=2
 source="$name-$version.tar.gz::https://cpan.metacpan.org/authors/id/O/OA/OALDERS/HTML-Parser-$version.tar.gz"
 
 build() {
@@ -12,6 +12,7 @@ build() {
 	perl -I. Makefile.PL INSTALLDIRS=vendor
         make
         make DESTDIR="$PKG" install
+	rm -rf $PKG/usr/share
 
 }
 
