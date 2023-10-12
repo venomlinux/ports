@@ -1,57 +1,66 @@
 # description	: Cross-platform application framework that is widely used for developing application
-# depends	: alsa-lib dbus gdk-pixbuf gst-plugins-base libepoxy libmng libxkbcommon harfbuzz icu xcb-util-wm
-# depends	: xcb-util-image xcb-util-keysyms xcb-util-renderutil libxcb fontconfig
+# depends	: alsa-lib dbus gdk-pixbuf gst-plugins-base libepoxy libmng libxkbcommon harfbuzz icu 
+# depends	: xcb-util-wm xcb-util-image xcb-util-keysyms xcb-util-renderutil libxcb fontconfig
 
 name=qt5
-version=5.15.10
+version=5.15.11
 release=1
 source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/single/qt-everywhere-opensource-src-$version.tar.xz
-	qt-everywhere-opensource-src-${version}-kf5-1.patch"
-
+	qt-everywhere-opensource-src-${version}-kf5-1.patch 
+	qt-xkbcommon160.patch"
 
 build() {
 	cd qt-everywhere-src-$version
 
 	patch -Np1 -i $SRC/qt-everywhere-opensource-src-${version}-kf5-1.patch
+	patch -Np1 -i $SRC/qt-xkbcommon160.patch
 
 	mkdir -pv qtbase/.git
-
-	# Build qmake using Venom {C,LD}FLAGS
-	# This also sets default {C,CXX,LD}FLAGS for projects built using qmake
-	sed -i -e "s|^\(QMAKE_CFLAGS_RELEASE.*\)|\1 ${CFLAGS}|" \
-	    qtbase/mkspecs/common/gcc-base.conf
-	sed -i -e "s|^\(QMAKE_LFLAGS_RELEASE.*\)|\1 ${LDFLAGS}|" \
-	    qtbase/mkspecs/common/g++-unix.conf
-
-	# Add another fix for building with GCC-13:
 
 	sed -e "/pragma once/a#include <cstdint>"                                      \
 	    -i qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/geometry.hpp \
 	       qtlocation/src/3rdparty/mapbox-gl-native/include/mbgl/util/string.hpp   \
 	       qtlocation/src/3rdparty/mapbox-gl-native/src/mbgl/gl/stencil_mode.hpp
 
-	./configure -prefix         /usr \
-	            -sysconfdir     /etc/xdg \
-		    -archdatadir    /usr/lib/qt5 \
-	            -bindir         /usr/lib/qt5/bin \
-		    -plugindir      /usr/lib/qt5/plugins \
-		    -importdir      /usr/lib/qt5/imports \
-		    -headerdir      /usr/include/qt5 \
-		    -datadir        /usr/share/qt5 \
-		    -docdir         /usr/share/doc/qt5 \
-		    -translationdir /usr/share/qt5/translations \
-		    -examplesdir    /usr/share/doc/qt5/examples \
-	            -confirm-license \
-	            -opensource \
-	            -dbus-linked \
-	            -openssl-linked \
-	            -system-harfbuzz \
-	            -system-sqlite \
-	            -nomake examples \
-	            -no-rpath \
-	            -skip qtwebengine
+	./configure \
+		-prefix /usr/ \
+		-archdatadir /usr/lib/qt5 \
+		-bindir /usr/lib/qt5/bin \
+		-plugindir /usr/lib/qt5/plugins \
+		-importdir /usr/lib/qt5/imports \
+		-datadir /usr/share/qt5 \
+		-docdir /usr/share/doc/qt5 \
+		-translationdir /usr/share/qt5/translations \
+		-examplesdir /usr/share/doc/qt5/examples \
+		-headerdir /usr/include/qt5 \
+		-libdir /usr/lib \
+		-sysconfdir /etc/xdg \
+		QMAKE_CFLAGS_RELEASE="$CFLAGS -Wno-enum-constexpr-conversion" \
+		QMAKE_CXXFLAGS_RELEASE="$CXXFLAGS -Wno-enum-constexpr-conversion" \
+		QMAKE_LFLAGS_RELEASE="${LDFLAGS} -fuse-ld=gold" \
+		-confirm-license \
+		-opensource \
+		-release \
+		-dbus-linked \
+		-opengl desktop \
+		-openssl-linked \
+		-system-harfbuzz \
+		-system-libjpeg \
+		-system-libpng \
+		-system-pcre \
+		-system-sqlite \
+		-system-zlib \
+		-nomake examples \
+		-no-mimetype-database \
+		-no-rpath \
+		-no-strip \
+		-no-reduce-relocations \
+		-no-feature-relocatable \
+		-no-pch \
+		-skip qtwebengine \
+		-silent
 	make
-	make -j1 INSTALL_ROOT=$PKG install
+	make INSTALL_ROOT=$PKG install
 
 	find $PKG/usr -name \*.prl \
 	   -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
