@@ -5,12 +5,18 @@
 
 name=firefox
 version=118.0.2
-release=1
+release=2
 source="$name-$version.tar.xz::https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz 
-	$name.desktop"
+	$name.desktop
+	0001-Bug-1849874-Update-from-packed_simd_2-to-packed_simd.patch
+	0002-Bug-1851530-Use-plain-packed_simd.-r-hsivonen-supply.patch"
 
 build() {
   cd $name-$version
+
+  # Fix build with rust 1.73
+  patch -Np1 -i $SRC/0001-Bug-1849874-Update-from-packed_simd_2-to-packed_simd.patch
+  patch -Np1 -i $SRC/0002-Bug-1851530-Use-plain-packed_simd.-r-hsivonen-supply.patch
 
   mkdir "$SRC/rust"
   export CARGO_HOME="$SRC/rust"
