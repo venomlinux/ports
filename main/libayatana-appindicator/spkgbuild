@@ -4,8 +4,8 @@
 # depends	: libdbusmenu ninja vala
 
 name=libayatana-appindicator
-version=0.5.92
-release=2
+version=0.5.93
+release=1
 source="https://github.com/AyatanaIndicators/libayatana-appindicator/archive/$version/${name}-${version}.tar.gz"
 
 
@@ -20,6 +20,7 @@ build() {
 		-DBUILD_SHARED_LIBS=True \
 		-DENABLE_TESTS=OFF \
 		-DENABLE_BINDINGS_MONO=OFF \
+		-DENABLE_GTKDOC=OFF \
 		-Wno-dev
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
