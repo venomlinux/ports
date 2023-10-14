@@ -1,11 +1,13 @@
-# description	: Icon theme for Gtk+ 3 applications
+# description	: Icon theme for Gtk+  applications
 
 name=adwaita-icon-theme
 version=45.0
-release=2
+release=3
 source="https://download.gnome.org/sources/adwaita-icon-theme/${version%.*}/$name-${version}.tar.xz"
 
 build() {
+	scratch isinstalled gtk4 || sed '49d' $name-$version/meson.build
+	scratch isinstalled gtk3 || sed '50d' $name-$version/meson.build
 	venom-meson $name-${version} build 
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
