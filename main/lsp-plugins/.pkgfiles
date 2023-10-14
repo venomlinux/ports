@@ -1,4 +1,4 @@
-lsp-plugins-1.2.11-2
+lsp-plugins-1.2.12-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/xdg/
 drwxr-xr-x root/root    etc/xdg/menus/
@@ -14,6 +14,8 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-ab-tester-x8-stereo
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-art-delay-mono
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-art-delay-stereo
+-rwxr-xr-x root/root    usr/bin/lsp-plugins-autogain-mono
+-rwxr-xr-x root/root    usr/bin/lsp-plugins-autogain-stereo
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-beat-breather-mono
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-beat-breather-stereo
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-comp-delay-mono
@@ -116,6 +118,8 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-room-builder-stereo
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-sampler-mono
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-sampler-stereo
+-rwxr-xr-x root/root    usr/bin/lsp-plugins-sc-autogain-mono
+-rwxr-xr-x root/root    usr/bin/lsp-plugins-sc-autogain-stereo
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-sc-compressor-lr
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-sc-compressor-mono
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-sc-compressor-ms
@@ -175,12 +179,12 @@ drwxr-xr-x root/root    usr/lib/clap/
 -rwxr-xr-x root/root    usr/lib/clap/lsp-plugins-clap.clap
 drwxr-xr-x root/root    usr/lib/ladspa/
 -rwxr-xr-x root/root    usr/lib/ladspa/lsp-plugins-ladspa.so
--rw-r--r-- root/root    usr/lib/liblsp-r3d-glx-lib-1.0.14.a
--rwxr-xr-x root/root    usr/lib/liblsp-r3d-glx-lib-1.0.14.so
-lrwxrwxrwx root/root    usr/lib/liblsp-r3d-glx-lib.a -> liblsp-r3d-glx-lib-1.0.14.a
-lrwxrwxrwx root/root    usr/lib/liblsp-r3d-glx-lib.so -> liblsp-r3d-glx-lib-1.0.14.so
+-rw-r--r-- root/root    usr/lib/liblsp-r3d-glx-lib-1.0.15.a
+-rwxr-xr-x root/root    usr/lib/liblsp-r3d-glx-lib-1.0.15.so
+lrwxrwxrwx root/root    usr/lib/liblsp-r3d-glx-lib.a -> liblsp-r3d-glx-lib-1.0.15.a
+lrwxrwxrwx root/root    usr/lib/liblsp-r3d-glx-lib.so -> liblsp-r3d-glx-lib-1.0.15.so
 drwxr-xr-x root/root    usr/lib/lsp-plugins/
--rwxr-xr-x root/root    usr/lib/lsp-plugins/liblsp-plugins-jack-1.2.11.so
+-rwxr-xr-x root/root    usr/lib/lsp-plugins/liblsp-plugins-jack-1.2.12.so
 drwxr-xr-x root/root    usr/lib/lv2/
 drwxr-xr-x root/root    usr/lib/lv2/lsp-plugins.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/ab_tester_x2_mono.ttl
@@ -191,6 +195,8 @@ drwxr-xr-x root/root    usr/lib/lv2/lsp-plugins.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/ab_tester_x8_stereo.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/art_delay_mono.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/art_delay_stereo.ttl
+-rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/autogain_mono.ttl
+-rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/autogain_stereo.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/beat_breather_mono.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/beat_breather_stereo.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/comp_delay_mono.ttl
@@ -296,6 +302,8 @@ drwxr-xr-x root/root    usr/lib/lv2/lsp-plugins.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/room_builder_stereo.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/sampler_mono.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/sampler_stereo.ttl
+-rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/sc_autogain_mono.ttl
+-rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/sc_autogain_stereo.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/sc_compressor_lr.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/sc_compressor_mono.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/sc_compressor_ms.ttl
@@ -362,6 +370,8 @@ drwxr-xr-x root/root    usr/lib/vst/lsp-plugins/
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/ab-tester-x8-stereo.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/art-delay-mono.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/art-delay-stereo.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/autogain-mono.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/autogain-stereo.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/beat-breather-mono.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/beat-breather-stereo.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/comp-delay-mono.so
@@ -412,7 +422,7 @@ drwxr-xr-x root/root    usr/lib/vst/lsp-plugins/
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/limiter-stereo.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/loud-comp-mono.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/loud-comp-stereo.so
--rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/lsp-plugins-vst2-1.2.11.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/lsp-plugins-vst2-1.2.12.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/mb-compressor-lr.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/mb-compressor-mono.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/mb-compressor-ms.so
@@ -465,6 +475,8 @@ drwxr-xr-x root/root    usr/lib/vst/lsp-plugins/
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/room-builder-stereo.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/sampler-mono.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/sampler-stereo.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/sc-autogain-mono.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/sc-autogain-stereo.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/sc-compressor-lr.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/sc-compressor-mono.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/sc-compressor-ms.so
@@ -529,6 +541,8 @@ drwxr-xr-x root/root    usr/share/applications/
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_ab_tester_x8_stereo.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_art_delay_mono.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_art_delay_stereo.desktop
+-rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_autogain_mono.desktop
+-rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_autogain_stereo.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_beat_breather_mono.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_beat_breather_stereo.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_comp_delay_mono.desktop
@@ -631,6 +645,8 @@ drwxr-xr-x root/root    usr/share/applications/
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_room_builder_stereo.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_sampler_mono.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_sampler_stereo.desktop
+-rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_sc_autogain_mono.desktop
+-rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_sc_autogain_stereo.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_sc_compressor_lr.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_sc_compressor_mono.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_sc_compressor_ms.desktop
