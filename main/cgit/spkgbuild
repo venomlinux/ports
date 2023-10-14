@@ -4,13 +4,13 @@
 
 name=cgit
 version=1.2.3
-release=1
+release=2
 source="https://git.zx2c4.com/cgit/snapshot/$name-$version.tar.xz
 	cgit.conf"
 
 build() {
 	cd $name-$version
-
+	export XML_CATALOG_FILES=/etc/xml/catalog
 	make get-git
 	make
 	make doc-man
