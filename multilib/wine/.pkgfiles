@@ -1,4 +1,4 @@
-wine-8.17-1
+wine-8.18-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/revdep.d/
 -rw-r--r-- root/root    etc/revdep.d/wine.conf
@@ -756,6 +756,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/netcfgx.idl
 -rw-r--r-- root/root    usr/include/wine/windows/netcon.h
 -rw-r--r-- root/root    usr/include/wine/windows/netcon.idl
+-rw-r--r-- root/root    usr/include/wine/windows/netevent.h
 -rw-r--r-- root/root    usr/include/wine/windows/netfw.h
 -rw-r--r-- root/root    usr/include/wine/windows/netfw.idl
 -rw-r--r-- root/root    usr/include/wine/windows/netioapi.h
@@ -965,6 +966,8 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/structuredquerycondition.idl
 -rw-r--r-- root/root    usr/include/wine/windows/svrapi.h
 -rw-r--r-- root/root    usr/include/wine/windows/synchapi.h
+-rw-r--r-- root/root    usr/include/wine/windows/systemmediatransportcontrolsinterop.h
+-rw-r--r-- root/root    usr/include/wine/windows/systemmediatransportcontrolsinterop.idl
 -rw-r--r-- root/root    usr/include/wine/windows/t2embapi.h
 -rw-r--r-- root/root    usr/include/wine/windows/tapi.h
 -rw-r--r-- root/root    usr/include/wine/windows/taskschd.h
@@ -1152,6 +1155,8 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/windows.perception.spatial.surfaces.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.security.credentials.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.security.credentials.idl
+-rw-r--r-- root/root    usr/include/wine/windows/windows.security.credentials.ui.h
+-rw-r--r-- root/root    usr/include/wine/windows/windows.security.credentials.ui.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.security.cryptography.h
 -rw-r--r-- root/root    usr/include/wine/windows/windows.security.cryptography.idl
 -rw-r--r-- root/root    usr/include/wine/windows/windows.security.isolation.h
@@ -1203,6 +1208,7 @@ drwxr-xr-x root/root    usr/include/wine/windows/ddk/
 -rw-r--r-- root/root    usr/include/wine/windows/winnt.h
 -rw-r--r-- root/root    usr/include/wine/windows/winnt.rh
 -rw-r--r-- root/root    usr/include/wine/windows/winperf.h
+-rw-r--r-- root/root    usr/include/wine/windows/winppi.h
 -rw-r--r-- root/root    usr/include/wine/windows/winreg.h
 -rw-r--r-- root/root    usr/include/wine/windows/winresrc.h
 -rw-r--r-- root/root    usr/include/wine/windows/winsafer.h
@@ -1568,6 +1574,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-unix/
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winewayland.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winex11.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/winspool.so
+-rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/wpcap.so
 -rwxr-xr-x root/root    usr/lib/wine/x86_64-unix/ws2_32.so
 drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/acledit.dll
@@ -2393,10 +2400,13 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.globalization.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.media.devices.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.media.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.media.mediacontrol.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.media.speech.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.networking.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.networking.hostname.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.perception.stub.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.security.credentials.ui.userconsentverifier.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.storage.applicationdata.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.system.profile.systemmanufacturers.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windows.ui.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/windowscodecs.dll
@@ -2459,6 +2469,7 @@ drwxr-xr-x root/root    usr/lib/wine/x86_64-windows/
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wow64cpu.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wow64win.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wpc.dll
+-rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wpcap.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/write.exe
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/ws2_32.dll
 -rw-r--r-- root/root    usr/lib/wine/x86_64-windows/wscript.exe
@@ -3655,10 +3666,13 @@ drwxr-xr-x root/root    usr/lib32/wine/i386-windows/
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.globalization.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.media.devices.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.media.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.media.mediacontrol.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.media.speech.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.networking.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.networking.hostname.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.perception.stub.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.security.credentials.ui.userconsentverifier.dll
+-rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.storage.applicationdata.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.system.profile.systemmanufacturers.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windows.ui.dll
 -rw-r--r-- root/root    usr/lib32/wine/i386-windows/windowscodecs.dll
