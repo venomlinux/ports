@@ -3,7 +3,7 @@
 
 name=audacity
 version=3.3.3
-release=2
+release=1
 source="$name-$version.tar.gz::https://github.com/$name/$name/archive/refs/tags/Audacity-$version.tar.gz"
 
 build() {
@@ -15,6 +15,7 @@ build() {
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-DAUDACITY_BUILD_LEVEL=2 \
 		-Daudacity_conan_enabled=OFF \
 		-Daudacity_has_vst3=OFF \
 		-Daudacity_has_crashreports=OFF \
