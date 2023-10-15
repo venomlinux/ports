@@ -3,17 +3,13 @@
 # optional	: libva libvdpau-32 wayland-protocols
 
 name=mesa-32
-version=23.1.8
+version=23.2.1
 release=1
 source="https://mesa.freedesktop.org/archive/${name%-*}-$version.tar.xz
 	crossfile"
 
 build() {
 	cd ${name%-*}-$version 
-
-#	Remove two unneeded references to LLVM headers to avoid a build failure with LLVM 17 or later:
-	sed '/Scalar.h/d;/Utils.h/d' \
-	    -i src/gallium/auxiliary/gallivm/lp_bld_init.c
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
