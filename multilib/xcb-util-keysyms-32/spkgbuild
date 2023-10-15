@@ -4,11 +4,16 @@
 
 name=xcb-util-keysyms-32
 version=0.4.1
-release=1
+release=2
 source="https://xcb.freedesktop.org/dist/xcb-util-keysyms-$version.tar.xz"
 
 build() {
 	cd xcb-util-keysyms-$version
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR='/usr/lib32/pkgconfig:/usr/share/pkgconfig'
+	export LLVM_CONFIG="/usr/bin/llvm-config-32"
 
 	./configure --prefix=/usr --libdir=/usr/lib32
 
