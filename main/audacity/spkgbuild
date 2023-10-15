@@ -1,12 +1,17 @@
-# description : audacity
-# depends	: libsndfile mpg123 wavpack vamp libsoxr suil lilv twolame libsbsms sratom ffmpeg opus wxgtk3 expat lv2 curl sqlite lame portsmf portmidi portaudio flac libogg libvorbis libmad libid3tag zlib
+# description	: Multitrack audio editor
+# hompepage	: https://www.audacityteam.org/
+# depends	: libsndfile mpg123 wavpack vamp libsoxr suil lilv twolame libsbsms sratom ffmpeg opus wxgtk3 expat 
+# depends	: lv2 curl sqlite lame portsmf portmidi portaudio flac libogg libvorbis libmad libid3tag zlib
 
 name=audacity
 version=3.3.3
-release=1
-source="$name-$version.tar.gz::https://github.com/$name/$name/archive/refs/tags/Audacity-$version.tar.gz"
+release=2
+source="$name-$version.tar.gz::https://github.com/$name/$name/archive/refs/tags/Audacity-$version.tar.gz
+	gettext-0.22.patch"
 
 build() {
+
+	patch -d $name-Audacity-$version -Np1 -i $SRC/gettext-0.22.patch
 
 	cmake -S $name-Audacity-$version -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
