@@ -1,0 +1,19 @@
+# description	: Unofficial, high-level C++ dbus bindings
+# homepage	: https://github.com/Kistler-Group/sdbus-cpp/
+# depends	: basu cmake expat gtest ninja
+
+name=sdbus-cpp
+version=1.4.0
+release=1
+source="$name-$version.tar.gz::https://github.com/Kistler-Group/sdbus-cpp/archive/v$version.tar.gz"
+
+build() {
+	cmake -S $name-$version -B build -G Ninja \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_SHARED_LIBS=True \
+		-DCMAKE_BUILD_TYPE=None \
+		-DBUILD_CODE_GEN=True 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+}
