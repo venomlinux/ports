@@ -1,0 +1,14 @@
+# description	: Wayland protocol extensions for Hyprland
+# homepage      : https://github.com/hyprwm/hyprland-protocols
+# depends	: meson ninja wayland
+
+name=hyprland-protocols
+version=0.2
+release=1
+source="$name-$version.tar.gz::https://github.com/hyprwm/hyprland-protocols/archive/v$version.tar.gz"
+
+build() {
+	venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
