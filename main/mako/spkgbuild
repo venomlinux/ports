@@ -1,0 +1,14 @@
+# description	: Notification daemon for wayland
+# homepage	: https://github.com/emersion/mako
+# depends	: basu pango wayland-protocols
+
+name=mako
+version=1.8.0
+release=1
+source="https://github.com/emersion/mako/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
