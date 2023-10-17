@@ -1,0 +1,45 @@
+# description	: Steel Bank Common Lisp
+# homepage	: http://www.sbcl.org/
+# depends	: zlib texinfo
+
+name=sbcl
+version=2.3.9
+release=1
+source="$name-$version.tar.bz2::https://sourceforge.net/projects/sbcl/files/$name/$version/$name-$version-source.tar.bz2
+	https://sourceforge.net/projects/sbcl/files/$name/$version/$name-$version-x86-64-linux-binary.tar.bz2
+	fixes.lisp"
+_bootstrap_lisp="bash ../sbcl-*-linux/run-sbcl.sh --no-sysinit --no-userinit --disable-debugger"
+
+build() {
+	cd $name-$version
+	export CFLAGS="${CFLAGS} -D_GNU_SOURCE -fno-omit-frame-pointer -DSBCL_HOME=/usr/lib/sbcl"
+	export GNUMAKE="make"
+
+	# build system uses LINKFLAGS and OS_LIBS to build LDFLAGS
+	export LINKFLAGS="$LDFLAGS"
+	unset LDFLAGS
+	unset MiAKEFLAGS
+  
+	bash make.sh \
+		"$_bootstrap_lisp" \
+		--without-sb-test --with-sb-core-compression --prefix=/usr
+	make -C ./doc/manual info
+  
+	# cannot have both SBCL_HOME and INSTALL_ROOT
+	SBCL_HOME="" INSTALL_ROOT="$PKG/usr" sh install.sh
+
+	src/runtime/sbcl --core output/sbcl.core --script "${SRC}/fixes.lisp"
+	mv sbcl-new.core "${PKG}/usr/lib/sbcl/sbcl.core"
+
+	# sources
+	mkdir -p "$PKG/usr/share/sbcl-source"
+	cp -R -t "$PKG/usr/share/sbcl-source" "$SRC/$name-$version/src"
+	cp -R -t "$PKG/usr/share/sbcl-source" "$SRC/$name-$version/contrib"
+
+	# drop unwanted files
+	find $PKG \( -name Makefile -o -name .cvsignore \) -delete
+	find "$PKG/usr/share/sbcl-source" -type f \
+	    \( -name \*.fasl -o -name \*.o -o -name \*.log -o -name \*.so -o -name a.out \) -delete
+
+	rm "$PKG/usr/share/sbcl-source/src/runtime/sbcl"
+}

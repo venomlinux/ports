@@ -1,0 +1,15 @@
+# description	: Thin wrapper over POSIX syscalls
+# homepage	: https://github.com/sionescu/libfixposix/
+
+name=libfixposix
+version=0.5.1
+release=1
+source="$name-$version.tar.gz::https://github.com/sionescu/libfixposix/archive/v$version.tar.gz"
+
+build() {
+	cd $name-$version
+	autoreconf -fiv
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
