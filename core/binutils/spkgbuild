@@ -1,4 +1,5 @@
-# description	: A linker, an assembler, and other tools for handling object files
+# description	: A collection of binary tools
+# homepage	: https://www.gnu.org/software/binutils
 # depends	: flex elfutils
 
 name=binutils
@@ -24,6 +25,7 @@ build() {
 		--enable-shared \
 		--disable-werror \
 		--with-system-zlib \
+		--without-zstd \
 		--enable-multilib \
 		--with-lib-path=/usr/lib:/lib:/usr/lib32
 	make tooldir=/usr
