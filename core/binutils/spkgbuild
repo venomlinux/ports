@@ -4,7 +4,7 @@
 
 name=binutils
 version=2.41
-release=1
+release=2
 source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz"
 
 build() {
@@ -18,14 +18,19 @@ build() {
 	../configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
+		--enable-64-bit-bfd \
+		--enable-targets=x86_64-pep \
 		--enable-gold \
 		--enable-ld=default \
 		--enable-lto \
+		--enable-pgo-build=lto \
 		--enable-plugins \
 		--enable-shared \
+		--disable-nls \
 		--disable-werror \
 		--with-system-zlib \
 		--without-zstd \
+		--with-pic \
 		--enable-multilib \
 		--with-lib-path=/usr/lib:/lib:/usr/lib32
 	make tooldir=/usr
