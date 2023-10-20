@@ -4,7 +4,7 @@
 
 name=libdrm-32
 version=2.4.117
-release=1
+release=2
 source="https://dri.freedesktop.org/libdrm/${name%-*}-$version.tar.xz"
 
 build() {
@@ -14,8 +14,7 @@ build() {
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-
-	venom-meson --libdir=/usr/lib32 -Dudev=true build
+	venom-meson --libdir=/usr/lib32 build -Dudev=true -Dintel=enabled
 	meson compile -C build
 	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
 
