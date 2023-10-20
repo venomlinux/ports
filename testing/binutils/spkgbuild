@@ -1,0 +1,46 @@
+# description	: A collection of binary tools
+# homepage	: https://www.gnu.org/software/binutils
+# depends	: flex elfutils
+
+name=binutils
+version=2.41
+release=3
+source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz"
+
+build() {
+	cd $name-$version
+
+	sed -i '/^SUBDIRS/s/doc//' bfd/Makefile.in
+
+	mkdir -v build
+	cd       build
+
+	../configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--enable-64-bit-bfd \
+		--enable-install-libiberty \
+		--enable-targets=x86_64-pep \
+		--enable-gold \
+		--enable-ld=default \
+		--enable-lto \
+		--enable-plugins \
+		--enable-shared \
+		--disable-gdb\
+		--disable-gdb-server \
+		--disable-gprof \
+		--disable-gprofng \
+		--disable-jansson \
+		--disable-libdecnumber \
+		--disable-nls \
+		--disable-readline \
+		--disable-sim \
+		--disable-werror \
+		--with-system-zlib \
+		--without-zstd \
+		--with-pic \
+		--enable-multilib \
+		--with-lib-path=/usr/lib:/lib:/usr/lib32
+	make tooldir=/usr
+	make tooldir=/usr DESTDIR=$PKG install
+}
