@@ -1,0 +1,17 @@
+# description	: Tool to display AMDGPU usage
+# homepage	: https://github.com/Umio-Yasuno/amdgpu_top
+# depends	: libdrm rust
+
+name=amdgpu_top
+version=0.2.1
+release=1
+source="https://github.com/Umio-Yasuno/amdgpu_top/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cargo build --release --manifest-path $name-$version/Cargo.toml
+
+	install -Dt $PKG/usr/bin $name-$version/target/release/$name
+	install -Dm644 $name-$version/assets/amdgpu_top.desktop $PKG/usr/share/applications/amdgpu_top.desktop
+	install -Dm644 $name-$version/assets/amdgpu_top-tui.desktop $PKG/usr/share/applications/amdgpu_top-tui.desktop
+	install -Dm644 $name-$version/assets/amdgpu_top-smi.desktop $PKG/usr/share/applications/amdgpu_top-smi.desktop
+}
