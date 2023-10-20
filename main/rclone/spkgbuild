@@ -4,14 +4,33 @@
 
 name=rclone
 version=1.64.2
-release=1
-source="https://github.com/$name/$name/releases/download/v$version/$name-v$version-linux-amd64.zip"
+release=2
+noextract="$name-$version.tar.gz"
+source="$name-$version.tar.gz::https://github.com/rclone/rclone/archive/refs/tags/v$version.tar.gz"
 
 build() {
-	cd $name-v$version-linux-amd64
-	mkdir -p $PKG/usr/bin
-	mkdir -p $PKG/usr/man/man1/
-	cp rclone $PKG/usr/bin
-	chmod 755 $PKG/usr/bin/rclone
-	cp rclone.1 $PKG/usr/man/man1/
+	
+	    tar -xf $name-$version.tar.gz -C $SRC
+	    cd $name-$version
+
+	    export CGO_ENABLED=0
+	    export GOCACHE="${GOCACHE:-"$SRC/$name-$version/go-cache"}"
+	    export GOTMPDIR="${GOTMPDIR:-"$SRC"}"
+	    export GOMODCACHE="${GOMODCACHE:-"$SRC/$name-$version/go"}"
+
+	    go build
+
+	 ./rclone genautocomplete bash rclone.bash
+	 ./rclone genautocomplete fish rclone.fish
+	 ./rclone genautocomplete zsh rclone.zsh
+
+	install -Dm755 rclone $PKG/usr/bin/rclone
+
+	mkdir -p $PKG/sbin
+	ln -sfv /usr/bin/rclone $PKG/usr/bin/mount.rclone
+	ln -sfv /usr/bin/rclone $PKG/usr/bin/rclonefs
+	install -Dm644 rclone.1 $PKG/usr/share/man/man1/rclone.1
+	install -Dm644 rclone.bash $PKG/usr/share/bash-completion/completions/rclone
+	install -Dm644 rclone.fish $PKG/usr/share/fish/vendor_completions.d/rclone.fish
+	install -Dm644 rclone.zsh $PKG/usr/share/zsh/site-functions/_rclone
 }
