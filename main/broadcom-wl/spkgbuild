@@ -3,13 +3,13 @@
 
 name=broadcom-wl
 version=6.30.223.271
-release=1
-source="http://download.tuxfamily.org/nutyx/files/broadcom-wl-$version.tar.xz"
+release=2
+source="http://download.tuxfamily.org/nutyx/sources/$name/$name-$version.tar.xz"
 
 build() {
 
-	KERNEL_VERSION="$(basename /lib/modules/*)"
-	cd broadcom-wl-${version}
+	KERNEL_VERSION="$(cat /lib/modules/KERNELVERSION)"
+	cd $name-${version}
 	
 	make -C /lib/modules/${KERNEL_VERSION}/build M=$(pwd)
 	
