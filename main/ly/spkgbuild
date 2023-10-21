@@ -1,0 +1,32 @@
+# description	: TUI display manager
+# homepage	: https://github.com/fairyglade/ly
+# depends	: linux-pam libxcb
+
+name=ly
+version=0.6.0
+release=1
+_argoat="e1844c4c94b70bb351ec2bd2ac6bb320ee793d8f"
+_configator="8cec1786196ae6f6a8b35e66181277457f2a2bb2"
+_dragonfail="15bd3299bf3e49bd6734bff385cb0392cd2fa502"
+_termbox_next="d961a8122210010e7c2c8f201e61170c13d319b4"
+source="$name-$version.tar.gz::https://github.com/fairyglade/ly/archive/refs/tags/v$version.tar.gz
+	$name-argoat-$_argoat.tar.gz::https://github.com/nullgemm/argoat/archive/$_argoat.tar.gz
+	$name-configator-$_configator.tar.gz::https://github.com/nullgemm/configator/archive/$_configator.tar.gz
+	$name-dragonfail-$_dragonfail.tar.gz::https://github.com/nullgemm/dragonfail/archive/$_dragonfail.tar.gz
+	$name-termbox_next-$_termbox_next.tar.gz::https://github.com/nullgemm/termbox_next/archive/$_termbox_next.tar.gz
+	rc.ly"
+
+build() {
+	cd $name-$version
+
+	mv -T $SRC/argoat-$_argoat ./sub/argoat
+	mv -T $SRC/configator-$_configator ./sub/configator
+	mv -T $SRC/dragonfail-$_dragonfail ./sub/dragonfail
+	mv -T $SRC/termbox_next-$_termbox_next ./sub/termbox_next
+	
+	make 
+	make DESTDIR=$PKG install
+
+	install -Dm755 $SRC/rc.ly $PKG/etc/rc.d/ly
+	sed -i 's|login|system-auth|' $PKG/etc/pam.d/ly
+}
