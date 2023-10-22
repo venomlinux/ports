@@ -1,20 +1,24 @@
 # description	: User space library for accessing the DRM, on operating systems that support the ioctl interface (32bit)
-# depends	: libpciaccess-32 meson cairo-32
-# optdepends	: libdrm cairo docbook-xml docbook-xml libxslt valgrind cunit
+# depends	: libpciaccess-32 meson 
+# optional	: cairo-32 docbook-xml docbook-xml libxslt-32 valgrind cunit
 
 name=libdrm-32
 version=2.4.117
-release=2
+release=3
 source="https://dri.freedesktop.org/libdrm/${name%-*}-$version.tar.xz"
 
 build() {
-	cd ${name%-*}-$version
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	venom-meson --libdir=/usr/lib32 build -Dudev=true -Dintel=enabled
+	venom-meson ${name%-*}-$version build \
+		--libdir=/usr/lib32 \
+		-D man-pages=disabled \
+		-D valgrind=disabled \
+		-D cairo-tests=disabled \
+		-D intel=enabled
 	meson compile -C build
 	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
 
