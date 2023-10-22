@@ -1,20 +1,20 @@
 # description	: Spice gtk client and libraries
 # homepage	: https://www.spice-space.org
-# depends	: cyrus-sasl graphite2 gst-plugins-base gtk3 json-glib libva 
+# depends	: cyrus-sasl graphite2 gst-plugins-good gtk3 json-glib libva 
 # depends	: polkit libxcomposite libxcursor libxinerama spice usbutils
 
 name=spice-gtk
 version=0.42
-release=2
+release=3
 source="https://www.spice-space.org/download/gtk/$name-$version.tar.xz"
 
 build() {
 	venom-meson $name-$version build \
-		--prefix=/usr \
 		--libexecdir=/usr/lib/$name \
-		-D gtk=enabled \
-		-D gtk_doc=disabled \
-		-D usb-ids-path=/usr/share/hwdata/usb.ids 
+		-Dgtk=enabled \
+		-Dgtk_doc=disabled \
+		-Dusb-ids-path=/usr/share/hwdata/usb.ids 
+
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 	
