@@ -4,11 +4,15 @@
 
 name=libdrm
 version=2.4.117
-release=2
+release=3
 source="https://dri.freedesktop.org/$name/$name-$version.tar.xz"
 
 build() {
-	venom-meson $name-$version build -Dudev=true -Dintel=enabled
+	venom-meson $name-$version build \
+		-D man-pages=disabled \
+		-D valgrind=disabled \
+		-D cairo-tests=disabled \
+		-D intel=enabled
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 }
