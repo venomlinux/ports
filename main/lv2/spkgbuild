@@ -1,10 +1,11 @@
-# description : lv2 open standard for audio plugins
-# depends	 : libsndfile python3
+# description	: The LV2 audio plugin specification
+# homepage	: https://github.com/lv2/lv2
+# depends	: libsndfile python3
 
 name=lv2
 version=1.18.10
 release=1
-source="https://${name}plug.in/spec/$name-$version.tar.xz"
+source="$name-$version.tar.gz::https://github.com/lv2/lv2/archive/refs/tags/v$version.tar.gz"
 
 build() {
 	venom-meson $name-$version build
