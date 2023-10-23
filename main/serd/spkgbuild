@@ -2,15 +2,16 @@
 # homepage	: https://download.drobilla.net 
 
 name=serd
-version=0.30.16
+version=0.32.0
 release=1
 source="$name-$version.tar.gz::https://gitlab.com/drobilla/$name/-/archive/v$version/$name-v$version.tar.gz"
 
 build() {
-	cd $name-v$version
-	mkdir build
-	cd build
-	venom-meson 
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson $name-v$version build \
+		-Ddocs=disabled \
+		-Dhtml=disabled \
+		-Dsinglehtml=disabled \
+		-Dtests=disabled 
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }
