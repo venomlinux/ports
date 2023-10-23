@@ -1,12 +1,17 @@
 # description	: lilv library to make use of lv2 plugins as simple as possible 
-# depends	: sratom swig
+# homepage	: https://github.com/lv2/lilv
+# depends	: python3-sphinxygen sratom swig 
 
 name=lilv
-version=0.24.20
+version=0.24.22
 release=1
 source="https://download.drobilla.net/$name-$version.tar.xz"
 build() {
-	venom-meson $name-$version build
+	venom-meson $name-$version build \
+		-Ddocs=disabled \
+		-Dhtml=disabled \
+		-Dsinglehtml=disabled \
+		-Dtests=disabled
 	meson compile -C build
-	meson install --no-rebuild -C build --destdir $PKG
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }
