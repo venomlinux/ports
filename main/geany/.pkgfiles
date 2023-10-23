@@ -1,4 +1,4 @@
-geany-1.38-1
+geany-2.0-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/geany
@@ -15,6 +15,9 @@ drwxr-xr-x root/root    usr/include/geany/
 -rw-r--r-- root/root    usr/include/geany/geanyfunctions.h
 -rw-r--r-- root/root    usr/include/geany/geanyplugin.h
 -rw-r--r-- root/root    usr/include/geany/gtkcompat.h
+drwxr-xr-x root/root    usr/include/geany/gtkdoc/
+-rw-r--r-- root/root    usr/include/geany/gtkdoc/geany-gtkdoc.h
+-rw-r--r-- root/root    usr/include/geany/gtkdoc/geany-sciwrappers-gtkdoc.h
 -rw-r--r-- root/root    usr/include/geany/highlighting.h
 -rw-r--r-- root/root    usr/include/geany/keybindings.h
 -rw-r--r-- root/root    usr/include/geany/main.h
@@ -25,7 +28,6 @@ drwxr-xr-x root/root    usr/include/geany/
 -rw-r--r-- root/root    usr/include/geany/prefs.h
 -rw-r--r-- root/root    usr/include/geany/project.h
 drwxr-xr-x root/root    usr/include/geany/scintilla/
--rw-r--r-- root/root    usr/include/geany/scintilla/Compat.h
 -rw-r--r-- root/root    usr/include/geany/scintilla/SciLexer.h
 -rw-r--r-- root/root    usr/include/geany/scintilla/Sci_Position.h
 -rw-r--r-- root/root    usr/include/geany/scintilla/Scintilla.h
@@ -87,6 +89,7 @@ drwxr-xr-x root/root    usr/share/geany/filedefs/
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.ada
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.asciidoc
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.asm
+-rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.autoit
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.batch
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.bibtex
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.c
@@ -104,10 +107,10 @@ drwxr-xr-x root/root    usr/share/geany/filedefs/
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.docbook
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.erlang
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.f77
--rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.ferite
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.forth
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.fortran
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.freebasic
+-rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.gdscript
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.glsl
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.go
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.haskell
@@ -146,8 +149,6 @@ drwxr-xr-x root/root    usr/share/geany/filedefs/
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.yaml
 -rw-r--r-- root/root    usr/share/geany/filedefs/filetypes.zephir
 -rw-r--r-- root/root    usr/share/geany/filetype_extensions.conf
--rw-r--r-- root/root    usr/share/geany/geany-3.0.css
--rw-r--r-- root/root    usr/share/geany/geany-3.20.css
 -rw-r--r-- root/root    usr/share/geany/geany.css
 -rw-r--r-- root/root    usr/share/geany/geany.glade
 -rw-r--r-- root/root    usr/share/geany/snippets.conf
@@ -171,6 +172,7 @@ drwxr-xr-x root/root    usr/share/geany/templates/files/
 -rw-r--r-- root/root    usr/share/geany/templates/files/main.cxx
 -rw-r--r-- root/root    usr/share/geany/templates/files/main.d
 -rw-r--r-- root/root    usr/share/geany/templates/files/main.java
+-rw-r--r-- root/root    usr/share/geany/templates/files/main.md
 -rw-r--r-- root/root    usr/share/geany/templates/files/main.py
 -rw-r--r-- root/root    usr/share/geany/templates/files/main.vala
 -rw-r--r-- root/root    usr/share/geany/templates/files/module.erl
@@ -216,6 +218,8 @@ drwxr-xr-x root/root    usr/share/icons/hicolor/24x24/actions/
 -rw-r--r-- root/root    usr/share/icons/hicolor/24x24/actions/geany-build.png
 -rw-r--r-- root/root    usr/share/icons/hicolor/24x24/actions/geany-close-all.png
 -rw-r--r-- root/root    usr/share/icons/hicolor/24x24/actions/geany-save-all.png
+drwxr-xr-x root/root    usr/share/icons/hicolor/24x24/apps/
+-rw-r--r-- root/root    usr/share/icons/hicolor/24x24/apps/geany.png
 drwxr-xr-x root/root    usr/share/icons/hicolor/32x32/
 drwxr-xr-x root/root    usr/share/icons/hicolor/32x32/actions/
 -rw-r--r-- root/root    usr/share/icons/hicolor/32x32/actions/geany-build.png
