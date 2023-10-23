@@ -1,0 +1,14 @@
+# description	    : Python module/script that generates Sphinx markup to describe a C API, from an XML description extracted by Doxygen
+# homepage	    : https://gitlab.com/drobilla/sphinxygen
+# depends	    : doxygen python3-sphinx
+
+name=python3-sphinxygen
+version=1.0.4
+release=1
+source="$name-$version.tar.bz2::https://gitlab.com/drobilla/sphinxygen/-/archive/v1.0.4/${name#*-}-v$version.tar.bz2"
+
+build() {
+	cd ${name#*-}-v$version
+	python3 -m build --wheel --skip-dependency-check --no-isolation
+	python3 -m installer --destdir=$PKG dist/*.whl
+}
