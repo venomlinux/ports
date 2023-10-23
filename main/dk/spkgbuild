@@ -3,13 +3,13 @@
 # depends	: libxcb xcb-util xcb-util-wm xcb-util-cursor xcb-util-keysyms
 
 name=dk
-version=1.6
+version=1.9
 release=1
 source="$name-$version.tar.gz::https://bitbucket.org/natemaia/dk/get/v$version.tar.gz
 	dk.desktop"
 
 build() {
-	cd natemaia-dk-9d5cec90f346
+	cd natemaia-dk-edae089a4d70
 	make PREFIX=/usr
 	make PREFIX=/usr DESTDIR=$PKG install
 	install -d 644 $PKG/usr/share/xsessions
