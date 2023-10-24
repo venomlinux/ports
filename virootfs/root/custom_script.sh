@@ -8,10 +8,10 @@ LIVEUSER=venom
 PASSWORD=venom
 
 useradd -m -G users,wheel,audio,video -s /bin/bash $LIVEUSER
-passwd -d $LIVEUSER &>/dev/null
-passwd -d root &>/dev/null
+#passwd -d $LIVEUSER &>/dev/null
+#passwd -d root &>/dev/null
 
-echo "root:root" | chpasswd -c SHA512
+echo "root:$PASSWORD" | chpasswd -c SHA512
 echo "$LIVEUSER:$PASSWORD" | chpasswd -c SHA512
 
 # generate en_US locale
