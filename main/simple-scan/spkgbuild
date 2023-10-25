@@ -1,0 +1,14 @@
+# description	: Simple Scanning Utility
+# homepage	: https://github.com/GNOME/simple-scan
+# depends	: colord libgusb libhandy sane vala yelp-tools
+
+name=simple-scan
+version=44.0
+release=1
+source="https://download.gnome.org/sources/simple-scan/${version%.*}/simple-scan-$version.tar.xz"
+
+build() {
+	venom-meson $name-$version build 
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build 
+}
