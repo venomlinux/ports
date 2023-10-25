@@ -1,6 +1,4 @@
-binutils-2.41-2
-drwxr-xr-x root/root    etc/
--rw-r--r-- root/root    etc/gprofng.rc
+binutils-2.41-3
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/addr2line
@@ -9,13 +7,6 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/c++filt
 -rwxr-xr-x root/root    usr/bin/dwp
 -rwxr-xr-x root/root    usr/bin/elfedit
--rwxr-xr-x root/root    usr/bin/gp-archive
--rwxr-xr-x root/root    usr/bin/gp-collect-app
--rwxr-xr-x root/root    usr/bin/gp-display-html
--rwxr-xr-x root/root    usr/bin/gp-display-src
--rwxr-xr-x root/root    usr/bin/gp-display-text
--rwxr-xr-x root/root    usr/bin/gprof
--rwxr-xr-x root/root    usr/bin/gprofng
 hrwxr-xr-x root/root    usr/bin/ld link to usr/bin/ld.bfd
 -rwxr-xr-x root/root    usr/bin/ld.bfd
 -rwxr-xr-x root/root    usr/bin/ld.gold
@@ -31,13 +22,24 @@ drwxr-xr-x root/root    usr/include/
 -rw-r--r-- root/root    usr/include/ansidecl.h
 -rw-r--r-- root/root    usr/include/bfd.h
 -rw-r--r-- root/root    usr/include/bfdlink.h
--rw-r--r-- root/root    usr/include/collectorAPI.h
 -rw-r--r-- root/root    usr/include/ctf-api.h
 -rw-r--r-- root/root    usr/include/ctf.h
 -rw-r--r-- root/root    usr/include/diagnostics.h
 -rw-r--r-- root/root    usr/include/dis-asm.h
--rw-r--r-- root/root    usr/include/libcollector.h
--rw-r--r-- root/root    usr/include/libfcollector.h
+drwxr-xr-x root/root    usr/include/libiberty/
+-rw-r--r-- root/root    usr/include/libiberty/ansidecl.h
+-rw-r--r-- root/root    usr/include/libiberty/demangle.h
+-rw-r--r-- root/root    usr/include/libiberty/dyn-string.h
+-rw-r--r-- root/root    usr/include/libiberty/fibheap.h
+-rw-r--r-- root/root    usr/include/libiberty/floatformat.h
+-rw-r--r-- root/root    usr/include/libiberty/hashtab.h
+-rw-r--r-- root/root    usr/include/libiberty/libiberty.h
+-rw-r--r-- root/root    usr/include/libiberty/objalloc.h
+-rw-r--r-- root/root    usr/include/libiberty/partition.h
+-rw-r--r-- root/root    usr/include/libiberty/safe-ctype.h
+-rw-r--r-- root/root    usr/include/libiberty/sort.h
+-rw-r--r-- root/root    usr/include/libiberty/splay-tree.h
+-rw-r--r-- root/root    usr/include/libiberty/timeval-utils.h
 -rw-r--r-- root/root    usr/include/plugin-api.h
 -rw-r--r-- root/root    usr/include/sframe-api.h
 -rw-r--r-- root/root    usr/include/sframe.h
@@ -45,13 +47,6 @@ drwxr-xr-x root/root    usr/include/
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/bfd-plugins/
 -rwxr-xr-x root/root    usr/lib/bfd-plugins/libdep.so
-drwxr-xr-x root/root    usr/lib/gprofng/
--rwxr-xr-x root/root    usr/lib/gprofng/libgp-collector.so
--rw-r--r-- root/root    usr/lib/gprofng/libgp-collectorAPI.a
--rwxr-xr-x root/root    usr/lib/gprofng/libgp-collectorAPI.so
--rwxr-xr-x root/root    usr/lib/gprofng/libgp-heap.so
--rwxr-xr-x root/root    usr/lib/gprofng/libgp-iotrace.so
--rwxr-xr-x root/root    usr/lib/gprofng/libgp-sync.so
 drwxr-xr-x root/root    usr/lib/ldscripts/
 -rw-r--r-- root/root    usr/lib/ldscripts/elf32_x86_64.x
 -rw-r--r-- root/root    usr/lib/ldscripts/elf32_x86_64.xbn
@@ -166,10 +161,7 @@ lrwxrwxrwx root/root    usr/lib/libctf-nobfd.so.0 -> libctf-nobfd.so.0.0.0
 lrwxrwxrwx root/root    usr/lib/libctf.so -> libctf.so.0.0.0
 lrwxrwxrwx root/root    usr/lib/libctf.so.0 -> libctf.so.0.0.0
 -rwxr-xr-x root/root    usr/lib/libctf.so.0.0.0
--rw-r--r-- root/root    usr/lib/libgprofng.a
-lrwxrwxrwx root/root    usr/lib/libgprofng.so -> libgprofng.so.0.0.0
-lrwxrwxrwx root/root    usr/lib/libgprofng.so.0 -> libgprofng.so.0.0.0
--rwxr-xr-x root/root    usr/lib/libgprofng.so.0.0.0
+-rw-r--r-- root/root    usr/lib/libiberty.a
 -rwxr-xr-x root/root    usr/lib/libopcodes-2.41.so
 -rw-r--r-- root/root    usr/lib/libopcodes.a
 lrwxrwxrwx root/root    usr/lib/libopcodes.so -> libopcodes-2.41.so
@@ -183,8 +175,6 @@ drwxr-xr-x root/root    usr/share/info/
 -rw-r--r-- root/root    usr/share/info/bfd.info.gz
 -rw-r--r-- root/root    usr/share/info/binutils.info.gz
 -rw-r--r-- root/root    usr/share/info/ctf-spec.info.gz
--rw-r--r-- root/root    usr/share/info/gprof.info.gz
--rw-r--r-- root/root    usr/share/info/gprofng.info.gz
 -rw-r--r-- root/root    usr/share/info/ld.info.gz
 -rw-r--r-- root/root    usr/share/info/ldint.info.gz
 -rw-r--r-- root/root    usr/share/info/sframe-spec.info.gz
@@ -196,13 +186,6 @@ drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/c++filt.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/dlltool.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/elfedit.1.gz
--rw-r--r-- root/root    usr/share/man/man1/gp-archive.1.gz
--rw-r--r-- root/root    usr/share/man/man1/gp-collect-app.1.gz
--rw-r--r-- root/root    usr/share/man/man1/gp-display-html.1.gz
--rw-r--r-- root/root    usr/share/man/man1/gp-display-src.1.gz
--rw-r--r-- root/root    usr/share/man/man1/gp-display-text.1.gz
--rw-r--r-- root/root    usr/share/man/man1/gprof.1.gz
--rw-r--r-- root/root    usr/share/man/man1/gprofng.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/ld.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/nm.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/objcopy.1.gz
