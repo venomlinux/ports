@@ -4,7 +4,7 @@
 
 name=polkit
 version=123
-release=1
+release=2
 source="https://gitlab.freedesktop.org/polkit/polkit/-/archive/$version/polkit-$version.tar.bz2"
 
 build() {
@@ -13,7 +13,7 @@ build() {
   	venom-meson $name-$version build \
 		-Dsystemdsystemunitdir=/trash \
 		-Dsession_tracking="ConsoleKit" \
-		-Dman=true \
+		-Dman=false \
 		-Dtests=false
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
