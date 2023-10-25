@@ -4,7 +4,7 @@
 
 name=binutils
 version=2.41
-release=2
+release=3
 source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz"
 
 build() {
@@ -19,14 +19,22 @@ build() {
 		--prefix=/usr \
 		--sysconfdir=/etc \
 		--enable-64-bit-bfd \
+		--enable-install-libiberty \
 		--enable-targets=x86_64-pep \
 		--enable-gold \
 		--enable-ld=default \
 		--enable-lto \
-		--enable-pgo-build=lto \
 		--enable-plugins \
 		--enable-shared \
+		--disable-gdb\
+		--disable-gdb-server \
+		--disable-gprof \
+		--disable-gprofng \
+		--disable-jansson \
+		--disable-libdecnumber \
 		--disable-nls \
+		--disable-readline \
+		--disable-sim \
 		--disable-werror \
 		--with-system-zlib \
 		--without-zstd \
