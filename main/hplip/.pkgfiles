@@ -1,11 +1,57 @@
-hplip-3.23.8-3
+hplip-3.23.8-4
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/hp/
 -rw-r--r-- root/root    etc/hp/hplip.conf
+drwxr-xr-x root/root    etc/sane.d/
+drwxr-xr-x root/root    etc/sane.d/dll.d/
+-rw-r--r-- root/root    etc/sane.d/dll.d/hplip
 drwxr-xr-x root/root    etc/xdg/
 drwxr-xr-x root/root    etc/xdg/autostart/
 -rw-r--r-- root/root    etc/xdg/autostart/hplip-systray.desktop
+drwxr-xr-x root/root    lib/
+drwxr-xr-x root/root    lib/udev/
+drwxr-xr-x root/root    lib/udev/rules.d/
+-rw-r--r-- root/root    lib/udev/rules.d/56-hpmud.rules
 drwxr-xr-x root/root    usr/
+drwxr-xr-x root/root    usr/bin/
+lrwxrwxrwx root/root    usr/bin/hp-align -> ../share/hplip/align.py
+lrwxrwxrwx root/root    usr/bin/hp-check -> ../share/hplip/check.py
+lrwxrwxrwx root/root    usr/bin/hp-clean -> ../share/hplip/clean.py
+lrwxrwxrwx root/root    usr/bin/hp-colorcal -> ../share/hplip/colorcal.py
+lrwxrwxrwx root/root    usr/bin/hp-config_usb_printer -> ../share/hplip/config_usb_printer.py
+lrwxrwxrwx root/root    usr/bin/hp-devicesettings -> ../share/hplip/devicesettings.py
+lrwxrwxrwx root/root    usr/bin/hp-diagnose_plugin -> ../share/hplip/diagnose_plugin.py
+lrwxrwxrwx root/root    usr/bin/hp-diagnose_queues -> ../share/hplip/diagnose_queues.py
+lrwxrwxrwx root/root    usr/bin/hp-doctor -> ../share/hplip/doctor.py
+lrwxrwxrwx root/root    usr/bin/hp-fab -> ../share/hplip/fab.py
+lrwxrwxrwx root/root    usr/bin/hp-faxsetup -> ../share/hplip/faxsetup.py
+lrwxrwxrwx root/root    usr/bin/hp-firmware -> ../share/hplip/firmware.py
+lrwxrwxrwx root/root    usr/bin/hp-info -> ../share/hplip/info.py
+lrwxrwxrwx root/root    usr/bin/hp-levels -> ../share/hplip/levels.py
+lrwxrwxrwx root/root    usr/bin/hp-linefeedcal -> ../share/hplip/linefeedcal.py
+lrwxrwxrwx root/root    usr/bin/hp-logcapture -> ../share/hplip/logcapture.py
+lrwxrwxrwx root/root    usr/bin/hp-makecopies -> ../share/hplip/makecopies.py
+lrwxrwxrwx root/root    usr/bin/hp-makeuri -> ../share/hplip/makeuri.py
+lrwxrwxrwx root/root    usr/bin/hp-pkservice -> ../share/hplip/pkservice.py
+lrwxrwxrwx root/root    usr/bin/hp-plugin -> ../share/hplip/plugin.py
+lrwxrwxrwx root/root    usr/bin/hp-pqdiag -> ../share/hplip/pqdiag.py
+lrwxrwxrwx root/root    usr/bin/hp-print -> ../share/hplip/print.py
+lrwxrwxrwx root/root    usr/bin/hp-printsettings -> ../share/hplip/printsettings.py
+lrwxrwxrwx root/root    usr/bin/hp-probe -> ../share/hplip/probe.py
+lrwxrwxrwx root/root    usr/bin/hp-query -> ../share/hplip/query.py
+lrwxrwxrwx root/root    usr/bin/hp-scan -> ../share/hplip/scan.py
+lrwxrwxrwx root/root    usr/bin/hp-sendfax -> ../share/hplip/sendfax.py
+lrwxrwxrwx root/root    usr/bin/hp-setup -> ../share/hplip/setup.py
+lrwxrwxrwx root/root    usr/bin/hp-systray -> ../share/hplip/systray.py
+lrwxrwxrwx root/root    usr/bin/hp-testpage -> ../share/hplip/testpage.py
+lrwxrwxrwx root/root    usr/bin/hp-timedate -> ../share/hplip/timedate.py
+lrwxrwxrwx root/root    usr/bin/hp-toolbox -> ../share/hplip/toolbox.py
+lrwxrwxrwx root/root    usr/bin/hp-uiscan -> ../share/hplip/uiscan.py
+lrwxrwxrwx root/root    usr/bin/hp-uninstall -> ../share/hplip/uninstall.py
+lrwxrwxrwx root/root    usr/bin/hp-unload -> ../share/hplip/unload.py
+lrwxrwxrwx root/root    usr/bin/hp-upgrade -> ../share/hplip/upgrade.py
+lrwxrwxrwx root/root    usr/bin/hp-wificonfig -> ../share/hplip/wificonfig.py
+-rwxr-xr-x root/root    usr/bin/hpijs
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/cups/
 drwxr-xr-x root/root    usr/lib/cups/backend/
@@ -16,6 +62,7 @@ drwxr-xr-x root/root    usr/lib/cups/filter/
 -rwxr-xr-x root/root    usr/lib/cups/filter/hpcups
 -rwxr-xr-x root/root    usr/lib/cups/filter/hpcupsfax
 -rwxr-xr-x root/root    usr/lib/cups/filter/hpps
+-rwxr-xr-x root/root    usr/lib/cups/filter/pstotiff
 lrwxrwxrwx root/root    usr/lib/libhpip.so -> libhpip.so.0.0.1
 lrwxrwxrwx root/root    usr/lib/libhpip.so.0 -> libhpip.so.0.0.1
 -rwxr-xr-x root/root    usr/lib/libhpip.so.0.0.1
@@ -35,6 +82,9 @@ drwxr-xr-x root/root    usr/lib/sane/
 lrwxrwxrwx root/root    usr/lib/sane/libsane-hpaio.so -> libsane-hpaio.so.1.0.0
 lrwxrwxrwx root/root    usr/lib/sane/libsane-hpaio.so.1 -> libsane-hpaio.so.1.0.0
 -rwxr-xr-x root/root    usr/lib/sane/libsane-hpaio.so.1.0.0
+drwxr-xr-x root/root    usr/lib/systemd/
+drwxr-xr-x root/root    usr/lib/systemd/system/
+-rw-r--r-- root/root    usr/lib/systemd/system/hplip-printer@.service
 drwxr-xr-x root/root    usr/lib/udev/
 drwxr-xr-x root/root    usr/lib/udev/rules.d/
 -rw-r--r-- root/root    usr/lib/udev/rules.d/56-hpmud.rules
@@ -1956,7 +2006,7 @@ drwxr-xr-x root/root    usr/share/hplip/data/localization/
 -rw-r--r-- root/root    usr/share/hplip/data/localization/hplip_ru.qm
 -rw-r--r-- root/root    usr/share/hplip/data/localization/hplip_zh.qm
 drwxr-xr-x root/root    usr/share/hplip/data/models/
--rw-r--r-- root/root    usr/share/hplip/data/models/models.dat
+-rwxr-xr-x root/root    usr/share/hplip/data/models/models.dat
 drwxr-xr-x root/root    usr/share/hplip/data/pcl/
 -rw-r--r-- root/root    usr/share/hplip/data/pcl/align1_8xx.pcl.gz
 -rw-r--r-- root/root    usr/share/hplip/data/pcl/align1_9xx.pcl.gz
@@ -2093,223 +2143,13 @@ drwxr-xr-x root/root    usr/share/hplip/scan/__pycache__/
 -rwxr-xr-x root/root    usr/share/hplip/testpage.py
 -rwxr-xr-x root/root    usr/share/hplip/timedate.py
 -rwxr-xr-x root/root    usr/share/hplip/toolbox.py
-drwxr-xr-x root/root    usr/share/hplip/ui5/
--rw-r--r-- root/root    usr/share/hplip/ui5/__init__.py
-drwxr-xr-x root/root    usr/share/hplip/ui5/__pycache__/
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/__init__.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/__init__.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/aboutdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/aboutdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/aboutdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/aboutdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/aligndialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/aligndialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/aligndialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/aligndialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/cleandialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/cleandialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/cleandialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/cleandialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/colorcaldialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/colorcaldialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/colorcaldialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/colorcaldialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/devicesetupdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/devicesetupdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/devicesetupdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/devicesetupdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/deviceuricombobox.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/deviceuricombobox.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/devmgr5.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/devmgr5.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/devmgr5_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/devmgr5_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/devmgr_ext.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/devmgr_ext.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/fabgrouptable.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/fabgrouptable.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/fabnametable.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/fabnametable.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/fabwindow.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/fabwindow.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/fabwindow_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/fabwindow_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/faxsetupdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/faxsetupdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/faxsetupdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/faxsetupdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/filetable.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/filetable.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/firmwaredialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/firmwaredialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/firmwaredialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/firmwaredialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/infodialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/infodialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/infodialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/infodialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/linefeedcaldialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/linefeedcaldialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/linefeedcaldialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/linefeedcaldialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/loadpapergroupbox.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/loadpapergroupbox.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/makecopiesdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/makecopiesdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/makecopiesdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/makecopiesdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/mimetypesdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/mimetypesdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/mimetypesdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/mimetypesdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/nodevicesdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/nodevicesdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/nodevicesdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/nodevicesdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/plugindiagnose.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/plugindiagnose.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/plugindiagnose_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/plugindiagnose_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/plugindialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/plugindialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/plugindialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/plugindialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/pluginlicensedialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/pluginlicensedialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/pluginlicensedialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/pluginlicensedialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/pqdiagdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/pqdiagdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/pqdiagdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/pqdiagdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printernamecombobox.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printernamecombobox.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printsettings_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printsettings_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printsettingsdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printsettingsdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printsettingsdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printsettingsdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printsettingstoolbox.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printsettingstoolbox.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printtestpagedialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printtestpagedialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printtestpagedialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/printtestpagedialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/queuesconf.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/queuesconf.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/readonlyradiobutton.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/readonlyradiobutton.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/scandialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/scandialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/sendfaxdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/sendfaxdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/sendfaxdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/sendfaxdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/settingsdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/settingsdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/settingsdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/settingsdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/setupdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/setupdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/setupdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/setupdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/setupdialog_base5.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/setupdialog_base5.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/systemtray.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/systemtray.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/systrayframe.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/systrayframe.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/systrayframe_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/systrayframe_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/ui_utils.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/ui_utils.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/upgradedialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/upgradedialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/upgradedialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/upgradedialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/wifisetupdialog.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/wifisetupdialog.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/wifisetupdialog_base.cpython-311.opt-1.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/__pycache__/wifisetupdialog_base.cpython-311.pyc
--rw-r--r-- root/root    usr/share/hplip/ui5/aboutdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/aboutdialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/aligndialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/aligndialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/cleandialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/cleandialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/colorcaldialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/colorcaldialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/devicesetupdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/devicesetupdialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/deviceuricombobox.py
--rw-r--r-- root/root    usr/share/hplip/ui5/devmgr5.py
--rw-r--r-- root/root    usr/share/hplip/ui5/devmgr5_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/devmgr_ext.py
--rw-r--r-- root/root    usr/share/hplip/ui5/fabgrouptable.py
--rw-r--r-- root/root    usr/share/hplip/ui5/fabnametable.py
--rw-r--r-- root/root    usr/share/hplip/ui5/fabwindow.py
--rw-r--r-- root/root    usr/share/hplip/ui5/fabwindow_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/faxsetupdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/faxsetupdialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/filetable.py
--rw-r--r-- root/root    usr/share/hplip/ui5/firmwaredialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/firmwaredialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/infodialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/infodialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/linefeedcaldialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/linefeedcaldialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/loadpapergroupbox.py
--rw-r--r-- root/root    usr/share/hplip/ui5/makecopiesdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/makecopiesdialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/mimetypesdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/mimetypesdialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/nodevicesdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/nodevicesdialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/plugindiagnose.py
--rw-r--r-- root/root    usr/share/hplip/ui5/plugindiagnose_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/plugindialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/plugindialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/pluginlicensedialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/pluginlicensedialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/pqdiagdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/pqdiagdialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/printdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/printdialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/printernamecombobox.py
--rw-r--r-- root/root    usr/share/hplip/ui5/printsettings_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/printsettingsdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/printsettingsdialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/printsettingstoolbox.py
--rw-r--r-- root/root    usr/share/hplip/ui5/printtestpagedialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/printtestpagedialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/queuesconf.py
--rw-r--r-- root/root    usr/share/hplip/ui5/readonlyradiobutton.py
--rw-r--r-- root/root    usr/share/hplip/ui5/scandialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/sendfaxdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/sendfaxdialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/settingsdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/settingsdialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/setupdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/setupdialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/setupdialog_base5.py
--rw-r--r-- root/root    usr/share/hplip/ui5/systemtray.py
--rw-r--r-- root/root    usr/share/hplip/ui5/systrayframe.py
--rw-r--r-- root/root    usr/share/hplip/ui5/systrayframe_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/ui_utils.py
--rw-r--r-- root/root    usr/share/hplip/ui5/upgradedialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/upgradedialog_base.py
--rw-r--r-- root/root    usr/share/hplip/ui5/wifisetupdialog.py
--rw-r--r-- root/root    usr/share/hplip/ui5/wifisetupdialog_base.py
 -rwxr-xr-x root/root    usr/share/hplip/uiscan.py
 -rwxr-xr-x root/root    usr/share/hplip/uninstall.py
 -rwxr-xr-x root/root    usr/share/hplip/unload.py
 -rwxr-xr-x root/root    usr/share/hplip/upgrade.py
 -rwxr-xr-x root/root    usr/share/hplip/wificonfig.py
+drwxr-xr-x root/root    usr/share/licenses/
+-rw-r--r-- root/root    usr/share/licenses/COPYING
 drwxr-xr-x root/root    usr/share/ppd/
 drwxr-xr-x root/root    usr/share/ppd/HP/
 -rw-r--r-- root/root    usr/share/ppd/HP/HP-Fax-CDM-hpcups.ppd.gz
