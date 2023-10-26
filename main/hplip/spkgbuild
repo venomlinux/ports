@@ -4,7 +4,7 @@
 
 name=hplip
 version=3.23.8
-release=3
+release=4
 source="https://sourceforge.net/projects/hplip/files/$name/$version/$name-$version.tar.gz
 	disable_upgrade.patch
 	0003-models.dat-Re-add-drivers-missing-from-3.19.1.patch
@@ -53,7 +53,6 @@ build() {
 	 export AUTOMAKE='automake --foreign'
 	 autoreconf --force --install
 	 ./configure --prefix=/usr \
-		--enable-qt5 \
 		--disable-qt4 \
 		--disable-network-build \
 		--enable-hpcups-install \
@@ -96,11 +95,18 @@ build() {
 	make
 	make DESTDIR=$PKG install 
 
-	rm -fr 	$PKG/usr/bin \
-		$PKG/etc/udev \
-		$PKG/etc/sane.d \
-		$PKG/usr/share/hal \
-		$PKG/usr/share/licenses \
-		$PKG/usr/lib/systemd \
-		$PKG/usr/lib/cups/filter/pstotiff
-}   
+	rm -rf $PKG/usr/share/doc $PKG/var $PKG/etc/sane.d $PKG/usr/share/hal
+
+	# this is needed for scanning, but only included if configured without --enable-lite-build
+	install -D data/models/models.dat $PKG/usr/share/hplip/data/models/models.dat
+
+	mkdir $PKG/lib
+	mv $PKG/etc/udev $PKG/lib
+
+	mkdir -p $PKG/etc/sane.d/dll.d
+	echo hpaio > $PKG/etc/sane.d/dll.d/hplip
+
+	# fix udev rules
+	sed -i -e 's|SYSFS|ATTR|g;s|sysfs|attr|g' $PKG/lib/udev/rules.d/*.rules
+
+}
