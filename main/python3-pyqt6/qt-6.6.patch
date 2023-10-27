@@ -1,0 +1,12 @@
+diff -ru PyQt6-6.5.2.orig/sip/QtSql/qsqlresult.sip PyQt6-6.5.2/sip/QtSql/qsqlresult.sip
+--- PyQt6-6.5.2.orig/sip/QtSql/qsqlresult.sip	2023-10-11 16:46:02.317332289 +0200
++++ PyQt6-6.5.2/sip/QtSql/qsqlresult.sip	2023-10-11 17:26:17.722706788 +0200
+@@ -63,7 +63,7 @@
+     QSql::ParamType bindValueType(const QString &placeholder) const;
+     QSql::ParamType bindValueType(int pos) const;
+     int boundValueCount() const;
+-    QList<QVariant> &boundValues() const;
++    QVariantList boundValues() const;
+     QString executedQuery() const;
+     QString boundValueName(int pos) const;
+     void clear();
