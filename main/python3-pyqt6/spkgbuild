@@ -3,16 +3,20 @@
 # depends		: python3-dbus python3-setuptools python3-pip python3-pyqt6-sip qt6-declarative qt6-connectivity qt6-multimedia qt6-positioning qt6-quick3d qt6-remoteobjects qt6-sensors qt6-serialport qt6-shadertools qt6-svg qt6-tools qt6-webchannel qt6-websockets python3-pyopengl python3-toml python3-pyqt-builder python3-ply
 
 name=python3-pyqt6
-version=6.5.2
+version=6.5.3
 release=1
-source="$name-$version.tar.gz::https://pypi.python.org/packages/source/P/PyQt6/PyQt6-$version.tar.gz"
+source="$name-$version.tar.gz::https://pypi.python.org/packages/source/P/PyQt6/PyQt6-$version.tar.gz
+	qt-6.6.patch"
 
 build () {
   cd PyQt6-$version
+  patch -Np1 -i $SRC/qt-6.6.patch
+export CXXFLAGS="$CXXFLAGS -DQT_NO_INT128" # Fix build with Qt 6.6
   sip-build \
     --confirm-license \
     --no-make \
-    --qmake=/usr/lib/qt6/bin/qmake6
+    --qmake=/usr/lib/qt6/bin/qmake6 \
+    --pep484-pyi
   cd build
   make
   make INSTALL_ROOT=$PKG install
