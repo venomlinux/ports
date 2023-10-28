@@ -1,16 +1,16 @@
 # description	: Audio Effects for Pipewire applications
-# depends	: appstream-glib desktop-file-utils fftw fmt gsl gtk4 itstool libadwaita 
-# depends	: libbs2b libebur128 libsamplerate libsigc++3 libsndfile lilv lv2 meson 
-# depends	: nlohmann-json pipewire rnnoise soundtouch speexdsp zita-convolver tbb
+# homepage	: https://github.com/wwmm/easyeffects
+# depends	: appstream-glib desktop-file-utils fftw fmt gsl gtk4 itstool ladspa  
+# depends	: libadwaita libbs2b libebur128 libsamplerate libsigc++3 libsndfile lilv 
+# depends	: lv2 meson nlohmann-json pipewire rnnoise soundtouch speexdsp zita-convolver tbb
 
 name=easyeffects
-version=7.1.0
+version=7.1.1
 release=1
 source="$name-$version.tar.gz::https://github.com/wwmm/easyeffects/archive/refs/tags/v$version.tar.gz"
 
 build() {
-  venom-meson $name-$version build
-  meson compile -C build
-  DESTDIR=$PKG meson install --no-rebuild -C build
-
+	venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }
