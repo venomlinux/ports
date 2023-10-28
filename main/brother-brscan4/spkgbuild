@@ -6,7 +6,7 @@ name=brother-brscan4
 version=0.4.11_1
 vrsn=$(echo $version | sed 's/_/-/g')
 release=1
-source="https://download.brother.com/welcome/dlf105203/brscan4-${vrsn}.x86_64.rpm"
+source="$name-$version.rpm::https://download.brother.com/welcome/dlf105203/brscan4-${vrsn}.x86_64.rpm"
 
 build() {
 	cp -r $SRC/etc $PKG
