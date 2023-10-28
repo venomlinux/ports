@@ -1,17 +1,14 @@
-# description : suil library for loading and wrapping lv2 plugins UIs 
-# depends	 : sratom lv2 python3-sphinxygen
+# description	: suil library for loading and wrapping lv2 plugins UIs 
+# homepage	: https://drobilla.net/software/suil.html
+# depends	: sratom lv2 python3-babel python3-sphinxygen
 
 name=suil
 version=0.10.20
-release=1
+release=2
 source="https://download.drobilla.net/$name-$version.tar.xz"
 
 build() {
-
-	cd $name-$version
-	mkdir build && cd build
-	venom-meson \
-	..
-	ninja
-	DESTDIR=$PKG ninja install
+	venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }
