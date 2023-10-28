@@ -1,0 +1,38 @@
+# description: LPR and CUPS driver for the Brother MFC-L2710DW
+# homepage: http://solutions.brother.com/linux/
+# depends: cups
+
+name=brother-mfc-l2710dw
+version=4.0.0
+release=1
+source="$name-$version.rpm::http://download.brother.com/welcome/dlf103525/mfcl2710dwpdrv-$version-$release.i386.rpm"
+
+build () {
+  _model="MFCL2710DW"
+
+  # using /usr/share instead of /opt
+  mkdir -p "$PKG/usr/share"
+  cp -R "$SRC/opt/brother" "$PKG/usr/share"
+  sed -i 's|\\\/opt\\\/|\\\/usr\\\/|' "$PKG/usr/share/brother/Printers/$_model/cupswrapper/lpdwrapper"
+  sed -i 's|\\\/opt\\\/|\\\/usr\\\/|' "$PKG/usr/share/brother/Printers/$_model/lpd/lpdfilter"
+
+  # /etc/printcap is managed by cups
+  find "$PKG" -type f -name 'setupPrintcap*' -delete
+
+  # symlink for lpdwrapper so it correctly figures out the printer model from the path
+  install -d "$PKG/usr/lib/cups/filter/"
+  ln -s "/usr/share/brother/Printers/$_model/cupswrapper/lpdwrapper" "$PKG/usr/lib/cups/filter/brother_lpdwrapper_$_model"
+
+  # symlink for the PPD
+  install -d "$PKG/usr/share/cups/model/"
+  ln -s "/usr/share/brother/Printers/$_model/cupswrapper/brother-$_model-cups-en.ppd" "$PKG/usr/share/cups/model/"
+
+  # a couple architecture-specific symlinks
+  ln -s "/usr/share/brother/Printers/$_model/lpd/$CARCH/brprintconflsr3" "$PKG/usr/share/brother/Printers/$_model/lpd/"
+  ln -s "/usr/share/brother/Printers/$_model/lpd/$CARCH/rawtobr3" "$PKG/usr/share/brother/Printers/$_model/lpd/"
+
+  # symlink for inf because it tries to execute it there
+  ln -s "/usr/share/brother/Printers/$_model/inf" "$PKG/usr/share/brother/Printers/$_model/lpd/"
+
+}
+
