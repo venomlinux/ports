@@ -5,21 +5,10 @@
 
 name=poppler
 version=23.10.0
-release=2
+release=3
 source="https://poppler.freedesktop.org/$name-$version.tar.xz"
 
 build() {
-
-	OPTS=""
-	scratch isinstalled boost || OPTS='$OPTS -D ENABLE_BOOST=off'
-	scratch isinstalled gobject-introspection || OPTS='$OPTS -D ENABLE_GLIB=off'
-	scratch isinstalled gpgme || OPTS='$OPTS -D ENABLE_GPGME=off'
-	scratch isinstalled lcms2 || OPTS='$OPTS -D ENABLE_LCMS=off'
-	scratch isinstalled libtiff || OPTS='$OPTS -D ENABLE_LIBTIFF=off'
-	scratch isinstalled nss || OPTS='$OPTS -D ENABLE_NSS3=off'
-	scratch isinstalled openjpeg2 || OPTS='$OPTS -D ENABLE_LIBOPENJPEG=none'
-	scratch isinstalled qt5 || OPTS='$OPTS -D ENABLE_QT5=off'
-	scratch isinstalled qt6-base || OPTS='$OPTS -D ENABLE_QT6=off'
 
 	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
@@ -33,9 +22,18 @@ build() {
 		-D ENABLE_CPP=ON \
 		-D BUILD_CPP_TESTS=OFF \
 		-D BUILD_MANUAL_TESTS=OFF \
+		-D ENABLE_QT5=$(scratch isinstalled qt5 && echo ON || echo OFF) \
 		-D BUILD_QT5_TESTS=OFF \
+		-D ENABLE_QT6=$(scratch isinstalled qt6-base && echo ON || echo OFF) \
 		-D BUILD_QT6_TESTS=OFF \
-		$OPTS -Wno-dev 
+		-D ENABLE_BOOST=$(scratch isinstalled boost && echo ON || echo OFF) \
+		-D ENABLE_GLIB=$(scratch isinstalled gobject-introspection && echo ON || echo OFF) \
+		-D ENABLE_GPGME=$(scratch isinstalled gpgme && echo ON || echo OFF) \
+		-D ENABLE_LCMS=$(scratch isinstalled lcms2 && echo ON || echo OFF) \
+		-D ENABLE_LIBTIFF=$(scratch isinstalled libtiff && echo ON || echo OFF) \
+		-D ENABLE_NSS3=$(scratch isinstalled nss && echo ON || echo OFF) \
+		-D ENABLE_LIBOPENJPEG=$(scratch isinstalled openjpeg2 && echo openjpeg2 || echo none ) \
+		-Wno-dev 
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
 
