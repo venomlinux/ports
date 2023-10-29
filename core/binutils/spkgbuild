@@ -4,7 +4,7 @@
 
 name=binutils
 version=2.41
-release=3
+release=4
 source="https://ftp.gnu.org/gnu/binutils/$name-$version.tar.xz"
 
 build() {
@@ -18,15 +18,7 @@ build() {
 	../configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \
-		--enable-64-bit-bfd \
-		--enable-install-libiberty \
-		--enable-targets=x86_64-pep \
-		--enable-gold \
-		--enable-ld=default \
-		--enable-lto \
-		--enable-plugins \
-		--enable-shared \
-		--disable-gdb\
+		--disable-gdb \
 		--disable-gdb-server \
 		--disable-gprof \
 		--disable-gprofng \
@@ -36,9 +28,21 @@ build() {
 		--disable-readline \
 		--disable-sim \
 		--disable-werror \
+		--enable-64-bit-bfd \
+		--enable-deterministic-archives \
+		--enable-install-libiberty \
+		--enable-targets=x86_64-pep \
+		--enable-gold \
+		--enable-ld=default \
+		--enable-lto \
+		--enable-plugins \
+		--enable-relro \
+		--enable-shared \
+		--enable-threads \
 		--with-system-zlib \
-		--without-zstd \
+		--with-mmap \
 		--with-pic \
+		--without-zstd \
 		--enable-multilib \
 		--with-lib-path=/usr/lib:/lib:/usr/lib32
 	make tooldir=/usr
