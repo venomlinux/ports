@@ -3,7 +3,7 @@
 
 name=poppler-glib
 version=23.10.0
-release=1
+release=2
 source="https://poppler.freedesktop.org/poppler-$version.tar.xz"
 
 build() {
@@ -26,8 +26,8 @@ build() {
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
 
-	rm $PKG/usr/lib/libpoppler.so*
+	# cleanup
 	rm $PKG/usr/lib/pkgconfig/poppler.pc
-	#rm $PKG/usr/lib/pkgconfig/poppler-splash.pc
-	#rm $PKG/usr/lib/pkgconfig/poppler-cairo.pc
+	rm -vf $PKG/usr/lib/libpoppler.*
+	rm -vf $PKG/usr/bin/poppler-glib-demo
 }

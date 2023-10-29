@@ -1,12 +1,26 @@
 # description	: PDF rendering library and command line tools used to manipulate PDF files
-# depends	: cmake fontconfig cairo libjpeg-turbo libpng nss openjpeg2 poppler-data ninja
+# depends	: cmake freetype poppler-data ninja
+# optionals	: boost cairo curl gobject-introspection gpgme lcsm2 libgd
+# optionals	: libtiff nss openjpeg2 qt5 qt6-base libjpeg-turbo libpng
 
 name=poppler
 version=23.10.0
-release=1
+release=2
 source="https://poppler.freedesktop.org/$name-$version.tar.xz"
 
 build() {
+
+	OPTS=""
+	scratch isinstalled boost || OPTS='$OPTS -D ENABLE_BOOST=off'
+	scratch isinstalled gobject-introspection || OPTS='$OPTS -D ENABLE_GLIB=off'
+	scratch isinstalled gpgme || OPTS='$OPTS -D ENABLE_GPGME=off'
+	scratch isinstalled lcms2 || OPTS='$OPTS -D ENABLE_LCMS=off'
+	scratch isinstalled libtiff || OPTS='$OPTS -D ENABLE_LIBTIFF=off'
+	scratch isinstalled nss || OPTS='$OPTS -D ENABLE_NSS3=off'
+	scratch isinstalled openjpeg2 || OPTS='$OPTS -D ENABLE_LIBOPENJPEG=none'
+	scratch isinstalled qt5 || OPTS='$OPTS -D ENABLE_QT5=off'
+	scratch isinstalled qt6-base || OPTS='$OPTS -D ENABLE_QT6=off'
+
 	cmake -S $name-$version -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
@@ -14,15 +28,32 @@ build() {
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
-		-DTESTDATADIR=$PWD/testfiles \
 		-DENABLE_UNSTABLE_API_ABI_HEADERS=ON \
-		-DENABLE_GLIB=OFF \
-		-DENABLE_QT5=OFF \
-		-DENABLE_QT6=OFF \
-		-DENABLE_BOOST=OFF \
-		-DENABLE_CPP=ON \
-		-Wno-dev 
+		-D ENABLE_UTILS=ON \
+		-D ENABLE_CPP=ON \
+		-D BUILD_CPP_TESTS=OFF \
+		-D BUILD_MANUAL_TESTS=OFF \
+		-D BUILD_QT5_TESTS=OFF \
+		-D BUILD_QT6_TESTS=OFF \
+		$OPTS -Wno-dev 
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
 
+	# cleanup 
+	rm -vrf $PKG/usr/include/poppler/glib
+	rm -vrf $PKG/usr/include/poppler/qt5
+	rm -vrf $PKG/usr/include/poppler/qt6
+
+	rm -vf $PKG/usr/lib/libpoppler-glib.*
+	rm -vf $PKG/usr/lib/libpoppler-qt5.*
+	rm -vf $PKG/usr/lib/libpoppler-qt6.*
+
+	rm -vf $PKG/usr/lib/pkgconfig/poppler-glib.pc
+	rm -vf $PKG/usr/lib/pkgconfig/poppler-qt5.pc
+	rm -vf $PKG/usr/lib/pkgconfig/poppler-qt6.pc
+
+	rm -vrf $PKG/usr/lib/gir*
+	rm -vrf $PKG/usr/share/gir*
+
+	rm -vrf $PKG/usr/share/gtk-doc
 }
