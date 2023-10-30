@@ -3,7 +3,7 @@
 
 name=cups
 version=2.4.7
-release=1
+release=2
 source="https://github.com/OpenPrinting/cups/archive/v$version/$name-$version-source.tar.gz
 	run.cupsd
 	rc.cupsd"
@@ -11,18 +11,13 @@ source="https://github.com/OpenPrinting/cups/archive/v$version/$name-$version-so
 build() {
 	cd $name-$version
 
-	sed -i 's:444:644:' Makedefs.in
-	sed -i '/MAN.EXT/s:.gz::' configure config-scripts/cups-manpages.m4
-	
-	aclocal  -I config-scripts
-	autoconf -I config-scripts
-	
-	CC=gcc CXX=g++ \
-	./configure --libdir=/usr/lib            \
-	            --disable-systemd            \
-	            --with-rcdir=/tmp/cupsinit   \
-	            --with-system-groups=lpadmin \
-	            --with-docdir=/usr/share/$name/doc
+	./configure \
+		--libdir=/usr/lib            \
+		--disable-systemd            \
+		--with-rcdir=/tmp/cupsinit   \
+		--with-rundir=/run/cups      \
+		--with-system-groups=lpadmin \
+		--with-docdir=/usr/share/$name/doc
 	make
 	make BUILDROOT=$PKG install
 
@@ -35,17 +30,20 @@ build() {
 
 	# Linux PAM Configuration
 	mkdir -p $PKG/etc/pam.d
-	cat > $PKG/etc/pam.d/cups << "EOF"
-auth    include system-auth
-account include system-auth
-session include system-auth
-EOF
+cat > /etc/pam.d/cups << "EOF"
+# Begin /etc/pam.d/cups
 
+auth    include system-auth
+account include system-account
+session include system-session
+
+# End /etc/pam.d/cups
+EOF
 	rm -fr $PKG/var/run
 
 	# runit service
-	    install -Dm755 $SRC/run.cupsd $PKG/etc/sv/cupsd/run
+	install -Dm755 $SRC/run.cupsd $PKG/etc/sv/cupsd/run
 	    ln -s /run/runit/supervise.cupsd $PKG/etc/sv/cupsd/supervise
 	# rc service
-	    install -Dm755 $SRC/rc.cupsd $PKG/etc/rc.d/cupsd
+	install -Dm755 $SRC/rc.cupsd $PKG/etc/rc.d/cupsd
 }
