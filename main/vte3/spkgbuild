@@ -2,15 +2,16 @@
 # depends	: gobject-introspection vala glib pango fribidi gnutls pcre2 zlib gtk3 at-spi2-core cairo gdk-pixbuf
 
 name=vte3
-version=0.74.1
-release=1
+version=0.74.0
+release=2
 source="https://gitlab.gnome.org/GNOME/vte/-/archive/$version/vte-$version.tar.gz"
 build() {
 
        venom-meson vte-$version build \
 	      -Db_lto=false \
 	      -Db_pie=false \
-	      -D_systemd=false
+	      -D_systemd=false \
+	      -Dgtk4=$(scratch isinstalled gtk4 && echo true || echo false) 
         meson compile -C build
         DESTDIR=$PKG meson install --no-rebuild -C build
 
