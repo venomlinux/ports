@@ -2,7 +2,7 @@
 # depends	: elfutils mkinitramfs linux-firmware openssl yaml cpio bc
 
 name=linux
-version=6.5.9
+version=6.6.0
 release=1
 source="https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${version%.0}.tar.xz
 	x86_64-dotconfig"
@@ -65,8 +65,7 @@ build() {
 		[ "$i" = "objtool" ] || rm -fr tools/objtool/$i
 	done
 
-	rm $PKG/lib/modules/$kernver/build \
-	   $PKG/lib/modules/$kernver/source
+	rm $PKG/lib/modules/$kernver/build 
 	mv $SRC/linux-${version%.0} $PKG/lib/modules/$kernver/build
 	ln -sv build $PKG/lib/modules/$kernver/source
 
