@@ -2,7 +2,7 @@
 # depends	: elfutils mkinitramfs openssl yaml cpio bc
 
 name=linux-libre
-version=6.5.6
+version=6.6.0
 release=1
 source="${name}-${version}.tar.xz::https://linux-libre.fsfla.org/pub/linux-libre/releases/${version%.0}-gnu/${name}-${version%.0}-gnu.tar.xz
 	x86-64-gnu"
@@ -65,8 +65,8 @@ build() {
 		[ "$i" = "objtool" ] || rm -fr tools/objtool/$i
 	done
 
-	rm $PKG/lib/modules/$kernver/build \
-	   $PKG/lib/modules/$kernver/source
+	rm $PKG/lib/modules/$kernver/build
+
 	mv $SRC/linux-${version%.0} $PKG/lib/modules/$kernver/build
 	ln -sv build $PKG/lib/modules/$kernver/source
 
