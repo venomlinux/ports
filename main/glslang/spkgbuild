@@ -3,7 +3,7 @@
 # depends	: cmake ninja spirv-tools
 
 name=glslang
-version=13.0.0
+version=13.1.1
 release=1
 source="https://github.com/KhronosGroup/glslang/archive/$version/$name-$version.tar.gz"
        
@@ -14,12 +14,13 @@ build() {
 
 	cmake -B build-shared -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
-	    -DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-DBUILD_SHARED_LIBS=ON \
+		-DALLOW_EXTERNAL_SPIRV_TOOLS=ON \
 		-Wno-dev
 	ninja -C build-shared
 	
@@ -31,6 +32,7 @@ build() {
 		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-DBUILD_SHARED_LIBS=OFF \
+		-DALLOW_EXTERNAL_SPIRV_TOOLS=ON \
 		-Wno-dev
 	ninja -C build-static
 
