@@ -1,26 +1,25 @@
 # description	: Backends and filters for CUPS
-# depends	: ghostscript libppd poppler qpdf mupdf ttf-dejavu
+# depends	: libcupsfilters libppd
 
 name=cups-filters
 version=2.0.0
-release=1
+release=2
 source="$name-$version.tar.gz::https://github.com/OpenPrinting/cups-filters/archive/$version.tar.gz"
 
 build() {
 	cd $name-$version
+
+	scratch isinstalled avahi || OPTAVA=' --disable-avahi'
+	scratch isinstalled mupdf || OPTMUP=' --disable-mutool'
+	scratch isinstalled poppler || OPTPOP=' --disable-poppler'
+
 	./autogen.sh
-	CXXFLAGS="$CXXFLAGS -std=c++17"  \
-	./configure \
+	./configure $OPTAVA $OPTMUP $OPTPOP \
 		--prefix=/usr        \
 		--sysconfdir=/etc    \
 		--localstatedir=/var \
-		--without-rcdir      \
-		--disable-static     \
-		--disable-avahi \
-		--disable-dbus \
-		--disable-braille \
-		--without-rcdir \
-		--with-browseremoteprotocols=cups
+		--docdir=/usr/share/doc/$name \
+		--disable-static     
 	make
 	make DESTDIR=$PKG install
 }
