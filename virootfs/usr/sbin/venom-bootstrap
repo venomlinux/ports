@@ -1,0 +1,43 @@
+#! /bin/sh
+
+die() {
+printf "ERROR : $@"
+exit 1
+}
+
+msg() {
+    printf "%s\n" "$@"
+}
+
+download_rootfs () {
+
+# download rootfs
+release=$(curl -s https://api.github.com/repos/venomlinux/ports/releases/latest \
+    | awk -F':' '/tag_name/ {print $2}' | cut -c 3-10 )
+
+ curl -LO  https://github.com/venomlinux/ports/releases/download/$release/$file
+
+# check if $file exist
+[ -f $file ] || die "Something happend with the download of the rootfs..... Try again!!"
+
+}
+
+# setting root mountpoint and check if it exist
+root_dir="$1"
+[ -n "$root_dir" ] || die "Install directory do not exist "
+
+# ensure run as root
+[ "$(id -u)" = "0" ] || die "Must run this as root."
+
+# fetch the latest release
+file=venomlinux-rootfs-x86_64.tar.xz
+[ -f $file ] && msg "Rootfs already exist " || download_rootfs
+
+# install rootfs to $root_dir
+ bsdtar -xvJpf $file -C $root_dir
+
+ msg "Tarball installed in $root_dir"
+ sleep 3
+ msg "Getting into $root_dir to finish the installation...."
+ # chrooting into the system
+ xchroot $root_dir /bin/bash
