@@ -503,7 +503,7 @@ REPO="core main multilib nonfree testing"
 
 # iso
 ISODIR="${ISODIR:-/tmp/venomiso}"
-ISO_PKG="linux-lts,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,syslinux"
+ISO_PKG="linux,squashfs-tools,grub-efi,btrfs-progs,reiserfsprogs,xfsprogs,syslinux"
 OUTPUTISO="${OUTPUTISO:-$PORTSDIR/venomlinux-$(date +%Y%m%d)-$ARCH.iso}"
 
 trap "interrupted" 1 2 3 15
