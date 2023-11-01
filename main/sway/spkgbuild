@@ -3,8 +3,9 @@
 
 name=sway
 version=1.8.1
-release=3
+release=4
 source="https://github.com/swaywm/sway/releases/download/$version/sway-$version.tar.gz
+	sway-portals.conf
 	sway.desktop"
 
 build() {
@@ -15,4 +16,5 @@ build() {
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 	install -Dm644 $SRC/sway.desktop $PKG/usr/share/wayland-sessions/sway.desktop
+	install -Dm644 $SRC/sway-portals.conf -t $PKG/usr/share/xdg-desktop-portal/portals/
 }
