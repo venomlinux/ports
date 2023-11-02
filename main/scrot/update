@@ -1,5 +1,3 @@
 port_getver() {
-	fetch \
-	| grep -Eo scrot[-_][0-9a-z.]+.orig.tar.[bgx]z2? \
-	| sed 's/scrot_//;s/.orig.*//'
+    getver_github
 }
