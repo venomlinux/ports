@@ -1,0 +1,5 @@
+url=https://country-files.com/cty/download
+
+port_getver () {
+    curl -Lsk $url | grep -Eo "[0-9a-z.]+zip" | grep [[:digit:]]
+}
