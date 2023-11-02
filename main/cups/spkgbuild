@@ -3,7 +3,7 @@
 
 name=cups
 version=2.4.7
-release=2
+release=3
 source="https://github.com/OpenPrinting/cups/archive/v$version/$name-$version-source.tar.gz
 	run.cupsd
 	rc.cupsd"
@@ -21,13 +21,6 @@ build() {
 	make
 	make BUILDROOT=$PKG install
 
-
-	# remove cups init script
-	rm -fr $PKG/tmp
-
-	# Create a basic Cups client configuration file
-	echo "ServerName /var/run/cups/cups.sock" > $PKG/etc/cups/client.conf
-
 	# Linux PAM Configuration
 	mkdir -p $PKG/etc/pam.d
 cat > /etc/pam.d/cups << "EOF"
@@ -39,11 +32,16 @@ session include system-session
 
 # End /etc/pam.d/cups
 EOF
+	# remove depecrated run dir 
 	rm -fr $PKG/var/run
+
+	# remove cups init script
+	rm -fr $PKG/tmp
 
 	# runit service
 	install -Dm755 $SRC/run.cupsd $PKG/etc/sv/cupsd/run
 	    ln -s /run/runit/supervise.cupsd $PKG/etc/sv/cupsd/supervise
+
 	# rc service
 	install -Dm755 $SRC/rc.cupsd $PKG/etc/rc.d/cupsd
 }
