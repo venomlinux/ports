@@ -1,0 +1,6 @@
+filename=tzdata
+url=https://www.iana.org/time-zones/repository/releases
+
+port_getver() {
+curl -Lsk $url | grep -Eo "[0-9a-z.]+tar.[xgb]z2?"  | grep -v 'beta'
+}
