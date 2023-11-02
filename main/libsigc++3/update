@@ -1,0 +1,5 @@
+url=https://ftp.gnome.org/pub/gnome/sources/libsigc++/3.6/
+
+port_getver() {
+   curl -Lsk $url | grep -Eo "[0-9a-z.]+tar.[gbx]z2?" | sed 's|.tar.*||'
+}
