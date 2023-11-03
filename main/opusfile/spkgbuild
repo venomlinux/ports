@@ -1,0 +1,21 @@
+# description	: library for playback of opus streams in the ogg container
+# homepage	: https://www.opus-codec.org/
+# depends	: libogg opus
+
+name=opusfile
+version=0.12
+release=1
+source="https://downloads.xiph.org/releases/opus/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr \
+		--disable-static \
+		--disable-doc
+	make
+	make DESTDIR=$PKG install
+
+	# clean up footprint
+	rm -f $PKG/usr/lib/*.la
+	rm -rf $PKG/usr/share
+}
