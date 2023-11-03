@@ -3,7 +3,7 @@
 
 name=cronie
 version=1.7.0
-release=1
+release=2
 source="https://github.com/cronie-crond/cronie/releases/download/$name-$version/$name-$version.tar.gz
 	rc.crond
 	run.crond
@@ -35,9 +35,14 @@ build() {
 	install -Dm0644 contrib/0hourly $PKG/etc/cron.d/0hourly
 	install -Dm0755 contrib/0anacron $PKG/etc/cron.hourly/0anacron
 
+	_runit() {
 	# runit service
 	    install -Dm755 $SRC/run.crond $PKG/etc/sv/crond/run
 	    ln -s /run/runit/supervise.crond $PKG/etc/sv/crond/supervise
+	}
+	_sysv() {
 	# rc service
 	    install -Dm755 $SRC/rc.crond $PKG/etc/rc.d/crond
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
