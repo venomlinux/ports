@@ -2,7 +2,7 @@
 
 name=gpm
 version=1.20.7
-release=5
+release=6
 source="https://www.nico.schottelius.org/software/gpm/archives/$name-$version.tar.bz2
 	gpm-1.20.7-consolidated-1.patch
 	gpm.conf
@@ -25,9 +25,14 @@ build() {
 	install -Dm644 $SRC/gpm.sh $PKG/etc/profile.d/gpm.sh
 	install -Dm644 $SRC/gpm.conf $PKG/etc/conf.d/gpm
 
+	_runit() {
 	# runit service
 	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
 	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+	}
+	_sysv() {
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
