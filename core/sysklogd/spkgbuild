@@ -2,7 +2,7 @@
 
 name=sysklogd
 version=2.5.2
-release=1
+release=2
 backup="etc/syslog.conf"
 source="https://github.com/troglobit/sysklogd/releases/download/v$version/sysklogd-$version.tar.gz
 	rc.$name
@@ -21,10 +21,14 @@ build() {
 
 	install -Dm644 syslog.conf $PKG/etc/syslog.conf
 
+	_sysv() {
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-
+	}
+	_runit() {
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/$name/run
 	ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
