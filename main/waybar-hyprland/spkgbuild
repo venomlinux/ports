@@ -3,21 +3,19 @@
 # depends	: libappindicator libmpdclient libdbusmenu wayland-protocols meson playerctl
  
 name=waybar-hyprland
-version=0.9.22
+version=0.9.23
 release=1
 backup=/etc/xdg/waybar/config
 backup=/etc/xdg/waybar/style.css
 source="$name-$version.tar.gz::https://github.com/Alexays/Waybar/archive/$version.tar.gz"
 
 build() {
-         cd Waybar-$version
 	
 	sed -i \
         's/zext_workspace_handle_v1_activate(workspace_handle_);/const std::string command = "hyprctl dispatch workspace " + name_;\n\tsystem(command.c_str());/g' \
-        src/modules/wlr/workspace_manager.cpp
+        Waybar-$version/src/modules/wlr/workspace_manager.cpp
 
-         meson build --prefix=/usr \
-		--wrap-mode=default \
+         venom-meson Waybar-$version  build \
 		-Ddbusmenu-gtk=enabled \
 		-Dgtk-layer-shell=enabled \
 		-Dlibevdev=disabled \
@@ -33,8 +31,8 @@ build() {
                 -Dcava=disabled \
                 -Dexperimental=true \
                 -Dtests=disabled 
-          ninja -C build
-          DESTDIR=$PKG ninja -C build install
+          meson compile -C build
+          DESTDIR=$PKG meson install --no-rebuild -C build
 }
 
 
