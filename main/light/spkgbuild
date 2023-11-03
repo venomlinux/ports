@@ -3,7 +3,7 @@
 
 name=light
 version=1.2.2
-release=2
+release=3
 source="$name-$version.tar.gz::https://github.com/haikarainen/light/archive/v$version.tar.gz
 	run.lightd
 	finish.lightd
@@ -20,10 +20,15 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
+	_runit() {
 	# runit service
 	    install -Dm755 $SRC/run.lightd $PKG/etc/sv/lightd/run
 	    install -Dm755 $SRC/finish.lightd $PKG/etc/sv/lightd/finish
 	    ln -s /run/runit/supervise.lightd $PKG/etc/sv/lightd/supervise
+	}
+	_sysv() {
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
