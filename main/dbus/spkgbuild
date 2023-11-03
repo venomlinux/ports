@@ -3,7 +3,7 @@
 
 name=dbus
 version=1.14.10
-release=1
+release=2
 source="https://dbus.freedesktop.org/releases/$name/$name-$version.tar.xz
 	rc.$name
 	run"
@@ -29,10 +29,14 @@ build() {
 	chown -v root:messagebus $PKG/usr/lib/$name/dbus-daemon-launch-helper
 	chmod -v      4750       $PKG/usr/lib/$name/dbus-daemon-launch-helper
 
+	_sysv() {
 	# rc service
 	install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-
+	}
+	_runit() {
 	# runit service
 	install -Dm755 $SRC/run $PKG/etc/sv/$name/run
 	ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
