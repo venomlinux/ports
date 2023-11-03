@@ -4,7 +4,7 @@
 
 name=iwd
 version=2.8
-release=1
+release=2
 source="https://www.kernel.org/pub/linux/network/wireless/$name-$version.tar.xz
 	run.$name
 	rc.$name"
@@ -25,9 +25,15 @@ build() {
 	install -d -m 0700 $PKG/var/lib/iwd
 	install -d -m 0700 $PKG/etc/iwd
 
-	# runit service
-	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
-	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
-	# rc service
-	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	    _runit() {
+		# runit service
+		install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
+		ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+		    }
+	    _sysv() {
+		# rc service
+		install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+		    }
+	    scratch isinstalled runit && _runit || _sysv
+
 }
