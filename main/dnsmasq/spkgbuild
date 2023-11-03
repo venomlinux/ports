@@ -4,7 +4,7 @@
 
 name=dnsmasq
 version=2.89
-release=1
+release=2
 backup="etc/dnsmasq.conf"
 source="http://www.thekelleys.org.uk/$name/$name-$version.tar.xz
 	run.$name
@@ -18,9 +18,14 @@ build() {
 	install -Dm 644 dnsmasq.conf.example $PKG/etc/dnsmasq.conf
 	install -Dm 644 trust-anchors.conf $PKG/usr/share/dnsmasq/trust-anchors.conf
 
+	_runit() {
 	# runit service
 	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
 	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+	}
+	_sysv() {
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
