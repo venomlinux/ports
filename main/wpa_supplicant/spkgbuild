@@ -3,7 +3,7 @@
 
 name=wpa_supplicant
 version=2.10
-release=2
+release=3
 backup="etc/wpa_supplicant.conf"
 source="https://w1.fi/releases/$name-$version.tar.gz
 	0002-AP-guard-FT-SAE-code-with-CONFIG_IEEE80211R_AP.patch 
@@ -71,10 +71,15 @@ EOF
 	# wpa_supplicant.conf
 	install -Dm 600 $SRC/wpa_supplicant.conf $PKG/etc/wpa_supplicant.conf
 
+	_runit() {
 	# runit service
 	    install -Dm755 $SRC/run.wpa $PKG/etc/sv/wpa/run
 	    install -Dm755 $SRC/auto.wpa $PKG/etc/sv/wpa/auto
 	    ln -s /run/runit/supervise.wpa $PKG/etc/sv/wpa/supervise
+	}
+	_sysv() {
 	# rc service
 	    install -Dm755 $SRC/rc.wpa $PKG/etc/rc.d/wpa
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
