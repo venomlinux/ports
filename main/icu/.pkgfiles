@@ -1,4 +1,4 @@
-icu-73.2-1
+icu-74.1-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/derb
@@ -159,6 +159,8 @@ drwxr-xr-x root/root    usr/include/unicode/
 -rw-r--r-- root/root    usr/include/unicode/uldnames.h
 -rw-r--r-- root/root    usr/include/unicode/ulistformatter.h
 -rw-r--r-- root/root    usr/include/unicode/uloc.h
+-rw-r--r-- root/root    usr/include/unicode/ulocale.h
+-rw-r--r-- root/root    usr/include/unicode/ulocbuilder.h
 -rw-r--r-- root/root    usr/include/unicode/ulocdata.h
 -rw-r--r-- root/root    usr/include/unicode/umachine.h
 -rw-r--r-- root/root    usr/include/unicode/umisc.h
@@ -212,30 +214,30 @@ drwxr-xr-x root/root    usr/include/unicode/
 -rw-r--r-- root/root    usr/include/unicode/vtzone.h
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/icu/
-drwxr-xr-x root/root    usr/lib/icu/73.2/
--rw-r--r-- root/root    usr/lib/icu/73.2/Makefile.inc
--rw-r--r-- root/root    usr/lib/icu/73.2/pkgdata.inc
+drwxr-xr-x root/root    usr/lib/icu/74.1/
+-rw-r--r-- root/root    usr/lib/icu/74.1/Makefile.inc
+-rw-r--r-- root/root    usr/lib/icu/74.1/pkgdata.inc
 lrwxrwxrwx root/root    usr/lib/icu/Makefile.inc -> current/Makefile.inc
-lrwxrwxrwx root/root    usr/lib/icu/current -> 73.2
+lrwxrwxrwx root/root    usr/lib/icu/current -> 74.1
 lrwxrwxrwx root/root    usr/lib/icu/pkgdata.inc -> current/pkgdata.inc
-lrwxrwxrwx root/root    usr/lib/libicudata.so -> libicudata.so.73.2
-lrwxrwxrwx root/root    usr/lib/libicudata.so.73 -> libicudata.so.73.2
--rwxr-xr-x root/root    usr/lib/libicudata.so.73.2
-lrwxrwxrwx root/root    usr/lib/libicui18n.so -> libicui18n.so.73.2
-lrwxrwxrwx root/root    usr/lib/libicui18n.so.73 -> libicui18n.so.73.2
--rwxr-xr-x root/root    usr/lib/libicui18n.so.73.2
-lrwxrwxrwx root/root    usr/lib/libicuio.so -> libicuio.so.73.2
-lrwxrwxrwx root/root    usr/lib/libicuio.so.73 -> libicuio.so.73.2
--rwxr-xr-x root/root    usr/lib/libicuio.so.73.2
-lrwxrwxrwx root/root    usr/lib/libicutest.so -> libicutest.so.73.2
-lrwxrwxrwx root/root    usr/lib/libicutest.so.73 -> libicutest.so.73.2
--rwxr-xr-x root/root    usr/lib/libicutest.so.73.2
-lrwxrwxrwx root/root    usr/lib/libicutu.so -> libicutu.so.73.2
-lrwxrwxrwx root/root    usr/lib/libicutu.so.73 -> libicutu.so.73.2
--rwxr-xr-x root/root    usr/lib/libicutu.so.73.2
-lrwxrwxrwx root/root    usr/lib/libicuuc.so -> libicuuc.so.73.2
-lrwxrwxrwx root/root    usr/lib/libicuuc.so.73 -> libicuuc.so.73.2
--rwxr-xr-x root/root    usr/lib/libicuuc.so.73.2
+lrwxrwxrwx root/root    usr/lib/libicudata.so -> libicudata.so.74.1
+lrwxrwxrwx root/root    usr/lib/libicudata.so.74 -> libicudata.so.74.1
+-rwxr-xr-x root/root    usr/lib/libicudata.so.74.1
+lrwxrwxrwx root/root    usr/lib/libicui18n.so -> libicui18n.so.74.1
+lrwxrwxrwx root/root    usr/lib/libicui18n.so.74 -> libicui18n.so.74.1
+-rwxr-xr-x root/root    usr/lib/libicui18n.so.74.1
+lrwxrwxrwx root/root    usr/lib/libicuio.so -> libicuio.so.74.1
+lrwxrwxrwx root/root    usr/lib/libicuio.so.74 -> libicuio.so.74.1
+-rwxr-xr-x root/root    usr/lib/libicuio.so.74.1
+lrwxrwxrwx root/root    usr/lib/libicutest.so -> libicutest.so.74.1
+lrwxrwxrwx root/root    usr/lib/libicutest.so.74 -> libicutest.so.74.1
+-rwxr-xr-x root/root    usr/lib/libicutest.so.74.1
+lrwxrwxrwx root/root    usr/lib/libicutu.so -> libicutu.so.74.1
+lrwxrwxrwx root/root    usr/lib/libicutu.so.74 -> libicutu.so.74.1
+-rwxr-xr-x root/root    usr/lib/libicutu.so.74.1
+lrwxrwxrwx root/root    usr/lib/libicuuc.so -> libicuuc.so.74.1
+lrwxrwxrwx root/root    usr/lib/libicuuc.so.74 -> libicuuc.so.74.1
+-rwxr-xr-x root/root    usr/lib/libicuuc.so.74.1
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/icu-i18n.pc
 -rw-r--r-- root/root    usr/lib/pkgconfig/icu-io.pc
@@ -249,12 +251,12 @@ drwxr-xr-x root/root    usr/sbin/
 -rwxr-xr-x root/root    usr/sbin/icupkg
 drwxr-xr-x root/root    usr/share/
 drwxr-xr-x root/root    usr/share/icu/
-drwxr-xr-x root/root    usr/share/icu/73.2/
--rw-r--r-- root/root    usr/share/icu/73.2/LICENSE
-drwxr-xr-x root/root    usr/share/icu/73.2/config/
--rw-r--r-- root/root    usr/share/icu/73.2/config/mh-linux
--rwxr-xr-x root/root    usr/share/icu/73.2/install-sh
--rwxr-xr-x root/root    usr/share/icu/73.2/mkinstalldirs
+drwxr-xr-x root/root    usr/share/icu/74.1/
+-rw-r--r-- root/root    usr/share/icu/74.1/LICENSE
+drwxr-xr-x root/root    usr/share/icu/74.1/config/
+-rw-r--r-- root/root    usr/share/icu/74.1/config/mh-linux
+-rwxr-xr-x root/root    usr/share/icu/74.1/install-sh
+-rwxr-xr-x root/root    usr/share/icu/74.1/mkinstalldirs
 drwxr-xr-x root/root    usr/share/man/
 drwxr-xr-x root/root    usr/share/man/man1/
 -rw-r--r-- root/root    usr/share/man/man1/derb.1.gz
