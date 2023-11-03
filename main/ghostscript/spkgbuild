@@ -2,7 +2,7 @@
 # depends	: libxext libxt cups fontconfig util-linux
 
 name=ghostscript
-version=10.02.0
+version=10.02.1
 _vrsn=$(echo $version | sed 's/\.//g')
 release=1
 source="https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${_vrsn}/$name-$version.tar.xz
@@ -13,7 +13,6 @@ build() {
 	./configure --prefix=/usr \
 		--enable-cups \
 		--disable-gtk \
-		--disable-dbus \
 		--with-drivers=ALL \
 		--with-ijs \
 		--with-fontpath=/usr/share/ghostscript/fonts:/usr/share/fonts
