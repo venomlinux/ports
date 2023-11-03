@@ -3,7 +3,7 @@
 
 name=cups
 version=2.4.7
-release=3
+release=4
 source="https://github.com/OpenPrinting/cups/archive/v$version/$name-$version-source.tar.gz
 	run.cupsd
 	rc.cupsd"
@@ -38,10 +38,14 @@ EOF
 	# remove cups init script
 	rm -fr $PKG/tmp
 
+	_runit() {
 	# runit service
 	install -Dm755 $SRC/run.cupsd $PKG/etc/sv/cupsd/run
 	    ln -s /run/runit/supervise.cupsd $PKG/etc/sv/cupsd/supervise
-
+	}
+	_sysv() {
 	# rc service
 	install -Dm755 $SRC/rc.cupsd $PKG/etc/rc.d/cupsd
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
