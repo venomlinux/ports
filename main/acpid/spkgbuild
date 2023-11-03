@@ -3,7 +3,7 @@
 
 name=acpid
 version=2.0.34
-release=1
+release=2
 source="https://downloads.sourceforge.net/acpid2/$name-$version.tar.xz
 	rc.$name
 	run.acpid"
@@ -29,9 +29,14 @@ cat > $PKG/etc/acpi/lid.sh << "EOF"
 EOF
 	chmod +x $PKG/etc/acpi/lid.sh
 
+	_runit() {
 	# runit service
 	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
 	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+	}
+	_sysv() {
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
