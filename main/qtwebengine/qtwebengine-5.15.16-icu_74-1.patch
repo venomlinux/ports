@@ -1,0 +1,20 @@
+diff --git a/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator.cc b/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator.cc
+index e34b073..b6e9ec8 100644
+--- a/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator.cc
++++ b/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator.cc
+@@ -162,11 +162,15 @@ static const unsigned char kAsciiLineBreakTable[][(kAsciiLineBreakTableLastChar
+ };
+ // clang-format on
+ 
++#if U_ICU_VERSION_MAJOR_NUM >= 74
++#define BA_LB_COUNT (U_LB_COUNT - 8)
++#else
+ #if U_ICU_VERSION_MAJOR_NUM >= 58
+ #define BA_LB_COUNT (U_LB_COUNT - 3)
+ #else
+ #define BA_LB_COUNT U_LB_COUNT
+ #endif
++#endif
+ // Line breaking table for CSS word-break: break-all. This table differs from
+ // asciiLineBreakTable in:
+ // - Indices are Line Breaking Classes defined in UAX#14 Unicode Line Breaking
