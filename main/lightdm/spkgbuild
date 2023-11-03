@@ -3,7 +3,7 @@
 
 name=lightdm
 version=1.32.0
-release=4
+release=5
 backup="etc/lightdm/keys.conf
 	etc/lightdm/lightdm.conf
 	etc/lightdm/users.conf"
@@ -48,9 +48,14 @@ build() {
 	install -dm755 -o lightdm -g lightdm $PKG/var/cache/lightdm
 	install -dm770 -o lightdm -g lightdm $PKG/var/log/lightdm
 
+	_runit() {
 	# runit service
 	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
 	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+	}
+	_sysv() {
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
