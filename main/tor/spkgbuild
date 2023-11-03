@@ -3,7 +3,7 @@
 
 name=tor
 version=0.4.8.7
-release=1
+release=2
 source="https://www.torproject.org/dist/$name-$version.tar.gz
 	rc.tor
 	run.tor
@@ -21,9 +21,14 @@ build() {
 
 	install -d $PKG/var/lib/tor -o tor -g tor
 
+	_runit() {
 	# runit service
 	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
 	    ln -s /run/runit/supervice.$name $PKG/etc/sv/$name/supervise
+	}
+	_sysv() {
 	# rc service
 	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
