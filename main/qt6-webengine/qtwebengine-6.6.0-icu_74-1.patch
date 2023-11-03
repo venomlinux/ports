@@ -1,0 +1,19 @@
+diff -Naur qtwebengine-6.6.0.orig/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator.cc qtwebengine-6.6.0/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator.cc
+--- qtwebengine-6.6.0.orig/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator.cc	2023-10-03 15:49:54.000000000 -0400
++++ qtwebengine-6.6.0/src/3rdparty/chromium/third_party/blink/renderer/platform/text/text_break_iterator.cc	2023-11-01 15:00:19.937581697 -0400
+@@ -161,11 +161,15 @@
+ };
+ // clang-format on
+ 
++#if U_ICU_VERSION_MAJOR_NUM >= 74
++#define BA_LB_COUNT (U_LB_COUNT - 8)
++#else
+ #if U_ICU_VERSION_MAJOR_NUM >= 58
+ #define BA_LB_COUNT (U_LB_COUNT - 3)
+ #else
+ #define BA_LB_COUNT U_LB_COUNT
+ #endif
++#endif
+ // Line breaking table for CSS word-break: break-all. This table differs from
+ // asciiLineBreakTable in:
+ // - Indices are Line Breaking Classes defined in UAX#14 Unicode Line Breaking
