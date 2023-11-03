@@ -3,7 +3,7 @@
 
 name=apache
 version=2.4.58
-release=1
+release=2
 source="https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 	httpd-blfs_layout-1.patch::https://www.linuxfromscratch.org/patches/blfs/svn/httpd-$version-blfs_layout-1.patch
 	rc.httpd
@@ -42,10 +42,14 @@ build() {
 
 	rm -fr $PKG/var/run
 
+	_runit() {
 	# runit service
 	    install -Dm755 $SRC/run.httpd $PKG/etc/sv/httpd/run
 	    ln -s /run/runit/supervise.httpd $PKG/etc/sv/httpd/supervise
-
+	}
+	_sysv() {
 	# rc service
 	    install -Dm755 $SRC/rc.httpd $PKG/etc/rc.d/httpd
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
