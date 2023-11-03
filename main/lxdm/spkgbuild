@@ -3,7 +3,7 @@
 
 name=lxdm
 version=0.5.3
-release=6
+release=7
 backup="etc/lxdm/lxdm.conf"
 source="https://sourceforge.net/projects/lxde/files/$name/$name%20$version/$name-$version.tar.xz
 	https://sourceforge.net/projects/venom-lxdm-theme/files/lxdm-venom-theme.tar.gz
@@ -45,14 +45,19 @@ sed -e 's/^bg/#&/'        \
 	make
 	make DESTDIR=$PKG install
         
-	# runit service
-	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
-	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
-	# rc service
-	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
-	    
 	sed -i 's/Clearlooks/OSX-Arc-Plus/;s/Industrial/Venom/;s/disable=0/disable=1/' $PKG/etc/$name/$name.conf
 	
 	cd $SRC/$name-venom-theme
 	cp -r Venom $PKG/usr/share/$name/themes
+
+	_runit() {
+	# runit service
+	    install -Dm755 $SRC/run.$name $PKG/etc/sv/$name/run
+	    ln -s /run/runit/supervise.$name $PKG/etc/sv/$name/supervise
+	}
+	_sysv() {
+	# rc service
+	    install -Dm755 $SRC/rc.$name $PKG/etc/rc.d/$name
+	}
+	scratch isinstalled runit && _runit || _sysv	    
 }
