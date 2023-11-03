@@ -4,7 +4,7 @@
 
 name=seatd
 version=0.8.0
-release=1
+release=2
 source="$name-$version.tar.gz::https://git.sr.ht/~kennylevinsen/seatd/archive/$version.tar.gz
 	rc.seatd
 	run.seatd"
@@ -23,10 +23,14 @@ build() {
 	# user can run seatd-launch
 	chmod u+s $PKG/usr/bin/seatd-launch
 
+	_sysv() {
 	# rc service
 	install -Dm755 $SRC/rc.seatd $PKG/etc/rc.d/seatd
-
+	}
+	_runit() {
 	# runit service
 	install -Dm755 $SRC/run.seatd $PKG/etc/sv/seatd/run
 	ln -s /run/runit/supervise.seatd $PKG/etc/sv/seatd/supervise
+	}
+	scratch isinstalled runit && _runit || _sysv
 }
