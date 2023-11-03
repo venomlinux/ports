@@ -4,13 +4,17 @@
 
 name=qtwebengine
 version=5.15.16
-release=1
+release=2
 source="https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-$version.tar.xz
-	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-build_fixes-1.patch
-	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-$version-ffmpeg5_fixes-1.patch"
+	qtwebengine-$version-build_fixes-1.patch
+	qtwebengine-$version-ffmpeg5_fixes-1.patch
+	qtwebengine-$version-icu_74-1.patch"
 
 build() {
 	cd $name-$version
+
+	# Fix build with ICU 74
+	patch -Np1 -i $SRC/qtwebengine-$version-icu_74-1.patch
 
 	# Fix several issues and to force it to use python3
 	patch -Np1 -i $SRC/qtwebengine-$version-build_fixes-1.patch

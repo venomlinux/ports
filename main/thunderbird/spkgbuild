@@ -3,17 +3,21 @@
 
 name=thunderbird
 version=115.4.1
-release=1
+release=2
 source="https://archive.mozilla.org/pub/thunderbird/releases/$version/source/thunderbird-$version.source.tar.xz
 	system-wrappers.patch
 	libstdc++13.patch
 	ppc-musttail.patch
+	icu74.patch
 	"
 
 build() {
 	INITDIR=$PWD
 
 	cd $name-$version
+	
+	# Fix build with ICU 74.1
+	patch -Np1 -i $SRC/icu74.patch
 
 	# Fix building Thunderbird with rustc-1.68.x: 
 	patch -Np1 -i $SRC/libstdc++13.patch
@@ -34,6 +38,7 @@ build() {
 ac_add_options --disable-audio-backends
 ac_add_options --disable-crashreporter
 ac_add_options --disable-debug
+ac_add_options --disable-debug-symbols
 ac_add_options --disable-necko-wifi
 ac_add_options --disable-tests
 ac_add_options --disable-updater
@@ -44,6 +49,7 @@ ac_add_options --enable-install-strip
 ac_add_options --enable-official-branding
 ac_add_options --enable-optimize=-O2
 ac_add_options --enable-strip
+ac_add_options --enable-install-strip
 ac_add_options --enable-system-ffi
 ac_add_options --enable-system-pixman
 ac_add_options --prefix=/usr
@@ -61,15 +67,6 @@ EOF
         export MOZBUILD_STATE_PATH=${PWD}/mozbuild
 	export MOZ_NOSPAM=1
 	export CARGO_HOME=$INITDIR
-
-	# Remove an obsolete flag in python-3.11
-	grep -rl \"rU\" | xargs sed -i 's/"rU"/"r"/'
-
-	# Fix an issue with regular expressions in python-3.11
-	sed -e 's/?s)\./?s:.)/'               \
-	    -e '/?m)/{s/?m)/?m:/;s/\$"/$)"/}' \
-	    -e '/?s)%/{s/?s)/?s:/;s/?"/?)"/}' \
-	    -i xpcom/idl-parser/xpidl/xpidl.py
 
         SHELL=/bin/sh MACH_USE_SYSTEM_PYTHON=1 ./mach build
         SHELL=/bin/sh MACH_USE_SYSTEM_PYTHON=1 DESTDIR=$PKG ./mach install

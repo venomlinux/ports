@@ -5,13 +5,17 @@
 
 name=firefox
 version=119.0
-release=1
+release=2
 source="$name-$version.tar.xz::https://archive.mozilla.org/pub/firefox/releases/$version/source/firefox-$version.source.tar.xz 
-	$name.desktop"
+	$name.desktop
+	icu74.patch"
 
 build() {
   cd $name-$version
-
+ 
+  # Fix build with ICU >= 74
+  patch -Np1 -i $SRC/icu74.patch
+ 
   mkdir "$SRC/rust"
   export CARGO_HOME="$SRC/rust"
 

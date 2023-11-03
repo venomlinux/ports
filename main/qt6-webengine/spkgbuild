@@ -5,12 +5,15 @@
 
 name=qt6-webengine
 version=6.6.0
-release=1
-source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtwebengine-everywhere-src-$version.tar.xz"
+release=2
+source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtwebengine-everywhere-src-$version.tar.xz
+	qtwebengine-${version}-icu_74-1.patch"
 
 build() {
 
 	export PYTHON=/usr/bin/python3 
+
+	patch -d qtwebengine-everywhere-src-$version -Np1 -i $SRC/qtwebengine-${version}-icu_74-1.patch
 
 	cmake -B build -S qtwebengine-everywhere-src-$version -G Ninja \
 		-DCMAKE_MESSAGE_LOG_LEVEL=STATUS \

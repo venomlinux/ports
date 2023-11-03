@@ -2,17 +2,16 @@
 # homepage	: https://icu.unicode.org
 
 name=icu
-version=73.2
+version=74.1
 vrsn=$(echo $version | sed 's/\./-/g')
 release=1
 source="$name-$version.tar.gz::https://github.com/unicode-org/icu/archive/release-$vrsn.tar.gz"
 
 build() {
-	cd $name-release-$vrsn/icu4c/source
-
 	# icu tries to use clang by default
-	export CC=gcc
-	export CXX=g++
+	export CC=gcc CXX=g++
+
+	cd $name-release-$vrsn/icu4c/source
 
 	./configure \
 		--prefix=/usr \
