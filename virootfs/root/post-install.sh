@@ -69,10 +69,10 @@ fi
 # 'useradd -R' not copy all skel files, use xchroot instead
 #useradd -R $ROOT -m -G users,wheel,audio,video -s /bin/bash $USERNAME
 xchroot $ROOT useradd -m -G users,wheel,audio,video -s /bin/bash $USERNAME
-echo "$USERNAME:$USER_PSWD" | chpasswd -R $ROOT -c SHA512
+echo "$USERNAME:$USER_PSWD" | chpasswd -R $ROOT -c YESCRYPT
 
 # root pswd
-echo "root:$ROOT_PSWD" | chpasswd -R $ROOT -c SHA512
+echo "root:$ROOT_PSWD" | chpasswd -R $ROOT -c YESCRYPT
 
 # locale
 sed "s/#$LOCALE/$LOCALE/" -i $ROOT/etc/locales
