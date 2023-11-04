@@ -5,14 +5,15 @@
 
 name=qt6-base
 version=6.6.0
-release=2
+release=3
 source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtbase-everywhere-src-$version.tar.xz
-	qt6-base-cflags.patch qt6-base-nostrip.patch xkbcommon160.patch"
+	qt6-base-fix-a11y.patch qt6-base-cflags.patch qt6-base-nostrip.patch xkbcommon160.patch"
 
 build() {
 	patch -d qtbase-everywhere-src-$version -p1 -i $SRC/qt6-base-cflags.patch
 	patch -d qtbase-everywhere-src-$version -p1 -i $SRC/qt6-base-nostrip.patch
 	patch -d qtbase-everywhere-src-$version -p1 -i $SRC/xkbcommon160.patch
+	patch -d qtbase-everywhere-src-$version -p1 -i $SRC/qt6-base-fix-a11y.patch
 
 
 	cmake -S qtbase-everywhere-src-$version -B build -G Ninja \
