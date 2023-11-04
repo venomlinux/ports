@@ -11,8 +11,8 @@ useradd -m -G users,wheel,audio,video -s /bin/bash $LIVEUSER
 #passwd -d $LIVEUSER &>/dev/null
 #passwd -d root &>/dev/null
 
-echo "root:$PASSWORD" | chpasswd -c SHA512
-echo "$LIVEUSER:$PASSWORD" | chpasswd -c SHA512
+echo "root:$PASSWORD" | chpasswd -c YESCRYPT
+echo "$LIVEUSER:$PASSWORD" | chpasswd -c YESCRYPT
 
 # generate en_US locale
 sed 's/#\(en_US\.UTF-8\)/\1/' -i /etc/locales
