@@ -9,11 +9,16 @@
 
 name=wine-staging
 version=8.19
-release=1
+vgecko=2.47.4
+vmono=8.0.0
+release=2
 source="https://dl.winehq.org/wine/source/${version%.*}.x/${name%-*}-$version.tar.xz
-	https://github.com/wine-staging/wine-staging/archive/v$version.tar.gz 
-	30-win32-aliases.conf
-	wine-binfmt.conf"
+		https://github.com/$name/$name/archive/v$version/$name-$version.tar.gz 
+	        https://dl.winehq.org/wine/wine-gecko/2.47.4/wine-gecko-${vgecko}-x86.msi 
+	        https://dl.winehq.org/wine/wine-gecko/2.47.4/wine-gecko-${vgecko}-x86_64.msi 
+	        https://dl.winehq.org/wine/wine-mono/8.0.0/wine-mono-${vmono}-x86.msi
+	       30-win32-aliases.conf
+	       wine-binfmt.conf"
 build() {
 	# apply staging patches
 	cd ${name%-*}-${version}
@@ -61,10 +66,17 @@ build() {
 	make
 	make DESTDIR=$PKG install
 
-	# Exclude libraries for revdep
-	install -d $PKG/etc/revdep.d
-	echo "/usr/lib/wine/x86_64-unix/" > $PKG/etc/revdep.d/$name.conf
-	echo "/usr/lib32/wine/i386-unix/" >> $PKG/etc/revdep.d/$name.conf
+	install -d $PKG/usr/share/wine/gecko
+	install -d $PKG/usr/share/wine/mono
+
+	install -t $PKG/usr/share/wine/gecko/ \
+		$SRC/wine-gecko-${vgecko}-x86.msi \
+		$SRC/wine-gecko-${vgecko}-x86_64.msi
+
+	install $SRC/wine-mono-${vmono}-x86.msi $PKG/usr/share/wine/mono/
 
 	rm -r $PKG/usr/share/man/??.UTF-8
+
+	install -d $PKG/etc/revdep.d
+	echo -e "/usr/lib/wine/x86_64-unix\n/usr/lib32/wine/i386-unix\n" > $PKG/etc/revdep.d/$name
 }
