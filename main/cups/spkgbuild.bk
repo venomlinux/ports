@@ -3,7 +3,7 @@
 
 name=cups
 version=2.4.7
-release=4
+release=5
 source="https://github.com/OpenPrinting/cups/archive/v$version/$name-$version-source.tar.gz
 	run.cupsd
 	rc.cupsd"
@@ -13,32 +13,19 @@ build() {
 
 	./configure \
 		--prefix=/usr \
-		--libdir=/usr/lib \
 		--sysconfdir=/etc \
+		--libdir=/usr/lib \
 		--localstatedir=/var \
-		--with-menudir=/usr/share/applications \
-		--with-icondir=/usr/share/icons \
-		--with-logdir=/var/log/cups \
-		--with-docdir=/usr/share/cups \
 		--with-rundir=/run/cups \
-		--with-cupsd-file-perm=0755 \
-		--with-cups-user=lp \
-		--with-cups-group=lp \
+		--with-docdir=/usr/share/cups/doc \
+		--with-logdir=/var/log/cups \
 		--with-system-groups=lpadmin \
-		--with-domainsocket=/run/cups/cups.sock \
-		--disable-launchd \
-		--enable-acl \
-		--enable-dbus \
-		--with-dbusdir=/usr/share/dbus-1 \
-		--enable-gnutls \
-		--enable-libusb \
-		--enable-raw-printing \
-		--enable-relro \
-		--enable-ssl=yes \
-		--with-optim="$CFLAGS -flto=auto" \
-		--without-php \
+		--with-languages="" \
 		--without-rcdir \
-		--without-systemd
+		--with-optim="$CFLAGS" \
+		--with-tls=gnutls \
+		--enable-acl \
+		--without-systemd		
 	make
 	make BUILDROOT=$PKG install
 
@@ -54,10 +41,8 @@ session include system-session
 # End /etc/pam.d/cups
 EOF
 	# cleanup
-	rm -fr $PKG/tmp $PKG/run $PKG/var/run 
-	## no longer works since CUPS >= 1.6 (http://www.cups.org/str.php?L4120)
-	rm -rf $PKG/usr/share/cups/banners/*  $PKG/usr/share/cups/data/testprint
-
+	rm -fr $PKG/var/run
+	rm -fr $PKG/tmp
 	chmod 0755 $PKG/var/cache
 	chmod 0755 $PKG/var/spool
 	chmod -R +w $PKG
