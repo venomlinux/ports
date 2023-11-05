@@ -77,6 +77,7 @@ build() {
 
 	rm -r $PKG/usr/share/man/??.UTF-8
 
+	# exclude libs for revdep
 	install -d $PKG/etc/revdep.d
-	echo -e "/usr/lib/wine/x86_64-unix\n/usr/lib32/wine/i386-unix\n" > $PKG/etc/revdep.d/$name.conf
+	echo "/usr/lib/wine/x86_64-unix/\n/usr/lib32/wine/i386-unix/\n" > $PKG/etc/revdep.d/$name.conf
 }
