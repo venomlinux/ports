@@ -7,7 +7,7 @@ release=1
 source="$name-$version.tar.xz::https://www.kernel.org/pub/linux/utils/net/$name/$name-$version.tar.xz"
 
 build() {
-	cd $name-v$version
+	cd $name-$version
 
 	sed -i /ARPD/d Makefile
 	rm -fv man/man8/arpd.8
