@@ -3,7 +3,7 @@
 
 name=libindicator
 version=12.10.1
-release=1
+release=2
 source="https://launchpad.net/libindicator/${version%.*}/$version/+download/libindicator-$version.tar.gz"
 
 build() {
@@ -20,6 +20,7 @@ build() {
 		--with-gtk=3 \
 		--disable-static \
 		--disable-tests
+	sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 	make
 	make DESTDIR=$PKG install
 }
