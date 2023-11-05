@@ -1,0 +1,333 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+
+
+# Focus window when mouse hovers it
+focus_follows_mouse yes
+
+# Borders
+default_border pixel 1
+default_floating_border pixel 1
+hide_edge_borders smart
+
+# Colors
+# class                  border   backg    text     indicator  child_border
+client.focused           #000000  #000000  #dddddd  #999999    #444444
+client.focused_inactive  #222222  #222222  #dddddd  #999999    #222222
+#client.unfocused        #333333  #222222  #888888  #292d2e    #333333
+#client.urgent           #2f343a  #900000  #dddddd  #900000    #900000
+#client.placeholder      #000000  #0c0c0c  #dddddd  #000000    #0c0c0c
+
+set $gnome-schema org.gnome.desktop.interface
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'Adwaita'
+    gsettings set $gnome-schema icon-theme 'Adwaita'
+    gsettings set $gnome-schema cursor-theme 'Vimix-white-cursors'
+    gsettings set $gnome-schema font-name 'mononoki 10'
+}
+
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+# Your preferred terminal emulator
+set $term footclient
+
+# Your preferred application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+set $menufont mononoki 11
+set $menu bemenu-run -H '20' -p 'Run:' --fn '$menufont' \
+	--tf '#ffffff' \
+	--fb '#000000' \
+	--ff '#ffffff' \
+	--nb '#000000' \
+	--nf '#ffffff' \
+	--hb '#dddddd' \
+	--hf '#000000' \
+	--sb '#000000' \
+	--sf '#ffffff' \
+	--scb '#000000' \
+	--scf '#ffffff'
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+	#exec_always wbg $HOME/.icons/fondo.jpg
+	exec_always swaybg -i $HOME/.icons/fondo.jpg -m center
+	#output * bg #000000 solid_color
+
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+#output HDMI-A-2 resolution 1920x1200 position 1920,0
+
+# HiDPI, set display scale factor with the output command in your configuration file
+#output HDMI-A-1 scale 1.7
+
+
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Input configuration
+#
+# Example configuration:
+#
+input "type:touchpad" {
+     dwt enabled
+     tap enabled
+     #natural_scroll enabled
+     middle_emulation enabled
+}
+
+input "type:keyboard" {
+     xkb_layout "es"
+     xkb_variant ""
+     xkb_options "grp:win_space_toggle"
+     xkb_model "pc105"
+}
+
+input * xkb_numlock enable
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+### Key bindings
+#
+# Basics:
+#
+    # Start a terminal
+    bindsym $mod+Shift+Return exec $term
+
+    # Kill focused window
+    bindsym $mod+Shift+q kill
+
+    # Start your launcher
+    bindsym $mod+d exec $menu
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'Session' -b 'Exit' 'swaymsg exit'
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # Or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # Ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+	# Switch to workspace
+	bindsym $mod+1 workspace number 1
+	bindsym $mod+2 workspace number 2
+	bindsym $mod+3 workspace number 3
+	bindsym $mod+4 workspace number 4
+	bindsym $mod+5 workspace number 5
+	bindsym $mod+6 workspace number 6
+	bindsym $mod+7 workspace number 7
+	bindsym $mod+8 workspace number 8
+	bindsym $mod+9 workspace number 9
+	bindsym $mod+0 workspace number 10
+	# Move focused container to workspace
+	bindsym $mod+Shift+1 move container to workspace number 1
+	bindsym $mod+Shift+2 move container to workspace number 2
+	bindsym $mod+Shift+3 move container to workspace number 3
+	bindsym $mod+Shift+4 move container to workspace number 4
+	bindsym $mod+Shift+5 move container to workspace number 5
+	bindsym $mod+Shift+6 move container to workspace number 6
+	bindsym $mod+Shift+7 move container to workspace number 7
+	bindsym $mod+Shift+8 move container to workspace number 8
+	bindsym $mod+Shift+9 move container to workspace number 9
+	bindsym $mod+Shift+0 move container to workspace number 10
+	# Note: workspaces can have any name you want, not just numbers.
+	# We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+	# You can "split" the current object of your focus with
+	# $mod+b or $mod+v, for horizontal and vertical splits
+	# respectively.
+	bindsym $mod+b splith
+	bindsym $mod+v splitv
+
+	# Switch the current container between different layout styles
+	#bindsym $mod+s layout stacking
+	#bindsym $mod+w layout tabbed
+	bindsym $mod+e layout toggle split
+
+	# Make the current focus fullscreen
+	bindsym $mod+f fullscreen
+
+	# Toggle the current focus between tiling and floating mode
+	bindsym $mod+Shift+space floating toggle
+
+	# Swap focus between the tiling area and the floating area
+	bindsym $mod+space focus mode_toggle
+
+	# Move focus to the parent container
+	bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+	# Sway has a "scratchpad", which is a bag of holding for windows.
+	# You can send windows there and get them back later.
+
+	# Move the currently focused window to the scratchpad
+	bindsym $mod+Shift+minus move scratchpad
+
+	# Show the next scratchpad window or hide the focused scratchpad window.
+	# If there are multiple scratchpad windows, this command cycles through them.
+	bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+	# left will shrink the containers width
+	# right will grow the containers width
+	# up will shrink the containers height
+	# down will grow the containers height
+	bindsym $left resize shrink width 10px
+	bindsym $down resize grow height 10px
+	bindsym $up resize shrink height 10px
+	bindsym $right resize grow width 10px
+
+	# Ditto, with arrow keys
+	bindsym Left resize shrink width 10px
+	bindsym Down resize grow height 10px
+	bindsym Up resize shrink height 10px
+	bindsym Right resize grow width 10px
+
+	# Return to default mode
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+
+	bindsym $mod+r mode "resize"
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+#bar {
+#	position top
+
+	# When the status_command prints a new line to stdout, swaybar updates.
+	# The default just shows the current date and time.
+	#status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
+	#status_command while date +'%a, %d %b %H:%M '; do sleep 1; done
+ #  	status_command i3status
+
+#	font pango:mononoki 10
+
+#	colors {
+#		statusline #dddddd
+#	        background #000000
+#	        separator  #000000
+	        # Tags                  Border  Backgr  Text
+#	        focused_workspace       #666666 #000000 #dddddd
+#	        active_workspace        #666666 #000000 #dddddd
+#	        inactive_workspace      #000000 #000000 #dddddd
+#	        urgent_workspace        #000000 #999999 #000000
+#	        binding_mode            #000000 #000000 #dddddd
+#	} 
+#}
+
+#set $mode_system System: [e]xit | [l]ock | [r]eboot | [s]hutdown 
+#        mode "$mode_system" {
+#        bindsym e exec swaymsg exit, mode "default"
+#        bindsym l exec swaylock -f -c 000000, mode "default"       
+#        bindsym r exec doas reboot, mode "default"
+#        bindsym s exec doas poweroff, mode "default"
+	# back to normal: Enter or Escape
+#        bindsym Escape mode "default"
+#        }
+
+#       bindsym $mod+x mode "$mode_system"
+	bindsym $mod+x exec session-wl
+
+# Screen capture
+bindsym Alt+Print exec grimshot copy active                                                                                               
+bindsym Control+Print exec grimshot copy area
+bindsym Shift+Print exec grimshot copy window
+bindsym Print exec grimshot copy screen
+
+# Audio
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+bindsym XF86AudioRaiseVolume exec amixer -q sset Master 3%+
+bindsym XF86AudioLowerVolume exec amixer -q sset Master 3%-
+bindsym XF86AudioMute exec amixer set Master toggle
+bindsym XF86AudioMicMute exec amixer set Mic toggle
+
+bindsym $mod+F10 exec amixer -q sset Master 3%+
+bindsym $mod+F9 exec amixer -q sset Master 3%-
+bindsym $mod+F11 exec amixer set Master toggle
+bindsym $mod+F12 exec amixer set Mic toggle
+
+exec amixer -q set Master unmute
+exec amixer -q sset Master 100%
+
+# File manager
+bindsym $mod+z exec $term nnn
+
+# Screen brigthness
+exec_always light -S 31
+bindsym XF86MonBrightnessDown exec light -U 3
+bindsym XF86MonBrightnessUp exec light -A 3
+
+# Foot server
+exec foot -s
+
+# Yambar
+exec yambar
