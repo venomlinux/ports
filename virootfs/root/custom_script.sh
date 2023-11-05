@@ -56,7 +56,7 @@ elif [ -x /etc/rc.d/network ]; then
 	NETWORK=network
 fi
 
-for i in sysklogd dbus slim $NETWORK bluetooth; do
+for i in sysklogd dbus $NETWORK bluetooth; do
 	if [ -x /etc/rc.d/$i ]; then
 		daemon="$daemon $i"
 	fi
