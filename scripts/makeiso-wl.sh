@@ -23,10 +23,10 @@ ROOTFS="$PWD/rootfs"
 [ -f $SCRIPTDIR/config ] && . $SCRIPTDIR/config
 
 MUST_PKG="wpa_supplicant os-prober grub"
-WAYLAND_PKG="foot libinput libxkbcommon seatd wayland-protocols xcb-util-cursor xcb-util-keysyms libxfont2 libxcvt libtirpc xwayland"
-MAIN_PKG="sudo alsa-utils gparted dosfstools mtools gvfs networkmanager ntfs-3g neofetch xdg-user-dirs polkit-gnome ffmpeg firefox"
-SWAY_PKG="sway yambar bemenu pcmanfm leafpad nnn swaylock swaybg grimshot irssi htop"
-THEME_PKG="arcbox paper-icon-theme osx-arc-theme ttf-awesome ttf-mononoki dunst neofetch dfc"
+WAYLAND_PKG="xcb-util-cursor xcb-util-keysyms libxfont2 libxcvt libtirpc"
+MAIN_PKG="sudo alsa-utils dosfstools mtools gvfs neofetch ffmpeg firefox nnn irrsi htop"
+SWAY_PKG="nwg-shell"
+THEME_PKG="ttf-awesome ttf-mononoki"
 
 RELEASE=$(cat $PORTSDIR/current-release)
 outputiso="$PORTSDIR/venomlinux-wayland-$INIT-$(uname -m)-$(date +%Y%m%d).iso"
