@@ -1,15 +1,19 @@
 # description	: Decoder for a lossy sound compression scheme specified in MPEG-2 Part 7 and MPEG-4 Part 3 standards
 
 name=faad2
-version=2.10.1
+version=2.11.0
 release=1
 source="$name-$version.tar.gz::https://github.com/knik0/$name/archive/$version.tar.gz"
 build() {
-	cd $name-$version
-
-	autoreconf -fiv
-	./configure --prefix=/usr --disable-static
-	make
-	make DESTDIR=$PKG install
+	cmake -S $name-$version -B build \
+	     -DCMAKE_INSTALL_PREFIX=/usr \
+	     -DCMAKE_INSTALL_LIBDIR=lib \
+	     -DCMAKE_INSTALL_LIBEXECDIR=lib \
+	     -DCMAKE_BUILD_TYPE=Release \
+	     -DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+	     -DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	     -Wno-dev 
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
 }
 
