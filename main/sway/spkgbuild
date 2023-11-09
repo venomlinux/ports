@@ -3,7 +3,7 @@
 
 name=sway
 version=1.8.1
-release=4
+release=5
 source="https://github.com/swaywm/sway/releases/download/$version/sway-$version.tar.gz
 	sway-portals.conf
 	sway.desktop"
@@ -11,8 +11,8 @@ source="https://github.com/swaywm/sway/releases/download/$version/sway-$version.
 build() {
 
 	venom-meson $name-$version build \
-		-D werror=false \
-		-D b_ndebug=true
+		-Dwerror=false \
+		-Dxwayland=$(scratch isinstalled xwayland && echo enabled || echo false) 
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 	install -Dm644 $SRC/sway.desktop $PKG/usr/share/wayland-sessions/sway.desktop
