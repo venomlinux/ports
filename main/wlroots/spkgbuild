@@ -3,7 +3,7 @@
 
 name=wlroots
 version=0.16.2
-release=1
+release=2
 source="https://gitlab.freedesktop.org/wlroots/wlroots/-/archive/$version/wlroots-$version.tar.gz"
 
 build() {
@@ -11,6 +11,7 @@ build() {
 	venom-meson $name-$version build \
 	-Dwerror=false \
 	-Dexamples=false \
+	-Dxwayland=$(scratch isinstalled xwayland && echo enabled || echo disabled) \
 	-Dbackends=drm,libinput,x11
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
