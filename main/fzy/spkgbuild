@@ -1,0 +1,13 @@
+# description	    : A better fuzzy finder
+# homepage	    : https://github.com/jhawthorn/fzy
+
+name=fzy
+version=1.0
+release=1
+source="https://github.com/jhawthorn/$name/releases/download/$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	make
+	make PREFIX=/usr DESTDIR=$PKG install
+    }
