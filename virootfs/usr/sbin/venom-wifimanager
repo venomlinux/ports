@@ -1,0 +1,116 @@
+#!/bin/sh
+#
+# Venom Linux wifi manager script to configure or connect networks by wpa_supplicant
+#
+# License: GPLv3
+
+# exit error
+err() {
+printf "%s\n" "ERROR : $@"
+exit 1
+}
+
+# print message
+msg() {
+printf "%s\n" "$@"
+}
+
+# Ensure wi run as root
+[ "$(id -u)" != "0" ] && err "Must run this script as root."
+
+
+# we save network configs here
+conf_dir=/etc/wpa_supplicant
+[ -d "$conf_dir" ] ||  mkdir "$conf_dir"
+
+checks() {
+    for i in wpa_supplicant dhcpcd ; do
+    command -v $i >/dev/null || err "You should install $i first"
+    done
+    device=$(find /sys/class/net -iname w* -printf "%f\n" )
+    rfkill unblock all
+    ip link set dev $device up
+}
+
+hp() {
+cat<<EOF
+Usage :
+  Config --> It'll guied you to config a new wifi network
+  Connect --> It'll connect to a wifi network
+  Help --> It'll show this help
+EOF
+}
+
+nopass() {
+msg "
+network={
+    ssid=""$s""
+    key_mgmt=NONE
+}
+
+"
+}
+
+config() {
+cat <<- EOF >  /etc/wpa_supplicant/$name.conf
+# Configuration options for wpa_supplicant.conf.
+
+ctrl_interface=DIR=/run/wpa_supplicant GROUP=wheel
+eapol_version=1
+ap_scan=1
+fast_reauth=1
+update_config=1
+
+# $name network
+
+
+EOF
+}
+
+add() {
+msg "Add name for the Network config"
+read name
+config
+msg "SSID of new Network"
+read s
+msg "Password of new Network"
+read r
+if [ -z "$r" ] 
+    then
+	nopass >> /etc/wpa_supplicant/"$name".conf
+    else
+	wpa_passphrase "$s" "$r" >> /etc/wpa_supplicant/"$name".conf
+	sed -i '/#psk=/d' /etc/wpa_supplicant/"$name".conf
+fi
+msg "Network $name configured!!"
+}
+
+connect() {
+[ -z "$1"  ] &&  menu
+killall wpa_supplicant
+killall dhcpcd
+wpa_supplicant -Dnl80211 -B -i "$device" -c "$conf_dir"/"$1".conf
+dhcpcd --waitip -h $(/bin/hostname) -z "$device"
+}
+
+choose_config() {
+    ssid=$(find $conf_dir -iname *.conf -printf "%f\n" | \
+	fzy -l 3 --prompt="Venom Wifi Manager : ")
+    connect $ssid
+}
+
+menu() {
+while true ; do
+opt=$(printf "Config\nConnect\nHelp\nExit" | \
+    fzy -l 4 --prompt="Venom Wifi Manager : ")
+[ -z "$opt" ] && break
+case $opt in 
+    Config) add ;;
+    Connect) choose_config ;;
+    Help) hp ;;
+    Exit) exit ;;
+esac
+done
+}
+
+menu
