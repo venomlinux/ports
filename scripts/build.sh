@@ -140,7 +140,7 @@ zap_rootfs() {
 #}
 
 compress_rootfs() {
-	pushd $ROOTFS >/dev/null
+	cd  $ROOTFS
 	
 	[ -f "$TARBALLIMG" ] && {
 		msg "Backup current rootfs..."
@@ -174,7 +174,7 @@ compress_rootfs() {
 			msg "Rootfs compressed: $TARBALLIMG"
 			rm -f "$TARBALLIMG".bak
 		fi
-	popd >/dev/null
+	cd ..
 }
 
 check_rootfs() {
