@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # script to operate Venom Linux through chroot environment
 #
@@ -233,7 +233,11 @@ make_iso() {
 	# prepare isolinux files
 	msg "Preparing isolinux..."
 	rm -fr "$ISODIR"
-	mkdir -p "$ISODIR"/{rootfs,isolinux,efi/boot,boot}
+
+	for d in rootfs isolinux efi/boot boot; do
+		mkdir -p "$ISODIR"/$d
+	done
+
 	for file in $ISOLINUX_FILES; do
 		cp "$ROOTFS/usr/share/syslinux/$file" "$ISODIR/isolinux" || die "Failed copying isolinux file: $file"
 	done
@@ -270,7 +274,7 @@ make_iso() {
 	cp "$ROOTFS/boot/initrd-venom.img" "$ISODIR/boot/initrd" || die "Failed copying initrd"
 	
 	msg "Setup UEFI mode..."
-	mkdir -p "$ISODIR"/boot/grub/{fonts,x86_64-efi}
+	mkdir -p "$ISODIR"/boot/grub/fonts "$ISODIR"/boot/grub/x86_64-efi
 	if [ -f $ROOTFS/usr/share/grub/unicode.pf2 ];then
 		cp "$ROOTFS/usr/share/grub/unicode.pf2" "$ISODIR/boot/grub/fonts"
 	fi
@@ -278,7 +282,7 @@ make_iso() {
 		cp "$ISODIR/isolinux/splash.png" "$ISODIR/boot/grub/"
 	fi
 	echo "set prefix=/boot/grub" > "$ISODIR/boot/grub-early.cfg"
-	cp -a $ROOTFS/usr/lib/grub/x86_64-efi/*.{mod,lst} "$ISODIR/boot/grub/x86_64-efi" || die "Failed copying efi files"
+	cp -a $ROOTFS/usr/lib/grub/x86_64-efi/*.mod  $ROOTFS/usr/lib/grub/x86_64-efi/*.lst "$ISODIR/boot/grub/x86_64-efi" || die "Failed copying efi files"
 	#sed "s/Venom Linux/Venom Linux $RELEASE/g" "$ROOTFS/usr/share/grub/grub.cfg" > "$ISODIR/boot/grub/grub.cfg"
 	cat "$ROOTFS/usr/share/grub/grub.cfg" > "$ISODIR/boot/grub/grub.cfg"
 
@@ -312,7 +316,7 @@ make_iso() {
 	msg "Cleaning iso directory: $ISODIR"
 	rm -fr "$ISODIR"
 	cd $(dirname $(realpath "$OUTPUTISO"))
-		sha256sum $(basename $(realpath "$OUTPUTISO")) > $(basename $(realpath "$OUTPUTISO")).sha256sum
+		sha512sum $(basename $(realpath "$OUTPUTISO")) > $(basename $(realpath "$OUTPUTISO")).sha512sum
 	cd - >/dev/null
 	msg "Making iso completed: $OUTPUTISO ($(ls -lh $OUTPUTISO | awk '{print $5}'))"
 }
