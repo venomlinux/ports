@@ -3,11 +3,14 @@
 
 name=openssl
 version=3.1.4
-release=1
-source="https://openssl.org/source/$name-$version.tar.gz"
+release=2
+source="https://openssl.org/source/$name-$version.tar.gz
+	CVE-2023-5678"
 
 build() {
 	cd $name-$version
+
+	patch -Np1 -i $SRC/CVE-2023-5678
 
 	./config \
 		--prefix=/usr \
