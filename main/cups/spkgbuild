@@ -3,8 +3,9 @@
 
 name=cups
 version=2.4.7
-release=5
+release=6
 source="https://github.com/OpenPrinting/cups/archive/v$version/$name-$version-source.tar.gz
+	cups.pam
 	run.cupsd
 	rc.cupsd"
 
@@ -43,16 +44,8 @@ build() {
 	make BUILDROOT=$PKG install
 
 	# Linux PAM Configuration
-	mkdir -p $PKG/etc/pam.d
-cat > /etc/pam.d/cups << "EOF"
-# Begin /etc/pam.d/cups
+	install -D -m 644 $SRC/cups.pam $PKG/etc/pam.d/cups
 
-auth    include system-auth
-account include system-account
-session include system-session
-
-# End /etc/pam.d/cups
-EOF
 	# cleanup
 	rm -fr $PKG/tmp $PKG/run $PKG/var/run 
 	## no longer works since CUPS >= 1.6 (http://www.cups.org/str.php?L4120)
