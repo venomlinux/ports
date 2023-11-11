@@ -1,10 +1,12 @@
-mbedtls-2.28.3-1
+mbedtls-3.5.1-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/bin/
+-rwxr-xr-x root/root    usr/bin/aead_demo
 -rwxr-xr-x root/root    usr/bin/benchmark
 -rwxr-xr-x root/root    usr/bin/cert_app
 -rwxr-xr-x root/root    usr/bin/cert_req
 -rwxr-xr-x root/root    usr/bin/cert_write
+-rwxr-xr-x root/root    usr/bin/cipher_aead_demo
 -rwxr-xr-x root/root    usr/bin/crl_app
 -rwxr-xr-x root/root    usr/bin/crypt_and_hash
 -rwxr-xr-x root/root    usr/bin/crypto_examples
@@ -18,14 +20,15 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/gen_entropy
 -rwxr-xr-x root/root    usr/bin/gen_key
 -rwxr-xr-x root/root    usr/bin/gen_random_ctr_drbg
--rwxr-xr-x root/root    usr/bin/gen_random_havege
 -rwxr-xr-x root/root    usr/bin/generic_sum
 -rwxr-xr-x root/root    usr/bin/hello
+-rwxr-xr-x root/root    usr/bin/hmac_demo
 -rwxr-xr-x root/root    usr/bin/key_app
 -rwxr-xr-x root/root    usr/bin/key_app_writer
 -rwxr-xr-x root/root    usr/bin/key_ladder_demo
 -rwxr-xr-x root/root    usr/bin/key_ladder_demo.sh
 -rwxr-xr-x root/root    usr/bin/load_roots
+-rwxr-xr-x root/root    usr/bin/md_hmac_demo
 -rwxr-xr-x root/root    usr/bin/mini_client
 -rwxr-xr-x root/root    usr/bin/mpi_demo
 -rwxr-xr-x root/root    usr/bin/pem2der
@@ -35,6 +38,7 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/pk_verify
 -rwxr-xr-x root/root    usr/bin/psa_constant_names
 -rwxr-xr-x root/root    usr/bin/query_compile_time_config
+-rwxr-xr-x root/root    usr/bin/query_included_headers
 -rwxr-xr-x root/root    usr/bin/req_app
 -rwxr-xr-x root/root    usr/bin/rsa_decrypt
 -rwxr-xr-x root/root    usr/bin/rsa_encrypt
@@ -56,28 +60,50 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/udp_proxy
 -rwxr-xr-x root/root    usr/bin/zeroize
 drwxr-xr-x root/root    usr/include/
+drwxr-xr-x root/root    usr/include/everest/
+-rw-r--r-- root/root    usr/include/everest/Hacl_Curve25519.h
+-rw-r--r-- root/root    usr/include/everest/everest.h
+-rw-r--r-- root/root    usr/include/everest/kremlib.h
+drwxr-xr-x root/root    usr/include/everest/kremlib/
+-rw-r--r-- root/root    usr/include/everest/kremlib/FStar_UInt128.h
+-rw-r--r-- root/root    usr/include/everest/kremlib/FStar_UInt64_FStar_UInt32_FStar_UInt16_FStar_UInt8.h
+drwxr-xr-x root/root    usr/include/everest/kremlin/
+-rw-r--r-- root/root    usr/include/everest/kremlin/c_endianness.h
+drwxr-xr-x root/root    usr/include/everest/kremlin/internal/
+-rw-r--r-- root/root    usr/include/everest/kremlin/internal/builtin.h
+-rw-r--r-- root/root    usr/include/everest/kremlin/internal/callconv.h
+-rw-r--r-- root/root    usr/include/everest/kremlin/internal/compat.h
+-rw-r--r-- root/root    usr/include/everest/kremlin/internal/debug.h
+-rw-r--r-- root/root    usr/include/everest/kremlin/internal/target.h
+-rw-r--r-- root/root    usr/include/everest/kremlin/internal/types.h
+-rw-r--r-- root/root    usr/include/everest/kremlin/internal/wasmsupport.h
+drwxr-xr-x root/root    usr/include/everest/vs2013/
+-rw-r--r-- root/root    usr/include/everest/vs2013/Hacl_Curve25519.h
+-rw-r--r-- root/root    usr/include/everest/vs2013/inttypes.h
+-rw-r--r-- root/root    usr/include/everest/vs2013/stdbool.h
+-rw-r--r-- root/root    usr/include/everest/x25519.h
 drwxr-xr-x root/root    usr/include/mbedtls/
 -rw-r--r-- root/root    usr/include/mbedtls/aes.h
--rw-r--r-- root/root    usr/include/mbedtls/aesni.h
--rw-r--r-- root/root    usr/include/mbedtls/arc4.h
 -rw-r--r-- root/root    usr/include/mbedtls/aria.h
 -rw-r--r-- root/root    usr/include/mbedtls/asn1.h
 -rw-r--r-- root/root    usr/include/mbedtls/asn1write.h
 -rw-r--r-- root/root    usr/include/mbedtls/base64.h
 -rw-r--r-- root/root    usr/include/mbedtls/bignum.h
--rw-r--r-- root/root    usr/include/mbedtls/blowfish.h
--rw-r--r-- root/root    usr/include/mbedtls/bn_mul.h
+-rw-r--r-- root/root    usr/include/mbedtls/build_info.h
 -rw-r--r-- root/root    usr/include/mbedtls/camellia.h
 -rw-r--r-- root/root    usr/include/mbedtls/ccm.h
--rw-r--r-- root/root    usr/include/mbedtls/certs.h
 -rw-r--r-- root/root    usr/include/mbedtls/chacha20.h
 -rw-r--r-- root/root    usr/include/mbedtls/chachapoly.h
 -rw-r--r-- root/root    usr/include/mbedtls/check_config.h
 -rw-r--r-- root/root    usr/include/mbedtls/cipher.h
--rw-r--r-- root/root    usr/include/mbedtls/cipher_internal.h
 -rw-r--r-- root/root    usr/include/mbedtls/cmac.h
--rw-r--r-- root/root    usr/include/mbedtls/compat-1.3.h
--rw-r--r-- root/root    usr/include/mbedtls/config.h
+-rw-r--r-- root/root    usr/include/mbedtls/compat-2.x.h
+-rw-r--r-- root/root    usr/include/mbedtls/config_adjust_legacy_crypto.h
+-rw-r--r-- root/root    usr/include/mbedtls/config_adjust_legacy_from_psa.h
+-rw-r--r-- root/root    usr/include/mbedtls/config_adjust_psa_from_legacy.h
+-rw-r--r-- root/root    usr/include/mbedtls/config_adjust_psa_superset_legacy.h
+-rw-r--r-- root/root    usr/include/mbedtls/config_adjust_ssl.h
+-rw-r--r-- root/root    usr/include/mbedtls/config_adjust_x509.h
 -rw-r--r-- root/root    usr/include/mbedtls/config_psa.h
 -rw-r--r-- root/root    usr/include/mbedtls/constant_time.h
 -rw-r--r-- root/root    usr/include/mbedtls/ctr_drbg.h
@@ -88,47 +114,40 @@ drwxr-xr-x root/root    usr/include/mbedtls/
 -rw-r--r-- root/root    usr/include/mbedtls/ecdsa.h
 -rw-r--r-- root/root    usr/include/mbedtls/ecjpake.h
 -rw-r--r-- root/root    usr/include/mbedtls/ecp.h
--rw-r--r-- root/root    usr/include/mbedtls/ecp_internal.h
 -rw-r--r-- root/root    usr/include/mbedtls/entropy.h
--rw-r--r-- root/root    usr/include/mbedtls/entropy_poll.h
 -rw-r--r-- root/root    usr/include/mbedtls/error.h
 -rw-r--r-- root/root    usr/include/mbedtls/gcm.h
--rw-r--r-- root/root    usr/include/mbedtls/havege.h
 -rw-r--r-- root/root    usr/include/mbedtls/hkdf.h
 -rw-r--r-- root/root    usr/include/mbedtls/hmac_drbg.h
+-rw-r--r-- root/root    usr/include/mbedtls/lms.h
+-rw-r--r-- root/root    usr/include/mbedtls/mbedtls_config.h
 -rw-r--r-- root/root    usr/include/mbedtls/md.h
--rw-r--r-- root/root    usr/include/mbedtls/md2.h
--rw-r--r-- root/root    usr/include/mbedtls/md4.h
 -rw-r--r-- root/root    usr/include/mbedtls/md5.h
--rw-r--r-- root/root    usr/include/mbedtls/md_internal.h
 -rw-r--r-- root/root    usr/include/mbedtls/memory_buffer_alloc.h
--rw-r--r-- root/root    usr/include/mbedtls/net.h
 -rw-r--r-- root/root    usr/include/mbedtls/net_sockets.h
 -rw-r--r-- root/root    usr/include/mbedtls/nist_kw.h
 -rw-r--r-- root/root    usr/include/mbedtls/oid.h
--rw-r--r-- root/root    usr/include/mbedtls/padlock.h
 -rw-r--r-- root/root    usr/include/mbedtls/pem.h
 -rw-r--r-- root/root    usr/include/mbedtls/pk.h
--rw-r--r-- root/root    usr/include/mbedtls/pk_internal.h
--rw-r--r-- root/root    usr/include/mbedtls/pkcs11.h
 -rw-r--r-- root/root    usr/include/mbedtls/pkcs12.h
 -rw-r--r-- root/root    usr/include/mbedtls/pkcs5.h
+-rw-r--r-- root/root    usr/include/mbedtls/pkcs7.h
 -rw-r--r-- root/root    usr/include/mbedtls/platform.h
 -rw-r--r-- root/root    usr/include/mbedtls/platform_time.h
 -rw-r--r-- root/root    usr/include/mbedtls/platform_util.h
 -rw-r--r-- root/root    usr/include/mbedtls/poly1305.h
+-rw-r--r-- root/root    usr/include/mbedtls/private_access.h
 -rw-r--r-- root/root    usr/include/mbedtls/psa_util.h
 -rw-r--r-- root/root    usr/include/mbedtls/ripemd160.h
 -rw-r--r-- root/root    usr/include/mbedtls/rsa.h
--rw-r--r-- root/root    usr/include/mbedtls/rsa_internal.h
 -rw-r--r-- root/root    usr/include/mbedtls/sha1.h
 -rw-r--r-- root/root    usr/include/mbedtls/sha256.h
+-rw-r--r-- root/root    usr/include/mbedtls/sha3.h
 -rw-r--r-- root/root    usr/include/mbedtls/sha512.h
 -rw-r--r-- root/root    usr/include/mbedtls/ssl.h
 -rw-r--r-- root/root    usr/include/mbedtls/ssl_cache.h
 -rw-r--r-- root/root    usr/include/mbedtls/ssl_ciphersuites.h
 -rw-r--r-- root/root    usr/include/mbedtls/ssl_cookie.h
--rw-r--r-- root/root    usr/include/mbedtls/ssl_internal.h
 -rw-r--r-- root/root    usr/include/mbedtls/ssl_ticket.h
 -rw-r--r-- root/root    usr/include/mbedtls/threading.h
 -rw-r--r-- root/root    usr/include/mbedtls/timing.h
@@ -137,17 +156,23 @@ drwxr-xr-x root/root    usr/include/mbedtls/
 -rw-r--r-- root/root    usr/include/mbedtls/x509_crl.h
 -rw-r--r-- root/root    usr/include/mbedtls/x509_crt.h
 -rw-r--r-- root/root    usr/include/mbedtls/x509_csr.h
--rw-r--r-- root/root    usr/include/mbedtls/xtea.h
 drwxr-xr-x root/root    usr/include/psa/
+-rw-r--r-- root/root    usr/include/psa/build_info.h
 -rw-r--r-- root/root    usr/include/psa/crypto.h
+-rw-r--r-- root/root    usr/include/psa/crypto_adjust_auto_enabled.h
+-rw-r--r-- root/root    usr/include/psa/crypto_adjust_config_key_pair_types.h
+-rw-r--r-- root/root    usr/include/psa/crypto_adjust_config_synonyms.h
 -rw-r--r-- root/root    usr/include/psa/crypto_builtin_composites.h
+-rw-r--r-- root/root    usr/include/psa/crypto_builtin_key_derivation.h
 -rw-r--r-- root/root    usr/include/psa/crypto_builtin_primitives.h
 -rw-r--r-- root/root    usr/include/psa/crypto_compat.h
 -rw-r--r-- root/root    usr/include/psa/crypto_config.h
 -rw-r--r-- root/root    usr/include/psa/crypto_driver_common.h
 -rw-r--r-- root/root    usr/include/psa/crypto_driver_contexts_composites.h
+-rw-r--r-- root/root    usr/include/psa/crypto_driver_contexts_key_derivation.h
 -rw-r--r-- root/root    usr/include/psa/crypto_driver_contexts_primitives.h
 -rw-r--r-- root/root    usr/include/psa/crypto_extra.h
+-rw-r--r-- root/root    usr/include/psa/crypto_legacy.h
 -rw-r--r-- root/root    usr/include/psa/crypto_platform.h
 -rw-r--r-- root/root    usr/include/psa/crypto_se_driver.h
 -rw-r--r-- root/root    usr/include/psa/crypto_sizes.h
@@ -155,15 +180,23 @@ drwxr-xr-x root/root    usr/include/psa/
 -rw-r--r-- root/root    usr/include/psa/crypto_types.h
 -rw-r--r-- root/root    usr/include/psa/crypto_values.h
 drwxr-xr-x root/root    usr/lib/
+drwxr-xr-x root/root    usr/lib/cmake/
+drwxr-xr-x root/root    usr/lib/cmake/MbedTLS/
+-rw-r--r-- root/root    usr/lib/cmake/MbedTLS/MbedTLSConfig.cmake
+-rw-r--r-- root/root    usr/lib/cmake/MbedTLS/MbedTLSConfigVersion.cmake
+-rw-r--r-- root/root    usr/lib/cmake/MbedTLS/MbedTLSTargets-release.cmake
+-rw-r--r-- root/root    usr/lib/cmake/MbedTLS/MbedTLSTargets.cmake
+-rw-r--r-- root/root    usr/lib/libeverest.a
 -rw-r--r-- root/root    usr/lib/libmbedcrypto.a
-lrwxrwxrwx root/root    usr/lib/libmbedcrypto.so -> libmbedcrypto.so.7
--rw-r--r-- root/root    usr/lib/libmbedcrypto.so.2.28.3
-lrwxrwxrwx root/root    usr/lib/libmbedcrypto.so.7 -> libmbedcrypto.so.2.28.3
+lrwxrwxrwx root/root    usr/lib/libmbedcrypto.so -> libmbedcrypto.so.15
+lrwxrwxrwx root/root    usr/lib/libmbedcrypto.so.15 -> libmbedcrypto.so.3.5.1
+-rwxr-xr-x root/root    usr/lib/libmbedcrypto.so.3.5.1
 -rw-r--r-- root/root    usr/lib/libmbedtls.a
-lrwxrwxrwx root/root    usr/lib/libmbedtls.so -> libmbedtls.so.14
-lrwxrwxrwx root/root    usr/lib/libmbedtls.so.14 -> libmbedtls.so.2.28.3
--rw-r--r-- root/root    usr/lib/libmbedtls.so.2.28.3
+lrwxrwxrwx root/root    usr/lib/libmbedtls.so -> libmbedtls.so.20
+lrwxrwxrwx root/root    usr/lib/libmbedtls.so.20 -> libmbedtls.so.3.5.1
+-rwxr-xr-x root/root    usr/lib/libmbedtls.so.3.5.1
 -rw-r--r-- root/root    usr/lib/libmbedx509.a
-lrwxrwxrwx root/root    usr/lib/libmbedx509.so -> libmbedx509.so.1
-lrwxrwxrwx root/root    usr/lib/libmbedx509.so.1 -> libmbedx509.so.2.28.3
--rw-r--r-- root/root    usr/lib/libmbedx509.so.2.28.3
+lrwxrwxrwx root/root    usr/lib/libmbedx509.so -> libmbedx509.so.6
+-rwxr-xr-x root/root    usr/lib/libmbedx509.so.3.5.1
+lrwxrwxrwx root/root    usr/lib/libmbedx509.so.6 -> libmbedx509.so.3.5.1
+-rw-r--r-- root/root    usr/lib/libp256m.a

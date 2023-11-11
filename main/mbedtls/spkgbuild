@@ -3,27 +3,22 @@
 # depends	    : cmake ninja python3
 
 name=mbedtls
-version=2.28.3
+version=3.5.1
 release=1
 source="https://github.com/ARMmbed/mbedtls/archive/$name-$version.tar.gz"
 
 build() {
-	# enable flags for non-embedded systems
-	sed -i 's|//\(#define MBEDTLS_HAVE_SSE2\)|\1|' $name-$name-$version/include/mbedtls/config.h
-	sed -i 's|//\(#define MBEDTLS_ZLIB_SUPPORT\)|\1|' $name-$name-$version/include/mbedtls/config.h
-	sed -i 's|//\(#define MBEDTLS_THREADING_C\)|\1|' $name-$name-$version/include/mbedtls/config.h
-	sed -i 's|//\(#define MBEDTLS_THREADING_PTHREAD\)|\1|' $name-$name-$version/include/mbedtls/config.h
-
 	cmake -S $name-$name-$version -B build -G Ninja \
 		-D CMAKE_INSTALL_PREFIX=/usr \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-D ENABLE_ZLIB_SUPPORT=ON \
 		-D USE_SHARED_MBEDTLS_LIBRARY=ON \
+		-D USE_STATIC_MBEDTLS_LIBRARY=ON \
 		-D INSTALL_MBEDTLS_HEADERS=ON \
 		-D MBEDTLS_FATAL_WARNINGS=OFF \
 		-Wno-dev
-
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
 }
