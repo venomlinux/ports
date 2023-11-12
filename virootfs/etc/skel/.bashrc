@@ -8,6 +8,10 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 
 PS1="\n\[$(tput setaf 6)\][ \[$(tput setaf 7)\]\u \[$(tput setaf 6)\]] \[$(tput setaf 6)\][ \[$(tput setaf 5)\]\w \[$(tput setaf 6)\]]\n\[$(tput setaf 3)\]>>> \[$(tput sgr0)\]"
 
+if [ $(command -v fastfetch) ]; then
+	fastfetch
+fi
+
 if [ $(command -v neofetch) ]; then
 	neofetch
 fi
