@@ -23,8 +23,8 @@ ROOTFS="$PWD/rootfs"
 [ -f $SCRIPTDIR/config ] && . $SCRIPTDIR/config
 
 MUST_PKG="wpa_supplicant os-prober grub"
-WAYLAND_PKG="xcb-util-cursor xcb-util-keysyms libxfont2 libxcvt libtirpc"
-MAIN_PKG="sudo alsa-utils dosfstools mtools gvfs fastfetch ffmpeg firefox nnn irssi htop pipewire wireplumber"
+WAYLAND_PKG="xcb-util-cursor xcb-util-keysyms libxfont2 libxcvt libtirpc xwayland"
+MAIN_PKG="sudo alsa-utils dosfstools mtools gvfs fastfetch firefox nnn irssi htop wireplumber pipewire"
 SWAY_PKG="nwg-shell"
 THEME_PKG="ttf-awesome ttf-mononoki"
 
