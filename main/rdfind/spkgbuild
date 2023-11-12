@@ -1,0 +1,17 @@
+# description	: find duplicate files utility
+# homepage	: https://github.com/pauldreik/rdfind
+# depends	: nettle
+
+name=rdfind
+version=1.6.0
+release=1
+source="$name-$version.tar.gz::https://github.com/pauldreik/rdfind/archive/releases/$version.tar.gz"
+
+build() {
+	cd $name-releases-$version
+	./bootstrap.sh
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
+
