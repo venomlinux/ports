@@ -5,20 +5,21 @@
 # depends	: liba52-32 libdvdread-32 libjpeg-turbo-32 libtiff-32 libvpx-32 libxcomposite-32
 # depends	: libxcursor-32 libxslt-32 libxxf86dga-32 lz4-32 mpg123-32 nasm-32 opencl-headers
 # depends	: v4l-utils-32 x264-32 x265-32 zstd-32 mingw-w64-gcc attr-32 freeglut-32 
-# depends	: libgcrypt-32 libxinerama-32 libxrandr-32 vkd3d-32 gnutls-32
+# depends	: libgcrypt-32 libxinerama-32 libxrandr-32 vkd3d-32 gnutls-32 
 
 name=wine-staging
-version=8.19
+version=8.20
 vgecko=2.47.4
-vmono=8.0.0
-release=3
+vmono=8.1.0
+release=1
 source="https://dl.winehq.org/wine/source/${version%.*}.x/${name%-*}-$version.tar.xz
-		https://github.com/$name/$name/archive/v$version/$name-$version.tar.gz 
-	        https://dl.winehq.org/wine/wine-gecko/2.47.4/wine-gecko-${vgecko}-x86.msi 
-	        https://dl.winehq.org/wine/wine-gecko/2.47.4/wine-gecko-${vgecko}-x86_64.msi 
-	        https://dl.winehq.org/wine/wine-mono/8.0.0/wine-mono-${vmono}-x86.msi
-	       30-win32-aliases.conf
-	       wine-binfmt.conf"
+	https://github.com/$name/$name/archive/v$version/$name-$version.tar.gz 
+        https://dl.winehq.org/wine/wine-gecko/${vgecko}/wine-gecko-${vgecko}-x86.msi 
+        https://dl.winehq.org/wine/wine-gecko/${vgecko}/wine-gecko-${vgecko}-x86_64.msi 
+        https://dl.winehq.org/wine/wine-mono/${vmono}/wine-mono-${vmono}-x86.msi
+	30-win32-aliases.conf
+	wine-binfmt.conf"
+
 build() {
 	# apply staging patches
 	cd ${name%-*}-${version}
