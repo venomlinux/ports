@@ -4,11 +4,22 @@
 
 name=libadwaita
 version=1.4.0
-release=1
+release=2
 source="https://gitlab.gnome.org/GNOME/libadwaita/-/archive/$version/$name-$version.tar.bz2"
 
 build() {
-	venom-meson $name-$version build \
+	cd $name-$version 
+
+	# Adapt some AppStream API usage for AppStream-1.0.0 or later:
+	sed -e "/releases =/s/=.*/ =                             \
+	        as_release_list_get_entries                      \
+	        (as_component_get_releases_plain (component));/" \
+	    -e "/ developer_name =/s/=.*/ =                      \
+	        as_developer_get_name                            \
+	        (as_component_get_developer (component));/"      \
+	    -i src/adw-about-window.c
+
+	venom-meson build \
 		-Dexamples=false \
 		-D gtk_doc=false \
 		-Dtests=false
