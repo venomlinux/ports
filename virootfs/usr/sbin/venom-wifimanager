@@ -18,19 +18,12 @@ printf "%s\n" "$@"
 # Ensure wi run as root
 [ "$(id -u)" != "0" ] && err "Must run this script as root."
 
+# device
+device="$(find /sys/class/net -iname w* -printf "%f\n" )"
 
 # we save network configs here
 conf_dir=/etc/wpa_supplicant
 [ -d "$conf_dir" ] ||  mkdir "$conf_dir"
-
-checks() {
-    for i in wpa_supplicant dhcpcd ; do
-    command -v $i >/dev/null || err "You should install $i first"
-    done
-    device=$(find /sys/class/net -iname w* -printf "%f\n" )
-    rfkill unblock all
-    ip link set dev $device up
-}
 
 hp() {
 cat<<EOF
@@ -38,6 +31,7 @@ Usage :
   Config --> It'll guied you to config a new wifi network
   Connect --> It'll connect to a wifi network
   Help --> It'll show this help
+  Exit --> It'll exit the script
 EOF
 }
 
@@ -87,16 +81,18 @@ msg "Network $name configured!!"
 
 connect() {
 [ -z "$1"  ] &&  menu
-killall wpa_supplicant
-killall dhcpcd
-wpa_supplicant -Dnl80211 -B -i "$device" -c "$conf_dir"/"$1".conf
+ rm -f /run/wpa_supplicant/$device
+rfkill unblock all
+ip link set dev "$device" up
+wpa_supplicant -B -i "$device" -c "$conf_dir"/"$1".conf
 dhcpcd --waitip -h $(/bin/hostname) -z "$device"
 }
 
 choose_config() {
-    ssid=$(find $conf_dir -iname *.conf -printf "%f\n" | \
+    ssid=$(find $conf_dir -iname *.conf -printf "%f\n" | sed 's|.conf||' | \
 	fzy -l 3 --prompt="Venom Wifi Manager : ")
     connect $ssid
+    exit 0
 }
 
 menu() {
@@ -106,9 +102,9 @@ opt=$(printf "Config\nConnect\nHelp\nExit" | \
 [ -z "$opt" ] && break
 case $opt in 
     Config) add ;;
-    Connect) choose_config ;;
+    Connect) choose_config  ;;
     Help) hp ;;
-    Exit) exit ;;
+    Exit) exit 0 ;;
 esac
 done
 }
