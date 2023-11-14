@@ -4,7 +4,7 @@
 # optional	    : libva pulseaudio vlc wayland-protocols x265
 
 name=obs-studio
-version=29.1.3
+version=30.0.0
 release=1
 source="https://github.com/obsproject/$name/archive/$version/$name-$version.tar.gz
 	disable-werror.patch"
@@ -30,18 +30,19 @@ build() {
 		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
 		-D OBS_VERSION_OVERRIDE="$version" \
-		-D QT_VERSION=6 \
 		-D UNIX_STRUCTURE=ON \
 		-D ENABLE_VLC=OFF \
 		-D ENABLE_AJA=OFF \
 		-D ENABLE_VST=OFF \
+		-D ENABLE_NEW_MPEGTS_OUTPUT=OFF \
+		-D ENABLE_WEBRTC=OFF \
 		-D BUILD_BROWSER=OFF \
 		-D ENABLE_LIBFDK=ON \
 		-D ENABLE_PIPEWIRE=ON \
 		-D ENABLE_PULSEAUDIO=OFF \
-		-D ENABLE_WAYLAND=OFF \
+		-D ENABLE_WAYLAND=$(scratch isinstalled wayland && echo ON || echo OFF) \
+		-D ENABLE_QSV11=OFF \
 		-D ENABLE_DECKLINK=OFF \
-		-D ENABLE_NEW_MPEGTS_OUTPUT=OFF \
 		-D CALM_DEPRECATION=ON \
 		-Wno-dev
 
