@@ -1,0 +1,17 @@
+# description	     : Provides an easy way to set up hot corners in the Xfce desktop environment
+# homepage	     : https://github.com/christopherkobayashi/xfce-hotcorner-plugin
+# depends	     : xfce4-panel libwnck3 libnotify gtk3 intltool
+
+name=xfce4-hotcorner-plugin
+version=0.0.4
+release=1
+source="$name-$version.tar.gz::https://github.com/christopherkobayashi/$name/archive/refs/tags/$version.tar.gz"
+
+build() {
+
+    cd $name-$version
+	CFLAGS="$CFLAGS -w"
+    ./configure --prefix=/usr --disable-debug
+    make
+    make DESTDIR=$PKG  install
+}
