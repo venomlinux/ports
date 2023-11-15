@@ -4,11 +4,12 @@
 
 name=libunwind
 version=1.7.2
-release=1
+release=2
 source="https://github.com/libunwind/libunwind/releases/download/v$version/$name-$version.tar.gz"
 
 build() {
 	cd $name-$version
+	autoreconf -fvi
 	./configure --prefix=/usr --enable-documentation
 	sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 	make
