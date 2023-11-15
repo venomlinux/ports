@@ -3,9 +3,9 @@
 # depends	: libunwind
 
 name=libunwind-32
-version=1.6.2
-release=2
-source="https://download.savannah.gnu.org/releases/libunwind/${name%-*}-$version.tar.gz"
+version=1.7.2
+release=1
+source="https://github.com/libunwind/libunwind/releases/download/v$version/${name%-*}-$version.tar.gz"
 
 build() {
 	export CC="gcc -m32"
@@ -13,6 +13,8 @@ build() {
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
 	cd ${name%-*}-$version
+
+	autoreconf -fvi
 	./configure \
 		--build=i686-pc-linux-gnu \
 		--host=i686-pc-linux-gnu \
