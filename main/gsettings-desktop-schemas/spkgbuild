@@ -1,13 +1,17 @@
 # description	: Collection of GSettings schemas for settings shared by various components of a GNOME Desktop
-# depends	: glib gobject-introspection meson
+# depends	: gobject-introspection intltool
 
 name=gsettings-desktop-schemas
 version=45.0
-release=2
+release=3
 source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
-	venom-meson $name-$version build
+	cd $name-$version
+	sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in
+	venom-meson build
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
+
+	rm -r $PKG/usr/share/locale
 }
