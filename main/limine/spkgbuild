@@ -1,6 +1,6 @@
 # description	: Modern, advanced, portable, multiprotocol bootloader.
 # homepage	: https://limine-bootloader.org 
-# depends	: nasm mtools lld clang
+# depends	: nasm mtools
 
 name=limine
 version=5.20231114.0
@@ -14,9 +14,8 @@ build() {
 		--enable-bios-pxe \
 		--enable-bios \
 		--enable-uefi-x86-64 \
-		--enable-uefi-ia32 \
 		--enable-uefi-cd \
-		TOOLCHAIN_FOR_TARGET=llvm
+		TOOLCHAIN_FOR_TARGET=gnu
 	make
 	make DESTDIR=$PKG install
 }
