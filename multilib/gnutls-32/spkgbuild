@@ -1,9 +1,9 @@
 # description	: Libraries and userspace tools which provide a secure layer over a reliable transport layer
-# depends	: gnutls libgmp-32 nettle-32 libtasn1-32 p11-kit-32 zstd-32 brotli-32 
+# depends	: gnutls libidn2-32 libtasn1-32 libunistring-32 nettle-32 p11-kit-32
 
 name=gnutls-32
-version=3.8.1
-release=2
+version=3.8.2
+release=1
 source="https://www.gnupg.org/ftp/gcrypt/gnutls/v${version%.*}/gnutls-${version}.tar.xz"
 
 build() {
@@ -18,17 +18,17 @@ build() {
 		--libdir=/usr/lib32 \
 		--host=i686-pc-linux-gnu \
 		--with-default-trust-store-pkcs11="pkcs11:" \
-		--with-included-unistring \
 		--disable-guile \
-		--without-tpm
+		--disable-static \
+		--with-zlib \
+		--without-tpm \
+		--without-tpm2
 	sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
 
 	make
 	make DESTDIR=$PWD/DESTDIR install
 
         mkdir -p $PKG/usr/lib32
-        mv DESTDIR/usr/lib32/lib*xx.so.* $PKG/usr/lib32/
- 
+	mv DESTDIR/usr/lib32/* $PKG/usr/lib32/
 }
-
 
