@@ -3,7 +3,7 @@
 
 name=nettle-32
 version=3.9.1
-release=1
+release=2
 source="https://ftp.gnu.org/gnu/nettle/nettle-$version.tar.gz"
 
 build() {
@@ -15,9 +15,13 @@ build() {
 
 	./configure --prefix=/usr \
 		    --libdir=/usr/lib32 \
-		    --disable-static
+		    --disable-documentacion \
+                    --disable-openssl \
+                    --enable-shared \
+                    --enable-mini-gmp                  
 	make
 	make DESTDIR=$PWD/DESTDIR install
+
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
