@@ -1,0 +1,28 @@
+# description	: HTTP client/server library for GNOME
+# homepage	: https://wiki.gnome.org/Projects/libsoup
+# depends	: vala libnghttp2-32 libpsl-32 glib-networking-32 sqlite-32
+
+name=libsoup3-32
+version=3.4.4
+release=1
+source="https://download.gnome.org/sources/libsoup/${version%.*}/libsoup-$version.tar.xz"
+
+build() {
+       	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+        venom-meson libsoup-$version build \+
+                --prefix=/usr/lib32 \
+		--libdir=/usr/lib32 \
+		--libexecdir=/usr/lib32 \
+		-Ddocs=disabled \
+		-Dtests=false \
+                -Dintrospection=disabled \
+		-Dautobahn=disabled 
+        meson compile -C build
+       	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
+
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
