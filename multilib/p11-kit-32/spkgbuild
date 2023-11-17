@@ -3,24 +3,24 @@
 
 name=p11-kit-32
 version=0.25.3
-release=1
+release=2
 source="https://github.com/p11-glue/p11-kit/releases/download/$version/p11-kit-$version.tar.xz"
 
 build() {
-	cd p11-kit-$version
-
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
 
-	./configure \
-		--prefix=/usr \
+	venom-meson p11-kit-$version build \
 		--libdir=/usr/lib32 \
 		--libexecdir=/usr/lib32 \
-		--sysconfdir=/etc \
-		--with-trust-paths=/etc/pki/anchors	
-	make
-	make DESTDIR=$PWD/DESTDIR install
-	mkdir -p $PKG/usr/lib32
-	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+		-D trust_paths=/etc/pki/anchors \
+		-D module_path=/usr/lib/pkcs11 \
+		-D nls=false
+	meson compile -C build
+	DESTDIR=$PKG meson install -C build
+
+	for d in etc usr/bin usr/include usr/lib usr/share; do
+		rm -r $PKG/$d
+	done
 }

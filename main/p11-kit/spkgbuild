@@ -1,20 +1,28 @@
 # description	: Provides a way to load and enumerate PKCS #11 (a Cryptographic Token Interface Standard) modules
-# depends	: libtasn1 libffi
+# depends	: libtasn1 libffi meson ninja
 
 name=p11-kit
 version=0.25.3
-release=1
+release=2
 source="https://github.com/p11-glue/p11-kit/releases/download/$version/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version
+	sed '20,$ d' -i $name-$version/trust/trust-extract-compat
 
-	./configure \
-		--prefix=/usr \
-		--sysconfdir=/etc \
-		--libexecdir=/usr/lib \
-		--with-trust-paths=/etc/pki/anchors	
-	make
-	make DESTDIR=$PKG install
+cat >> $name-$version/trust/trust-extract-compat << "EOF"
+# Copy existing anchor modifications to /etc/ssl/local
+/usr/lib/make-ca/copy-trust-modifications
+# Generate a new trust store
+/usr/sbin/make-ca -f -g
+EOF
+	venom-meson $name-$version build \
+		-D trust_paths=/etc/pki/anchors \
+		-D module_path=/usr/lib/pkcs11 \
+		-D nls=false
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
+	ln -s /usr/lib/p11-kit/trust-extract-compat \
+		$PKG/usr/bin/update-ca-trust
 }
+
