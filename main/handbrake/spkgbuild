@@ -11,7 +11,7 @@ build() {
 
 	ln -s "$SOURCE_DIR" download
 
-	./configure --prefix=/usr --disable-df-fetch
+	./configure --prefix=/usr --disable-df-fetch --enable-fdk-aac --enable-qsv --lto
 	make -C build
 	make -C build DESTDIR=$PKG install
 }
