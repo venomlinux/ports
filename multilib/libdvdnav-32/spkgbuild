@@ -1,0 +1,21 @@
+# description	: Library that allows easy use of sophisticated DVD navigation features
+# depends	: libdvdread-32
+
+name=libdvdnav-32
+version=6.1.1
+release=1
+source="https://get.videolan.org/libdvdnav/$version/libdvdnav-$version.tar.bz2"
+
+build() {
+       	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	cd libdvdnav-$version
+	./configure --prefix=/usr --libdir=/usr/lib32 --disable-static
+	make
+	make DESTDIR=$PWD/DESTDIR install
+
+        mkdir -p $PKG/usr/lib32
+        mv DESTDIR/usr/lib32/* $PKG/usr/lib32/
+}

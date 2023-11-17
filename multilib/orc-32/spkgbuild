@@ -1,0 +1,24 @@
+# description	: The Oil Runtime Compiler
+# homepage	: https://gstreamer.freedesktop.org/projects/orc.html
+# depends	: meson
+
+name=orc-32
+version=0.4.34
+release=1
+source="http://gstreamer.freedesktop.org/src/${name%-*}/orc-$version.tar.xz"
+
+build() {
+       	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	venom-meson orc-$version build \
+               --prefix=/usr \
+               --libdir=/usr/lib32 \
+		-D gtk_doc=disabled
+	meson compile -C build 
+	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
+
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}

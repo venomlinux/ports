@@ -1,0 +1,24 @@
+# description	: Functions for manipulating Unicode strings and C strings
+# depends	: libunistring
+
+name=libunistring-32
+version=1.1
+release=1
+source="https://ftp.gnu.org/gnu/libunistring/libunistring-$version.tar.xz"
+
+build() {
+	cd libunistring-$version
+
+      	export CC="gcc -m32"
+        export CXX="g++ -m32"
+        export PKG_CONFIG_PATH='/usr/lib32/pkgconfig'
+
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib32
+	make
+	make DESTDIR=$PWD/DESTDIR install
+        mkdir -p $PKG/usr/lib32
+        cp -Rv DESTDIR/usr/lib32/*  $PKG/usr/lib32/
+}
+

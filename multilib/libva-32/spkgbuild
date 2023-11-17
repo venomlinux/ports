@@ -1,0 +1,22 @@
+# description	: Library which provides access to hardware accelerated video processing
+# depends	: mesa-32 libdrm-32 meson
+
+name=libva-32
+version=2.20.0
+release=1
+source="https://github.com/intel/libva/archive/$version/libva-$version.tar.gz"
+
+build() {
+        export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	venom-meson libva-$version build \
+	        --libdir=/usr/lib32 \
+	        --libexecdir=/usr/lib32 
+	meson compile -C build
+	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
+
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
