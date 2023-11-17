@@ -3,8 +3,8 @@
 
 name=glib-networking-32
 version=2.78.0
-release=1
-source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/${name%-*}-$version.tar.xz"
+release=2
+source="https://ftp.gnome.org/pub/gnome/sources/${name%-*}/${version%.*}/${name%-*}-$version.tar.xz"
 
 build() {
 	export CC="gcc -m32"
@@ -18,4 +18,6 @@ build() {
 		-Dgnome_proxy=disabled
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
+
+	rm -r $PKG/usr/share
 }
