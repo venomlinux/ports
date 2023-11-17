@@ -1,0 +1,21 @@
+# description	: Network related gio modules for GLib
+# depends	: glib-networking glib-32 gnutls-32
+
+name=glib-networking-32
+version=2.78.0
+release=1
+source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/${name%-*}-$version.tar.xz"
+
+build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	venom-meson ${name%-*}-$version build \
+		--libdir=/usr/lib32 \
+		--libexecdir=/usr/lib32 \
+		-Dlibproxy=disabled \
+		-Dgnome_proxy=disabled
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
