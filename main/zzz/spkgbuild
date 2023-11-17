@@ -1,0 +1,15 @@
+# description	: A simple program to suspend or hibernate your computer
+# homepage	: https://github.com/jirutka/zzz
+# depends	: asciidoctor
+
+name=zzz
+version=0.1.1
+release=1
+source="$name-$version.tar.gz::https://github.com/jirutka/zzz/archive/v$version.tar.gz"
+
+build() {
+  cd $name-$version
+  make CFLAGS="$CFLAGS -DZZZ_LOCK_FILE='\"/run/zzz.lock\"'"
+  make install DESTDIR=$PKG prefix=/usr sbindir=/usr/bin
+}
+
