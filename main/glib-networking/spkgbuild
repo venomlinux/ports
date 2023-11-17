@@ -3,13 +3,12 @@
 
 name=glib-networking
 version=2.78.0
-release=1
+release=2
 source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
 	venom-meson $name-$version build \
-		-Dlibproxy=disabled \
-		-Denvironment_proxy=enabled
+		-Dlibproxy=disabled
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 }
