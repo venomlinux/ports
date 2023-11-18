@@ -1,18 +1,18 @@
 # description	: Graphical user interface for CUPS administration
 # homepage	: https://github.com/OpenPrinting/system-config-printer
-# depends	: gdk-pixbuf libnotify python3-cairo python3-dbus python3-gobject3 python3-pycups python3-requests intltool gettext xmlto desktop-file-utils 
+# depends	: desktop-file-utils docbook-xsl gtk3 libnotify libsecret libusb
+# depends	: python3-dbus python3-gobject3 python3-pycups python3-pycurl xmlto
 
 name=system-config-printer
 version=1.5.18
-release=2
-source="https://github.com/OpenPrinting/system-config-printer/releases/download/v$version/${name}-$version.tar.xz
-	autoconf-2.70.patch"
+release=3
+source="https://github.com/OpenPrinting/system-config-printer/releases/download/v$version/${name}-$version.tar.xz"
 
 build() {
 	export XML_CATALOG_FILES=/etc/xml/catalog
 
 	cd $name-$version
-	patch -Np1 -i $SRC/autoconf-2.70.patch
+
 	./bootstrap
 	./configure \
 		--prefix=/usr \
