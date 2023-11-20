@@ -2,12 +2,12 @@
 # depends	: gsl boost gc lcms2 poppler-glib popt libxslt gtkmm3 double-conversion potrace gdl libsoup
 
 name=inkscape
-version=1.3
+version=1.3.1
 release=1
 source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz"
 
 build() {
-	cmake  -S $name-${version}_* -B build \
+	cmake  -S $name-${version}_* -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
 		-DCMAKE_INSTALL_LIBEXECDIR=lib \
@@ -16,6 +16,7 @@ build() {
 		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-DPOPPLER_INCLUDE_DIR=/usr/include/poppler \
 		-DWITH_INTERNAL_2GEOM=ON \
+	        -DWITH_NLS=OFF \
 		-Wno-dev
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
