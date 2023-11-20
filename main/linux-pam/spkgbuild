@@ -2,21 +2,25 @@
 
 name=linux-pam
 version=1.5.3
-release=2
-source="$name-$version.tar.xz::https://github.com/linux-pam/linux-pam/releases/download/v$version/Linux-PAM-$version.tar.xz
-	other
-	system-auth"
+release=3
+source="$name-$version.tar.xz::https://github.com/linux-pam/linux-pam/releases/download/v$version/Linux-PAM-$version.tar.xz"
 
 build() {
 	cd Linux-PAM-$version
 
- 	./configure \
-	    --prefix=/usr                    \
-            --sysconfdir=/etc                \
-            --libdir=/usr/lib                \
-            --disable-regenerate-docu        \
-	    --disable-nls                    \
-            --enable-securedir=/lib/security
+	# Prevent the installation of an unneeded systemd file
+	sed -e /service_DATA/d \
+	    -i modules/pam_namespace/Makefile.am
+
+	autoreconf
+	./configure \
+		--prefix=/usr \
+		--libdir=/usr/lib \
+		--sysconfdir=/etc \
+		--disable-regenerate-docu \
+		--disable-nls \
+		--disable-selinux \
+		--enable-securedir=/lib/security
 	make
 	make DESTDIR=$PKG install
 
@@ -28,9 +32,33 @@ build() {
 	  ln -sfv ../../lib/$(readlink $PKG/usr/lib/lib${file}.so) $PKG/usr/lib/lib${file}.so
 	done
 
-	mkdir -m 755 $PKG/etc/pam.d
-	install -D -m 644 -o root -g root $SRC/other $PKG/etc/pam.d/other
-	install -D -m 644 -o root -g root $SRC/system-auth $PKG/etc/pam.d/system-auth
-	
+	# Create PAM configuration files
+	install -vdm755 $PKG/etc/pam.d 
+cat > $PKG/etc/pam.d/system-auth << "EOF"
+# Begin /etc/pam.d/system-auth
+account   required   pam_unix.so
+auth      required   pam_unix.so  nullok
+auth      optional   pam_permit.so
+session   required   pam_limits.so
+session   required   pam_unix.so
+password  required   pam_unix.so  yescrypt shadow try_first_pass
+# End /etc/pam.d/system-auth
+EOF
+
+cat > /etc/pam.d/other << "EOF"
+# Begin /etc/pam.d/other
+auth        required        pam_warn.so
+auth        required        pam_deny.so
+account     required        pam_warn.so
+account     required        pam_deny.so
+password    required        pam_warn.so
+password    required        pam_deny.so
+session     required        pam_warn.so
+session     required        pam_deny.so
+# End /etc/pam.d/other
+EOF
+
+	# Clean
 	rm -rf $PKG/usr/lib/systemd
 }
+
