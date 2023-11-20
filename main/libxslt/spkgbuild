@@ -3,16 +3,18 @@
 
 name=libxslt
 version=1.1.39
-release=1
+release=2
 source="https://download.gnome.org/sources/libxslt/${version%.*}/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
 
-	sed -i s/3000/5000/ libxslt/transform.c doc/xsltproc.1 doc/xsltproc.xml
-	
-	./configure --prefix=/usr --disable-static --without-python
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--disable-static \
+		--with-python=/usr/bin/python3
 	make
 	make DESTDIR=$PKG install
-
 }
