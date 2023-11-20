@@ -1,6 +1,9 @@
 # description	: Portable web rendering engine WebKit to the GTK+ 3 and GTK+ 2 platforms
-# depends	: cairo cmake ninja gst-plugins-base gst-plugins-bad gtk2 gtk3 harfbuzz-icu libgudev libsecret libsoup libseccomp
-# depends	: libwebp mesa ruby sqlite which enchant libxslt openjpeg2 libwpe bubblewrap xdg-dbus-proxy wpebackend-fdo libxcomposite libnotify libxt unifdef libjxl
+# homepage	: https://webkitgtk.org
+# depends	: bubblewrap cairo cmake enchant gst-plugins-bad gobject-introspection harfbuzz-icu 
+# depends	: libgudev libjxl libnotify libseccomp libsecret libsoup3 libtasn1 libwebp libwpe
+# depends	: libxcomposite libxml2 libxslt libxt mesa ninja openjpeg2 ruby sqlite unifdef which 
+# depends	: wpebackend-fdo xdg-dbus-proxy
 
 name=webkitgtk
 version=2.42.2
@@ -8,28 +11,26 @@ release=1
 source="https://webkitgtk.org/releases/$name-$version.tar.xz"
 
 build() {
-
 	# failed build with ccache, remove reom path
 	PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
 
 	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DCMAKE_INSTALL_PREFIX:PATH=/usr \
-		-DCMAKE_INSTALL_LIBDIR:PATH=/usr/lib \
-		-DCMAKE_INSTALL_LIBEXECDIR:PATH=/usr/lib \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DCMAKE_INSTALL_LIBEXECDIR=lib \
 		-DCMAKE_SKIP_RPATH=ON \
 		-DPORT=GTK \
-		-DLIB_INSTALL_DIR=/usr/lib \
-		-DUSE_LIBHYPHEN=OFF \
-		-DENABLE_MINIBROWSER=ON \
-		-DUSE_WOFF2=OFF \
-		-DUSE_AVIF=OFF \
-		-DENABLE_GEOLOCATION=OFF \
-		-DUSE_SOUP2=ON \
 		-DENABLE_GAMEPAD=OFF \
 		-DENABLE_JOURNALD_LOG=OFF \
 		-DENABLE_DOCUMENTATION=OFF \
+		-DENABLE_GEOLOCATION=OFF \
+		-DENABLE_MINIBROWSER=ON \
+		-DUSE_AVIF=OFF \
 		-DUSE_GSTREAMER_TRANSCODER=OFF \
+		-DUSE_LIBHYPHEN=OFF \
+		-DUSE_SOUP2=ON \
+		-DUSE_WOFF2=OFF \
 		-Wno-dev
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
