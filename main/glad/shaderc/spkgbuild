@@ -1,0 +1,33 @@
+# description	: A collection of tools, libraries and tests for shader compilation
+# homepage	: https://github.com/google/shaderc
+# depends	: glslang
+
+name=shaderc
+version=2023.7
+release=1
+source="$name-$version.tar.gz::https://github.com/google/$name/archive/v$version/$name-v$version.tar.gz"
+
+build() {
+	# de-vendor libs and disable git versioning
+	sed '/examples/d;/third_party/d' -i $name-$version/CMakeLists.txt
+	sed '/build-version/d' -i $name-$version/glslc/CMakeLists.txt
+
+cat <<- EOF > $name-$version/glslc/src/build-version.inc
+"${version}\\n"
+"$(prt-get printf '%v\n' --filter=spirv-tools)"
+"$(prt-get printf '%v\n' --filter=glslang)"
+EOF
+
+	sed -i -e "s|\$<TARGET_FILE:spirv-dis>|spirv-dis|" \
+		   $name-$version/glslc/test/CMakeLists.txt
+
+	cmake -S $name-$version -B build -G Ninja \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_INSTALL_LIBDIR=lib \
+		-D CMAKE_BUILD_TYPE=Release \
+		-D CMAKE_CXX_FLAGS_RELEASE="${CXXFLAGS}" \
+		-D SHADERC_SKIP_TESTS=ON \
+		-D glslang_SOURCE_DIR:PATH='/usr/include/glslang'
+	cmake --build build 
+	DESTDIR=$PKG cmake --install build
+}
