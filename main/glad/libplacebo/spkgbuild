@@ -1,0 +1,23 @@
+# description	: Reusable library for GPU-accelerated video/image rendering primitives
+# homepage	: https://github.com/haasn/libplacebo
+# depends	: glad lcms2 shaderc vulkan-icd-loader
+
+name=libplacebo
+version=6.338.1
+release=1
+source="$name-$version.tar.gz::https://github.com/haasn/libplacebo/archive/v$version.tar.gz"
+
+build() {
+	CXXFLAGS="$CXXFLAGS -I/usr/include/glslang"
+
+	venom-meson $name-$version build \
+		-Dvulkan=enabled \
+		-Dshaderc=enabled \
+		-Dlcms=enabled \
+		-Dd3d11=disabled \
+		-Ddemos=false \
+		-Dtests=false
+	meson compile -C build 
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
+
