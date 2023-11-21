@@ -1,0 +1,15 @@
+# description	: Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator
+# homepage	: https://glad.dav1d.de
+# depends	: python3-jinja2
+
+name=glad
+version=2.0.4
+release=1
+source="https://github.com/Dav1dde/glad/archive/v$version/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	python3 setup.py build
+	python3 setup.py install --prefix=/usr --root=$PKG --skip-build
+}
+
