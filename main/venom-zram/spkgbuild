@@ -1,0 +1,25 @@
+# description	    : Manage zram space
+# depends	    : util-linux lz4
+# optional	    : zstd
+
+name=venom-zram
+version=0.1
+release=1
+source="venom-zram venom-zram.conf rc.zramd run.zramd finish.zramd"
+
+build() {
+
+   install -Dm755 venom-zram -t $PKG/usr/bin/
+   install -Dm644 venom-zram.conf -t $PKG/etc/
+   _runit() {
+	install -Dm755  run.zramd $PKG/etc/sv/zramd/run
+	install -Dm755  finish.zramd $PKG/etc/sv/zramd/finish
+	ln -s /run/runit/supervise.zramd $PKG/etc/sv/zramd/supervise
+	}
+
+    _sysv() {
+	install -Dm755 rc.zramd $PKG/etc/rc.d/zramd
+	}
+
+	scratch isinstalled runit && _runit || _sysv
+}

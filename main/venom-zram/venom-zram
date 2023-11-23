@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+# Venom Linux zram script
+#
+# License: GPLv3
+#
+
+# source config if exist
+ [ -f /etc/venom-zram.conf ] && . /etc/venom-zram.conf
+
+# check if the compressor is set if not set it
+ [ -z $COMP ] && COMP=lz4
+
+# MEM is total ram value
+MEM=$( free --mebi | awk '/Mem:/ {print $2}')
+
+# check if zram size is set if not set it
+ [ -z $SIZE ] && ZRAM_SIZE=$MEM
+
+# seting zram size
+ ZRAM_SIZE=$(( $MEM * $SIZE / 100 ))
+
+make() {
+		modprobe zram
+		zramctl -f -a $COMP  -s ${ZRAM_SIZE}MiB > /dev/null
+		mkswap --quiet --label zram0 /dev/zram0
+		swapon --priority 32767 /dev/zram0
+}
+
+toss() {
+		swapoff /dev/zram0
+		sleep 1
+		zramctl --reset /dev/zram0 
+		rmmod zram
+}
+
+
+case "$1" in 
+    make) make ;;
+    toss) toss ;;
+esac
