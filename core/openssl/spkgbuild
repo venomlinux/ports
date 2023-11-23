@@ -2,8 +2,8 @@
 # homepage	: https://www.openssl.org
 
 name=openssl
-version=3.1.4
-release=2
+version=3.2.0
+release=1
 source="https://openssl.org/source/$name-$version.tar.gz
 	CVE-2023-5678"
 
@@ -20,6 +20,8 @@ build() {
 		enable-camellia \
 		enable-seed \
 		enable-rfc3779 \
+		enable-ktls \
+		enable-argon2 \
 		no-mdc2 \
 		no-ec2m \
 		no-sm2 \
