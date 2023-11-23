@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+# /etc/rc.d/zramd: start/stop Zram Service
+#
+
+. /etc/rc.subr
+
+NAME="Zramd"
+PROG="/usr/bin/venom-zram"
+
+case $1 in
+	start)
+		msg "Starting $NAME..."
+		$PROG make
+		;;
+	stop)
+		msg "Stopping $NAME..."
+		$PROG toss
+		;;
+	restart)
+		$0 stop
+		sleep 2
+		$0 start
+		;;
+	status)
+		[ -z "$( awk 'NR==2 {print $1}' /proc/swaps)"  ] && \
+		msg "$NAME is running\n" || msg "$NAME is not running\n"
+		;;
+	*)
+		echo "usage: $0 [start|stop|restart|status]"
+		;;
+esac
+
+# End of file
