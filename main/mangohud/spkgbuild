@@ -1,0 +1,28 @@
+# description	: Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
+# depends	: dbus glew glfw glslang libx11 libxrandr mesa meson ninja nlohmann-json python3-mako sdl2 spdlog vulkan-headers vulkan-icd-loader wayland
+
+name=mangohud
+version=0.7.0
+release=1
+source="$name-$version.tar.xz::https://github.com/flightlessmango/MangoHud/releases/download/v$version/MangoHud-v$version-Source.tar.xz
+               0001-fix-ld_libdir_mangohud.patch
+	       0002-fix-stat64.patch
+	      fc925300601098dc45241087626369843d6a2c66.patch"
+
+build() {
+	venom-meson MangoHud-v$version build \
+		-Dappend_libdir_mangohud=false \
+		-Dimgui:glfw=enabled \
+		-Dimgui:opengl=enabled \
+		-Dimgui:sdl2=enabled \
+		-Dimgui:vulkan=enabled \
+		-Dmangoapp=true \
+		-Dmangoapp_layer=true \
+		-Dmangohudctl=true \
+		-Dtests=disabled \
+		-Dwith_dbus=enabled \
+		-Dwith_wayland=enabled \
+		-Dwith_xnvctrl=disabled
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
