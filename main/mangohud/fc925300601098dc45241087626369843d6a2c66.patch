@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<title>fc925300601098dc45241087626369843d6a2c66.patch « mangohud « community - aports - Alpine packages build scripts
+</title>
+<meta name='generator' content='cgit v1.2.3'/>
+<meta name='robots' content='index, nofollow'/>
+<link rel='stylesheet' type='text/css' href='/cgit.css'/>
+<script type='text/javascript' src='/cgit.js'></script>
+<link rel='shortcut icon' href='//alpinelinux.org/alpine-logo.ico'/>
+<link rel='alternate' title='Atom feed' href='http://git.alpinelinux.org/aports/atom/community/mangohud/fc925300601098dc45241087626369843d6a2c66.patch?h=master' type='application/atom+xml'/>
+<link rel='vcs-git' href='https://git.alpinelinux.org/aports' title='aports Git repository'/>
+</head>
+<body>
+<div id='cgit'><table id='header'>
+<tr>
+<td class='logo' rowspan='2'><a href='/'><img src='//wiki.alpinelinux.org/images/alogo.svg' alt='cgit logo'/></a></td>
+<td class='main'><a href='/'>index</a> : <a href='/aports/'>aports</a></td><td class='form'><form method='get'>
+<select name='h' onchange='this.form.submit();'>
+<option value='1.10-stable'>1.10-stable</option>
+<option value='1.9'>1.9</option>
+<option value='15308-community-pgbouncer-init-script-issues'>15308-community-pgbouncer-init-script-issues</option>
+<option value='2.0-stable'>2.0-stable</option>
+<option value='2.1-stable'>2.1-stable</option>
+<option value='2.2-stable'>2.2-stable</option>
+<option value='2.3-stable'>2.3-stable</option>
+<option value='2.4-stable'>2.4-stable</option>
+<option value='2.5-stable'>2.5-stable</option>
+<option value='2.6-stable'>2.6-stable</option>
+<option value='2.7-stable'>2.7-stable</option>
+<option value='3.0-stable'>3.0-stable</option>
+<option value='3.1-stable'>3.1-stable</option>
+<option value='3.10-stable'>3.10-stable</option>
+<option value='3.11-stable'>3.11-stable</option>
+<option value='3.12-stable'>3.12-stable</option>
+<option value='3.13-stable'>3.13-stable</option>
+<option value='3.14-stable'>3.14-stable</option>
+<option value='3.15-stable'>3.15-stable</option>
+<option value='3.16-stable'>3.16-stable</option>
+<option value='3.17-stable'>3.17-stable</option>
+<option value='3.18-stable'>3.18-stable</option>
+<option value='3.2-stable'>3.2-stable</option>
+<option value='3.3-stable'>3.3-stable</option>
+<option value='3.4-stable'>3.4-stable</option>
+<option value='3.5-stable'>3.5-stable</option>
+<option value='3.6-stable'>3.6-stable</option>
+<option value='3.7-stable'>3.7-stable</option>
+<option value='3.8-stable'>3.8-stable</option>
+<option value='3.9-stable'>3.9-stable</option>
+<option value='aports-testing-ttl'>aports-testing-ttl</option>
+<option value='master' selected='selected'>master</option>
+<option value='patches/3538'>patches/3538</option>
+<option value='patches/3539'>patches/3539</option>
+<option value='patches/3808'>patches/3808</option>
+<option value='patches/3888'>patches/3888</option>
+<option value='patches/3913'>patches/3913</option>
+<option value='patches/3977'>patches/3977</option>
+<option value='patches/3998'>patches/3998</option>
+</select> <input type='submit' value='switch'/></form></td></tr>
+<tr><td class='sub'>Alpine packages build scripts
+</td><td class='sub right'>uwsgi</td></tr></table>
+<table class='tabs'><tr><td>
+<a href='/aports/about/'>about</a><a href='/aports/'>summary</a><a href='/aports/refs/'>refs</a><a href='/aports/log/community/mangohud/fc925300601098dc45241087626369843d6a2c66.patch'>log</a><a class='active' href='/aports/tree/community/mangohud/fc925300601098dc45241087626369843d6a2c66.patch'>tree</a><a href='/aports/commit/community/mangohud/fc925300601098dc45241087626369843d6a2c66.patch'>commit</a><a href='/aports/diff/community/mangohud/fc925300601098dc45241087626369843d6a2c66.patch'>diff</a><a href='/aports/stats/community/mangohud/fc925300601098dc45241087626369843d6a2c66.patch'>stats</a></td><td class='form'><form class='right' method='get' action='/aports/log/community/mangohud/fc925300601098dc45241087626369843d6a2c66.patch'>
+<select name='qt'>
+<option value='grep'>log msg</option>
+<option value='author'>author</option>
+<option value='committer'>committer</option>
+<option value='range'>range</option>
+</select>
+<input class='txt' type='search' size='10' name='q' value=''/>
+<input type='submit' value='search'/>
+</form>
+</td></tr></table>
+<div class='path'>path: <a href='/aports/tree/'>root</a>/<a href='/aports/tree/community'>community</a>/<a href='/aports/tree/community/mangohud'>mangohud</a>/<a href='/aports/tree/community/mangohud/fc925300601098dc45241087626369843d6a2c66.patch'>fc925300601098dc45241087626369843d6a2c66.patch</a></div><div class='content'>blob: ff18578a2cd2e9fb8f8729e11cb168c6605abb38 (<a href='/aports/plain/community/mangohud/fc925300601098dc45241087626369843d6a2c66.patch'>plain</a>)
+<table summary='blob content' class='blob'>
+<tr><td class='linenumbers'><pre><a id='n1' href='#n1'>1</a>
+<a id='n2' href='#n2'>2</a>
+<a id='n3' href='#n3'>3</a>
+<a id='n4' href='#n4'>4</a>
+<a id='n5' href='#n5'>5</a>
+<a id='n6' href='#n6'>6</a>
+<a id='n7' href='#n7'>7</a>
+<a id='n8' href='#n8'>8</a>
+<a id='n9' href='#n9'>9</a>
+<a id='n10' href='#n10'>10</a>
+<a id='n11' href='#n11'>11</a>
+<a id='n12' href='#n12'>12</a>
+<a id='n13' href='#n13'>13</a>
+<a id='n14' href='#n14'>14</a>
+<a id='n15' href='#n15'>15</a>
+<a id='n16' href='#n16'>16</a>
+<a id='n17' href='#n17'>17</a>
+<a id='n18' href='#n18'>18</a>
+<a id='n19' href='#n19'>19</a>
+<a id='n20' href='#n20'>20</a>
+<a id='n21' href='#n21'>21</a>
+<a id='n22' href='#n22'>22</a>
+<a id='n23' href='#n23'>23</a>
+<a id='n24' href='#n24'>24</a>
+<a id='n25' href='#n25'>25</a>
+<a id='n26' href='#n26'>26</a>
+<a id='n27' href='#n27'>27</a>
+<a id='n28' href='#n28'>28</a>
+<a id='n29' href='#n29'>29</a>
+<a id='n30' href='#n30'>30</a>
+<a id='n31' href='#n31'>31</a>
+<a id='n32' href='#n32'>32</a>
+<a id='n33' href='#n33'>33</a>
+<a id='n34' href='#n34'>34</a>
+<a id='n35' href='#n35'>35</a>
+<a id='n36' href='#n36'>36</a>
+<a id='n37' href='#n37'>37</a>
+<a id='n38' href='#n38'>38</a>
+<a id='n39' href='#n39'>39</a>
+<a id='n40' href='#n40'>40</a>
+<a id='n41' href='#n41'>41</a>
+<a id='n42' href='#n42'>42</a>
+<a id='n43' href='#n43'>43</a>
+<a id='n44' href='#n44'>44</a>
+<a id='n45' href='#n45'>45</a>
+<a id='n46' href='#n46'>46</a>
+<a id='n47' href='#n47'>47</a>
+<a id='n48' href='#n48'>48</a>
+<a id='n49' href='#n49'>49</a>
+<a id='n50' href='#n50'>50</a>
+<a id='n51' href='#n51'>51</a>
+<a id='n52' href='#n52'>52</a>
+<a id='n53' href='#n53'>53</a>
+<a id='n54' href='#n54'>54</a>
+<a id='n55' href='#n55'>55</a>
+<a id='n56' href='#n56'>56</a>
+<a id='n57' href='#n57'>57</a>
+<a id='n58' href='#n58'>58</a>
+<a id='n59' href='#n59'>59</a>
+<a id='n60' href='#n60'>60</a>
+<a id='n61' href='#n61'>61</a>
+<a id='n62' href='#n62'>62</a>
+<a id='n63' href='#n63'>63</a>
+<a id='n64' href='#n64'>64</a>
+<a id='n65' href='#n65'>65</a>
+<a id='n66' href='#n66'>66</a>
+<a id='n67' href='#n67'>67</a>
+<a id='n68' href='#n68'>68</a>
+<a id='n69' href='#n69'>69</a>
+<a id='n70' href='#n70'>70</a>
+<a id='n71' href='#n71'>71</a>
+<a id='n72' href='#n72'>72</a>
+<a id='n73' href='#n73'>73</a>
+<a id='n74' href='#n74'>74</a>
+<a id='n75' href='#n75'>75</a>
+<a id='n76' href='#n76'>76</a>
+<a id='n77' href='#n77'>77</a>
+<a id='n78' href='#n78'>78</a>
+<a id='n79' href='#n79'>79</a>
+<a id='n80' href='#n80'>80</a>
+<a id='n81' href='#n81'>81</a>
+<a id='n82' href='#n82'>82</a>
+<a id='n83' href='#n83'>83</a>
+<a id='n84' href='#n84'>84</a>
+<a id='n85' href='#n85'>85</a>
+<a id='n86' href='#n86'>86</a>
+<a id='n87' href='#n87'>87</a>
+<a id='n88' href='#n88'>88</a>
+<a id='n89' href='#n89'>89</a>
+<a id='n90' href='#n90'>90</a>
+<a id='n91' href='#n91'>91</a>
+<a id='n92' href='#n92'>92</a>
+<a id='n93' href='#n93'>93</a>
+<a id='n94' href='#n94'>94</a>
+<a id='n95' href='#n95'>95</a>
+<a id='n96' href='#n96'>96</a>
+<a id='n97' href='#n97'>97</a>
+<a id='n98' href='#n98'>98</a>
+<a id='n99' href='#n99'>99</a>
+<a id='n100' href='#n100'>100</a>
+<a id='n101' href='#n101'>101</a>
+<a id='n102' href='#n102'>102</a>
+<a id='n103' href='#n103'>103</a>
+<a id='n104' href='#n104'>104</a>
+<a id='n105' href='#n105'>105</a>
+</pre></td>
+<td class='lines'><pre><code><style>
+@media only all and (prefers-color-scheme: dark) {
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #49483e }
+.highlight .c { color: #75715e } /* Comment */
+.highlight .err { color: #960050; background-color: #1e0010 } /* Error */
+.highlight .esc { color: #f8f8f2 } /* Escape */
+.highlight .g { color: #f8f8f2 } /* Generic */
+.highlight .k { color: #66d9ef } /* Keyword */
+.highlight .l { color: #ae81ff } /* Literal */
+.highlight .n { color: #f8f8f2 } /* Name */
+.highlight .o { color: #f92672 } /* Operator */
+.highlight .x { color: #f8f8f2 } /* Other */
+.highlight .p { color: #f8f8f2 } /* Punctuation */
+.highlight .ch { color: #75715e } /* Comment.Hashbang */
+.highlight .cm { color: #75715e } /* Comment.Multiline */
+.highlight .cp { color: #75715e } /* Comment.Preproc */
+.highlight .cpf { color: #75715e } /* Comment.PreprocFile */
+.highlight .c1 { color: #75715e } /* Comment.Single */
+.highlight .cs { color: #75715e } /* Comment.Special */
+.highlight .gd { color: #f92672 } /* Generic.Deleted */
+.highlight .ge { color: #f8f8f2; font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #f8f8f2 } /* Generic.Error */
+.highlight .gh { color: #f8f8f2 } /* Generic.Heading */
+.highlight .gi { color: #a6e22e } /* Generic.Inserted */
+.highlight .go { color: #66d9ef } /* Generic.Output */
+.highlight .gp { color: #f92672; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #f8f8f2; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #75715e } /* Generic.Subheading */
+.highlight .gt { color: #f8f8f2 } /* Generic.Traceback */
+.highlight .kc { color: #66d9ef } /* Keyword.Constant */
+.highlight .kd { color: #66d9ef } /* Keyword.Declaration */
+.highlight .kn { color: #f92672 } /* Keyword.Namespace */
+.highlight .kp { color: #66d9ef } /* Keyword.Pseudo */
+.highlight .kr { color: #66d9ef } /* Keyword.Reserved */
+.highlight .kt { color: #66d9ef } /* Keyword.Type */
+.highlight .ld { color: #e6db74 } /* Literal.Date */
+.highlight .m { color: #ae81ff } /* Literal.Number */
+.highlight .s { color: #e6db74 } /* Literal.String */
+.highlight .na { color: #a6e22e } /* Name.Attribute */
+.highlight .nb { color: #f8f8f2 } /* Name.Builtin */
+.highlight .nc { color: #a6e22e } /* Name.Class */
+.highlight .no { color: #66d9ef } /* Name.Constant */
+.highlight .nd { color: #a6e22e } /* Name.Decorator */
+.highlight .ni { color: #f8f8f2 } /* Name.Entity */
+.highlight .ne { color: #a6e22e } /* Name.Exception */
+.highlight .nf { color: #a6e22e } /* Name.Function */
+.highlight .nl { color: #f8f8f2 } /* Name.Label */
+.highlight .nn { color: #f8f8f2 } /* Name.Namespace */
+.highlight .nx { color: #a6e22e } /* Name.Other */
+.highlight .py { color: #f8f8f2 } /* Name.Property */
+.highlight .nt { color: #f92672 } /* Name.Tag */
+.highlight .nv { color: #f8f8f2 } /* Name.Variable */
+.highlight .ow { color: #f92672 } /* Operator.Word */
+.highlight .pm { color: #f8f8f2 } /* Punctuation.Marker */
+.highlight .w { color: #f8f8f2 } /* Text.Whitespace */
+.highlight .mb { color: #ae81ff } /* Literal.Number.Bin */
+.highlight .mf { color: #ae81ff } /* Literal.Number.Float */
+.highlight .mh { color: #ae81ff } /* Literal.Number.Hex */
+.highlight .mi { color: #ae81ff } /* Literal.Number.Integer */
+.highlight .mo { color: #ae81ff } /* Literal.Number.Oct */
+.highlight .sa { color: #e6db74 } /* Literal.String.Affix */
+.highlight .sb { color: #e6db74 } /* Literal.String.Backtick */
+.highlight .sc { color: #e6db74 } /* Literal.String.Char */
+.highlight .dl { color: #e6db74 } /* Literal.String.Delimiter */
+.highlight .sd { color: #e6db74 } /* Literal.String.Doc */
+.highlight .s2 { color: #e6db74 } /* Literal.String.Double */
+.highlight .se { color: #ae81ff } /* Literal.String.Escape */
+.highlight .sh { color: #e6db74 } /* Literal.String.Heredoc */
+.highlight .si { color: #e6db74 } /* Literal.String.Interpol */
+.highlight .sx { color: #e6db74 } /* Literal.String.Other */
+.highlight .sr { color: #e6db74 } /* Literal.String.Regex */
+.highlight .s1 { color: #e6db74 } /* Literal.String.Single */
+.highlight .ss { color: #e6db74 } /* Literal.String.Symbol */
+.highlight .bp { color: #f8f8f2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #a6e22e } /* Name.Function.Magic */
+.highlight .vc { color: #f8f8f2 } /* Name.Variable.Class */
+.highlight .vg { color: #f8f8f2 } /* Name.Variable.Global */
+.highlight .vi { color: #f8f8f2 } /* Name.Variable.Instance */
+.highlight .vm { color: #f8f8f2 } /* Name.Variable.Magic */
+.highlight .il { color: #ae81ff } /* Literal.Number.Integer.Long */
+}
+@media (prefers-color-scheme: light) {
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #ffffcc }
+.highlight .c { color: #888888 } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { color: #008800; font-weight: bold } /* Keyword */
+.highlight .ch { color: #888888 } /* Comment.Hashbang */
+.highlight .cm { color: #888888 } /* Comment.Multiline */
+.highlight .cp { color: #cc0000; font-weight: bold } /* Comment.Preproc */
+.highlight .cpf { color: #888888 } /* Comment.PreprocFile */
+.highlight .c1 { color: #888888 } /* Comment.Single */
+.highlight .cs { color: #cc0000; font-weight: bold; background-color: #fff0f0 } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #333333 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #666666 } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { color: #008800; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008800; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008800; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008800 } /* Keyword.Pseudo */
+.highlight .kr { color: #008800; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #888888; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #0000DD; font-weight: bold } /* Literal.Number */
+.highlight .s { color: #dd2200; background-color: #fff0f0 } /* Literal.String */
+.highlight .na { color: #336699 } /* Name.Attribute */
+.highlight .nb { color: #003388 } /* Name.Builtin */
+.highlight .nc { color: #bb0066; font-weight: bold } /* Name.Class */
+.highlight .no { color: #003366; font-weight: bold } /* Name.Constant */
+.highlight .nd { color: #555555 } /* Name.Decorator */
+.highlight .ne { color: #bb0066; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0066bb; font-weight: bold } /* Name.Function */
+.highlight .nl { color: #336699; font-style: italic } /* Name.Label */
+.highlight .nn { color: #bb0066; font-weight: bold } /* Name.Namespace */
+.highlight .py { color: #336699; font-weight: bold } /* Name.Property */
+.highlight .nt { color: #bb0066; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #336699 } /* Name.Variable */
+.highlight .ow { color: #008800 } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #0000DD; font-weight: bold } /* Literal.Number.Bin */
+.highlight .mf { color: #0000DD; font-weight: bold } /* Literal.Number.Float */
+.highlight .mh { color: #0000DD; font-weight: bold } /* Literal.Number.Hex */
+.highlight .mi { color: #0000DD; font-weight: bold } /* Literal.Number.Integer */
+.highlight .mo { color: #0000DD; font-weight: bold } /* Literal.Number.Oct */
+.highlight .sa { color: #dd2200; background-color: #fff0f0 } /* Literal.String.Affix */
+.highlight .sb { color: #dd2200; background-color: #fff0f0 } /* Literal.String.Backtick */
+.highlight .sc { color: #dd2200; background-color: #fff0f0 } /* Literal.String.Char */
+.highlight .dl { color: #dd2200; background-color: #fff0f0 } /* Literal.String.Delimiter */
+.highlight .sd { color: #dd2200; background-color: #fff0f0 } /* Literal.String.Doc */
+.highlight .s2 { color: #dd2200; background-color: #fff0f0 } /* Literal.String.Double */
+.highlight .se { color: #0044dd; background-color: #fff0f0 } /* Literal.String.Escape */
+.highlight .sh { color: #dd2200; background-color: #fff0f0 } /* Literal.String.Heredoc */
+.highlight .si { color: #3333bb; background-color: #fff0f0 } /* Literal.String.Interpol */
+.highlight .sx { color: #22bb22; background-color: #f0fff0 } /* Literal.String.Other */
+.highlight .sr { color: #008800; background-color: #fff0ff } /* Literal.String.Regex */
+.highlight .s1 { color: #dd2200; background-color: #fff0f0 } /* Literal.String.Single */
+.highlight .ss { color: #aa6600; background-color: #fff0f0 } /* Literal.String.Symbol */
+.highlight .bp { color: #003388 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0066bb; font-weight: bold } /* Name.Function.Magic */
+.highlight .vc { color: #336699 } /* Name.Variable.Class */
+.highlight .vg { color: #dd7700 } /* Name.Variable.Global */
+.highlight .vi { color: #3333bb } /* Name.Variable.Instance */
+.highlight .vm { color: #336699 } /* Name.Variable.Magic */
+.highlight .il { color: #0000DD; font-weight: bold } /* Literal.Number.Integer.Long */
+}
+</style><div class="highlight"><pre><span></span>From fc925300601098dc45241087626369843d6a2c66 Mon Sep 17 00:00:00 2001
+From: John Zimmermann &lt;me@johnnynator.dev&gt;
+Date: Thu, 28 Sep 2023 16:42:21 +0200
+Subject: [PATCH] elfhacks: d_un.d_ptr is relative on non glibc systems
+
+elf(5) documents it this way, GLIBC diverts from this documentation
+
+partial fix for #601
+<span class="gs">---</span>
+<span class="w"> </span>src/elfhacks.cpp   | 22 ++++++++++++++--------
+<span class="w"> </span>src/real_dlsym.cpp |  1 +
+<span class="w"> </span>2 files changed, 15 insertions(+), 8 deletions(-)
+
+<span class="gh">diff --git a/src/elfhacks.cpp b/src/elfhacks.cpp</span>
+<span class="gh">index 7cfc310ee9..810a19d967 100644</span>
+<span class="gd">--- a/src/elfhacks.cpp</span>
+<span class="gi">+++ b/src/elfhacks.cpp</span>
+<span class="gu">@@ -29,6 +29,12 @@</span>
+<span class="w"> </span> *  \{
+<span class="w"> </span> */
+<span class="w"> </span>
+<span class="gi">+#ifdef __GLIBC__</span>
+<span class="gi">+# define ABS_ADDR(obj, ptr) (ptr)</span>
+<span class="gi">+#else</span>
+<span class="gi">+# define ABS_ADDR(obj, ptr) ((obj-&gt;addr) + (ptr))</span>
+<span class="gi">+#endif</span>
+<span class="gi">+</span>
+<span class="w"> </span>struct eh_iterate_callback_args {
+<span class="w"> </span>	eh_iterate_obj_callback_func callback;
+<span class="w"> </span>	void *arg;
+<span class="gu">@@ -196,22 +202,22 @@ int eh_init_obj(eh_obj_t *obj)</span>
+<span class="w"> </span>			if (obj-&gt;strtab)
+<span class="w"> </span>				return ENOTSUP;
+<span class="w"> </span>
+<span class="gd">-			obj-&gt;strtab = (const char *) obj-&gt;dynamic[p].d_un.d_ptr;</span>
+<span class="gi">+			obj-&gt;strtab = (const char *) ABS_ADDR(obj, obj-&gt;dynamic[p].d_un.d_ptr);</span>
+<span class="w"> </span>		} else if (obj-&gt;dynamic[p].d_tag == DT_HASH) {
+<span class="w"> </span>			if (obj-&gt;hash)
+<span class="w"> </span>				return ENOTSUP;
+<span class="w"> </span>
+<span class="gd">-			obj-&gt;hash = (ElfW(Word) *) obj-&gt;dynamic[p].d_un.d_ptr;</span>
+<span class="gi">+			obj-&gt;hash = (ElfW(Word) *) ABS_ADDR(obj, obj-&gt;dynamic[p].d_un.d_ptr);</span>
+<span class="w"> </span>		} else if (obj-&gt;dynamic[p].d_tag == DT_GNU_HASH) {
+<span class="w"> </span>			if (obj-&gt;gnu_hash)
+<span class="w"> </span>				return ENOTSUP;
+<span class="w"> </span>
+<span class="gd">-			obj-&gt;gnu_hash = (Elf32_Word *) obj-&gt;dynamic[p].d_un.d_ptr;</span>
+<span class="gi">+			obj-&gt;gnu_hash = (Elf32_Word *) ABS_ADDR(obj, obj-&gt;dynamic[p].d_un.d_ptr);</span>
+<span class="w"> </span>		} else if (obj-&gt;dynamic[p].d_tag == DT_SYMTAB) {
+<span class="w"> </span>			if (obj-&gt;symtab)
+<span class="w"> </span>				return ENOTSUP;
+<span class="w"> </span>
+<span class="gd">-			obj-&gt;symtab = (ElfW(Sym) *) obj-&gt;dynamic[p].d_un.d_ptr;</span>
+<span class="gi">+			obj-&gt;symtab = (ElfW(Sym) *) ABS_ADDR(obj, obj-&gt;dynamic[p].d_un.d_ptr);</span>
+<span class="w"> </span>		}
+<span class="w"> </span>		p++;
+<span class="w"> </span>	}
+<span class="gu">@@ -449,7 +455,7 @@ int eh_find_next_dyn(eh_obj_t *obj, ElfW_Sword tag, int i, ElfW(Dyn) **next)</span>
+<span class="w"> </span>
+<span class="w"> </span>int eh_set_rela_plt(eh_obj_t *obj, int p, const char *sym, void *val)
+<span class="w"> </span>{
+<span class="gd">-	ElfW(Rela) *rela = (ElfW(Rela) *) obj-&gt;dynamic[p].d_un.d_ptr;</span>
+<span class="gi">+	ElfW(Rela) *rela = (ElfW(Rela) *) ABS_ADDR(obj, obj-&gt;dynamic[p].d_un.d_ptr);</span>
+<span class="w"> </span>	ElfW(Dyn) *relasize;
+<span class="w"> </span>	unsigned int i;
+<span class="w"> </span>
+<span class="gu">@@ -470,7 +476,7 @@ int eh_set_rela_plt(eh_obj_t *obj, int p, const char *sym, void *val)</span>
+<span class="w"> </span>
+<span class="w"> </span>int eh_set_rel_plt(eh_obj_t *obj, int p, const char *sym, void *val)
+<span class="w"> </span>{
+<span class="gd">-	ElfW(Rel) *rel = (ElfW(Rel) *) obj-&gt;dynamic[p].d_un.d_ptr;</span>
+<span class="gi">+	ElfW(Rel) *rel = (ElfW(Rel) *) ABS_ADDR(obj, obj-&gt;dynamic[p].d_un.d_ptr);</span>
+<span class="w"> </span>	ElfW(Dyn) *relsize;
+<span class="w"> </span>	unsigned int i;
+<span class="w"> </span>
+<span class="gu">@@ -520,7 +526,7 @@ int eh_set_rel(eh_obj_t *obj, const char *sym, void *val)</span>
+<span class="w"> </span>
+<span class="w"> </span>int eh_iterate_rela_plt(eh_obj_t *obj, int p, eh_iterate_rel_callback_func callback, void *arg)
+<span class="w"> </span>{
+<span class="gd">-	ElfW(Rela) *rela = (ElfW(Rela) *) obj-&gt;dynamic[p].d_un.d_ptr;</span>
+<span class="gi">+	ElfW(Rela) *rela = (ElfW(Rela) *) ABS_ADDR(obj, obj-&gt;dynamic[p].d_un.d_ptr);</span>
+<span class="w"> </span>	ElfW(Dyn) *relasize;
+<span class="w"> </span>	eh_rel_t rel;
+<span class="w"> </span>	eh_sym_t sym;
+<span class="gu">@@ -550,7 +556,7 @@ int eh_iterate_rela_plt(eh_obj_t *obj, int p, eh_iterate_rel_callback_func callb</span>
+<span class="w"> </span>
+<span class="w"> </span>int eh_iterate_rel_plt(eh_obj_t *obj, int p, eh_iterate_rel_callback_func callback, void *arg)
+<span class="w"> </span>{
+<span class="gd">-	ElfW(Rel) *relp = (ElfW(Rel) *) obj-&gt;dynamic[p].d_un.d_ptr;</span>
+<span class="gi">+	ElfW(Rel) *relp = (ElfW(Rel) *) ABS_ADDR(obj, obj-&gt;dynamic[p].d_un.d_ptr);</span>
+<span class="w"> </span>	ElfW(Dyn) *relsize;
+<span class="w"> </span>	eh_rel_t rel;
+<span class="w"> </span>	eh_sym_t sym;
+<span class="gh">diff --git a/src/real_dlsym.cpp b/src/real_dlsym.cpp</span>
+<span class="gh">index 173dc1be9d..3e5a77c4ed 100644</span>
+<span class="gd">--- a/src/real_dlsym.cpp</span>
+<span class="gi">+++ b/src/real_dlsym.cpp</span>
+<span class="gu">@@ -26,6 +26,7 @@ static void get_real_functions()</span>
+<span class="w"> </span>#endif
+<span class="w"> </span>        &quot;*libc.so*&quot;,
+<span class="w"> </span>        &quot;*libc.*.so*&quot;,
+<span class="gi">+        &quot;*ld-musl-*.so*&quot;,</span>
+<span class="w"> </span>    };
+<span class="w"> </span>
+<span class="w"> </span>    for (size_t i = 0; i &lt; sizeof(libs) / sizeof(*libs); i++)
+</pre></div>
+</code></pre></td></tr></table>
+</div> <!-- class=content -->
+<div class='footer'>generated by <a href='https://git.zx2c4.com/cgit/about/'>cgit v1.2.3</a> (<a href='https://git-scm.com/'>git 2.41.0</a>) at 2023-11-23 17:09:34 +0000</div>
+</div> <!-- id=cgit -->
+</body>
+</html>

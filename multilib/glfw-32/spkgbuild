@@ -1,0 +1,46 @@
+# description	: A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input
+# homepage	: https://github.com/glfw/glfw
+# depends	: cmake ninja glu
+
+name=glfw-32
+version=3.3.8
+release=1
+source="glfw-$version.tar.gz::https://github.com/glfw/glfw/archive/$version.tar.gz"
+
+build() {
+          cd $SRC/glfw-$version
+          mkdir build-x11 build-wayland
+          export CC="gcc -m32"
+          export CXX="g++ -m32"
+          export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+         cd $SRC/glfw-$version/build-x11
+      cmake .. \
+      -DCMAKE_INSTALL_PREFIX=/usr/lib32 \
+      -DCMAKE_INSTALL_LIBDIR=lib32 \
+      -DBUILD_SHARED_LIBS=ON \
+      -DGLFW_BUILD_DOCS=OFF \
+      -DGLFW_BUILD_EXAMPLES=OFF \
+      -DGLFW_BUILD_TESTS=OFF
+      
+        cd ../build-wayland
+
+       cmake .. \
+      -DCMAKE_INSTALL_PREFIX=/usr/lib32 \
+      -DCMAKE_INSTALL_LIBDIR=lib32 \
+      -DBUILD_SHARED_LIBS=ON \
+      -DGLFW_BUILD_DOCS=OFF \
+      -DGLFW_BUILD_EXAMPLES=OFF \
+      -DGLFW_BUILD_TESTS=OFF \
+      -DGLFW_USE_WAYLAND=ON
+        cd $SRC/glfw-$version/build-x11
+        make DESTDIR=$PKG install
+      cd ..
+
+       cd $SRC/glfw-$version/build-wayland
+
+       make DESTDIR=$PKG install
+     cd ..
+     rm -rf $PKG/usr/{bin,include,share}
+
+}

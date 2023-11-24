@@ -1,0 +1,26 @@
+# description	: The OpenGL Extension Wrangler Library
+# depends	: libxmu libxi glu
+
+name=glew-32
+version=2.2.0
+release=1
+source="https://downloads.sourceforge.net/project/glew/glew/$version/glew-$version.tgz"
+
+build() {
+	cd glew-$version
+    export CC="gcc -m32"
+    export CXX="g++ -m32"
+	make \
+		CC="${CC:-gcc}" \
+		LD="${CC:-gcc}" \
+		CFLAGS.EXTRA="$CFLAGS -fPIC" \
+		LDFLAGS.EXTRA="$LDFLAGS"
+
+	make \
+		LIBDIR="$PKG/usr/lib32" \
+		PKGDIR="$PKG/usr/lib32/pkgconfig" \
+		GLEW_DEST=$PKG/usr \
+		install
+
+	rm -r $PKG/usr/include
+}

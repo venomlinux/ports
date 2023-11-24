@@ -1,0 +1,24 @@
+# description	: Vulkan and OpenGL overlay for monitoring FPS, temperatures, CPU/GPU load and more
+# depends	: mangohud dbus-32 glew-32 glfw-32 libx11-32 libxrandr-32 mesa-32
+
+name=mangohud-32
+version=0.7.0
+release=1
+source="$name-$version.tar.xz::https://github.com/flightlessmango/MangoHud/releases/download/v$version/MangoHud-v$version-Source.tar.xz"
+
+build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	venom-meson MangoHud-v$version build \
+        --libdir=/usr/lib32 \
+	--libexecdir=/usr/lib32 \
+        -Dmangoapp_layer=false \
+        -Dinclude_doc=false \
+        -Dwith_xnvctrl=disabled  
+	meson compile -C build
+        DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
+	mkdir -p $PKG/usr/lib32
+	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+}
