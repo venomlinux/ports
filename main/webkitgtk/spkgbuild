@@ -7,12 +7,15 @@
 
 name=webkitgtk
 version=2.42.2
-release=1
-source="https://webkitgtk.org/releases/$name-$version.tar.xz"
+release=2
+source="https://webkitgtk.org/releases/$name-$version.tar.xz
+	webkitgtk-2.42.2-upstream_fixes-1.patch"
 
 build() {
 	# failed build with ccache, remove reom path
 	PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
+
+	patch -d $name-$version -Np1 -i $SRC/webkitgtk-2.42.2-upstream_fixes-1.patch
 
 	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=Release \

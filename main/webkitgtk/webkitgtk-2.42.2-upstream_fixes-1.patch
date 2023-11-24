@@ -1,0 +1,38 @@
+Submitted By:            Douglas R. Reno <renodr at linuxfromscratch dot org>
+Date:                    2023-11-23
+Initial Package Version: 2.42.2
+Origin:                  Upstream (commit 209457c1ef237c520d419e8ca66eefdb7e140db0)
+Upstream Status:         Applied
+Description:             Patches WebKitGTK-2.42.2 to compile with API changes
+                         in libxml2-2.12.0.
+
+diff -Naurp webkitgtk-2.42.2.orig/Source/WebCore/xml/XSLTProcessor.h webkitgtk-2.42.2/Source/WebCore/xml/XSLTProcessor.h
+--- webkitgtk-2.42.2.orig/Source/WebCore/xml/XSLTProcessor.h	2023-11-23 14:03:07.868073373 -0600
++++ webkitgtk-2.42.2/Source/WebCore/xml/XSLTProcessor.h	2023-11-23 14:03:49.707806878 -0600
+@@ -61,7 +61,11 @@ public:
+ 
+     void reset();
+ 
++#if LIBXML_VERSION >= 21200
++    static void parseErrorFunc(void* userData, const xmlError*);
++#else
+     static void parseErrorFunc(void* userData, xmlError*);
++#endif
+     static void genericErrorFunc(void* userData, const char* msg, ...);
+     
+     // Only for libXSLT callbacks
+diff -Naurp webkitgtk-2.42.2.orig/Source/WebCore/xml/XSLTProcessorLibxslt.cpp webkitgtk-2.42.2/Source/WebCore/xml/XSLTProcessorLibxslt.cpp
+--- webkitgtk-2.42.2.orig/Source/WebCore/xml/XSLTProcessorLibxslt.cpp	2023-11-23 14:03:07.868073373 -0600
++++ webkitgtk-2.42.2/Source/WebCore/xml/XSLTProcessorLibxslt.cpp	2023-11-23 14:04:28.328560727 -0600
+@@ -59,7 +59,11 @@ void XSLTProcessor::genericErrorFunc(voi
+     // It would be nice to do something with this error message.
+ }
+ 
++#if LIBXML_VERSION >= 21200
++void XSLTProcessor::parseErrorFunc(void* userData, const xmlError* error)
++#else
+ void XSLTProcessor::parseErrorFunc(void* userData, xmlError* error)
++#endif
+ {
+     PageConsoleClient* console = static_cast<PageConsoleClient*>(userData);
+     if (!console)
