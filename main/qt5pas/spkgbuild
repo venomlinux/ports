@@ -1,0 +1,14 @@
+# description	: Free Pascal Qt5 binding library updated by lazarus IDE
+# depends	: qt5-base
+
+name=qt5pas
+version=2.6.2.2.6
+release=1
+source="$name-$version.tar.bz2::https://gitlab.com/freepascal.org/lazarus/lazarus/-/archive/lazarus_2_2_6/lazarus-lazarus_2_2_6.tar.bz2"
+
+build() {
+    cd lazarus-lazarus_2_2_6/lcl/interfaces/qt5/cbindings
+    qmake-qt5 
+    make 
+    make  INSTALL_ROOT=$PKG install
+}
