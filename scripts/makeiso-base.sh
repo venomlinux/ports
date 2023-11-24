@@ -23,7 +23,7 @@ ROOTFS="$PWD/rootfs"
 [ -f $SCRIPTDIR/config ] && . $SCRIPTDIR/config
 
 MUST_PKG="wpa_supplicant os-prober grub"
-MAIN_PKG="sudo alsa-utils dosfstools mtools neofetch htop"
+MAIN_PKG="sudo alsa-utils dosfstools mtools neofetch htop fzy"
 
 RELEASE=$(cat $PORTSDIR/current-release)
 outputiso="$PORTSDIR/venomlinux-base-$INIT-$(uname -m)-$(date +%Y%m%d).iso"

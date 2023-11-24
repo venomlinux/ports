@@ -24,7 +24,7 @@ ROOTFS="$PWD/rootfs"
 
 MUST_PKG="wpa_supplicant os-prober grub"
 WAYLAND_PKG="xcb-util-cursor xcb-util-keysyms libxfont2 libxcvt libtirpc xwayland"
-MAIN_PKG="sudo alsa-utils dosfstools mtools gvfs fastfetch firefox nnn irssi htop wireplumber pipewire"
+MAIN_PKG="sudo alsa-utils dosfstools mtools gvfs fastfetch firefox nnn irssi htop wireplumber pipewire fzy"
 SWAY_PKG="nwg-shell"
 THEME_PKG="osx-arc-theme ttf-awesome ttf-mononoki"
 
