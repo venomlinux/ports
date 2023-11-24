@@ -3,17 +3,20 @@
 
 name=libsoup
 version=2.74.0
-release=1
+release=2
 source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-	venom-meson \
-	-Dgssapi=disabled \
-	-Dvapi=enabled \
-	-Dbrotli=disabled \
-	-Dsysprof=disabled \
-	build
+
+	# Fix a build failure caused by libxml2-2.12.x:
+	sed -i '/tree/a #include <libxml/parser.h>' libsoup/soup-xmlrpc*.c
+
+	venom-meson build \
+		-Dgssapi=disabled \
+		-Dvapi=enabled \
+		-Dbrotli=disabled \
+		-Dsysprof=disabled 
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 }
