@@ -1,0 +1,15 @@
+# description	: Mobile shell, surviving disconnects with local echo and line editing
+# homepage	: https://mosh.org
+# depends	: nettle protobuf
+
+name=mosh
+version=1.4.0
+release=1
+source="https://mosh.org/$name-$version.tar.gz"
+
+build() {
+	cd $name-$version
+	CXXFLAGS="$CXXFLAGS -std=gnu++17" ./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
