@@ -3,14 +3,16 @@
 # depends	    : qt6-declarative qt6-base
 
 name=qt6-datavis3d
-version=6.6.0
+version=6.6.1
 release=1
 source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtdatavis3d-everywhere-src-$version.tar.xz"
 
 build() {
 
 	cmake -S qtdatavis3d-everywhere-src-$version -B build -G Ninja \
-		-D QT_USE_CCACHE=ON 
+		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-D QT_USE_CCACHE=$(scratch isinstalled ccache && echo ON || echo OFF) 
 	cmake --build build
 	DESTDIR=$PKG cmake --install build
 }

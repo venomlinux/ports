@@ -3,17 +3,15 @@
 # depends	    : qt6-declarative ninja
 
 name=qt6-tools
-version=6.6.0
+version=6.6.1
 release=1
 source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qttools-everywhere-src-$version.tar.xz"
 
-	#	-D QT_FEATURE_clangcpp=OFF \
-	#	-D QT_FEATURE_clang=OFF \
 
 build() {
 
 	cmake -S qttools-everywhere-src-$version -B build -G Ninja \
-		-D QT_USE_CCACHE=ON \
+		-D QT_USE_CCACHE=$(scratch isinstalled ccache && echo ON || echo OFF) \
 		-D INSTALL_PUBLICBINDIR=usr/bin \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \

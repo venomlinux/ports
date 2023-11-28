@@ -3,16 +3,15 @@
 # depends	    : qt6-tools
 
 name=qt6-translations
-version=6.6.0
+version=6.6.1
 release=1
 source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qttranslations-everywhere-src-$version.tar.xz"
 
 build() {
 
-	
 	cmake -S qttranslations-everywhere-src-$version -B build -G Ninja \
+		-D QT_USE_CCACHE=$(scratch isinstalled ccache && echo ON || echo OFF) \
 		-D CMAKE_INSTALL_PREFIX=/usr \
-		-D QT_USE_CCACHE=ON \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
 		-D CMAKE_C_FLAGS_RELEASE="$CFLAGS" 

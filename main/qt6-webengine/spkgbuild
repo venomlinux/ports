@@ -4,8 +4,8 @@
 # optional	    : dav1d fdk-aac gnutls graphite2 keyutils krb5 lame lcms2 libpcre2 libvdpau numactl pipewire x264 x265
 
 name=qt6-webengine
-version=6.6.0
-release=2
+version=6.6.1
+release=1
 source="$name-$version.tar.xz::https://download.qt.io/official_releases/qt/${version%.*}/$version/submodules/qtwebengine-everywhere-src-$version.tar.xz
 	qtwebengine-${version}-icu_74-1.patch"
 
@@ -16,12 +16,14 @@ build() {
 	patch -d qtwebengine-everywhere-src-$version -Np1 -i $SRC/qtwebengine-${version}-icu_74-1.patch
 
 	cmake -B build -S qtwebengine-everywhere-src-$version -G Ninja \
+		-D QT_USE_CCACHE=$(scratch isinstalled ccache && echo ON || echo OFF) \
 		-DCMAKE_MESSAGE_LOG_LEVEL=STATUS \
 		-DCMAKE_TOOLCHAIN_FILE=/usr/lib/cmake/Qt6/qt.toolchain.cmake \
 		-DQT_FEATURE_webengine_system_ffmpeg=ON \
 		-DQT_FEATURE_webengine_system_icu=ON \
 		-DQT_FEATURE_webengine_system_libevent=ON \
 		-DQT_FEATURE_webengine_proprietary_codecs=ON \
+		-D QT_FEATURE_webengine_ozone_x11=ON \
 		-DQT_FEATURE_webengine_kerberos=$(scratch isinstalled krb5 && echo ON || echo OFF) \
 		-DQT_FEATURE_webengine_webrtc_pipewire=$(scratch isinstalled pipewire && echo ON || echo OFF)
 	cmake --build build
