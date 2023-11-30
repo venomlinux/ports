@@ -4,11 +4,12 @@
 name=gdl
 version=3.40.0
 release=1
-source="https://download.gnome.org/sources/gdl/${version%.*}/$name-$version.tar.xz 0001-fix-missing-include.patch"
+source="https://download.gnome.org/sources/gdl/${version%.*}/$name-$version.tar.xz
+	0001-fix-missing-include.patch"
 
 build() {
 	cd $name-$version
-	patch -Np1 -i $SRC/*.patch
+	patch -Np1 -i $SRC/0001-fix-missing-include.patch
 
 	./configure \
 		--prefix=/usr \
