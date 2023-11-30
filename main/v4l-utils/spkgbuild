@@ -2,17 +2,14 @@
 # depends	: alsa-lib glu libjpeg-turbo qt5 llvm
 
 name=v4l-utils
-version=1.24.1
+version=1.26.0
 release=1
-source="https://www.linuxtv.org/downloads/v4l-utils/$name-$version.tar.bz2"
+source="https://www.linuxtv.org/downloads/v4l-utils/$name-$version.tar.xz"
 
 build() {
-	cd $name-$version
 
-	./configure --prefix=/usr \
-	            --sysconfdir=/etc \
-	            --disable-static \
-		    --disable-nls
-	make
-	make -j1 DESTDIR=$PKG install
+	venom-meson $name-$version build \
+		    -Dgconv=disabled
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 }
