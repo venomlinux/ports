@@ -1,0 +1,13 @@
+# description	: A GUI to help manage Vulkan/OpenGL overlays
+# depends	: glu qt5pas mangohud lazarus ttf-ubuntu-font-family vkbasalt
+
+name=goverlay
+version=0.8.1
+release=1
+source="$name-$version.tar.gz::https://github.com/benjamimgois/goverlay/archive/$version.tar.gz"
+
+build() {
+	cd $name-$version
+        make LAZBUILDOPTS=--lazarusdir=/usr/lib/lazarus
+        make prefix=/usr libexecdir=/lib DESTDIR=$PKG install
+}
