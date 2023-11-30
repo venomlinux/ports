@@ -1,0 +1,19 @@
+# description	: Ubuntu font family
+# homepage	: https://design.ubuntu.com/font/
+
+name=ttf-ubuntu-font-family
+version=0.83
+release=1
+source="https://assets.ubuntu.com/v1/fad7939b-ubuntu-font-family-$version.zip
+              81-ubuntu.conf"
+
+
+build() {
+        cd ubuntu-font-family-$version
+	install -dm755 $PKG/usr/share/fontconfig/conf.default
+	install -Dm644 -t $PKG/usr/share/fonts/ubuntu *.ttf
+	install -Dm644 LICENCE.txt $PKG/usr/share/licenses/$pkgname/LICENCE
+	install -Dm644 $SRC/81-ubuntu.conf $PKG/usr/share/fontconfig/conf.avail/81-ubuntu.conf
+	ln -s ../conf.avail/81-ubuntu.conf $PKG/usr/share/fontconfig/conf.default/81-ubuntu.conf
+
+}
