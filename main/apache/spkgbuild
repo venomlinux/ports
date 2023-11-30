@@ -3,9 +3,10 @@
 
 name=apache
 version=2.4.58
-release=2
+release=3
 source="https://archive.apache.org/dist/httpd/httpd-$version.tar.bz2
 	httpd-blfs_layout-1.patch::https://www.linuxfromscratch.org/patches/blfs/svn/httpd-$version-blfs_layout-1.patch
+	apache_libxml2-2.12.patch
 	rc.httpd
 	run.httpd"
 
@@ -14,6 +15,8 @@ build() {
 
 	# Forces the apxs utility to use absolute pathnames for modules, when instructed to do so
 	patch -Np1 -i $SRC/httpd-blfs_layout-1.patch
+
+	patch -Np1 -i $SRC/apache_libxml2-2.12.patch	
 
 	sed '/dir.*CFG_PREFIX/s@^@#@' -i support/apxs.in
 

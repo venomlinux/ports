@@ -1,9 +1,9 @@
 # description	: Library and tools used to manipulate, convert and view Scalable Vector Graphic (SVG) images
-# depends	: gdk-pixbuf libcroco pango gtk3 gobject-introspection vala rust
+# depends	: gdk-pixbuf gobject-introspection pango rust vala 
 
 name=librsvg
 version=2.57.0
-release=1
+release=2
 source="https://ftp.gnome.org/pub/gnome/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
@@ -11,9 +11,14 @@ build() {
 	export LDFLAGS="$LDFLAGS -Wl,--gc-sections"
 
 	cd $name-$version
-	./configure --prefix=/usr    \
-	            --enable-vala    \
-	            --disable-static
+	./configure \
+		--prefix=/usr    \
+	       	--enable-pixbuf-loader \
+		--enable-vala    \
+		--disable-gtk-doc \
+		--disable-debug \
+		--disable-nls \
+		--disable-static
 	make
 	make DESTDIR=$PKG install
 }
