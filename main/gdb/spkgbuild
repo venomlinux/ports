@@ -1,15 +1,27 @@
-# description	: GDB: The GNU Project Debugger
-# homepage	: https://www.sourceware.org/gdb/
-# depends	: python3-six 
+# description	: The GNU Debugger (GDB)
+# homepage	: https://www.gnu.org/software/gdb
+# depends	: expat libmpfr readline texinfo xz zlib
 
 name=gdb
 version=13.2
-release=1
-source="https://sourceware.org/pub/gdb/releases/$name-$version.tar.gz"
+release=2
+source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
-	./configure --prefix=/usr
+
+	mkdir build && cd build
+
+	../configure \
+		--prefix=/usr \
+		--disable-nls \
+		--enable-64-bit-bfd  \
+		--enable-lto \
+		--enable-tui \
+		--with-system-readline \
+		--with-system-zlib\
+		--with-python=/usr/bin/python3
 	make
-	make DESTDIR=$PKG install
+	make -C gdb DESTDIR=$PKG install   
+	make -C gdbserver DESTDIR=$PKG install
 }

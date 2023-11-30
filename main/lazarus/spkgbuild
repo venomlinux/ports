@@ -1,0 +1,45 @@
+# description	: Delphi-like IDE for fpc
+# depends	: fpc fpc-src gdb rsync
+
+name=lazarus
+version=2.2.6
+release=1
+source="https://downloads.sourceforge.net/project/$name/Lazarus%20Zip%20_%20GZip/Lazarus%20$version/$name-$version-0.tar.gz"
+
+build() {
+	cd $name
+	make -j1 LCL_PLATFORM=qt5 bigide
+
+	mkdir -p $PKG/usr/lib/lazarus $PKG/usr/bin $PKG/usr/share/man/man1 $PKG/usr/share/doc
+
+	rsync -a \
+		--exclude="CVS"     --exclude=".cvsignore" \
+		--exclude="*.ppw"   --exclude="*.ppl" \
+		--exclude="*.ow"    --exclude="*.a"\
+		 --exclude="*.rst"   --exclude=".#*" \
+		--exclude="*.~*"    --exclude="*.bak" \
+		--exclude="*.orig"  --exclude="*.rej" \
+		--exclude=".xvpics" \
+		--exclude="killme*" --exclude=".gdb_hist*" \
+		--exclude="debian"  --exclude="COPYING*" \
+		--exclude="*.app"   --exclude="tools/install" \
+		. $PKG/usr/lib/lazarus
+
+	for s in $PKG/usr/lib/lazarus/*laz*; do
+		[ ! -d "$s" ] || continue
+		[ -x "$s" ] || continue
+		ln -s "../lib/lazarus/${s##*/}" "${PKG}/usr/bin/${s##*/}"
+	done
+
+	cp -R install/man/man1/* $PKG/usr/share/man/man1/
+
+	mv $PKG/usr/lib/lazarus/docs $PKG/usr/share/doc/lazarus
+
+	mkdir -p $PKG/usr/lib/lazarus/components/lazdebuggergdbmi/test/gdb
+	
+	mkdir -p $PKG/usr/lib/lazarus/docs
+	ln -s /usr/share/doc/lazarus/chm $PKG/usr/lib/lazarus/docs/html
+	ln -s /usr/share/doc/lazarus/lazdoc.css $PKG/usr/lib/lazarus/docs/lazdoc.css
+
+	rm -r $PKG/usr/lib/lazarus/install
+}

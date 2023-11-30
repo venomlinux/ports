@@ -1,0 +1,13 @@
+# description	: Sources for the FreePascal compiler (required by the Lazarus IDE)
+# homepage	: https://www.freepascal.org/
+
+name=fpc-src
+version=3.2.2
+release=1
+source="https://downloads.sourceforge.net/project/freepascal/Source/$version/fpcbuild-$version.tar.gz"
+
+build() {
+	cd fpcbuild-$version/fpcsrc
+	mkdir -p $PKG/usr/lib/fpc/src
+	cp -R . $PKG/usr/lib/fpc/src
+}

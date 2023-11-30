@@ -1,0 +1,58 @@
+# description	: Free Pascal Compiler, Turbo Pascal 7.0 and Delphi compatible
+# depends	: ncurses zlib expat 
+
+name=fpc
+version=3.2.2
+release=1
+arch="x86_64"
+source="https://downloads.sourceforge.net/sourceforge/freepascal/Linux/$version/fpc-$version.$arch-linux.tar
+	https://downloads.sourceforge.net/sourceforge/freepascal/fpcbuild-$version.tar.gz"
+
+build() { 
+	# Bootstrap fpc
+	cd $name-$version.$arch-linux
+	tar xf binary.$arch-linux.tar
+
+	# Unpack only files strictly necessary for build
+	tar xf base.$arch-linux.tar.gz
+	tar xf utils-fpcm.$arch-linux.tar.gz
+
+	mkdir -pv $SRC/usr/bin
+	install -Dm755 bin/* -t $SRC/usr/bin/
+
+	cp -r lib $SRC/usr
+
+	# Create a symlink needed for fpc to find appropriate binary
+	ln -s $SRC/usr/lib/fpc/$version/ppcx64 $SRC/usr/bin
+	
+	# Build fpc
+	cd $SRC/fpcbuild-$version/fpcsrc
+#	$SRC/usr/bin/fpcmake 
+	$SRC/usr/bin/fpcmake -Tall
+	cd ..
+	FPC=$SRC/usr/bin/fpc make all NOGDB=1
+#	FPC=$SRC/usr/bin/fpc make build
+	cd $SRC/fpcbuild-$version
+
+	export HOME=$SRC
+	FPC=$SRC/usr/bin/fpc make -j1 PREFIX=$PKG/usr install NOGDB=1
+#	FPC=$SRC/usr/bin/fpc make -j1 PREFIX=$PKG/usr install
+
+ 	# Create a symlink needed for fpc to find compiler
+	export PATH=$PKG/usr/bin:$PATH
+	ln -s /usr/lib/fpc/$version/ppcx64 $PKG/usr/bin
+
+	# Install configuration
+	mkdir -p $PKG/etc
+	$PKG/usr/lib/fpc/$version/samplecfg $PKG/usr/lib/fpc/$version $PKG/etc
+	
+	# Use -fPIC by default
+#	echo -e ifdef cpux86_64\n for x86_64 use -fPIC by default\n-Cg\n endif >> $PKG/etc/fpc.cfg
+
+	# Cleanup
+	rm -rf --one-file-system $PKG/usr/man $PKG/usr/share/doc
+	
+	# Strip pkgdir name from configs
+	find "$PKG"/etc/ -type f -exec sed -i "s|"$PKG"||g" {} \;
+}
+
