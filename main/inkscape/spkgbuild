@@ -4,11 +4,12 @@
 name=inkscape
 version=1.3.2
 release=1
-source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz 0001-fix-missing-include.patch"
+source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz
+	0001-fix-missing-include.patch"
 
 build() {
 	cd $name-${version}_*
-	patch -Np1 -i $SRC/*.patch
+	patch -Np1 -i $SRC/0001-fix-missing-include.patch
 	cd ..
 
 	cmake  -S $name-${version}_* -B build -G Ninja \
