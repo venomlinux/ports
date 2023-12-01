@@ -38,11 +38,7 @@ build() {
 	make DESTDIR=$PKG install
 	cd ..
   done
-
-	# strip $PKG/usr/bin/*
 	# remove unnecessary files
-	rm $PKG/usr/lib/libcc1.*
 	rm -r $PKG/usr/share/man
 	rm -r $PKG/usr/share/info
-	
 }
