@@ -3,7 +3,7 @@
 
 name=ttf-awesome
 _name=awesome-font
-version=6.5.0
+version=6.5.1
 release=1
 source="https://github.com/FortAwesome/Font-Awesome/archive/$version/$_name-$version.tar.gz"
 
@@ -11,6 +11,6 @@ build() {
 	cd Font-Awesome-$version
 
 	install -d $PKG/usr/share/fonts/TTF $PKG/usr/share/fonts/OTF
-	install -m644 free/webfonts/*.ttf $PKG/usr/share/fonts/TTF/
-	install -m644 free/otfs/*.otf $PKG/usr/share/fonts/OTF/
+	install -m644 webfonts/*.ttf $PKG/usr/share/fonts/TTF/
+	install -m644 otfs/*.otf $PKG/usr/share/fonts/OTF/
 }
