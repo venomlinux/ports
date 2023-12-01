@@ -27,16 +27,13 @@ build() {
 	
 	# Build fpc
 	cd $SRC/fpcbuild-$version/fpcsrc
-#	$SRC/usr/bin/fpcmake 
 	$SRC/usr/bin/fpcmake -Tall
 	cd ..
 	FPC=$SRC/usr/bin/fpc make all NOGDB=1
-#	FPC=$SRC/usr/bin/fpc make build
 	cd $SRC/fpcbuild-$version
 
 	export HOME=$SRC
 	FPC=$SRC/usr/bin/fpc make -j1 PREFIX=$PKG/usr install NOGDB=1
-#	FPC=$SRC/usr/bin/fpc make -j1 PREFIX=$PKG/usr install
 
  	# Create a symlink needed for fpc to find compiler
 	export PATH=$PKG/usr/bin:$PATH
