@@ -1,9 +1,9 @@
 # description	: Contains libraries and utilities used for parsing XML files
-# depends	: libxml2 xz-32 zlib-32
+# depends	: libxml2 icu-32 xz-32 zlib-32
 
 name=libxml2-32
 version=2.12.1
-release=1
+release=2
 source="https://download.gnome.org/sources/${name%-*}/${version%.*}/${name%-*}-$version.tar.xz"
 
 build() {
@@ -16,6 +16,7 @@ build() {
 	./configure --prefix=/usr \
 		    --libdir=/usr/lib32 \
 		    --disable-static \
+		    --with-icu \
 		    --with-history \
 		    --without-python
 	make
