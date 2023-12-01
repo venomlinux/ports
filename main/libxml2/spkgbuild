@@ -1,10 +1,10 @@
 # description	: Contains libraries and utilities used for parsing XML files
 # homepage	: https://github.com/GNOME/libxml2
-# depends	: xz zlib
+# depends	: icu xz zlib
 
 name=libxml2
 version=2.12.1
-release=1
+release=2
 source="https://download.gnome.org/sources/$name/${version%.*}/$name-$version.tar.xz"
 
 build() {
@@ -13,6 +13,7 @@ build() {
 	./configure \
 		--prefix=/usr \
 		--disable-static \
+		--with-icu \
 		--with-history \
 		--with-python=/usr/bin/python3 
 	make
@@ -20,5 +21,8 @@ build() {
 	
 	rm -r $PKG/usr/share/doc \
 	      $PKG/usr/share/gtk-doc
+
+	rm -vf /usr/lib/libxml2.la
+	sed '/libs=/s/xml2.*/xml2"/' -i /usr/bin/xml2-config
 }
 
