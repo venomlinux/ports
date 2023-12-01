@@ -8,6 +8,7 @@ source="https://downloads.sourceforge.net/project/$name/Lazarus%20Zip%20_%20GZip
 
 build() {
 	cd $name
+	# Build limited to one thread (-j1) at the moment, breaks with multithread
 	make -j1 LCL_PLATFORM=qt5 bigide
 
 	mkdir -p $PKG/usr/lib/lazarus $PKG/usr/bin $PKG/usr/share/man/man1 $PKG/usr/share/doc
