@@ -3,14 +3,14 @@
 # depends	: c-ares crypto++ curl libsodium libuv openssl readline sqlite zlib 
 
 name=megasdk
-version=4.30.0
+version=5.1.0
 release=1
 source="$name-$version.tar.gz::https://github.com/meganz/sdk/archive/v$version.tar.gz"
 
 build() {
 	cd sdk-$version
 
-	NOCONFIGURE=1 ./autogen.sh
+	./autogen.sh
 	./configure \
 		--prefix=/usr \
 		--disable-doxygen-doc \
