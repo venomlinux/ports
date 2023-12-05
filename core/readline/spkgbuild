@@ -3,15 +3,15 @@
 
 name=readline
 version=8.2
-release=2
+release=3
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.gz
-	${name}-${version}-upstream_fix-1.patch
+	${name}-${version}-upstream_fix-2.patch
 	inputrc"
 
 build() {
 	cd $name-$version
 
-	patch -Np1 -i $SRC/${name}-${version}-upstream_fix-1.patch
+	patch -Np1 -i $SRC/${name}-${version}-upstream_fix-2.patch
 
 	sed -i '/MV.*old/d' Makefile.in
 	sed -i '/{OLDSUFF}/c:' support/shlib-install
