@@ -1,0 +1,13 @@
+# description	    : Browser fork of Floorp fork of Firefox by Astian
+# homepage	    : https://astian.org/midori-browser
+# depends	    : gtk3 alsa-lib nspr dbus-glib nss
+
+name=midori-bin
+version=11.1.1
+release=1
+source="$name-$version.deb::https://astian.org/wp-content/uploads/midori-browser/linux/midori_${version}_amd64.deb"
+
+build() {
+  bsdtar xf $name-$version.deb
+  bsdtar xf data.tar.xz -C $PKG/
+}
