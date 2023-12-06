@@ -1,13 +1,17 @@
 # description	: The Go Programming Language
 
 name=go
-version=1.21.4
+version=1.21.5
 release=1
 noextract="${name}-${version}.linux-amd64.tar.gz"
 source="$name-${version}.src.tar.gz::https://golang.org/dl/go${version}.src.tar.gz 
 	${name}-${version}.linux-amd64.tar.gz::https://golang.org/dl/go${version}.linux-amd64.tar.gz"
 unset LC_ALL
 NO_STRIP=yes
+
+bsdtar() {
+	tar $@
+}
 
 build() {
 
