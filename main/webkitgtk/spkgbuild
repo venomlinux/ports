@@ -6,16 +6,13 @@
 # depends	: wpebackend-fdo xdg-dbus-proxy
 
 name=webkitgtk
-version=2.42.2
-release=2
-source="https://webkitgtk.org/releases/$name-$version.tar.xz
-	webkitgtk-2.42.2-upstream_fixes-1.patch"
+version=2.42.3
+release=1
+source="https://webkitgtk.org/releases/$name-$version.tar.xz"
 
 build() {
 	# failed build with ccache, remove reom path
 	PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/ccache/ {next} {print}' | sed 's/:*$//')"
-
-	patch -d $name-$version -Np1 -i $SRC/webkitgtk-2.42.2-upstream_fixes-1.patch
 
 	cmake -S $name-$version -B build -G Ninja \
 		-DCMAKE_BUILD_TYPE=Release \
@@ -31,6 +28,7 @@ build() {
 		-DENABLE_MINIBROWSER=ON \
 		-DUSE_AVIF=OFF \
 		-DUSE_GSTREAMER_TRANSCODER=OFF \
+		-DUSE_GTK4=OFF \
 		-DUSE_LIBHYPHEN=OFF \
 		-DUSE_SOUP2=ON \
 		-DUSE_WOFF2=OFF \
