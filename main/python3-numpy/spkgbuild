@@ -1,0 +1,17 @@
+# description	: The fundamental package for scientific computing with Python
+# homepage	: https://numpy.org/
+# depends	: python3-setuptools cython3
+
+name=python3-numpy
+version=1.26.2
+release=1
+source="$name-$version.tar.gz::https://github.com/numpy/numpy/releases/download/v${version}/numpy-${version}.tar.gz"
+
+build() {
+	cd numpy-$version
+
+	/usr/bin/python3 setup.py build
+
+	/usr/bin/python3 setup.py install \
+		--prefix=/usr --root=$PKG --optimize=1
+}
