@@ -8,9 +8,7 @@ source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz
 0001-fix-missing-include.patch"
 
 build() {
-	cd $name-${version}_*
-	patch -Np1 -i $SRC/0001-fix-missing-include.patch
-	cd ..
+	patch -d $name-${version}_* -Np1 -i $SRC/0001-fix-missing-include.patch
 
 	cmake  -S $name-${version}_* -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
