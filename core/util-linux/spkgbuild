@@ -1,16 +1,11 @@
 # description	: Utilities for handling file systems, consoles, partitions, and messages
-# depends	: pcre2 ncurses zlib readline eudev
+# depends	: eudev file readline
 
 name=util-linux
 version=2.39.3
 release=1
 
-case $version in
-	*.*.*) _ver=${version%.*};;
-	*.*) _ver=$version;;
-esac
-
-source="https://www.kernel.org/pub/linux/utils/$name/v$_ver/$name-$version.tar.xz"
+source="https://www.kernel.org/pub/linux/utils/$name/$version/$name-$version.tar.xz"
 
 build() {
 	cd $name-$version
@@ -18,19 +13,31 @@ build() {
 	mkdir -pv $PKG/var/lib/hwclock
 
 	./configure ADJTIME_PATH=/var/lib/hwclock/adjtime   \
-	            --disable-chfn-chsh  \
-	            --disable-login      \
-	            --disable-nologin    \
-	            --disable-su         \
-	            --disable-setpriv    \
-	            --disable-runuser    \
-	            --disable-pylibmount \
-	            --disable-static     \
-	            --without-python     \
-	            --without-systemd    \
-		    --disable-nls        \
-	            --without-systemdsystemunitdir
+		--disable-asciidoc \
+		--disable-chfn-chsh  \
+		--disable-login \
+		--disable-nologin \
+		--disable-runuser \
+		--disable-raw \
+		--disable-sulogin \
+		--disable-su \
+		--disable-setpriv \
+		--disable-runuser \
+		--disable-pylibmount \
+		--disable-nls \
+		--disable-static \
+		--without-python \
+		--without-systemd \
+		--without-systemdsystemunitdir
 	make
 	make DESTDIR=$PKG install
+
+	rm 	$PKG/sbin/mkfs.bfs \
+		$PKG/sbin/mkfs.minix \
+		$PKG/sbin/fsck.minix
+
+	rm 	$PKG/usr/share/man/man8/fsck.minix.8 \
+		$PKG/usr/share/man/man8/mkfs.bfs.8 \
+		$PKG/usr/share/man/man8/mkfs.minix.8
 
 }
