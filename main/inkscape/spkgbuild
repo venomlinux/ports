@@ -1,12 +1,17 @@
 # description	: Scalable Vector Graphics editor
-# depends	: gsl boost gc lcms2 poppler-glib popt libxslt gtkmm3 double-conversion potrace gdl libsoup
+# depends	: gsl boost gc lcms2 poppler-glib popt libxslt gtkmm3 double-conversion potrace gdl libsoup python3-lxml python3-numpy
 
 name=inkscape
-version=1.3.1
+version=1.3.2
 release=1
-source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz"
+source="https://media.inkscape.org/dl/resources/file/$name-$version.tar.xz
+0001-fix-missing-include.patch"
 
 build() {
+	cd $name-${version}_*
+	patch -Np1 -i $SRC/0001-fix-missing-include.patch
+	cd ..
+
 	cmake  -S $name-${version}_* -B build -G Ninja \
 	        -DCMAKE_INSTALL_PREFIX=/usr \
 	        -DCMAKE_INSTALL_LIBDIR=lib \
