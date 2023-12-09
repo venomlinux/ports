@@ -4,7 +4,7 @@
 name=rust
 version=1.74.1
 #2023-11-16
-release=1
+release=2
 _date=2023-10-05
 _rust=1.73.0
 _cargo=$_rust
@@ -17,7 +17,8 @@ source="https://static.rust-lang.org/dist/rustc-$version-src.tar.xz
 	0001-bootstrap-Change-libexec-dir.patch	
 	0002-bootstrap-Change-bash-completion-dir.patch
 	0003-compiler-Change-LLVM-targets.patch
-	0004-compiler-Use-wasm-ld-for-wasm-targets.patch"
+	0004-compiler-Use-wasm-ld-for-wasm-targets.patch
+	0005-lang-rust-Allow-build-with-LibreSSL-3.8.2.patch"
 
 noextract="rust-std-$_rust-$_triplet.tar.xz
 	rustc-$_rust-$_triplet.tar.xz
@@ -40,6 +41,11 @@ build() {
 
 	# Use our wasm-ld
 	patch -Np1 -i ../0004-compiler-Use-wasm-ld-for-wasm-targets.patch
+	
+	# Fix build for libressl users
+	# Thanks to freebsd for this patch
+        patch -Np1 -i ../0005-lang-rust-Allow-build-with-LibreSSL-3.8.2.patch
+
 
 	mkdir -p build/cache/$_date
 	cp $SRC/rust-std-$_rust-$_triplet.tar.xz build/cache/$_date/
@@ -78,6 +84,11 @@ EOF
 
 	{ [ ! -e /usr/include/libssh2.h ] || \
 	export LIBSSH2_SYS_USE_PKG_CONFIG=1; }
+	
+	# Fix for rust src hash missmatch
+	sed -i 's/"files":{[^}]*}/"files":{}/' \
+		./vendor/*/.cargo-checksum.json
+	
 	python3 ./x.py build
 
 	DESTDIR=$PKG python3 ./x.py install -v

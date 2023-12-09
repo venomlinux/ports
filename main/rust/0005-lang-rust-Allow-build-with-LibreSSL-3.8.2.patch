@@ -1,0 +1,29 @@
+--- ./vendor/openssl-sys/build/cfgs.rs.orig	2023-10-03 04:12:10 UTC
++++ ./vendor/openssl-sys/build/cfgs.rs
+@@ -53,6 +53,15 @@ pub fn get(openssl_version: Option<u64>, libressl_vers
+         if libressl_version >= 0x3_07_00_00_0 {
+             cfgs.push("libressl370");
+         }
++        if libressl_version >= 0x3_08_00_00_0 {
++            cfgs.push("libressl380");
++        }
++        if libressl_version >= 0x3_08_01_00_0 {
++            cfgs.push("libressl381");
++        }
++        if libressl_version >= 0x3_08_02_00_0 {
++            cfgs.push("libressl382");
++        }
+     } else {
+         let openssl_version = openssl_version.unwrap();
+ 
+--- ./vendor/openssl-sys/build/main.rs.orig	2023-10-03 04:12:10 UTC
++++ ./vendor/openssl-sys/build/main.rs
+@@ -274,6 +274,8 @@ See rust-openssl documentation for more information:
+             (3, 7, 1) => ('3', '7', '1'),
+             (3, 7, _) => ('3', '7', 'x'),
+             (3, 8, 0) => ('3', '8', '0'),
++            (3, 8, 1) => ('3', '8', '1'),
++            (3, 8, 2) => ('3', '8', '2'),
+             _ => version_error(),
+         };
+ 
