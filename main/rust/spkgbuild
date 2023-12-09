@@ -4,7 +4,7 @@
 name=rust
 version=1.74.1
 #2023-11-16
-release=1
+release=2
 _date=2023-10-05
 _rust=1.73.0
 _cargo=$_rust
@@ -44,7 +44,7 @@ build() {
 	
 	# Fix build for libressl users
 	# Thanks to freebsd for this patch
-    patch -Np1 -i ../0005-lang-rust-Allow-build-with-LibreSSL-3.8.2.patch
+        patch -Np1 -i ../0005-lang-rust-Allow-build-with-LibreSSL-3.8.2.patch
 
 
 	mkdir -p build/cache/$_date
