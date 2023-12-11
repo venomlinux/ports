@@ -1,0 +1,18 @@
+diff --git a/scripts/sign-file.c b/scripts/sign-file.c
+index fbd34b8e8f57..fd4d7c31d1bf 100644
+--- a/scripts/sign-file.c  2023-12-09 19:57:13.159393154 -0800
++++ b/scripts/sign-file.c  2023-12-09 19:57:13.159393154 -0800
+@@ -48,9 +48,10 @@
+  * signing with anything other than SHA1 - so we're stuck with that if such is
+  * the case.
+  */
+-#if defined(LIBRESSL_VERSION_NUMBER) || \
+-	OPENSSL_VERSION_NUMBER < 0x10000000L || \
+-	defined(OPENSSL_NO_CMS)
++#if defined(OPENSSL_NO_CMS) || \
++    ( defined(LIBRESSL_VERSION_NUMBER) \
++    && (LIBRESSL_VERSION_NUMBER < 0x3010000fL) ) || \
++    OPENSSL_VERSION_NUMBER < 0x10000000L
+ #define USE_PKCS7
+ #endif
+ #ifndef USE_PKCS7

@@ -3,14 +3,15 @@
 
 name=linux-libre
 version=6.6.5
-release=1
+release=2
 source="${name}-${version}.tar.xz::https://linux-libre.fsfla.org/pub/linux-libre/releases/${version%.0}-gnu/${name}-${version%.0}-gnu.tar.xz
-	x86-64-gnu"
+	x86-64-gnu
+        0001-scripts-Fix-libressl-check.patch"
 NO_STRIP=yes
 
 build() {
 	cd ${name%-*}-${version%.0}
-	
+	patch -Np1 -i ../0001-scripts-Fix-libressl-check.patch
 	make mrproper
 
 	cp $SRC/x86-64-gnu ./.config
