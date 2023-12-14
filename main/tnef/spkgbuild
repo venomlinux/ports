@@ -1,0 +1,17 @@
+# description	: Program for unpacking winmail.dat email attachments
+
+name=tnef
+version=1.4.18
+release=1
+source="$name-$version.tar.gz::https://github.com/verdammelt/tnef/archive/refs/tags/${version}.tar.gz"
+
+build() {
+	cd $name-$version
+	# automake actually fails with an error, but it does the required job of adding the missing files
+	# so we ignore the error here and continue
+	automake --add-missing || true
+	autoreconf
+	./configure --prefix=/usr
+	make
+	make DESTDIR=$PKG install
+}
