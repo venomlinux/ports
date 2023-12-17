@@ -497,7 +497,7 @@ SCRIPTDIR="$(dirname $(realpath $0))"
 parse_opts "$@"
 
 ARCH=$(uname -m)
-RELEASE=20231206
+RELEASE=20231216
 
 TARBALLIMG="$PORTSDIR/venomlinux-rootfs-$ARCH.tar.xz"
 SRCDIR="${SRCDIR:-/var/cache/scratchpkg/sources}"
