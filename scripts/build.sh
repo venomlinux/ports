@@ -257,7 +257,7 @@ make_iso() {
 	#sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j\$(nproc\)\"/" -i "$ROOTFS"/etc/scratchpkg.conf
 
 	# initramfs with liveiso.hook
-	[ -f "$ROOTFS/etc/mkinitramfs.d/liveiso.hook" ] && continue || \
+	! [ -f "$ROOTFS/etc/mkinitramfs.d/liveiso.hook" ] && \
 		cp "$ROOTFS/usr/share/mkinitramfs/hooks/liveiso.hook" "$ROOTFS/etc/mkinitramfs.d/"
 	kernver=$(cat $ROOTFS/lib/modules/KERNELVERSION)
 	chrootrun mkinitramfs -k $kernver -a liveiso -o /boot/initrd-venom.img || die "Failed create initramfs"
