@@ -255,7 +255,13 @@ make_iso() {
 	#copy_ports
 	#chrootrun scratch install -y scratchpkg
 	#sed "s/MAKEFLAGS=.*/MAKEFLAGS=\"-j\$(nproc\)\"/" -i "$ROOTFS"/etc/scratchpkg.conf
-	
+
+	# initramfs with liveiso.hook
+	[ -f "$ROOTFS/etc/mkinitramfs.d/liveiso.hook" ] && continue || \
+		cp "$ROOTFS/usr/share/mkinitramfs/hooks/liveiso.hook" "$ROOTFS/etc/mkinitramfs.d/"
+	kernver=$(cat $ROOTFS/lib/modules/KERNELVERSION)
+	chrootrun mkinitramfs -k $kernver -a liveiso -o /boot/initrd-venom.img || die "Failed create initramfs"
+
 	# make sfs
 	msg "Squashing root filesystem: $ISODIR/rootfs/filesystem.sfs ..."
 	mksquashfs "$ROOTFS" "$ISODIR/rootfs/filesystem.sfs" \
@@ -268,9 +274,6 @@ make_iso() {
 			-e "*.spkgnew" 2>/dev/null || die "Failed create sfs root filesystem"
 			
 	cp "$ROOTFS/boot/vmlinuz-venom" "$ISODIR/boot/vmlinuz" || die "Failed copying kernel"
-	
-	kernver=$(file $ROOTFS/boot/vmlinuz-venom | cut -d ' ' -f9)
-	chrootrun mkinitramfs -k $kernver -a liveiso || die "Failed create initramfs"
 	cp "$ROOTFS/boot/initrd-venom.img" "$ISODIR/boot/initrd" || die "Failed copying initrd"
 	
 	msg "Setup UEFI mode..."
