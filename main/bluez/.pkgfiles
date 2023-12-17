@@ -1,4 +1,4 @@
-bluez-5.70-2
+bluez-5.71-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/bluetooth/
 -rw-r--r-- root/root    etc/bluetooth/main.conf
@@ -38,9 +38,9 @@ drwxr-xr-x root/root    usr/lib/bluetooth/
 drwxr-xr-x root/root    usr/lib/cups/
 drwxr-xr-x root/root    usr/lib/cups/backend/
 -rwxr-xr-x root/root    usr/lib/cups/backend/bluetooth
-lrwxrwxrwx root/root    usr/lib/libbluetooth.so -> libbluetooth.so.3.19.10
-lrwxrwxrwx root/root    usr/lib/libbluetooth.so.3 -> libbluetooth.so.3.19.10
--rwxr-xr-x root/root    usr/lib/libbluetooth.so.3.19.10
+lrwxrwxrwx root/root    usr/lib/libbluetooth.so -> libbluetooth.so.3.19.11
+lrwxrwxrwx root/root    usr/lib/libbluetooth.so.3 -> libbluetooth.so.3.19.11
+-rwxr-xr-x root/root    usr/lib/libbluetooth.so.3.19.11
 drwxr-xr-x root/root    usr/lib/pkgconfig/
 -rw-r--r-- root/root    usr/lib/pkgconfig/bluez.pc
 drwxr-xr-x root/root    usr/sbin/
@@ -51,14 +51,64 @@ drwxr-xr-x root/root    usr/share/dbus-1/system.d/
 -rw-r--r-- root/root    usr/share/dbus-1/system.d/bluetooth.conf
 drwxr-xr-x root/root    usr/share/man/
 drwxr-xr-x root/root    usr/share/man/man1/
+-rw-r--r-- root/root    usr/share/man/man1/bluetoothctl-admin.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/bluetoothctl-advertise.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/bluetoothctl-endpoint.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/bluetoothctl-gatt.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/bluetoothctl-mgmt.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/bluetoothctl-monitor.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/bluetoothctl-player.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/bluetoothctl-scan.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/bluetoothctl-transport.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/btattach.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/btmgmt.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/btmon.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/isotest.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/l2ping.1.gz
 -rw-r--r-- root/root    usr/share/man/man1/rctest.1.gz
+drwxr-xr-x root/root    usr/share/man/man5/
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.Adapter.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.AdminPolicySet.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.AdminPolicyStatus.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.AdvertisementMonitor.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.AdvertisementMonitorManager.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.Agent.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.AgentManager.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.Battery.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.BatteryProvider.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.BatteryProviderManager.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.Device.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.DeviceSet.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.GattCharacteristic.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.GattDescriptor.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.GattManager.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.GattProfile.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.GattService.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.Input.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.LEAdvertisement.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.LEAdvertisingManager.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.Media.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.MediaControl.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.MediaEndpoint.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.MediaFolder.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.MediaItem.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.MediaPlayer.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.MediaTransport.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.Network.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.NetworkServer.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.Profile.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.ProfileManager.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.obex.Agent.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.obex.AgentManager.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.obex.Client.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.obex.FileTransfer.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.obex.Message.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.obex.MessageAccess.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.obex.ObjectPush.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.obex.PhonebookAccess.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.obex.Session.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.obex.Synchronization.5.gz
+-rw-r--r-- root/root    usr/share/man/man5/org.bluez.obex.Transfer.5.gz
 drwxr-xr-x root/root    usr/share/man/man8/
 -rw-r--r-- root/root    usr/share/man/man8/bluetoothd.8.gz
 drwxr-xr-x root/root    usr/share/zsh/
