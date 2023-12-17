@@ -2,13 +2,12 @@
 # depends	: libnotify yelp-tools meson
 
 name=zenity
-version=3.44.2
+version=4.0.0
 release=1
 source="https://ftp.gnome.org/pub/gnome/sources/zenity/${version%.*}/zenity-$version.tar.xz"
 
 build() {
-	venom-meson $name-$version build \
-	-Dlibnotify=true 
+	venom-meson $name-$version build 
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 }
