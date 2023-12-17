@@ -2,16 +2,13 @@
 # depends	: dbus glib libical python3-docutils
 
 name=bluez
-version=5.70
-release=2
+version=5.71
+release=1
 source="https://www.kernel.org/pub/linux/bluetooth/$name-$version.tar.xz
-	rc.bluetoothd
-	CVE-2023-45866.patch"
+	rc.bluetoothd"
 
 build() {
 	cd $name-$version
-
-	patch -Np1 -i $SRC/CVE-2023-45866.patch
 
 	./configure --prefix=/usr \
 	            --sysconfdir=/etc \
