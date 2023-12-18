@@ -1,21 +1,18 @@
 # description	: Modular initramfs image creation utility
+# homepage	: https://github.com/venomlinux/mkinitramfs
 # depends	: libarchive
 
 name=mkinitramfs
-version=20231205
+version=20231218
 release=1
 backup="etc/mkinitramfs.conf"
-commit=aec52e26d1ae9dd6c41e23dc267964312d125ea5
+commit=4e7dc278f4a8ff1c17e94469a0360887c7f05b8b
 source="$name-$commit.tar.gz::https://github.com/venomlinux/mkinitramfs/archive/$commit.tar.gz
-	mkinitramfs.conf
-	base.hook
-	liveiso.hook"
+	mkinitramfs.conf"
 
 build() {
 	cd $name-$commit
 	DESTDIR=$PKG ./INSTALL.sh
 	install -m644 $SRC/mkinitramfs.conf $PKG/etc/
-	install -m644 $SRC/base.hook $PKG/usr/share/mkinitramfs/hooks/base.hook
-	install -m644 $SRC/liveiso.hook $PKG/usr/share/mkinitramfs/hooks/liveiso.hook
 	rm $PKG/usr/share/mkinitramfs/hooks/venomiso.hook
 }
