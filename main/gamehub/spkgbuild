@@ -1,0 +1,16 @@
+# description	: All your games in one place "Steam, GoG, Humble, etc"
+# homepage	: https://tkashkin.tk/projects/gamehub/
+# depends       : enchant graphite2 json-glib keyutils krb5 libgee libnotify openjpeg2 polkit webkitgtk
+
+
+name=gamehub
+vrsn=0.16.3-2
+version=$(echo $vrsn | sed 's/-/\./g')
+release=1
+source="https://github.com/tkashkin/GameHub/archive/${vrsn}-master/$name-${vrsn}-master.tar.gz"
+
+build() {
+	venom-meson GameHub-${vrsn}-master build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
