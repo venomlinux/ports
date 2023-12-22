@@ -1,0 +1,40 @@
+# description	: The Debian Package Manager
+# homepage	: https://wiki.debian.org/Teams/Dpkg
+# depends	: gzip bzip2 perl zlib libmd
+
+name=dpkg
+version=1.22.2
+release=1
+source="$name-$version.tar.xz::https://deb.debian.org/debian/pool/main/d/dpkg/dpkg_$version.tar.xz"
+
+build() {
+        chmod -R g-s $SRC
+        cd $SRC/dpkg-$version
+            ./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--localstatedir=/var \
+		--with-libz \
+		--with-libbz2 \
+		--disable-dselect \
+		--disable-start-stop-daemon \
+		--disable-nls \
+		--disable-static \
+		--with-zshcompletionsdir=/usr/share/zsh/site-functions
+	make
+	make DESTDIR=$SRC/temp-dpkg install
+
+	mkdir -p $PKG/usr/share/doc $PKG/usr/share/man
+	doxygen doc/Doxyfile.in
+	cd ../..
+	cp -r $SRC/temp-dpkg/usr/share/man $PKG/usr/share
+	cp -r $SRC/temp-dpkg/usr/share/doc $PKG/usr/share
+	mkdir -p $PKG/usr/bin $PKG/etc/alternatives $PKG/var/lib/dpkg
+
+	install -m755 $SRC/temp-dpkg/usr/bin/update-alternatives $PKG/usr/bin/update-alternatives
+	install -m644 $SRC/temp-dpkg/etc/alternatives/README $PKG/etc/alternatives/README
+	install -d -m755 $SRC/temp-dpkg/var/lib/dpkg/alternatives $PKG/var/lib/dpkg/alternatives
+}
