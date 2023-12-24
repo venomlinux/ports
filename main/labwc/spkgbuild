@@ -1,17 +1,20 @@
 # description		: Wayland stacking compositor
 # homepage		: https://github.com/labwc/labwc
-# depends		: pango meson wlroots libpng man-pages xwayland
+# depends		: pango meson libpng man-pages xwayland libdisplay-info libliftoff
 # optionals		: librsvg
 
 name=labwc
-version=0.6.6
+version=0.7.0
 release=1
 source="$name-$version.tar.gz::https://github.com/labwc/labwc/archive/$version.tar.gz
 	labwc.desktop"
 
 build() {
 
-    venom-meson $name-$version build 
+    venom-meson $name-$version build \
+	    --wrap-mode=default \
+	   --force-fallback-for=wlroots 
+
     meson compile -C build
     DESTDIR=$PKG meson install --no-rebuild -C build
     install -Dm644 $SRC/labwc.desktop -t $PKG/usr/share/wayland-sessions/
