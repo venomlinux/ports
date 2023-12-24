@@ -1,9 +1,10 @@
 # description	: JPEG XL image format reference implementation
 # homepage	: https://github.com/libjxl/libjxl
-# depends	: cmake ninja asciidoc brotli gdk-pixbuf giflib gflags gtest highway lcms2 libjpeg-turbo libpng openexr zlib
+# depends	: cmake ninja asciidoc brotli gdk-pixbuf giflib gflags gtest highway 
+# depends	: lcms2 libjpeg-turbo libpng openexr zlib
 
 name=libjxl
-version=0.8.2
+version=0.9.0
 release=1
 source="$name-$version.tar.gz::https://github.com/libjxl/libjxl/archive/v$version/$name-v$version.tar.gz"
 
@@ -21,6 +22,7 @@ build () {
 		-DJPEGXL_ENABLE_COVERAGE=OFF \
 		-DJPEGXL_ENABLE_EXAMPLES=OFF \
 		-DJPEGXL_ENABLE_FUZZERS=OFF \
+		-DJPEGXL_ENABLE_JPEGLI=OFF \
 		-DJPEGXL_ENABLE_SJPEG=OFF \
 		-DJPEGXL_ENABLE_SKCMS=OFF \
 		-DJPEGXL_ENABLE_VIEWERS=OFF \
