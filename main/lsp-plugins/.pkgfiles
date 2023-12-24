@@ -1,4 +1,4 @@
-lsp-plugins-1.2.13-1
+lsp-plugins-1.2.14-1
 drwxr-xr-x root/root    etc/
 drwxr-xr-x root/root    etc/xdg/
 drwxr-xr-x root/root    etc/xdg/menus/
@@ -18,6 +18,8 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-autogain-stereo
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-beat-breather-mono
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-beat-breather-stereo
+-rwxr-xr-x root/root    usr/bin/lsp-plugins-clipper-mono
+-rwxr-xr-x root/root    usr/bin/lsp-plugins-clipper-stereo
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-comp-delay-mono
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-comp-delay-stereo
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-comp-delay-x2-stereo
@@ -66,6 +68,8 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-limiter-stereo
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-loud-comp-mono
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-loud-comp-stereo
+-rwxr-xr-x root/root    usr/bin/lsp-plugins-mb-clipper-mono
+-rwxr-xr-x root/root    usr/bin/lsp-plugins-mb-clipper-stereo
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-mb-compressor-lr
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-mb-compressor-mono
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-mb-compressor-ms
@@ -111,6 +115,10 @@ drwxr-xr-x root/root    usr/bin/
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-para-equalizer-x32-mono
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-para-equalizer-x32-ms
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-para-equalizer-x32-stereo
+-rwxr-xr-x root/root    usr/bin/lsp-plugins-para-equalizer-x8-lr
+-rwxr-xr-x root/root    usr/bin/lsp-plugins-para-equalizer-x8-mono
+-rwxr-xr-x root/root    usr/bin/lsp-plugins-para-equalizer-x8-ms
+-rwxr-xr-x root/root    usr/bin/lsp-plugins-para-equalizer-x8-stereo
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-phase-detector
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-profiler-mono
 -rwxr-xr-x root/root    usr/bin/lsp-plugins-profiler-stereo
@@ -179,12 +187,12 @@ drwxr-xr-x root/root    usr/lib/clap/
 -rwxr-xr-x root/root    usr/lib/clap/lsp-plugins-clap.clap
 drwxr-xr-x root/root    usr/lib/ladspa/
 -rwxr-xr-x root/root    usr/lib/ladspa/lsp-plugins-ladspa.so
--rw-r--r-- root/root    usr/lib/liblsp-r3d-glx-lib-1.0.15.a
--rwxr-xr-x root/root    usr/lib/liblsp-r3d-glx-lib-1.0.15.so
-lrwxrwxrwx root/root    usr/lib/liblsp-r3d-glx-lib.a -> liblsp-r3d-glx-lib-1.0.15.a
-lrwxrwxrwx root/root    usr/lib/liblsp-r3d-glx-lib.so -> liblsp-r3d-glx-lib-1.0.15.so
+-rw-r--r-- root/root    usr/lib/liblsp-r3d-glx-lib-1.0.16.a
+-rwxr-xr-x root/root    usr/lib/liblsp-r3d-glx-lib-1.0.16.so
+lrwxrwxrwx root/root    usr/lib/liblsp-r3d-glx-lib.a -> liblsp-r3d-glx-lib-1.0.16.a
+lrwxrwxrwx root/root    usr/lib/liblsp-r3d-glx-lib.so -> liblsp-r3d-glx-lib-1.0.16.so
 drwxr-xr-x root/root    usr/lib/lsp-plugins/
--rwxr-xr-x root/root    usr/lib/lsp-plugins/liblsp-plugins-jack-1.2.13.so
+-rwxr-xr-x root/root    usr/lib/lsp-plugins/liblsp-plugins-jack-1.2.14.so
 drwxr-xr-x root/root    usr/lib/lv2/
 drwxr-xr-x root/root    usr/lib/lv2/lsp-plugins.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/ab_tester_x2_mono.ttl
@@ -199,6 +207,8 @@ drwxr-xr-x root/root    usr/lib/lv2/lsp-plugins.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/autogain_stereo.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/beat_breather_mono.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/beat_breather_stereo.ttl
+-rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/clipper_mono.ttl
+-rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/clipper_stereo.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/comp_delay_mono.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/comp_delay_stereo.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/comp_delay_x2_stereo.ttl
@@ -250,6 +260,8 @@ drwxr-xr-x root/root    usr/lib/lv2/lsp-plugins.lv2/
 -rwxr-xr-x root/root    usr/lib/lv2/lsp-plugins.lv2/lsp-plugins-lv2.so
 -rwxr-xr-x root/root    usr/lib/lv2/lsp-plugins.lv2/lsp-plugins-lv2ui.so
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/manifest.ttl
+-rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/mb_clipper_mono.ttl
+-rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/mb_clipper_stereo.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/mb_compressor_lr.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/mb_compressor_mono.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/mb_compressor_ms.ttl
@@ -295,6 +307,10 @@ drwxr-xr-x root/root    usr/lib/lv2/lsp-plugins.lv2/
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/para_equalizer_x32_mono.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/para_equalizer_x32_ms.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/para_equalizer_x32_stereo.ttl
+-rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/para_equalizer_x8_lr.ttl
+-rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/para_equalizer_x8_mono.ttl
+-rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/para_equalizer_x8_ms.ttl
+-rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/para_equalizer_x8_stereo.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/phase_detector.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/profiler_mono.ttl
 -rw-r--r-- root/root    usr/lib/lv2/lsp-plugins.lv2/profiler_stereo.ttl
@@ -374,6 +390,8 @@ drwxr-xr-x root/root    usr/lib/vst/lsp-plugins/
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/autogain-stereo.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/beat-breather-mono.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/beat-breather-stereo.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/clipper-mono.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/clipper-stereo.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/comp-delay-mono.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/comp-delay-stereo.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/comp-delay-x2-stereo.so
@@ -422,7 +440,9 @@ drwxr-xr-x root/root    usr/lib/vst/lsp-plugins/
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/limiter-stereo.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/loud-comp-mono.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/loud-comp-stereo.so
--rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/lsp-plugins-vst2-1.2.13.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/lsp-plugins-vst2-1.2.14.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/mb-clipper-mono.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/mb-clipper-stereo.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/mb-compressor-lr.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/mb-compressor-mono.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/mb-compressor-ms.so
@@ -468,6 +488,10 @@ drwxr-xr-x root/root    usr/lib/vst/lsp-plugins/
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/para-equalizer-x32-mono.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/para-equalizer-x32-ms.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/para-equalizer-x32-stereo.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/para-equalizer-x8-lr.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/para-equalizer-x8-mono.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/para-equalizer-x8-ms.so
+-rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/para-equalizer-x8-stereo.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/phase-detector.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/profiler-mono.so
 -rwxr-xr-x root/root    usr/lib/vst/lsp-plugins/profiler-stereo.so
@@ -545,6 +569,8 @@ drwxr-xr-x root/root    usr/share/applications/
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_autogain_stereo.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_beat_breather_mono.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_beat_breather_stereo.desktop
+-rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_clipper_mono.desktop
+-rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_clipper_stereo.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_comp_delay_mono.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_comp_delay_stereo.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_comp_delay_x2_stereo.desktop
@@ -593,6 +619,8 @@ drwxr-xr-x root/root    usr/share/applications/
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_limiter_stereo.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_loud_comp_mono.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_loud_comp_stereo.desktop
+-rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_mb_clipper_mono.desktop
+-rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_mb_clipper_stereo.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_mb_compressor_lr.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_mb_compressor_mono.desktop
 -rw-r--r-- root/root    usr/share/applications/in.lsp_plug.lsp_plugins_mb_compressor_ms.desktop
