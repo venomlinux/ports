@@ -2,34 +2,29 @@
 # depends	: gettext bash xz fuse2 python3
 
 name=grub
-version=2.06
-release=6
+version=2.12
+release=1
 backup="etc/default/grub"
 source="https://ftp.gnu.org/gnu/$name/$name-$version.tar.xz
-	venom-tweaks.patch
+	venom-multi.patch
 	grub.default
-	grub-2.06-upstream_fixes-1.patch
 	grub.cfg"
 
 build() {
-	# workaround for https://savannah.gnu.org/bugs/?60458
- 	# some more info: https://www.linuxquestions.org/questions/showthread.php?p=6257712
-	# grub 2.06 reboots immediately when compiled with -O2,	only affects legacy BIOS
-	export CFLAGS="-march=x86-64 -pipe -Os"
-
 	cd $name-$version
-	# venom fallball and multikernel support
-	patch -Np1 -i $SRC/venom-tweaks.patch
 
-	# Fix an issue causing grub-install to fail when the /boot partition 
-	# (or the root partition if /boot is not a separate partition) 
-	# is created by e2fsprogs-1.47.0 or later:
-	patch -Np1 -i $SRC/grub-2.06-upstream_fixes-1.patch
+	# Unset any environment variables which may affect the build
+	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+
+	# Venom multikernel support
+	patch -Np1 -i $SRC/venom-multi.patch
+
+	# Add a file missing from the release tarball
+	echo depends bli part_gpt > grub-core/extra_deps.lst
 	
 	# Fix os name
 	sed 's|GNU/Linux|Linux|' -i "util/grub.d/10_linux.in"
 
-	autoreconf -fv
 	./configure --prefix=/usr \
 		--sbindir=/sbin \
 		--sysconfdir=/etc \
@@ -43,6 +38,6 @@ build() {
 	# Borrow from Arch
 	install -D -m0644 $SRC/grub.default $PKG/etc/default/grub
 
-	# liveiso stuff
+	# Liveiso stuff
 	cp $SRC/grub.cfg $PKG/usr/share/$name
 }
