@@ -1,4 +1,4 @@
-grub-efi-2.06-2
+grub-efi-2.12-1
 drwxr-xr-x root/root    usr/
 drwxr-xr-x root/root    usr/lib/
 drwxr-xr-x root/root    usr/lib/grub/
@@ -35,6 +35,8 @@ drwxr-xr-x root/root    usr/lib/grub/x86_64-efi/
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/bitmap.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/bitmap_scale.mod
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/bitmap_scale.module-efi
+-rw-r--r-- root/root    usr/lib/grub/x86_64-efi/bli.mod
+-rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/bli.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/blocklist.mod
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/blocklist.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/boot.mod
@@ -114,6 +116,8 @@ drwxr-xr-x root/root    usr/lib/grub/x86_64-efi/
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/efifwsetup.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/efinet.mod
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/efinet.module-efi
+-rw-r--r-- root/root    usr/lib/grub/x86_64-efi/efitextmode.mod
+-rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/efitextmode.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/ehci.mod
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/ehci.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/elf.mod
@@ -189,6 +193,7 @@ drwxr-xr-x root/root    usr/lib/grub/x86_64-efi/
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/gcry_whirlpool.mod
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/gcry_whirlpool.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/gdb_grub
+-rw-r--r-- root/root    usr/lib/grub/x86_64-efi/gdb_helper.py
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/geli.mod
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/geli.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/gettext.mod
@@ -201,7 +206,6 @@ drwxr-xr-x root/root    usr/lib/grub/x86_64-efi/
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/gfxterm_background.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/gfxterm_menu.mod
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/gfxterm_menu.module-efi
--rw-r--r-- root/root    usr/lib/grub/x86_64-efi/gmodule.pl
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/gptsync.mod
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/gptsync.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/gzio.mod
@@ -386,6 +390,8 @@ drwxr-xr-x root/root    usr/lib/grub/x86_64-efi/
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/pcidump.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/pgp.mod
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/pgp.module-efi
+-rw-r--r-- root/root    usr/lib/grub/x86_64-efi/plainmount.mod
+-rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/plainmount.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/play.mod
 -rwxr-xr-x root/root    usr/lib/grub/x86_64-efi/play.module-efi
 -rw-r--r-- root/root    usr/lib/grub/x86_64-efi/png.mod
@@ -555,3 +561,33 @@ drwxr-xr-x root/root    usr/share/grub/
 -rw-r--r-- root/root    usr/share/grub/euro.pf2
 -rw-r--r-- root/root    usr/share/grub/unicode.pf2
 -rw-r--r-- root/root    usr/share/grub/widthspec.h
+drwxr-xr-x root/root    usr/share/man/
+drwxr-xr-x root/root    usr/share/man/man1/
+-rw-r--r-- root/root    usr/share/man/man1/grub-editenv-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-file-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-fstest-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-glue-efi-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-kbdcomp-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-menulst2cfg-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-mkfont-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-mkimage-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-mklayout-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-mknetdir-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-mkpasswd-pbkdf2-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-mkrelpath-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-mkrescue-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-mkstandalone-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-mount-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-render-label-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-script-check-efi.1.gz
+-rw-r--r-- root/root    usr/share/man/man1/grub-syslinux2cfg-efi.1.gz
+drwxr-xr-x root/root    usr/share/man/man8/
+-rw-r--r-- root/root    usr/share/man/man8/grub-bios-setup-efi.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/grub-install-efi.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/grub-macbless-efi.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/grub-mkconfig-efi.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/grub-ofpathname-efi.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/grub-probe-efi.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/grub-reboot-efi.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/grub-set-default-efi.8.gz
+-rw-r--r-- root/root    usr/share/man/man8/grub-sparc64-setup-efi.8.gz

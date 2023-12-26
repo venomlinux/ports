@@ -2,40 +2,37 @@
 # depends	: grub efivar efibootmgr freetype2 dosfstools
 
 name=grub-efi
-version=2.06
-unifont_version=13.0.06
-release=2
+version=2.12
+unifont_version=15.1.04
+release=1
 source="https://ftp.gnu.org/gnu/grub/grub-$version.tar.xz
-	https://ftp.gnu.org/gnu/unifont/unifont-$unifont_version/unifont-$unifont_version.bdf.gz
-	https://www.linuxfromscratch.org/patches/blfs/svn/grub-2.06-upstream_fixes-1.patch"
+	https://ftp.gnu.org/gnu/unifont/unifont-$unifont_version/unifont-$unifont_version.bdf.gz"
 
 build() {
-	# workaround for https://savannah.gnu.org/bugs/?60458
- 	# some more info: https://www.linuxquestions.org/questions/showthread.php?p=6257712
-	# grub 2.06 reboots immediately when compiled with -O2,	only affects legacy BIOS
-	export CFLAGS="-march=x86-64 -pipe -Os"
 	cd grub-$version
 
-	# Fix an issue causing grub-install to fail when the /boot partition 
-	# (or the root partition if /boot is not a separate partition) 
-	# is created by e2fsprogs-1.47.0 or later:
-	patch -Np1 -i $SRC/grub-2.06-upstream_fixes-1.patch
-
+	# Install font data 
 	gunzip $SRC/unifont-$unifont_version.bdf.gz
 	cp $SRC/unifont-$unifont_version.bdf unifont.bdf
 
-	./configure --prefix=/usr  \
-            --sbindir=/sbin        \
-            --sysconfdir=/etc      \
-            --disable-efiemu       \
-            --enable-grub-mkfont   \
-            --with-platform=efi    \
-            --target=x86_64        \
-            --program-prefix=""    \
-	    --program-suffix="-efi" \
-            --with-bootdir="/boot" \
-            --disable-werror \
-	    --disable-nls
+	# Unset any environment variables which may affect the build
+	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+
+	# Add a file missing from the release tarball
+	echo depends bli part_gpt > grub-core/extra_deps.lst
+
+	./configure --prefix=/usr \
+	            --sbindir=/sbin \
+	            --sysconfdir=/etc \
+	            --disable-efiemu \
+	            --enable-grub-mkfont \
+	            --with-platform=efi \
+	            --target=x86_64 \
+	            --program-prefix="" \
+		    --program-suffix="-efi" \
+	            --with-bootdir="/boot" \
+	            --disable-werror \
+		    --disable-nls
 	make
 	make DESTDIR=$PKG install
 
