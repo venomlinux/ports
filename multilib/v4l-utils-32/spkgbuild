@@ -2,23 +2,18 @@
 # depends	: v4l-utils eudev-32
 
 name=v4l-utils-32
-version=1.24.1
+version=1.26.1
 release=1
-source="https://www.linuxtv.org/downloads/v4l-utils/v4l-utils-$version.tar.bz2"
+source="https://www.linuxtv.org/downloads/v4l-utils/v4l-utils-$version.tar.xz"
 
 build() {
-	cd v4l-utils-$version
 
-	export CC="gcc -m32"
-	export CXX="g++ -m32"
-	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+	venom-meson ${name%-*}-$version build \
+		--libdir=/usr/lib32 \
+		-Dgconv=disabled
+	meson compile -C build
+	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
 
-	./configure --prefix=/usr     \
-		    --libdir=/usr/lib32 \
-	            --sysconfdir=/etc \
-	            --disable-static
-	make
-	make -j1 DESTDIR=$PWD/DESTDIR install
 	mkdir -p $PKG/usr/lib32
 	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
 }
