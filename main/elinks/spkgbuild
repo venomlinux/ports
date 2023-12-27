@@ -2,7 +2,7 @@
 # depends	: expat openssl zlib libidn gpm
 
 name=elinks
-version=0.16.1.1
+version=0.17.0
 release=1
 source="https://github.com/rkd77/elinks/archive/v$version/$name-$version.tar.gz"
 
@@ -16,7 +16,8 @@ build() {
 		-Dbacktrace=false \
 		-D256-colors=true \
 		-Dtrue-color=true \
-		-Dtre=false 
+		-Dtre=false \
+		-Dlibcss=false
 	meson compile -C build
 	DESTDIR=$PKG meson install --no-rebuild -C build
 
