@@ -1,0 +1,29 @@
+# description	: JSON implementation in C
+# depends	: cmake ninja json-c
+
+name=json-c-32
+version=0.17
+release=1
+source="https://s3.amazonaws.com/json-c_releases/releases/${name%-*}-$version.tar.gz"
+
+build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+
+	cmake -S ${name%-*}-$version -B build -G Ninja \
+	        -DCMAKE_INSTALL_PREFIX=/usr \
+	        -DCMAKE_INSTALL_LIBDIR=/usr/lib32 \
+		-DCMAKE_INSTALL_LIBEXECDIR=/usr/lib32 \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_FLAGS_RELEASE="$CFLAGS" \
+		-DCMAKE_CXX_FLAGS_RELEASE="$CXXFLAGS" \
+	        -DBUILD_TESTING=OFF \
+	        -DBUILD_SHARED_LIBS=ON \
+		-Wno-dev
+	cmake --build build
+	DESTDIR=$PKG cmake --install build
+
+	rm -rf $PKG/usr/share $PKG/usr/include $PKG/usr/bin
+}
+

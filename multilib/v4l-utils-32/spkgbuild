@@ -1,19 +1,29 @@
 # description	: Provides a series of utilities for media devices
-# depends	: v4l-utils eudev-32
+# depends	: v4l-utils eudev-32 json-c-32
 
 name=v4l-utils-32
 version=1.26.1
-release=1
+release=2
 source="https://www.linuxtv.org/downloads/v4l-utils/v4l-utils-$version.tar.xz"
 
 build() {
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
 	venom-meson ${name%-*}-$version build \
 		--libdir=/usr/lib32 \
-		-Dgconv=disabled
+		-Dgconv=disabled \
+		-Ddoxygen-doc=disabled \
+		-Dqv4l2=disabled \
+		-Dqvidcap=disabled
 	meson compile -C build
-	DESTDIR=$PWD/DESTDIR meson install --no-rebuild -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
 
-	mkdir -p $PKG/usr/lib32
-	cp -Rv DESTDIR/usr/lib32/* $PKG/usr/lib32
+	rm -rf 	$PKG/usr/include \
+		$PKG/usr/share \
+		$PKG/usr/bin \
+		$PKG/usr/sbin \
+		$PKG/etc \
+		$PKG/lib
 }
