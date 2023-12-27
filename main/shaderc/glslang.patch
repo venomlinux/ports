@@ -1,0 +1,140 @@
+From 40bced4e1e205ecf44630d2dfa357655b6dabd04 Mon Sep 17 00:00:00 2001
+From: David Neto <dneto@google.com>
+Date: Thu, 30 Nov 2023 17:02:24 -0500
+Subject: [PATCH] update Glslang and remove references to libs it has removed
+ (#1384)
+
+* OGLCompiler and HLSL have been removed from glslang
+
+This fixes SPIRV-Tools CI-shaderc-smoketest build failure.
+
+* Update Glslang in DEPS
+
+Glslang doesn't support building standalone glslang on Android or iOS.
+So build the glslang lib target first, instead of glslang-standalone
+
+---------
+
+Co-authored-by: Juan Ramos <juan@lunarg.com>
+---
+ Android.mk                             | 2 --
+ DEPS                                   | 2 +-
+ glslc/CMakeLists.txt                   | 2 +-
+ kokoro/android-release/build-docker.sh | 4 ++--
+ libshaderc/CMakeLists.txt              | 2 +-
+ libshaderc/README.md                   | 7 ++-----
+ libshaderc_util/CMakeLists.txt         | 2 +-
+ 7 files changed, 8 insertions(+), 13 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index ed4a7828c..f8bb96b6e 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -19,12 +19,10 @@ include $(ROOT_SHADERC_PATH)/libshaderc_util/Android.mk
+ include $(ROOT_SHADERC_PATH)/libshaderc/Android.mk
+ 
+ ALL_LIBS:=libglslang.a \
+-	libOGLCompiler.a \
+ 	libOSDependent.a \
+ 	libshaderc.a \
+ 	libshaderc_util.a \
+ 	libSPIRV.a \
+-	libHLSL.a \
+ 	libSPIRV-Tools.a \
+ 	libSPIRV-Tools-opt.a
+ 
+diff --git a/DEPS b/DEPS
+index a7dc1d30c..76d158031 100644
+--- a/DEPS
++++ b/DEPS
+@@ -7,7 +7,7 @@ vars = {
+ 
+   'abseil_revision': '5be22f98733c674d532598454ae729253bc53e82',
+   'effcee_revision' : '19b4aa87af25cb4ee779a071409732f34bfc305c',
+-  'glslang_revision': '48f9ed8b08be974f4e463ef38136c8f23513b2cf',
++  'glslang_revision': '6be56e45e574b375d759b89dad35f780bbd4792f',
+   'googletest_revision': 'e47544ad31cb3ceecd04cc13e8fe556f8df9fe0b',
+   're2_revision': 'c9cba76063cf4235c1a15dd14a24a4ef8d623761',
+   'spirv_headers_revision': '4183b260f4cccae52a89efdfcdd43c4897989f42',
+diff --git a/glslc/CMakeLists.txt b/glslc/CMakeLists.txt
+index c8fa6d510..1277d87e7 100644
+--- a/glslc/CMakeLists.txt
++++ b/glslc/CMakeLists.txt
+@@ -43,7 +43,7 @@ if (SHADERC_ENABLE_WGSL_OUTPUT)
+ endif(SHADERC_ENABLE_WGSL_OUTPUT)
+ 
+ target_link_libraries(glslc PRIVATE
+-  glslang OSDependent OGLCompiler HLSL glslang SPIRV    # Glslang libraries
++  glslang SPIRV    # Glslang libraries
+   $<$<BOOL:${SHADERC_ENABLE_WGSL_OUTPUT}>:libtint>      # Tint libraries, optional
+   shaderc_util shaderc                                  # internal Shaderc libraries
+   ${CMAKE_THREAD_LIBS_INIT})
+diff --git a/kokoro/android-release/build-docker.sh b/kokoro/android-release/build-docker.sh
+index 8bd5215f5..a81832513 100755
+--- a/kokoro/android-release/build-docker.sh
++++ b/kokoro/android-release/build-docker.sh
+@@ -48,8 +48,8 @@ cmake \
+   -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+   -DANDROID_NDK=$ANDROID_NDK_HOME ..
+ 
+-echo $(date): Build glslang...
+-ninja glslang-standalone
++echo $(date): Build glslang library...
++ninja glslang
+ 
+ echo $(date): Build everything...
+ ninja
+diff --git a/libshaderc/CMakeLists.txt b/libshaderc/CMakeLists.txt
+index fc92f35bc..df9a88d07 100644
+--- a/libshaderc/CMakeLists.txt
++++ b/libshaderc/CMakeLists.txt
+@@ -63,7 +63,7 @@ endif(SHADERC_ENABLE_INSTALL)
+ 
+ find_package(Threads)
+ set(SHADERC_LIBS
+-  glslang OSDependent OGLCompiler glslang ${CMAKE_THREAD_LIBS_INIT}
++  glslang ${CMAKE_THREAD_LIBS_INIT}
+   shaderc_util
+   SPIRV # from glslang
+   SPIRV-Tools
+diff --git a/libshaderc/README.md b/libshaderc/README.md
+index bf9d317f3..45636e83c 100644
+--- a/libshaderc/README.md
++++ b/libshaderc/README.md
+@@ -7,8 +7,8 @@ A library for compiling shader strings into SPIR-V.
+ There are two main shaderc libraries that are created during a CMake
+ compilation. The first is `libshaderc`, which is a static library
+ containing just the functionality exposed by libshaderc. It depends
+-on other compilation targets `glslang`, `OSDependent`, `OGLCompiler`,
+-`shaderc_util`, `SPIRV`, `HLSL`, `SPIRV-Tools`, and `SPIRV-Tools-opt`.
++on other compilation targets `glslang`, `shaderc_util`, `SPIRV`,
++`SPIRV-Tools`, and `SPIRV-Tools-opt`.
+ 
+ The other is `libshaderc_combined`, which is a static library containing
+ libshaderc and all of its dependencies.
+@@ -38,12 +38,9 @@ platforms `-lpthread` should also be specified.
+ counterparts should be linked in the order specified.
+   * `build/libshaderc/libshaderc.a`
+   * `build/third_party/glslang/glslang/glslang.a`
+-  * `build/third_party/glslang/glslang/OSDependent/{Platform}/libOSDependent.a`
+-  * `build/third_party/glslang/OGLCompilersDLL/libOGLCompiler.a`
+   * `build/third_party/glslang/libglslang.a`
+   * `build/shaderc_util/libshaderc_util.a`
+   * `build/third_party/glslang/SPIRV/libSPIRV.a`
+-  * `build/third_party/glslang/hlsl/libHLSL.a`
+   * `build/third_party/spirv-tools/libSPIRV-Tools-opt.a`
+   * `build/third_party/spirv-tools/libSPIRV-Tools.a`
+ 
+diff --git a/libshaderc_util/CMakeLists.txt b/libshaderc_util/CMakeLists.txt
+index 99ce3c44e..69ba519a9 100644
+--- a/libshaderc_util/CMakeLists.txt
++++ b/libshaderc_util/CMakeLists.txt
+@@ -46,7 +46,7 @@ add_definitions(-DENABLE_HLSL)
+ 
+ find_package(Threads)
+ target_link_libraries(shaderc_util PRIVATE
+-  glslang OSDependent OGLCompiler HLSL glslang SPIRV
++  glslang SPIRV
+   SPIRV-Tools-opt ${CMAKE_THREAD_LIBS_INIT})
+ 
+ shaderc_add_tests(
