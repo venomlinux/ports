@@ -1,8 +1,8 @@
 # description	: A cross-platform, GPU-accelerated terminal emulator
-# depends	: fontconfig freetype2 libxcb rust libxkbcommon
+# depends	: fontconfig freetype2 libxcb rust libxkbcommon scdoc
 
 name=alacritty
-version=0.12.3
+version=0.13.0
 release=1
 source="$name-$version.tar.gz::https://github.com/alacritty/alacritty/archive/refs/tags/v$version.tar.gz"
 build() {
@@ -25,7 +25,14 @@ build() {
 	install -Dm644 extra/completions/_alacritty $PKG/usr/share/zsh/site-functions/_alacritty
 
 	# man page
-	install -Dm644 extra/alacritty.man $PKG/usr/share/man/man1/alacritty.1
+	scdoc < "extra/man/alacritty.1.scd" | install -D -m644 /dev/stdin \
+		$PKG/usr/share/man/man1/alacritty.1
+	scdoc < "extra/man/alacritty.5.scd" | install -D -m644 /dev/stdin \
+		$PKG/usr/share/man/man5/alacritty.5
+	scdoc < "extra/man/alacritty-msg.1.scd" | install -D -m644 /dev/stdin \
+		$PKG/usr/share/man/man1/alacritty-msg.1
+	scdoc < "extra/man/alacritty-bindings.5.scd" | install -D -m644 /dev/stdin \
+		$PKG/usr/share/man/man5/alacritty-bindings.5
 
 	# appdata
 	install -Dm644 extra/linux/org.alacritty.Alacritty.appdata.xml $PKG/usr/share/appdata/io.alacritty.Alacritty.appdata.xml
