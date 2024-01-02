@@ -1,0 +1,14 @@
+# description	: Header-only TOML config file parser and serializer for C++17
+# homepage	: https://marzer.github.io/tomlplusplus/
+# depends	: cmake meson
+
+name=tomlplusplus
+version=3.4.0
+release=1
+source="$name-$version.tar.gz::https://github.com/marzer/$name/archive/refs/tags/v$version.tar.gz"
+
+build() {
+	venom-meson $name-$version build
+	meson compile -C build
+	DESTDIR=$PKG meson install --no-rebuild -C build
+}
