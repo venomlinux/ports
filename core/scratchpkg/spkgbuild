@@ -2,16 +2,16 @@
 # depends	: coreutils libarchive git
 
 name=scratchpkg
-version=20230326
-release=2
+version=20240104
+release=1
 backup="etc/scratchpkg.conf
 	etc/scratchpkg.alias
 	etc/scratchpkg.repo
 	etc/scratchpkg.mask
 	etc/revdep.conf"
 scratchpkg_url=https://github.com/venomlinux/scratchpkg
-commit="d848402f95053e9c22c46d7a5492f01ebe049c55"
-source="$name-$version.tar.gz::https://github.com/venomlinux/scratchpkg/archive/$commit.tar.gz
+commit=60a9eab46ac5efeba3ef510b5df6af58850ecf27
+source="$name-$version.tar.bz2::https://gitlab.com/venomlinux/scratchpkg/-/commit/$commit.tar.bz2
 	$name.repo
 	$name.conf
 	temporary_workaround_for_coreutils.patch"
