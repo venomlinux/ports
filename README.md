@@ -1,9 +1,5 @@
 ## Venom Linux Ports Repository
 
-This repository contains the spkgbuild for [Venom Linux](https://venomlinux.org/) used with [scratchpkg](https://github.com/venomlinux/scratchpkg).
+Venom has been migrated to Gitlab, the project continues in the following link:
 
-It also contains others scripts and tools to operate with Venom Linux.
-
-If you want to contribute feel free to fork then make Pull Request any changes. Make sure you read [wiki](https://github.com/venomlinux/ports/wiki) first.
-
-
+https://gitlab.com/venomlinux/ports
